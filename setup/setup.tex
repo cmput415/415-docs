@@ -143,6 +143,102 @@ environment that you can modify these steps appropriately.
     \end{lstlisting}
 \end{enumerate}
 
+\subsection{Mac OS X}
+This section details how to install the ANTLR 4 C++ runtime on Mac OS X assuming your default shell
+is bash. If you've changed your shell from bash it's assumed that you are familiar enough with your
+environment that you can modify these steps appropriately.
+\begin{enumerate}
+  \item
+    Ensure you have git installed (it should be installed by default on Ubuntu). Check the version
+    to ensure it works:
+    \begin{lstlisting}
+      git --version
+    \end{lstlisting}
+    If you don't have it then you should be able to install it using this line:
+    \begin{lstlisting}
+      brew install git
+    \end{lstlisting}
+  \item
+    Choose a directory to download the runtime source to. It's \emph{not necessary} to keep this
+    directory around later though it may make your life easier if you need to upgrade. If you don't
+    plan on keeping it then \lstinline{\$HOME/Downloads} can be a good choice. If you do plan on
+    keeping it, \lstinline{/opt} can be a good choice but it can go anywhere you choose if you have
+    a personal preference. We'll call this directory choice \lstinline{SOURCE\_PARENT}.
+  \item
+    Next, we need to clone the source for the runtime from GitHub.
+    \begin{lstlisting}
+      cd <SOURCE_PARENT>
+      git clone git@github.com:antlr/antlr4.git
+    \end{lstlisting}
+    This should create a new folder called \lstinline{antlr4} in \lstinline{SOURCE\_PARENT}. We'll
+    refer to this new directory (\lstinline{<SOURCE\_PARENT>/antlr4}) as \lstinline{SRC\_DIR}.
+  \item
+    We will be using ANTLR 4.7.1 so we need to change to the git tag for version 4.7.1.
+    \begin{lstlisting}
+      cd <SRC_DIR>
+      git checkout 4.7.1
+    \end{lstlisting}
+  \item
+    Now we need to choose a place to build the runtime. If you've decided to not keep the source
+    then the build directory will be useless because it references the source. I would suggest
+    creating your build directory inside the source tree (i.e. \lstinline{<SRC\_DIR>/build}) so
+    it's easy to clean up. If you're planning on keeping the source then inside your source
+    directory is still often a good choice, but in the directory beside the source (i.e.
+    \lstinline{<SOURCE\_PARENT>/build}) is sometimes a good idea too. Again, this can go anywhere
+    you choose if you have a personal preference. We'll call this directory choice
+    \lstinline{BUILD\_PARENT}.
+  \item
+    We can make the actual build directory:
+    \begin{lstlisting}
+      cd <BUILD_PARENT>
+      mkdir antlr4-build
+    \end{lstlisting}
+    We'll refer to this new directory (\lstinline{<BUILD\_PARENT>/antlr4-build}) as
+    \lstinline{BUILD\_DIR}.
+  \item
+    We need to have an install directory prepared before building since it's referenced in the
+    build step. This directory will have the headers and compiled ANTLR libraries put into it so
+    you cannot delete it. Again, \lstinline{/opt} can be a good idea but any directory you choose
+    for third party libs is acceptable. We'll call this directory choice
+    \lstinline{INSTALL\_PARENT}.
+  \item
+    We can make the actual install directory:
+    \begin{lstlisting}
+      cd <INSTALL_PARENT>
+      mkdir antlr4-install
+    \end{lstlisting}
+    We'll refer to this new directory (\lstinline{<INSTALL\_PARENT>/antlr4-install}) as
+    \lstinline{INSTALL\_DIR}.
+  \item
+    Finally, we're ready to start the actual build process. Let's being by generating the CMake
+    config for the runtime. We need to do this while inside the build directory. As well, we need
+    to tell it that we want to install it to a certain directory.
+    \begin{lstlisting}
+      cd <BUILD_DIR>
+      cmake <SRC_DIR>/runtime/Cpp/ -DCMAKE_INSTALL_PREFIX="<INSTALL_DIR>"
+    \end{lstlisting}
+  \item
+    We can finally run make to build the library and install it. You can make the process
+    significantly faster by running with multiple threads using the \lstinline{-j} option and
+    specifying a thread count. Using the option without a count will use all cores.
+    \begin{lstlisting}
+      make install -j<number of threads>
+    \end{lstlisting}
+  \item
+    Now we can add the install to your bashrc. Pick your favorite text editor and open
+    \lstinline{~/.bashrc} and add the following lines to the end, substituting appropriately:
+    \begin{lstlisting}
+      # C415 ANTLR install
+      export ANTLR_INS=<INSTALL_DIR>
+    \end{lstlisting}
+  \item
+    If you want to clean up then you can remove the source and build directories. Just remember,
+    you may have to download them and set up again if we update later (though it's unlikely).
+    \begin{lstlisting}
+      rm -rf <SRC_DIR> <BUILD_DIR>
+    \end{lstlisting}
+\end{enumerate}
+
 \section{Ubuntu}
 
 	This section details how to setup the ubuntu development environment. Go through each step and don't skip stuff.
