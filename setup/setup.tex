@@ -32,50 +32,150 @@
 % Titles
 \ifpdf
 	\LARGE
-	\textbf{\texttt{Antlr v4} Setup Instructions}
+	\textbf{\texttt{CMPUT 415} Setup Instructions}
 	\normalsize
 \else\if\texforht
 \fi\fi
 
-These instructions are for setting up your antlr v4 development environment.  There are different instructions for
+These instructions are for setting up your development environment.  There are different instructions for
 Ubuntu (Should be applicable for most linux systems), Mac, and Windows environments. \textbf{Make sure you complete the
 section on building your first antlr parser or else you will not complete the setup}. Use the instruction relevant to
 your machine.
 
 % -----------------------------------------------------------------------------
+\section{ANTLR 4 C++ Runtime}
+\subsection{Ubuntu}
+This section details how to install the ANTLR 4 C++ runtime on Ubuntu assuming your default shell
+is bash. If you've changed your shell from bash it's assumed that you are familiar enough with your
+environment that you can modify these steps appropriately.
+
+\begin{enumerate}
+  \item
+    Ensure you have git installed (it should be installed by default on Ubuntu). Check the version
+    to ensure it works:
+    \begin{lstlisting}
+      git --version
+    \end{lstlisting}
+    If you don't have it then you should be able to install it using this line:
+    \begin{lstlisting}
+      sudo apt-get install git
+    \end{lstlisting}
+  \item
+    Choose a directory to download the runtime source to. It's \emph{not necessary} to keep this
+    directory around later though it may make your life easier if you need to upgrade. If you don't
+    plan on keeping it then \lstinline{\$HOME/Downloads} can be a good choice. If you do plan on
+    keeping it, \lstinline{/opt} can be a good choice but it can go anywhere you choose if you have
+    a personal preference. You can read about how to use \lstinline{/opt}
+    \href{https://askubuntu.com/a/34922/550300} {here}. We'll call this directory choice
+    \lstinline{SOURCE\_PARENT}.
+  \item
+    Next, we need to clone the source for the runtime from GitHub.
+    \begin{lstlisting}
+      cd <SOURCE_PARENT>
+      git clone git@github.com:antlr/antlr4.git
+    \end{lstlisting}
+    This should create a new folder called \lstinline{antlr4} in \lstinline{SOURCE\_PARENT}. We'll
+    refer to this new directory (\lstinline{<SOURCE\_PARENT>/antlr4}) as \lstinline{SRC\_DIR}.
+  \item
+    We will be using ANTLR 4.7.1 so we need to change to the git tag for version 4.7.1.
+    \begin{lstlisting}
+      cd <SRC_DIR>
+      git checkout 4.7.1
+    \end{lstlisting}
+  \item
+    Now we need to choose a place to build the runtime. If you've decided to not keep the source
+    then the build directory will be useless because it references the source. I would suggest
+    creating your build directory inside the source tree (i.e. \lstinline{<SRC\_DIR>/build}) so
+    it's easy to clean up. If you're planning on keeping the source then inside your source
+    directory is still often a good choice, but in the directory beside the source (i.e.
+    \lstinline{<SOURCE\_PARENT>/build}) is sometimes a good idea too. Again, this can go anywhere
+    you choose if you have a personal preference. We'll call this directory choice
+    \lstinline{BUILD\_PARENT}.
+  \item
+    We can make the actual build directory:
+    \begin{lstlisting}
+      cd <BUILD_PARENT>
+      mkdir antlr4-build
+    \end{lstlisting}
+    We'll refer to this new directory (\lstinline{<BUILD\_PARENT>/antlr4-build}) as
+    \lstinline{BUILD\_DIR}.
+  \item
+    We need to have an install directory prepared before building since it's referenced in the
+    build step. This directory will have the headers and compiled ANTLR libraries put into it so
+    you cannot delete it. Again, \lstinline{/opt} can be a good idea but any directory you choose
+    for third party libs is acceptable. We'll call this directory choice
+    \lstinline{INSTALL\_PARENT}.
+  \item
+    We can make the actual install directory:
+    \begin{lstlisting}
+      cd <INSTALL_PARENT>
+      mkdir antlr4-install
+    \end{lstlisting}
+    We'll refer to this new directory (\lstinline{<INSTALL\_PARENT>/antlr4-install}) as
+    \lstinline{INSTALL\_DIR}.
+  \item
+    Finally, we're ready to start the actual build process. Let's being by generating the CMake
+    config for the runtime. We need to do this while inside the build directory. As well, we need
+    to tell it that we want to install it to a certain directory.
+    \begin{lstlisting}
+      cd <BUILD_DIR>
+      cmake <SRC_DIR>/runtime/Cpp/ -DCMAKE_INSTALL_PREFIX="<INSTALL_DIR>"
+    \end{lstlisting}
+  \item
+    We can finally run make to build the library and install it. You can make the process
+    significantly faster by running with multiple threads using the \lstinline{-j} option and
+    specifying a thread count. Using the option without a count will use all cores.
+    \begin{lstlisting}
+      make install -j<number of threads>
+    \end{lstlisting}
+  \item
+    Now we can add the install to your bashrc. Pick your favorite text editor and open
+    \lstinline{~/.bashrc} and add the following lines to the end, substituting appropriately:
+    \begin{lstlisting}
+      # C415 ANTLR install
+      export ANTLR_INS=<INSTALL_DIR>
+    \end{lstlisting}
+  \item
+    If you want to clean up then you can remove the source and build directories. Just remember,
+    you may have to download them and set up again if we update later (though it's unlikely).
+    \begin{lstlisting}
+      rm -rf <SRC_DIR> <BUILD_DIR>
+    \end{lstlisting}
+\end{enumerate}
+
 \section{Ubuntu}
-	
+
 	This section details how to setup the ubuntu development environment. Go through each step and don't skip stuff.
-	
+
 	\subsection{Installing Oracle Java JDK 8}
 
 		\subsubsection{Simple way (Recommended)}
 			\texttt{Intellij} uses oracle Java to operate. So copy and paste these commands instructions into the
 			command line.
-			
+
 			\begin{lstlisting}
 				sudo apt-add-repository ppa:webupd8team/java
 				sudo apt-get update
 				sudo apt-get install oracle-java8-installer
 				sudo apt-get install oracle-java8-set-default
 			\end{lstlisting}
-			
+
 		\subsubsection{Complex way}
 			Go \href
 			{http://askubuntu.com/questions/521145/how-to-install-oracle-java-on-ubuntu-14-04}
 			{here} and follow their manual installation methods
-		
-		
+
+
 	\subsection{Installing Intellij}
 		\begin{enumerate}
 			\item Go to the \href{https://www.jetbrains.com/idea/download/index.html} {jetbrains website} and download
 			\textit{Intellij Community Edition} for ubuntu.
 
-			\item Once the intellij tar ball is downloaded copy it to 
+			\item Once the intellij tar ball is downloaded copy it to
 			\begin{lstlisting}
 				/opt
 			\end{lstlisting}
-			using the command 
+			using the command
 			\begin{lstlisting}
 				sudo cp ideaIU-<Version>.tar.gz /opt
 			\end{lstlisting}
@@ -107,7 +207,7 @@ your machine.
 	\subsection{Installing antlr v4 plug-in for Intellij}
 
 		\begin{enumerate}
-			\item Launch Intellij by going to the application launcher and typing 
+			\item Launch Intellij by going to the application launcher and typing
 			\begin{lstlisting}
 				intellij idea
 			\end{lstlisting}
@@ -136,12 +236,12 @@ your machine.
 		\begin{enumerate}
 			\item Follow the steps on this
 			\href{https://github.com/antlr/antlr4/blob/master/doc/getting-started.md}{tutorial}
-			\item Follow the steps on this 
+			\item Follow the steps on this
 			\href
 			{https://github.com/antlr/stringtemplate4/blob/master/doc/java.md}
 			{tutorial}
 		\end{enumerate}
-	
+
 
 
 	\subsection{Configuring first project}
@@ -150,7 +250,7 @@ your machine.
 
 			\item Select Java Project and then next to \textit{Project SDK} select \texttt{New} $\rightarrow$ \texttt{JDK}
 
-			\item The location should be 
+			\item The location should be
 			\begin{lstlisting}
 				/usr/lib/jvm/java-8-oracle/
 			\end{lstlisting}
@@ -163,18 +263,18 @@ your machine.
 
 			\item In the project menu that you just opened right-click on the \texttt{src} folder $\rightarrow$ New $\rightarrow$ File
 
-			\item name the file 
+			\item name the file
 			\begin{lstlisting}
 				hello.g4
 			\end{lstlisting}
 
-			\item In the new file put the following content 
+			\item In the new file put the following content
 			\begin{lstlisting}
 				grammar hello;
-				
+
 				rule: 'hello' id;
 				id  : STRING;
-				
+
 				STRING: CHAR+;
 				CHAR: [a-z|A-Z];
 				WS: ' '+ -> skip;
@@ -182,7 +282,7 @@ your machine.
 
 			\item right click on \texttt{rule} $\rightarrow$ select \texttt{Test Rule rule}
 
-			\item There are three new boxes that open: 
+			\item There are three new boxes that open:
 			\begin{enumerate}
 				\item a small that appears to be to input a file name
 				\item a larger one underneath
@@ -195,10 +295,10 @@ your machine.
 			in the third box a tree should appear a parse tree
 
 			\item Congratulations you've made your first Antlr4 parser
-		
+
 		\end{enumerate}
-		
-		
+
+
 
 \section{Windows}
 
@@ -210,7 +310,7 @@ your machine.
 
 			\item run the Oracle Java installer you just downloaded and follow all the steps
 		\end{enumerate}
-	
+
 	\subsection{Installing Intellij}
 		\begin{enumerate}
 			\item Go to the \href{https://www.jetbrains.com/idea/download/index.html} {jetbrains} and download
@@ -235,7 +335,7 @@ your machine.
 	\subsection{Installing antlr v4 plug-in for IntelliJ}
 
 		\begin{enumerate}
-			\item Launch IntelliJ by going to the application launcher and typing 
+			\item Launch IntelliJ by going to the application launcher and typing
 			\begin{lstlisting}
 				intellij idea
 			\end{lstlisting}
@@ -261,12 +361,12 @@ your machine.
 		\begin{enumerate}
 			\item Follow the steps on this
 			\href{https://github.com/antlr/antlr4/blob/master/doc/getting-started.md}{tutorial}
-			\item Follow the steps on this 
+			\item Follow the steps on this
 			\href
 			{https://github.com/antlr/stringtemplate4/blob/master/doc/java.md}
 			{tutorial}
 		\end{enumerate}
-	
+
 
 	\subsection{Configuring first project}
 
@@ -281,23 +381,23 @@ your machine.
 			\item Name your project and click \texttt{Finish} again
 			\item Open Project manager (Default hotkey Alt-1)
 			\item In the project menu that you just opened right-click on the \texttt{src} folder $\rightarrow$ New $\rightarrow$ File
-			\item name the file 
+			\item name the file
 			\begin{lstlisting}
 				hello.g4
 			\end{lstlisting}
-			\item In the new file put the following content 
+			\item In the new file put the following content
 			\begin{lstlisting}
 				grammar hello;
-				
+
 				rule: 'hello' id;
 				id  : STRING;
-				
+
 				STRING: CHAR+;
 				CHAR: [a-z|A-Z];
 				WS: ' '+ -> skip;
 			\end{lstlisting}
 			\item right click on \texttt{rule} $\rightarrow$ select \texttt{Test Rule rule}
-			\item There are three new boxes that open: 
+			\item There are three new boxes that open:
 			\begin{enumerate}
 				\item a small that appears to be to input a file name
 				\item a larger one underneath
@@ -309,23 +409,23 @@ your machine.
 			\end{lstlisting}
 			in the third box a tree should appear a parse tree
 			\item Congratulations you've made your first Antlr4 parser
-		
+
 		\end{enumerate}
-	
-	
-	
+
+
+
 \section{Mac OS X}
-	
+
 	\subsection{Installing Oracle Java JDK 8}
 		\begin{enumerate}
 			\item Go to \href{http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html} {the
 			Oracle download site} and download the version of oracle jdk8 for mac os
 			\item run the Oracle Java installer you just downloaded and follow all the steps
 		\end{enumerate}
-	
-	
+
+
 	\subsection{Installing Intellij}
-	
+
 		\begin{enumerate}
 			\item Go to the \href{https://www.jetbrains.com/idea/download/index.html} {jetbrains} and download
 			\textit{Intellij Community} for OSx.
@@ -342,10 +442,10 @@ your machine.
 				\item None of these are necessary so you can hit \texttt{Start using IntellijIDEA}
 			\end{enumerate}
 		\end{enumerate}
-	
+
 	\subsection{Installing antlr v4 plug-in for Intellij}
 		\begin{enumerate}
-			\item Launch Intellij 
+			\item Launch Intellij
 			\item In the bottom corner click \texttt{Configure $\rightarrow$ Plugins}. This will open the plugin manager
 			\item Click \texttt{Browse Repositories}
 			\item In the search bar type
@@ -359,13 +459,13 @@ your machine.
 			and hit \texttt{install plugin}. Hit yes when asked for confirmation.
 			\item After the install bar ends hit the button \texttt{restart Intellij}
 		\end{enumerate}
-	
+
 
 	\subsection{Getting Antlr4 libraries}
 		\begin{enumerate}
 			\item Follow the steps on this
 			\href{https://github.com/antlr/antlr4/blob/master/doc/getting-started.md}{tutorial}
-			\item Follow the steps on this 
+			\item Follow the steps on this
 			\href
 			{https://github.com/antlr/stringtemplate4/blob/master/doc/java.md}
 			{tutorial}
@@ -379,31 +479,31 @@ your machine.
 			\item The installation process will give you an interactive interface (similar to finder) to locate the
 			file. At the very top of the window select \texttt{"Computer"}, then follow the directory path Macintosh
 			\begin{lstlisting}
-				HD/Library/Java/JavaVirtualMachines 
-			\end{lstlisting} 
+				HD/Library/Java/JavaVirtualMachines
+			\end{lstlisting}
 			and select the folder \texttt{jdk1.8.0\_45.jdk} (or whichever is the current version that you are
 			installing).
 			\item Click \texttt{Next} then click \texttt{Next} again.
 			\item Name your project and click \texttt{Finish}
 			\item Open Project manager (Default hotkey CMD-1)
 			\item In the project menu that you just opened right-click on the \texttt{src} folder $\rightarrow$ New $\rightarrow$ File
-			\item name the file 
+			\item name the file
 			\begin{lstlisting}
 				hello.g4
 			\end{lstlisting}
-			\item In the new file put the following content 
+			\item In the new file put the following content
 			\begin{lstlisting}
 				grammar hello;
-				
+
 				rule: 'hello' id;
 				id  : STRING;
-				
+
 				STRING: CHAR+;
 				CHAR: [a-z|A-Z];
 				WS: ' '+ -> skip;
 			\end{lstlisting}
 			\item CLTR-click on \texttt{rule} $\rightarrow$ select \texttt{Test Rule rule}
-			\item There are three new boxes that open: 
+			\item There are three new boxes that open:
 			\begin{enumerate}
 				\item a small that appears to be to input a file name
 				\item a larger one underneath
@@ -415,25 +515,25 @@ your machine.
 			\end{lstlisting}
 			in the third box a tree should appear a parse tree
 			\item Congratulations you've made your first Antlr4 parser
-		
+
 		\end{enumerate}
-		
+
 \section{CS Computers}
-		
+
 
 
 	\subsection{Environment variables}
 		If you're working on the computers on the CS network then most of the installation is already done for you. However, some steps are needed for the final setup to work properly. To simplify
 		the execution of these steps we have created a script to do most of the work. Download the script \href{static/setup_antlr.sh}{here} and
 		then run it.
-	
+
 	\subsection{Configuring first project}
 		\begin{enumerate}
 			\item Click \texttt{Create new project}
 
 			\item Select Java Project and then next to \textit{Project SDK} select \texttt{New} $\rightarrow$ \texttt{JDK}
 
-			\item The location should be 
+			\item The location should be
 			\begin{lstlisting}
 				/usr/lib/jvm/java-8-oracle/
 			\end{lstlisting}
@@ -446,18 +546,18 @@ your machine.
 
 			\item In the project menu that you just opened right-click on the \texttt{src} folder $\rightarrow$ New $\rightarrow$ File
 
-			\item name the file 
+			\item name the file
 			\begin{lstlisting}
 				hello.g4
 			\end{lstlisting}
 
-			\item In the new file put the following content 
+			\item In the new file put the following content
 			\begin{lstlisting}
 				grammar hello;
-				
+
 				rule: 'hello' id;
 				id  : STRING;
-				
+
 				STRING: CHAR+;
 				CHAR: [a-z|A-Z];
 				WS: ' '+ -> skip;
@@ -465,7 +565,7 @@ your machine.
 
 			\item right click on \texttt{rule} $\rightarrow$ select \texttt{Test Rule rule}
 
-			\item There are three new boxes that open: 
+			\item There are three new boxes that open:
 			\begin{enumerate}
 				\item a small that appears to be to input a file name
 				\item a larger one underneath
@@ -478,7 +578,7 @@ your machine.
 			in the third box a tree should appear a parse tree
 
 			\item Congratulations you've made your first Antlr4 parser
-		
+
 		\end{enumerate}
-	
+
 \end{document}
