@@ -1,0 +1,484 @@
+\documentclass{article}
+
+\usepackage{hyperref} % Almost certainly will need
+\usepackage{fullpage} % Good for making PDFs as well
+\usepackage{listings} % Needed to insert code
+\usepackage{lstautogobble}
+
+\usepackage[T1]{fontenc}
+\usepackage{textcomp}
+% This makes it so the web pages don't have indents as most of the time
+% they are just annoying
+\setlength{\parindent}{0pt}
+\lstset{
+	upquote=true,
+	basicstyle = \ttfamily,
+	columns=fullflexible
+	escapeinside=||,
+	autogobble
+}
+% --- This section allows for tex4ht only control statments
+% From http://tex.stackexchange.com/questions/93852/what-is-the-correct-way-to-check-for-latex-pdflatex-and-html-in-the-same-latex
+\makeatletter
+\edef\texforht{TT\noexpand\fi
+  \@ifpackageloaded{tex4ht}
+    {\noexpand\iftrue}
+    {\noexpand\iffalse}}
+\makeatother
+% -----------------------------------------------------------------------------
+
+\begin{document}
+
+% Titles
+\ifpdf
+	\LARGE
+	\textbf{\texttt{Antlr v4} Setup Instructions}
+	\normalsize
+\else\if\texforht
+\fi\fi
+
+These instructions are for setting up your antlr v4 development environment.  There are different instructions for
+Ubuntu (Should be applicable for most linux systems), Mac, and Windows environments. \textbf{Make sure you complete the
+section on building your first antlr parser or else you will not complete the setup}. Use the instruction relevant to
+your machine.
+
+% -----------------------------------------------------------------------------
+\section{Ubuntu}
+	
+	This section details how to setup the ubuntu development environment. Go through each step and don't skip stuff.
+	
+	\subsection{Installing Oracle Java JDK 8}
+
+		\subsubsection{Simple way (Recommended)}
+			\texttt{Intellij} uses oracle Java to operate. So copy and paste these commands instructions into the
+			command line.
+			
+			\begin{lstlisting}
+				sudo apt-add-repository ppa:webupd8team/java
+				sudo apt-get update
+				sudo apt-get install oracle-java8-installer
+				sudo apt-get install oracle-java8-set-default
+			\end{lstlisting}
+			
+		\subsubsection{Complex way}
+			Go \href
+			{http://askubuntu.com/questions/521145/how-to-install-oracle-java-on-ubuntu-14-04}
+			{here} and follow their manual installation methods
+		
+		
+	\subsection{Installing Intellij}
+		\begin{enumerate}
+			\item Go to the \href{https://www.jetbrains.com/idea/download/index.html} {jetbrains website} and download
+			\textit{Intellij Community Edition} for ubuntu.
+
+			\item Once the intellij tar ball is downloaded copy it to 
+			\begin{lstlisting}
+				/opt
+			\end{lstlisting}
+			using the command 
+			\begin{lstlisting}
+				sudo cp ideaIU-<Version>.tar.gz /opt
+			\end{lstlisting}
+			\textit{(If you are confident about your ability to setup your own install you can put it elsewhere but you
+			will be on your own.)}
+
+			\item Change directory to /opt
+			\begin{lstlisting}
+				cd /opt
+			\end{lstlisting}
+			\item Unpack the tar ball
+			\begin{lstlisting}
+				sudo tar -xvf ideaIU-<Version>.tar.gz
+			\end{lstlisting}
+			\item Execute the installer
+			\begin{lstlisting}
+				sudo /opt/idea-IU-<Version>/bin/idea.sh
+			\end{lstlisting}
+			\item Follow the installation wizard.
+			\begin{enumerate}
+				\item Select I don't have any configurations.
+				\item Pick whichever UI is prettiest to you. Then hit \texttt{Next: Default Plugins}
+				\item None of these are necessary so you can hit \texttt{Next: Feature Plugins}
+				\item None of these are necessary so you can hit \texttt{Start using IntellijIDEA}
+			\end{enumerate}
+		\end{enumerate}
+
+
+	\subsection{Installing antlr v4 plug-in for Intellij}
+
+		\begin{enumerate}
+			\item Launch Intellij by going to the application launcher and typing 
+			\begin{lstlisting}
+				intellij idea
+			\end{lstlisting}
+			This should launch Intellij IDEA.
+
+			\item In the bottom corner click \texttt{Configure $\rightarrow$ Plugins}. This will open the plugin manager
+
+			\item Click \texttt{Browse Repositories}
+
+			\item In the search bar type
+			\begin{lstlisting}
+				antlr
+			\end{lstlisting}
+
+			\item From the list select
+			\begin{lstlisting}
+				ANTLR v4 grammar plugin
+			\end{lstlisting}
+			and hit \texttt{install plugin}. Hit yes when asked for confirmation.
+
+			\item After the install bar ends hit the button \texttt{restart Intellij}
+		\end{enumerate}
+
+
+	\subsection{Getting Antlr4 libraries}
+		\begin{enumerate}
+			\item Follow the steps on this
+			\href{https://github.com/antlr/antlr4/blob/master/doc/getting-started.md}{tutorial}
+			\item Follow the steps on this 
+			\href
+			{https://github.com/antlr/stringtemplate4/blob/master/doc/java.md}
+			{tutorial}
+		\end{enumerate}
+	
+
+
+	\subsection{Configuring first project}
+		\begin{enumerate}
+			\item Click \texttt{Create new project}
+
+			\item Select Java Project and then next to \textit{Project SDK} select \texttt{New} $\rightarrow$ \texttt{JDK}
+
+			\item The location should be 
+			\begin{lstlisting}
+				/usr/lib/jvm/java-8-oracle/
+			\end{lstlisting}
+
+			\item Click \texttt{Next} then click \texttt{Next} again.
+
+			\item Name your project and click \texttt{Finish}
+
+			\item Open Project manager (Default hotkey Alt-1)
+
+			\item In the project menu that you just opened right-click on the \texttt{src} folder $\rightarrow$ New $\rightarrow$ File
+
+			\item name the file 
+			\begin{lstlisting}
+				hello.g4
+			\end{lstlisting}
+
+			\item In the new file put the following content 
+			\begin{lstlisting}
+				grammar hello;
+				
+				rule: 'hello' id;
+				id  : STRING;
+				
+				STRING: CHAR+;
+				CHAR: [a-z|A-Z];
+				WS: ' '+ -> skip;
+			\end{lstlisting}
+
+			\item right click on \texttt{rule} $\rightarrow$ select \texttt{Test Rule rule}
+
+			\item There are three new boxes that open: 
+			\begin{enumerate}
+				\item a small that appears to be to input a file name
+				\item a larger one underneath
+				\item To the right of that there is a box on top of which is "Parse tree | Profiler"
+			\end{enumerate}
+			in the second box type
+			\begin{lstlisting}
+				hello <your name>
+			\end{lstlisting}
+			in the third box a tree should appear a parse tree
+
+			\item Congratulations you've made your first Antlr4 parser
+		
+		\end{enumerate}
+		
+		
+
+\section{Windows}
+
+	\subsection{Installing Oracle Java JDK 8}
+
+		\begin{enumerate}
+			\item Go to \href{http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html} {the
+			Oracle download site} and download the version of oracle jdk8 appropriate to your windows system.
+
+			\item run the Oracle Java installer you just downloaded and follow all the steps
+		\end{enumerate}
+	
+	\subsection{Installing Intellij}
+		\begin{enumerate}
+			\item Go to the \href{https://www.jetbrains.com/idea/download/index.html} {jetbrains} and download
+			\textit{Intellij Community} for windows.
+
+			\item Run the installation wizard you just downloaded \item Follow the instructions and install it
+			(Recommended use default setting)
+
+			\item Launch IntellijIDEA to finish installation
+			\begin{enumerate}
+				\item Select I don't have any configurations.
+				\item Select \texttt{JetBrains account} and use the account information you just created to
+				authenticate. \textbf{You must have already authenticated it first otherwise this won't work.}
+				\item Pick whichever UI is prettiest to you. Then hit \texttt{Next: Default Plug-ins}
+				\item Leave Java Frameworks and Build tools enabled everything else can be disabled at your discretion.
+				Then hit \texttt{Next: Feature Plug-ins}
+				\item None of these are necessary so you can hit \texttt{Start using IntellijIDEA}
+			\end{enumerate}
+		\end{enumerate}
+
+
+	\subsection{Installing antlr v4 plug-in for IntelliJ}
+
+		\begin{enumerate}
+			\item Launch IntelliJ by going to the application launcher and typing 
+			\begin{lstlisting}
+				intellij idea
+			\end{lstlisting}
+			This should launch Intellij IDEA.
+
+			\item In the bottom corner click \texttt{Configure $\rightarrow$ Plugins}. This will open the plugin manager
+			\item Click \texttt{Browse Repositories}
+			\item In the search bar type
+			\begin{lstlisting}
+				antlr
+			\end{lstlisting}
+			\item From the list select
+			\begin{lstlisting}
+				ANTLR v4 grammar plugin
+			\end{lstlisting}
+			and hit \texttt{install plugin}. Hit yes when asked for confirmation.
+			\item After the install bar ends hit the button \texttt{restart Intellij}
+		\end{enumerate}
+
+
+	\subsection{Getting Antlr4 libraries}
+
+		\begin{enumerate}
+			\item Follow the steps on this
+			\href{https://github.com/antlr/antlr4/blob/master/doc/getting-started.md}{tutorial}
+			\item Follow the steps on this 
+			\href
+			{https://github.com/antlr/stringtemplate4/blob/master/doc/java.md}
+			{tutorial}
+		\end{enumerate}
+	
+
+	\subsection{Configuring first project}
+
+		\begin{enumerate}
+			\item Click \texttt{Create new project}
+			\item Select Java Project and then next to \textit{Project SDK} select \texttt{New} $\rightarrow$ \texttt{JDK}
+			\item The location should be
+			\begin{lstlisting}
+				C:\Programs Files\Java\jdk<Version>\
+			\end{lstlisting}
+			\item Click \texttt{Next} then click \texttt{Next} again.
+			\item Name your project and click \texttt{Finish} again
+			\item Open Project manager (Default hotkey Alt-1)
+			\item In the project menu that you just opened right-click on the \texttt{src} folder $\rightarrow$ New $\rightarrow$ File
+			\item name the file 
+			\begin{lstlisting}
+				hello.g4
+			\end{lstlisting}
+			\item In the new file put the following content 
+			\begin{lstlisting}
+				grammar hello;
+				
+				rule: 'hello' id;
+				id  : STRING;
+				
+				STRING: CHAR+;
+				CHAR: [a-z|A-Z];
+				WS: ' '+ -> skip;
+			\end{lstlisting}
+			\item right click on \texttt{rule} $\rightarrow$ select \texttt{Test Rule rule}
+			\item There are three new boxes that open: 
+			\begin{enumerate}
+				\item a small that appears to be to input a file name
+				\item a larger one underneath
+				\item To the right of that there is a box on top of which is "Parse tree | Profiler"
+			\end{enumerate}
+			in the second box type
+			\begin{lstlisting}
+				hello <your name>
+			\end{lstlisting}
+			in the third box a tree should appear a parse tree
+			\item Congratulations you've made your first Antlr4 parser
+		
+		\end{enumerate}
+	
+	
+	
+\section{Mac OS X}
+	
+	\subsection{Installing Oracle Java JDK 8}
+		\begin{enumerate}
+			\item Go to \href{http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html} {the
+			Oracle download site} and download the version of oracle jdk8 for mac os
+			\item run the Oracle Java installer you just downloaded and follow all the steps
+		\end{enumerate}
+	
+	
+	\subsection{Installing Intellij}
+	
+		\begin{enumerate}
+			\item Go to the \href{https://www.jetbrains.com/idea/download/index.html} {jetbrains} and download
+			\textit{Intellij Community} for OSx.
+			\item Launch the installer by double clicking on the \textit{.dmg}
+			\item Open your \texttt{Applications} and launch Intellij IDEA 14.app to finish the installation
+			\begin{enumerate}
+				\item Select I don't have any configurations.
+				\item Select \texttt{JetBrains account} and use the account information you just created to
+				authenticate. \textbf{You must have already authenticated it first otherwise this won't work.}
+				\item Pick whichever UI is prettiest to you. Then hit \texttt{Next: Keymaps}
+				\item Select which keymap scheme you want. Then hit \texttt{Next: Default Plug-ins}
+				\item Leave Java Frameworks and Build tools enabled everything else can be disabled at your discretion.
+				Then hit \texttt{Next: Feature Plug-ins}
+				\item None of these are necessary so you can hit \texttt{Start using IntellijIDEA}
+			\end{enumerate}
+		\end{enumerate}
+	
+	\subsection{Installing antlr v4 plug-in for Intellij}
+		\begin{enumerate}
+			\item Launch Intellij 
+			\item In the bottom corner click \texttt{Configure $\rightarrow$ Plugins}. This will open the plugin manager
+			\item Click \texttt{Browse Repositories}
+			\item In the search bar type
+			\begin{lstlisting}
+				antlr
+			\end{lstlisting}
+			\item From the list select
+			\begin{lstlisting}
+				ANTLR v4 grammar plugin
+			\end{lstlisting}
+			and hit \texttt{install plugin}. Hit yes when asked for confirmation.
+			\item After the install bar ends hit the button \texttt{restart Intellij}
+		\end{enumerate}
+	
+
+	\subsection{Getting Antlr4 libraries}
+		\begin{enumerate}
+			\item Follow the steps on this
+			\href{https://github.com/antlr/antlr4/blob/master/doc/getting-started.md}{tutorial}
+			\item Follow the steps on this 
+			\href
+			{https://github.com/antlr/stringtemplate4/blob/master/doc/java.md}
+			{tutorial}
+		\end{enumerate}
+
+
+	\subsection{Configuring first project}
+		\begin{enumerate}
+			\item Click \texttt{Create new project}
+			\item Select Java Project and then next to \textit{Project SDK} select \texttt{New} $\rightarrow$ \texttt{JDK}
+			\item The installation process will give you an interactive interface (similar to finder) to locate the
+			file. At the very top of the window select \texttt{"Computer"}, then follow the directory path Macintosh
+			\begin{lstlisting}
+				HD/Library/Java/JavaVirtualMachines 
+			\end{lstlisting} 
+			and select the folder \texttt{jdk1.8.0\_45.jdk} (or whichever is the current version that you are
+			installing).
+			\item Click \texttt{Next} then click \texttt{Next} again.
+			\item Name your project and click \texttt{Finish}
+			\item Open Project manager (Default hotkey CMD-1)
+			\item In the project menu that you just opened right-click on the \texttt{src} folder $\rightarrow$ New $\rightarrow$ File
+			\item name the file 
+			\begin{lstlisting}
+				hello.g4
+			\end{lstlisting}
+			\item In the new file put the following content 
+			\begin{lstlisting}
+				grammar hello;
+				
+				rule: 'hello' id;
+				id  : STRING;
+				
+				STRING: CHAR+;
+				CHAR: [a-z|A-Z];
+				WS: ' '+ -> skip;
+			\end{lstlisting}
+			\item CLTR-click on \texttt{rule} $\rightarrow$ select \texttt{Test Rule rule}
+			\item There are three new boxes that open: 
+			\begin{enumerate}
+				\item a small that appears to be to input a file name
+				\item a larger one underneath
+				\item To the right of that there is a box on top of which is "Parse tree | Profiler"
+			\end{enumerate}
+			in the second box type
+			\begin{lstlisting}
+				hello <your name>
+			\end{lstlisting}
+			in the third box a tree should appear a parse tree
+			\item Congratulations you've made your first Antlr4 parser
+		
+		\end{enumerate}
+		
+\section{CS Computers}
+		
+
+
+	\subsection{Environment variables}
+		If you're working on the computers on the CS network then most of the installation is already done for you. However, some steps are needed for the final setup to work properly. To simplify
+		the execution of these steps we have created a script to do most of the work. Download the script \href{static/setup_antlr.sh}{here} and
+		then run it.
+	
+	\subsection{Configuring first project}
+		\begin{enumerate}
+			\item Click \texttt{Create new project}
+
+			\item Select Java Project and then next to \textit{Project SDK} select \texttt{New} $\rightarrow$ \texttt{JDK}
+
+			\item The location should be 
+			\begin{lstlisting}
+				/usr/lib/jvm/java-8-oracle/
+			\end{lstlisting}
+
+			\item Click \texttt{Next} then click \texttt{Next} again.
+
+			\item Name your project and click \texttt{Finish}
+
+			\item Open Project manager (Default hotkey Alt-1)
+
+			\item In the project menu that you just opened right-click on the \texttt{src} folder $\rightarrow$ New $\rightarrow$ File
+
+			\item name the file 
+			\begin{lstlisting}
+				hello.g4
+			\end{lstlisting}
+
+			\item In the new file put the following content 
+			\begin{lstlisting}
+				grammar hello;
+				
+				rule: 'hello' id;
+				id  : STRING;
+				
+				STRING: CHAR+;
+				CHAR: [a-z|A-Z];
+				WS: ' '+ -> skip;
+			\end{lstlisting}
+
+			\item right click on \texttt{rule} $\rightarrow$ select \texttt{Test Rule rule}
+
+			\item There are three new boxes that open: 
+			\begin{enumerate}
+				\item a small that appears to be to input a file name
+				\item a larger one underneath
+				\item To the right of that there is a box on top of which is "Parse tree | Profiler"
+			\end{enumerate}
+			in the second box type
+			\begin{lstlisting}
+				hello <your name>
+			\end{lstlisting}
+			in the third box a tree should appear a parse tree
+
+			\item Congratulations you've made your first Antlr4 parser
+		
+		\end{enumerate}
+	
+\end{document}
