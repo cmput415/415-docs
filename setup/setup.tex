@@ -141,22 +141,31 @@ environment that you can modify these steps appropriately.
     \end{lstlisting}
 \end{enumerate}
 
-\section{Installing JRE 8}
-You need to install the Java runtime environment to run the ANTLR generator
-\subsection{Ubuntu}
-\subsubsection{Simple way (Recommended)}
-
-\begin{lstlisting}
-  sudo apt-add-repository ppa:webupd8team/java
-  sudo apt-get update
-  sudo apt-get install oracle-java8-installer
-  sudo apt-get install oracle-java8-set-default
-\end{lstlisting}
-
-\subsubsection{Complex way}
-Go \href
-{http://askubuntu.com/questions/521145/how-to-install-oracle-java-on-ubuntu-14-04}
-{here} and follow their manual installation methods
+\section{First Steps}
+\subsection{JetBrains License}
+You need a valid JetBrains account to use CLion. Luckily, you're a student and that gets you
+free things. If you already have an account with a student license, you can skip this.
+\begin{enumerate}
+  \item
+    Fill out \href{https://www.jetbrains.com/shop/eform/students} {this form} to start getting
+    your student license. Select \texttt{I'm a student}, enter your first and last name, enter
+    your \textbf{UAlberta email address}, select \texttt{Canada}, and finally agree to the
+    account agreement.
+  \item
+    Go to your email inbox, find the email with the subject \texttt{JetBrains Educational Pack
+    Confirmation}. Open it and click the link \texttt{Confirm Request}.
+  \item
+    You should see a new page with the header \texttt{Congrats! You've been approved!}.
+  \item
+    There should be a new email in your inbox with the subject \texttt{JetBrains Student License
+    Confirmation}. Open it and click the link \texttt{Activate Educational License}.
+  \item
+    Fill out the form to create your account. Enter your first name, last name, and username.
+    Choose an appropriate password and accept the account agreement. It's your choice to
+    consent to the use of your data, but it's not necessary.
+  \item
+    Your account should be usable with CLion now.
+\end{enumerate}
 
 \section{Ubuntu}
 This section details how to setup the Ubuntu development environment.
@@ -274,7 +283,6 @@ environment that you can modify these steps appropriately.
 	\item
     Go to the \href{https://www.jetbrains.com/clion/download/\#section=linux} {download page} and
     download \textit{CLion} for Linux.
-
 	\item
     Assuming you've downloaded the tarball to your \lstinline{~/Downloads} folder, you can extract
     it to \lstinline{/opt/} using the following command:
