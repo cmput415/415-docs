@@ -1,8 +1,11 @@
 # Original author: Marcus Karpoff
 # Modifications: Braedy Kuzma
 
-# SRC: The file name for the latex file
+# SRC: The file name for the main latex file
 # 		 	$(SRC).tex should be the name of the latex file
+# XSRC: Extra source files the main file depends on. This is used for checking
+#       if we need to rebuild, so you can include images, subfiles, and the like
+#       here. Therefore, DO include the file extension.
 # CSS: name of the custom css file to be appended to the generated one
 # 		 DO NOT allow the name of the src file to be the same as the CSS
 # FILES: The name of constant files that need to be present in the html build.
@@ -10,6 +13,7 @@
 #         but should be prepended by a period.
 # Do not include extension in SRC.
 SRC:=setup
+XSRC:=envs/csc.tex envs/macos.tex envs/ubuntu.tex envs/windows.tex
 CFG:=setup
 CSS:=custom_css.css
 FILES:=
@@ -21,6 +25,7 @@ HTML_DEST:=$(HTML_DIR)/$(SRC).html
 PDF_DIR:=$(SRC)_pdf
 PDF_DEST:=$(PDF_DIR)/$(SRC).pdf
 HFILESDOT:=$(foreach file, $(HFILES), .$(file))
+DEPENDS:=$(SRC).tex $(XSRC) $(FILES) $(HFILES) $(CSS) $(CFG).cfg
 
 .PHONY: all html pdf clean
 
@@ -32,7 +37,7 @@ all: $(HTML_DEST) $(PDF_DEST)
 html: $(HTML_DEST)
 pdf: $(PDF_DEST)
 
-$(HTML_DEST): $(SRC).tex $(FILES) $(HFILES) $(CSS) $(CFG).cfg
+$(HTML_DEST): $(DEPENDS)
 	htlatex $(SRC).tex "$(CFG),3,next" ""
 	mkdir -p $(HTML_DIR)
 	mv -f $(SRC)*.html $(HTML_DIR)
@@ -44,7 +49,7 @@ $(HTML_DEST): $(SRC).tex $(FILES) $(HFILES) $(CSS) $(CFG).cfg
 	rm -f $(SRC).4ct $(SRC).4tc $(SRC).aux $(SRC).div $(SRC).dvi $(SRC).idv\
 		$(SRC).tmp $(SRC).xref $(SRC).out	$(SRC).lg $(SRC).log
 
-$(PDF_DEST): $(SRC).tex $(FILES) $(HFILES) $(CSS) $(CFG).cfg
+$(PDF_DEST): $(DEPENDS)
 	pdflatex -interaction=nonstopmode -file-line-error-style $(SRC)
 	mkdir -p $(PDF_DIR)
 	mv -f $(SRC).pdf $(PDF_DIR)
