@@ -179,22 +179,20 @@ to install than Oracle's, so we'll use that.
 	sudo apt-get install openjdk-8-jre
 \end{lstlisting}
 
+\subsection{Installing Git}
+Git should be installed by default in Ubuntu. If you've removed it or it is otherwise unavailable
+then you can install it using this command:
+\begin{lstlisting}
+  sudo apt-get update
+  sudo apt-get install git
+\end{lstlisting}
+
 \subsection{ANTLR 4 C++ Runtime}
 This section details how to install the ANTLR 4 C++ runtime on Ubuntu assuming your default shell
 is bash. If you've changed your shell from bash it's assumed that you are familiar enough with your
 environment that you can modify these steps appropriately.
 
 \begin{enumerate}
-  \item
-    Ensure you have git installed (it should be installed by default on Ubuntu). Check the version
-    to ensure it works:
-    \begin{lstlisting}
-      git --version
-    \end{lstlisting}
-    If you don't have it then you should be able to install it using this line:
-    \begin{lstlisting}
-      sudo apt-get install git
-    \end{lstlisting}
   \item
     Choose a directory to download the runtime source to. It's \emph{not necessary} to keep this
     directory around later though it may make your life easier if you need to upgrade. If you don't
@@ -522,16 +520,32 @@ environment that you can modify these steps appropriately.
 
 		\end{enumerate}
 
-
-
 \section{Mac OS X}
 
-	\subsection{Installing Oracle Java JDK 8}
-		\begin{enumerate}
-			\item Go to \href{http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html} {the
-			Oracle download site} and download the version of oracle jdk8 for mac os
-			\item run the Oracle Java installer you just downloaded and follow all the steps
-		\end{enumerate}
+\subsection{Installing Oracle Java JRE 8}
+\begin{enumerate}
+  \item
+    Go to
+    \href{http://www.oracle.com/technetwork/java/javase/downloads/jre8-downloads-2133155.html} {the
+    Oracle download page} and download the latest Mac OS X .dmg.
+  \item
+    Run the Oracle Java installer follow all the steps.
+\end{enumerate}
+
+\subsection{Installing Homebrew}
+Homebrew is a package manager for Mac OS X. If you don't have it yet, you can read about it
+\href{https://brew.sh/} {here}. Otherwise, install it via the command on their front page:
+\begin{lstlisting}
+  /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+\end{lstlisting}
+
+\subsection{Installing Git}
+Git should be installed by default in Ubuntu. If you've removed it or it is otherwise unavailable
+then you can install it using this command:
+
+\begin{lstlisting}
+  brew install git
+\end{lstlisting}
 
 
 	\subsection{Installing Intellij}
