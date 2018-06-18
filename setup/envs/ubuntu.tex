@@ -6,8 +6,8 @@
 The Java runtime environment (JRE) is required to run the ANTLR generator. OpenJDK's JRE is easier
 to install than Oracle's, so we'll use that.
 \begin{lstlisting}
-	sudo apt-get update
-	sudo apt-get install openjdk-8-jre
+  sudo apt-get update
+  sudo apt-get install openjdk-8-jre
 \end{lstlisting}
 
 \subsection{Installing Git}
@@ -108,64 +108,64 @@ environment that you can modify these steps appropriately.
 
 \subsection{Installing CLion}
 \begin{enumerate}
-	\item
+  \item
     Go to the \href{https://www.jetbrains.com/clion/download/\#section=linux} {download page} and
     download \textit{CLion} for Linux.
-	\item
+  \item
     Assuming you've downloaded the tarball to your \lstinline{~/Downloads} folder, you can extract
     it to \lstinline{/opt/} using the following command:
-  	\begin{lstlisting}
-  		tar -xzf CLion-<version>.tar.gz -C /opt/
-  	\end{lstlisting}
-  	\textit{(If you are confident about your ability to setup your own install you can put it
+    \begin{lstlisting}
+      tar -xzf CLion-<version>.tar.gz -C /opt/
+    \end{lstlisting}
+    \textit{(If you are confident about your ability to setup your own install you can put it
     elsewhere but you will be on your own.)}
-	\item
+  \item
     Execute the installer:
-  	\begin{lstlisting}
-  		/opt/CLion-<version>/bin/CLion.sh
-  	\end{lstlisting}
-	\item
-    Follow the installation wizard.
-  	\begin{enumerate}
+    \begin{lstlisting}
+      /opt/CLion-<version>/bin/CLion.sh
+    \end{lstlisting}
+  \item
+    Perform the initial set up of CLion.
+    \begin{enumerate}
       \item
         You should be presented with a prompt for your license. Select \texttt{Activate},
-        \texttt{JetBrains Account}, enter your UAlberta email address and JetBrains password.
-  		\item
+        \texttt{JetBrains Account}, enter your UAlberta email address and JetBrainspassword.
+      \item
         Select ``Do not import settings'' and hit \texttt{OK}.
-  		\item
+      \item
         Pick your favorite UI. Then hit \texttt{Next: Default Plugins}
-  		\item
+      \item
         You might consider disabling all but the git plugin, and even then, using it is up to you.
         It can be useful to see the color coded files for differences at a glance or track changes
         in a file. You should consider disabling all of the web development plugins. Disabling
         other tools is up to you as well. Now select \texttt{Next: Feature Plugins}
-  		\item
+      \item
         Again, the choices here are yours if you like vim, then maybe the vim plugin is up your
         alley. The markdown plugin can be useful as well. You do not need the TeamCity Integration.
         Select \texttt{Start using CLion}
-  	\end{enumerate}
+    \end{enumerate}
 \end{enumerate}
 
 \subsection{Installing the ANTLR Plugin for CLion}
 ANTLR has a CLion integration that gives syntax highlighting as well as tool for visualising the
 parse tree for a grammar rule and an input.
 \begin{enumerate}
-	\item
+  \item
     Launch CLion by going to the application launcher (tap the super/Windows button) and typing
     \lstinline{clion}. This should launch CLion.
-	\item
+  \item
     Open the settings window \texttt{File $\rightarrow$ Settings...}
   \item
     Select \texttt{Plugins} from the menu on the left.
-	\item
+  \item
     Click \texttt{Browse Repositories} below the plugin list.
   \item
     In the new window, type \texttt{antlr} into the search bar at the top.
-	\item
+  \item
     From the list select \lstinline{ANTLR v4 grammar plugin}
   \item
     Click \texttt{Install} in the right pane.
-	\item
+  \item
     After the install bar ends click the \texttt{Restart CLion} button that should have replaced
     the \texttt{Install} button.
 \end{enumerate}
