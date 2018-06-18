@@ -1,2 +1,3 @@
 # Ignore built directories.
-setup/setup
+*_html
+*_pdf
