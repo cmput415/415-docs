@@ -1,0 +1,131 @@
+\documentclass[../setup.tex]{subfiles}
+
+\begin{document}
+
+\subsection{Installing Oracle Java JRE 8}
+\begin{enumerate}
+  \item
+    Go to
+    \href{http://www.oracle.com/technetwork/java/javase/downloads/jre8-downloads-2133155.html} {the
+    Oracle download page} and download the latest Mac OS X .dmg.
+  \item
+    Run the Oracle Java installer follow all the steps.
+\end{enumerate}
+
+\subsection{Installing Homebrew}
+Homebrew is a package manager for Mac OS X. If you don't have it yet, you can read about it
+\href{https://brew.sh/} {here}. Otherwise, install it via the command on their front page:
+\begin{lstlisting}
+  /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+\end{lstlisting}
+
+\subsection{Installing Git}
+Git should be installed by default in Ubuntu. If you've removed it or it is otherwise unavailable
+then you can install it using this command:
+\begin{lstlisting}
+  brew install git
+\end{lstlisting}
+
+
+	\subsection{Installing Intellij}
+
+		\begin{enumerate}
+			\item Go to the \href{https://www.jetbrains.com/idea/download/index.html} {jetbrains} and download
+			\textit{Intellij Community} for OSx.
+			\item Launch the installer by double clicking on the \textit{.dmg}
+			\item Open your \texttt{Applications} and launch Intellij IDEA 14.app to finish the installation
+			\begin{enumerate}
+				\item Select I don't have any configurations.
+				\item Select \texttt{JetBrains account} and use the account information you just created to
+				authenticate. \textbf{You must have already authenticated it first otherwise this won't work.}
+				\item Pick whichever UI is prettiest to you. Then hit \texttt{Next: Keymaps}
+				\item Select which keymap scheme you want. Then hit \texttt{Next: Default Plug-ins}
+				\item Leave Java Frameworks and Build tools enabled everything else can be disabled at your discretion.
+				Then hit \texttt{Next: Feature Plug-ins}
+				\item None of these are necessary so you can hit \texttt{Start using IntellijIDEA}
+			\end{enumerate}
+		\end{enumerate}
+
+\subsection{Installing the ANTLR Plugin for CLion}
+ANTLR has a CLion integration that gives syntax highlighting as well as tool for visualising the
+parse tree for a grammar rule and an input.
+\begin{enumerate}
+	\item
+    Launch CLion by going to the application launcher (tap the super/Windows button) and typing
+    \lstinline{clion}. This should launch CLion.
+	\item
+    Open the settings window \texttt{File $\rightarrow$ Settings...}
+  \item
+    Select \texttt{Plugins} from the menu on the left.
+	\item
+    Click \texttt{Browse Repositories} below the plugin list.
+  \item
+    In the new window, type \texttt{antlr} into the search bar at the top.
+	\item
+    From the list select \lstinline{ANTLR v4 grammar plugin}
+  \item
+    Click \texttt{Install} in the right pane.
+	\item
+    After the install bar ends click the \texttt{Restart CLion} button that should have replaced
+    the \texttt{Install} button.
+\end{enumerate}
+
+
+	\subsection{Getting Antlr4 libraries}
+		\begin{enumerate}
+			\item Follow the steps on this
+			\href{https://github.com/antlr/antlr4/blob/master/doc/getting-started.md}{tutorial}
+			\item Follow the steps on this
+			\href
+			{https://github.com/antlr/stringtemplate4/blob/master/doc/java.md}
+			{tutorial}
+		\end{enumerate}
+
+
+	\subsection{Configuring first project}
+		\begin{enumerate}
+			\item Click \texttt{Create new project}
+			\item Select Java Project and then next to \textit{Project SDK} select \texttt{New} $\rightarrow$ \texttt{JDK}
+			\item The installation process will give you an interactive interface (similar to finder) to locate the
+			file. At the very top of the window select \texttt{"Computer"}, then follow the directory path Macintosh
+			\begin{lstlisting}
+				HD/Library/Java/JavaVirtualMachines
+			\end{lstlisting}
+			and select the folder \texttt{jdk1.8.0\_45.jdk} (or whichever is the current version that you are
+			installing).
+			\item Click \texttt{Next} then click \texttt{Next} again.
+			\item Name your project and click \texttt{Finish}
+			\item Open Project manager (Default hotkey CMD-1)
+			\item In the project menu that you just opened right-click on the \texttt{src} folder $\rightarrow$ New $\rightarrow$ File
+			\item name the file
+			\begin{lstlisting}
+				hello.g4
+			\end{lstlisting}
+			\item In the new file put the following content
+			\begin{lstlisting}
+				grammar hello;
+
+				rule: 'hello' id;
+				id  : STRING;
+
+				STRING: CHAR+;
+				CHAR: [a-z|A-Z];
+				WS: ' '+ -> skip;
+			\end{lstlisting}
+			\item CLTR-click on \texttt{rule} $\rightarrow$ select \texttt{Test Rule rule}
+			\item There are three new boxes that open:
+			\begin{enumerate}
+				\item a small that appears to be to input a file name
+				\item a larger one underneath
+				\item To the right of that there is a box on top of which is "Parse tree | Profiler"
+			\end{enumerate}
+			in the second box type
+			\begin{lstlisting}
+				hello <your name>
+			\end{lstlisting}
+			in the third box a tree should appear a parse tree
+			\item Congratulations you've made your first Antlr4 parser
+
+		\end{enumerate}
+
+\end{document}

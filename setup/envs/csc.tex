@@ -1,0 +1,63 @@
+\documentclass[../setup.tex]{subfiles}
+
+\begin{document}
+	\subsection{Environment variables}
+		If you're working on the computers on the CS network then most of the installation is already done for you. However, some steps are needed for the final setup to work properly. To simplify
+		the execution of these steps we have created a script to do most of the work. Download the script \href{static/setup_antlr.sh}{here} and
+		then run it.
+
+	\subsection{Configuring first project}
+		\begin{enumerate}
+			\item Click \texttt{Create new project}
+
+			\item Select Java Project and then next to \textit{Project SDK} select \texttt{New} $\rightarrow$ \texttt{JDK}
+
+			\item The location should be
+			\begin{lstlisting}
+				/usr/lib/jvm/java-8-oracle/
+			\end{lstlisting}
+
+			\item Click \texttt{Next} then click \texttt{Next} again.
+
+			\item Name your project and click \texttt{Finish}
+
+			\item Open Project manager (Default hotkey Alt-1)
+
+			\item In the project menu that you just opened right-click on the \texttt{src} folder $\rightarrow$ New $\rightarrow$ File
+
+			\item name the file
+			\begin{lstlisting}
+				hello.g4
+			\end{lstlisting}
+
+			\item In the new file put the following content
+			\begin{lstlisting}
+				grammar hello;
+
+				rule: 'hello' id;
+				id  : STRING;
+
+				STRING: CHAR+;
+				CHAR: [a-z|A-Z];
+				WS: ' '+ -> skip;
+			\end{lstlisting}
+
+			\item right click on \texttt{rule} $\rightarrow$ select \texttt{Test Rule rule}
+
+			\item There are three new boxes that open:
+			\begin{enumerate}
+				\item a small that appears to be to input a file name
+				\item a larger one underneath
+				\item To the right of that there is a box on top of which is "Parse tree | Profiler"
+			\end{enumerate}
+			in the second box type
+			\begin{lstlisting}
+				hello <your name>
+			\end{lstlisting}
+			in the third box a tree should appear a parse tree
+
+			\item Congratulations you've made your first Antlr4 parser
+
+		\end{enumerate}
+
+\end{document}
