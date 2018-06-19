@@ -96,7 +96,9 @@ environment that you can modify these steps appropriately.
     to tell it that we want a release build and to install it to a certain directory.
     \begin{lstlisting}
       cd <BUILD_DIR>
-      cmake <SRC_DIR>/runtime/Cpp/ -DCMAKE_BUILD_TYPE=RELEASE -DCMAKE_INSTALL_PREFIX="<INSTALL_DIR>"
+      cmake <SRC_DIR>/runtime/Cpp/ \
+        -DCMAKE_BUILD_TYPE=RELEASE \
+        -DCMAKE_INSTALL_PREFIX="<INSTALL_DIR>"
     \end{lstlisting}
   \item
     We can finally run make to build the library and install it. You can make the process
@@ -131,10 +133,10 @@ environment that you can modify these steps appropriately.
     Assuming you've downloaded the tarball to your \lstinline{~/Downloads} folder, you can extract
     it to \lstinline{/opt/} using the following command:
     \begin{lstlisting}
-      tar -xzf CLion-<version>.tar.gz -C /opt/
+      tar -xzf ~/Downloads/CLion-<version>.tar.gz -C /opt/
     \end{lstlisting}
-    \textit{(If you are confident about your ability to setup your own install you can put it
-    elsewhere but you will be on your own.)}
+    If you are confident about your ability to setup your own install you can put it
+    elsewhere but you will be on your own.
   \item
     Execute the installer:
     \begin{lstlisting}
@@ -147,7 +149,7 @@ environment that you can modify these steps appropriately.
         Select \texttt{Do not import settings} and click \texttt{OK}.
       \item
         You should be presented with a prompt for your license. Select \texttt{Activate},
-        \texttt{JetBrains Account}, enter your UAlberta email address and JetBrainspassword.
+        \texttt{JetBrains Account}, enter your UAlberta email address and JetBrains password.
       \item
         Pick your favorite UI. Then click \texttt{Next: Toolchains}.
       \item

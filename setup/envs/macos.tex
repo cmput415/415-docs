@@ -121,7 +121,9 @@ environment that you can modify these steps appropriately.
     to tell it that we want a release build and to install it to a certain directory.
     \begin{lstlisting}
       cd <BUILD_DIR>
-      cmake <SRC_DIR>/runtime/Cpp/ -DCMAKE_BUILD_TYPE=RELEASE -DCMAKE_INSTALL_PREFIX="<INSTALL_DIR>"
+      cmake <SRC_DIR>/runtime/Cpp/ \
+        -DCMAKE_BUILD_TYPE=RELEASE \
+        -DCMAKE_INSTALL_PREFIX="<INSTALL_DIR>"
     \end{lstlisting}
     You will be presented with come CMake warnings but they're safe to ignore.
   \item
