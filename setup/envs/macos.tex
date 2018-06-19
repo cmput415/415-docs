@@ -242,51 +242,9 @@ Follow these steps into install it:
     \end{lstlisting}
 \end{enumerate}
 
-
-  \subsection{Configuring first project}
-    \begin{enumerate}
-      \item Click \texttt{Create new project}
-      \item Select Java Project and then next to \textit{Project SDK} select \texttt{New} $\rightarrow$ \texttt{JDK}
-      \item The installation process will give you an interactive interface (similar to finder) to locate the
-      file. At the very top of the window select \texttt{"Computer"}, then follow the directory path Macintosh
-      \begin{lstlisting}
-        HD/Library/Java/JavaVirtualMachines
-      \end{lstlisting}
-      and select the folder \texttt{jdk1.8.0\_45.jdk} (or whichever is the current version that you are
-      installing).
-      \item Click \texttt{Next} then click \texttt{Next} again.
-      \item Name your project and click \texttt{Finish}
-      \item Open Project manager (Default hotkey CMD-1)
-      \item In the project menu that you just opened right-click on the \texttt{src} folder $\rightarrow$ New $\rightarrow$ File
-      \item name the file
-      \begin{lstlisting}
-        hello.g4
-      \end{lstlisting}
-      \item In the new file put the following content
-      \begin{lstlisting}
-        grammar hello;
-
-        rule: 'hello' id;
-        id  : STRING;
-
-        STRING: CHAR+;
-        CHAR: [a-z|A-Z];
-        WS: ' '+ -> skip;
-      \end{lstlisting}
-      \item CLTR-click on \texttt{rule} $\rightarrow$ select \texttt{Test Rule rule}
-      \item There are three new boxes that open:
-      \begin{enumerate}
-        \item a small that appears to be to input a file name
-        \item a larger one underneath
-        \item To the right of that there is a box on top of which is "Parse tree | Profiler"
-      \end{enumerate}
-      in the second box type
-      \begin{lstlisting}
-        hello <your name>
-      \end{lstlisting}
-      in the third box a tree should appear a parse tree
-      \item Congratulations you've made your first Antlr4 parser
-
-    \end{enumerate}
+\subsection{Creating a Personal Project (TODO)}
+Two separate instructions? Using the makefile (TODO) and another for a base project in CMake +
+CLion (also TODO, could just be a near duplicate of ANTLRBase with info about creating assignemnts
+removed).
 
 \end{document}
