@@ -9,20 +9,6 @@ event that you have a fresh install, run the following command to install Mac OS
   xcode-select --install
 \end{lstlisting}
 
-\subsection{Installing Oracle Java JRE 8}
-\begin{enumerate}
-  \item
-    Go to
-    \href{http://www.oracle.com/technetwork/java/javase/downloads/jre8-downloads-2133155.html} {the
-    Oracle download page}.
-  \item
-    Accept the license agreement above the latest \lstinline{.dmg}.
-  \item
-    Download the \lstinline{.dmg}.
-  \item
-    Run the Oracle Java installer from the \lstinline{.dmg} and follow all the steps.
-\end{enumerate}
-
 \subsection{Installing Homebrew}
 Homebrew is a package manager for Mac OS X. If you don't have it yet, you can read about it
 \href{https://brew.sh/} {here}. Otherwise, install it via the command on their front page:
@@ -36,6 +22,13 @@ You can check that it succeeded by checking its version:
 Homebrew itself is not a requirement, just an easy suggestion, but a package manager is. Using
 another package manager (like \href{https://nixos.org/nix/} {Nix}) is fine, as long as you
 understand how to install packages.
+
+\subsection{Installing Oracle Java JDK}
+Installing from the Oracle download page requires a bunch of extra set up when instead you could
+just use our good friend Homebrew to install it (unfortunately you get the JDK not just the JRE).
+\begin{lstlisting}
+  brew cask install java
+\end{lstlisting}
 
 \subsection{Installing Git}
 The Apple managed version of git should have been installed with your developer tools, you can test
@@ -158,10 +151,10 @@ environment that you can modify these steps appropriately.
 \subsection{Installing CLion}
 \begin{enumerate}
   \item
-    Go to the \href{https://www.jetbrains.com/clion/download/\#section=mac} {download page} and
-    download \textit{CLion} for macOs.
-  \item
-    Open the \lstinline{.dmg} and drag the Clion application to the Application folder.
+    Use Homebrew to install CLion:
+    \begin{lstlisting}
+      brew cask install clion
+    \end{lstlisting}
   \item
     Open CLion (via spotlight: command+space $\rightarrow$ type \texttt{CLion}).
   \item
