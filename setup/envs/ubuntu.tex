@@ -38,6 +38,13 @@ environment that you can modify these steps appropriately.
     can go anywhere you choose if you have a personal preference. You can read about how to use
     \lstinline{/opt} \href{https://askubuntu.com/a/34922/550300} {here}. We'll call this directory choice
     \lstinline{SOURCE_PARENT}.
+
+   \lstinline{$HOME} refers to your home directory. \lstinline{echo $HOME} will show you the path.
+  \item
+    Make your parent directory if necessary. Generally, you want:
+    \begin{lstlisting}
+      mkdir <SOURCE_PARENT> # E.g. mkdir /opt/antlr
+    \end{lstlisting}
   \item
     Next, we need to clone the source for the runtime from GitHub.
     \begin{lstlisting}
@@ -73,7 +80,7 @@ environment that you can modify these steps appropriately.
     We need to have an install directory prepared before building since it's referenced in the
     build step. This directory will have the headers and compiled ANTLR libraries put into it so
     you cannot delete it. Again, \lstinline{/opt} can be a good idea but any directory you choose
-    for third party libs is acceptable. We'll call this directory choice
+    for third party libraries is acceptable. We'll call this directory choice
     \lstinline{INSTALL_PARENT}.
   \item
     We can make the actual install directory:
@@ -89,12 +96,14 @@ environment that you can modify these steps appropriately.
     to tell it that we want to install it to a certain directory.
     \begin{lstlisting}
       cd <BUILD_DIR>
-      cmake <SRC_DIR>/runtime/Cpp/ -DCMAKE_INSTALL_PREFIX="<INSTALL_DIR>"
+      cmake <SRC_DIR>/runtime/Cpp/ -DCMAKE_BUILD_TYPE=RELEASE -DCMAKE_INSTALL_PREFIX="<INSTALL_DIR>"
     \end{lstlisting}
   \item
     We can finally run make to build the library and install it. You can make the process
     significantly faster by running with multiple threads using the \lstinline{-j} option and
-    specifying a thread count. Using the option without a count will use all cores.
+    specifying a thread count. Using the option without a count will use all cores. Be careful when
+    using unlimited threads, the build has failed in the past. This isn't a big issue because you
+    can always just try again with a limited number of threads.
     \begin{lstlisting}
       make install -j<number of threads>
     \end{lstlisting}
