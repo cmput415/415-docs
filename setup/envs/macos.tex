@@ -111,8 +111,8 @@ environment that you can modify these steps appropriately.
   \item
     We need to have an install directory prepared before building since it's referenced in the
     build step. This directory will have the headers and compiled ANTLR libraries put into it so
-    you cannot delete it. Again, a folder in \lstinline{$HOME} can be a good idea but any directory you choose
-    for third party libraries is acceptable. We'll call this directory choice
+    you cannot delete it. Again, a folder in \lstinline{$HOME} can be a good idea but any
+    directory you choose for third party libraries is acceptable. We'll call this directory choice
     \lstinline{INSTALL_PARENT}.
   \item
     We can make the actual install directory:
@@ -125,7 +125,7 @@ environment that you can modify these steps appropriately.
   \item
     Finally, we're ready to start the actual build process. Let's begin by generating the CMake
     config for the runtime. We need to do this while inside the build directory. As well, we need
-    to tell it that we want to install it to a certain directory.
+    to tell it that we want a release build and to install it to a certain directory.
     \begin{lstlisting}
       cd <BUILD_DIR>
       cmake <SRC_DIR>/runtime/Cpp/ -DCMAKE_BUILD_TYPE=RELEASE -DCMAKE_INSTALL_PREFIX="<INSTALL_DIR>"
