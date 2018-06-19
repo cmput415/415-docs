@@ -2,14 +2,25 @@
 
 \begin{document}
 
+\subsection{Installing Developer tools}
+It's likely that you've already done this since you're in the Computing Science program, but in the
+event that you have a fresh install, run the following command to install Mac OS developer tools:
+\begin{lstlisting}
+  xcode-select --install
+\end{lstlisting}
+
 \subsection{Installing Oracle Java JRE 8}
 \begin{enumerate}
   \item
     Go to
     \href{http://www.oracle.com/technetwork/java/javase/downloads/jre8-downloads-2133155.html} {the
-    Oracle download page} and download the latest Mac OS X \lstinline{.dmg}.
+    Oracle download page}.
   \item
-    Run the Oracle Java installer follow all the steps.
+    Accept the license agreement above the latest \lstinline{.dmg}.
+  \item
+    Download the \lstinline{.dmg}.
+  \item
+    Run the Oracle Java installer from the \lstinline{.dmg} and follow all the steps.
 \end{enumerate}
 
 \subsection{Installing Homebrew}
@@ -18,12 +29,131 @@ Homebrew is a package manager for Mac OS X. If you don't have it yet, you can re
 \begin{lstlisting}
   /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 \end{lstlisting}
+You can check that it succeeded by checking its version:
+\begin{lstlisting}
+  brew --version
+\end{lstlisting}
+Homebrew itself is not a requirement, just an easy suggestion, but a package manager is. Using
+another package manager (like \href{https://nixos.org/nix/} {Nix}) is fine, as long as you
+understand how to install packages.
 
 \subsection{Installing Git}
-Install git via homebrew:
+The Apple managed version of git should have been installed with your developer tools, you can test
+this by checking the version.
+\begin{lstlisting}
+  git --version
+\end{lstlisting}
+
+(OPTIONAL) If you want a more recent version, you can install one through brew (or your favorite
+package manager). At the time of writing this, the versions only differ by two minor versions, so
+the difference is not significant.
 \begin{lstlisting}
   brew install git
 \end{lstlisting}
+
+\subsection{Installing CMake}
+Brew (or otherwise) makes this easy:
+\begin{lstlisting}
+  brew install cmake
+\end{lstlisting}
+
+\subsection{ANTLR 4 C++ Runtime}
+This section details how to install the ANTLR 4 C++ runtime on Ubuntu assuming your default shell
+is bash. If you've changed your shell from bash it's assumed that you are familiar enough with your
+environment that you can modify these steps appropriately.
+\begin{enumerate}
+  \item
+    Choose a directory to download the runtime source to. It's \emph{not necessary} to keep this
+    directory around later though it may make your life easier if you need to upgrade. If you don't
+    plan on keeping it then \lstinline{$HOME/Downloads} can be a good choice. If you do plan on
+    keeping it, then I suggest that you create a singular directory to use as the parent directory
+    in all future steps so that it can be cleaned up later easily should you choose to get rid of
+    it. A good choice could be \lstinline{$HOME/antlr}. We'll call this directory choice
+    \lstinline{SOURCE_PARENT}.
+
+    \lstinline{$HOME} refers to your home directory. \lstinline{echo $HOME} will show you the path.
+  \item
+    Make your parent directory if necessary. Generally, you want:
+    \begin{lstlisting}
+      mkdir <SOURCE_PARENT> # E.g. mkdir $HOME/antlr
+    \end{lstlisting}
+  \item
+    Next, we need to clone the source for the runtime from GitHub.
+    \begin{lstlisting}
+      cd <SOURCE_PARENT>
+      git clone git@github.com:antlr/antlr4.git
+    \end{lstlisting}
+    This should create a new folder called \lstinline{antlr4} in \lstinline{SOURCE_PARENT}. We'll
+    refer to this new directory (\lstinline{<SOURCE_PARENT>/antlr4}) as \lstinline{SRC_DIR}.
+  \item
+    We will be using ANTLR 4.7.1 so we need to change to the git tag for version 4.7.1.
+    \begin{lstlisting}
+      cd <SRC_DIR>
+      git checkout 4.7.1
+    \end{lstlisting}
+  \item
+    Now we need to choose a place to build the runtime. If you've decided to not keep the source
+    then the build directory will be useless because it references the source. I would suggest
+    creating your build directory inside the source tree (i.e. \lstinline{<SRC_DIR>/antlr4-build})
+    so it's easy to clean up. If you're planning on keeping the source then inside your source
+    directory is still often a good choice, but in the directory beside the source (i.e.
+    \lstinline{<SOURCE_PARENT>/antlr4-build}) is sometimes a good idea too. Again, this can go
+    anywhere you choose if you have a personal preference. We'll call this directory choice
+    \lstinline{BUILD_PARENT}.
+  \item
+    We can make the actual build directory:
+    \begin{lstlisting}
+      cd <BUILD_PARENT>
+      mkdir antlr4-build
+    \end{lstlisting}
+    We'll refer to this new directory (\lstinline{<BUILD_PARENT>/antlr4-build}) as
+    \lstinline{BUILD_DIR}.
+  \item
+    We need to have an install directory prepared before building since it's referenced in the
+    build step. This directory will have the headers and compiled ANTLR libraries put into it so
+    you cannot delete it. Again, a folder in \lstinline{$HOME} can be a good idea but any directory you choose
+    for third party libraries is acceptable. We'll call this directory choice
+    \lstinline{INSTALL_PARENT}.
+  \item
+    We can make the actual install directory:
+    \begin{lstlisting}
+      cd <INSTALL_PARENT>
+      mkdir antlr4-install
+    \end{lstlisting}
+    We'll refer to this new directory (\lstinline{<INSTALL_PARENT>/antlr4-install}) as
+    \lstinline{INSTALL_DIR}.
+  \item
+    Finally, we're ready to start the actual build process. Let's begin by generating the CMake
+    config for the runtime. We need to do this while inside the build directory. As well, we need
+    to tell it that we want to install it to a certain directory.
+    \begin{lstlisting}
+      cd <BUILD_DIR>
+      cmake <SRC_DIR>/runtime/Cpp/ -DCMAKE_BUILD_TYPE=RELEASE -DCMAKE_INSTALL_PREFIX="<INSTALL_DIR>"
+    \end{lstlisting}
+    You will be presented with come CMake warnings but they're safe to ignore.
+  \item
+    We can finally run make to build the library and install it. You can make the process
+    significantly faster by running with multiple threads using the \lstinline{-j} option and
+    specifying a thread count. Using the option without a count will use all cores. Be careful when
+    using unlimited threads, the build has failed in the past. This isn't a big issue because you
+    can always just try again with a limited number of threads.
+    \begin{lstlisting}
+      make install -j<number of threads>
+    \end{lstlisting}
+  \item
+    Now we can add the install to your bash profile. Pick your favorite text editor and open
+    \lstinline{~/.bash_profile} and add the following lines to the end, substituting appropriately:
+    \begin{lstlisting}
+      # C415 ANTLR install
+      export ANTLR_INS=<INSTALL_DIR>
+    \end{lstlisting}
+  \item
+    If you want to clean up then you can remove the source and build directories. Just remember,
+    you may have to download them and set up again if we update later (though it's unlikely).
+    \begin{lstlisting}
+      rm -rf <SRC_DIR> <BUILD_DIR>
+    \end{lstlisting}
+\end{enumerate}
 
 \subsection{Installing CLion}
 \begin{enumerate}
@@ -31,18 +161,29 @@ Install git via homebrew:
     Go to the \href{https://www.jetbrains.com/clion/download/\#section=mac} {download page} and
     download \textit{CLion} for macOs.
   \item
-    Execute the installer through the downloaded \lstinline{.dmg} and follow the installation
-    wizard.
+    Open the \lstinline{.dmg} and drag the Clion application to the Application folder.
+  \item
+    Open CLion (via spotlight: command+space $\rightarrow$ type \texttt{CLion}).
   \item
     Perform the initial set up of CLion.
     \begin{enumerate}
       \item
-        You should be presented with a prompt for your license. Select \texttt{Activate},
-        \texttt{JetBrains Account}, enter your UAlberta email address and JetBrains password.
-      \item
         Select \texttt{Do not import settings} and click \texttt{OK}.
       \item
-        Pick your favorite UI. Then click \texttt{Next: Default Plugins}
+        Scroll to the bottom of the license agreement then hit \texttt{Accept}.
+      \item
+        Choose if you want to share usage statistics.
+      \item
+        You should be presented with a prompt for your license. Select \texttt{Activate},
+        \texttt{JetBrains Account}, enter your UAlberta email address and JetBrains password.
+        Click the \texttt{Activate} button.
+      \item
+        Pick your favorite UI. Then click \texttt{Next: Toolchains}.
+      \item
+        CLion bundles a version of CMake with it. If you'd prefer to use the one we've just
+        installed change \texttt{Bundled} to \lstinline{/usr/local/bin/cmake}. The info text
+        beneath should update with a checkmark and the version of your installed cmake. Click
+        \texttt{Next: Default Plugins}.
       \item
         You might consider disabling all but the git plugin, and even then, using it is up to you.
         It can be useful to see the color coded files for differences at a glance or track changes
@@ -50,7 +191,8 @@ Install git via homebrew:
         other tools is up to you as well. Now select \texttt{Next: Feature Plugins}
       \item
         Again, the choices here are yours if you like vim, then maybe the vim plugin is up your
-        alley. The markdown plugin can be useful as well. You do not need the TeamCity Integration.
+        alley. The markdown plugin can be useful as well. You do not need the TeamCity Integration,
+        the Lua integration, nor the Swift integration.
         Select \texttt{Start using CLion}
     \end{enumerate}
 \end{enumerate}
@@ -63,17 +205,17 @@ parse tree for a grammar rule and an input.
     Launch CLion by going to the application launcher (finder) and typing \lstinline{clion}. This
     should launch CLion.
   \item
-    Open the settings window \texttt{CLion $\rightarrow$ Settings...}
+    Open the settings window \texttt{CLion $\rightarrow$ Preferences...}
   \item
     Select \texttt{Plugins} from the menu on the left.
   \item
-    Click \texttt{Browse Repositories} below the plugin list.
+    Click \texttt{Browse Repositories...} below the plugin list.
   \item
     In the new window, type \texttt{antlr} into the search bar at the top.
   \item
     From the list select \lstinline{ANTLR v4 grammar plugin}
   \item
-    Click \texttt{Install} in the right pane.
+    Click \texttt{Install} in the right pane and accept the notice.
   \item
     After the install bar ends click the \texttt{Restart CLion} button that should have replaced
     the \texttt{Install} button.
