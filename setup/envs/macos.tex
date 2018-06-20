@@ -246,6 +246,31 @@ Follow these steps into install it:
     \end{lstlisting}
 \end{enumerate}
 
+\subsection{Testing Your Environment}
+Everything should be setup! Let's just make sure.
+\begin{enumerate}
+  \item
+    Download \href{https://webdocs.cs.ualberta.ca/~c415/setup/static/demo.tar.gz} {this tarball}.
+  \item
+    Extract it via
+    \begin{lstlisting}
+      tar -xzf demo.tar.gz
+    \end{lstlisting}
+  \item
+    Change into the extracted directory.
+    \begin{lstlisting}
+      cd demo
+    \end{lstlisting}
+  \item
+    Make the project.
+    \begin{lstlisting}
+      make
+    \end{lstlisting}
+  \item
+    The project should compile with no warnings or errors. If there's a problem, you may have set
+    something up incorrectly. Otherwise, congrats!
+\end{enumerate}
+
 \subsection{Creating a Personal Project (TODO)}
 Two separate instructions? Using the makefile (TODO) and another for a base project in CMake +
 CLion (also TODO, could just be a near duplicate of ANTLRBase with info about creating assignemnts
