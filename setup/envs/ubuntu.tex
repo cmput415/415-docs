@@ -198,9 +198,10 @@ If you'd like to manually generate a listener or visitor you need to have the AN
 Follow these steps into install it:
 \begin{enumerate}
   \item
-    Make the desitination directory. I would suggest putting this in \lstinline{INSTALL_DIR/bin}
+    Make the desitination directory. I would suggest putting this in \lstinline{<INSTALL_DIR>/bin}
     since the CMake projects will already automatically download a copy there and duplicating
-    this seems wasteful.
+    this seems wasteful. If you want to put it elsewhere though, you can. We'll refer to this new
+    directory (e.g. \lstinline{<INSTALL_DIR>/bin}) as \lstinline{ANTLR_BIN}.
     \begin{lstlisting}
       mkdir <INSTALL_DIR>/bin
       curl http://www.antlr.org/download/antlr-4.7.1-complete.jar > <INSTALL_DIR>/bin/antlr-4.7.1-complete.jar
@@ -209,7 +210,7 @@ Follow these steps into install it:
     Now we can make it easy to use. Add the following lines to your \lstinline{~/.bashrc}:
     \begin{lstlisting}
       # C415 Antlr Generator
-      export CLASSPATH="<INSTALL_DIR>/bin/antlr-4.7.1-complete.jar:$CLASSPATH"
+      export CLASSPATH="<ANTLR_BIN>/antlr-4.7.1-complete.jar:$CLASSPATH"
       alias antlr4="java -Xmx500M org.antlr.v4.Tool"
       alias grun='java org.antlr.v4.gui.TestRig'
     \end{lstlisting}
