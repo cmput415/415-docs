@@ -84,6 +84,8 @@ environment that you can modify these steps appropriately.
       cd <SRC_DIR>
       git checkout 4.7.1
     \end{lstlisting}
+    This will give you a warning about being in a ``detached head state''. Since we won't be
+    changing anything in ANTLR there is no need to create a branch. No extra work is needed here.
   \item
     Now we need to choose a place to build the runtime. If you've decided to not keep the source
     then the build directory will be useless because it references the source. I would suggest
