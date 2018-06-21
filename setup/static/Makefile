@@ -20,7 +20,7 @@ GEN_RESULTS_CPP:= $(filter %.cpp %.h, $(GEN_RESULTS))
 
 # Get the ANTLR install location.
 ANTLRI:=${ANTLR_INS}/include/antlr4-runtime/
-ANTLRL:=${ANTLR_INS}/lib/
+ANTLRS:=${ANTLR_INS}/lib/libantlr4-runtime.a
 
 # Get all of our source files.
 SRC_CPP:=$(addprefix ${CURDIR}/, $(wildcard *.cpp *.h *.hpp))
@@ -43,10 +43,8 @@ echo:
 # We'll filter out only the .o files to build.
 tool: $(GEN_RESULTS_CPP:.cpp=.o) $(SRC_CPP:.cpp=.o)
 	c++ -std=gnu++11 -Wall \
-		$(filter %.o, $^) \
+		$(filter %.o, $^) $(ANTLRS) \
 		-I"$(ANTLRI)" -I"$(GEN_DIR)" \
-		-L"$(ANTLRL)" -Wl,-rpath,"$(ANTLRL)" \
-		-lantlr4-runtime \
 		-o tool
 
 # How to build files in the current directory.
