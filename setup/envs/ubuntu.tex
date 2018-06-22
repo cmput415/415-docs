@@ -31,28 +31,20 @@ is bash. If you've changed your shell from bash it's assumed that you are famili
 environment that you can modify these steps appropriately.
 \begin{enumerate}
   \item
-    Choose a directory to download the runtime source to. It's \emph{not necessary} to keep this
-    directory around later though it may make your life easier if you need to upgrade. If you don't
-    plan on keeping it then \lstinline{\$HOME/Downloads} can be a good choice. If you do plan on
-    keeping it, \lstinline{/opt} as well as \lstinline{/usr/local/src} can be good choices but it
-    can go anywhere you choose if you have a personal preference. You can read about how to use
-    \lstinline{/opt} \href{https://askubuntu.com/a/34922/550300} {here}. We'll call this directory choice
-    \lstinline{SOURCE_PARENT}.
-
-   \lstinline{$HOME} refers to your home directory. \lstinline{echo $HOME} will show you the path.
-  \item
-    Make your parent directory if necessary. Generally, you want:
+    To make things easy, we are going to do everything inside a new directory in your home
+    directory.
     \begin{lstlisting}
-      mkdir <SOURCE_PARENT> # E.g. mkdir /opt/antlr
+      mkdir $HOME/antlr
     \end{lstlisting}
+    We'll refer to this directory as \lstinline{ANTLR_PARENT}.
   \item
-    Next, we need to clone the source for the runtime from GitHub.
+    Next we need to clone the runtime source from GitHub:
     \begin{lstlisting}
-      cd <SOURCE_PARENT>
+      cd $HOME/antlr
       git clone git@github.com:antlr/antlr4.git
     \end{lstlisting}
-    This should create a new folder called \lstinline{antlr4} in \lstinline{SOURCE_PARENT}. We'll
-    refer to this new directory (\lstinline{<SOURCE_PARENT>/antlr4}) as \lstinline{SRC_DIR}.
+    This should create a new folder called \lstinline{antlr4} in \lstinline{ANTLR_PARENT}. We'll
+    refer to this new directory (\lstinline{<ANTLR_PARENT>/antlr4}) as \lstinline{SRC_DIR}.
   \item
     We will be using ANTLR 4.7.1 so we need to change to the git tag for version 4.7.1.
     \begin{lstlisting}
@@ -62,46 +54,42 @@ environment that you can modify these steps appropriately.
     This will give you a warning about being in a ``detached head state''. Since we won't be
     changing anything in ANTLR there is no need to create a branch. No extra work is needed here.
   \item
-    Now we need to choose a place to build the runtime. If you've decided to not keep the source
-    then the build directory will be useless because it references the source. I would suggest
-    creating your build directory inside the source tree (i.e. \lstinline{<SRC_DIR>/antlr4-build})
-    so it's easy to clean up. If you're planning on keeping the source then inside your source
-    directory is still often a good choice, but in the directory beside the source (i.e.
-    \lstinline{<SOURCE_PARENT>/antlr4-build}) is sometimes a good idea too. Again, this can go
-    anywhere you choose if you have a personal preference. We'll call this directory choice
-    \lstinline{BUILD_PARENT}.
-  \item
-    We can make the actual build directory:
+    Now we need a place to build the runtime. CMake suggests making your build directory inside
+    your source directory.
     \begin{lstlisting}
-      cd <BUILD_PARENT>
+      cd <SRC_DIR>
       mkdir antlr4-build
     \end{lstlisting}
-    We'll refer to this new directory (\lstinline{<BUILD_PARENT>/antlr4-build}) as
-    \lstinline{BUILD_DIR}.
+    We'll refer to this new directory (\lstinline{<SRC_DIR>/antlr4-build}) as \lstinline{SRC_DIR}.
   \item
     We need to have an install directory prepared before building since it's referenced in the
-    build step. This directory will have the headers and compiled ANTLR libraries put into it so
-    you cannot delete it. Again, \lstinline{/opt} can be a good idea but any directory you choose
-    for third party libraries is acceptable. We'll call this directory choice
-    \lstinline{INSTALL_PARENT}.
-  \item
-    We can make the actual install directory:
+    build step. This directory will have the headers and compiled ANTLR libraries put into it.
+    To make the actual directory:
     \begin{lstlisting}
-      cd <INSTALL_PARENT>
+      cd <ANTLR_PARENT>
       mkdir antlr4-install
     \end{lstlisting}
-    We'll refer to this new directory (\lstinline{<INSTALL_PARENT>/antlr4-install}) as
+    We'll refer to this new directory (\lstinline{<ANTLR_PARENT>/antlr4-install}) as
     \lstinline{INSTALL_DIR}.
+
+    Before continuing, confirm your directory structure looks like this:
+    \begin{lstlisting}
+      antlr/
+      |-- antlr4
+      |   \-- antlr4-build
+      \-- antlr4-install
+    \end{lstlisting}
   \item
-    Finally, we're ready to start the actual build process. Let's begin by generating the CMake
-    config for the runtime. We need to do this while inside the build directory. As well, we need
-    to tell it that we want a release build and to install it to a certain directory.
+    Finally, we're ready to start the actual build process. Let's begin by doing the generate and
+    configure CMake step for the runtime. We need to do this while inside the build directory. As
+    well, we need to tell it that we want a release build and to install it to a certain directory.
     \begin{lstlisting}
       cd <BUILD_DIR>
       cmake <SRC_DIR>/runtime/Cpp/ \
         -DCMAKE_BUILD_TYPE=RELEASE \
         -DCMAKE_INSTALL_PREFIX="<INSTALL_DIR>"
     \end{lstlisting}
+    You will be presented with come CMake warnings but they're safe to ignore.
   \item
     We can finally run make to build the library and install it. You can make the process
     significantly faster by running with multiple threads using the \lstinline{-j} option and
@@ -112,19 +100,14 @@ environment that you can modify these steps appropriately.
       make install -j<number of threads>
     \end{lstlisting}
   \item
-    Now we can add the install to your bashrc. Pick your favorite text editor and open
-    \lstinline{~/.bashrc} and add the following lines to the end, substituting appropriately:
+    Now we can add the install to your bash profile. Pick your favorite text editor, open
+    \lstinline{~/.bash_profile}, and add the following lines to the end, substituting
+    appropriately:
     \begin{lstlisting}
       # C415 ANTLR install
       export ANTLR_INS=<INSTALL_DIR>
     \end{lstlisting}
     \textbf{Make sure there is no trailing /.} Restart your terminal for things to take effect.
-  \item
-    If you want to clean up then you can remove the source and build directories. Just remember,
-    you may have to download them and set up again if we update later (though it's unlikely).
-    \begin{lstlisting}
-      rm -rf <SRC_DIR> <BUILD_DIR>
-    \end{lstlisting}
 \end{enumerate}
 
 \subsection{Installing CLion}
