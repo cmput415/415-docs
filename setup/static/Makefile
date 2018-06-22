@@ -117,13 +117,26 @@ $(foreach result, $(GEN_FILE_SUFFIXES_CPP), $(GEN_DIR)%$(result)): %.g4
 # absolute paths to test files. We still require the grammar to be in the same
 # directory as this makefile. Next, canonicalise the grammar name, because we
 # need the name without extension for grun, but with for cp and rm.
+# We can't do this if we don't know the grammar name and rule name, so we stop.
+# If we don't know the input file name then we warn and use stdin instead.
 gui: override file:=$(realpath $(file))
 gui: override grammar:=$(grammar:%.g4=%)
 gui: $(GEN_RESULTS_COMP_JAVA:.java=.class)
+ifndef grammar
+	@echo "Add 'grammar=grammarName' to your command."
+else ifndef rule
+	@echo "Add 'rule=startRule' to your command."
+else
 	cp $(grammar).g4 $(GUI_GEN_DIR)
+ifndef file
+	@echo "Add 'file=inputFile' to your command if you wanted to parse a file."
+	@echo "Using stdin for input instead. Terminate with EOF (ctrl+d on" \
+		"mac/linux, ctrl+z on windows)."
+endif
 	cd $(GUI_GEN_DIR) && \
 		java org.antlr.v4.gui.TestRig $(grammar) $(rule) $(file) -gui
 	rm -f $(GUI_GEN_DIR)$(grammar).g4
+endif
 
 # How to generate class files for the java files in the gui directory. These
 # are generated source files. Note that this doesn't depend on just the java
