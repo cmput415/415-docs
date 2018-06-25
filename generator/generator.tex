@@ -357,8 +357,8 @@ See these rules:
     A test case \textit{will not} take advantage of undefined behaviour. Undefined behaviour is
     functionality that does not have an outcome described explicitly by this specification.
   \item
-    The index variable used in the generator expression will be the only variable used in the
-    accompanying expression. For example, the following test would be considered invalid:
+    Any variable used in an expression will match the variable defined in the generator. For
+    example, the following test would be considered invalid:
     \begin{lstlisting}
       [i in 0..1 | j];
     \end{lstlisting}
