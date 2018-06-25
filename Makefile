@@ -3,7 +3,7 @@
 # FILES: Files we need to get from the base folder.
 # HFILES: Hidden files we need to get from the base folder. These will be moved
 #         into the build folder preprended with a period.
-DIRS:=setup
+DIRS:=setup generator
 FILES:=
 HFILES:=htaccess
 
@@ -13,15 +13,14 @@ HFILESDOT:=$(foreach file, $(HFILES), .$(file))
 .PHONY: all remoteinstall clean
 
 all:
-	@$(foreach dir, $(DIRS), $(MAKE) -C $(dir))
+	$(foreach dir, $(DIRS), $(MAKE) -C $(dir);)
 
 remoteinstall: all
-	@$(foreach dir, $(DIRS), $(MAKE) -C $(dir))
 	@# Make the build directory and zip it.
 	mkdir .build
-	$(foreach dir, $(DIRS), cp -r $(dir)/$(dir)_html .build/$(dir))
-	$(foreach file, $(HFILES), cp base/$(file) .build/.$(file))
-	$(foreach file, $(FILES), cp base/$(file) .build/$(file))
+	$(foreach dir, $(DIRS), cp -r $(dir)/$(dir)_html .build/$(dir);)
+	$(foreach file, $(HFILES), cp base/$(file) .build/.$(file);)
+	$(foreach file, $(FILES), cp base/$(file) .build/$(file);)
 	tar -czf .build.tar.gz -C .build $(DIRS) $(HFILESDOT) $(FILES)
 
 	@# Move to ohaton and install it.
@@ -34,5 +33,5 @@ remoteinstall: all
 	rm -rf .build .build.tar.gz
 
 clean:
-	$(MAKE) -C setup/ clean
+	$(foreach dir, $(DIRS), $(MAKE) -C $(dir) clean;)
 	rm -rf .build .build.tar.gz
