@@ -31,6 +31,7 @@
 \makeatother
 
 \newcommand{\code}[1]{\texttt{\textmd{#1}}}
+\newcommand{\assertion}[1]{\textbf{Assertion: }#1}
 
 \newif\ifComments
 %\Commentstrue
@@ -89,6 +90,8 @@ The generator format will always follow the same format:
   \item{\code{expr}} is an expression
 \end{itemize}
 
+\assertion{If an identifier is used in \code{expr} then it will match \code{id}.}
+
 For this assignment the value of the identifier variable \code{<id>}:
 \begin{enumerate}
   \item is initialized to the value of \code{int\_1}.
@@ -99,8 +102,8 @@ For this assignment the value of the identifier variable \code{<id>}:
 For each value assumed by \code{id}, \code{expr} is used to generated the next number in the
 series.
 
-\textbf{Assertion:} Your solution can assume that \code{int\_1} is less than or equal to
-\code{int\_2}.
+\assertion{Your solution can assume that \code{int\_1} is less than or equal to
+\code{int\_2}.}
 
 Examples of valid generators:
 \begin{lstlisting}
@@ -121,8 +124,8 @@ In this assignment white space is not important so the following is valid:
   i*i];
   [i in 1..10|2^i];
 \end{lstlisting}
-\textbf{Assertion:} Whitespace is guaranteed to be a space, a tab, a carriage return, or a new
-line. Any other whitespace is not valid.
+\assertion{Whitespace is guaranteed to be a space, a tab, a carriage return, or a new
+line.}
 
 Because identifiers need white space to separate each other the following is invalid:
 \begin{lstlisting}
