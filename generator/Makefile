@@ -15,7 +15,7 @@
 # Adding new static files is as simple as dropping them in the directory. They
 # will automatically be added to the build.
 SRC:=generator
-XSRC:=
+XSRC:=$(wildcard static/*.png)
 CFG:=generator
 CSS:=custom_css.css
 FILES:=
