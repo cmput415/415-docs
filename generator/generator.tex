@@ -156,9 +156,12 @@ Examples of invalid identifier:
 \end{lstlisting}
 
 \subsection{Integers}
-In this assignment integers are defined as being a string that contains only the number characters 0-9 with no
-spaces. For the purpose of simplicity all integers in \textbf{input} are positive and can fit in a
-32-bit signed integer representation.
+In this assignment integer literals are defined as being a string that contains only the number
+characters 0-9 with no spaces.
+
+\assertion{All integer literals will be positive.}
+
+\assertion{All integer literals will fit in 31 bits.}
 
 Examples of valid integers literals:
 \begin{lstlisting}
@@ -180,27 +183,9 @@ Examples of invalid integers literals:
 \end{lstlisting}
 
 \subsection{Expression}
-An expression is composed of integers, identifiers, and integer mathematical operations. Valid
-formats for expressions are
-\begin{lstlisting}
-  (<expr>)
-  <expr> <op> <expr>
-  <int>
-  <id>
-\end{lstlisting}
+An expression is composed of integers, identifiers, and integer mathematical operations.
 
-\begin{itemize}
-  \item \code{expr} is an expression.
-  \item \code{int} is an integer.
-  \item \code{id} is the identifier of a variable.
-\end{itemize}
-
-Examples of valid expressions are
-\begin{lstlisting}
-  i * 2 * 10 + 4
-  2 ^ 4 * 5
-\end{lstlisting}
-
+\subsubsection{Operators}
 \begin{center}
   \begin{tabular}{|l|c|l|c|}
     \hline
@@ -216,6 +201,29 @@ Examples of valid expressions are
     \hline
   \end{tabular}
 \end{center}
+
+\subsubsection{Valid Expressions}
+Valid formats for expressions are
+\begin{lstlisting}
+  (<expr>)
+  <expr> <op> <expr>
+  <int>
+  <id>
+\end{lstlisting}
+
+\begin{itemize}
+  \item \code{expr} is an expression.
+  \item \code{int} is an integer.
+  \item \code{id} is the identifier of a variable.
+\end{itemize}
+
+\assertion{All expressions will result in a value that fits in a 32 bit signed integer.}
+
+Examples of valid expressions are
+\begin{lstlisting}
+  i * 2 * 10 + 4
+  2 ^ 4 * 5
+\end{lstlisting}
 
 \subsubsection{Precedence}
 Precedence determines what order operations are evaluated in. Precedence works as defined in the following
