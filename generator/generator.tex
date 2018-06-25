@@ -346,12 +346,8 @@ testing and debugging, but it is \textit{not necessary}. What does it mean to be
 See these rules:
 \begin{enumerate}
   \item
-    Whitespace is guaranteed to be a space, a tab, a carriage return, or a new
-    line. Any other whitespace characters render the input invalid. The following ANTLR rule
-    will ensure you adhere to this:
-    \begin{lstlisting}
-      WS : [ \t\r\n]+ -> skip;
-    \end{lstlisting}
+    A test case \textit{will not} take advantage of undefined behaviour. Undefined behaviour is
+    functionality that does not have an outcome described explicitly by this specification.
   \item
     The index variable used in the generator expression will be the only variable used in the
     accompanying expression. For example, the following test would be considered invalid:
@@ -365,8 +361,12 @@ See these rules:
       [i in 1..0 | i];
     \end{lstlisting}
   \item
-    A test case \textit{will not} take advantage of undefined behaviour. Undefined behaviour is
-    functionality that does not have an outcome described explicitly by this specification.
+    Whitespace is guaranteed to be a space, a tab, a carriage return, or a new
+    line. Any other whitespace characters render the input invalid. The following ANTLR rule
+    will ensure you adhere to this:
+    \begin{lstlisting}
+      WS : [ \t\r\n]+ -> skip;
+    \end{lstlisting}
 \end{enumerate}
 If you encounter what you think is undefined behaviour or think something is ambiguous then
 \textit{do} make a forum post about it. While the generator is a relatively small spec,
