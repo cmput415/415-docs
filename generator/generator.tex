@@ -161,7 +161,7 @@ characters 0-9 with no spaces.
 
 \assertion{All integer literals will be positive.}
 
-\assertion{All integer literals will fit in 31 bits.}
+\assertion{All integer literals will fit in 31 unsigned bits.}
 
 Examples of valid integers literals:
 \begin{lstlisting}
@@ -370,10 +370,36 @@ See these rules:
     \end{lstlisting}
   \item
     Whitespace is guaranteed to be a space, a tab, a carriage return, or a new
-    line. Any other whitespace characters render the input invalid. The following ANTLR rule
+    line. Any other whitespace characters will render the input invalid. The following ANTLR rule
     will ensure you adhere to this:
     \begin{lstlisting}
       WS : [ \t\r\n]+ -> skip;
+    \end{lstlisting}
+  \item
+    All integer literals will be positive. For example, the following tests would be considered
+    invalid:
+    \begin{lstlisting}
+      [i in 0..1 | -1];
+      [i in -2..-1 | i];
+    \end{lstlisting}
+  \item
+    All integer literals will fit in 31 unsigned bits. This means an integer literal can be
+    anywhere in the range $[0, 2^{31} - 1]$ or $[0, 2147483647]$. For example, the following tests
+    would be considered invalid:
+    \begin{lstlisting}
+      [i in 0..1 | -1];
+      [i in 0..1 | 2147483648];
+      [i in 0..2147483648 | 0];
+      [i in -1..1 | 0];
+    \end{lstlisting}
+  \item
+    All expressions will result in a value that fits in a 32 bit signed integer. This means the
+    result of an expression can be anywhere in the range $[-2^{31}, 2^{31} - 1]$ or $[-2147483648,
+    2147483647]$. Any operation that results in underflow or overflow will render the input
+    invalid. For example, the following tests would be considered invalid:
+    \begin{lstlisting}
+      [i in 0..1 | 2147483647 + 1];
+      [i in 0..1 | 0 - 2147483647 - 2];
     \end{lstlisting}
 \end{enumerate}
 If you encounter what you think is undefined behaviour or think something is ambiguous then
