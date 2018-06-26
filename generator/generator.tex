@@ -32,9 +32,9 @@
 
 \newcommand{\code}[1]{\texttt{\textmd{#1}}}
 \newcommand{\assertion}[2]{\textbf{Assertion: }#1 (\hyperlink{#2}{#2})}
-\newcommand{\assertiondest}[1]{\hypertarget{#1}{#1:}}
+\newcommand{\assertiondest}[1]{\hypertarget{#1}{\textbf{#1}:}}
 \newcommand{\clarification}[2]{\textbf{Clarification: }#1 (\hyperlink{#2}{#2})}
-\newcommand{\calrificationdest}[1]{\hypertarget{#1}{#1:}}
+\newcommand{\clarificationdest}[1]{\hypertarget{#1}{\textbf{#1}:}}
 
 \newif\ifComments
 %\Commentstrue
@@ -334,6 +334,8 @@ the generator will be printed on the same line with spaces separating each numbe
 trailing space after the final number and before the newline. There \textit{should} be an empty
 line at the end of your output.
 
+\clarification{Empty input should result in empty output.}{empty-input}
+
 Example input:
 \begin{lstlisting}
   [i in 1..10| i];
@@ -438,7 +440,7 @@ What does it mean to be valid input? See these rules:
 These clarifications are meant to add more information to the specification without cluttering it.
 \begin{enumerate}
   \item
-    \calrificationdest{rem-not-mod}
+    \clarificationdest{rem-not-mod}
     The \code{\%} operator is remainder not modulus. Some languages (e.g. Python) define \code{\%}
     as the modulus operator while others (e.g. C++) define it as remainder. Using the \code{\%}
     operator in C++ is sufficient for this assignment. For example, using the
@@ -454,6 +456,13 @@ These clarifications are meant to add more information to the specification with
     \begin{lstlisting}
       0 -2 -1
     \end{lstlisting}
+  \item
+    \clarificationdest{empty-input}
+    Empty input should result in empty output. This is in keeping with all of the output rules
+    defined. There are no generators so there would be no numbers, spaces, newlines or output of
+    any kind. All that you are left with is a single empty line, which matches "\textit{should} be
+    an empty line at the end of your output".
+
 \end{enumerate}
 
 \section{Provided Frameworks}
