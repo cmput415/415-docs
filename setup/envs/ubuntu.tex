@@ -271,6 +271,21 @@ Everything should be setup! Let's just make sure.
   \item
     The project should compile with no warnings or errors. If there's a problem, you may have set
     something up incorrectly. Otherwise, congrats!
+  \item
+    If you'd like to start playing with the tools this is a good opportunity! Here are a few
+    challenges you can attempt with the files provided:
+    \begin{enumerate}
+      \item
+        There's no input file provided for the tool. Examine the grammar and C++ source and
+        figure out how to construct an appropriate input where ANTLR doesn't complain about extra
+        tokens.
+      \item
+        Add floats.
+        \begin{itemize}
+          \item Be careful of lexer rule ordering.
+          \item Be careful that \lstinline{6|5} or \lstinline{6a5} are not recognised as floats.
+        \end{itemize}
+    \end{enumerate}
 \end{enumerate}
 
 \subsection{Creating a Personal Project (TODO)}
