@@ -31,7 +31,8 @@
 \makeatother
 
 \newcommand{\code}[1]{\texttt{\textmd{#1}}}
-\newcommand{\assertion}[1]{\textbf{Assertion: }#1}
+\newcommand{\assertion}[2]{\textbf{Assertion: }#1 (\hyperlink{#2}{#2})}
+\newcommand{\assertiondest}[1]{\hypertarget{#1}{#1:}}
 
 \newif\ifComments
 %\Commentstrue
@@ -90,7 +91,10 @@ The generator format will always follow the same format:
   \item{\code{expr}} is an expression
 \end{itemize}
 
-\assertion{If an identifier is used in \code{expr} then it will match \code{id}.}
+\assertion{\code{int\_1} and \code{int\_2} will never be expressions, only integer literals.}
+{simple-bounds} \\
+\assertion{\code{int\_1} will be never be greater than \code{int\_2}.}{sane-bounds}\\
+\assertion{If an identifier is used in \code{expr} then it will match \code{id}.}{matching-id}
 
 For this assignment the value of the identifier variable \code{<id>}:
 \begin{enumerate}
@@ -102,13 +106,9 @@ For this assignment the value of the identifier variable \code{<id>}:
 For each value assumed by \code{id}, \code{expr} is used to generated the next number in the
 series.
 
-\assertion{Your solution can assume that \code{int\_1} is less than or equal to
-\code{int\_2}.}
-
 Examples of valid generators:
 \begin{lstlisting}
   [i in 1..10 | i * i];
-
   [i in 0..10 | 2 ^ i];
 \end{lstlisting}
 
@@ -124,8 +124,9 @@ In this assignment white space is not important so the following is valid:
   i*i];
   [i in 1..10|2^i];
 \end{lstlisting}
+
 \assertion{Whitespace is guaranteed to be a space, a tab, a carriage return, or a new
-line.}
+line.}{simple-whitespace}
 
 Because identifiers need white space to separate each other the following is invalid:
 \begin{lstlisting}
@@ -159,9 +160,8 @@ Examples of invalid identifier:
 In this assignment integer literals are defined as being a string that contains only the number
 characters 0-9 with no spaces.
 
-\assertion{All integer literals will be positive.}
-
-\assertion{All integer literals will fit in 31 unsigned bits.}
+\assertion{All integer literals will be positive.}{positive-literals}\\
+\assertion{All integer literals will fit in 31 unsigned bits.}{literal-size}
 
 Examples of valid integers literals:
 \begin{lstlisting}
@@ -218,6 +218,7 @@ Valid formats for expressions are
 \end{itemize}
 
 \assertion{All expressions will result in a value that fits in a 32 bit signed integer.}
+{expression-size}
 
 Examples of valid expressions are
 \begin{lstlisting}
@@ -226,9 +227,8 @@ Examples of valid expressions are
 \end{lstlisting}
 
 \subsubsection{Precedence}
-Precedence determines what order operations are evaluated in. Precedence works as defined in the following
-table:
-
+Precedence determines what order operations are evaluated in. Precedence works as defined in the
+following table:
 \begin{center}
   \begin{tabular}{|c|c|}
     \hline
@@ -354,21 +354,32 @@ testing and debugging, but it is \textit{not necessary}. What does it mean to be
 See these rules:
 \begin{enumerate}
   \item
+    \assertiondest{undef-behaviour}
     A test case \textit{will not} take advantage of undefined behaviour. Undefined behaviour is
     functionality that does not have an outcome described explicitly by this specification.
   \item
-    Any variable used in an expression will match the variable defined in the generator. For
+    \assertiondest{simple-bounds}
+    The bounds on the index variable will always be integer literals and never an expression. For
     example, the following test would be considered invalid:
     \begin{lstlisting}
-      [i in 0..1 | j];
+      [i in (1-1)..1 | i];
     \end{lstlisting}
   \item
+    \assertiondest{sane-bounds}
     The bounds on the index variable will always be such that $\code{int\_1} \leq
     \code{int\_2}$. For example, the following test would be considered invalid:
     \begin{lstlisting}
       [i in 1..0 | i];
     \end{lstlisting}
   \item
+    \assertiondest{matching-id}
+    Any variable used in an expression will match the variable defined in the generator. For
+    example, the following test would be considered invalid:
+    \begin{lstlisting}
+      [i in 0..1 | j];
+    \end{lstlisting}
+  \item
+    \assertiondest{simple-whitespace}
     Whitespace is guaranteed to be a space, a tab, a carriage return, or a new
     line. Any other whitespace characters will render the input invalid. The following ANTLR rule
     will ensure you adhere to this:
@@ -376,6 +387,7 @@ See these rules:
       WS : [ \t\r\n]+ -> skip;
     \end{lstlisting}
   \item
+    \assertiondest{positive-literals}
     All integer literals will be positive. For example, the following tests would be considered
     invalid:
     \begin{lstlisting}
@@ -383,6 +395,7 @@ See these rules:
       [i in -2..-1 | i];
     \end{lstlisting}
   \item
+    \assertiondest{literal-size}
     All integer literals will fit in 31 unsigned bits. This means an integer literal can be
     anywhere in the range $[0, 2^{31} - 1]$ or $[0, 2147483647]$. For example, the following tests
     would be considered invalid:
@@ -393,6 +406,7 @@ See these rules:
       [i in -1..1 | 0];
     \end{lstlisting}
   \item
+    \assertiondest{expression-size}
     All expressions will result in a value that fits in a 32 bit signed integer. This means the
     result of an expression can be anywhere in the range $[-2^{31}, 2^{31} - 1]$ or $[-2147483648,
     2147483647]$. Any operation that results in underflow or overflow will render the input
