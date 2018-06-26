@@ -349,9 +349,13 @@ This may be rendered incorrectly on your platform, therefore, this\
 test for yourself. Do not include this test in your submission.
 
 \section{Assertions}
-\textbf{ALL} input will be valid. It can be a good idea to do error checking for your own
-testing and debugging, but it is \textit{not necessary}. What does it mean to be valid input?
-See these rules:
+\textbf{ALL} input test cases will be valid. It can be a good idea to do error checking for your
+own testing and debugging, but it is \textit{not necessary}. If you encounter what you think is
+undefined behaviour or think something is ambiguous then \textit{do} make a forum post about it to
+clarify. While the generator is a relatively small spec, the latter assignments \textit{will not
+be}.
+
+What does it mean to be valid input? See these rules:
 \begin{enumerate}
   \item
     \assertiondest{undef-behaviour}
@@ -416,9 +420,6 @@ See these rules:
       [i in 0..1 | 0 - 2147483647 - 2];
     \end{lstlisting}
 \end{enumerate}
-If you encounter what you think is undefined behaviour or think something is ambiguous then
-\textit{do} make a forum post about it. While the generator is a relatively small spec,
-the latter assignments \textit{will not be}.
 
 \section{Provided Frameworks}
 
