@@ -208,11 +208,51 @@ Follow these steps into install it:
     \end{lstlisting}
 \end{enumerate}
 
+\subsection{Installing the Tester}
+This is the tool you'll be using for testing your solutions locally. You'll be building it yourself
+so that any changes later are easily obtainable.
+
+If you encounter issues, please log them on the \href{https://github.com/cmput415/Tester/issues}
+{GitHub issue tracker} or, if you want to, submit a pull request and we'll review it!
+\begin{enumerate}
+  \item
+    We'll build the tool in your home directory.
+    \begin{lstlisting}
+      cd $HOME
+      git clone https://github.com/cmput415/Tester.git
+    \end{lstlisting}
+  \item
+    Next we'll make the build directory.
+    \begin{lstlisting}
+      cd Tester
+      mkdir build
+    \end{lstlisting}
+  \item
+    Now, the configure and generate step.
+    \begin{lstlisting}
+      cd build
+      cmake ..
+    \end{lstlisting}
+  \item
+    Finally, build the project.
+    \begin{lstlisting}
+      make
+    \end{lstlisting}
+  \item
+    We could refer directly to the executable everytime, but it's probably easier to just have it
+    on our path. Add these lines to the end of \lstinline{~/.bash_profile}.
+    \begin{lstlisting}
+      # C415 Testing Utility
+      export PATH="$HOME/Tester/bin/:$PATH"
+    \end{lstlisting}
+\end{enumerate}
+
 \subsection{Testing Your Environment}
 Everything should be setup! Let's just make sure.
 \begin{enumerate}
   \item
-    Download \href{https://webdocs.cs.ualberta.ca/\%7Ec415/setup/static/demo.tar.gz} {this tarball}.
+    Download \href{https://webdocs.cs.ualberta.ca/\%7Ec415/setup/static/demo.tar.gz} {this
+    tarball}.
   \item
     Extract it via
     \begin{lstlisting}
