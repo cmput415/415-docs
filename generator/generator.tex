@@ -33,6 +33,8 @@
 \newcommand{\code}[1]{\texttt{\textmd{#1}}}
 \newcommand{\assertion}[2]{\textbf{Assertion: }#1 (\hyperlink{#2}{#2})}
 \newcommand{\assertiondest}[1]{\hypertarget{#1}{#1:}}
+\newcommand{\clarification}[2]{\textbf{Clarification: }#1 (\hyperlink{#2}{#2})}
+\newcommand{\calrificationdest}[1]{\hypertarget{#1}{#1:}}
 
 \newif\ifComments
 %\Commentstrue
@@ -201,6 +203,8 @@ An expression is composed of integers, identifiers, and integer mathematical ope
     \hline
   \end{tabular}
 \end{center}
+
+\clarification{The \code{\%} operator is remainder not modulus.}{rem-not-mod}
 
 \subsubsection{Valid Expressions}
 Valid formats for expressions are
@@ -418,6 +422,28 @@ What does it mean to be valid input? See these rules:
     \begin{lstlisting}
       [i in 0..1 | 2147483647 + 1];
       [i in 0..1 | 0 - 2147483647 - 2];
+    \end{lstlisting}
+\end{enumerate}
+
+\section{Clarifications}
+These clarifications are meant to add more information to the specification without cluttering it.
+\begin{enumerate}
+  \item
+    \calrificationdest{rem-not-mod}
+    The \code{\%} operator is remainder not modulus. Some languages (e.g. Python) define \code{\%}
+    as the modulus operator while others (e.g. C++) define it as remainder. Using the \code{\%}
+    operator in C++ is sufficient for this assignment. For example, using the
+    following test:
+    \begin{lstlisting}
+      [i in 0..2 | (i - 9) % 3]
+    \end{lstlisting}
+    The following output would be considered incorrect because modulus was used:
+    \begin{lstlisting}
+      0 1 2
+    \end{lstlisting}
+    The following output would be considered correct because remainder was used:
+    \begin{lstlisting}
+      0 -2 -1
     \end{lstlisting}
 \end{enumerate}
 
