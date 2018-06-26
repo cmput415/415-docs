@@ -89,8 +89,9 @@ tool: $(GEN_RESULTS_COMP_CPP:.cpp=.o) $(SRC_CPP:.cpp=.o)
 		-o tool
 
 # How to generate object files for cpp files in the current directory. These are
-# personal source files.
-%.o: %.cpp
+# personal source files. Depend on our specific source file and all of the
+# generated headers/objects.
+%.o: %.cpp $(GEN_RESULTS_COMP_CPP:.cpp=.o)
 	c++ -std=gnu++11 -Wall -I"$(ANTLRI)" -I"$(GEN_DIR)" -c "$<" -o "$@"
 
 # How to generate object files for cpp files in the gen directory. These are
