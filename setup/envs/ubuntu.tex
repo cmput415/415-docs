@@ -235,6 +235,11 @@ If you encounter issues, please log them on the \href{https://github.com/cmput41
       cmake ..
     \end{lstlisting}
   \item
+    You may not have the uuid library installed by default. We need it to complete the ANTLR build:
+    \begin{lstlisting}
+      sudo apt-get install uuid-dev
+    \end{lstlisting}
+  \item
     Finally, build the project.
     \begin{lstlisting}
       make
