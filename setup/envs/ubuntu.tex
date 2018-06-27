@@ -41,7 +41,7 @@ environment that you can modify these steps appropriately.
     Next we need to clone the runtime source from GitHub:
     \begin{lstlisting}
       cd $HOME/antlr
-      git clone git@github.com:antlr/antlr4.git
+      git clone https://github.com/antlr/antlr4.git
     \end{lstlisting}
     This should create a new folder called \lstinline{antlr4} in \lstinline{ANTLR_PARENT}. We'll
     refer to this new directory (\lstinline{<ANTLR_PARENT>/antlr4}) as \lstinline{SRC_DIR}.
@@ -60,7 +60,8 @@ environment that you can modify these steps appropriately.
       cd <SRC_DIR>
       mkdir antlr4-build
     \end{lstlisting}
-    We'll refer to this new directory (\lstinline{<SRC_DIR>/antlr4-build}) as \lstinline{SRC_DIR}.
+    We'll refer to this new directory (\lstinline{<SRC_DIR>/antlr4-build}) as
+    \lstinline{BUILD_DIR}.
   \item
     We need to have an install directory prepared before building since it's referenced in the
     build step. This directory will have the headers and compiled ANTLR libraries put into it.
@@ -100,8 +101,8 @@ environment that you can modify these steps appropriately.
       make install -j<number of threads>
     \end{lstlisting}
   \item
-    Now we can add the install to your bash profile. Pick your favorite text editor, open
-    \lstinline{~/.bash_profile}, and add the following lines to the end, substituting
+    Now we can add the install to your bashrc. Pick your favorite text editor, open
+    \lstinline{~/.bashrc}, and add the following lines to the end, substituting
     appropriately:
     \begin{lstlisting}
       # C415 ANTLR install
@@ -119,14 +120,14 @@ environment that you can modify these steps appropriately.
     Assuming you've downloaded the tarball to your \lstinline{~/Downloads} folder, you can extract
     it to \lstinline{/opt/} using the following command:
     \begin{lstlisting}
-      tar -xzf ~/Downloads/CLion-<version>.tar.gz -C /opt/
+      sudo tar -xzf ~/Downloads/CLion-<version>.tar.gz -C /opt/
     \end{lstlisting}
     If you are confident about your ability to setup your own install you can put it
     elsewhere but you will be on your own.
   \item
     Execute the installer:
     \begin{lstlisting}
-      /opt/CLion-<version>/bin/CLion.sh
+      /opt/CLion-<version>/bin/clion.sh
     \end{lstlisting}
   \item
     Perform the initial set up of CLion.
@@ -240,7 +241,7 @@ If you encounter issues, please log them on the \href{https://github.com/cmput41
     \end{lstlisting}
   \item
     We could refer directly to the executable everytime, but it's probably easier to just have it
-    on our path. Add these lines to the end of \lstinline{~/.bash_profile}.
+    on our path. Add these lines to the end of \lstinline{~/.bashrc}.
     \begin{lstlisting}
       # C415 Testing Utility
       export PATH="$HOME/Tester/bin/:$PATH"
