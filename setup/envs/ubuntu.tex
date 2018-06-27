@@ -297,7 +297,63 @@ Everything should be setup! Let's just make sure.
     \end{enumerate}
 \end{enumerate}
 
-\subsection{Creating a Personal Project (TODO)}
+\subsection{Creating a Personal Project}
+We're providing two ways for you to play with ANTLR and C++. The first way uses the Makefile from
+the demo you've just done, and the other uses CMake to set up a project using the cmake modules
+that are also used by your assgnments.
+
+\subsubsection{Makefile}
+First, download \href{https://webdocs.cs.ualberta.ca/\%7Ec415/setup/static/Makefile} {the
+Makefile} from the link and put it in your folder. Alternatively you can download straight to your
+directory:
+\begin{lstlisting}
+  curl https://webdocs.cs.ualberta.ca/~c415/setup/static/Makefile > Makefile
+\end{lstlisting}
+This Makefile is both rather complex and simple. The internals are the complicated part. If you'd
+like to understand how the Makefile works then everything is well documented. However, that
+complexity makes using it simple! So if you'd prefer to just use the Makefile then we can keep
+everything simple.
+
+First things first, your grammars. All grammars need to be in the same directory as the Makefile.
+If they aren't, then they won't be detected, generated, built, or linked.
+
+Next, your source files (\lstinline{.cpp} or \lstinline{.h(pp)}) must also be in the same directory
+as the Makefile. Again, if they aren't, they won't be detected, built, or linked.
+
+As you can see, this isn't the most scalable of directory structures but it is functional for
+playing with ANTLR and C++. To test that it's working, create your grammar file with:
+\begin{lstlisting}
+  grammar <file_name>;
+  <top_rule>: ANYTHING*? EOF;
+  ANYTHING: .;
+\end{lstlisting}
+And the file that has your main in it:
+\begin{lstlisting}
+  #include "<grammar_name>Parser.h"
+  int main() { return 0; }
+\end{lstlisting}
+You should be able to make it and run the tool (it won't produce any output):
+\begin{lstlisting}
+  make
+  ./tool
+\end{lstlisting}
+We've also enabled you to use the ANTLR GUI through the Makefile. First, make an input file. Then,
+pass it to the Makefile `gui` rule:
+\begin{lstlisting}
+  echo "this is a test" > test.txt
+  make gui grammar=<grammar_name> rule=<top_rule> file=test.txt
+\end{lstlisting}
+Any grammar in the same directory as the make file can be used in this fashion (including the
+\lstinline{.g4} extension is optional). The \lstinline{rule} can be any rule in the grammar, but
+usually it makes sense to test your "top level" rule. If the \lstinline{file} option is not
+included then the GUI will take input from stdin to parse (type into your terminal). Terminate
+your input with EOF (ctrl+d on linux generally).
+
+You're ready to start modifying the grammar and C++ source. Don't be afraid to add new source
+files and header files: style will eventually be part of your mark so starting here is a good idea!
+
+\subsubsection{CMake (TODO)}
+
 Two separate instructions? Using the makefile (TODO) and another for a base project in CMake +
 CLion (also TODO, could just be a near duplicate of ANTLRBase with info about creating assignemnts
 removed).
