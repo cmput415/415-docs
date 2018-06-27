@@ -59,7 +59,6 @@ GEN_RESULTS_COMP_JAVA:= $(filter %.java, $(GEN_RESULTS_JAVA))
 # Get all of our source files.
 SRC_CPP:=$(addprefix ${CURDIR}/, $(wildcard *.cpp *.h *.hpp))
 
-
 # -----------
 # | This section defines some overarching make information.
 # -----------
