@@ -135,8 +135,13 @@ environment that you can modify these steps appropriately.
       \item
         Select \texttt{Do not import settings} and click \texttt{OK}.
       \item
+        Scroll to the bottom of the license agreement then hit \texttt{Accept}.
+      \item
+        Choose if you want to share usage statistics.
+      \item
         You should be presented with a prompt for your license. Select \texttt{Activate},
         \texttt{JetBrains Account}, enter your UAlberta email address and JetBrains password.
+        Click the \texttt{Activate} button.
       \item
         Pick your favorite UI. Then click \texttt{Next: Toolchains}.
       \item
@@ -151,8 +156,8 @@ environment that you can modify these steps appropriately.
         other tools is up to you as well. Now select \texttt{Next: Feature Plugins}
       \item
         Again, the choices here are yours. If you like vim, then maybe the vim plugin is up your
-        alley. The markdown plugin can be useful as well. You do not need the TeamCity Integration.
-        Select \texttt{Start using CLion}
+        alley. The markdown plugin can be useful as well. You do not need the TeamCity Integration,
+        the Lua integration, nor the Swift integration. Select \texttt{Start using CLion}
     \end{enumerate}
 \end{enumerate}
 
@@ -168,13 +173,13 @@ parse tree for a grammar rule and an input.
   \item
     Select \texttt{Plugins} from the menu on the left.
   \item
-    Click \texttt{Browse Repositories} below the plugin list.
+    Click \texttt{Browse Repositories...} below the plugin list.
   \item
     In the new window, type \texttt{antlr} into the search bar at the top.
   \item
-    From the list select \lstinline{ANTLR v4 grammar plugin}
+    From the list select \lstinline{ANTLR v4 grammar plugin}.
   \item
-    Click \texttt{Install} in the right pane.
+    Click \texttt{Install} in the right pane and accept the notice.
   \item
     After the install bar ends click the \texttt{Restart CLion} button that should have replaced
     the \texttt{Install} button.
@@ -190,7 +195,7 @@ Follow these steps into install it:
     this seems wasteful. If you want to put it elsewhere though, you can. We'll refer to this new
     directory (e.g. \lstinline{<INSTALL_DIR>/bin}) as \lstinline{ANTLR_BIN}.
     \begin{lstlisting}
-      mkdir <INSTALL_DIR>/bin
+      mkdir <ANTLR_BIN>
       curl http://www.antlr.org/download/antlr-4.7.1-complete.jar > <ANTLR_BIN>/antlr-4.7.1-complete.jar
     \end{lstlisting}
   \item
@@ -250,6 +255,11 @@ If you encounter issues, please log them on the \href{https://github.com/cmput41
     \begin{lstlisting}
       # C415 Testing Utility
       export PATH="$HOME/Tester/bin/:$PATH"
+    \end{lstlisting}
+  \item
+    Restart your terminal to have changes take effect. Test the command to make sure it works.
+    \begin{lstlisting}
+      tester --help
     \end{lstlisting}
 \end{enumerate}
 For more info about organising your tests and creating a configuration (though templates will be
