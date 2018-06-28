@@ -59,8 +59,8 @@
 For this assignment you will be building a parser for a number generator. The generator will
 produce a series of numbers through an expression. Your task is to parse the generator statement,
 interpret it, and print the numbers that should be produced by the generator. You will be using
-\textit{Antlr4} to generate the \textbf{lexer} and \textbf{parser} for it. You will
-then implement an interpreter in \textit{C++}. Documentation and tutorials for \textit{Antlr4} can
+\textit{ANTLR4} to generate a \textbf{lexer} and \textbf{parser} for your interpreter. You will
+then implement the interpreter in \textit{C++}. Documentation and tutorials for \textit{ANTLR4} can
 be found here \href{https://github.com/antlr/antlr4/blob/master/doc/index.md}
 {Antlr4 documentation}
 
@@ -483,13 +483,15 @@ These clarifications are meant to add more information to the specification with
 
 \end{enumerate}
 
-\section{Provided Frameworks}
+\section{Getting Started}
+This section will help you get started with this assignment.
 
-The following tools have been provided for you to make development and testing easier
+\subsection{Getting Your Project (TODO)}
+Need to investigate how to do the github education stuff. Should end up just being a clone
+somewhere.
 
-\subsection{Project Layout}
+\subsubsection{Project Layout}
 For the tools provided to work your project should be in the specified layout.
-
 \begin{lstlisting}
 +-- cmake
 |   +-- antlr_generate.cmake
@@ -507,91 +509,115 @@ For the tools provided to work your project should be in the specified layout.
     +-- main.cpp
 +-- tests
     +
-    +-- Input
+    +-- input
         +-- ...
-    +-- Output
+    +-- output
         +-- ...
 \end{lstlisting}
 
-
-\subsection{Makefile}
-The \texttt{Makefile} provided is an exact copy of the one that will be used for grading.  Any changes made to
-this makefile will not exist in the one used for grading so as a rule of thumb don't change it. The project must
-be in the specified layout for the makefile to properly work (see \texttt{Project Layout})
-
-The makefile has the following commands:
-\begin{itemize}
-  \item{\textbf{all}}: Builds all solution files
-  \item{\textbf{run}}: Runs the solution (builds solution if necessary) takes f="<filename>" as an argument for
-    input file
-  \item{\textbf{test}}: Runs testing system against solution (builds solution if necessary)
-  \item{\textbf{clean}}: Cleans all generated files including IntelliJ generated files
-  \item{\textbf{submissible}}: Collects files for submission and places them in a tar ball. This file contains
-  the files in the format they should be in
-\end{itemize}
-
-\subsection{generator\_tester}
-This program runs all your test files against their matching outputs. This program is designed to operate in the
-same manor as how the marking script will test solutions. For best results have \textit{colordiff} installed.
-
-Help for generator tester can be found by running with the -h flag:
-\begin{lstlisting}
-  ./generator_tester -h
-\end{lstlisting}
-
-It by default expects that all input Tests are in \texttt{TestFiles/Input/} and that  all output files are in
-\texttt{TestFiles/Output/}
+\subsection{Setting up CLion}
+CLion requires a little bit of setup.
+\begin{enumerate}
+  \item
+    Open up CLion. From the welcome screen select \texttt{Import Project from Sources} or, if
+    you've been using CLion and it opens to previous project, from the \texttt{File} menu select
+    \texttt{Import Project\ldots}. Navigate to where your project is located an choose it. Choose
+    \texttt{Open Project} \textit{not} \texttt{Overwrite CMakeLists.txt}. If you already have a
+    project open, you can choose to use your current window or create another one.
+  \item
+    CLion doesn't make use of your command line environment, it has its own storage place.
+    Therefore we need to add \code{ANTLR\_INS} to CLion's environment.
+    \begin{enumerate}
+      \item
+        Open your settings. On Linux this is \texttt{File} $\rightarrow$ \texttt{Settings\ldots},
+        while on MacOS this is \texttt{CLion} $\rightarrow$ \texttt{Preferences\ldots}.
+      \item
+        From the left menu, expand \texttt{Build, Execution, Deployment}.
+      \item
+        Select \texttt{CMake} from the newly expanded options.
+      \item
+        In the right pane, select the \texttt{\ldots} to the right of the empty text field to the
+        right of \texttt{Environment}.
+      \item
+        In the new pane, select the \texttt{+} symbol to add a new entry in the environment. On
+        Linux this is in the top right of the pane, while on MacOS this is in the bottom left of
+        the pane.
+      \item
+        In the new text field under \texttt{Name} enter \code{ANTLR\_INS}. In the field under
+        \texttt{Value} enter the path to your \code{antlr\_install} directory. If you've forgotten
+        it but your terminal is set up correctly then you can enter the following command to print
+        it:
+        \begin{lstlisting}
+          echo $ANTLR_INS
+        \end{lstlisting}
+      \item
+        Apply all of your changes while closing the settings.
+    \end{enumerate}
+  \item
+    Make sure you're building the \texttt{all} target, not just the \texttt{generator} target.
+    From the drop down menu in the top right of the IDE you can choose your build target. Change
+    this to \texttt{Build All}.
+  \item
+    CLion may not automatically pick up ANTLR's generated sources as your project's. We can fix
+    this by telling CLion where the files are. Build once to have the \code{gen} directory appear
+    in the project manager pane. Right click on the directory, near the bottom of the menu find
+    \texttt{Mark directory as}, within that menu select \texttt{Project Sources and Headers}.
+\end{enumerate}
 
 \section{Deliverables}
-To prepare your project for delivery use the Makefile provided and use the \texttt{submissible} command. Ex:
-\begin{lstlisting}
-  make submissible
-\end{lstlisting}
-
-The makefile will prompt you to enter your CCID (not your student id number). This should create a file called:
-\begin{lstlisting}
-  submission_<CCID>.tar.gz
-\end{lstlisting}
-
-This submission file will contain your \texttt{src} folder, \texttt{TestFiles}, and your README
-\begin{lstlisting}
-  +-- submission_<CCID>.tar.gz
-    +-- README
-    +-- src/
-      +--  Main.Java
-      +-- *.g4
-      +-- *.Java
-    +-- TestFiles/
-      +-- Input/
-        +-- (testfiles)
-        +-- test_01
-        +-- test_02
-        +-- ...
-      +-- Output/
-        +-- (matching output files. Names must match between input test and output test)
-        +-- test_01
-        +-- test_02
-        +-- ...
-\end{lstlisting}
+You do not need to submit anything on Eclass or otherwise, you submission will be your latest
+commit before the deadline to your repository. Your tests will also be pulled from your repository,
+so don't forget to keep them up to date as well.
 
 \section{Tips and Hints}
 \begin{enumerate}
-  \item Write tests \textbf{BEFORE} you implement the things they will test. The testing script provide is
-  designed to handle failed test cases. You can turn off stopping on invalid output and you can also turn off
-  displaying erroneous output with the flags "-a and -s" respectively.
-  \item First and foremost \textbf{READ THE DOCUMENTATION FOR ANTLR4} here is the link again
-    \href
-    {https://github.com/antlr/antlr4/blob/master/doc/index.md}
-    {Antlr4 documentation}.
-  \item \textit{Antlr4} has two ways of navigating the parse tree, Visitors and Listeners. For this assignment use the
-    visitor method. For the next assignment you'll use either but for this assignment the visitor is better
-    suited.
-  \item Remember that in the lexer the order of when tokens are defined is very important. The lexer will try to
-    follow the first rule it can.
-  \item \textit{Antlr4} has no standardized naming convention or style guide. This means you \textbf{CAN} do whatever you
-    want for style. With that in mind I highly recommend you follow something similar to the one on the \textit{Antlr4}
-    documentation pages. What ever you choose make sure it is easy to read and is consistent as \textbf{part of
-    your grade} will be based of your software design and that includes code legibility.
+  \item
+    Write tests \textit{before} you implement the things they will test. The testing script
+    provided is designed to handle failed test cases. You can reduce output in the testing tool by
+    passing the \code{-q} flag.
+  \item
+    Make sure you've \textit{read the documentation for ANTLR4}. Here is the link again
+    \href{https://github.com/antlr/antlr4/blob/master/doc/index.md} {Antlr4 documentation}.
+  \item
+    \textit{Antlr4} has two ways of navigating the parse tree, visitors and listeners. For this
+    assignment, visitors can prove more effective.
+  \item
+    Be careful with your lexer rule ordering. Remember that the lexer matches tokens according to
+    definition order and not according to any parser rules.
+  \item
+    \textit{ANTLR4} has no standardized naming convention or style guide. This means you
+    \textit{could} do whatever you want for style. With that in mind I highly recommend you follow
+    something similar to the one on the \textit{ANTLR4} documentation pages. What ever you choose
+    make sure it is easy to read and consistent because \textit{part of your grade} will be based
+    on software design and that includes code legibility.
+  \item
+    In particular, \textit{rule element labels} can be supremely useful. More info can be found
+    \href{https://github.com/antlr/antlr4/blob/master/doc/parser-rules.md\#alternative-labels}
+    {here}.
+  \item
+    The \code{antlrcpp::Any} type  returned by \code{visit} can be very fickle if you don't
+    understand its internals exactly
+    (\href{https://github.com/antlr/antlr4/blob/master/runtime/Cpp/runtime/src/support/Any.h} {if
+    you're curious}). Instead of spending hours in that file, consider these best practices:
+    \begin{itemize}
+      \item
+        Ensure the type you're returning is what you want to receive. You may \textit{think} you're
+        returning a certain type, but unless there is an explicit cast in the return statement or
+        you're returning a typed variable you may get inexpicable type errors from \code{Any}. In
+        other words, don't return temporaries. For example, this will break if the receiving side
+        wants a pointer to the parent class even though there's an available typesafe cast:
+        \begin{lstlisting}
+          {
+            ...
+            return std::make_shared<MyChildClass>(...);
+          }
+        \end{lstlisting}
+      \item
+        Ensure the type you're receiving from a call to \code{visit} is what you expected. the problem is a two
+        way street. See the above reasons.
+    \end{itemize}
+    These may not seem relevant now, but it's better to get in the habit now than have it bite you
+    later and not understand why.
 \end{enumerate}
 
 \end{document}
