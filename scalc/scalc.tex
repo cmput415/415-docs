@@ -31,6 +31,10 @@
 \makeatother
 
 \newcommand{\code}[1]{\texttt{\textmd{#1}}}
+\newcommand{\assertion}[2]{\textbf{Assertion: }#1 (\hyperlink{#2}{#2})}
+\newcommand{\assertiondest}[1]{\hypertarget{#1}{\textbf{#1}:}}
+\newcommand{\clarification}[2]{\textbf{Clarification: }#1 (\hyperlink{#2}{#2})}
+\newcommand{\clarificationdest}[1]{\hypertarget{#1}{\textbf{#1}:}}
 
 \usepackage[usenames]{color}
 \newif\ifComments
@@ -86,74 +90,63 @@ Beyond this constraint you are allow to use any internal representation that you
 emit any code that you wish, as long as the output is correct.
 
 \section{Language Specification}
-	\textit{SCalc} has integer variables, \code{if} statements, loops, prints, and various integer expressions.
+\textit{SCalc} has integer variables, \code{if} statements, loops, prints, and various integer expressions.
+\subsection{Reserved Keywords}
+The following Keywords are reserved in \textit{SCalc}
+\begin {itemize}
+	\item{\code{if}}
+	\item{\code{fi}}
+	\item{\code{loop}}
+	\item{\code{pool}}
+	\item{\code{int}}
+	\item{\code{print}}
+\end {itemize}
 
+\subsection {Integer Literals}
+In this assignment integer literals are defined as being a string that contains only the number
+characters 0-9 with no spaces.
 
-	\subsection{Reserved Keywords}
+\assertion{All integer literals will be positive.}{positive-literals}\\
 
-		The following Keywords are reserved in \textit{SCalc}
+Examples of valid integers:
+\begin{lstlisting}
+	1
+	123
+	5234
+	01
+	10
+\end{lstlisting}
 
-		\begin {itemize}
-			\item{\code{if}}
-			\item{\code{fi}}
-			\item{\code{loop}}
-			\item{\code{pool}}
-			\item{\code{int}}
-			\item{\code{print}}
-		\end {itemize}
+Examples of invalid integers:
+\begin{lstlisting}
+	1.0
+	one
+	1_1
+	1o
+\end{lstlisting}
 
+\subsection{Identifiers}
+For the purpose of this assignment, identifiers are simple. They must start with an alphabetical
+character. This character may be followed by numbers or alphabetical characters. A keyword cannot
+be used as an identifier.
 
-	\subsection {Integer Literals}
+Examples of valid identifiers:
+\begin{lstlisting}
+	hello
+	h
+	h3llo
+	Hi
+	h3
+\end{lstlisting}
 
-		In this assignment an integer is a string that contains only the number characters 0-9 with no
-		spaces. For the purpose of simplicity all integers in \textbf{input} will be positive. All integers will be
-		signed 32 bit integers. Expressions may evaluate to negative values.
-
-		Examples of valid integers:
-
-		\begin{lstlisting}
-			1
-			123
-			5234
-			01
-			10
-		\end{lstlisting}
-
-		Examples of invalid integers:
-
-		\begin{lstlisting}
-			1.0
-			one
-			1_1
-			1o
-		\end{lstlisting}
-
-
-	\subsection{Identifier}
-
-		For the purpose of this assignment, identifiers are simple. They must start with a character. This character may be followed by
-		numbers or characters. An identifier may not be a keyword.
-
-		Examples of valid identifiers:
-
-		\begin{lstlisting}
-			hello
-			h
-			h3llo
-			Hi
-			h3
-		\end{lstlisting}
-
-		Examples of invalid identifier:
-
-		\begin{lstlisting}
-			3d
-			a-bad-variable-name
-			no@twitter
-			we.don't.like.punctuation
-			or_spelling
-		\end{lstlisting}
-
+Examples of invalid identifier:
+\begin{lstlisting}
+	3d
+	a-bad-variable-name
+	no@twitter
+	we.don't.like.punctuation
+	or_spelling
+\end{lstlisting}
 
 	\subsection{Expressions}
 
@@ -576,6 +569,45 @@ emit any code that you wish, as long as the output is correct.
 
 		You should be able to execute a program without compiling by implementing an interpreter as well. This should
 		work similarly to the generator assignment.
+
+\section{Assertions}
+\textbf{ALL} input test cases will be valid. It can be a good idea to do error checking for your
+own testing and debugging, but it is \textit{not necessary}. If you encounter what you think is
+undefined behaviour or think something is ambiguous then \textit{do} make a forum post about it to
+clarify. While the generator is a relatively small spec, the latter assignments \textit{will not
+be}.
+
+What does it mean to be valid input? See these rules:
+\begin{enumerate}
+  \item
+    \assertiondest{undef-behaviour}
+    A test case \textit{will not} take advantage of undefined behaviour. Undefined behaviour is
+    functionality that does not have an outcome described explicitly by this specification.
+  \item
+    \assertiondest{positive-literals}
+    All integer literals will be positive. For example, the following tests would be considered
+    invalid:
+    \begin{lstlisting}
+      [i in 0..1 | -1];
+      [i in -2..-1 | i];
+    \end{lstlisting}
+  \item
+    \assertiondest{literal-size}
+    All integer literals will fit in 31 unsigned bits. This means an integer literal can be
+    anywhere in the range $[0, 2^{31} - 1]$ or $[0, 2147483647]$. For example, the following tests
+    would be considered invalid:
+    \begin{lstlisting}
+      [i in 0..1 | -1];
+      [i in 0..1 | 2147483648];
+      [i in 0..2147483648 | 0];
+      [i in -1..1 | 0];
+    \end{lstlisting}
+\end{enumerate}
+
+\section{Clarifications}
+These clarifications are meant to add more information to the specification without cluttering it.
+\begin{enumerate}
+\end{enumerate}
 
 \section{Provided Frameworks}
 
