@@ -353,20 +353,17 @@ A loop in \textit{SCalc} has the following form:
 
 \subsubsection{Print}
 \label{sssec:print}
-
-In \textit{SCalc} a \texttt{print} statement prints the decimal value of an expression, followed by a newline.
-Print statements have the following form:
-
+Print statements print the integer value of an expression followed by a newline. A print statement
+in \textit{SCalc} has the following form:
 \begin{lstlisting}
 	print(<expr>);
 \end{lstlisting}
 
 \begin{itemize}
-	\item{$\langle$expr$\rangle$} is an expression
+	\item \code{expr} is an expression.
 \end{itemize}
 
-An example:
-
+For example, the input:
 \begin{lstlisting}
 	int i = 0;
 	loop (i < 5)
@@ -374,9 +371,7 @@ An example:
 		i = i + 1;
 	pool;
 \end{lstlisting}
-
-Should print
-
+should print:
 \begin{lstlisting}
 	0
 	1
@@ -386,51 +381,43 @@ Should print
 \end{lstlisting}
 
 \section{Back-ends}
+\subsection{MIPS}
+We recommend that you implement variables in the \code{.data} segment of your assembly code using \code{.word} entries. The
+general syntax for MIPS assembly is as follows:
 
-	\subsection{MIPS}
+\begin{lstlisting}
+	.data
+	_newline: .asciiz "\n"
+	var1: .word 0
+	var2: .word 0
+	...
 
-		We recommend that you implement variables in the \code{.data} segment of your assembly code using \code{.word} entries. The
-		general syntax for MIPS assembly is as follows:
+	.text
+	main:
+	   <your generated code goes here>
+	   li   $v0, 10
+	   syscall
+\end{lstlisting}
 
-		\begin{lstlisting}
-			.data
-			_newline: .asciiz "\n"
-			var1: .word 0
-			var2: .word 0
-			...
+This reference has a \href{http://students.cs.tamu.edu/tanzir/csce350/reference/syscalls.html}
+{table of syscalls}. To print integers you should use the print int syscall (\code{1}). To print
+strings, you should use the print string syscall (\code{4}) in combination with the address of a
+string you've defined in the \code{.data} section containing only a new line character (see above).
 
-			.text
-			main:
-			   <your generated code goes here>
-			   li   $v0, 10
-			   syscall
-		\end{lstlisting}
+If you save the \textit{MIPS} output as \code{program.s} then you can run it with the command:
+\begin{lstlisting}
+	spim -file program.s
+\end{lstlisting}
 
-		The \href{https://www.cs.tcd.ie/\string~waldroj/itral/spim_ref.html}{spim reference has a table of syscalls}.
-		You may use the \texttt{print\_int} syscalls to print integer values, and the \texttt{print\_string} syscall to
-		print a newline by defining a string in the \texttt{.data} section called \texttt{\_newline} and print that
-		string.
-
-		If you save the \textit{MIPS} output as \code{program.s} then you can run it with the command:
-
-		\begin{lstlisting}
-			spim -file program.s
-		\end{lstlisting}
-
-		If you wish to debug you may also launch spim with the command:
-
-		\begin{lstlisting}
-			spim
-		\end{lstlisting}
-
-		and then at the spim prompt you can load your file with:
-
-		\begin{lstlisting}
-			load "program.s"
-		\end{lstlisting}
-
-		The double quotes are necessary. You can type \texttt{help} to see the commands that spim provides.
-
+If you wish to debug you may also launch spim with the command:
+\begin{lstlisting}
+	spim
+\end{lstlisting}
+and then at the spim prompt you can load your file with:
+\begin{lstlisting}
+	load "program.s"
+\end{lstlisting}
+The double quotes are necessary. You can type \texttt{help} to see the commands that spim provides.
 
 	\subsection{x86}
 
