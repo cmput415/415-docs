@@ -233,142 +233,154 @@ following table:
 	\end{tabular}
 \end{center}
 
+\subsection {Statements}
 
-	\subsection {Statements}
+In \textit{SCalc} there are five types of statements:
 
-		In \textit{SCalc} there are five types of statements:
+\begin {itemize}
+	\item \hyperref[sssec:declaration]{declaration}
+	\item \hyperref[sssec:assignment]{assignment}
+	\item \hyperref[sssec:conditional]{conditional}
+	\item \hyperref[sssec:loop]{loop}
+	\item \hyperref[sssec:print]{print}
 
-		\begin {itemize}
-			\item{declaration}
-			\item{assignment}
-			\item{conditional}
-			\item{loop}
-			\item{print}
-		\end {itemize}
+\end {itemize}
 
-		Each statement ends with a semicolon.  White space is not important in \textit{SCalc}.
+Each statement ends with a semicolon. White space is not important in \textit{SCalc}.
 
+\assertion{Whitespace is guaranteed to be a space, a tab, a carriage return, or a new
+line.}{simple-whitespace}
 
-	\subsubsection{Declaration}
+\subsubsection{Declaration}
+\label{sssec:declaration}
 
-		A variable in \textit{SCalc} must be declared before being used. A variable declaration in \textit{SCalc} has
-		this form:
+A variable declaration in
+\textit{SCalc} has this form:
+\begin{lstlisting}
+	int <id> = <expr>;
+\end{lstlisting}
 
-		\begin{lstlisting}
-			int <id> = <expr>;
-		\end{lstlisting}
+\begin{itemize}
+	\item \code{id} is the identifier of a variable.
+	\item \code{expr} is an expression.
+\end{itemize}
 
-		\begin{itemize}
-			\item{$\langle$id$\rangle$} is the identifier of a variable.
-			\item{$\langle$expr$\rangle$} is an expression
-		\end{itemize}
+\assertion{If a variable is used in \code{expr} then it will already be declared and initialised.}
+{defined-var}
 
-		Examples of valid declarations are:
+Variables have a few properties:
+\begin{itemize}
+  \item cannot be used before being declared.
+  \item cannot be declared with out initialisation.
+  \item cannot be declared more than once in an \textit{SCalc} program.
+\end{itemize}
 
-		\begin{lstlisting}
-			int i = 9;
-			int j = 9 * 4 + 10;
-			int k = i * j;
-		\end{lstlisting}
+Examples of valid declarations are:
+\begin{lstlisting}
+	int i = 9;
+	int j = 9 * 4 + 10;
+	int k = i * j;
+\end{lstlisting}
 
-		A Variable may only be declared once in a \textit{SCalc} program. Variable may not be declared without
-		initialization. So the following are invalid
+Examples of invalid declarations are:
+\begin{lstlisting}
+	int i;
+	int j =;
+\end{lstlisting}
 
-		\begin{lstlisting}
-			int x;
-			int x =;
-		\end{lstlisting}
+\subsubsection{Assignment}
+\label{sssec:assignment}
 
+Variable assignment is similar to variable declaration but it allows variables to be reassigned values. Variable
+assignment always has the following form:
 
-	\subsubsection{Assignment}
+\begin{lstlisting}
+	<id> = <expr>;
+\end{lstlisting}
 
-		Variable assignment is similar to variable declaration but it allows variables to be reassigned values. Variable
-		assignment always has the following form:
+\begin{itemize}
+	\item{$\langle$id$\rangle$} is the identifier of a variable.
+	\item{$\langle$expr$\rangle$} is an expression
+\end{itemize}
 
-		\begin{lstlisting}
-			<id> = <expr>;
-		\end{lstlisting}
-
-		\begin{itemize}
-			\item{$\langle$id$\rangle$} is the identifier of a variable.
-			\item{$\langle$expr$\rangle$} is an expression
-		\end{itemize}
-
-		Variables must be declared before being assigned.
-
-
-	\subsubsection{Conditional}
-
-		A conditional statement has the following form:
-
-		\begin{lstlisting}
-			if (<expr>)
-				<statement-1>
-				<statement-2>
-				...
-				<statement-n>
-			fi;
-		\end{lstlisting}
-
-		\begin {itemize}
-			\item{$\langle$expr$\rangle$} is an expression. The body of the \code{if} statement is executed if and only
-			if this expression evaluates to a non-zero value.
-			\item{$\langle$statement-*$\rangle$} are statements
-		\end{itemize}
+Variables must be declared before being assigned.
 
 
-	\subsubsection{Loop}
+\subsubsection{Conditional}
+\label{sssec:conditional}
 
-		The syntax of a \code{loop} is:
+A conditional statement has the following form:
 
-		\begin{lstlisting}
-			loop (expr)
-				<statement-1>
-				<statement-2>
-				...
-				<statement-n>
-			pool;
-		\end{lstlisting}
+\begin{lstlisting}
+	if (<expr>)
+		<statement-1>
+		<statement-2>
+		...
+		<statement-n>
+	fi;
+\end{lstlisting}
 
-		\begin {itemize}
-			\item{$\langle$expr$\rangle$} is an expression. The body of the \texttt{loop} statement is repeatedly evaluated as long as
-			this expression is non-zero. The expression is evaluated prior to running the body similar to a \textit{C} \texttt{while} loop.
-			\item{$\langle$statement-*$\rangle$} are statements
-		\end{itemize}
+\begin {itemize}
+	\item{$\langle$expr$\rangle$} is an expression. The body of the \code{if} statement is executed if and only
+	if this expression evaluates to a non-zero value.
+	\item{$\langle$statement-*$\rangle$} are statements
+\end{itemize}
 
 
-	\subsubsection{Print}
+\subsubsection{Loop}
+\label{sssec:loop}
 
-		In \textit{SCalc} a \texttt{print} statement prints the decimal value of an expression, followed by a newline.
-		Print statements have the following form:
+The syntax of a \code{loop} is:
 
-		\begin{lstlisting}
-			print(<expr>);
-		\end{lstlisting}
+\begin{lstlisting}
+	loop (expr)
+		<statement-1>
+		<statement-2>
+		...
+		<statement-n>
+	pool;
+\end{lstlisting}
 
-		\begin{itemize}
-			\item{$\langle$expr$\rangle$} is an expression
-		\end{itemize}
+\begin {itemize}
+	\item{$\langle$expr$\rangle$} is an expression. The body of the \texttt{loop} statement is repeatedly evaluated as long as
+	this expression is non-zero. The expression is evaluated prior to running the body similar to a \textit{C} \texttt{while} loop.
+	\item{$\langle$statement-*$\rangle$} are statements
+\end{itemize}
 
-		An example:
 
-		\begin{lstlisting}
-			int i = 0;
-			loop (i < 5)
-				print(i);
-				i = i + 1;
-			pool;
-		\end{lstlisting}
+\subsubsection{Print}
+\label{sssec:print}
 
-		Should print
+In \textit{SCalc} a \texttt{print} statement prints the decimal value of an expression, followed by a newline.
+Print statements have the following form:
 
-		\begin{lstlisting}
-			0
-			1
-			2
-			3
-			4
-		\end{lstlisting}
+\begin{lstlisting}
+	print(<expr>);
+\end{lstlisting}
+
+\begin{itemize}
+	\item{$\langle$expr$\rangle$} is an expression
+\end{itemize}
+
+An example:
+
+\begin{lstlisting}
+	int i = 0;
+	loop (i < 5)
+		print(i);
+		i = i + 1;
+	pool;
+\end{lstlisting}
+
+Should print
+
+\begin{lstlisting}
+	0
+	1
+	2
+	3
+	4
+\end{lstlisting}
 
 \section{Back-ends}
 
@@ -631,6 +643,26 @@ What does it mean to be valid input? See these rules:
     \begin{lstlisting}
       int i = 1 / 0;
       int j = 1 / (1 - 1);
+    \end{lstlisting}
+  \item
+    \assertiondest{simple-whitespace}
+    Whitespace is guaranteed to be a space, a tab, a carriage return, or a new
+    line. Any other whitespace characters will render the input invalid. The following ANTLR rule
+    will ensure you adhere to this:
+    \begin{lstlisting}
+      WS: [ \t\r\n]+ -> skip;
+    \end{lstlisting}
+  \item
+    \assertiondest{defined-var}
+    If a variable is used in \code{expr} then it will already be declared and initialised. This
+    includes the cases when a variable is never defined or when a variable is defined and
+    initialised later in the file. For example, the following tests would be considered invalid:
+    \begin{lstlisting}
+      int i = j;
+    \end{lstlisting}
+    \begin{lstlisting}
+      int i = j;
+      int j = 1;
     \end{lstlisting}
 \end{enumerate}
 
