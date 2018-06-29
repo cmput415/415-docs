@@ -331,9 +331,7 @@ not initialising.
 
 \subsubsection{Loop}
 \label{sssec:loop}
-
-The syntax of a \code{loop} is:
-
+A loop has the following form:
 \begin{lstlisting}
 	loop (expr)
 		<statement-1>
@@ -344,11 +342,15 @@ The syntax of a \code{loop} is:
 \end{lstlisting}
 
 \begin {itemize}
-	\item{$\langle$expr$\rangle$} is an expression. The body of the \texttt{loop} statement is repeatedly evaluated as long as
-	this expression is non-zero. The expression is evaluated prior to running the body similar to a \textit{C} \texttt{while} loop.
-	\item{$\langle$statement-*$\rangle$} are statements
+	\item
+  \code{expr} is an expression. The body of the \code{loop} statement is repeatedly evaluated as
+  long as this expression is non-zero. The expression is evaluated prior to running the body
+  similar to a \textit{C} \code{while} loop.
+	\item
+    \code{statement-*} is any type of statement. This can be nested loops, declarations, etc. There
+    does not have to be any statements in the loop, but without side effects a loop will be
+    infinite (unless it is never entered).
 \end{itemize}
-
 
 \subsubsection{Print}
 \label{sssec:print}
