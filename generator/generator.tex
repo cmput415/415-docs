@@ -389,35 +389,6 @@ What does it mean to be valid input? See these rules:
     A test case \textit{will not} take advantage of undefined behaviour. Undefined behaviour is
     functionality that does not have an outcome described explicitly by this specification.
   \item
-    \assertiondest{simple-bounds}
-    The bounds on the index variable will always be integer literals and never an expression. For
-    example, the following test would be considered invalid:
-    \begin{lstlisting}
-      [i in (1-1)..1 | i];
-    \end{lstlisting}
-  \item
-    \assertiondest{sane-bounds}
-    The bounds on the index variable will always be such that $\code{int\_1} \leq
-    \code{int\_2}$. For example, the following test would be considered invalid:
-    \begin{lstlisting}
-      [i in 1..0 | i];
-    \end{lstlisting}
-  \item
-    \assertiondest{matching-id}
-    Any variable used in an expression will match the variable defined in the generator. For
-    example, the following test would be considered invalid:
-    \begin{lstlisting}
-      [i in 0..1 | j];
-    \end{lstlisting}
-  \item
-    \assertiondest{simple-whitespace}
-    Whitespace is guaranteed to be a space, a tab, a carriage return, or a new
-    line. Any other whitespace characters will render the input invalid. The following ANTLR rule
-    will ensure you adhere to this:
-    \begin{lstlisting}
-      WS: [ \t\r\n]+ -> skip;
-    \end{lstlisting}
-  \item
     \assertiondest{positive-literals}
     All integer literals will be positive. For example, the following tests would be considered
     invalid:
@@ -454,6 +425,35 @@ What does it mean to be valid input? See these rules:
     \begin{lstlisting}
       [i in 0..1 | 2147483647 + 1];
       [i in 0..1 | 0 - 2147483647 - 2];
+    \end{lstlisting}
+  \item
+    \assertiondest{simple-bounds}
+    The bounds on the index variable will always be integer literals and never an expression. For
+    example, the following test would be considered invalid:
+    \begin{lstlisting}
+      [i in (1-1)..1 | i];
+    \end{lstlisting}
+  \item
+    \assertiondest{sane-bounds}
+    The bounds on the index variable will always be such that $\code{int\_1} \leq
+    \code{int\_2}$. For example, the following test would be considered invalid:
+    \begin{lstlisting}
+      [i in 1..0 | i];
+    \end{lstlisting}
+  \item
+    \assertiondest{matching-id}
+    Any variable used in an expression will match the variable defined in the generator. For
+    example, the following test would be considered invalid:
+    \begin{lstlisting}
+      [i in 0..1 | j];
+    \end{lstlisting}
+  \item
+    \assertiondest{simple-whitespace}
+    Whitespace is guaranteed to be a space, a tab, a carriage return, or a new
+    line. Any other whitespace characters will render the input invalid. The following ANTLR rule
+    will ensure you adhere to this:
+    \begin{lstlisting}
+      WS: [ \t\r\n]+ -> skip;
     \end{lstlisting}
 \end{enumerate}
 
