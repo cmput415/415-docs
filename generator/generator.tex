@@ -65,99 +65,11 @@ be found here \href{https://github.com/antlr/antlr4/blob/master/doc/index.md}
 {Antlr4 documentation}
 
 \section{Language Specification}
-\subsection{Generator}
-A generator creates a series of numbers by applying an expression to the value of an index. A
-generator is similar to a \textit{C} style \code{for} loop. For this assignment, the index variable
-will always start at the lower bound and continue until it is equal to the upper bound (\textit{the
-last value of the index will be the upper bound}). The index will always be incremented by the
-integer value 1. In \textit{C}, this would be:
-\begin{lstlisting}
-  for(int i = <start>; i <= <end>; ++i)
-\end{lstlisting}
-
-\subsubsection{Reserved Keywords}
+\subsection{Reserved Keywords}
 The following keywords are reserved in \textit{Generator}.
 \begin{itemize}
   \item \code{in}
 \end{itemize}
-
-\subsubsection{Generator Format}
-A generator statement will always follow the same format:
-\begin{lstlisting}
-  [ <id> in <int_1>..<int_2> | <expr>];
-\end{lstlisting}
-
-\begin{itemize}
-  \item \code{id} is the identifier of a variable.
-  \item{\code{int\_1}} is an integer representing the lower bound of the generator
-  \item{\code{int\_2}} is an integer representing the upper bound of the generator
-  \item{\code{expr}} is an expression
-\end{itemize}
-
-\assertion{\code{int\_1} and \code{int\_2} will never be expressions, only integer literals.}
-{simple-bounds} \\
-\assertion{\code{int\_1} will be never be greater than \code{int\_2}.}{sane-bounds}\\
-\assertion{If an identifier is used in \code{expr} then it will match \code{id}.}{matching-id}
-
-For this assignment the value of the identifier variable \code{<id>}:
-\begin{enumerate}
-  \item is initialized to the value of \code{int\_1}.
-  \item is used to evaluate the expression.
-  \item is incremented by one.
-  \item stops when its value is greater than \code{int\_2}.
-\end{enumerate}
-For each value assumed by \code{id}, \code{expr} is used to generated the next number in the
-series.
-
-Examples of valid generators:
-\begin{lstlisting}
-  [i in 1..10 | i * i];
-  [i in 0..10 | 2 ^ i];
-\end{lstlisting}
-
-In this assignment white space is not important so the following is valid:
-
-\begin{lstlisting}
-  [i
-  in
-  1
-  ..
-  10
-  |
-  i*i];
-  [i in 1..10|2^i];
-\end{lstlisting}
-
-\assertion{Whitespace is guaranteed to be a space, a tab, a carriage return, or a new
-line.}{simple-whitespace}
-
-Because identifiers need white space to separate each other the following is invalid:
-\begin{lstlisting}
-  [iin1..10|i*i];
-  [i in1..10|2^i];
-\end{lstlisting}
-
-\subsection{Identifier}
-For the purpose of this assignment identifiers are simple. They must start with a character and
-can be followed by any amount of numbers and characters. Identifiers cannot be key words.
-
-Examples of valid identifiers:
-\begin{lstlisting}
-  hello
-  h3llo
-  Hi
-  h3
-\end{lstlisting}
-
-Examples of invalid identifier:
-\begin{lstlisting}
-  in
-  3d
-  a-bad-variable-name
-  no@twitter
-  we.don't.like.punctuation
-  not_at_all
-\end{lstlisting}
 
 \subsection{Integers}
 In this assignment integer literals are defined as being a string that contains only the number
@@ -185,7 +97,27 @@ Examples of invalid integers literals:
   4294967296
 \end{lstlisting}
 
-\subsection{Expression}
+\subsection{Identifier}
+For the purpose of this assignment identifiers are simple. They must start with a character and
+can be followed by any amount of numbers and characters. Identifiers cannot be key words.
+
+Examples of valid identifiers:
+\begin{lstlisting}
+  hello
+  h3llo
+  Hi
+  h3
+\end{lstlisting}
+
+Examples of invalid identifier:
+\begin{lstlisting}
+  in
+  3d
+  a-bad-variable-name
+  no@twitter
+  we.don't.like.punctuation
+  not_at_all
+\end{lstlisting}\subsection{Expression}
 An expression is composed of integers, identifiers, and integer mathematical operations.
 
 \subsubsection{Operators}
@@ -205,7 +137,7 @@ An expression is composed of integers, identifiers, and integer mathematical ope
   \end{tabular}
 \end{center}
 
-\assertion{All exponents are $\geq 0$.}{positive-exp}
+\assertion{All exponents are $\geq 0$.}{positive-exp}\\
 \clarification{The \code{\%} operator is remainder not modulus.}{rem-not-mod}
 
 \subsubsection{Valid Expressions}
@@ -327,6 +259,72 @@ This should generate the following parse tree:
   \centering
   \includegraphics{static/assoc-example.png}
 \end{figure}
+
+\subsection{Generator}
+A generator creates a series of numbers by applying an expression to the value of an index. A
+generator is similar to a \textit{C} style \code{for} loop. For this assignment, the index variable
+will always start at the lower bound and continue until it is equal to the upper bound (\textit{the
+last value of the index will be the upper bound}). The index will always be incremented by the
+integer value 1. In \textit{C}, this would be:
+\begin{lstlisting}
+  for(int i = <start>; i <= <end>; ++i)
+\end{lstlisting}
+
+\subsubsection{Generator Format}
+A generator statement will always follow the same format:
+\begin{lstlisting}
+  [ <id> in <int_1>..<int_2> | <expr>];
+\end{lstlisting}
+
+\begin{itemize}
+  \item \code{id} is the identifier of a variable.
+  \item{\code{int\_1}} is an integer representing the lower bound of the generator
+  \item{\code{int\_2}} is an integer representing the upper bound of the generator
+  \item{\code{expr}} is an expression
+\end{itemize}
+
+\assertion{\code{int\_1} and \code{int\_2} will never be expressions, only integer literals.}
+{simple-bounds} \\
+\assertion{\code{int\_1} will be never be greater than \code{int\_2}.}{sane-bounds}\\
+\assertion{If an identifier is used in \code{expr} then it will match \code{id}.}{matching-id}
+
+For this assignment the value of the identifier variable \code{<id>}:
+\begin{enumerate}
+  \item is initialized to the value of \code{int\_1}.
+  \item is used to evaluate the expression.
+  \item is incremented by one.
+  \item stops when its value is greater than \code{int\_2}.
+\end{enumerate}
+For each value assumed by \code{id}, \code{expr} is used to generated the next number in the
+series.
+
+Examples of valid generators:
+\begin{lstlisting}
+  [i in 1..10 | i * i];
+  [i in 0..10 | 2 ^ i];
+\end{lstlisting}
+
+In this assignment white space is not important so the following is valid:
+
+\begin{lstlisting}
+  [i
+  in
+  1
+  ..
+  10
+  |
+  i*i];
+  [i in 1..10|2^i];
+\end{lstlisting}
+
+\assertion{Whitespace is guaranteed to be a space, a tab, a carriage return, or a new
+line.}{simple-whitespace}
+
+Because identifiers need white space to separate each other the following is invalid:
+\begin{lstlisting}
+  [iin1..10|i*i];
+  [i in1..10|2^i];
+\end{lstlisting}
 
 \section{Input}
 Input is to be taken from a file which will be specified on the command line. Your interpreter
