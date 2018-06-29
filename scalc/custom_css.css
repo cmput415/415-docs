@@ -1,0 +1,11 @@
+/* Begining of Custom css */
+div.lstlisting {
+	background-color: #cccccc;
+	padding: 1em;
+	overflow: auto;
+}
+div.verbatim {
+	background-color: #cccccc;
+	padding: 1em;
+}
+/* End of Custom css */
