@@ -66,10 +66,11 @@ be found here \href{https://github.com/antlr/antlr4/blob/master/doc/index.md}
 
 \section{Language Specification}
 \subsection{Generator}
-A generator generates a series of numbers based on an expression and bounds. In a sense it is
-similar to a \textit{C} style \code{for} loop. For this assignment, the index variable will always
-start at the lower bound and stop when it is greater than the upper bound. The generator will
-always increment by the integer value 1. In \textit{C}, this would be:
+A generator creates a series of numbers by applying an expression to the value of an index. A
+generator is similar to a \textit{C} style \code{for} loop. For this assignment, the index variable
+will always start at the lower bound and continue until it is equal to the upper bound (\textit{the
+last value of the index will be the upper bound}). The index will always be incremented by the
+integer value 1. In \textit{C}, this would be:
 \begin{lstlisting}
   for(int i = <start>; i <= <end>; ++i)
 \end{lstlisting}
@@ -81,7 +82,7 @@ The following keywords are reserved in \textit{Generator}.
 \end{itemize}
 
 \subsubsection{Generator Format}
-The generator format will always follow the same format:
+A generator statement will always follow the same format:
 \begin{lstlisting}
   [ <id> in <int_1>..<int_2> | <expr>];
 \end{lstlisting}
@@ -278,9 +279,9 @@ Because addition is left associative it will form the following parse tree:
   \includegraphics{static/left-assoc-plus.png}
 \end{figure}
 
-In parse trees, evaluation can only happen when a node's children are all leaves. Therefore
-\code{1 + 2} will be evaluated first. The result of this will be pushed up and the following tree
-will be created.
+An operation in such a parse tree can only be evaluated when all the operands are leaves. Thus, in
+this parse tree, the \code{1 + 2} is evaluated first and then the result of this evaluation
+replaces the \code{1 + 2} subtree to create the following tree.
 \begin{figure}[H]
   \centering
   \includegraphics{static/left-assoc-plus-2.png}
