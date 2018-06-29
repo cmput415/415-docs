@@ -159,7 +159,8 @@ Valid formats for expressions are
 \end{itemize}
 
 \assertion{All expressions will result in a value that fits in a 32 bit signed integer.}
-{expression-size}
+{expression-size}\\
+\assertion{No expression will contain a division by 0.} {zero-divide}
 
 Examples of valid expressions are
 \begin{lstlisting}
@@ -425,6 +426,14 @@ What does it mean to be valid input? See these rules:
     \begin{lstlisting}
       [i in 0..1 | 2147483647 + 1];
       [i in 0..1 | 0 - 2147483647 - 2];
+    \end{lstlisting}
+  \item
+    \assertiondest{zero-divide}
+    No expression will contain a division by 0. The result of a division by zero is indeterminate
+    so we will not handle it. For example, the following tests would be considered invalid:
+    \begin{lstlisting}
+      [i in 0..1 | 1 / 0];
+      [i in 0..1 | 1 / (1 - 1)];
     \end{lstlisting}
   \item
     \assertiondest{simple-bounds}
