@@ -437,9 +437,10 @@ What does it mean to be valid input? See these rules:
     \end{lstlisting}
   \item
     \assertiondest{positive-exp}
-    All exponents are $\geq 0$. Exponents that are $< 0$ result in fractions (except) when the
-    base is 1. Since we are in an integer-only environment, it does not make sense to produce
-    fractions. For example, the following test would be considered in invalid:
+    All exponents are $\geq 0$. Exponents that are $< 0$ result in fractions (except when the
+    base is 1). Since we are in an integer-only environment, it does not make sense to produce
+    fractions. Therefore, you may assume any exponent will be greater than or equal to zero, even
+    if the base is 1. For example, the following test would be considered in invalid:
     \begin{lstlisting}
       [i in 0..1 | 2 ^ (0 - 2)]
     \end{lstlisting}
