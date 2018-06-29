@@ -414,7 +414,7 @@ What does it mean to be valid input? See these rules:
     line. Any other whitespace characters will render the input invalid. The following ANTLR rule
     will ensure you adhere to this:
     \begin{lstlisting}
-      WS : [ \t\r\n]+ -> skip;
+      WS: [ \t\r\n]+ -> skip;
     \end{lstlisting}
   \item
     \assertiondest{positive-literals}
