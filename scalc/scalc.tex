@@ -148,84 +148,90 @@ Examples of invalid identifier:
 	or_spelling
 \end{lstlisting}
 
-	\subsection{Expressions}
+\subsection{Expressions}
+An expression is composed of integers, identifiers, and integer mathematical operations.
 
-		An expression is composed of integers, identifiers, and integer mathematical operations.  Valid formats for
-		expressions are
+\subsubsection{Operators}
 
-		\begin{lstlisting}
-			<id>
-			<int>
-			(<expr>)
-			<expr> <op> <expr>
-		\end{lstlisting}
+\begin{center}
+  \begin{tabular}{|c|l|c|l|c|}
+    \hline
+    \textbf{Class} & \textbf{Operation} & \textbf{Symbol} & \textbf{Usage} &
+    \textbf{Associativity} \\
+    \hline
+    Arithmetic
+    &addition	    & + & \texttt{expr + expr} & left \\
+    &subtraction    & - & \texttt{expr - expr} & left \\
+    &multiplication & * & \texttt{expr * expr} & left \\
+    &division       & / & \texttt{expr / expr} & left \\
+    \hline
+    Comparison
+    &less than      & <  & \texttt{expr < expr}  & left \\
+    &greater than   & >  & \texttt{expr > expr}  & left \\
+    &is equal       & == & \texttt{expr == expr} & left \\
+    &is not equal   & != & \texttt{expr != expr} & left \\
+    \hline
+  \end{tabular}
+\end{center}
 
-		\begin{itemize}
-			\item{$\langle$id$\rangle$} is the identifier of a variable
-			\item{$\langle$int$\rangle$} is an integer
-			\item{$\langle$expr$\rangle$} is an expression
-		\end{itemize}
+\assertion{All exponents are $\geq 0$.}{positive-exp}\\
+\clarification{There is no remainder operator in SCalc.}{no-rem}\\
+\clarification{There is no exponentiation operator in SCalc.}{no-pow}
 
-		An Example of valid expressions are
+\subsubsection{Valid Expressions}
+Valid formats for expressions are
+\begin{lstlisting}
+  (<expr>)
+  <expr> <op> <expr>
+  <int>
+  <id>
+\end{lstlisting}
 
-		\begin{lstlisting}
-			i * 2 * 10 + 4
-			2 / 4 * 5
-		\end{lstlisting}
+\begin{itemize}
+  \item \code{expr} is an expression.
+  \item \code{int} is an integer.
+  \item \code{id} is the identifier of a variable.
+\end{itemize}
 
-		\begin{center}
-			\begin{tabular}{|c|l|c|l|c|}
-				\hline
-				\textbf{Class} & \textbf{Operation} & \textbf{Symbol} & \textbf{Usage} &
-				\textbf{Associativity} \\
-				\hline
-				Arithmetic
-				&addition	    & + & \texttt{expr + expr} & left \\
-				&subtraction    & - & \texttt{expr - expr} & left \\
-				&multiplication & * & \texttt{expr * expr} & left \\
-				&division       & / & \texttt{expr / expr} & left \\
-				\hline
-				Comparison
-				&less than      & <  & \texttt{expr < expr}  & left \\
-				&greater than   & >  & \texttt{expr > expr}  & left \\
-				&is equal       & == & \texttt{expr == expr} & left \\
-				&is not equal   & != & \texttt{expr != expr} & left \\
-				\hline
-			\end{tabular}
-		\end{center}
+\assertion{All expressions will result in a value that fits in a 32 bit signed integer.}
+{expression-size}\\
+\assertion{No expression will contain a division by 0.} {zero-divide}
 
-		If a comparison expression evaluates to true then it returns 1. If it evaluates to false then it
-		return 0. For example:
+Examples of valid expressions are
+\begin{lstlisting}
+  i * 2 * 10 + 4
+  2 ^ 4 * 5
+\end{lstlisting}
 
-		\begin{lstlisting}
-			print(1==2);
-			print(1==1);
-		\end{lstlisting}
+\subsubsection{Comparison Operators}
+If a comparison expression evaluates to true then it returns 1. If it evaluates to false then it
+returns 0. For example:
+\begin{lstlisting}
+	print(1==2);
+	print(1==1);
+\end{lstlisting}
+should print:
+\begin{lstlisting}
+	0
+	1
+\end{lstlisting}
 
-		should print:
-
-		\begin{lstlisting}
-			0
-			1
-		\end{lstlisting}
-
-		Division by zero will not be test in this assignment.
-
-		Precedence works as defined in the following table:
-
-		\begin{center}
-			\begin{tabular}{|c|c|}
-			\hline
-			\textbf{Precedence} & \textbf{Operations} \\
-			\hline
-			HIGHER
-			& *,/ \\
-			& +,- \\
-			& <, > \\
-			LOWER & ==, != \\
-			\hline
-			\end{tabular}
-		\end{center}
+\subsubsection{Precedence}
+Precedence determines what order operations are evaluated in. Precedence works as defined in the
+following table:
+\begin{center}
+	\begin{tabular}{|c|c|}
+	\hline
+	\textbf{Precedence} & \textbf{Operations} \\
+	\hline
+	HIGHER
+	& *,/ \\
+	& +,- \\
+	& <, > \\
+	LOWER & ==, != \\
+	\hline
+	\end{tabular}
+\end{center}
 
 
 	\subsection {Statements}
@@ -588,8 +594,7 @@ What does it mean to be valid input? See these rules:
     All integer literals will be positive. For example, the following tests would be considered
     invalid:
     \begin{lstlisting}
-      [i in 0..1 | -1];
-      [i in -2..-1 | i];
+      int i = -1;
     \end{lstlisting}
   \item
     \assertiondest{literal-size}
@@ -597,16 +602,55 @@ What does it mean to be valid input? See these rules:
     anywhere in the range $[0, 2^{31} - 1]$ or $[0, 2147483647]$. For example, the following tests
     would be considered invalid:
     \begin{lstlisting}
-      [i in 0..1 | -1];
-      [i in 0..1 | 2147483648];
-      [i in 0..2147483648 | 0];
-      [i in -1..1 | 0];
+      int i = 2147483648;
+    \end{lstlisting}
+  \item
+    \assertiondest{positive-exp}
+    All exponents are $\geq 0$. Exponents that are $< 0$ result in fractions (except when the
+    base is 1). Since we are in an integer-only environment, it does not make sense to produce
+    fractions. Therefore, you may assume any exponent will be greater than or equal to zero, even
+    if the base is 1. For example, the following test would be considered in invalid:
+    \begin{lstlisting}
+      int i = 5 ^ (0 - 1);
+      int j = 1 ^ (0 - 1);
+    \end{lstlisting}
+  \item
+    \assertiondest{expression-size}
+    All expressions will result in a value that will fit in 32 signed bits. This means the result
+    of an expression can be anywhere in the range $[-2^{31}, 2^{31} - 1]$ or $[-2147483648,
+    2147483647]$. Any operation that results in underflow or overflow will render the input
+    invalid. For example, the following tests would be considered invalid:
+    \begin{lstlisting}
+      int i = 2147483647 + 1;
+      int j =  0 - 2147483647 - 2;
+    \end{lstlisting}
+  \item
+    \assertiondest{zero-divide}
+    No expression will contain a division by 0. The result of a division by zero is indeterminate
+    so we will not handle it. For example, the following tests would be considered invalid:
+    \begin{lstlisting}
+      int i = 1 / 0;
+      int j = 1 / (1 - 1);
     \end{lstlisting}
 \end{enumerate}
 
 \section{Clarifications}
 These clarifications are meant to add more information to the specification without cluttering it.
 \begin{enumerate}
+  \item
+    \clarificationdest{no-rem}
+    There is no remainder operator in SCalc. For example, the following tests would be considered
+    invalid:
+    \begin{lstlisting}
+      int i = 5 % 2;
+    \end{lstlisting}
+  \item
+    \clarificationdest{no-pow}
+    There is no exponentiation operator in SCalc. For example, the following tests would be
+    considered invalid:
+    \begin{lstlisting}
+      int i = 2 ^ 2;
+    \end{lstlisting}
 \end{enumerate}
 
 \section{Provided Frameworks}
