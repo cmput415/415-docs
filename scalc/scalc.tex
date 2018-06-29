@@ -254,8 +254,7 @@ line.}{simple-whitespace}
 \subsubsection{Declaration}
 \label{sssec:declaration}
 
-A variable declaration in
-\textit{SCalc} has this form:
+A variable declaration in \textit{SCalc} has this form:
 \begin{lstlisting}
 	int <id> = <expr>;
 \end{lstlisting}
@@ -290,21 +289,19 @@ Examples of invalid declarations are:
 
 \subsubsection{Assignment}
 \label{sssec:assignment}
-
-Variable assignment is similar to variable declaration but it allows variables to be reassigned values. Variable
-assignment always has the following form:
-
+Variable assignment is similar to variable declaration but it allows variables to be assigned new
+values. A variable assignment in \textit{SCalc} has the following form:
 \begin{lstlisting}
 	<id> = <expr>;
 \end{lstlisting}
 
 \begin{itemize}
-	\item{$\langle$id$\rangle$} is the identifier of a variable.
-	\item{$\langle$expr$\rangle$} is an expression
+	\item \code{id} is the identifier of an already declared variable.
+	\item \code{expr} is an expression.
 \end{itemize}
 
-Variables must be declared before being assigned.
-
+\assertion{If a variable is used in \code{expr} then it will already be declared and initialised.}
+{defined-var}
 
 \subsubsection{Conditional}
 \label{sssec:conditional}
