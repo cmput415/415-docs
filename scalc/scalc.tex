@@ -32,6 +32,7 @@
 
 \newcommand{\code}[1]{\texttt{\textmd{#1}}}
 \newcommand{\assertion}[2]{\textbf{Assertion: }#1 (\hyperlink{#2}{#2})}
+\newcommand{\assertionref}[1]{\hyperlink{#1}{#1}}
 \newcommand{\assertiondest}[1]{\hypertarget{#1}{\textbf{#1}:}}
 \newcommand{\clarification}[2]{\textbf{Clarification: }#1 (\hyperlink{#2}{#2})}
 \newcommand{\clarificationdest}[1]{\hypertarget{#1}{\textbf{#1}:}}
@@ -305,9 +306,7 @@ values. A variable assignment in \textit{SCalc} has the following form:
 
 \subsubsection{Conditional}
 \label{sssec:conditional}
-
-A conditional statement has the following form:
-
+A conditional has the following form:
 \begin{lstlisting}
 	if (<expr>)
 		<statement-1>
@@ -317,12 +316,18 @@ A conditional statement has the following form:
 	fi;
 \end{lstlisting}
 
-\begin {itemize}
-	\item{$\langle$expr$\rangle$} is an expression. The body of the \code{if} statement is executed if and only
-	if this expression evaluates to a non-zero value.
-	\item{$\langle$statement-*$\rangle$} are statements
-\end{itemize}
+Conditionals \textbf{are not} scoped. A declaration inside a conditional is in the \textbf{global
+scope}. Take care that you do not violate \assertionref{defined-var} with this by declaring but
+not initialising.
 
+\begin {itemize}
+	\item
+    \code{expr} is an expression. The body of the \code{if} statement is executed if and only if
+    this expression evaluates to a non-zero value.
+	\item
+    \code{statement-*} is any type of statement. This can be nested loops, declarations, etc. There
+    does not have to be any statements in the conditional.
+\end{itemize}
 
 \subsubsection{Loop}
 \label{sssec:loop}
@@ -660,6 +665,12 @@ What does it mean to be valid input? See these rules:
     \begin{lstlisting}
       int i = j;
       int j = 1;
+    \end{lstlisting}
+    \begin{lstlisting}
+      if (1 < 0)
+        int x = 0;
+      fi
+      int j = x;
     \end{lstlisting}
 \end{enumerate}
 
