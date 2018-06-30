@@ -419,77 +419,69 @@ and then at the spim prompt you can load your file with:
 \end{lstlisting}
 The double quotes are necessary. You can type \texttt{help} to see the commands that spim provides.
 
-	\subsection{x86}
+\subsection{x86}
+You should use the Intel syntax for \textit{x86}, and your compiler's output must work with the
+nasm assembler. Your \textit{x86} output should look something like this:
 
-		You should use the Intel syntax for x86, and your compiler's x86 output must work with the nasm assembler.
-		x86 output should look something like this:
+\begin{lstlisting}
+	global main
+	extern printf
 
-		\begin{lstlisting}
-			global main
+	section .data
+	var1: DD 0
+	var2: DD 0
+	...
 
-			extern printf
+	section .text
+	  main:
+	    <your generated code goes here>
+	    mov eax, 0 ; Set return value
+	    ret        ; Return
+\end{lstlisting}
 
-			section .data
-			var1: DD 0
-			var2: DD 0
-			...
+Print will use \code{printf}, which we will link in later to make it easier to implement the
+\code{print} statement. Printing consists of three steps:
+\begin{enumerate}
+	\item Push the arguments onto the stack in reverse order.
+	\item Call \code{printf}.
+	\item Clean up the stack.
+\end{enumerate}
 
-			section .text
-			  main:
-			    <your generated code goes here>
-			    mov eax, 0
-			    ret
-		\end{lstlisting}
+For instance, the following segment of code contains a call to \code{printf}:
+\begin{lstlisting}
+	global main
+	extern printf
+	section .data
+	_format_string: DB "Hello! Here is a number: %d",0xA,0x0
 
-		Print will use \code{printf}, which we will link in later to make it easier to implement the \code{print}
-		instruction. Printing consists of three steps:
+	section .text
+	  main:
+	    push dword 7        ; Second argument
+	    push _format_string ; First argument (remember stacks are FILO)
+	    call printf         ; Make the call to printf
+	    add esp, 8          ; Pop the stack, we are done!
 
-		\begin{enumerate}
-			\item push the arguments onto the stack
-			\item call \code{printf}
-			\item clean up the stack
-		\end{enumerate}
+	    mov eax, 0
+	    ret
+\end{lstlisting}
 
-		For instance, the following segment of code contains a call to \code{printf}:
+\code{_format_string} deserves a quick explanation. The \code{DB} declares a datatype of bytes,
+which is appropriate for characters. The string is converted to its character components and
+placed at the label. The values in commas after it are appended to the array. \code{0xA} is the
+\href{http://www.asciitable.com/}{ASCII value of a newline in hexadecimal}. The \code{0x0} is the
+\href{null terminator}{https://en.wikipedia.org/wiki/Null-terminated_string} for the string.
 
-		\begin{lstlisting}
-			global main
+You won't need to know more the \textit{x86} calling conventions than what was demonstrated above.
 
-			extern printf
+If you save the \textit{x86} output as \code{program.s} you can assemble an executable and run it
+by executing the following commands:
+\begin{lstlisting}
+	nasm -felf program.s
+	gcc program.o -o program -m32
+  ./program
+\end{lstlisting}
 
-			section .data
-			_format_string: DB "Hello! Here is a number: %d",0xA,0
-
-			section .text
-			  main:
-			    push 7              ; Second argument
-			    push _format_string ; First argument (remember stacks are FILO)
-			    call printf         ; Make the call to printf
-			    add esp, 8          ; Pop the stack, we are done!
-
-			    mov eax, 0
-			    ret
-		\end{lstlisting}
-
-		\texttt{0xA} is the \href{http://www.asciitable.com/}{ASCII value of a newline in hexadecimal}. You won't need
-		to know more the \textit{x86} calling conventions than what was demonstrated above.
-
-		In order to assemble an executable you may run the following commands:
-
-		\begin{lstlisting}
-			nasm -felf program.s
-			gcc program.o -o program -m32
-		\end{lstlisting}
-
-		Given an assembly file \texttt{program.s} this sequence of commands will produce an executable called
-		\texttt{program} that you can run on the lab machines as follows:
-
-		\begin{lstlisting}
-			./program
-		\end{lstlisting}
-
-		Try this on the \code{printf} example and make sure that it works!
-
+Try this on the \code{printf} example and make sure that it works!
 
 	\subsection{ARM}
 
