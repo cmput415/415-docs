@@ -104,8 +104,7 @@ The following Keywords are reserved in \textit{SCalc}
 \end {itemize}
 
 \subsection {Integer Literals}
-In this assignment integer literals are defined as being a string that contains only the number
-characters 0-9 with no spaces.
+In this assignment integer literals are defined as being a string that contains only the numeral 0-9 with no spaces.
 
 \assertion{All integer literals will be positive.}{positive-literals}\\
 
@@ -209,7 +208,7 @@ If a comparison expression evaluates to true then it returns 1. If it evaluates 
 returns 0. For example:
 \begin{lstlisting}
 	print(1==2);
-	print(1==1);
+	print(8==8);
 \end{lstlisting}
 should print:
 \begin{lstlisting}
@@ -270,7 +269,7 @@ A variable declaration in \textit{SCalc} has the following form:
 Variables have a few properties:\hypertarget{variable-props}{}
 \begin{itemize}
   \item cannot be used before being declared.
-  \item cannot be declared with out initialisation.
+  \item cannot be declared without initialisation.
   \item cannot be declared more than once in an \textit{SCalc} program.
 \end{itemize}
 
@@ -381,7 +380,16 @@ should print:
 	4
 \end{lstlisting}
 
-\section{Back-ends}
+\section{Backends}
+
+\textit{SCalc}. This compiler will directly generate code for the following three backends:
+\begin {itemize}
+	\item \textit{x86} assembly
+	\item \textit{MIPS} assembly
+	\item \textit{ARM} assembly
+\end {itemize}
+You must also create an \textit{interpreter} for \textit{SCalc}
+
 \subsection{MIPS}
 We recommend that you implement variables in the \code{.data} segment of your assembly code using \code{.word} entries. The
 general syntax for MIPS assembly is as follows:
