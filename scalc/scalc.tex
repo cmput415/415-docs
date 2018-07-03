@@ -572,6 +572,49 @@ Try this on the \texttt{printf} example and make sure that it works!
 You should be able to execute a program without compiling by implementing an interpreter. This
 should work similarly to the generator assignment.
 
+\section{Input}
+The input processed by your compiler will be in a file specified on the command line. You will also
+receive a value signifying which mode your compiler should be run in. The command to run your
+compiler will take this form:
+\begin{lstlisting}
+  scalc <mode> <input_file_path> <output_file_path>
+\end{lstlisting}
+
+Mode can be one of these four values:
+\begin{itemize}
+  \item \code{mips}
+  \item \code{x86}
+  \item \code{arm}
+  \item \code{interpreter}
+\end{itemize}
+
+You should open the file \code{input\_file\_path} and parse it. The input file will be a valid
+scalc file.
+
+\section{Output}
+Output is to be written to a file specified on the command line. Your compiler
+will be invoked with the following command:
+\begin{lstlisting}
+  scalc <mode> <input_file_path> <output_file_path>
+\end{lstlisting}
+You should open the file \code{output\_file\_path} and write to it. The output file should be
+overwritten if it already exists.
+
+Output content is standardized to ensure everyone can pass everyone's tests. Follow these
+specifications:
+\begin{itemize}
+  \item
+    Each number printed should be on its own line followed by a new line.
+  \item
+    There \textit{must} be a new line after each \code{print} statement's printed value.
+  \item
+    There \textit{must not} be any trailing space after the final number and before the newline.
+  \item
+    There \textit{should} be an empty line at the end of your output.
+\end{itemize}
+
+\clarification{Empty input should result in empty output.}{empty-input}
+
 \section{Assertions}
 \textbf{ALL} input test cases will be valid. It can be a good idea to do error checking for your
 own testing and debugging, but it is \textit{not necessary}. If you encounter what you think is
@@ -682,6 +725,12 @@ These clarifications are meant to add more information to the specification with
         i = i + 1;
       pool
     \end{lstlisting}
+  \item
+    \clarificationdest{empty-input}
+    Empty input should result in empty output. This is in keeping with all of the output rules
+    defined. There are no \code{print} statements so there would be no numbers, newlines or output
+    of any kind. All that you are left with is a single empty line, which matches "\textit{should}
+    be an empty line at the end of your output".
 \end{enumerate}
 
 \section{Provided Frameworks}
