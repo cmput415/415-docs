@@ -816,6 +816,77 @@ CLion requires a little bit of setup.
     \texttt{Mark directory as}, within that menu select \texttt{Project Sources and Headers}.
 \end{enumerate}
 
+\subsection{Using Inja}
+Inja is the string templating library you'll be using in this assignment. You'll only need the most
+basic string replacement functionality, even though it can
+\href{https://github.com/pantor/inja\#tutorial}{be much more advanced}.
+
+String templating looks like this:
+\begin{lstlisting}
+  #include "nlohmann/json.hpp"
+  #include "inja.hpp"
+
+  #include <string>
+  #include <iostream>
+
+  using JSON = nlohmann::json;
+
+  int main() {
+    std::string name;
+    int age;
+    std::cout << "What's your name?\n";
+    std::cin >> name;
+    std::cout << "How old are you?\n";
+    std::cin >> age;
+
+    JSON data;
+    data["name"] = name;
+    data["age"] = age;
+
+    std::string strTemplate =
+      "Hi, {{ name }}!\n"
+      "You are {{ age }} years old!\n";
+
+    std::cout << inja::render(strTemplate, data);
+
+    return 0;
+  }
+\end{lstlisting}
+
+Let's deconstruct the example. First we have the includes that give us access to the \code{json}
+class that \textit{inja} uses to store data as well as the inja tools.
+\begin{lstlisting}
+#include "nlohmann/json.hpp"
+#include "inja.hpp"
+\end{lstlisting}
+
+Next we have a statement that's purely for convenience purposes. It aliases the \code{json} class
+to \code{JSON}. If we didn't use this we could refer to the \code{json} class using the fully
+qualified name \code{nlohmann::json}.
+\begin{lstlisting}
+  using JSON = nlohmann::json;
+\end{lstlisting}
+
+Now we create our data object and fill it. If you have keys \code{key1} and \code{key2} that map to
+values \code{value1} and \code{value2} respectively, the general syntax is:
+\begin{lstlisting}
+    JSON data;
+    data["key1"] = value1;
+    data["key2"] = value2;
+    ...
+\end{lstlisting}
+
+Almost done. You need to define your format string using the inja syntax. To have the value replace
+the key in the string you need to surround the key double braces like so: \code{\{\{ keyname \}\}}.
+\begin{lstlisting}
+  std::string strTemplate = "{{ key1 }} {{ key2 }}";
+\end{lstlisting}
+
+Finally, you need to \code{render} the data into the template:
+\begin{lstlisting}
+  std::string result = inja::render(strTemplate, data);
+\end{lstlisting}
+
 \subsection{Testing}
 Inside the \code{tests} directory, a testing configuration file,
 \code{SCalcConfigInterpreterOnly.json}, is provided. You need to edit \code{inDir} with the
@@ -844,6 +915,10 @@ to be tracked by git and can be safely deleted.
 
 For more information about the testing tool and how it works, see the
 \href{https://github.com/cmput415/Tester/blob/master/README.md}{Tester README}.
+
+If you feel like running the full configuration (or a larger partial configuration) you'll first
+need to install the extra tools yourself and then understand how to pull the relevant parts out of
+the full configuration (binary path changes may be needed, arguments should be the same).
 
 \section{Deliverables}
 Your submission will be \textbf{the latest commit before the deadline} to your github repository.
