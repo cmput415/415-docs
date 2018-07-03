@@ -174,7 +174,6 @@ An expression is composed of integers, identifiers, and integer mathematical ope
   \end{tabular}
 \end{center}
 
-\assertion{All exponents are $\geq 0$.}{positive-exp}\\
 \clarification{There is no remainder operator in SCalc.}{no-rem}\\
 \clarification{There is no exponentiation operator in SCalc.}{no-pow}
 
@@ -607,16 +606,6 @@ What does it mean to be valid input? See these rules:
     would be considered invalid:
     \begin{lstlisting}
       int i = 2147483648;
-    \end{lstlisting}
-  \item
-    \assertiondest{positive-exp}
-    All exponents are $\geq 0$. Exponents that are $< 0$ result in fractions (except when the
-    base is 1). Since we are in an integer-only environment, it does not make sense to produce
-    fractions. Therefore, you may assume any exponent will be greater than or equal to zero, even
-    if the base is 1. For example, the following test would be considered in invalid:
-    \begin{lstlisting}
-      int i = 5 ^ (0 - 1);
-      int j = 1 ^ (0 - 1);
     \end{lstlisting}
   \item
     \assertiondest{expression-size}
