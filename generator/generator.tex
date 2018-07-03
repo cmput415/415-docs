@@ -620,6 +620,23 @@ CLion requires a little bit of setup.
     \texttt{Mark directory as}, within that menu select \texttt{Project Sources and Headers}.
 \end{enumerate}
 
+\subsection{Testing}
+Inside the \code{tests} directory, a testing configuration file, \code{GeneratorConfig.json}, is
+provided. You need to edit \code{inDir} with the absolute path of \code{\ldots/tests/input},
+\code{outDir} with the absolute path of \code{\ldots/tests/output}, and finally
+\code{testedExecutablePaths} with your ccid and the absolute path of \code{\ldots/bin/generator}.
+
+Running the tester should now run your tests with your solution. Note that the output files will
+not be cleaned up so it might be wise run your tests in a directory that is not your repository. If
+you would still like to run them in the same directory, just know that the output files do not need
+to be tracked by git and can be safely deleted.
+\begin{lstlisting}
+  tester <path_to_config>
+\end{lstlisting}
+
+For more information about the testing tool and how it works, see the
+\href{https://github.com/cmput415/Tester/blob/master/README.md}{Tester README}.
+
 \section{Deliverables}
 Your submission will be \textbf{the latest commit before the deadline} to your github repository.
 
