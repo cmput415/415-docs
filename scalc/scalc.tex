@@ -267,7 +267,7 @@ A variable declaration in \textit{SCalc} has the following form:
 \assertion{If a variable is used in \code{expr} then it will already be declared and initialised.}
 {defined-var}
 
-Variables have a few properties:
+Variables have a few properties:\hypertarget{variable-props}{}
 \begin{itemize}
   \item cannot be used before being declared.
   \item cannot be declared with out initialisation.
@@ -300,9 +300,6 @@ values. An assignment in \textit{SCalc} has the following form:
 	\item \code{expr} is an expression.
 \end{itemize}
 
-\assertion{If a variable is used in \code{expr} then it will already be declared and initialised.}
-{defined-var}
-
 \subsubsection{Conditional}
 \label{sssec:conditional}
 A conditional in \textit{SCalc} has the following form:
@@ -315,10 +312,6 @@ A conditional in \textit{SCalc} has the following form:
 	fi;
 \end{lstlisting}
 
-Conditionals \textbf{are not} scoped. A declaration inside a conditional is in the \textbf{global
-scope}. Take care that you do not violate \assertionref{defined-var} with this by declaring but
-not initialising.
-
 \begin {itemize}
 	\item
     \code{expr} is an expression. The body of the \code{if} statement is executed if and only if
@@ -328,6 +321,9 @@ not initialising.
     be assignments, nested loops, nested conditionals, and prints. There does not have to be any
     statements in the conditional.
 \end{itemize}
+
+\clarification{Declarations in conditionals can lead to undefined values due to global scoping.}
+{no-decl-cond}
 
 \subsubsection{Loop}
 \label{sssec:loop}
@@ -352,6 +348,9 @@ A loop in \textit{SCalc} has the following form:
     statements in the loop, but without side effects a loop will be infinite (unless it is never
     entered).
 \end{itemize}
+
+\clarification{Declarations in loops can lead to undefined or repeatedly defined values due to
+global scoping.} {no-decl-loop}
 
 \subsubsection{Print}
 \label{sssec:print}
@@ -637,24 +636,6 @@ What does it mean to be valid input? See these rules:
     \begin{lstlisting}
       WS: [ \t\r\n]+ -> skip;
     \end{lstlisting}
-  \item
-    \assertiondest{defined-var}
-    If a variable is used in \code{expr} then it will already be declared and initialised. This
-    includes the cases when a variable is never defined or when a variable is defined and
-    initialised later in the file. For example, the following tests would be considered invalid:
-    \begin{lstlisting}
-      int i = j;
-    \end{lstlisting}
-    \begin{lstlisting}
-      int i = j;
-      int j = 1;
-    \end{lstlisting}
-    \begin{lstlisting}
-      if (1 < 0)
-        int x = 0;
-      fi
-      int j = x;
-    \end{lstlisting}
 \end{enumerate}
 
 \section{Clarifications}
@@ -673,6 +654,43 @@ These clarifications are meant to add more information to the specification with
     considered invalid:
     \begin{lstlisting}
       int i = 2 ^ 2;
+    \end{lstlisting}
+  \item
+    \clarificationdest{no-decl-cond}
+    Declarations in conditionals can lead to undefined values due to global scoping.  Because of
+    the potentially conditional nature of the execution, it is possible to violate the property of
+    variables stating that \hyperlink{variable-props}{variables must be \textit{defined} before
+    being used} (not just declared) by never executing the definition. For example, the following
+    test would break this property and is therefore invalid:
+    \begin{lstlisting}
+      if (1 < 0)
+        int i = 0;
+      fi
+      int j = i;
+    \end{lstlisting}
+  \item
+    \clarificationdest{no-decl-loop}
+    Declarations in loops can lead to undefined or repeatedly defined values due to global scoping.
+    Because of the potentially conditional nature of the execution, it is possible to violate the
+    property of variables stating that \hyperlink{variable-props}{variables must be
+    \textit{defined} before being used} (not just declared) by never executing the definition. For
+    example, the following test would break this property and is therefore invalid:
+    \begin{lstlisting}
+      loop (1 < 0)
+        int i = 0;
+      pool
+      int j = i;
+    \end{lstlisting}
+    As well, because of the potentially repeated nature of the execution, it is possible to violate
+    the property of variables stating that \hyperlink{variable-props}{variables can only be defined
+    \textit{once}} by repeating the declaration. For example, the following test would break this
+    property and is therefore invalid:
+    \begin{lstlisting}
+      int i = 0;
+      loop (i < 2)
+        int j = 0;
+        i = i + 1;
+      pool
     \end{lstlisting}
 \end{enumerate}
 
