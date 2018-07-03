@@ -62,7 +62,7 @@ interpret it, and print the numbers that should be produced by the generator. Yo
 \textit{ANTLR4} to generate a \textbf{lexer} and \textbf{parser} for your interpreter. You will
 then implement the interpreter in \textit{C++}. Documentation and tutorials for \textit{ANTLR4} can
 be found here \href{https://github.com/antlr/antlr4/blob/master/doc/index.md}
-{Antlr4 documentation}
+{Antlr4 documentation}.
 
 \section{Language Specification}
 \subsection{Reserved Keywords}
@@ -213,8 +213,8 @@ The higher the precedence the sooner the value should be evaluated. For example,
 \begin{lstlisting}
 1 + 2 * 3
 \end{lstlisting}
-\code{2 * 3} should be evaluated before \code{1 + 2}. This is because multiplication, division, and modulus
-have higher precedence than addition and subtractions.
+\code{2 * 3} should be evaluated before \code{1 + 2}. This is because multiplication, division,
+and remainder have higher precedence than addition and subtractions.
 
 \subsubsection{Associativity}
 When parsing expressions associativity determines in what order operators of the same precedence
@@ -242,8 +242,8 @@ Because addition is left associative it will form the following parse tree:
 \end{figure}
 
 An operation in such a parse tree can only be evaluated when all the operands are leaves. Thus, in
-this parse tree, the expression \code{1 + 2} is evaluated first and then the result of this evaluation
-replaces the  subtree for the expression \code{1 + 2} to create the following tree.
+this parse tree, the expression \code{1 + 2} is evaluated first and then the result of this
+evaluation replaces the subtree for the expression \code{1 + 2} to create the following tree.
 \begin{figure}[H]
   \centering
   \includegraphics{static/left-assoc-plus-2.png}
@@ -262,8 +262,8 @@ are right associative and take this format:
   \includegraphics{static/right-assoc-gen.png}
 \end{figure}
 
-An example of a right-associative operation is the exponentiation operation represented by the  symbol \code{\textasciicircum}.
-For example
+An example of a right-associative operation is the exponentiation operation represented by the
+symbol \code{\textasciicircum}. For example
 \begin{lstlisting}
   2 ^ 3 ^ 4 ^ 5
 \end{lstlisting}
@@ -357,8 +357,8 @@ Because identifiers need white space to separate each other the following is inv
 \end{lstlisting}
 
 \section{Input}
-The input processed by your interpreter will be in a file specified on the command line. Your interpreter
-will be invoked with the following command:
+The input processed by your interpreter will be in a file specified on the command line. Your
+interpreter will be invoked with the following command:
 \begin{lstlisting}
   generator <input_file_path> <output_file_path>
 \end{lstlisting}
@@ -374,13 +374,18 @@ will be invoked with the following command:
 You should open the file \code{output\_file\_path} and write to it. The output file should be
 overwritten if it already exists.
 
-Output content is standardized to ensure everyone can pass everyone's tests. Follow these specifications:
+Output content is standardized to ensure everyone can pass everyone's tests. Follow these
+specifications:
 \begin{itemize}
-\item All generated numbers should be printed on the same line with a single space separating the numbers.
-\item There \textit{must} be a new line after each generator's output.
-\item There \textit{must not} be any
-trailing space after the final number and before the newline.
-\item There \textit{should} be an empty line at the end of your output.
+  \item
+    All generated numbers should be printed on the same line with a single space separating the
+    numbers.
+  \item
+    There \textit{must} be a new line after each generator's output.
+  \item
+    There \textit{must not} be any trailing space after the final number and before the newline.
+  \item
+    There \textit{should} be an empty line at the end of your output.
 \end{itemize}
 
 \clarification{Empty input should result in empty output.}{empty-input}
@@ -440,9 +445,10 @@ What does it mean to be valid input? See these rules:
   \item
     \assertiondest{positive-exp}
     All exponents are $\geq 0$. Exponents that are $< 0$ result in fractions (except when the
-    base is 1). Given that the specification restricts generated numbers to be integers,  it does not make sense to produce
-    fractions. Therefore, you may assume that any exponent will be greater than or equal to zero, even
-    if the base is 1. For example, the following test would be considered in invalid:
+    base is 1). Given that the specification restricts generated numbers to be integers,  it does
+    not make sense to produce fractions. Therefore, you may assume that any exponent will be
+    greater than or equal to zero, even if the base is 1. For example, the following test would be
+    considered in invalid:
     \begin{lstlisting}
       [i in 0..1 | 2 ^ (0 - 2)]
     \end{lstlisting}
@@ -657,8 +663,8 @@ You do not need to submit anything on eclass or anywhere else.
           }
         \end{lstlisting}
       \item
-        Ensure the type you're receiving from a call to \code{visit} is what you expected. the problem is a two
-        way street. See the above reasons.
+        Ensure the type you're receiving from a call to \code{visit} is what you expected. The
+        problem is a two way street. See the above reasons.
     \end{itemize}
     These may not seem relevant now, but it's better to get in the habit now than have it bite you
     later and not understand why.
