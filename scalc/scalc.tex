@@ -733,53 +733,88 @@ These clarifications are meant to add more information to the specification with
     be an empty line at the end of your output".
 \end{enumerate}
 
-\section{Provided Frameworks}
+\section{Getting Started}
+This section will help you get started with this assignment.
 
-  The following tools have been provided for you to make development and testing easier
+\subsection{Project Layout}
+For the tools provided to work your project should be in the specified layout.
 
-  \subsection{Project Layout}
+\begin{lstlisting}
+  +-- cmake
+  |   +-- antlr_generate.cmake
+  |   +-- get_antlr.cmake
+  |   +-- get_antlr_manual.cmake
+  |   +-- symlink_to_bin.cmake
+  +-- CMakeLists.txt
+  +-- grammar
+  |   +-- SCalc.g4
+  +-- include
+  |   +-- inja.hpp
+  |   +-- nlohmann
+  |   |   +-- json.hpp
+  |   +-- placeholder.h
+  +-- README.md
+  +-- src
+      +-- CMakeLists.txt
+      +-- main.cpp
+  +-- tests
+      +
+      +-- input
+          +-- ...
+      +-- output
+      |   +-- ...
+      +-- SCalcConfigCS.json
+      +-- SCalcConfigInterpreterOnly.json
+\end{lstlisting}
 
-    For the tools provided to work your project should be in the specified layout. You must provide a \texttt{Main.java} that contains your main function. The program should take two command line arguments. The first argument is the mode that your program should run in. The second is the input file. Your program will output the interpreted results of the input or the assembler matching the mode chosen. The modes will be one of the following \texttt{mips}, \texttt{arm}, \texttt{x86} or \texttt{interpret}.
-
-    \begin{lstlisting}
-      +-- project/
-        +-- Makefile
-        +-- test_script
-        +-- src/
-          +-- Main.java  (must contain main function)
-          +-- *.g4  (Antlr4 lexer/parser source files)
-          +-- *.java  (Java source files)
-          +-- *.stg  (StringTemplate string template group files)
-        +-- TestFiles/
-          +-- Input/
-            +-- (testfiles)
-            ...
-          +-- Output/
-            +-- (matching output files. Names must match between input test and output test)
-            ...
-    \end{lstlisting}
-
-
-  \subsection{Makefile}
-
-    The \texttt{Makefile} provided is an exact copy of the one that will be used for grading.  Any changes made to
-    this makefile will not exist in the one used for grading so as a rule of thumb don't change it. The project must
-    be in the specified layout for the makefile to properly work (see \texttt{Project Layout})
-
-    The makefile has the following commands:
-
-    \begin{itemize}
-      \item{\textbf{all}}: Builds all solution files
-      \item{\textbf{run}}: Runs the solution (builds solution if necessary)
-      \item{\textbf{arm}}: Runs the solution in arm mode (builds solution if necessary)
-      \item{\textbf{mips}}: Runs the solution in mips mode (builds solution if necessary)
-      \item{\textbf{x86}}: Runs the solution in x86 mode (builds solution if necessary)
-      \item{\textbf{interpret}}: Runs the solution in interpret mode (builds solution if necessary)
-      \item{\textbf{test}}: Runs testing system against solution (builds solution if necessary)
-      \item{\textbf{clean}}: Cleans all generated files including Intellij generated files
-      \item{\textbf{submissible}}: Collects files for submission and places them in a tar ball. This file contains
-      the files in the format they should be in
-    \end{itemize}
+\subsection{Setting up CLion}
+CLion requires a little bit of setup.
+\begin{enumerate}
+  \item
+    Open up CLion. From the welcome screen select \texttt{Import Project from Sources} or, if
+    you've been using CLion and it opens to previous project, from the \texttt{File} menu select
+    \texttt{Import Project\ldots}. Navigate to where your project is located an choose it. Choose
+    \texttt{Open Project} \textit{not} \texttt{Overwrite CMakeLists.txt}. If you already have a
+    project open, you can choose to use your current window or create another one.
+  \item
+    CLion doesn't make use of your command line environment, it has its own storage place.
+    Therefore we need to add \code{ANTLR\_INS} to CLion's environment.
+    \begin{enumerate}
+      \item
+        Open your settings. On Linux this is \texttt{File} $\rightarrow$ \texttt{Settings\ldots},
+        while on MacOS this is \texttt{CLion} $\rightarrow$ \texttt{Preferences\ldots}.
+      \item
+        From the left menu, expand \texttt{Build, Execution, Deployment}.
+      \item
+        Select \texttt{CMake} from the newly expanded options.
+      \item
+        In the right pane, select the \texttt{\ldots} to the right of the empty text field to the
+        right of \texttt{Environment}.
+      \item
+        In the new pane, select the \texttt{+} symbol to add a new entry in the environment. On
+        Linux this is in the top right of the pane, while on MacOS this is in the bottom left of
+        the pane.
+      \item
+        In the new text field under \texttt{Name} enter \code{ANTLR\_INS}. In the field under
+        \texttt{Value} enter the path to your \code{antlr\_install} directory. If you've forgotten
+        it but your terminal is set up correctly then you can enter the following command to print
+        it:
+        \begin{lstlisting}
+          echo $ANTLR_INS
+        \end{lstlisting}
+      \item
+        Apply all of your changes while closing the settings.
+    \end{enumerate}
+  \item
+    Make sure you're building the \texttt{all} target, not just the \texttt{scalc} target. From the
+    drop down menu in the top right of the IDE you can choose your build target. Change this to
+    \texttt{Build All}.
+  \item
+    CLion may not automatically pick up ANTLR's generated sources as your project's. We can fix
+    this by telling CLion where the files are. Build once to have the \code{gen} directory appear
+    in the project manager pane. Right click on the directory, near the bottom of the menu find
+    \texttt{Mark directory as}, within that menu select \texttt{Project Sources and Headers}.
+\end{enumerate}
 
   \subsection{scalc\_tester}
 
