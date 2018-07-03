@@ -57,17 +57,17 @@
 
 % This is an SCalc of using a switch to have pdf/html only code
 \ifpdf
-	\LARGE
-	\textbf{SCalc}
-	\normalsize
+  \LARGE
+  \textbf{SCalc}
+  \normalsize
 \fi
 
 The goal of this assignment is to implement a compiler for a simple imperative language called
 \textit{SCalc}. This compiler will directly generate code for the following three backends:
 \begin {itemize}
-	\item \textit{x86} assembly
-	\item \textit{MIPS} assembly
-	\item \textit{ARM} assembly
+  \item \textit{x86} assembly
+  \item \textit{MIPS} assembly
+  \item \textit{ARM} assembly
 \end {itemize}
 You must also create an \textit{interpreter} for \textit{SCalc}
 
@@ -95,12 +95,12 @@ emit any code that you wish, as long as the output is correct.
 \subsection{Reserved Keywords}
 The following Keywords are reserved in \textit{SCalc}
 \begin {itemize}
-	\item{\code{if}}
-	\item{\code{fi}}
-	\item{\code{loop}}
-	\item{\code{pool}}
-	\item{\code{int}}
-	\item{\code{print}}
+  \item{\code{if}}
+  \item{\code{fi}}
+  \item{\code{loop}}
+  \item{\code{pool}}
+  \item{\code{int}}
+  \item{\code{print}}
 \end {itemize}
 
 \subsection {Integer Literals}
@@ -110,19 +110,19 @@ In this assignment integer literals are defined as being a string that contains 
 
 Examples of valid integers:
 \begin{lstlisting}
-	1
-	123
-	5234
-	01
-	10
+  1
+  123
+  5234
+  01
+  10
 \end{lstlisting}
 
 Examples of invalid integers:
 \begin{lstlisting}
-	1.0
-	one
-	1_1
-	1o
+  1.0
+  one
+  1_1
+  1o
 \end{lstlisting}
 
 \subsection{Identifiers}
@@ -132,20 +132,20 @@ be used as an identifier.
 
 Examples of valid identifiers:
 \begin{lstlisting}
-	hello
-	h
-	h3llo
-	Hi
-	h3
+  hello
+  h
+  h3llo
+  Hi
+  h3
 \end{lstlisting}
 
 Examples of invalid identifier:
 \begin{lstlisting}
-	3d
-	a-bad-variable-name
-	no@twitter
-	we.don't.like.punctuation
-	or_spelling
+  3d
+  a-bad-variable-name
+  no@twitter
+  we.don't.like.punctuation
+  or_spelling
 \end{lstlisting}
 
 \subsection{Expressions}
@@ -160,7 +160,7 @@ An expression is composed of integers, identifiers, and integer mathematical ope
     \textbf{Associativity} \\
     \hline
     Arithmetic
-    &addition	    & + & \texttt{expr + expr} & left \\
+    &addition      & + & \texttt{expr + expr} & left \\
     &subtraction    & - & \texttt{expr - expr} & left \\
     &multiplication & * & \texttt{expr * expr} & left \\
     &division       & / & \texttt{expr / expr} & left \\
@@ -206,30 +206,30 @@ Examples of valid expressions are
 If a comparison expression evaluates to true then it returns 1. If it evaluates to false then it
 returns 0. For example:
 \begin{lstlisting}
-	print(1==2);
-	print(8==8);
+  print(1==2);
+  print(8==8);
 \end{lstlisting}
 should print:
 \begin{lstlisting}
-	0
-	1
+  0
+  1
 \end{lstlisting}
 
 \subsubsection{Precedence}
 Precedence determines what order operations are evaluated in. Precedence works as defined in the
 following table:
 \begin{center}
-	\begin{tabular}{|c|c|}
-	\hline
-	\textbf{Precedence} & \textbf{Operations} \\
-	\hline
-	HIGHER
-	& *,/ \\
-	& +,- \\
-	& <, > \\
-	LOWER & ==, != \\
-	\hline
-	\end{tabular}
+  \begin{tabular}{|c|c|}
+  \hline
+  \textbf{Precedence} & \textbf{Operations} \\
+  \hline
+  HIGHER
+  & *,/ \\
+  & +,- \\
+  & <, > \\
+  LOWER & ==, != \\
+  \hline
+  \end{tabular}
 \end{center}
 
 \subsection {Statements}
@@ -237,11 +237,11 @@ following table:
 In \textit{SCalc} there are five types of statements:
 
 \begin {itemize}
-	\item \hyperref[sssec:declaration]{declaration}
-	\item \hyperref[sssec:assignment]{assignment}
-	\item \hyperref[sssec:conditional]{conditional}
-	\item \hyperref[sssec:loop]{loop}
-	\item \hyperref[sssec:print]{print}
+  \item \hyperref[sssec:declaration]{declaration}
+  \item \hyperref[sssec:assignment]{assignment}
+  \item \hyperref[sssec:conditional]{conditional}
+  \item \hyperref[sssec:loop]{loop}
+  \item \hyperref[sssec:print]{print}
 
 \end {itemize}
 
@@ -254,12 +254,12 @@ line.}{simple-whitespace}
 \label{sssec:declaration}
 A variable declaration in \textit{SCalc} has the following form:
 \begin{lstlisting}
-	int <id> = <expr>;
+  int <id> = <expr>;
 \end{lstlisting}
 
 \begin{itemize}
-	\item \code{id} is the identifier of a variable.
-	\item \code{expr} is an expression.
+  \item \code{id} is the identifier of a variable.
+  \item \code{expr} is an expression.
 \end{itemize}
 
 \assertion{If a variable is used in \code{expr} then it will already be declared and initialised.}
@@ -274,15 +274,15 @@ Variables have a few properties:\hypertarget{variable-props}{}
 
 Examples of valid declarations are:
 \begin{lstlisting}
-	int i = 9;
-	int j = 9 * 4 + 10;
-	int k = i * j;
+  int i = 9;
+  int j = 9 * 4 + 10;
+  int k = i * j;
 \end{lstlisting}
 
 Examples of invalid declarations are:
 \begin{lstlisting}
-	int i;
-	int j =;
+  int i;
+  int j =;
 \end{lstlisting}
 
 \subsubsection{Assignment}
@@ -290,31 +290,31 @@ Examples of invalid declarations are:
 Variable assignment is similar to variable declaration but it allows variables to be assigned new
 values. An assignment in \textit{SCalc} has the following form:
 \begin{lstlisting}
-	<id> = <expr>;
+  <id> = <expr>;
 \end{lstlisting}
 
 \begin{itemize}
-	\item \code{id} is the identifier of an already declared variable.
-	\item \code{expr} is an expression.
+  \item \code{id} is the identifier of an already declared variable.
+  \item \code{expr} is an expression.
 \end{itemize}
 
 \subsubsection{Conditional}
 \label{sssec:conditional}
 A conditional in \textit{SCalc} has the following form:
 \begin{lstlisting}
-	if (<expr>)
-		<statement-1>
-		<statement-2>
-		...
-		<statement-n>
-	fi;
+  if (<expr>)
+    <statement-1>
+    <statement-2>
+    ...
+    <statement-n>
+  fi;
 \end{lstlisting}
 
 \begin {itemize}
-	\item
+  \item
     \code{expr} is an expression. The body of the \code{if} statement is executed if and only if
     this expression evaluates to a non-zero value.
-	\item
+  \item
     \code{statement-*} is any type of statement \textit{except} a declaration. This means there can
     be assignments, nested loops, nested conditionals, and prints. There does not have to be any
     statements in the conditional.
@@ -327,20 +327,20 @@ A conditional in \textit{SCalc} has the following form:
 \label{sssec:loop}
 A loop in \textit{SCalc} has the following form:
 \begin{lstlisting}
-	loop (expr)
-		<statement-1>
-		<statement-2>
-		...
-		<statement-n>
-	pool;
+  loop (expr)
+    <statement-1>
+    <statement-2>
+    ...
+    <statement-n>
+  pool;
 \end{lstlisting}
 
 \begin {itemize}
-	\item
+  \item
   \code{expr} is an expression. The body of the \code{loop} statement is repeatedly evaluated as
   long as this expression is non-zero. The expression is evaluated prior to running the body
   similar to a \textit{C} \code{while} loop.
-	\item
+  \item
     \code{statement-*} is any type of statement \textit{except} a declaration. This means there can
     be assignments, nested loops, nested conditionals, and prints. There does not have to be any
     statements in the loop, but without side effects a loop will be infinite (unless it is never
@@ -355,37 +355,37 @@ global scoping.} {no-decl-loop}
 Print statements print the integer value of an expression followed by a newline. A print statement
 in \textit{SCalc} has the following form:
 \begin{lstlisting}
-	print(<expr>);
+  print(<expr>);
 \end{lstlisting}
 
 \begin{itemize}
-	\item \code{expr} is an expression.
+  \item \code{expr} is an expression.
 \end{itemize}
 
 For example, the input:
 \begin{lstlisting}
-	int i = 0;
-	loop (i < 5)
-		print(i);
-		i = i + 1;
-	pool;
+  int i = 0;
+  loop (i < 5)
+    print(i);
+    i = i + 1;
+  pool;
 \end{lstlisting}
 should print:
 \begin{lstlisting}
-	0
-	1
-	2
-	3
-	4
+  0
+  1
+  2
+  3
+  4
 \end{lstlisting}
 
 \section{Backends}
 
 \textit{SCalc}. This compiler will directly generate code for the following three backends:
 \begin {itemize}
-	\item \textit{x86} assembly
-	\item \textit{MIPS} assembly
-	\item \textit{ARM} assembly
+  \item \textit{x86} assembly
+  \item \textit{MIPS} assembly
+  \item \textit{ARM} assembly
 \end {itemize}
 You must also create an \textit{interpreter} for \textit{SCalc}
 
@@ -394,17 +394,17 @@ We recommend that you implement variables in the \code{.data} segment of your as
 general syntax for MIPS assembly is as follows:
 
 \begin{lstlisting}
-	.data
-	_newline: .asciiz "\n"
-	var1: .word 0
-	var2: .word 0
-	...
+  .data
+  _newline: .asciiz "\n"
+  var1: .word 0
+  var2: .word 0
+  ...
 
-	.text
-	main:
-	   <your generated code goes here>
-	   li   $v0, 10
-	   syscall
+  .text
+  main:
+     <your generated code goes here>
+     li   $v0, 10
+     syscall
 \end{lstlisting}
 
 This reference has a \href{http://students.cs.tamu.edu/tanzir/csce350/reference/syscalls.html}
@@ -414,16 +414,16 @@ string you've defined in the \code{.data} section containing only a new line cha
 
 If you save the \textit{MIPS} output as \code{program.s} then you can run it with the command:
 \begin{lstlisting}
-	spim -file program.s
+  spim -file program.s
 \end{lstlisting}
 
 If you wish to debug you may also launch spim with the command:
 \begin{lstlisting}
-	spim
+  spim
 \end{lstlisting}
 and then at the spim prompt you can load your file with:
 \begin{lstlisting}
-	load "program.s"
+  load "program.s"
 \end{lstlisting}
 The double quotes are necessary. You can type \texttt{help} to see the commands that spim provides.
 
@@ -432,45 +432,45 @@ You should use the Intel syntax for \textit{x86}, and your compiler's output mus
 nasm assembler. Your \textit{x86} output should look something like this:
 
 \begin{lstlisting}
-	global main
-	extern printf
+  global main
+  extern printf
 
-	section .data
-	var1: DD 0
-	var2: DD 0
-	...
+  section .data
+  var1: DD 0
+  var2: DD 0
+  ...
 
-	section .text
-	  main:
-	    <your generated code goes here>
-	    mov eax, 0 ; Set return value
-	    ret        ; Return
+  section .text
+    main:
+      <your generated code goes here>
+      mov eax, 0 ; Set return value
+      ret        ; Return
 \end{lstlisting}
 
 Print will use \code{printf}, which we will link in later to make it easier to implement the
 \code{print} statement. Printing consists of three steps:
 \begin{enumerate}
-	\item Push the arguments onto the stack in reverse order.
-	\item Call \code{printf}.
-	\item Clean up the stack.
+  \item Push the arguments onto the stack in reverse order.
+  \item Call \code{printf}.
+  \item Clean up the stack.
 \end{enumerate}
 
 For instance, the following segment of code contains a call to \code{printf}:
 \begin{lstlisting}
-	global main
-	extern printf
-	section .data
-	_format_string: DB "Hello! Here is a number: %d",0xA,0x0
+  global main
+  extern printf
+  section .data
+  _format_string: DB "Hello! Here is a number: %d",0xA,0x0
 
-	section .text
-	  main:
-	    push dword 7        ; Second argument
-	    push _format_string ; First argument (remember stacks are FILO)
-	    call printf         ; Make the call to printf
-	    add esp, 8          ; Pop the stack, we are done!
+  section .text
+    main:
+      push dword 7        ; Second argument
+      push _format_string ; First argument (remember stacks are FILO)
+      call printf         ; Make the call to printf
+      add esp, 8          ; Pop the stack, we are done!
 
-	    mov eax, 0
-	    ret
+      mov eax, 0
+      ret
 \end{lstlisting}
 
 \code{\_format\_string} deserves a quick explanation. The \code{DB} declares a datatype of bytes,
@@ -485,99 +485,99 @@ above.
 If you save the \textit{x86} output as \code{program.s} you can assemble an executable and run it
 by executing the following commands:
 \begin{lstlisting}
-	nasm -felf program.s
-	gcc program.o -o program -m32
+  nasm -felf program.s
+  gcc program.o -o program -m32
   ./program
 \end{lstlisting}
 
 Try this on the \code{printf} example and make sure that it works!
 
-	\subsection{ARM}
+  \subsection{ARM}
 
-		The \textit{ARM} assembly output should look something like this:
+    The \textit{ARM} assembly output should look something like this:
 
-		\begin{lstlisting}
-			.arch armv7-a
-			.data
-			_format_string: .asciz "%d\n"
-			var1: .word 0
-			var2: .word 0
-			...
+    \begin{lstlisting}
+      .arch armv7-a
+      .data
+      _format_string: .asciz "%d\n"
+      var1: .word 0
+      var2: .word 0
+      ...
 
-			.text
-			.globl main
-			main:
-			  <your generated code goes here>
-			  mov r0, #0
-			  mov r1, #1
-			  swi 0
-		\end{lstlisting}
+      .text
+      .globl main
+      main:
+        <your generated code goes here>
+        mov r0, #0
+        mov r1, #1
+        swi 0
+    \end{lstlisting}
 
-		We will also be using printf with \textit{ARM}. The \textit{ARM} calling convention is different: the first
-		argument is passed in r0, and the second argument is passed in r1. The following code demonstrates a call to
-		printf in \textit{ARM} assembly:
+    We will also be using printf with \textit{ARM}. The \textit{ARM} calling convention is different: the first
+    argument is passed in r0, and the second argument is passed in r1. The following code demonstrates a call to
+    printf in \textit{ARM} assembly:
 
-		\begin{lstlisting}
-			.arch armv7-a
-			.data
-			_format_string: .asciz "Hello! Here is a number: %d\n"
+    \begin{lstlisting}
+      .arch armv7-a
+      .data
+      _format_string: .asciz "Hello! Here is a number: %d\n"
 
-			.text
-			.globl main
-			main:
-			  push {ip, lr}
-			  ldr r0, =_format_string
-			  mov r1, #7
-			  bl printf
-			  mov r0, #0
-			  pop {ip, lr}
+      .text
+      .globl main
+      main:
+        push {ip, lr}
+        ldr r0, =_format_string
+        mov r1, #7
+        bl printf
+        mov r0, #0
+        pop {ip, lr}
 
-			  mov r0, #0
-			  mov r1, #1
-			  swi 0
-		\end{lstlisting}
+        mov r0, #0
+        mov r1, #1
+        swi 0
+    \end{lstlisting}
 
-		Aside from the difference calling convention this code is very similar to the \textit{x86} example.
+    Aside from the difference calling convention this code is very similar to the \textit{x86} example.
 
-		\textit{ARMv7-A} lacks a division instruction. Therefore, we have to call the subroutine
-		\texttt{\_\_aeabi\_idiv} to perform integer division:
+    \textit{ARMv7-A} lacks a division instruction. Therefore, we have to call the subroutine
+    \texttt{\_\_aeabi\_idiv} to perform integer division:
 
-		\begin{lstlisting}
-			.arch armv7-a
-			.data
+    \begin{lstlisting}
+      .arch armv7-a
+      .data
 
-			.text
-			.globl main
-			main:
-			  mov r0, #5
-			  mov r1, #3
-			  bl __aeabi_idiv(PLT)  /* Divide 5 by 3, return the result in r0 */
+      .text
+      .globl main
+      main:
+        mov r0, #5
+        mov r1, #3
+        bl __aeabi_idiv(PLT)  /* Divide 5 by 3, return the result in r0 */
 
-			  mov r1, #1
-			  swi 0
-		\end{lstlisting}
+        mov r1, #1
+        swi 0
+    \end{lstlisting}
 
-		In order to assemble an executable you may run the following commands:
+    In order to assemble an executable you may run the following commands:
 
-		\begin{lstlisting}
-			arm-none-eabi-as -o program.o program.s
-			arm-none-eabi-gcc -spec=rdimon.specs -o program program.o
-		\end{lstlisting}
+    \begin{lstlisting}
+      arm-none-eabi-as -o program.o program.s
+      arm-none-eabi-gcc -spec=rdimon.specs -o program program.o
+    \end{lstlisting}
 
-		Given an assembly file \texttt{program.s} this sequence of commands will produce an executable called
-		\texttt{program} that you can run on the lab machines as follows:
+    Given an assembly file \texttt{program.s} this sequence of commands will produce an executable called
+    \texttt{program} that you can run on the lab machines as follows:
 
-		\begin{lstlisting}
-			qemu-arm ./program
-		\end{lstlisting}
+    \begin{lstlisting}
+      qemu-arm ./program
+    \end{lstlisting}
 
-		Try this on the \texttt{printf} example and make sure that it works!
+    Try this on the \texttt{printf} example and make sure that it works!
 
 
-	\subsection{Interpreter}
+  \subsection{Interpreter}
 
-		You should be able to execute a program without compiling by implementing an interpreter as well. This should
-		work similarly to the generator assignment.
+    You should be able to execute a program without compiling by implementing an interpreter as well. This should
+    work similarly to the generator assignment.
 
 \section{Assertions}
 \textbf{ALL} input test cases will be valid. It can be a good idea to do error checking for your
@@ -693,92 +693,92 @@ These clarifications are meant to add more information to the specification with
 
 \section{Provided Frameworks}
 
-	The following tools have been provided for you to make development and testing easier
+  The following tools have been provided for you to make development and testing easier
 
-	\subsection{Project Layout}
+  \subsection{Project Layout}
 
-		For the tools provided to work your project should be in the specified layout. You must provide a \texttt{Main.java} that contains your main function. The program should take two command line arguments. The first argument is the mode that your program should run in. The second is the input file. Your program will output the interpreted results of the input or the assembler matching the mode chosen. The modes will be one of the following \texttt{mips}, \texttt{arm}, \texttt{x86} or \texttt{interpret}.
+    For the tools provided to work your project should be in the specified layout. You must provide a \texttt{Main.java} that contains your main function. The program should take two command line arguments. The first argument is the mode that your program should run in. The second is the input file. Your program will output the interpreted results of the input or the assembler matching the mode chosen. The modes will be one of the following \texttt{mips}, \texttt{arm}, \texttt{x86} or \texttt{interpret}.
 
-		\begin{lstlisting}
-			+-- project/
-				+-- Makefile
-				+-- test_script
-				+-- src/
-					+-- Main.java	(must contain main function)
-					+-- *.g4	(Antlr4 lexer/parser source files)
-					+-- *.java	(Java source files)
-					+-- *.stg	(StringTemplate string template group files)
-				+-- TestFiles/
-					+-- Input/
-						+-- (testfiles)
-						...
-					+-- Output/
-						+-- (matching output files. Names must match between input test and output test)
-						...
-		\end{lstlisting}
+    \begin{lstlisting}
+      +-- project/
+        +-- Makefile
+        +-- test_script
+        +-- src/
+          +-- Main.java  (must contain main function)
+          +-- *.g4  (Antlr4 lexer/parser source files)
+          +-- *.java  (Java source files)
+          +-- *.stg  (StringTemplate string template group files)
+        +-- TestFiles/
+          +-- Input/
+            +-- (testfiles)
+            ...
+          +-- Output/
+            +-- (matching output files. Names must match between input test and output test)
+            ...
+    \end{lstlisting}
 
 
-	\subsection{Makefile}
+  \subsection{Makefile}
 
-		The \texttt{Makefile} provided is an exact copy of the one that will be used for grading.  Any changes made to
-		this makefile will not exist in the one used for grading so as a rule of thumb don't change it. The project must
-		be in the specified layout for the makefile to properly work (see \texttt{Project Layout})
+    The \texttt{Makefile} provided is an exact copy of the one that will be used for grading.  Any changes made to
+    this makefile will not exist in the one used for grading so as a rule of thumb don't change it. The project must
+    be in the specified layout for the makefile to properly work (see \texttt{Project Layout})
 
-		The makefile has the following commands:
+    The makefile has the following commands:
 
-		\begin{itemize}
-			\item{\textbf{all}}: Builds all solution files
-			\item{\textbf{run}}: Runs the solution (builds solution if necessary)
-			\item{\textbf{arm}}: Runs the solution in arm mode (builds solution if necessary)
-			\item{\textbf{mips}}: Runs the solution in mips mode (builds solution if necessary)
-			\item{\textbf{x86}}: Runs the solution in x86 mode (builds solution if necessary)
-			\item{\textbf{interpret}}: Runs the solution in interpret mode (builds solution if necessary)
-			\item{\textbf{test}}: Runs testing system against solution (builds solution if necessary)
-			\item{\textbf{clean}}: Cleans all generated files including Intellij generated files
-			\item{\textbf{submissible}}: Collects files for submission and places them in a tar ball. This file contains
-			the files in the format they should be in
-		\end{itemize}
+    \begin{itemize}
+      \item{\textbf{all}}: Builds all solution files
+      \item{\textbf{run}}: Runs the solution (builds solution if necessary)
+      \item{\textbf{arm}}: Runs the solution in arm mode (builds solution if necessary)
+      \item{\textbf{mips}}: Runs the solution in mips mode (builds solution if necessary)
+      \item{\textbf{x86}}: Runs the solution in x86 mode (builds solution if necessary)
+      \item{\textbf{interpret}}: Runs the solution in interpret mode (builds solution if necessary)
+      \item{\textbf{test}}: Runs testing system against solution (builds solution if necessary)
+      \item{\textbf{clean}}: Cleans all generated files including Intellij generated files
+      \item{\textbf{submissible}}: Collects files for submission and places them in a tar ball. This file contains
+      the files in the format they should be in
+    \end{itemize}
 
-	\subsection{scalc\_tester}
+  \subsection{scalc\_tester}
 
-		This program runs all your test files against their matching outputs. This program is designed to operate in the
-		same manor as how the marking script will test solutions.
+    This program runs all your test files against their matching outputs. This program is designed to operate in the
+    same manor as how the marking script will test solutions.
 
-		Help for scalc tester can be found by running with the -h flag:
+    Help for scalc tester can be found by running with the -h flag:
 
-		\begin{lstlisting}
-			./test_script -h
-		\end{lstlisting}
+    \begin{lstlisting}
+      ./test_script -h
+    \end{lstlisting}
 
-		It by default expects that all input Tests are in \texttt{TestFiles/Input/} and that  all output files are in
-		\texttt{TestFiles/Output/}
+    It by default expects that all input Tests are in \texttt{TestFiles/Input/} and that  all output files are in
+    \texttt{TestFiles/Output/}
 
 
 
 
 \section{Tips and Hints}
 
-	\begin{enumerate}
-		\item Write tests \textbf{BEFORE} you implement the things they will test. The testing script provided was
-		designed to handle failed test cases.  The following command-line flags might be useful when you are running your own tests:
-		\begin{description}
-			\item[{\tt -a}] turn off stopping on invalid output
-			\item[{\tt -s}]  turn off displaying erroneous output
-		\end{description}
-		\item The antlr4 visitor method is better than the listener method to create the interpreter.
-		\item The MIPS, ARM, and x86 compilers can be built using either method. We suggest that you try the listener method.
-		\item A single listener or visitor should be able to handle the x86, MIPS, and ARM code generation. All that should
-		change is the string template group file used.
-		\item There is no specified syntax guide for string template group files, thus you \textbf{CAN} write those files using
-		any style that you chose. However, \textbf{software design practices, which include code legibility, form part of your grade}.
-		Consistent style throughout your assignment is important.
-		\item This assignment will be extended to build a calculator that handles vectors in the next assignment. For that assignment
-		you will need to do type checking. Therefore you are advised to:
-		\begin {enumerate}
-			\item Read that assignment now
-			\item Include type checking in this solution, even though you are only
-			required to handle integers in this assignment.
-		\end {enumerate}
-	\end{enumerate}
+  \begin{enumerate}
+    \item Write tests \textbf{BEFORE} you implement the things they will test. The testing script provided was
+    designed to handle failed test cases.  The following command-line flags might be useful when you are running your own tests:
+    \begin{description}
+      \item[{\tt -a}] turn off stopping on invalid output
+      \item[{\tt -s}]  turn off displaying erroneous output
+    \end{description}
+    \item The antlr4 visitor method is better than the listener method to create the interpreter.
+    \item The MIPS, ARM, and x86 compilers can be built using either method. We suggest that you try the listener method.
+    \item A single listener or visitor should be able to handle the x86, MIPS, and ARM code generation. All that should
+    change is the string template group file used.
+    \item There is no specified syntax guide for string template group files, thus you \textbf{CAN} write those files using
+    any style that you chose. However, \textbf{software design practices, which include code legibility, form part of your grade}.
+    Consistent style throughout your assignment is important.
+    \item This assignment will be extended to build a calculator that handles vectors in the next assignment. For that assignment
+    you will need to do type checking. Therefore you are advised to:
+    \begin {enumerate}
+      \item Read that assignment now
+      \item Include type checking in this solution, even though you are only
+      required to handle integers in this assignment.
+    \end {enumerate}
+  \end{enumerate}
 
 \end{document}
