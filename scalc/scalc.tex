@@ -489,86 +489,84 @@ by executing the following commands:
 
 Try this on the \code{printf} example and make sure that it works!
 
-  \subsection{ARM}
+\subsection{ARM}
+The \textit{ARM} assembly output should look something like this:
+\begin{lstlisting}
+  .arch armv7-a
+  .data
+  _format_string: .asciz "%d\n"
+  var1: .word 0
+  var2: .word 0
+  ...
 
-    The \textit{ARM} assembly output should look something like this:
+  .text
+  .globl main
+  main:
+    push {ip, lr}      // Save link and scratch registers.
 
-    \begin{lstlisting}
-      .arch armv7-a
-      .data
-      _format_string: .asciz "%d\n"
-      var1: .word 0
-      var2: .word 0
-      ...
+    <your generated code goes here>
 
-      .text
-      .globl main
-      main:
-        <your generated code goes here>
-        mov r0, #0
-        mov r1, #1
-        swi 0
-    \end{lstlisting}
+    pop  {ip, lr}      // Load link and scratch registers.
+    mov  r0, #0        // Set return value.
+    bx   lr            // Return.
+\end{lstlisting}
 
-    We will also be using printf with \textit{ARM}. The \textit{ARM} calling convention is different: the first
-    argument is passed in r0, and the second argument is passed in r1. The following code demonstrates a call to
-    printf in \textit{ARM} assembly:
+We will also be using \code{printf} with \textit{ARM}. The \textit{ARM} calling convention is
+different from \textit{x86}: the first argument is passed in r0, and the second argument is passed
+in r1. The following code demonstrates a call to \code{printf} in \textit{ARM} assembly:
+\begin{lstlisting}
+  .arch armv7-a
+  .data
+  _format_string: .asciz "Hello! Here is a number: %d\n"
 
-    \begin{lstlisting}
-      .arch armv7-a
-      .data
-      _format_string: .asciz "Hello! Here is a number: %d\n"
+  .text
+  .globl main
+  main:
+    push {ip, lr}      // Save link and scratch registers.
 
-      .text
-      .globl main
-      main:
-        push {ip, lr}
-        ldr r0, =_format_string
-        mov r1, #7
-        bl printf
-        mov r0, #0
-        pop {ip, lr}
+    ldr r0, =_format_string // Load the address of the format string into the first argument.
+    mov r1, #7         // Place the literal 7 into the second argument.
+    bl printf          // Call printf.
 
-        mov r0, #0
-        mov r1, #1
-        swi 0
-    \end{lstlisting}
+    pop  {ip, lr}      // Load link and scratch registers.
+    mov  r0, #0        // Set return value.
+    bx   lr            // Return.
+\end{lstlisting}
 
-    Aside from the difference calling convention this code is very similar to the \textit{x86} example.
+Aside from the difference in calling convention, this code is very similar to the \textit{x86}
+example. As well, declaring the \code{\_format\_string} is a lot easier because it has a
+null-terminated string directive and can parse \code{\textbackslash n} like \textit{MIPS}.
 
-    \textit{ARMv7-A} lacks a division instruction. Therefore, we have to call the subroutine
-    \texttt{\_\_aeabi\_idiv} to perform integer division:
+\textit{ARMv7-A} lacks a division instruction. Therefore, we have to call the subroutine
+\code{\_\_aeabi\_idiv} to perform integer division. The following code demonstrates a call to
+\code{\_\_aeabi\_idiv} in \textit{ARM} assembly:
 
-    \begin{lstlisting}
-      .arch armv7-a
-      .data
+\begin{lstlisting}
+  .arch armv7-a
+  .data
 
-      .text
-      .globl main
-      main:
-        mov r0, #5
-        mov r1, #3
-        bl __aeabi_idiv(PLT)  /* Divide 5 by 3, return the result in r0 */
+  .text
+  .globl main
+  main:
+    push {ip, lr}      // Save link and scratch registers.
 
-        mov r1, #1
-        swi 0
-    \end{lstlisting}
+    mov r0, #5         // Move the literal 5 into the first argument (the dividend).
+    mov r1, #3         // Move the literal 3 into the second argument (the divisor).
+    bl __aeabi_idiv(PLT) // Divide 5 by 3, return the result in r0.
 
-    In order to assemble an executable you may run the following commands:
+    pop  {ip, lr}      // Load link and scratch registers.
+    mov  r0, #0        // Set return value.
+    bx   lr            // Return.
+\end{lstlisting}
 
-    \begin{lstlisting}
-      arm-none-eabi-as -o program.o program.s
-      arm-none-eabi-gcc -spec=rdimon.specs -o program program.o
-    \end{lstlisting}
+In order to assemble and run an executable you may run the following commands:
+\begin{lstlisting}
+  arm-none-eabi-as -o program.o program.s
+  arm-none-eabi-gcc -specs=rdimon.specs -o program program.o
+  qemu-arm ./program
+\end{lstlisting}
 
-    Given an assembly file \texttt{program.s} this sequence of commands will produce an executable called
-    \texttt{program} that you can run on the lab machines as follows:
-
-    \begin{lstlisting}
-      qemu-arm ./program
-    \end{lstlisting}
-
-    Try this on the \texttt{printf} example and make sure that it works!
+Try this on the \texttt{printf} example and make sure that it works!
 
 
   \subsection{Interpreter}
