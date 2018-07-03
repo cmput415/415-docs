@@ -83,9 +83,9 @@ computations that appear in the input file.
 simulator (\textit{qemu-arm}).
 
 Your compiler will produce the assembly text files, not binaries. \textbf{You must generate your
-assembly using \href{https://github.com/pantor/inja}{inja}}. Inja is a string template engine which
-allows you to make use of formatted strings. Its syntax is similar to \textit{Python}'s jinja. You
-won't need any advanced features to complete this assignment.
+assembly using \href{https://github.com/pantor/inja}{\textit{inja}}}. Inja is a string template
+engine which allows you to make use of formatted strings. Its syntax is similar to
+\textit{Python}'s jinja. You won't need any advanced features to complete this assignment.
 
 Beyond this constraint you are allow to use any internal representation that you wish, as well as
 emit any code that you wish, as long as the output is correct.
@@ -799,28 +799,45 @@ These clarifications are meant to add more information to the specification with
 
 
 \section{Tips and Hints}
-
-  \begin{enumerate}
-    \item Write tests \textbf{BEFORE} you implement the things they will test. The testing script provided was
-    designed to handle failed test cases.  The following command-line flags might be useful when you are running your own tests:
-    \begin{description}
-      \item[{\tt -a}] turn off stopping on invalid output
-      \item[{\tt -s}]  turn off displaying erroneous output
-    \end{description}
-    \item The antlr4 visitor method is better than the listener method to create the interpreter.
-    \item The MIPS, ARM, and x86 compilers can be built using either method. We suggest that you try the listener method.
-    \item A single listener or visitor should be able to handle the x86, MIPS, and ARM code generation. All that should
-    change is the string template group file used.
-    \item There is no specified syntax guide for string template group files, thus you \textbf{CAN} write those files using
-    any style that you chose. However, \textbf{software design practices, which include code legibility, form part of your grade}.
-    Consistent style throughout your assignment is important.
-    \item This assignment will be extended to build a calculator that handles vectors in the next assignment. For that assignment
-    you will need to do type checking. Therefore you are advised to:
-    \begin {enumerate}
-      \item Read that assignment now
-      \item Include type checking in this solution, even though you are only
-      required to handle integers in this assignment.
-    \end {enumerate}
-  \end{enumerate}
+\begin{enumerate}
+  \item
+    Write tests \textit{before} you implement the things they will test. The testing script
+    provided is designed to handle failed test cases. You can reduce output in the testing tool by
+    passing the \code{-q} flag.
+  \item
+    As with the generator assignment, the ANTLR visitor pattern is best for implementing the
+    interpreter.
+  \item
+    The MIPS, ARM, and x86 compilers can be built using either the visitor or the listener pattern.
+    The listener may be more appropriate so it is the suggested method.
+  \item
+    A single listener or visitor should be able to handle the x86, MIPS, and ARM code generation.
+    All that should change is the templated strings.
+  \item
+    There is no specified syntax guide for use with \textit{inja} thus you \textbf{could} write
+    your strings in any style that you choose. However, \textbf{software design practices, which
+    include code legibility, form part of your grade}. Therefore, I suggest you use
+    \href{https://softwareengineering.stackexchange.com/q/254984}{implicit string concatenation} to
+    delineate your strings. For example, this may be a format string for literal division:
+    \begin{lstlisting}
+      std::string literalDivision =
+        "\n  # Div.\n"
+        "  addi $t0, $0, {{ dividend }} # Set dividend.\n"
+        "  addi $t1, $0, {{ divisor }} # Set divisor.\n"
+        "  div  $t1, $t0      # Divide.\n"
+        "  mflo $t0           # Get result.\n";
+    \end{lstlisting}
+  \item
+    This assignment will be extended to build a calculator that handles vectors in the next
+    assignment. For that assignment you will need to do type checking. Therefore you are advised
+    to:
+  \begin {enumerate}
+    \item
+      Read that assignment now.
+    \item
+      Include type checking in this solution even though you are only required to handle integers
+      in this assignment.
+  \end {enumerate}
+\end{enumerate}
 
 \end{document}
