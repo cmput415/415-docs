@@ -816,21 +816,34 @@ CLion requires a little bit of setup.
     \texttt{Mark directory as}, within that menu select \texttt{Project Sources and Headers}.
 \end{enumerate}
 
-  \subsection{scalc\_tester}
+\subsection{Testing}
+Inside the \code{tests} directory, a testing configuration file,
+\code{SCalcConfigInterpreterOnly.json}, is provided. You need to edit \code{inDir} with the
+absolute path of \code{\ldots/tests/input}, \code{outDir} with the absolute path of
+\code{\ldots/tests/output}, and finally \code{testedExecutablePaths} with your ccid and the
+absolute path of \code{\ldots/bin/scalc}.
 
-    This program runs all your test files against their matching outputs. This program is designed to operate in the
-    same manor as how the marking script will test solutions.
+This configuration will run \textit{only your interpreter} and can be run on your local machine.
 
-    Help for scalc tester can be found by running with the -h flag:
+Another configuration is provided in \code{SCalcConfigCS.json}. This is for use on the machines in
+CSC either by being physically logged on or via ssh. Again, you need to edit \code{inDir} with the
+absolute path of \code{\ldots/tests/input}, \code{outDir} with the absolute path of
+\code{\ldots/tests/output}, and finally \code{testedExecutablePaths} with your ccid and the
+absolute path of \code{\ldots/bin/scalc}.
 
-    \begin{lstlisting}
-      ./test_script -h
-    \end{lstlisting}
+This configuration will run the \textit{MIPS, x86, ARM, and interpreter} configurations of your
+compiler against all of your tests.
 
-    It by default expects that all input Tests are in \texttt{TestFiles/Input/} and that  all output files are in
-    \texttt{TestFiles/Output/}
+Running the tester should now run your tests with your solution. Note that the output files will
+not be cleaned up so it might be wise run your tests in a directory that is not your repository. If
+you would still like to run them in the same directory, just know that the output files do not need
+to be tracked by git and can be safely deleted.
+\begin{lstlisting}
+  tester <path_to_config>
+\end{lstlisting}
 
-
+For more information about the testing tool and how it works, see the
+\href{https://github.com/cmput415/Tester/blob/master/README.md}{Tester README}.
 
 \section{Deliverables}
 Your submission will be \textbf{the latest commit before the deadline} to your github repository.
