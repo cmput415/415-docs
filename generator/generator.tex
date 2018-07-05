@@ -646,7 +646,7 @@ solutions directly from your repository.
 You do not need to submit anything on eclass or anywhere else.
 
 \section{Tips and Hints}
-\begin{enumerate}
+\begin{itemize}
   \item
     Write tests \textit{before} you implement the things they will test. The testing script
     provided is designed to handle failed test cases. You can reduce output in the testing tool by
@@ -661,15 +661,49 @@ You do not need to submit anything on eclass or anywhere else.
     Be careful with your lexer rule ordering. Remember that the lexer matches tokens according to
     definition order and not according to any parser rules.
   \item
-    \textit{ANTLR4} has no standardized naming convention or style guide. This means you
-    \textit{could} do whatever you want for style. With that in mind I highly recommend you follow
-    something similar to the one on the \textit{ANTLR4} documentation pages. What ever you choose
-    make sure it is easy to read and consistent because \textit{part of your grade} will be based
-    on software design and that includes code legibility.
-  \item
     In particular, \textit{rule element labels} can be supremely useful. More info can be found
     \href{https://github.com/antlr/antlr4/blob/master/doc/parser-rules.md\#alternative-labels}
     {here}.
+  \item
+    Style and design are part of your mark. Here are some easy ways to ensure you remain stylish:
+    \begin{itemize}
+    \item
+      \textit{ANTLR4} has no standardized naming convention or style guide. This means you
+      \textit{could} do whatever you want for style. With that in mind I highly recommend you
+      follow something similar to the one on the \textit{ANTLR4} documentation pages. What ever you
+      choose make sure it is easy to read and consistent.
+    \item
+      Keep your source organised. That means separating declarations (classes, class member
+      functions, file scope functions) into headers and their definitions into source files. A
+      good rule of thumb: if you're writing three or more lines of function code in a header, it's
+      probably better in a source file. There are of course exceptions (template classes/functions,
+      etc.) but their definitions can often be separated to below the class declaration to keep
+      a "clean" declaration. If you can't follow this style for some reason, leave a comment for
+      yourself (and the marker) to understand why. Consider reading
+      \href{https://softwareengineering.stackexchange.com/a/167751}{this answer} for more info.
+    \item
+      Now that you've separated all of these files, you should make sure they're organised. The
+      project is already set up to let you separate your headers from your source. A good idea
+      is to have identical directory structures under \code{src} and \code{include} with headers
+      and source files mirroring each other (e.g. \code{include/dir/dir2/class.h} and
+      \code{src/dir/dir2/class.cpp}). You will be able to include the header via
+      \code{\#include "dir/dir2/class.h"}.
+    \item
+      This is your work and you should own that. Add your name to the README and License as well.
+      Your project is not "GeneratorBase". Change the base \code{CMakeLists.txt}'s project name
+      to something more appropriate. "Generator", "<ccid>Generator" or something equally
+      descriptive should be more appropriate. Just don't change the executable name!
+    \item
+      You will also need to add your source files in the src/CMakeLists.txt file (or new
+      subdirectory \code{CMakeLists.txt}s that you make yourself). You should be explicit about
+      your file paths (use \code{CMAKE_CURRENT_SOURCE_DIR} to make them absolute).
+      \href{https://cmake.org/Wiki/CMake_Useful_Variables}{These variables} may be helpful.
+    \item
+      This assignment is not as demanding as later assignments so a lack of documentation and
+      information might be understandable. However, in the future, I expect to see appropriate
+      comments in source and headers, changes to README where applicable, using the issue tracker,
+      etc.
+    \end{itemize}
   \item
     The \code{antlrcpp::Any} type  returned by \code{visit} can be very fickle if you don't
     understand its internals exactly
@@ -694,6 +728,6 @@ You do not need to submit anything on eclass or anywhere else.
     \end{itemize}
     These may not seem relevant now, but it's better to get in the habit now than have it bite you
     later and not understand why.
-\end{enumerate}
+\end{itemize}
 
 \end{document}
