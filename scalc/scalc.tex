@@ -929,7 +929,11 @@ solutions directly from your repository.
 You do not need to submit anything on eclass or anywhere else.
 
 \section{Tips and Hints}
-\begin{enumerate}
+\begin{itemize}
+  \item
+    Review the \href{https://webdocs.cs.ualberta.ca/\%7Ec415/generator/}{Tips and Hints} from the
+    generator assignment: much of it applies to this assignment as well. In particular, the
+    style and design sections are necessary.
   \item
     Write tests \textit{before} you implement the things they will test. The testing script
     provided is designed to handle failed test cases. You can reduce output in the testing tool by
@@ -944,30 +948,35 @@ You do not need to submit anything on eclass or anywhere else.
     A single listener or visitor should be able to handle the x86, MIPS, and ARM code generation.
     All that should change is the templated strings.
   \item
-    There is no specified syntax guide for use with \textit{inja} thus you \textbf{could} write
-    your strings in any style that you choose. However, \textbf{software design practices, which
-    include code legibility, form part of your grade}. Therefore, I suggest you use
-    \href{https://softwareengineering.stackexchange.com/q/254984}{implicit string concatenation} to
-    delineate your strings. For example, this may be a format string for literal division:
-    \begin{lstlisting}
-      std::string literalDivision =
-        "\n  # Div.\n"
-        "  addi $t0, $0, {{ dividend }} # Set dividend.\n"
-        "  addi $t1, $0, {{ divisor }} # Set divisor.\n"
-        "  div  $t1, $t0      # Divide.\n"
-        "  mflo $t0           # Get result.\n";
-    \end{lstlisting}
+    In addition to the \href{https://webdocs.cs.ualberta.ca/\%7Ec415/generator/}{previous tips},
+    here's how to stay stylish in this assignment:
+    \begin{itemize}
+      \item
+        There is no specified syntax guide for use with \textit{inja}, thus you \textbf{could}
+        write your strings in any style that you choose. I suggest you use
+        \href{https://softwareengineering.stackexchange.com/q/254984}{implicit string
+        concatenation} to delineate your strings. For example, this may be a format string for
+        literal division:
+        \begin{lstlisting}
+          std::string literalDivision =
+            "\n  # Div.\n"
+            "  addi $t0, $0, {{ dividend }} # Set dividend.\n"
+            "  addi $t1, $0, {{ divisor }} # Set divisor.\n"
+            "  div  $t1, $t0      # Divide.\n"
+            "  mflo $t0           # Get result.\n";
+        \end{lstlisting}
+    \end{itemize}
   \item
     This assignment will be extended to build a calculator that handles vectors in the next
     assignment. For that assignment you will need to do type checking. Therefore you are advised
     to:
-  \begin {enumerate}
+  \begin {itemize}
     \item
       Read that assignment now.
     \item
       Include type checking in this solution even though you are only required to handle integers
       in this assignment.
-  \end {enumerate}
-\end{enumerate}
+  \end {itemize}
+\end{itemize}
 
 \end{document}
