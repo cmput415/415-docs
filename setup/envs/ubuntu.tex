@@ -2,6 +2,14 @@
 
 \begin{document}
 
+\subsection{Installing libUUID}
+LibUUID is a library required for many applications so it's possible that you've already installed
+this while installing something else. Best to try and install it anyways:
+\begin{lstlisting}
+  sudo apt-get update
+  sudo apt-get install uuid-dev
+\end{lstlisting}
+
 \subsection{Installing OpenJDK JRE 8}
 The Java runtime environment (JRE) is required to run the ANTLR generator. OpenJDK's JRE is easier
 to install than Oracle's, so we'll use that.
