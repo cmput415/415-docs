@@ -141,7 +141,8 @@ An expression is composed of integers, identifiers, and integer mathematical ope
 \end{center}
 
 \assertion{All exponents are $\geq 0$.}{positive-exp}\\
-\clarification{The \code{\%} operator is remainder not modulus.}{rem-not-mod}
+\clarification{The \code{\%} operator is remainder not modulus.}{rem-not-mod}\\
+\clarification{Division is integer division.}{int-div}
 
 \subsubsection{Valid Expressions}
 Valid formats for expressions are
@@ -425,7 +426,7 @@ give more in-depth explanation of specification particulars.
     greater than or equal to zero, even if the base is 1. For example, the following test would be
     considered in invalid:
     \begin{lstlisting}
-      [i in 0..1 | 2 ^ (0 - 2)]
+      [i in 0..1 | 2 ^ (0 - 2)];
     \end{lstlisting}
   \item
     \assertiondest{expression-size}
@@ -483,10 +484,9 @@ These clarifications are meant to add more information to the specification with
     \clarificationdest{rem-not-mod}
     The \code{\%} operator is remainder not modulus. Some languages (e.g. Python) define \code{\%}
     as the modulus operator while others (e.g. C++) define it as remainder. Using the \code{\%}
-    operator in C++ is sufficient for this assignment. For example, using the
-    following test:
+    operator in C++ is sufficient for this assignment. For example, using the following test:
     \begin{lstlisting}
-      [i in 0..2 | (i - 9) % 3]
+      [i in 0..2 | (i - 9) % 3];
     \end{lstlisting}
     The following output would be considered incorrect because modulus was used:
     \begin{lstlisting}
@@ -495,6 +495,20 @@ These clarifications are meant to add more information to the specification with
     The following output would be considered correct because remainder was used:
     \begin{lstlisting}
       0 -2 -1
+    \end{lstlisting}
+  \item
+    \clarificationdest{int-div}
+    Division is integer division. This means that any decimal portion of a division operation
+    result is truncated (not rounded). No extra work is required: this is the default in C++. For
+    example:
+    \begin{lstlisting}
+      [i in 0..6 | i / 3];
+      [i in 0..6 | (0 - i) / 3];
+    \end{lstlisting}
+    produces the following output:
+    \begin{lstlisting}
+      0 0 0 1 1 1 2
+      0 0 0 -1 -1 -1 -2
     \end{lstlisting}
   \item
     \clarificationdest{empty-input}
