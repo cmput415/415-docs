@@ -91,7 +91,7 @@ Beyond this constraint you are allow to use any internal representation that you
 emit any code that you wish, as long as the output is correct.
 
 \section{Language Specification}
-\textit{SCalc} has integer variables, \code{if} statements, loops, prints, and various integer expressions.
+\textit{SCalc} has integer variables, conditionals, loops, prints, and various integer expressions.
 \subsection{Reserved Keywords}
 The following Keywords are reserved in \textit{SCalc}
 \begin {itemize}
@@ -103,8 +103,41 @@ The following Keywords are reserved in \textit{SCalc}
   \item{\code{print}}
 \end {itemize}
 
-\subsection {Integer Literals}
-In this assignment integer literals are defined as being a string that contains only the numeral 0-9 with no spaces.
+\subsection{Booleans}
+In this assignment, booleans can only be produced using comparison operators, there is no literal to
+express them. As well, they are ephemeral: there is no way to store them. They can only exist when
+created using one of the comparison operators.
+
+When printed, booleans take on a value of 1 (true) or 0 (false). For example:
+\begin{lstlisting}
+  print(1 == 1);
+  print(1 == 0);
+\end{lstlisting}
+produces the following output:
+\begin{lstlisting}
+  1
+  0
+\end{lstlisting}
+
+As well booleans \textit{are} usable in expressions and must be \textit{upcast} to an integer.
+This means if a boolean is used in an arithmetic expression it takes on the integer value described
+above. For example:
+\begin{lstlisting}
+  print(1 + (1 == 1));
+  print(1 + (1 == 0));
+\end{lstlisting}
+produces the following output:
+\begin{lstlisting}
+  2
+  1
+\end{lstlisting}
+
+\subsection{Integers}
+In this assignment, integers are the \textit{only} numerical type (there is no floating point type).
+As well, they are the only type that you can store.
+
+In this assignment integer literals are defined as being a string that contains only the numerals
+0-9 with no spaces.
 
 \assertion{All integer literals will be positive.}{positive-literals}\\
 
@@ -123,6 +156,22 @@ Examples of invalid integers:
   one
   1_1
   1o
+\end{lstlisting}
+
+As well, integers \textit{are} usable in conditions and must be \textit{downcast} to booleans. This
+means in a condtional, an integer that \textit{is not} zero will be considered true and an integer
+that \textit{is} zero will be considered false. For example:
+\begin{lstlisting}
+  if (999)
+    print(999);
+  fi;
+  if (0)
+    print(0);
+  fi;
+\end{lstlisting}
+produces the following output:
+\begin{lstlisting}
+  999
 \end{lstlisting}
 
 \subsection{Identifiers}
@@ -149,7 +198,7 @@ Examples of invalid identifier:
 \end{lstlisting}
 
 \subsection{Expressions}
-An expression is composed of integers, identifiers, and integer mathematical operations.
+An expression is composed of integers, identifiers, and operators.
 
 \subsubsection{Operators}
 
@@ -175,7 +224,8 @@ An expression is composed of integers, identifiers, and integer mathematical ope
 \end{center}
 
 \clarification{There is no remainder operator in SCalc.}{no-rem}\\
-\clarification{There is no exponentiation operator in SCalc.}{no-pow}
+\clarification{There is no exponentiation operator in SCalc.}{no-pow}\\
+\clarification{Division is integer division.}{int-div}\\
 
 \subsubsection{Valid Expressions}
 Valid formats for expressions are
@@ -200,19 +250,6 @@ Examples of valid expressions are
 \begin{lstlisting}
   i * 2 * 10 + 4
   2 - 4 * 5
-\end{lstlisting}
-
-\subsubsection{Comparison Operators}
-If a comparison expression evaluates to true then it returns 1. If it evaluates to false then it
-returns 0. For example:
-\begin{lstlisting}
-  print(1==2);
-  print(8==8);
-\end{lstlisting}
-should print:
-\begin{lstlisting}
-  0
-  1
 \end{lstlisting}
 
 \subsubsection{Precedence}
@@ -242,7 +279,6 @@ In \textit{SCalc} there are five types of statements:
   \item \hyperref[sssec:conditional]{conditional}
   \item \hyperref[sssec:loop]{loop}
   \item \hyperref[sssec:print]{print}
-
 \end {itemize}
 
 Each statement ends with a semicolon. White space is not important in \textit{SCalc}.
@@ -387,8 +423,8 @@ should print:
 You must also create an \textit{interpreter} for \textit{SCalc}
 
 \subsection{MIPS}
-We recommend that you implement variables in the \code{.data} segment of your assembly code using \code{.word} entries. The
-general syntax for MIPS assembly is as follows:
+We recommend that you implement variables in the \code{.data} segment of your assembly code using
+\code{.word} entries. The general syntax for MIPS assembly is as follows:
 
 \begin{lstlisting}
   .data
@@ -689,6 +725,20 @@ These clarifications are meant to add more information to the specification with
       int i = 2 ^ 2;
     \end{lstlisting}
   \item
+    \clarificationdest{int-div}
+    Division is integer division. This means that any decimal portion of a division operation
+    result is truncated (not rounded). No extra work is required: this is the default in C++, MIPS,
+    ARM, and X86. For example:
+    \begin{lstlisting}
+      print(5 / 3);
+      print((0 - 5) / 3);
+    \end{lstlisting}
+    produces the following output:
+    \begin{lstlisting}
+      1
+      -1
+    \end{lstlisting}
+  \item
     \clarificationdest{no-decl-cond}
     Declarations in conditionals can lead to undefined values due to global scoping.  Because of
     the potentially conditional nature of the execution, it is possible to violate the property of
@@ -723,7 +773,7 @@ These clarifications are meant to add more information to the specification with
       loop (i < 2)
         int j = 0;
         i = i + 1;
-      pool
+      pool;
     \end{lstlisting}
   \item
     \clarificationdest{empty-input}
