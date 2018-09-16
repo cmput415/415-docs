@@ -73,4 +73,5 @@ clean:
 	rm -f $(SRC)*.html $(SRC).4ct $(SRC).4tc $(SRC).aux $(SRC).div $(SRC).dvi
 	rm -f $(SRC).tmp $(SRC).xref $(SRC).out $(SRC).pdf $(SRC).idv $(SRC).lg
 	rm -f $(SRC).css $(SRC).log
+	rm -f $(SRC)*x.png
 	rm -rf $(HTML_DIR) $(PDF_DIR)
