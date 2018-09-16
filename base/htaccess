@@ -1,5 +1,2 @@
 IndexOptions +FancyIndexing +SuppressSize +SuppressLastModified +DescriptionWidth=*
-AddDescription "Instructions on how to setup the antlr4 development environment" Setup
-AddDescription "Specifications for the Assignments for the CMPUT-415 Fall 2016 class" Assignments
-AddDescription "Setup instructions in PDF form." setup.pdf
 AddDescription "Instructions for setting up your environment for CMPUT415 2018 " setup
