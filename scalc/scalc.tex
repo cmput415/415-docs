@@ -92,8 +92,9 @@ emit any code that you wish, as long as the output is correct.
 
 \section{Language Specification}
 \textit{SCalc} has integer variables, conditionals, loops, prints, and various integer expressions.
+
 \subsection{Reserved Keywords}
-The following Keywords are reserved in \textit{SCalc}
+The following Keywords are reserved in \textit{SCalc}:
 \begin {itemize}
   \item{\code{if}}
   \item{\code{fi}}
@@ -269,17 +270,17 @@ following table:
   \end{tabular}
 \end{center}
 
-\subsection {Statements}
+\subsection{Statements}
 
 In \textit{SCalc} there are five types of statements:
 
-\begin {itemize}
+\begin{itemize}
   \item \hyperref[sssec:declaration]{declaration}
   \item \hyperref[sssec:assignment]{assignment}
   \item \hyperref[sssec:conditional]{conditional}
   \item \hyperref[sssec:loop]{loop}
   \item \hyperref[sssec:print]{print}
-\end {itemize}
+\end{itemize}
 
 Each statement ends with a semicolon. White space is not important in \textit{SCalc}.
 
@@ -628,8 +629,8 @@ You should open the file \code{input\_file\_path} and parse it. The input file w
 scalc file.
 
 \section{Output}
-Output is to be written to a file specified on the command line. Your compiler
-will be invoked with the following command:
+Output is to be written to a file specified on the command line. Your compiler will be invoked with
+the following command:
 \begin{lstlisting}
   scalc <mode> <input_file_path> <output_file_path>
 \end{lstlisting}
@@ -646,7 +647,7 @@ specifications:
   \item
     There \textit{must not} be any trailing space after the final number and before the newline.
   \item
-    There \textit{should} be an empty line at the end of your output.
+    There \textit{must} be an empty line at the end of your output.
 \end{itemize}
 
 \clarification{Empty input should result in empty output.}{empty-input}
@@ -803,6 +804,7 @@ For the tools provided to work your project should be in the specified layout.
   |   +-- nlohmann
   |   |   +-- json.hpp
   |   +-- placeholder.h
+  +-- LICENSE.md
   +-- README.md
   +-- src
       +-- CMakeLists.txt
