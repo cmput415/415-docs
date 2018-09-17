@@ -519,7 +519,7 @@ above.
 If you save the \textit{x86} output as \code{program.s} you can assemble an executable and run it
 by executing the following commands:
 \begin{lstlisting}
-  nasm -felf program.s
+  nasm -felf -o program.o program.s
   gcc -m32 -o program program.o
   ./program
 \end{lstlisting}
