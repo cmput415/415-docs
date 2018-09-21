@@ -386,7 +386,7 @@ There are a few new important points when dealing with assignments.
     is apparent for trying to assign vectors to a scalar. In the case of scalars being assigned to
     vectors, one might expect that we can use our extension policy to copy our scalar to every index
     of a newly created vector but the question is, how large is the new vector. Because that is
-    indeterminable, this is now allowed. For example, the following sequence of statements
+    indeterminable, this is not allowed. For example, the following sequence of statements
     \textit{is not} valid:
     \begin{lstlisting}
       int i = 1..3;
