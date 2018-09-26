@@ -89,11 +89,15 @@ assembly using \href{https://github.com/pantor/inja}{\textit{inja}}}. Inja is a 
 engine which allows you to make use of formatted strings. Its syntax is similar to
 \textit{Python}'s jinja. You won't need any advanced features to complete this assignment.
 
-Your classes should follow a pattern of classes matching the following UML diagram:
+Your classes should follow a pattern of classes matching the following UML diagram (structure only,
+names should be reasonably changed):
 \begin{figure}[H]
   \centering
   \includegraphics{static/expectedForm.png}
 \end{figure}
+
+Note that you must use the visitor pattern for the interpreter as it is impossible to revisit nodes
+during a loop when using the listener pattern.
 
 Beyond these constraints you are allowed to use any internal representation that you wish, as well
 as emit any code that you wish, as long as the output is correct.
