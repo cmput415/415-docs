@@ -8,4 +8,10 @@ div.verbatim {
 	background-color: #cccccc;
 	padding: 1em;
 }
+hr.figure {
+	visibility: hidden;
+}
+hr.endfigure {
+	visibility: hidden;
+}
 /* End of Custom css */
