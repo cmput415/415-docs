@@ -4,6 +4,8 @@
 \usepackage{fullpage} % Good for making PDFs as well
 \usepackage{listings} % Needed to insert code
 \usepackage{lstautogobble}
+\usepackage{float}
+\usepackage{graphicx}
 
 \usepackage[T1]{fontenc}
 % This makes it so the web pages don't have indents as most of the time
@@ -87,8 +89,14 @@ assembly using \href{https://github.com/pantor/inja}{\textit{inja}}}. Inja is a 
 engine which allows you to make use of formatted strings. Its syntax is similar to
 \textit{Python}'s jinja. You won't need any advanced features to complete this assignment.
 
-Beyond this constraint you are allow to use any internal representation that you wish, as well as
-emit any code that you wish, as long as the output is correct.
+Your classes should follow a pattern of classes matching the following UML diagram:
+\begin{figure}[H]
+  \centering
+  \includegraphics{static/expectedForm.png}
+\end{figure}
+
+Beyond these constraints you are allowed to use any internal representation that you wish, as well
+as emit any code that you wish, as long as the output is correct.
 
 \section{Language Specification}
 \textit{SCalc} has integer variables, conditionals, loops, prints, and various integer expressions.
