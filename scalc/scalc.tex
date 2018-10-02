@@ -152,7 +152,7 @@ As well, they are the only type that you can store.
 In this assignment integer literals are defined as being a string that contains only the numerals
 0-9 with no spaces.
 
-\assertion{All integer literals will be positive.}{positive-literals}\\
+\assertion{All integer literals will be $\geq 0$.}{nonnegative-literals}\\
 
 Examples of valid integers:
 \begin{lstlisting}
@@ -678,8 +678,8 @@ give more in-depth explanation of specification particulars.
     A test case \textit{will not} take advantage of undefined behaviour. Undefined behaviour is
     functionality that does not have an outcome described explicitly by this specification.
   \item
-    \assertiondest{positive-literals}
-    All integer literals will be positive. For example, the following tests would be considered
+    \assertiondest{nonnegative-literals}
+    All integer literals will be $\geq 0$. For example, the following tests would be considered
     invalid:
     \begin{lstlisting}
       int i = -1;

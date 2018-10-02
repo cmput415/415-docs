@@ -75,7 +75,7 @@ The following keywords are reserved in \textit{Generator}.
 In this assignment integer literals are defined as being a string that contains only the number
 characters 0-9 with no spaces.
 
-\assertion{All integer literals will be positive.}{positive-literals}\\
+\assertion{All integer literals will be $\geq 0$.}{nonnegative-literals}\\
 \assertion{All integer literals will fit in 31 unsigned bits.}{literal-size}
 
 Examples of valid integers literals:
@@ -140,7 +140,7 @@ An expression is composed of integers, identifiers, and integer mathematical ope
   \end{tabular}
 \end{center}
 
-\assertion{All exponents are $\geq 0$.}{positive-exp}\\
+\assertion{All exponents are $\geq 0$.}{nonnegative-exp}\\
 \clarification{The \code{\%} operator is remainder not modulus.}{rem-not-mod}\\
 \clarification{Division is integer division.}{int-div}
 
@@ -400,8 +400,8 @@ give more in-depth explanation of specification particulars.
     A test case \textit{will not} take advantage of undefined behaviour. Undefined behaviour is
     functionality that does not have an outcome described explicitly by this specification.
   \item
-    \assertiondest{positive-literals}
-    All integer literals will be positive. For example, the following tests would be considered
+    \assertiondest{nonnegative-literals}
+    All integer literals will be $\geq 0$. For example, the following tests would be considered
     invalid:
     \begin{lstlisting}
       [i in 0..1 | -1];
@@ -419,7 +419,7 @@ give more in-depth explanation of specification particulars.
       [i in -1..1 | 0];
     \end{lstlisting}
   \item
-    \assertiondest{positive-exp}
+    \assertiondest{nonnegative-exp}
     All exponents are $\geq 0$. Exponents that are $< 0$ result in fractions (except when the
     base is 1). Given that the specification restricts generated numbers to be integers,  it does
     not make sense to produce fractions. Therefore, you may assume that any exponent will be
