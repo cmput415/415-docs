@@ -197,6 +197,32 @@ prints the following:
 \end{lstlisting}
 
 \subsection{Expressions}
+\subsubsection{Operators}
+Because we've added a new binary operator, we need to update our precedence table.
+\begin{center}
+  \begin{tabular}{|c|l|c|l|c|}
+    \hline
+    \textbf{Class} & \textbf{Operation} & \textbf{Symbol} & \textbf{Usage} &
+      \textbf{Associativity} \\
+    \hline
+    Vector
+    &range          & .. & \texttt{expr .. expr} & left \\
+    \hline
+    Arithmetic
+    &addition       & + & \texttt{expr + expr} & left \\
+    &subtraction    & - & \texttt{expr - expr} & left \\
+    &multiplication & * & \texttt{expr * expr} & left \\
+    &division       & / & \texttt{expr / expr} & left \\
+    \hline
+    Comparison
+    &less than      & <  & \texttt{expr < expr}  & left \\
+    &greater than   & >  & \texttt{expr > expr}  & left \\
+    &is equal       & == & \texttt{expr == expr} & left \\
+    &is not equal   & != & \texttt{expr != expr} & left \\
+    \hline
+  \end{tabular}
+\end{center}
+
 \subsubsection{Binary Operations on Vectors}
 Binary oprations between vectors require extra specification.
 \begin{enumerate}
