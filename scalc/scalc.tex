@@ -214,7 +214,8 @@ Examples of invalid identifier:
 An expression is composed of integers, identifiers, and operators.
 
 \subsubsection{Operators}
-
+Operators are listed in descending precedence order. Operators without a horizontal line dividing
+them have equal precedence. For example, addition and subtraction have an equal level of precedence.
 \begin{center}
   \begin{tabular}{|c|l|c|l|c|}
     \hline
@@ -222,14 +223,14 @@ An expression is composed of integers, identifiers, and operators.
     \textbf{Associativity} \\
     \hline
     Arithmetic
+    &multiplication & * & \texttt{expr * expr} & left \\
+    &division       & / & \texttt{expr / expr} & left \\ \cline{2-5}
     &addition      & + & \texttt{expr + expr} & left \\
     &subtraction    & - & \texttt{expr - expr} & left \\
-    &multiplication & * & \texttt{expr * expr} & left \\
-    &division       & / & \texttt{expr / expr} & left \\
     \hline
     Comparison
     &less than      & <  & \texttt{expr < expr}  & left \\
-    &greater than   & >  & \texttt{expr > expr}  & left \\
+    &greater than   & >  & \texttt{expr > expr}  & left \\ \cline{2-5}
     &is equal       & == & \texttt{expr == expr} & left \\
     &is not equal   & != & \texttt{expr != expr} & left \\
     \hline
