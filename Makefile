@@ -9,6 +9,7 @@ HFILES:=htaccess
 
 # Created variables used in the build process, don't touch these.
 HFILESDOT:=$(foreach file, $(HFILES), .$(file))
+PDFS:=$(foreach file, $(DIRS), $(file).pdf)
 
 .PHONY: all remoteinstall clean
 
@@ -19,9 +20,10 @@ remoteinstall: all
 	@# Make the build directory and zip it.
 	mkdir .build
 	$(foreach dir, $(DIRS), cp -r $(dir)/$(dir)_html .build/$(dir);)
+	$(foreach dir, $(DIRS), cp -r $(dir)/$(dir)_pdf/$(dir).pdf .build/;)
 	$(foreach file, $(HFILES), cp base/$(file) .build/.$(file);)
 	$(foreach file, $(FILES), cp base/$(file) .build/$(file);)
-	tar -czf .build.tar.gz -C .build $(DIRS) $(HFILESDOT) $(FILES)
+	tar -czf .build.tar.gz -C .build $(DIRS) $(HFILESDOT) $(FILES) $(PDFS)
 
 	@# Move to ohaton and install it.
 	scp .build.tar.gz c415@ohaton.cs.ualberta.ca:~/.build.tar.gz
