@@ -448,7 +448,8 @@ one or the other.
     Generators: the expression must be an integer (remember that booleans can be implicitly upcast
     integers).
   \item
-    Filters: the predicate must be a boolean.
+    Filters: the predicate must be a boolean (remember that integers can be implicitly downcast to
+    booleans).
 \end{itemize}
 
 A good way to handle this now and plan ahead for \textit{gazprea} is to start building an abstract
@@ -458,9 +459,6 @@ An AST will allow you to attach information in ways that make sense to you. It a
 away unecessary tokens from the parse tree as well as allowing you to convert the parse tree into a
 new form that also makes sense to you. This could mean normalising parts of the tree to reduce code
 generation efforts, attaching information through fields or entirely new nodes, and more.
-
-You can create a tree traversal class in the same vein as ANTLR and its BaseVisitors. This way you
-can use the same mechanism for manipulating the tree, type checking, or final code generation.
 
 You can find more advice in the AST Tips and Tricks section.
 
@@ -844,13 +842,52 @@ found. You will be notified as appropriate.
     memory. Each has their own unique pros and cons.
 \end{itemize}
 
+\section{AST Tips and Hints}
+This section is likely to be constantly updated as new questions are asked or useful things are
+found. You will be notified as appropriate.
+
+\begin{itemize}
+  \item
+    At first glance, ASTs may not seem to provide much value. Much of your \textit{VCalc} AST will
+    be identical to your parse tree. There are, however, good reasons to make use of them now. A
+    motivating example:
+    \begin{lstlisting}
+      print(a + b);
+    \end{lstlisting}
+    What are \code{a} and \code{b}? Integers? Vectors? One of each? How does your code generator
+    know? Your AST can help you. You have a few options:
+    \begin{enumerate}
+      \item
+        Make your code generator figure it out.
+      \item
+        Attach type information to your AST at this node denoting each operands type during a type
+        inference pass on your tree. Still need to check for extension.
+      \item
+        Do a type inference pass and replace the integer operand with an extension node so we only
+        need to check the type of one operand to know the result type.
+      \item
+        Swap the operator node for a vector operator node and have the code generator assume that
+        the non-vector version has integer operands while the vector one needs to check if there's
+        an integer to extend.
+      \item
+        Add type information to the above solution so we only need to check that.
+      \item
+        Don't add type information and instead swap the operand node for an explict extension node
+        and have both operator nodes assume the operands are of the right type.
+      \item
+        Anything else. It's up to you.
+    \end{enumerate}
+    This is just one example of where you could possibly use an AST to make your life easier along
+    the way.
+  \item
+    You should create a tree traversal class in the same vein as ANTLR and its BaseVisitors. This
+    way you can use the same mechanism for manipulating the tree, type checking, or final code
+    generation.
+  \item
+    An AST is not a ``scope tree''. You can maintain a stack of tables that tell you what is
+    currently in scope as you \textit{traverse the tree} but scoping is not inherently part of the
+    ast.
+\end{itemize}
+
+
 \end{document}
-
-
-% 1. Enable building in CLion:
-%    1. Open settings in CLion (File > Settings).
-%    1. Open Build, Execution, Deployment.
-%    1. Click "..." beside the Environment field.
-%    1. Click the "+" in the top right.
-%    1. Set the name to `LLVM_DIR` and the value to
-%       `<ABSOLUTE PATH TO INSTALL DIRECTORY>/lib/cmake/llvm`
