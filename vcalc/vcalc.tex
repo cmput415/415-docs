@@ -738,9 +738,17 @@ You do not need to submit anything on eclass or anywhere else.
     probably points of code contention to make sure you're on the same page.
   \item
     This is the biggest assignment, thus \textbf{START EARLY}.
-    \textbf{DO NOT USE \textit{LLVM IR} VECTOR TYPES}. These types are designed for Single Instruction Multiple Data (SIMD) processing. They are also architecture
-    specific on implementation. Using the LLVM IR vector types will result in a segmentation fault in architectures that do not support them. Not
-    all lab machines support the \textit{LLVM IR} vector.
+    \textbf{DO NOT USE \textit{LLVM IR} VECTOR TYPES}. These types are designed for Single
+    Instruction Multiple Data (SIMD) processing. They are also architecture specific on
+    implementation. Using the LLVM IR vector types will result in a segmentation fault in
+    architectures that do not support them. Not all lab machines support the \textit{LLVM IR}
+    vector.
+  \item
+    The \href{http://releases.llvm.org/6.0.1/docs/tutorial/index.html}{\textit{LLVM} language
+    implementation tutorial} can help with some ideas on how to begin codegen. In particular,
+    sections three and five are of particular interest. Section 7 is worth looking through for more
+    discussion of the use of \code{alloca} over \code{phi} nodes. The other sections can be read at
+    your own discrection.
 \end{enumerate}
 
 \section{LLVM Tips and Hints}
