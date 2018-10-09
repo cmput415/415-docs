@@ -825,6 +825,7 @@ found. You will be notified as appropriate.
     \begin{lstlisting}
       #include "llvm/IR/Verifier.h"
       #include "llvm/Support/raw_os_ostream.h"
+      #include <iostream>
       ...
       llvm::raw_os_ostream llOut(outStream);
       llvm::raw_os_ostream llErr(std::cerr);
@@ -840,6 +841,92 @@ found. You will be notified as appropriate.
     You will need to divise your own vector type and method of storing data. One way is to use a
     linked list of structs with predefined integer arrays. Another is to \code{malloc}/\code{free}
     memory. Each has their own unique pros and cons.
+  \item
+    You need to make a \code{main} function to insert code into to begin with. Here's some
+    boilerplate to get you rolling:
+    \begin{lstlisting}
+      #include "llvm/IR/DerivedTypes.h"
+      #include "llvm/IR/TypeBuilder.h"
+      #include "llvm/Support/Cast.h"
+      ...
+      // Create main function, returns int, takes no args.
+      llvm::FunctionType *mainTy = llvm::TypeBuilder<int(), false>::get(ctx);
+      auto *mainFunc = llvm::cast<llvm::Function>(mod.getOrInsertFunction("main", mainTy));
+
+      // Create an entry block and set the inserter.
+      llvm::BasicBlock *entry = llvm::BasicBlock::Create(ctx, "entry", mainFunc);
+      ir.SetInsertPoint(entry);
+    \end{lstlisting}
+  \item
+    When you run \code{lli} many common \textit{c} functions are available, in particular you want
+    \code{printf} to do your printing. To get \code{printf}, you need to add it to your module
+    similarly to adding your \code{main}, but you do \textit{not} define it. This corresponds to
+    your \textit{c}-style forward declare and will make sure that llvm links \code{printf} into
+    you executable. Here's your boilerplate code where \code{module} is your \code{llvm::Module}:
+    \begin{lstlisting}
+      #include "llvm/IR/Attributes.h"
+      #include "llvm/IR/DerivedTypes.h"
+      #include "llvm/IR/Function.h"
+      #include "llvm/IR/TypeBuilder.h"
+      #include "llvm/Support/Cast.h"
+      ...
+      // Declare printf. Returns int, takes string and variadic args.
+      llvm::FunctionType *printfTy = llvm::TypeBuilder<int(char *, ...), false>::get(ctx);
+      auto *printfFunc = llvm::cast<llvm::Function>(module.getOrInsertFunction("printf", fTy));
+
+      // Add the suggested argument attributes.
+      printfFunc->addAttribute(1u, llvm::Attribute::NoAlias);
+      printfFunc->addAttribute(1u, llvm::Attribute::NoCapture);
+    \end{lstlisting}
+  \item
+    You may need to declare global constants in your module. The method for integers is similar to
+    strings, but we show strings here because you will need it for use with \code{printf}. For
+    example, if I wanted to create a \code{printf} format string for integers (\code{module} is
+    \code{llvm::Module} and \code{context} is \code{llvm::Context}):
+    \begin{lstlisting}
+      #include "llvm/IR/Constant.h"
+      #include "llvm/IR/GlobalVariable.h"
+      #include "llvm/Support/Cast.h"
+      ...
+      // Create the constant data array of characters.
+      llvm::Constant *intFormatStr = llvm::ConstantDataArray::getString(context, "%d");
+
+      // Create the global space we will use. The string "intFormatStr" is the name you will need to
+      // to use to ask for this value later to get it from the module.
+      auto *intFormatStrLoc =
+        llvm::cast<llvm::GlobalVariable>(
+          module.getOrInsertGlobal("intFormatStr", intFormatStr->getType())
+        );
+
+      // Set the location to be initialised by the constant.
+      intFormatStrLoc->setInitializer(intFormatStr);
+    \end{lstlisting}
+  \item
+    Calling functions is roughly the same in all places, but \code{printf} can be a little annoying
+    to begin with because of the way it is defined, so here is some more boilerplate code for
+    calling that as well (\code{module} is \code{llvm::Module}):
+    \begin{lstlisting}
+      #include "llvm/IR/Function.h"
+      #include "llvm/Support/Cast.h"
+      ...
+      // Note that we use getFunction not getOrInsertFunction. This will blow up if you haven't
+      // previously defined printf in your module. See above.
+      llvm::Function *printfFunc = module.getFunction("printf");
+
+      // Get your string to print.
+      auto *formatStrGlobal = llvm::cast<llvm::Value>(mod.getGlobalVariable("my string name"));
+
+      // The type of your string will be [n x i8], it needs to be i8*, so we cast here. We
+      // explicitly use the type of printf's first arg to guarantee we are always right.
+      llvm::Value *formatStr =
+        ir.CreatePointerCast(formatStrGlobal, printfFunc->arg_begin()->getType(), "formatStr");
+
+      // Get our value.
+      llvm::Value *value = <appropriate code to get your value to print>;
+
+      // Call printf. Printing multiple values is easy: just add to the {}.
+      ir.CreateCall(printfF, {formatStr, value});
+    \end{lstlisting}
 \end{itemize}
 
 \section{AST Tips and Hints}
