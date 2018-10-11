@@ -927,6 +927,23 @@ found. You will be notified as appropriate.
       // Call printf. Printing multiple values is easy: just add to the {}.
       ir.CreateCall(printfF, {formatStr, value});
     \end{lstlisting}
+  \item
+    In case you wanted calloc (or malloc) as well:
+    \begin{lstlisting}
+        #include "llvm/IR/Attributes.h"
+        #include "llvm/IR/DerivedTypes.h"
+        #include "llvm/IR/Function.h"
+        #include "llvm/IR/TypeBuilder.h"
+        #include "llvm/Support/Cast.h"
+        ...
+        // Declare calloc. Returns char *, takes array size, element size.
+        llvm::FunctionType *fTy = llvm::TypeBuilder<char *(size_t, size_t), false>::get(ctx);
+        auto *callocFunc = llvm::cast<llvm::Function>(mod.getOrInsertFunction("calloc", fTy));
+
+        // Add the suggested function attributes.
+        callocFunc->addFnAttr(llvm::Attribute::NoUnwind);
+        callocFunc->addAttribute(0, llvm::Attribute::NoAlias);
+    \end{lstlisting}
 \end{itemize}
 
 \section{AST Tips and Hints}
