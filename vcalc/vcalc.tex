@@ -616,7 +616,7 @@ give more in-depth explanation of specification particulars.
 \begin{enumerate}
   \item
     \assertiondest{vector-length}
-    All vectors will have length $l$ such that $0 \leq 0 \leq 2^{32}$. Trying to create an index
+    All vectors will have length $l$ such that $0 \leq l \leq 2^{32}$. Trying to create an index
     greater than $2^{32} - 1$ will cause overflow and result in a negative number. Indexing with a
     negative number returns $0$. Therefore, vector locations greater than $2^{32} - 1$ would be
     inaccessible. For example, the following tests would be considered invalid:
