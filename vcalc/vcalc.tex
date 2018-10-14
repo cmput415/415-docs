@@ -30,6 +30,9 @@
 % -----------------------------------------------------------------------------
 
 \newcommand{\code}[1]{\texttt{\textmd{#1}}}
+\newcommand{\assertion}[2]{\textbf{Assertion: }#1 (\hyperlink{#2}{#2})}
+\newcommand{\assertionref}[1]{\hyperlink{#1}{#1}}
+\newcommand{\assertiondest}[1]{\hypertarget{#1}{\textbf{#1}:}}
 \newcommand{\clarification}[2]{\textbf{Clarification: }#1 (\hyperlink{#2}{#2})}
 \newcommand{\clarificationdest}[1]{\hypertarget{#1}{\textbf{#1}:}}
 
@@ -81,15 +84,16 @@ The following keywords are now also reserved in \textit{VCalc}:
 
 \subsection{Vectors}
 \textit{VCalc} has a new type, \code{vector}, that is a vector of integer values. Vectors are
-restricted to the length that can be represented by the largest possible range creatable
-(\code{(0 - 2147483647 - 1)..2147483647}), therefore they can have a length in the range
-$[0, 2^{32}]$. This is because there is no way append to vectors, thus only the largest possible
-range must be supported.
+restricted to the length that can be represented by the \textit{largest possible index}. Indices are
+integers and integers are signed 32 bit integers. Because the largest possible integer is $2^31 - 1$
+or $2147483647$, a vector can have a length in the range $[0, 2^{31} - 1]$.
 
-There is no way to specify a vector literal, they must be created through ranges, generators, and
-filters. The only way to create an empty vector is through the use of a filter whose predicate is
-evaluated to false at each index of the domain or a range whose first bound higher is greater  than
-the second bound.
+\assertion{All vectors will have length $l$ such that $0 \leq 0 \leq 2^{32} - 1$.}{vector-length}
+
+There is no way to specify a vector literal, they must be created through ranges, generators,
+filters, or index expressions with a vector index. The only way to create an empty vector is
+through the use of a filter whose predicate is evaluated to false at each index of the domain or a
+range whose first bound is greater than the second bound.
 
 \subsection{Range}
 In \textit{VCalc} the operator \code{..} is used to generate a vector holding a range of integers.
@@ -601,6 +605,26 @@ specifications:
 \clarification{Empty vectors print only brackets.}{empty-vector}\\
 \clarification{A vector with one value is only the brackets and the value.}{single-value-vector}
 
+\section{Assertions}
+\textbf{ALL} input test cases will be valid. It can be a good idea to do error checking for your
+own testing and debugging, but it is \textit{not necessary}. If you encounter what you think is
+undefined behaviour or think something is ambiguous then \textit{do} make a forum post about it to
+clarify.
+
+What does it mean to be valid input? The input must adhere to the specification. The rules below
+give more in-depth explanation of specification particulars.
+\begin{enumerate}
+  \item
+    \assertiondest{vector-length}
+    All vectors will have length $l$ such that $0 \leq 0 \leq 2^{32} - 1$. Trying to create an index
+    greater than $2^{32} - 1$ will cause overflow and result in a negative number. Indexing with a
+    negative number returns $0$. Therefore, vector locations greater than $2^{32} - 1$ would be
+    inaccessible. For example, the following tests would be considered invalid:
+    \begin{lstlisting}
+      print((0-1)..2147483647)
+    \end{lstlisting}
+\end{enumerate}
+
 \section{Clarifications}
 These clarifications are meant to add more information to the specification without cluttering it.
 \begin{enumerate}
@@ -1022,12 +1046,14 @@ found. You will be notified as appropriate.
     ast.
 \end{itemize}
 
-\section{Changelog}
+\section{Change log}
 \begin{itemize}
-  \item[\textbf{2018/10/13 6:00PM}]
+  \item
+    \textbf{2018/10/13 6:00PM}
     \begin{itemize}
       \item Clarified conditions cannot be vectors.
       \item Clarified integers cannot be index domains.
+      \item Added assertion \assertionref{vector-length}.
     \end{itemize}
 \end{itemize}
 
