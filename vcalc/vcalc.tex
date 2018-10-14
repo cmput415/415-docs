@@ -140,13 +140,17 @@ did in the generator assignment and have the following form:
 \end{lstlisting}
 The identifier is referred to as the domain variable, the vector is the domain or domain vector,
 and the expression is the right-hand-side expression. The domain variable is an integer typed
-variable defined only in the scope of the generator. The domain may be any vector-valued expression
-which includes identifiers (that are vector typed), ranges, generators, and filters.
+variable defined only in the scope of the generator.
+
+The domain may be any vector-valued expression which includes identifiers (that are vector typed),
+ranges, generators, filters, and index expressions with a vector index. The expression must evaluate
+to an integer. This means that if the result of the expression is a boolean it will be implicitly
+promoted to an integer, but a vector result is an \textit{error}.
 
 Generators are identical to list comprehensions from other languages. For instance, to generate a
 vector of the first 100 perfect squares, one may write the following generator:
 \begin{lstlisting}
-  [i in 1..100 | i * i]
+  vector sqrs = [i in 1..100 | i * i];
 \end{lstlisting}
 
 The expression on the right yields the value for a single element of the generated vector, which
@@ -179,9 +183,14 @@ shown here:
 \begin{lstlisting}
   [<domain variable> in <domain> & <predicate>]
 \end{lstlisting}
-The identifier and vector are still called the domain variable and domain vector and have the same
-properties and requirements as in a generator. However, the right-hand-side expression is now a
-\textit{predicate}, meaning it will be evaluated as a boolean.
+The identifier and vector are still called the domain variable and domain vector, however, the
+right-hand-side expression is now called the \textit{predicate}. The domain variable is an integer
+typed variable defined only in the scope of the generator.
+
+As in a generator, the domain may be any vector-valued expression which includes identifiers (that
+are vector typed), ranges, generators, filters, and index expressions with avector index. The
+expression must evaluate to a boolean. This means that if the result of the expression is an integer
+it will be implicitly demoted to a boolean, but a vector result is an \textit{error}.
 
 A filter will create a new vector containing only the elements of the domain where the predicate
 evaluates to a true value. The domain values that satisfy the predicate are appended to the result
@@ -339,11 +348,19 @@ Vectors can be indexed by a scalar to produce the integer value at a specified i
 \code{v[i]} where $ 0 <= |v| < l$ and $ i < 0 $ or $ i >= l$) is \textit{not an error}. An
 index out of bounds \textit{always returns zero}.
 
-The domain of an index expression does not need to be an identifier, it need only evaluate to a
-vector type. Therefore ranges, generators, and filters can be indexed immediately after being
-evaluated.
-
-The domain index of an index expression does not need to be a literal.
+Index domains must be vectors:
+\begin{itemize}
+  \item
+    Domain can be an identifier for a vector.
+  \item
+    Domain can be the result of a range, generator, filter, or another index expression with a
+    vector index (see below).
+  \item
+    Domain cannot be an integer. For example, this is invalid:
+    \begin{lstlisting}
+      print(1[1]);
+    \end{lstlisting}
+\end{itemize}
 
 Examples of valid index expressions:
 \begin{lstlisting}
@@ -431,11 +448,23 @@ There are a few new important points when dealing with assignments.
     \end{lstlisting}
 \end{enumerate}
 
+\subsubsection{Conditional}
+Conditional conditions must evaluate to booleans, this means that vectors are not a valid condition.
+Remember, however, that integers can be implicitly downcast to booleans.
+
+\subsubsection{Loops}
+Loop conditions must evaluate to booleans, this means that vectors are not a valid condition.
+Remember, however, that integers can be implicitly downcast to booleans.
+
 \subsection{Type Checking and ASTs}
 With the addition of another type that can be mixed in, type checking becomes a necessity in
 \textit{Vcalc}. This means ensuring that vectors and scalars are where they belong. Most expressions
 allow the interchange of vectors and scalars, but there's a few cases where it is necessary to have
 one or the other.
+
+Note that these rules are already in their respective sections, this list just serves to bring
+further attention to where type checking is important.
+
 \begin{itemize}
   \item
     Ranges: lower and upper bounds must be integers.
@@ -991,6 +1020,15 @@ found. You will be notified as appropriate.
     An AST is not a ``scope tree''. You can maintain a stack of tables that tell you what is
     currently in scope as you \textit{traverse the tree} but scoping is not inherently part of the
     ast.
+\end{itemize}
+
+\section{Changelog}
+\begin{itemize}
+  \item[\textbf{2018/10/13 6:00PM}]
+    \begin{itemize}
+      \item Clarified conditions cannot be vectors.
+      \item Clarified integers cannot be index domains.
+    \end{itemize}
 \end{itemize}
 
 
