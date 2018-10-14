@@ -86,9 +86,9 @@ The following keywords are now also reserved in \textit{VCalc}:
 \textit{VCalc} has a new type, \code{vector}, that is a vector of integer values. Vectors are
 restricted to the length that can be represented by the \textit{largest possible index}. Indices are
 integers and integers are signed 32 bit integers. Because the largest possible integer is $2^31 - 1$
-or $2147483647$, a vector can have a length in the range $[0, 2^{31} - 1]$.
+or $2147483647$, a vector can have a length in the range $[0, 2^{31}]$.
 
-\assertion{All vectors will have length $l$ such that $0 \leq 0 \leq 2^{32} - 1$.}{vector-length}
+\assertion{All vectors will have length $l$ such that $0 \leq 0 \leq 2^{32}$.}{vector-length}
 
 There is no way to specify a vector literal, they must be created through ranges, generators,
 filters, or index expressions with a vector index. The only way to create an empty vector is
@@ -616,12 +616,17 @@ give more in-depth explanation of specification particulars.
 \begin{enumerate}
   \item
     \assertiondest{vector-length}
-    All vectors will have length $l$ such that $0 \leq 0 \leq 2^{32} - 1$. Trying to create an index
+    All vectors will have length $l$ such that $0 \leq 0 \leq 2^{32}$. Trying to create an index
     greater than $2^{32} - 1$ will cause overflow and result in a negative number. Indexing with a
     negative number returns $0$. Therefore, vector locations greater than $2^{32} - 1$ would be
     inaccessible. For example, the following tests would be considered invalid:
     \begin{lstlisting}
-      print((0-1)..2147483647)
+      print((0-1)..2147483647);
+    \end{lstlisting}
+
+    But the following test is valid because the vector length is still within range:
+    \begin{lstlisting}
+      print((0-2)..2147483645);
     \end{lstlisting}
 \end{enumerate}
 
@@ -1048,6 +1053,12 @@ found. You will be notified as appropriate.
 
 \section{Change log}
 \begin{itemize}
+  \item
+    \textbf{2018/10/14 11:45AM}
+    \begin{itemize}
+      \item Fixed vector length to be $2^{32}$.
+      \item Added positive example to \assertionref{vector-length}.
+    \end{itemize}
   \item
     \textbf{2018/10/13 6:00PM}
     \begin{itemize}
