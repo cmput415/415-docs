@@ -53,6 +53,11 @@
   \hspace{.7in}
 \fi
 
+% Change the depth of the front page ToC.
+\ifdefined\HCode
+  \Configure{tableofcontents*}{chapter,section,subsection}
+\fi
+
 \textit{Gazprea} is derived from a language originally designed at the IBM Hardware Acceleration
 Laboratory in Markham, ON.
 
