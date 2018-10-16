@@ -6,6 +6,8 @@ Output streams use the following syntax:
   <exp> -> out;
 \end{lstlisting}
 
+\subsubsection{Output Format}
+\label{sssec:output_format}
 Values of the following base types are treated as follows when sent to an output stream:
 \begin{itemize}
   \item
@@ -31,15 +33,17 @@ prints the following:
   1 2 3
 \end{lstlisting}
 
+No other type may be sent to a stream. For instance functions, procedures, and tuples cannot be sent
+to streams.
+
 Note that there is \textbf{no automatic new line printed.} To print a new line, a user must
 explicitly print the new line character. For example:
 \begin{lstlisting}
   '\n' -> out;
 \end{lstlisting}
 
+\subsubsection{Null and Identity}
+\label{sssec:stream_nai}
 If \texttt{null} or \texttt{identity} is sent to a stream then the result is a null or identity
 character being printed.
-
-No other type may be sent to a stream. For instance functions, procedures, and tuples cannot be sent
-to streams.
 \end{document}
