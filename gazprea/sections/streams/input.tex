@@ -57,12 +57,6 @@ Ta
 
 An \hyperref[sssec:stream_error]{error state} would be set on the stream.
 
-% When reading anything else if something is read which does not match the data type (for instance if the letter
-% 'a' is read while trying to parse an integer), then this is an error. In this case the value returned by the
-% stream is \texttt{null}, and \texttt{stream\_state} should return 1. Or, if only whitespace and the end of the
-% stream is encountered the stream is rewound to where it was before the read, \texttt{null} is returned, and
-% \texttt{stream\_state} will return 2.
-
 \subsubsection{Error Handling}
 \label{sssec:stream_error}
 When \code{boolean}s, \code{integer}s, and \code{real}s from stdin, it is possible that the end of
@@ -82,9 +76,6 @@ This function can only be called with an input stream as a parameter. When calle
 
 When an error or end of stream is encountered the value returned is the type-appropriate
 \code{null}.
-
-\textbf{Under discussion}: When a read from the stream is not successful, and \code{stream\_state}
-returns non-zero, then the stream must be rewound to where it was before the read started.
 
 Reading a character can never cause an error. The character will either be successfully read or the
 end of the stream will be reached and \code{-1} will be returned on this and subsequent reads.
