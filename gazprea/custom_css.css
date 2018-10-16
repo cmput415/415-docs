@@ -1,0 +1,14 @@
+/* Begining of Custom css */
+div.lstlisting {
+	background-color: #cccccc;
+	padding: 1em;
+}
+div.verbatim {
+	background-color: #cccccc;
+	padding: 1em;
+}
+dl {
+	-webkit-margin-before: 0em;
+	-webkit-margin-after: 0em;
+}
+/* End of Custom css */

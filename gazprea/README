@@ -1,0 +1,27 @@
+# Building
+
+## Required software:
+	- texlive-full
+	- htlatex
+
+The Makefile builds the html and pdf file and moves the files into to a sub
+directory.  To use the Makefile make sure that it is in the same diractory as
+the source file. In the makefile there are options on the top. SRC needs to be
+set to The name of the file that contains the source code. DO NOT INCLUDE THE
+file extension. CSS can be set to the additional css rule you want to add to
+the generated css code.
+
+## Use:
+	`make all`	- to build html and pdf files
+	`make html` - to build html files only
+	`make pdf`	- to build pdf files only
+	`make clean`- to clean up all generated files
+
+
+# About
+
+This contains the source for the pages on the DashAB spec. The pages will be
+placed in a sub-folder named `spec` the base html page that should be the
+starting point on Eclass will be named `spec.html`
+
+
