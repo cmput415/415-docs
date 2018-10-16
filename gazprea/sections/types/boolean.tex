@@ -1,64 +1,69 @@
 \documentclass[../gazprea.tex]{subfiles}
 
 \begin{document}
-Boolean values can either be \texttt{true} or \texttt{false}. In the \textit{LLVM IR} boolean values
-should be represented with the type \texttt{i1}.
+Boolean values can either be \code{true} or \code{false}. In the \textit{LLVM IR} boolean values
+should be represented with the type \code{i1}.
 
 \subsubsection{Declaration}
 \label{sssec:boolean_decl}
-Boolean values are declared with the keyword \texttt{boolean}.
+Boolean values are declared with the keyword \code{boolean}.
 
 \subsubsection{null}
 \label{sssec:boolean_null}
-\texttt{null} is \texttt{false} for booleans.
+\code{null} is \code{false} for booleans.
 
 \subsubsection{identity}
 \label{sssec:boolean_ident}
-\texttt{identity} is \texttt{true} for booleans.
+\code{identity} is \code{true} for booleans.
 
 \subsubsection{Literals}
 \label{sssec:boolean_lit}
 Booleans have the following literals:
 \begin{itemize}
-	\item \texttt{true}
-	\item \texttt{false}
+  \item \code{true}
+  \item \code{false}
 \end{itemize}
 
 \subsubsection{Operations}
+\label{sssec:boolean_ops}
 The following operations are defined between boolean values. In all of the usage examples
 \code{bool-expr} means some boolean yielding expression.
 
 \begin{center}
-\begin{tabular}{|l|l|l|}
-	\hline
-	\textbf{Operation} & \textbf{Symbol} & \textbf{Usage} \\
-	\hline
-	negation    & \texttt{not} & \texttt{not bool-expr}           \\
-	logical or  & \texttt{or}  & \texttt{bool-expr or bool-expr}  \\
-	logical xor & \texttt{xor} & \texttt{bool-expr xor bool-expr} \\
-	logical and & \texttt{and} & \texttt{bool-expr and bool-expr} \\
-	equals      & \texttt{==}	 & \texttt{bool-expr == bool-expr}  \\
-	not equals  & \texttt{!=}	 & \texttt{bool-expr != bool-expr}  \\
-	\hline
+\begin{tabular}{| l | c | l | c |}
+  \hline
+  \multicolumn{1}{|c|}{\textbf{Operation}} & \textbf{Symbol} & \multicolumn{1}{|c|}{\textbf{Usage}}
+    & \textbf{Associativity} \\
+  \hline
+  negation    & \code{not} & \code{not bool-expr}           & left \\ \hline
+  logical or  & \code{or}  & \code{bool-expr or bool-expr}  & left \\ \hline
+  logical xor & \code{xor} & \code{bool-expr xor bool-expr} & left \\ \hline
+  logical and & \code{and} & \code{bool-expr and bool-expr} & left \\ \hline
+  equals      & \code{==}  & \code{bool-expr == bool-expr}  & left \\ \hline
+  not equals  & \code{!=}  & \code{bool-expr != bool-expr}  & left \\
+  \hline
 \end{tabular}
 \end{center}
 
-	Unlike many languages the \texttt{and} and \texttt{or} operators do not short circuit evaluation. You must
-	evaluate both the left hand side, and right hand side of these expressions. The following table specifies the
-	precedence of these operations:
+Unlike many languages the \code{and} and \code{or} operators do not
+\href{https://en.wikipedia.org/wiki/Short-circuit_evaluation}{short circuit evaluation}. Therefore,
+both the left hand side and right hand side of an expression musht always be evaluated.
 
-	\begin{center}
-		\begin{tabular}{|l|l|}
-			\hline
-			\textbf{Precedence} & \textbf{Operations} \\
-			\hline
-			HIGHER & \texttt{not} \\
-			       & ==, !=       \\
-			       & or, xor      \\
-			LOWER  & and          \\
-			\hline
-		\end{tabular}
-	\end{center}
+This table specifies boolean operator precedence. Operators without lines between them have the same
+level of precedence.
+\begin{center}
+\begin{tabular}{|c|c|}
+  \hline
+  \textbf{Precedence} & \textbf{Operation} \\
+  \hline
+  HIGHER & \code{not} \\ \cline{2-2}
+         & == \\
+         & != \\ \cline{2-2}
+         & or \\
+         & xor \\ \cline{2-2}
+  LOWER  & and \\
+  \hline
+\end{tabular}
+\end{center}
 
-	All of these operations are left associative.
 \end{document}
