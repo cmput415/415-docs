@@ -15,7 +15,7 @@
 # Adding new static files is as simple as dropping them in the directory. They
 # will automatically be added to the build.
 SRC:=gazprea
-XSRC:=$(wildcard static/*.png)
+XSRC:=$(wildcard static/*.png) $(wildcard sections/*.tex)
 CFG:=gazprea
 CSS:=custom_css.css
 FILES:=

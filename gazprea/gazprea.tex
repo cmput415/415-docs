@@ -7,6 +7,7 @@
 \usepackage{enumitem}
 \usepackage{lstautogobble}
 \usepackage[T1]{fontenc}
+\usepackage{subfiles}
 % This makes it so the web pages don't have indents as most of the time
 % they are just annoying
 \setlength{\parindent}{0pt}
@@ -45,49 +46,8 @@
 
 	\textit{Gazprea} is derived from a language originally designed at the IBM Hardware Acceleration Laboratory in Markham, ON.
 
-
 \section{List of Keywords}
-	\textit{Gazprea} has a number of built in keywords that are reserved and should not be overwritten by the programmer.
-	\begin{itemize}
-		\item in
-		\item by
-		\item as
-		\item var
-		\item character
-		\item const
-		\item matrix
-		\item vector
-		\item interval
-		\item integer
-		\item boolean
-		\item true
-		\item false
-		\item real
-		\item string
-		\item procedure
-		\item function
-		\item returns
-		\item return
-		\item typedef
-		\item if
-		\item else
-		\item loop
-		\item while
-		\item break
-		\item continue
-		\item filter
-		\item not
-		\item and
-		\item or
-		\item xor
-		\item rows
-		\item columns
-		\item length
-		\item tuple
-		\item stream\_state
-		\item reverse
-	\end{itemize}
-
+\subfile{sections/keywords.tex}
 
 \section{Identifiers}\label{sec:identifiers}
 	Identifiers in \textit{Gazprea} must start with either an underscore, or a letter (either upper or lower cased).
@@ -2614,4 +2574,8 @@ All developers are advised to read the full
 		\end{enumerate}
 		\item \hyperref[sec:memory]{Memory Management}
 	\end{enumerate}
+
+\section{Change log}
+\subfile{sections/changelog.tex}
+
 \end{document}
