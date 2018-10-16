@@ -43,13 +43,13 @@
 % -----------------------------------------------------------------------------
 
 \begin{document}
-	\includegraphics[width=.5\textwidth]{static/GazpreaLogo.png}
+  \includegraphics[width=.5\textwidth]{static/GazpreaLogo.png}
 
 % Put a tile and add some extra space into the pdf.
 \ifpdf
-	\LARGE
-	\textbf{\textit{Gazprea} Spec}
-	\normalsize
+  \LARGE
+  \textbf{\textit{Gazprea} Spec}
+  \normalsize
   \hspace{.7in}
 \fi
 
@@ -75,113 +75,113 @@ Laboratory in Markham, ON.
 
 \section{Declarations}\label{sec:declaration}
 
-	Variables must be declared before they are used. A variable may be declared anywhere within a \texttt{function}, or
-	\texttt{procedure}, but it must not be referenced in the program before it has been declared.
+  Variables must be declared before they are used. A variable may be declared anywhere within a \texttt{function}, or
+  \texttt{procedure}, but it must not be referenced in the program before it has been declared.
 
-	A variable may be declared in a couple different ways, and may have various type specifiers, such as \texttt{const},
-	applied to them. Aside from a few special cases with \texttt{vectors, matrices,} and \texttt{tuples} declarations
-	have the following formats:
+  A variable may be declared in a couple different ways, and may have various type specifiers, such as \texttt{const},
+  applied to them. Aside from a few special cases with \texttt{vectors, matrices,} and \texttt{tuples} declarations
+  have the following formats:
 
-	\begin{lstlisting}
-		<specifiers> <type> <identifier> = <expression>;
-		<specifiers> <type> <identifier>;
-	\end{lstlisting}
+  \begin{lstlisting}
+    <specifiers> <type> <identifier> = <expression>;
+    <specifiers> <type> <identifier>;
+  \end{lstlisting}
 
-	Both declarations are creating a variable with the name given by <identifier>\texttt{<identifier>} of type
-	<type>\texttt{<type>}, and with specifiers given by <specifiers>\texttt{<specifiers>}.
+  Both declarations are creating a variable with the name given by <identifier>\texttt{<identifier>} of type
+  <type>\texttt{<type>}, and with specifiers given by <specifiers>\texttt{<specifiers>}.
 
-	The first declaration explicitly initializes the value of the new variable with the value of
-	<expression>\texttt{<expression>}.
+  The first declaration explicitly initializes the value of the new variable with the value of
+  <expression>\texttt{<expression>}.
 
-	In \textit{Gazprea} all variables must be initialized in a well defined manner in order to ensure functional purity.
-	If the variables were not initialized to a known value their initial value might change depending on when the
-	program is run.  Therefore, the second declaration is equivalent to:
+  In \textit{Gazprea} all variables must be initialized in a well defined manner in order to ensure functional purity.
+  If the variables were not initialized to a known value their initial value might change depending on when the
+  program is run.  Therefore, the second declaration is equivalent to:
 
-	\begin{lstlisting}
-		<specifiers> <type> <identifier> = null;
-	\end{lstlisting}
+  \begin{lstlisting}
+    <specifiers> <type> <identifier> = null;
+  \end{lstlisting}
 
-	For simplicity \textit{Gazprea} assumes that declarations can only appear at the beginning of a block. For instance
-	this would not be legal in \textit{Gazprea}:
+  For simplicity \textit{Gazprea} assumes that declarations can only appear at the beginning of a block. For instance
+  this would not be legal in \textit{Gazprea}:
 
-	\begin{lstlisting}
-		integer i = 10;
-		if (blah) {
-		  i = i + 1;
-		  real i = 0;  // Illegal placement of a declaration.
-		}
-	\end{lstlisting}
+  \begin{lstlisting}
+    integer i = 10;
+    if (blah) {
+      i = i + 1;
+      real i = 0;  // Illegal placement of a declaration.
+    }
+  \end{lstlisting}
 
-	because the declaration of the real version of \texttt{i} does not occur at the start of the block.
+  because the declaration of the real version of \texttt{i} does not occur at the start of the block.
 
-	The following declaration placement is lagal:
+  The following declaration placement is lagal:
 
-	\begin{lstlisting}
-		integer i = 10;
-		if (blah) {
-		  real i = 0;  // At the start of the block. All good.
-		  i = i + 1;
-		}
-	\end{lstlisting}
+  \begin{lstlisting}
+    integer i = 10;
+    if (blah) {
+      real i = 0;  // At the start of the block. All good.
+      i = i + 1;
+    }
+  \end{lstlisting}
 
-	The declaration of a variable happens after initialization. Thus it is illegal to refer to a variable within its own
-	initialization statement.
+  The declaration of a variable happens after initialization. Thus it is illegal to refer to a variable within its own
+  initialization statement.
 
-	\begin{lstlisting}
-		/* All of these declarations are illegal, they would result in garbage
-		   values. */
-		integer i = i;
-		integer v[10] = v[0] * 2;
-	\end{lstlisting}
+  \begin{lstlisting}
+    /* All of these declarations are illegal, they would result in garbage
+       values. */
+    integer i = i;
+    integer v[10] = v[0] * 2;
+  \end{lstlisting}
 
-	An error message should be raised about the use of undeclared variables in these cases. If a variable of the same
-	name is declared in an enclosing scope, then it is legal to use that in the initialization of a variable with the
-	same name. For instance:
+  An error message should be raised about the use of undeclared variables in these cases. If a variable of the same
+  name is declared in an enclosing scope, then it is legal to use that in the initialization of a variable with the
+  same name. For instance:
 
-	\begin{lstlisting}
-		integer x = 7;
-		if (true) {
-		  integer y = x;  /* y gets a value of 7 */
-		  real x = x; /* Refers to the enclosing scope's 'x', so this is legal */
+  \begin{lstlisting}
+    integer x = 7;
+    if (true) {
+      integer y = x;  /* y gets a value of 7 */
+      real x = x; /* Refers to the enclosing scope's 'x', so this is legal */
 
-		  /* Now 'x' refers to the real version, with a value of 7.0 */
-		}
-	\end{lstlisting}
+      /* Now 'x' refers to the real version, with a value of 7.0 */
+    }
+  \end{lstlisting}
 
 
 \section{Type Specifiers}\label{sec:typeSpecifiers}
-	A type in \textit{Gazprea} may be prefixed with \texttt{const} meaning that it can not appear on the left hand side
-	of an assignment. If a \texttt{const} variable is used on the left hand side of an assignment then an error must be
-	raised. Types can alternatively be prefixed with \texttt{var}, which means that the variable being declared is
-	mutable, which is the default behavior in \textit{Gazprea}.
+  A type in \textit{Gazprea} may be prefixed with \texttt{const} meaning that it can not appear on the left hand side
+  of an assignment. If a \texttt{const} variable is used on the left hand side of an assignment then an error must be
+  raised. Types can alternatively be prefixed with \texttt{var}, which means that the variable being declared is
+  mutable, which is the default behavior in \textit{Gazprea}.
 
-	\texttt{const} and \texttt{var} also allow you to specify less information about the type of the variable, as long
-	as the compiler can infer the type for the variable. For instance: (The following work with \texttt{const} as well.
+  \texttt{const} and \texttt{var} also allow you to specify less information about the type of the variable, as long
+  as the compiler can infer the type for the variable. For instance: (The following work with \texttt{const} as well.
 
-	\begin{lstlisting}
-		/* Whatever type f returns is fine, as long as it's some vector with 10
-		elements */
-		var x[10] = f();
+  \begin{lstlisting}
+    /* Whatever type f returns is fine, as long as it's some vector with 10
+    elements */
+    var x[10] = f();
 
-		/* Whatever type f returns is fine, as long as it's some vector */
-		var vector x = f();
-		var integer vector x = f();
+    /* Whatever type f returns is fine, as long as it's some vector */
+    var vector x = f();
+    var integer vector x = f();
 
-		/* Only integer vectors */
-		var integer x[*] = f();
-		var integer vector x = f();
+    /* Only integer vectors */
+    var integer x[*] = f();
+    var integer vector x = f();
 
-		/* Only integer vectors with 10 elements */
-		var integer x[10] = f();
-	\end{lstlisting}
+    /* Only integer vectors with 10 elements */
+    var integer x[10] = f();
+  \end{lstlisting}
 
-	A \texttt{const} variable can \textbf{NOT} be declared with a \texttt{var} type. As they are mutually exclusive.
+  A \texttt{const} variable can \textbf{NOT} be declared with a \texttt{var} type. As they are mutually exclusive.
 
-	\begin{lstlisting}
-		const var x = 6; /* Should throw an error */
-	\end{lstlisting}
+  \begin{lstlisting}
+    const var x = 6; /* Should throw an error */
+  \end{lstlisting}
 
-	It is an error to pass a \texttt{const} value as a var argument to a procedure.  Read procedures for more details.
+  It is an error to pass a \texttt{const} value as a var argument to a procedure.  Read procedures for more details.
 
 
 \section{Types}
@@ -192,1367 +192,1367 @@ Laboratory in Markham, ON.
 \section{Type Inference}\label{sec:typeInference}
 
 
-	In many cases the compiler can figure out what a variable's type, or a function's return type should be without an
-	explicit type being provided. For instance, instead of writing:
+  In many cases the compiler can figure out what a variable's type, or a function's return type should be without an
+  explicit type being provided. For instance, instead of writing:
 
-	\begin{lstlisting}
-		integer x = 2;
-		const integer y = x * 2;
-	\end{lstlisting}
+  \begin{lstlisting}
+    integer x = 2;
+    const integer y = x * 2;
+  \end{lstlisting}
 
-	\textit{Gazprea} allows you to just write:
+  \textit{Gazprea} allows you to just write:
 
-	\begin{lstlisting}
-		var x = 2;
-		const y = x * 2;
-	\end{lstlisting}
+  \begin{lstlisting}
+    var x = 2;
+    const y = x * 2;
+  \end{lstlisting}
 
-	This is allowed because the compiler knows that the initialization expression, 2, has the type integer. Because of
-	this the compiler can automatically give x an integer type. A \textit{Gazprea} programmer can use \texttt{var} or
-	\texttt{const} for any declaration with an initial value expression, as long as the compiler can guess the type for
-	the expression.
+  This is allowed because the compiler knows that the initialization expression, 2, has the type integer. Because of
+  this the compiler can automatically give x an integer type. A \textit{Gazprea} programmer can use \texttt{var} or
+  \texttt{const} for any declaration with an initial value expression, as long as the compiler can guess the type for
+  the expression.
 
-	One case where \texttt{var} or \texttt{const} will lead to an error is if the initial value is a polymorphic
-	constant such as \texttt{null}, or \texttt{identity}.  \textit{Gazprea}'s type inference is simple, and only relies
-	upon a single expression, so it can not discover the type of x in:
+  One case where \texttt{var} or \texttt{const} will lead to an error is if the initial value is a polymorphic
+  constant such as \texttt{null}, or \texttt{identity}.  \textit{Gazprea}'s type inference is simple, and only relies
+  upon a single expression, so it can not discover the type of x in:
 
-	\begin{lstlisting}
-		var x = null;  /* Can't tell what type this is */
-		const y = identity; /* Can't tell what type this is either */
-		integer z = x;
-	\end{lstlisting}
+  \begin{lstlisting}
+    var x = null;  /* Can't tell what type this is */
+    const y = identity; /* Can't tell what type this is either */
+    integer z = x;
+  \end{lstlisting}
 
-	Clearly the type that makes the most sense for x here would by \texttt{integer}, but \textit{Gazprea} only checks the
-	initialization expression, and does not see how the variable x is used across statements. As a result an error
-	should be raised in this situation.
+  Clearly the type that makes the most sense for x here would by \texttt{integer}, but \textit{Gazprea} only checks the
+  initialization expression, and does not see how the variable x is used across statements. As a result an error
+  should be raised in this situation.
 
-	\textit{Gazprea} employs a very simple type inference algorithm on expressions.  It finds the type that makes sense
-	across binary expressions in a bottom up fashion. For instance:
+  \textit{Gazprea} employs a very simple type inference algorithm on expressions.  It finds the type that makes sense
+  across binary expressions in a bottom up fashion. For instance:
 
-	\begin{lstlisting}
-		/* The type for 'x' can be infered to be an integer. This expression
-		   can be rewritten as (null + 1) + null. The type inference algorithm
-		   checks (null + 1), and decides that since 1 is an integer 'null'
-		   must also be an integer because '+' can only be applied to numbers
-		   of the same type. Similarly it then infers that since (null + 1) is
-		   an integer (null + 1) + null is an integer as well, thus 'x' must
-		   be an integer. */
+  \begin{lstlisting}
+    /* The type for 'x' can be infered to be an integer. This expression
+       can be rewritten as (null + 1) + null. The type inference algorithm
+       checks (null + 1), and decides that since 1 is an integer 'null'
+       must also be an integer because '+' can only be applied to numbers
+       of the same type. Similarly it then infers that since (null + 1) is
+       an integer (null + 1) + null is an integer as well, thus 'x' must
+       be an integer. */
 
-		var x = null + 1 + null;
+    var x = null + 1 + null;
 
-		/* The simple type inference algorithm can not handle this case, and a
-		   type ambiguity error should be raised. Since this expression is
-		   (null + null) + 1 the type inference algorithm will try to figure
-		   out the type for (null + null), but since it doesn't know what
-		   either of the null values types are it can't. */
+    /* The simple type inference algorithm can not handle this case, and a
+       type ambiguity error should be raised. Since this expression is
+       (null + null) + 1 the type inference algorithm will try to figure
+       out the type for (null + null), but since it doesn't know what
+       either of the null values types are it can't. */
 
-		var y = null + null + 1;
-	\end{lstlisting}
+    var y = null + null + 1;
+  \end{lstlisting}
 
 
 \section{Vector/Matrix Type Checking}\label{sec:typeChecking}
 
 
-	While the size of vectors and matrices may not always be known at compile time, there are instances where the
-	compiler can perform length checks at compile time. For instance:
+  While the size of vectors and matrices may not always be known at compile time, there are instances where the
+  compiler can perform length checks at compile time. For instance:
 
-	\begin{lstlisting}
-		integer v[3] = 1..10;
-	\end{lstlisting}
+  \begin{lstlisting}
+    integer v[3] = 1..10;
+  \end{lstlisting}
 
-	In cases like these the compiler is always able to catch the size mismatch, since the vector \texttt{1..10} is known
-	at compile time.
+  In cases like these the compiler is always able to catch the size mismatch, since the vector \texttt{1..10} is known
+  at compile time.
 
-	Your compiler should only handle the case where the initialization expression consists of an expression with only
-	literal values (thus, it can be evaluated at compile time). Similarly the size of the declared vector must either be
-	given with an expression of literal values, or not be provided. If a size mismatch is detected here the compiler
-	should throw an error. The compiler should also be able to detect cases such as:
+  Your compiler should only handle the case where the initialization expression consists of an expression with only
+  literal values (thus, it can be evaluated at compile time). Similarly the size of the declared vector must either be
+  given with an expression of literal values, or not be provided. If a size mismatch is detected here the compiler
+  should throw an error. The compiler should also be able to detect cases such as:
 
-	\begin{lstlisting}
-		integer vector v = 1;
-	\end{lstlisting}
+  \begin{lstlisting}
+    integer vector v = 1;
+  \end{lstlisting}
 
-	where the length of the vector can not be determined at all.
+  where the length of the vector can not be determined at all.
 
 
 \section{Type Casts}\label{sec:typeCasting}
 
-	\textit{Gazprea} provides explicit type casting. A value may be converted to a
-	different type using the following syntax:
+  \textit{Gazprea} provides explicit type casting. A value may be converted to a
+  different type using the following syntax:
 
-	\begin{lstlisting}
-		as<type>(value)
-	\end{lstlisting}
+  \begin{lstlisting}
+    as<type>(value)
+  \end{lstlisting}
 
-	Where \texttt{value} is some expression, and \texttt{type} is the type we want to convert to. Conversions from one
-	type to another may not be legal. For instance converting from an integer matrix to an integer does not make sense.
+  Where \texttt{value} is some expression, and \texttt{type} is the type we want to convert to. Conversions from one
+  type to another may not be legal. For instance converting from an integer matrix to an integer does not make sense.
 
-	This table summarizes all of the conversion rules between base types. The row is the type you are converting from,
-	and the column is the type you are converting to.
+  This table summarizes all of the conversion rules between base types. The row is the type you are converting from,
+  and the column is the type you are converting to.
 
-	\begin{center}
-		\begin{tabular}{|ll|LLLcL|}
-		\cline{1-7}
-		\multicolumn{2}{c}{} &
-		\multicolumn{5}{c}{\textbf{To type}} \\
-		\cline{3-7}
-		\multicolumn{2}{c}{} &
-		\multicolumn{1}{c}{boolean} &
-		\multicolumn{1}{c}{integer} &
-		\multicolumn{1}{c}{real} &
-		\multicolumn{1}{c}{interval} &
-		\multicolumn{1}{c}{character} \\
-		\hline
-		\multicolumn{1}{c}{} &
-		boolean & id & 1 if true, 0 otherwise & 1.0 if true, 0.0 otherwise & N/A &
-		\textit{ASCII} value 0 if false, 1 otherwise \\
-		\multicolumn{1}{c}{} &
-		integer & false if 0, true otherwise & id & real version of integer & N/A & unsigned integer value mod 256 \\
-		\multicolumn{1}{c}{\textbf{From}} &
-		real & N/A & truncate & id & N/A & N/A \\
-		\multicolumn{1}{c}{} &
-		interval & N/A & N/A & N/A & id & N/A \\
-		\multicolumn{1}{c}{} &
-		character & false if \textit{ASCII} 0, true otherwise & \textit{ASCII} value
-		as integer & \textit{ASCII} value as real & N/A & id \\
-		\hline
-		\end{tabular}
-	\end{center}
+  \begin{center}
+    \begin{tabular}{|ll|LLLcL|}
+    \cline{1-7}
+    \multicolumn{2}{c}{} &
+    \multicolumn{5}{c}{\textbf{To type}} \\
+    \cline{3-7}
+    \multicolumn{2}{c}{} &
+    \multicolumn{1}{c}{boolean} &
+    \multicolumn{1}{c}{integer} &
+    \multicolumn{1}{c}{real} &
+    \multicolumn{1}{c}{interval} &
+    \multicolumn{1}{c}{character} \\
+    \hline
+    \multicolumn{1}{c}{} &
+    boolean & id & 1 if true, 0 otherwise & 1.0 if true, 0.0 otherwise & N/A &
+    \textit{ASCII} value 0 if false, 1 otherwise \\
+    \multicolumn{1}{c}{} &
+    integer & false if 0, true otherwise & id & real version of integer & N/A & unsigned integer value mod 256 \\
+    \multicolumn{1}{c}{\textbf{From}} &
+    real & N/A & truncate & id & N/A & N/A \\
+    \multicolumn{1}{c}{} &
+    interval & N/A & N/A & N/A & id & N/A \\
+    \multicolumn{1}{c}{} &
+    character & false if \textit{ASCII} 0, true otherwise & \textit{ASCII} value
+    as integer & \textit{ASCII} value as real & N/A & id \\
+    \hline
+    \end{tabular}
+  \end{center}
 
-	In this table "id" means there is no change, "N/A" means the conversion is invalid and an error should be raised.
+  In this table "id" means there is no change, "N/A" means the conversion is invalid and an error should be raised.
 
-	Type casting can be done on vector and matrix types. The cast is applied to the base elements. Additionally the cast
-	may be used to promote scalars, or truncate / pad vectors. For instance:
+  Type casting can be done on vector and matrix types. The cast is applied to the base elements. Additionally the cast
+  may be used to promote scalars, or truncate / pad vectors. For instance:
 
-	\begin{lstlisting}
-		real vector v[3] = [i in 1..3 | i + 0.3 * i];
+  \begin{lstlisting}
+    real vector v[3] = [i in 1..3 | i + 0.3 * i];
 
-		/* Convert the real vector to an integer vector */
-		integer vector u[3] = as<integer vector>(v);
+    /* Convert the real vector to an integer vector */
+    integer vector u[3] = as<integer vector>(v);
 
-		/* Convert to integers and null pad */
-		integer vector x[5] = as<integer[5]>(v);
+    /* Convert to integers and null pad */
+    integer vector x[5] = as<integer[5]>(v);
 
-		/* Truncate the vector */
-		real vector y[2] = as<real vector[2]>(v);
-	\end{lstlisting}
+    /* Truncate the vector */
+    real vector y[2] = as<real vector[2]>(v);
+  \end{lstlisting}
 
-	An integer interval may be cast to an integer vector, or a real vector. If the vector is larger than the interval,
-	then the vector is \texttt{null} padded.
+  An integer interval may be cast to an integer vector, or a real vector. If the vector is larger than the interval,
+  then the vector is \texttt{null} padded.
 
-	Type casting can be done between tuples as long as the tuples have the same number of fields. Each of the fields is
-	cast as specified. For instance:
+  Type casting can be done between tuples as long as the tuples have the same number of fields. Each of the fields is
+  cast as specified. For instance:
 
-	\begin{lstlisting}
-		tuple(integer, integer) int_tup = (1, 2);
-		tuple(real, boolean) rb_tup = as<(real, boolean)>(int_tup);
+  \begin{lstlisting}
+    tuple(integer, integer) int_tup = (1, 2);
+    tuple(real, boolean) rb_tup = as<(real, boolean)>(int_tup);
 
-		/* rb_tup has the value (1.0, true) now */
-	\end{lstlisting}
+    /* rb_tup has the value (1.0, true) now */
+  \end{lstlisting}
 
-	\texttt{var} and \texttt{const} are implicitly included in typecasts. Default is \texttt{var}
+  \texttt{var} and \texttt{const} are implicitly included in typecasts. Default is \texttt{var}
 
 
 \section{Type Promotion}\label{sec:typePromotion}
 
-	Automatic type promotion on scalar values only happens between integer values to real values. A real number can not
-	be implicitly cast to an integer value, and doing so should raise a compiler error.
+  Automatic type promotion on scalar values only happens between integer values to real values. A real number can not
+  be implicitly cast to an integer value, and doing so should raise a compiler error.
 
-	Scalar values can also be promoted to vector, or matrix types. This occurs when a matrix, or vector is used in an
-	operation with a scalar value of a base type that can be promoted to the base type of the matrix, or vector. When
-	the scalar value is promoted it becomes a vector, or matrix, with identical dimensions, and every element of this
-	new vector / matrix is equal to the original scalar value. An integer scalar may be promoted to a real vector, or a
-	real matrix.
+  Scalar values can also be promoted to vector, or matrix types. This occurs when a matrix, or vector is used in an
+  operation with a scalar value of a base type that can be promoted to the base type of the matrix, or vector. When
+  the scalar value is promoted it becomes a vector, or matrix, with identical dimensions, and every element of this
+  new vector / matrix is equal to the original scalar value. An integer scalar may be promoted to a real vector, or a
+  real matrix.
 
-	Integer intervals may be promoted to integer vectors, and thus they may also be promoted to real vectors.
+  Integer intervals may be promoted to integer vectors, and thus they may also be promoted to real vectors.
 
-	Tuples may be promoted to tuples of another type if they have the same number of fields, and each field of the
-	original can be automatically coerced into the type of the equivalent field in the other tuple.
+  Tuples may be promoted to tuples of another type if they have the same number of fields, and each field of the
+  original can be automatically coerced into the type of the equivalent field in the other tuple.
 
-	\begin{lstlisting}
-		tuple(integer, integer) int_tup = (1, 2);
-		tuple(real, real) real_tup = int_tup; /* real_tup == (1.0, 2.0) */
-	\end{lstlisting}
+  \begin{lstlisting}
+    tuple(integer, integer) int_tup = (1, 2);
+    tuple(real, real) real_tup = int_tup; /* real_tup == (1.0, 2.0) */
+  \end{lstlisting}
 
-	No other automatic conversions are legal, and a type error should be raised.  For instance:
+  No other automatic conversions are legal, and a type error should be raised.  For instance:
 
-	\begin{lstlisting}
-		character x = 'a';
-		integer y = 1 + x;
-	\end{lstlisting}
+  \begin{lstlisting}
+    character x = 'a';
+    integer y = 1 + x;
+  \end{lstlisting}
 
-	Should raise a type error. A character can be converted to an integer if it is explicitly cast, but it can not be
-	done implicitly like this.
+  Should raise a type error. A character can be converted to an integer if it is explicitly cast, but it can not be
+  done implicitly like this.
 
 
 \section{Typedef}\label{sec:typedef}
 
-	Custom names for types can be defined using \texttt{typedef}. Typedefs may only appear at global scope, they may not
-	appear within functions or procedures. A typedef may use any valid identifier for the name of the type. After the
-	typedef has been defined any global declaration or function defined may use the new name to refer to the old type.
-	For instance:
+  Custom names for types can be defined using \texttt{typedef}. Typedefs may only appear at global scope, they may not
+  appear within functions or procedures. A typedef may use any valid identifier for the name of the type. After the
+  typedef has been defined any global declaration or function defined may use the new name to refer to the old type.
+  For instance:
 
-	\begin{lstlisting}
-		/* Is the same as declaring 'v' like this\ldots */
-		const integer v[10] = [i in 1..10 | 7];
+  \begin{lstlisting}
+    /* Is the same as declaring 'v' like this\ldots */
+    const integer v[10] = [i in 1..10 | 7];
 
-		typedef integer[2,3] two_by_three_matrix;
+    typedef integer[2,3] two_by_three_matrix;
 
-		two_by_three_matrix m = [i in 1..2, j in 1..3 | i + j];
-	\end{lstlisting}
+    two_by_three_matrix m = [i in 1..2, j in 1..3 | i + j];
+  \end{lstlisting}
 
 
 \section{Expressions}\label{sec:expressions}
 
-	\subsection{Table of Operator precedence}\label{sec:operators}
+  \subsection{Table of Operator precedence}\label{sec:operators}
 
-		The following is a table containing all of the precedences and associativities of the operators in
-		\textit{Gazprea}.
+    The following is a table containing all of the precedences and associativities of the operators in
+    \textit{Gazprea}.
 
-		\begin{center}
-			\begin{tabular}{|r|l|l|}
-				\hline
-				\textbf{Precedence} &
-				\multicolumn{1}{c}{\textbf{Operators}} &
-				\textbf{Associativity} \\
-				\hline
-				(Highest) 1 & indexing              & left  \\
-				2           & ..                    & N/A   \\
-				3           & unary +, unary -, not & right \\
-				4           & \textasciicircum      & right \\
-				5           & *,/,\%                & left  \\
-				6           & +,-                   & left  \\
-				7           & by                    & left  \\
-				8           & <,>,<=,>=             & left  \\
-				9           & ==, !=                & left  \\
-				10          & and                   & left  \\
-				11          & or,xor                & left  \\
-				(Lowest) 12 & ||                    & right \\
-				\hline
-			\end{tabular}
-		\end{center}
+    \begin{center}
+      \begin{tabular}{|r|l|l|}
+        \hline
+        \textbf{Precedence} &
+        \multicolumn{1}{c}{\textbf{Operators}} &
+        \textbf{Associativity} \\
+        \hline
+        (Highest) 1 & indexing              & left  \\
+        2           & ..                    & N/A   \\
+        3           & unary +, unary -, not & right \\
+        4           & \textasciicircum      & right \\
+        5           & *,/,\%                & left  \\
+        6           & +,-                   & left  \\
+        7           & by                    & left  \\
+        8           & <,>,<=,>=             & left  \\
+        9           & ==, !=                & left  \\
+        10          & and                   & left  \\
+        11          & or,xor                & left  \\
+        (Lowest) 12 & ||                    & right \\
+        \hline
+      \end{tabular}
+    \end{center}
 
-	\subsection{Generators}\label{sec:generators}
+  \subsection{Generators}\label{sec:generators}
 
-		A generator may be used to construct either a vector or a matrix. A generator creates a value of a vector type
-		when one domain variable is used, and a generator creates a value of a matrix type when two domain variables are
-		used.  Any other number of domain variables will yield an error.
+    A generator may be used to construct either a vector or a matrix. A generator creates a value of a vector type
+    when one domain variable is used, and a generator creates a value of a matrix type when two domain variables are
+    used.  Any other number of domain variables will yield an error.
 
-		A generator consists of either one or two domain expression. An additional expression is used on the right hand
-		side in order to create the generated values. For example:
+    A generator consists of either one or two domain expression. An additional expression is used on the right hand
+    side in order to create the generated values. For example:
 
-		\begin{lstlisting}
-			integer vector v[10] = [i in 1..10 | i * i];
-			/* v[i] == i * i */
+    \begin{lstlisting}
+      integer vector v[10] = [i in 1..10 | i * i];
+      /* v[i] == i * i */
 
-			integer matrix M[2, 3] = [i in 1..2, j in 1..3 | i * j];
-			/* M[i, j] == i * j */
-		\end{lstlisting}
+      integer matrix M[2, 3] = [i in 1..2, j in 1..3 | i * j];
+      /* M[i, j] == i * j */
+    \end{lstlisting}
 
-		The expression to the right of the bar "|", is used to generate the value at the given index, and must result in
-		a value with the same type as the base type for the matrix or vector. Generators may be nested, and may be used
-		within domain expressions. For instance, the generator below is perfectly legal:
+    The expression to the right of the bar "|", is used to generate the value at the given index, and must result in
+    a value with the same type as the base type for the matrix or vector. Generators may be nested, and may be used
+    within domain expressions. For instance, the generator below is perfectly legal:
 
-		\begin{lstlisting}
-			integer i = 7;
+    \begin{lstlisting}
+      integer i = 7;
 
-			/* The domain expression should use the previously defined i */
-			integer vector v = [i in [i in 1..i | i] | [i in 1..10 | i * i][i]];
+      /* The domain expression should use the previously defined i */
+      integer vector v = [i in [i in 1..i | i] | [i in 1..10 | i * i][i]];
 
-			/* v should contain the first 7 squares. */
-		\end{lstlisting}
+      /* v should contain the first 7 squares. */
+    \end{lstlisting}
 
 
-	\subsection{Filters}\label{sec:filters}
+  \subsection{Filters}\label{sec:filters}
 
-		Filters are used to accumulate elements into vectors. Each filter contains a single domain expression, and a
-		list of predicates.
+    Filters are used to accumulate elements into vectors. Each filter contains a single domain expression, and a
+    list of predicates.
 
-		The result of a filter operation is a tuple. This tuple contains a field for each of the predicates in order.
-		Each field is a vector containing only the elements from the domain which satisfied the predicate expressions.
-		Each filter result has an additional field which is a vector containing all of the values in the domain which
-		did not satisfy any of the predicates. For example:
+    The result of a filter operation is a tuple. This tuple contains a field for each of the predicates in order.
+    Each field is a vector containing only the elements from the domain which satisfied the predicate expressions.
+    Each filter result has an additional field which is a vector containing all of the values in the domain which
+    did not satisfy any of the predicates. For example:
 
-		\begin{lstlisting}
-			/* x == ([3], [2], [2, 4], [1, 5]) */
-			var x = [i in 1..5 & i == 3 or i == 2  or i \% 2 == 0];
+    \begin{lstlisting}
+      /* x == ([3], [2], [2, 4], [1, 5]) */
+      var x = [i in 1..5 & i == 3 or i == 2  or i \% 2 == 0];
 
-			/* y == ([1, 3, 5], [2, 4]) */
-			var y = [i in 1..5 & i \% 2 == 1);
-		\end{lstlisting}
+      /* y == ([1, 3, 5], [2, 4]) */
+      var y = [i in 1..5 & i \% 2 == 1);
+    \end{lstlisting}
 
-		There must be at least one predicate expression
+    There must be at least one predicate expression
 
-	\subsection{Domain Expressions}
-		Domain expressions can only appear within iterator loops, generators, and filters. A domain expression is a way
-		of declaring a variable that is local to the loop, generator, or filter, that takes on values from intervals,
-		and vectors in order.
+  \subsection{Domain Expressions}
+    Domain expressions can only appear within iterator loops, generators, and filters. A domain expression is a way
+    of declaring a variable that is local to the loop, generator, or filter, that takes on values from intervals,
+    and vectors in order.
 
-		Domain expressions are essentially declarations, and so they follow the same scoping rules. For instance:
+    Domain expressions are essentially declarations, and so they follow the same scoping rules. For instance:
 
-		\begin{lstlisting}
-			integer i = 7;
+    \begin{lstlisting}
+      integer i = 7;
 
-			/* This will print 1234567 */
-			loop i in 1..i {
-				i -> out;
-			}
-		\end{lstlisting}
+      /* This will print 1234567 */
+      loop i in 1..i {
+        i -> out;
+      }
+    \end{lstlisting}
 
-		Domain variables are not initialized when they are declared. For instance in loops they are initialized at the
-		start of each execution of the loop's body statement. However, we may chain domain variables using commas, like
-		in iterator loops, or matrix generators. Thus it is illegal to use a domain variable declared in the same chain
-		of domain expressions, since the value may be uninitialized.
+    Domain variables are not initialized when they are declared. For instance in loops they are initialized at the
+    start of each execution of the loop's body statement. However, we may chain domain variables using commas, like
+    in iterator loops, or matrix generators. Thus it is illegal to use a domain variable declared in the same chain
+    of domain expressions, since the value may be uninitialized.
 
-		\begin{lstlisting}
-			integer i = 7;
+    \begin{lstlisting}
+      integer i = 7;
 
-			/* This is illegal because the i in "j in 1..i" refers to the domain
-			   variable i. An error should be raised in this case. */
-			loop i in 1..i, j in 1..i {
-			   i * j -> out;
-			}
+      /* This is illegal because the i in "j in 1..i" refers to the domain
+         variable i. An error should be raised in this case. */
+      loop i in 1..i, j in 1..i {
+         i * j -> out;
+      }
 
-			/* This is legal since i will be initialized whenever the inner loop
-			   is executed */
-			loop i in 1..i {
-				loop j in 1..i {
-					i * j -> out;
-				}
-			}
-		\end{lstlisting}
+      /* This is legal since i will be initialized whenever the inner loop
+         is executed */
+      loop i in 1..i {
+        loop j in 1..i {
+          i * j -> out;
+        }
+      }
+    \end{lstlisting}
 
-		The domain for the domain expression is only evaluated once. For instance:
+    The domain for the domain expression is only evaluated once. For instance:
 
-		\begin{lstlisting}
-			integer x = 1;
+    \begin{lstlisting}
+      integer x = 1;
 
-			/* 1..x is only evaluated the first time the loop executes, so it is
-			   simply 1..1, and not an infinite loop. */
-			loop i in 1..x {
-				x = x + 1;
-			}
-		\end{lstlisting}
+      /* 1..x is only evaluated the first time the loop executes, so it is
+         simply 1..1, and not an infinite loop. */
+      loop i in 1..x {
+        x = x + 1;
+      }
+    \end{lstlisting}
 
-		This is true for domain expressions within generators and filters as well.
+    This is true for domain expressions within generators and filters as well.
 
 
 \section{Statements}\label{sec:statements}
 
-	\subsection{assignment Statements}\label{sec:assignment}
+  \subsection{assignment Statements}\label{sec:assignment}
 
-		In \textit{Gazprea} a variable may have different values throughout the execution of the program. Variables may
-		have their values changed with an assignment statement. In the simplest case an assignment statement contains an
-		identifier on the left hand side of an equals sign, and an expression with a compatible type on the right hand
-		side.
+    In \textit{Gazprea} a variable may have different values throughout the execution of the program. Variables may
+    have their values changed with an assignment statement. In the simplest case an assignment statement contains an
+    identifier on the left hand side of an equals sign, and an expression with a compatible type on the right hand
+    side.
 
-		\begin{lstlisting}
-			integer x = 7;
+    \begin{lstlisting}
+      integer x = 7;
 
-			x -> out;  /* Prints 7 */
+      x -> out;  /* Prints 7 */
 
-			/* Give 'x' a new value */
-			x = 2 * 3;  /* This is an assignment statement */
+      /* Give 'x' a new value */
+      x = 2 * 3;  /* This is an assignment statement */
 
-			x -> out;  /* Prints 6 */
-		\end{lstlisting}
+      x -> out;  /* Prints 6 */
+    \end{lstlisting}
 
-		Type checking must be performed on assignment statements. The expression on the right hand side must have a type
-		that can be automatically promoted to the type of the variable. For instance:
+    Type checking must be performed on assignment statements. The expression on the right hand side must have a type
+    that can be automatically promoted to the type of the variable. For instance:
 
-		\begin{lstlisting}
-			integer int_var = 7;
-			real real_var = 0.0f;
-			boolean bool_var = true;
+    \begin{lstlisting}
+      integer int_var = 7;
+      real real_var = 0.0f;
+      boolean bool_var = true;
 
-			/* Since 'x' is an integer it can be promoted to a real number */
-			real_var = int_var;  /* Legal */
+      /* Since 'x' is an integer it can be promoted to a real number */
+      real_var = int_var;  /* Legal */
 
-			/* Real numbers can not be turned into boolean values automatically. */
-			bool_var = real_var; /* Illegal */
-		\end{lstlisting}
+      /* Real numbers can not be turned into boolean values automatically. */
+      bool_var = real_var; /* Illegal */
+    \end{lstlisting}
 
-		Assignments can also be more complicated than this with vectors, matrices, and tuples. With matrices and vectors
-		indices may be provided in order to change the value of a portion of the matrix or vector. For instance, with
-		vectors:
+    Assignments can also be more complicated than this with vectors, matrices, and tuples. With matrices and vectors
+    indices may be provided in order to change the value of a portion of the matrix or vector. For instance, with
+    vectors:
 
-		\begin{lstlisting}
-			integer vector v = [0, 0, 0];
+    \begin{lstlisting}
+      integer vector v = [0, 0, 0];
 
-			/* Can assign an entire vector value -- change 'v' to [1, 2, 3] */
-			v = [1, 2, 3];
+      /* Can assign an entire vector value -- change 'v' to [1, 2, 3] */
+      v = [1, 2, 3];
 
-			/* Change 'v' to [1, 0, 3] */
-			v[2] = 0;
+      /* Change 'v' to [1, 0, 3] */
+      v[2] = 0;
 
-			/* Can also use vector indexing */
-			v[[1, 3]] = [4, 5];  /* 'v' is now [4, 0, 5] */
-		\end{lstlisting}
+      /* Can also use vector indexing */
+      v[[1, 3]] = [4, 5];  /* 'v' is now [4, 0, 5] */
+    \end{lstlisting}
 
-		Matrices can be treated similarly.
+    Matrices can be treated similarly.
 
-		\begin{lstlisting}
-			integer matrix M = [[1, 1], [1, 1]];
+    \begin{lstlisting}
+      integer matrix M = [[1, 1], [1, 1]];
 
-			/* Change the entire matrix M to [[1, 2], [3, 4]] */
-			M = [[1, 2], [3, 4]];
+      /* Change the entire matrix M to [[1, 2], [3, 4]] */
+      M = [[1, 2], [3, 4]];
 
-			/* Change a single position of M */
-			M[1, 2] = 7;  /* M is now [[1, 7], [3, 4]] */
+      /* Change a single position of M */
+      M[1, 2] = 7;  /* M is now [[1, 7], [3, 4]] */
 
-			/* Can use vector indexing on rows or columns.
-			   Uses all combinations of row / column coordinates */
-		\end{lstlisting}
+      /* Can use vector indexing on rows or columns.
+         Uses all combinations of row / column coordinates */
+    \end{lstlisting}
 
 
-		Tuples also have a special unpacking syntax in \textit{Gazprea}. A tuple's field may be assigned to comma
-		separated variables instead of a tuple variable. For instance:
+    Tuples also have a special unpacking syntax in \textit{Gazprea}. A tuple's field may be assigned to comma
+    separated variables instead of a tuple variable. For instance:
 
-		\begin{lstlisting}
-			integer x = 0;
-			real y = 0;
-			real z = 0;
+    \begin{lstlisting}
+      integer x = 0;
+      real y = 0;
+      real z = 0;
 
-			tuple(integer, real) tup = (1, 2.0);
+      tuple(integer, real) tup = (1, 2.0);
 
-			/* x == 1, and y == 2.0 now */
-			x, y = tup;
+      /* x == 1, and y == 2.0 now */
+      x, y = tup;
 
-			/* Types can be promoted */
+      /* Types can be promoted */
 
-			/* z == 1.0, y == 2.0 */
-			z, y = tup;
+      /* z == 1.0, y == 2.0 */
+      z, y = tup;
 
-			/* Can swap: z == 2.0, y == 1.0 */
-			z, y = (y, z);
-		\end{lstlisting}
+      /* Can swap: z == 2.0, y == 1.0 */
+      z, y = (y, z);
+    \end{lstlisting}
 
-		The types of the variables must match the types of the tuple's fields, or the tuple's fields must be able to be
-		automatically promoted to the variable's type. The number of variables in the comma separated list must match
-		the number of fields in the tuple, if this is not the case an error should be raised.
+    The types of the variables must match the types of the tuple's fields, or the tuple's fields must be able to be
+    automatically promoted to the variable's type. The number of variables in the comma separated list must match
+    the number of fields in the tuple, if this is not the case an error should be raised.
 
-		Assignments and initializations must perform a deep copy. It should not be possible to cause the aliasing of
-		memory locations with an assignment. For instance:
+    Assignments and initializations must perform a deep copy. It should not be possible to cause the aliasing of
+    memory locations with an assignment. For instance:
 
-		\begin{lstlisting}
-			integer vector v = [1, 2, 3];
-			integer vector w = v;
+    \begin{lstlisting}
+      integer vector v = [1, 2, 3];
+      integer vector w = v;
 
-			w[2] = 0;  /* This must not affect 'v' */
+      w[2] = 0;  /* This must not affect 'v' */
 
-			/* v has the value [1, 2, 3] */
-			/* w has the value [1, 0, 3] */
+      /* v has the value [1, 2, 3] */
+      /* w has the value [1, 0, 3] */
 
-			/* If you are not careful, you might copy the pointer of 'v' to 'w',
-			   which would cause them to be stored in the same location in memory. If
-			   this happens modifying 'w' would change 'v' as well.
-			 */
-		\end{lstlisting}
+      /* If you are not careful, you might copy the pointer of 'v' to 'w',
+         which would cause them to be stored in the same location in memory. If
+         this happens modifying 'w' would change 'v' as well.
+       */
+    \end{lstlisting}
 
-		The above is a simple example using vectors. You must ensure that values can not be aliased with an assignment
-		between any types, including vectors, matrices, and tuples.
+    The above is a simple example using vectors. You must ensure that values can not be aliased with an assignment
+    between any types, including vectors, matrices, and tuples.
 
-		Variables may be declared as const, and in this case it is illegal for them to appear on the left hand side of
-		an assignment expression. The compiler should raise on error when this is detected, since it does not make sense
-		to change a constant value.
+    Variables may be declared as const, and in this case it is illegal for them to appear on the left hand side of
+    an assignment expression. The compiler should raise on error when this is detected, since it does not make sense
+    to change a constant value.
 
-		The right hand side of an assignment statement is always evaluated before the left hand side. This is important
-		for cases where procedures may change variables, for instance:
+    The right hand side of an assignment statement is always evaluated before the left hand side. This is important
+    for cases where procedures may change variables, for instance:
 
-		\begin{lstlisting}
-			v[x] = p(x);
-			/* If p changes x then it is important that p(x) is executed before v[x] */
-		\end{lstlisting}
+    \begin{lstlisting}
+      v[x] = p(x);
+      /* If p changes x then it is important that p(x) is executed before v[x] */
+    \end{lstlisting}
 
-	\subsection{Block Statements}\label{sec:block}
+  \subsection{Block Statements}\label{sec:block}
 
-		A list of statements may be grouped into one statement using curly braces. This is called a block statement, and
-		is similar to block statements in other languages such as \textit{C/C++}. As an example:
+    A list of statements may be grouped into one statement using curly braces. This is called a block statement, and
+    is similar to block statements in other languages such as \textit{C/C++}. As an example:
 
-		\begin{lstlisting}
-			{
-			  x = 3;
-			  z = 4;
-			  x -> out; "\n" -> out; z -> out; "\n" -> out;
-			}
-		\end{lstlisting}
+    \begin{lstlisting}
+      {
+        x = 3;
+        z = 4;
+        x -> out; "\n" -> out; z -> out; "\n" -> out;
+      }
+    \end{lstlisting}
 
-		Is a block statement. Declarations can only appear at the start of a block.  Each block statement introduces a
-		new scope that new variables may be declared in. For instance this is perfectly valid:
+    Is a block statement. Declarations can only appear at the start of a block.  Each block statement introduces a
+    new scope that new variables may be declared in. For instance this is perfectly valid:
 
-		\begin{lstlisting}
-			int x = 3;
-			int y = 0;
-			real z = 0;
+    \begin{lstlisting}
+      int x = 3;
+      int y = 0;
+      real z = 0;
 
-			{
-			  real x = 7.1;
-			  z = x;
-			}
+      {
+        real x = 7.1;
+        z = x;
+      }
 
-			y = x;
-		\end{lstlisting}
+      y = x;
+    \end{lstlisting}
 
-		After execution this \texttt{y = 3} and \texttt{z = 7.1}.
+    After execution this \texttt{y = 3} and \texttt{z = 7.1}.
 
 
-	\subsection{If/Else Statements}\label{sec:conditional}
+  \subsection{If/Else Statements}\label{sec:conditional}
 
-		An if statement takes a boolean value as a conditional expression, and a statement for the body. If the
-		conditional expression evaluates to true, then the body is executed. If the conditional expression evaluates to
-		false then the body of the if statement is not executed. If statements in \textit{Gazprea} do not require the
-		conditional expression to be enclosed in parenthesis.
+    An if statement takes a boolean value as a conditional expression, and a statement for the body. If the
+    conditional expression evaluates to true, then the body is executed. If the conditional expression evaluates to
+    false then the body of the if statement is not executed. If statements in \textit{Gazprea} do not require the
+    conditional expression to be enclosed in parenthesis.
 
-		\begin{lstlisting}
-			integer x = 0;
-			integer y = 0;
+    \begin{lstlisting}
+      integer x = 0;
+      integer y = 0;
 
-			/* Compute some value for x */
+      /* Compute some value for x */
 
-			if (x == 3) {
-			   y = 7;
-			}
+      if (x == 3) {
+         y = 7;
+      }
 
-			/* At this point y will only be 7 if x == 3, and otherwise y will be
-			   0, assuming it did not change throughout the rest of the program.
-			 */
-		\end{lstlisting}
+      /* At this point y will only be 7 if x == 3, and otherwise y will be
+         0, assuming it did not change throughout the rest of the program.
+       */
+    \end{lstlisting}
 
-		If statements are often paired with block statements, like in the above example. The if statement above could
-		also be written as:
+    If statements are often paired with block statements, like in the above example. The if statement above could
+    also be written as:
 
-		\begin{lstlisting}
-			if x == 3
-				y = 7;
-		\end{lstlisting}
+    \begin{lstlisting}
+      if x == 3
+        y = 7;
+    \end{lstlisting}
 
-		Since \texttt{y = 7;} is a statement it can be used as the body statement. All statements after this point are
-		not in the body of the if statement. For instance:
+    Since \texttt{y = 7;} is a statement it can be used as the body statement. All statements after this point are
+    not in the body of the if statement. For instance:
 
-		\begin{lstlisting}
-			if x == 3
-				y = 7;
-				z = 32;
-		\end{lstlisting}
+    \begin{lstlisting}
+      if x == 3
+        y = 7;
+        z = 32;
+    \end{lstlisting}
 
-		is actually equivalent to the following:
+    is actually equivalent to the following:
 
-		\begin{lstlisting}
-			if (x == 4) {
-				y = 7;
-			}
+    \begin{lstlisting}
+      if (x == 4) {
+        y = 7;
+      }
 
-			z = 32;
-		\end{lstlisting}
+      z = 32;
+    \end{lstlisting}
 
-		\textit{Gazprea} is not sensitive to whitespace, so we could even write something like:
+    \textit{Gazprea} is not sensitive to whitespace, so we could even write something like:
 
-		\begin{lstlisting}
-			if x == 3 y = 7;
-		\end{lstlisting}
+    \begin{lstlisting}
+      if x == 3 y = 7;
+    \end{lstlisting}
 
-		An if statement may also be followed by an else statement. The else has a body statement just like the if
-		statement, but this is only run if the conditional expression on the if statement fails.
+    An if statement may also be followed by an else statement. The else has a body statement just like the if
+    statement, but this is only run if the conditional expression on the if statement fails.
 
-		\begin{lstlisting}
-			if x == 3
-				y = 7;
-			else
-				y = 32;
-		\end{lstlisting}
+    \begin{lstlisting}
+      if x == 3
+        y = 7;
+      else
+        y = 32;
+    \end{lstlisting}
 
-		Now if \texttt{x} does not have a value of 3, \texttt{y} is assigned a value of 32. This can be paired with if
-		statements as well.
+    Now if \texttt{x} does not have a value of 3, \texttt{y} is assigned a value of 32. This can be paired with if
+    statements as well.
 
-		\begin{lstlisting}
-			y = 0;
+    \begin{lstlisting}
+      y = 0;
 
-			if (x < 0) {
-			  y = -1;
-			}
-			else if (x > 0) {
-			  y = 1;
-			}
+      if (x < 0) {
+        y = -1;
+      }
+      else if (x > 0) {
+        y = 1;
+      }
 
-			/* y is negative if x is negative, positive if x is positive,
-				and 0 if x is 0. */
-		\end{lstlisting}
+      /* y is negative if x is negative, positive if x is positive,
+        and 0 if x is 0. */
+    \end{lstlisting}
 
 
-	\subsection{Loop}\label{sec:loop}
-		\subsubsection{Infinite Loop}\label{sec:infLoop}
-			\textit{Gazprea} provides an infinite loop, which continuously executes the body statement given to it. For
-			instance:
+  \subsection{Loop}\label{sec:loop}
+    \subsubsection{Infinite Loop}\label{sec:infLoop}
+      \textit{Gazprea} provides an infinite loop, which continuously executes the body statement given to it. For
+      instance:
 
-			\begin{lstlisting}
-				loop "hello!\n" -> out;
-			\end{lstlisting}
+      \begin{lstlisting}
+        loop "hello!\n" -> out;
+      \end{lstlisting}
 
-			Would print "hello!" indefinitely. This is often used with block statements.
+      Would print "hello!" indefinitely. This is often used with block statements.
 
-			\begin{lstlisting}
-				/* Infinite counter */
-				integer n = 0;
+      \begin{lstlisting}
+        /* Infinite counter */
+        integer n = 0;
 
-				loop {
-					n -> out; "\n" -> out;
-					n = n + 1;
-				}
-			\end{lstlisting}
+        loop {
+          n -> out; "\n" -> out;
+          n = n + 1;
+        }
+      \end{lstlisting}
 
-		\subsubsection{Predicated Loop}\label{sec:predicatedLoop}
+    \subsubsection{Predicated Loop}\label{sec:predicatedLoop}
 
-			A loop may also be provided with a control expression. The control expression automatically breaks from the
-			loop if it evaluates to false when it is checked.
+      A loop may also be provided with a control expression. The control expression automatically breaks from the
+      loop if it evaluates to false when it is checked.
 
-			The loop can be pre-predicated, which means that the control expression is tested before the body statement
-			is executed. This is the same behaviour as while loops in most languages, and is written using the while
-			token after the loop, followed by a boolean expression for the predicate. For example:
+      The loop can be pre-predicated, which means that the control expression is tested before the body statement
+      is executed. This is the same behaviour as while loops in most languages, and is written using the while
+      token after the loop, followed by a boolean expression for the predicate. For example:
 
-			\begin{lstlisting}
-				integer x = 0;
+      \begin{lstlisting}
+        integer x = 0;
 
-				/* Print 1 to 10 */
-				loop while x < 10 {
-					x = x + 1;
-					x -> out; "\n" -> out;
-				}
-			\end{lstlisting}
+        /* Print 1 to 10 */
+        loop while x < 10 {
+          x = x + 1;
+          x -> out; "\n" -> out;
+        }
+      \end{lstlisting}
 
-			A post-predicated loop is also available. In this case the control expression is tested after the body
-			statement is executed. This also uses the while token followed by the control expression, but it appears at
-			the end of the loop. Post Predicated loop statements must end in a semicolon.
+      A post-predicated loop is also available. In this case the control expression is tested after the body
+      statement is executed. This also uses the while token followed by the control expression, but it appears at
+      the end of the loop. Post Predicated loop statements must end in a semicolon.
 
-			\begin{lstlisting}
-				integer x = 10;
+      \begin{lstlisting}
+        integer x = 10;
 
-				/* Since the conditional is tested after the execution '10' is printed */
-				loop x -> out; while x == 0;
-			\end{lstlisting}
+        /* Since the conditional is tested after the execution '10' is printed */
+        loop x -> out; while x == 0;
+      \end{lstlisting}
 
 
-		\subsubsection{Iterator Loop}\label{sec:iteratorLoop}
+    \subsubsection{Iterator Loop}\label{sec:iteratorLoop}
 
-			Loops can be used to iterate over the elements of an integer interval, or a vector of any type. This is done
-			by using domain expressions (for instance i in v) in conjunction with a loop statement.
+      Loops can be used to iterate over the elements of an integer interval, or a vector of any type. This is done
+      by using domain expressions (for instance i in v) in conjunction with a loop statement.
 
-			When the domain is given by a vector, each time the loop is executed the next element of the vector is
-			assigned to the domain variable. The elements of the domain vector are assigned to the domain variable
-			starting from index 1, and going up to the final element of the vector. When all of the elements of the
-			domain vector have been used the loop automatically exits. For instance:
+      When the domain is given by a vector, each time the loop is executed the next element of the vector is
+      assigned to the domain variable. The elements of the domain vector are assigned to the domain variable
+      starting from index 1, and going up to the final element of the vector. When all of the elements of the
+      domain vector have been used the loop automatically exits. For instance:
 
-			\begin{lstlisting}
-				/* This will print 123 */
-				loop i in [1, 2, 3] {
-					i -> out;
-				}
-			\end{lstlisting}
+      \begin{lstlisting}
+        /* This will print 123 */
+        loop i in [1, 2, 3] {
+          i -> out;
+        }
+      \end{lstlisting}
 
-			Integer intervals can also be used instead. In this case it is the same as iterating over a vector created
-			from the interval using by 1. For instance, the above iterator loop is equivalent to the following:
+      Integer intervals can also be used instead. In this case it is the same as iterating over a vector created
+      from the interval using by 1. For instance, the above iterator loop is equivalent to the following:
 
-			\begin{lstlisting}
-				/* This will print 123 */
-				loop i in 1..3 {
-					i -> out;
-				}
-			\end{lstlisting}
+      \begin{lstlisting}
+        /* This will print 123 */
+        loop i in 1..3 {
+          i -> out;
+        }
+      \end{lstlisting}
 
-			The domain is evaluated once during the first iteration of the loop. For instance:
+      The domain is evaluated once during the first iteration of the loop. For instance:
 
-			\begin{lstlisting}
-				integer vector v = [i in 1..3 | i];
+      \begin{lstlisting}
+        integer vector v = [i in 1..3 | i];
 
-				/* Since the domain 'v' is only evaluated once this loop prints 1, 2,
-				   and then 3 even though after the first iteration 'v' is the zero
-				   vector. */
-				loop i in v {
-					v = 0;
-					i -> out; "\n" -> out;
-				}
-			\end{lstlisting}
+        /* Since the domain 'v' is only evaluated once this loop prints 1, 2,
+           and then 3 even though after the first iteration 'v' is the zero
+           vector. */
+        loop i in v {
+          v = 0;
+          i -> out; "\n" -> out;
+        }
+      \end{lstlisting}
 
-			Multiple domain expressions may be used by separating them with commas.
+      Multiple domain expressions may be used by separating them with commas.
 
-			\begin{lstlisting}
-				loop i in u, j in v {
-					"Hello!\n" -> out;
-				}
+      \begin{lstlisting}
+        loop i in u, j in v {
+          "Hello!\n" -> out;
+        }
 
-				/* The above loop is equivalent to the loop below */
+        /* The above loop is equivalent to the loop below */
 
-				loop i in u {
-					loop j in v {
-						"Hello!\n" -> out;
-					}
-				}
-			\end{lstlisting}
+        loop i in u {
+          loop j in v {
+            "Hello!\n" -> out;
+          }
+        }
+      \end{lstlisting}
 
-			This can be done with as many domain expressions as desired.
+      This can be done with as many domain expressions as desired.
 
 
-	\subsection{Break}\label{sec:break}
+  \subsection{Break}\label{sec:break}
 
-		A break statement may only appear within the body of a loop. When a break statement is executed the loop is
-		exited, and \textit{Gazprea} continues to execute after the loop. This only exits the innermost loop, which
-		actually contains the break.
+    A break statement may only appear within the body of a loop. When a break statement is executed the loop is
+    exited, and \textit{Gazprea} continues to execute after the loop. This only exits the innermost loop, which
+    actually contains the break.
 
-		\begin{lstlisting}
-			/* Prints a 3x3 square of *'s */
-			integer x = 0;
-			integer y = 0;
+    \begin{lstlisting}
+      /* Prints a 3x3 square of *'s */
+      integer x = 0;
+      integer y = 0;
 
-			loop while y < 3 {
-			  y = y + 1;
+      loop while y < 3 {
+        y = y + 1;
 
-			  /* Normally this would loop forever, but the break exits this inner loop */
-			  loop {
-				  if x >= 3 break;
+        /* Normally this would loop forever, but the break exits this inner loop */
+        loop {
+          if x >= 3 break;
 
-				  x = x + 1;
-				  "*" -> out;
-			  }
+          x = x + 1;
+          "*" -> out;
+        }
 
-			  "\n" -> out;
-			}
-		\end{lstlisting}
+        "\n" -> out;
+      }
+    \end{lstlisting}
 
-		If a break statement is not contained within a loop an error must be raised.
+    If a break statement is not contained within a loop an error must be raised.
 
-	\subsection{Continue}\label{sec:continue}
+  \subsection{Continue}\label{sec:continue}
 
 
-		Similarly to \texttt{break}, \texttt{continue} may only appear within the body of a loop. When a
-		\texttt{continue} statement is executed the innermost loop that contains the \texttt{continue} statements starts
-		its next iteration.  \texttt{continue} stops the execution of the loop's body statement, the loop then continues
-		as though the body statement finished its execution normally.
+    Similarly to \texttt{break}, \texttt{continue} may only appear within the body of a loop. When a
+    \texttt{continue} statement is executed the innermost loop that contains the \texttt{continue} statements starts
+    its next iteration.  \texttt{continue} stops the execution of the loop's body statement, the loop then continues
+    as though the body statement finished its execution normally.
 
-		\begin{lstlisting}
-			/* Prints every number between 1 and 10, except for 7 */
-			integer x = 0;
+    \begin{lstlisting}
+      /* Prints every number between 1 and 10, except for 7 */
+      integer x = 0;
 
-			loop while x < 10 {
-				x = x + 1;
+      loop while x < 10 {
+        x = x + 1;
 
-				if x == 7 continue;  /* Start at the beginning of the loop, skip 7 */
+        if x == 7 continue;  /* Start at the beginning of the loop, skip 7 */
 
-				x -> out; "\n" -> out;
-			}
-		\end{lstlisting}
+        x -> out; "\n" -> out;
+      }
+    \end{lstlisting}
 
 
-	\subsection{Return}\label{sec:return}
+  \subsection{Return}\label{sec:return}
 
-		The return statement is used to stop the execution of a function or procedure.  When a function / procedure
-		returns execution continues where the function was called. The return statement must be given a value that is
-		compatible with the return type of the function / procedure, this will be the result of the function / procedure
-		call. Here is an example:
+    The return statement is used to stop the execution of a function or procedure.  When a function / procedure
+    returns execution continues where the function was called. The return statement must be given a value that is
+    compatible with the return type of the function / procedure, this will be the result of the function / procedure
+    call. Here is an example:
 
-		\begin{lstlisting}
-			function square(integer x) returns integer {
-				return x * x;
-			}
-		\begin{lstlisting}
+    \begin{lstlisting}
+      function square(integer x) returns integer {
+        return x * x;
+      }
+    \begin{lstlisting}
 
-		If the procedure has no returns clause, then it has no return type. In this case return is used as follows:
+    If the procedure has no returns clause, then it has no return type. In this case return is used as follows:
 
-		\begin{lstlisting}
-			procedure do_nothing() {
-				return;
-			}
-		\end{lstlisting}
+    \begin{lstlisting}
+      procedure do_nothing() {
+        return;
+      }
+    \end{lstlisting}
 
 
-	\subsection{Stream Statements}
+  \subsection{Stream Statements}
 
-		Stream statements are the statements used to read and write values in \textit{Gazprea}.
+    Stream statements are the statements used to read and write values in \textit{Gazprea}.
 
-		Output example:
+    Output example:
 
-		\begin{lstlisting}
-			2 * 3 -> out;  /* Prints 6 */
-		\end{lstlisting}
+    \begin{lstlisting}
+      2 * 3 -> out;  /* Prints 6 */
+    \end{lstlisting}
 
-		Input example:
+    Input example:
 
-		\begin{lstlisting}
-			integer x = null;
-			x <- inp; /* Read an integer into x */
-		\end{lstlisting}
+    \begin{lstlisting}
+      integer x = null;
+      x <- inp; /* Read an integer into x */
+    \end{lstlisting}
 
 
 \section{Functions}\label{sec:function}
 
-	A function in \textit{Gazprea} has several requirements:
+  A function in \textit{Gazprea} has several requirements:
 
-	\begin{itemize}
-		\item All of the arguments are implicitly \texttt{const}, and can not be mutable.
-		\item Functions can not perform any I/O.
-		\item Functions can not rely upon any mutable state outside of the function.
-		\item Functions can not call any procedures.
-	\end{itemize}
+  \begin{itemize}
+    \item All of the arguments are implicitly \texttt{const}, and can not be mutable.
+    \item Functions can not perform any I/O.
+    \item Functions can not rely upon any mutable state outside of the function.
+    \item Functions can not call any procedures.
+  \end{itemize}
 
-	The reason for this is to ensure that functions in \textit{Gazprea} behave as pure functions. Every time you call a
-	function with the same arguments it will perform the exact same operations. This has a lot of benefits. It makes
-	code easier to understand if functions only depend upon their inputs and not some hidden state, and it also allows
-	the compiler to make more assumptions and as a result perform more optimizations.
+  The reason for this is to ensure that functions in \textit{Gazprea} behave as pure functions. Every time you call a
+  function with the same arguments it will perform the exact same operations. This has a lot of benefits. It makes
+  code easier to understand if functions only depend upon their inputs and not some hidden state, and it also allows
+  the compiler to make more assumptions and as a result perform more optimizations.
 
-	\subsection{Syntax}
+  \subsection{Syntax}
 
-		A function is declared using the function keyword. Each function is given an identifier, and an arguments list
-		enclosed in parenthesis. If no arguments are provided an empty set of parenthesis, \texttt{()}, must be used.
-		The return type of the function is specified after the arguments using returns.
+    A function is declared using the function keyword. Each function is given an identifier, and an arguments list
+    enclosed in parenthesis. If no arguments are provided an empty set of parenthesis, \texttt{()}, must be used.
+    The return type of the function is specified after the arguments using returns.
 
-		A function can be given by a single expression. For instance:
+    A function can be given by a single expression. For instance:
 
-		\begin{lstlisting}
-			function times_two(integer x) returns integer = 2 * x;
-		\end{lstlisting}
+    \begin{lstlisting}
+      function times_two(integer x) returns integer = 2 * x;
+    \end{lstlisting}
 
-		This defines a function called times\_two which can be used as follows:
+    This defines a function called times\_two which can be used as follows:
 
-		\begin{lstlisting}
-			/* Prints 8. value gets assigned the result of calling times_two with an
-				 argument of 4
-			 */
-			integer value = times_two(4);
+    \begin{lstlisting}
+      /* Prints 8. value gets assigned the result of calling times_two with an
+         argument of 4
+       */
+      integer value = times_two(4);
 
-			value -> out; "\n" -> out;
-		\end{lstlisting}
+      value -> out; "\n" -> out;
+    \end{lstlisting}
 
-		Functions can have an arbitrary number of arguments. Here are some examples of functions with different numbers
-		of arguments:
+    Functions can have an arbitrary number of arguments. Here are some examples of functions with different numbers
+    of arguments:
 
-		\begin{lstlisting}
-			/* A function with no arguments */
-			function f() returns integer = 1;
+    \begin{lstlisting}
+      /* A function with no arguments */
+      function f() returns integer = 1;
 
-			/* A function with two arguments */
-			function pythag(real a, real b) returns real = (a^2 + b^2)^(1/2);
+      /* A function with two arguments */
+      function pythag(real a, real b) returns real = (a^2 + b^2)^(1/2);
 
-			/* A function with different types of arguments */
-			function get(real vector a, integer i) returns real = a[i];
-		\end{lstlisting}
+      /* A function with different types of arguments */
+      function get(real vector a, integer i) returns real = a[i];
+    \end{lstlisting}
 
-		These can be called as follows:
+    These can be called as follows:
 
-		\begin{lstlisting}
-			integer x = f(); /* x == 1 */
-			real c = pythag(3, 4); /* Type promotion to real arguments. c == 5.0 */
-			real value = get([i in 1..10 | i], 3); /* value == 3 */
-		\end{lstlisting}
+    \begin{lstlisting}
+      integer x = f(); /* x == 1 */
+      real c = pythag(3, 4); /* Type promotion to real arguments. c == 5.0 */
+      real value = get([i in 1..10 | i], 3); /* value == 3 */
+    \end{lstlisting}
 
-		A function's body can also be given by a block statement instead of a single expression. In this case the return
-		value of the function is given with the return statement. A return statement must be reached by all possible
-		control flows in the function before the end of the function is encountered.
+    A function's body can also be given by a block statement instead of a single expression. In this case the return
+    value of the function is given with the return statement. A return statement must be reached by all possible
+    control flows in the function before the end of the function is encountered.
 
-		\begin{lstlisting}
-			/* Invalid -- should cause a compiler error */
-			function f (boolean b) returns integer {
-				if (b) {
-					return 3;
-				}
-			}
+    \begin{lstlisting}
+      /* Invalid -- should cause a compiler error */
+      function f (boolean b) returns integer {
+        if (b) {
+          return 3;
+        }
+      }
 
-			/* Valid, all possible branches hit a return statement with a valid type */
-			function g (boolean b) returns integer {
-				if (b) {
-					return 3;
-				}
-				else {
-					return 8;
-				}
-			}
-		\end{lstlisting}
+      /* Valid, all possible branches hit a return statement with a valid type */
+      function g (boolean b) returns integer {
+        if (b) {
+          return 3;
+        }
+        else {
+          return 8;
+        }
+      }
+    \end{lstlisting}
 
-		\texttt{f} is invalid since if \texttt{b == false}, then we reach the end of the function without a return
-		statement, so we don't know what value \texttt{f(false)} should take on.
+    \texttt{f} is invalid since if \texttt{b == false}, then we reach the end of the function without a return
+    statement, so we don't know what value \texttt{f(false)} should take on.
 
-		\begin{lstlisting}
-			/* This is invalid because if the loop ever finished executing the
-			   function would end before a return statement is encountered. In
-			   general the compiler can not tell when a loop would execute
-			   forever, so we make the assumption that all branches in the control
-			   flow could be followed. */
-			function f() returns integer {
-				integer x = 0;
-				loop {
-					x = x + 1;
-				}
-			}
+    \begin{lstlisting}
+      /* This is invalid because if the loop ever finished executing the
+         function would end before a return statement is encountered. In
+         general the compiler can not tell when a loop would execute
+         forever, so we make the assumption that all branches in the control
+         flow could be followed. */
+      function f() returns integer {
+        integer x = 0;
+        loop {
+          x = x + 1;
+        }
+      }
 
-			/* This is valid. Even though the loop goes on forever so that a
-			   return is never reached, execution never hits the end of the
-			   function without a return. */
-			function g() return integer {
-				integer x = 0;
-				loop {
-					x = x + 1;
-				}
+      /* This is valid. Even though the loop goes on forever so that a
+         return is never reached, execution never hits the end of the
+         function without a return. */
+      function g() return integer {
+        integer x = 0;
+        loop {
+          x = x + 1;
+        }
 
-				return x;
-			}
-		\end{lstlisting}
+        return x;
+      }
+    \end{lstlisting}
 
-		Each function has its own scope, but globals can be accessed within the function if they were declared before
-		the function was defined.
+    Each function has its own scope, but globals can be accessed within the function if they were declared before
+    the function was defined.
 
-	\subsection{Forward Declaration}
+  \subsection{Forward Declaration}
 
-		Functions can be declared before they are defined in a \textit{Gazprea} file.  This allows function definitions
-		to be moved to more convenient locations in the file.
+    Functions can be declared before they are defined in a \textit{Gazprea} file.  This allows function definitions
+    to be moved to more convenient locations in the file.
 
-		\begin{lstlisting}
-			/* Forward declaration, no body */
-			function f(integer x) returns integer;
+    \begin{lstlisting}
+      /* Forward declaration, no body */
+      function f(integer x) returns integer;
 
-			procedure main() returns integer {
-			  integer y = f(13);
-			  /* Can use this in main, even though the definition is below */
-			  return 0;
-			}
+      procedure main() returns integer {
+        integer y = f(13);
+        /* Can use this in main, even though the definition is below */
+        return 0;
+      }
 
-			function f(integer x) returns integer = x^2;
-		\end{lstlisting}
+      function f(integer x) returns integer = x^2;
+    \end{lstlisting}
 
 
-		If the type signatures of the forward declaration of the function and the definition of the function differ then
-		an error must be raised. A function may only be declared once.
+    If the type signatures of the forward declaration of the function and the definition of the function differ then
+    an error must be raised. A function may only be declared once.
 
-		A function that has a forward declaration must have a definition somewhere within the file. If the function does
-		not have a definition then an error should be raised.
+    A function that has a forward declaration must have a definition somewhere within the file. If the function does
+    not have a definition then an error should be raised.
 
 
 \section{Procedures}\label{sec:procedure}
 
-	A procedure in \textit{Gazprea} is like a function, except that it does not have to be pure and as a result it may:
+  A procedure in \textit{Gazprea} is like a function, except that it does not have to be pure and as a result it may:
 
-	\begin{itemize}
-		\item Have arguments marked with var which can be mutated. By default arguments are \texttt{const} just like
-		functions.
-		\item A procedure may only accept a literal or expression as an argument if and only if the procedure declares
-		that argument as \texttt{const}
-		\item Procedures may perform I/O.
-		\item A procedure can call other procedures.
-		\item Procedures can only be called in assignment statements / procedure call statements.
-		\item When used in an assignment statement the procedure may only be used with unary operations.
-	\end{itemize}
+  \begin{itemize}
+    \item Have arguments marked with var which can be mutated. By default arguments are \texttt{const} just like
+    functions.
+    \item A procedure may only accept a literal or expression as an argument if and only if the procedure declares
+    that argument as \texttt{const}
+    \item Procedures may perform I/O.
+    \item A procedure can call other procedures.
+    \item Procedures can only be called in assignment statements / procedure call statements.
+    \item When used in an assignment statement the procedure may only be used with unary operations.
+  \end{itemize}
 
-	Aside from this (and the different syntax necessary to declare / define them), procedures are very similar to
-	functions. The extra capabilities that procedures have makes them harder to reason about, test, and optimize.
+  Aside from this (and the different syntax necessary to declare / define them), procedures are very similar to
+  functions. The extra capabilities that procedures have makes them harder to reason about, test, and optimize.
 
 
-	\subsection{Syntax}
+  \subsection{Syntax}
 
-		Procedures are almost exactly the same as functions, however the returns clause is optional. Since procedures
-		can cause side effects, it makes sense to have procedures without a return value. For instance:
+    Procedures are almost exactly the same as functions, however the returns clause is optional. Since procedures
+    can cause side effects, it makes sense to have procedures without a return value. For instance:
 
-		\begin{lstlisting}
-			procedure change_first(var integer vector v) {
-				v[1] = 7;
-			}
+    \begin{lstlisting}
+      procedure change_first(var integer vector v) {
+        v[1] = 7;
+      }
 
-			procedure increment(var integer x) {
-				x = x + 1;
-			}
-		\end{lstlisting}
+      procedure increment(var integer x) {
+        x = x + 1;
+      }
+    \end{lstlisting}
 
-		These procedures can be called as follows:
+    These procedures can be called as follows:
 
-		\begin{lstlisting}
-			integer x = 13;
-			integer vector v[5] = 13;
+    \begin{lstlisting}
+      integer x = 13;
+      integer vector v[5] = 13;
 
-			call change_first(v); /* v == [7, 13, 13, 13, 13] */
-			call increment(x); /* x == 14 */
-		\end{lstlisting}
+      call change_first(v); /* v == [7, 13, 13, 13, 13] */
+      call increment(x); /* x == 14 */
+    \end{lstlisting}
 
-		It is only possible to call procedures in this way. Functions must appear in expressions because they can not
-		cause side effects, so using a function as a statement would not do anything, and thus \textit{Gazprea} should
-		raise an error. If the procedure has a return value and is called in this fashion the return value is discarded.
+    It is only possible to call procedures in this way. Functions must appear in expressions because they can not
+    cause side effects, so using a function as a statement would not do anything, and thus \textit{Gazprea} should
+    raise an error. If the procedure has a return value and is called in this fashion the return value is discarded.
 
-		Procedures may also be called in expressions just like functions, but with a few more limitations. A procedure
-		may never be called within a function, doing so would allow for impure functions. Procedures may only be called
-		within assignment statements (procedures may not be used as the control expression in control flow expressions,
-		for instance). The return value from a procedure call can only be manipulated with unary operators. It is
-		illegal to use the results from a procedure call with binary expressions, for instance:
+    Procedures may also be called in expressions just like functions, but with a few more limitations. A procedure
+    may never be called within a function, doing so would allow for impure functions. Procedures may only be called
+    within assignment statements (procedures may not be used as the control expression in control flow expressions,
+    for instance). The return value from a procedure call can only be manipulated with unary operators. It is
+    illegal to use the results from a procedure call with binary expressions, for instance:
 
-		\begin{lstlisting}
-			/* p is some procedure with no arguments */
-			var x = p(); /* Legal */
-			var y = -p(); /* Legal, depending on the return type of p */
-			var z = not p(); /* Legal, depending on the return type of p */
-			var u = p() + p(); /* Illegal */
-		\end{lstlisting}
+    \begin{lstlisting}
+      /* p is some procedure with no arguments */
+      var x = p(); /* Legal */
+      var y = -p(); /* Legal, depending on the return type of p */
+      var z = not p(); /* Legal, depending on the return type of p */
+      var u = p() + p(); /* Illegal */
+    \end{lstlisting}
 
-		This restriction is made by \texttt{Gazprea} in order to allow for more optimizations.
+    This restriction is made by \texttt{Gazprea} in order to allow for more optimizations.
 
-		As long as they have an appropriate return type. The difference is that functions can be called within other
-		functions, but procedures can not be used within functions since procedures may be impure. Procedures may only
-		be called within procedures.
+    As long as they have an appropriate return type. The difference is that functions can be called within other
+    functions, but procedures can not be used within functions since procedures may be impure. Procedures may only
+    be called within procedures.
 
 
 \subsection{Forward Declaration}
 
-	Procedures can use forward declaration just like functions.
+  Procedures can use forward declaration just like functions.
 
 
-	\subsection{Main}
+  \subsection{Main}
 
-		Execution of a \textit{Gazprea} program starts with a procedure called \texttt{main}. This procedure takes no
-		arguments, and has an integer return type. If a program is missing a main procedure an error should be raised.
+    Execution of a \textit{Gazprea} program starts with a procedure called \texttt{main}. This procedure takes no
+    arguments, and has an integer return type. If a program is missing a main procedure an error should be raised.
 
-		\begin{lstlisting}
-			/* must be writen like this */
-			procedure main() returns integer {
-				var out = std_output();
-				integer x = 1;
-				x = x + x;
-				x -> out;
+    \begin{lstlisting}
+      /* must be writen like this */
+      procedure main() returns integer {
+        var out = std_output();
+        integer x = 1;
+        x = x + x;
+        x -> out;
 
-				/* must have a return */
-				return 0;
-			}
-		\end{lstlisting}
+        /* must have a return */
+        return 0;
+      }
+    \end{lstlisting}
 
-	\subsection{Aliasing}
+  \subsection{Aliasing}
 
-		Since procedures can have mutable arguments, it would be possible to cause
-		\href{http://en.wikipedia.org/wiki/Aliasing_(computing)}{aliasing}. In \textit{Gazprea} aliasing of mutable
-		variables is illegal (the only case where any aliasing is allowed is that tuple members can be accessed by name,
-		or by number, but this is easily spotted). This helps \textit{Gazprea} compilers perform more optimizations.
-		However, the compiler must be able to catch cases where mutable memory locations are aliased, and an error
-		should be raised when this is detected. For instance:
+    Since procedures can have mutable arguments, it would be possible to cause
+    \href{http://en.wikipedia.org/wiki/Aliasing_(computing)}{aliasing}. In \textit{Gazprea} aliasing of mutable
+    variables is illegal (the only case where any aliasing is allowed is that tuple members can be accessed by name,
+    or by number, but this is easily spotted). This helps \textit{Gazprea} compilers perform more optimizations.
+    However, the compiler must be able to catch cases where mutable memory locations are aliased, and an error
+    should be raised when this is detected. For instance:
 
-		\begin{lstlisting}
-			procedure p(var integer a, var integer b, const integer c, const integer d) {
-			   /* Some code here */
-			}
+    \begin{lstlisting}
+      procedure p(var integer a, var integer b, const integer c, const integer d) {
+         /* Some code here */
+      }
 
-			procedure main() returns integer {
-				integer x = 0;
-				integer y = 0;
-				integer z = 0;
+      procedure main() returns integer {
+        integer x = 0;
+        integer y = 0;
+        integer z = 0;
 
-				/* Illegal */
-				call p(x, x, x, x); /* Aliasing, this is an error. */
-				call p(x, x, y, y); /* Still aliasing, error. */
-				call p(x, y, x, x); /* Argument a is mutable and aliased with c and d. */
+        /* Illegal */
+        call p(x, x, x, x); /* Aliasing, this is an error. */
+        call p(x, x, y, y); /* Still aliasing, error. */
+        call p(x, y, x, x); /* Argument a is mutable and aliased with c and d. */
 
-				/* Legal */
-					call p(x, y, z, z);
-					/* Even though 'z' is aliased with 'c' and 'd' they are
-					both const. */
+        /* Legal */
+          call p(x, y, z, z);
+          /* Even though 'z' is aliased with 'c' and 'd' they are
+          both const. */
 
-				return 0;
-			}
-		\end{lstlisting}
+        return 0;
+      }
+    \end{lstlisting}
 
-		Whenever a procedure has a mutable argument x it must be checked that none of the other arguments given to the
-		procedure are x. This is simple for scalar values, but more complicated when variable vectors and matrices are
-		passed to procedures. For instance:
+    Whenever a procedure has a mutable argument x it must be checked that none of the other arguments given to the
+    procedure are x. This is simple for scalar values, but more complicated when variable vectors and matrices are
+    passed to procedures. For instance:
 
-		\begin{lstlisting}
-			call p(v[1..5], v[6..10]);
-			/* p is some procedure with two variable vector arguments */
-		\end{lstlisting}
+    \begin{lstlisting}
+      call p(v[1..5], v[6..10]);
+      /* p is some procedure with two variable vector arguments */
+    \end{lstlisting}
 
-		In this case the arguments technically wouldn't be aliased, since the vector slices represent different
-		locations in memory, but since the vector slices may depend upon variables:
+    In this case the arguments technically wouldn't be aliased, since the vector slices represent different
+    locations in memory, but since the vector slices may depend upon variables:
 
-		\begin{lstlisting}
-			call p(v[x], v[y]);
-			/* p is some procedure with two variable vector arguments */
-		\end{lstlisting}
+    \begin{lstlisting}
+      call p(v[x], v[y]);
+      /* p is some procedure with two variable vector arguments */
+    \end{lstlisting}
 
-		It is impossible to tell whether or not these overlap at compile time due to the halting problem. Thus for
-		simplicity, whenever a vector or a matrix is passed to a procedure \textit{Gazprea} detects aliasing whenever the
-		same vector / matrix is used, regardless of whether or not the sections used would overlap.  Thus, this should
-		cause an error to be raised:
+    It is impossible to tell whether or not these overlap at compile time due to the halting problem. Thus for
+    simplicity, whenever a vector or a matrix is passed to a procedure \textit{Gazprea} detects aliasing whenever the
+    same vector / matrix is used, regardless of whether or not the sections used would overlap.  Thus, this should
+    cause an error to be raised:
 
-		\begin{lstlisting}
-			call p(v[1..5], v[6..10]);
-			/* p is some procedure with two variable vector arguments */
-		\end{lstlisting}
+    \begin{lstlisting}
+      call p(v[1..5], v[6..10]);
+      /* p is some procedure with two variable vector arguments */
+    \end{lstlisting}
 
 
 \section{Globals}\label{sec:global}
-	In \textit{Gazprea} values can be assigned to a global identifier. All globals must be declared \texttt{const}. If a
-	global identifier is not declared with the \texttt{const} specifier, then an error should be raised. This
-	restriction is in place since mutable global variables would ruin functional purity. If functions have access to
-	mutable global state then we can not guarantee their purity.
+  In \textit{Gazprea} values can be assigned to a global identifier. All globals must be declared \texttt{const}. If a
+  global identifier is not declared with the \texttt{const} specifier, then an error should be raised. This
+  restriction is in place since mutable global variables would ruin functional purity. If functions have access to
+  mutable global state then we can not guarantee their purity.
 
-	Globals must be initialized, but the initialization expressions must not contain any function calls, or procedures.
-	If a global is initialized with an expression containing a function call, or a procedure call, then an error should
-	be raised. Initializations of globals may refer to previously defined globals.
+  Globals must be initialized, but the initialization expressions must not contain any function calls, or procedures.
+  If a global is initialized with an expression containing a function call, or a procedure call, then an error should
+  be raised. Initializations of globals may refer to previously defined globals.
 
 
 \section{Built In Functions}\label{sec:builtIn}
 
-	\textit{Gazprea} has some built in functions. These built in functions may have some special behaviour that normal
-	functions can not have, for instance many of them will work on vectors of any base type. Normally a function must
-	specify the base type of a vector specified.
+  \textit{Gazprea} has some built in functions. These built in functions may have some special behaviour that normal
+  functions can not have, for instance many of them will work on vectors of any base type. Normally a function must
+  specify the base type of a vector specified.
 
-	The name of built in functions are reserved and a user program cannot define a function or a procedure with the same
-	name as a built in function. If a declaration or a definition with the same name as a built-in function is
-	encountered in a \textit{Gazprea} program, then the compiler should issue an error message.
+  The name of built in functions are reserved and a user program cannot define a function or a procedure with the same
+  name as a built in function. If a declaration or a definition with the same name as a built-in function is
+  encountered in a \textit{Gazprea} program, then the compiler should issue an error message.
 
-	\subsection{Length}\label{sec:length}
+  \subsection{Length}\label{sec:length}
 
-		\texttt{length} takes a vector of any base type, and returns an integer representing the length of the vector.
+    \texttt{length} takes a vector of any base type, and returns an integer representing the length of the vector.
 
-		\begin{lstlisting}
-			integer vector v = 1..5;
+    \begin{lstlisting}
+      integer vector v = 1..5;
 
-			length(v) -> out; /* Prints 5 */
-		\end{lstlisting}
-
-
-	\subsection{Rows and Columns}\label{sec:rowsColumns}
-
-		The built-ins \texttt{rows} and \texttt{columns} operate on matrices of any dimension and type. \texttt{rows}
-		returns the number of rows in a matrix, and \texttt{columns} returns the number of columns in the matrix.
-
-		\begin{lstlisting}
-			integer matrix M = [[1, 2, 3], [4, 5, 6]];
-
-			rows(M) -> out; /* Prints 2 */
-			columns(M) -> out; /* Prints 3 */
-		\end{lstlisting}
+      length(v) -> out; /* Prints 5 */
+    \end{lstlisting}
 
 
-	\subsection{Reverse}\label{sec:reverse}
+  \subsection{Rows and Columns}\label{sec:rowsColumns}
 
-		The reverse built-in takes any vector, and returns a reversed version of the vector.
+    The built-ins \texttt{rows} and \texttt{columns} operate on matrices of any dimension and type. \texttt{rows}
+    returns the number of rows in a matrix, and \texttt{columns} returns the number of columns in the matrix.
 
-		\begin{lstlisting}
-			integer vector v = 1..5;
-			integer vector w = reverse(v);
+    \begin{lstlisting}
+      integer matrix M = [[1, 2, 3], [4, 5, 6]];
 
-			v -> out; /* Prints 12345 */
-			w -> out; /* Prints 54321 */
-		\end{lstlisting}
+      rows(M) -> out; /* Prints 2 */
+      columns(M) -> out; /* Prints 3 */
+    \end{lstlisting}
 
-	\subsection{Stream State}\label{sec:streamState}
-		When reading in values from stdin of certain types it is possible that an error is encountered, or that the end
-		of the stream has been encountered. In order to handle these situations the language provides a built in
-		function:
 
-		\begin{lstlisting}
-			stream_state(inp)
-		\end{lstlisting}
+  \subsection{Reverse}\label{sec:reverse}
 
-		This function can only be called with the input stream as a parameter, but it's general enough that it could be
-		used if the language were expanded to include multiple input streams.
+    The reverse built-in takes any vector, and returns a reversed version of the vector.
 
-		When called \texttt{stream\_state} will return an integer value. The return value is an error code defined as
-		follows:
+    \begin{lstlisting}
+      integer vector v = 1..5;
+      integer vector w = reverse(v);
 
-		\begin{itemize}
-			\item 0: Last read from the stream was successful
-			\item 1: Last read from the stream encountered an error.
-			\item 2: Last read from the stream encountered the end of the stream.
-		\end{itemize}
+      v -> out; /* Prints 12345 */
+      w -> out; /* Prints 54321 */
+    \end{lstlisting}
 
-		When an error is encountered the value assigned to the variable used in the stream read operation is
-		\texttt{null}. When an end of stream is encountered \texttt{null} is assigned to variables of all types except
-		for character. In this case character is assigned the ASCII EOF value.
+  \subsection{Stream State}\label{sec:streamState}
+    When reading in values from stdin of certain types it is possible that an error is encountered, or that the end
+    of the stream has been encountered. In order to handle these situations the language provides a built in
+    function:
 
-		When a read from the stream is not successful, and \texttt{stream\_state} returns non-0, then the stream must be
-		rewound to where it was before the read started.
+    \begin{lstlisting}
+      stream_state(inp)
+    \end{lstlisting}
 
-		Reading a character never causes an error. The character will either be successfully read, or the end of the
-		stream has been reached and character is assigned EOF for each subsequent read.
+    This function can only be called with the input stream as a parameter, but it's general enough that it could be
+    used if the language were expanded to include multiple input streams.
 
-		When reading anything else if something is read which does not match the data type (for instance if the letter
-		'a' is read while trying to parse an integer), then this is an error. In this case the value returned by the
-		stream is \texttt{null}, and \texttt{stream\_state} should return 1. Or, if only whitespace and the end of the
-		stream is encountered the stream is rewound to where it was before the read, \texttt{null} is returned, and
-		\texttt{stream\_state} will return 2.
+    When called \texttt{stream\_state} will return an integer value. The return value is an error code defined as
+    follows:
+
+    \begin{itemize}
+      \item 0: Last read from the stream was successful
+      \item 1: Last read from the stream encountered an error.
+      \item 2: Last read from the stream encountered the end of the stream.
+    \end{itemize}
+
+    When an error is encountered the value assigned to the variable used in the stream read operation is
+    \texttt{null}. When an end of stream is encountered \texttt{null} is assigned to variables of all types except
+    for character. In this case character is assigned the ASCII EOF value.
+
+    When a read from the stream is not successful, and \texttt{stream\_state} returns non-0, then the stream must be
+    rewound to where it was before the read started.
+
+    Reading a character never causes an error. The character will either be successfully read, or the end of the
+    stream has been reached and character is assigned EOF for each subsequent read.
+
+    When reading anything else if something is read which does not match the data type (for instance if the letter
+    'a' is read while trying to parse an integer), then this is an error. In this case the value returned by the
+    stream is \texttt{null}, and \texttt{stream\_state} should return 1. Or, if only whitespace and the end of the
+    stream is encountered the stream is rewound to where it was before the read, \texttt{null} is returned, and
+    \texttt{stream\_state} will return 2.
 
 
 \section{Backend}
 
-	You don't need to implement an interpreter for Gazprea. You only need to implement a llvm code generator.
+  You don't need to implement an interpreter for Gazprea. You only need to implement a llvm code generator.
 
-	\subsection{Memory Management}\label{sec:memory}
-		 It is important that you are able to automatically free and allocate memory for vectors and matrices when they enter and exit scope.
-		 You may use \texttt{malloc} and \texttt{free} for these purposes. This will have to be done within the LLVM IR, as your runtime will
-		 not be able to tell when your variables should be freed.
+  \subsection{Memory Management}\label{sec:memory}
+     It is important that you are able to automatically free and allocate memory for vectors and matrices when they enter and exit scope.
+     You may use \texttt{malloc} and \texttt{free} for these purposes. This will have to be done within the LLVM IR, as your runtime will
+     not be able to tell when your variables should be freed.
 
-		 Below is an example of how to use \texttt{malloc} and \texttt{free} within LLVM:
+     Below is an example of how to use \texttt{malloc} and \texttt{free} within LLVM:
 
-		 \begin{lstlisting}
-			define i32 @main(i32 %argc, i8** %argv) {
-			  %1 = call i8* @malloc(i64 128)
-				call void @free(i8* %1)
-				ret i32 0
-			}
+     \begin{lstlisting}
+      define i32 @main(i32 %argc, i8** %argv) {
+        %1 = call i8* @malloc(i64 128)
+        call void @free(i8* %1)
+        ret i32 0
+      }
 
-			declare i8* @malloc(i64)
-			declare void @free(i8*)
-		\end{lstlisting}
-		It is important that the code generated by your compiler has no memory leaks, and that all memory is freed as soon as possible.
+      declare i8* @malloc(i64)
+      declare void @free(i8*)
+    \end{lstlisting}
+    It is important that the code generated by your compiler has no memory leaks, and that all memory is freed as soon as possible.
 
-	\subsection{Runtime Libraries} % TODO FINISH THIS SECTION
+  \subsection{Runtime Libraries} % TODO FINISH THIS SECTION
 
-		If you make a runtime library, the runtime library must be implemented in a runtime directory (lib). Beware that in C++ there is additional name
-		mangling that occurs to allow class functions. Thus, we recommend that all runtime functions should be written in C and not in C++. There is a
-		Makefile in the (lib) folder designed to turn all \texttt{*.c} and \texttt{*.h} pairs into part of the unified runtime library
-		\texttt{libruntime.a}. An example of how to make a runtime function is provided bellow.
+    If you make a runtime library, the runtime library must be implemented in a runtime directory (lib). Beware that in C++ there is additional name
+    mangling that occurs to allow class functions. Thus, we recommend that all runtime functions should be written in C and not in C++. There is a
+    Makefile in the (lib) folder designed to turn all \texttt{*.c} and \texttt{*.h} pairs into part of the unified runtime library
+    \texttt{libruntime.a}. An example of how to make a runtime function is provided bellow.
 
-		\texttt{functions.c}
-		\begin{lstlisting}
-		#include "functions.h"
+    \texttt{functions.c}
+    \begin{lstlisting}
+    #include "functions.h"
 
-		uint64_t factorial(uint64_t n) {
-		    uint64_t fact = 1;
+    uint64_t factorial(uint64_t n) {
+        uint64_t fact = 1;
 
-		    while (n > 0) {
-		        fact *= n;
-		        n--;
-		    }
+        while (n > 0) {
+            fact *= n;
+            n--;
+        }
 
-		    return fact;
-		}
-		\end{lstlisting}
+        return fact;
+    }
+    \end{lstlisting}
 
-		\texttt{functions.h}
-		\begin{lstlisting}
-		#pragma once
+    \texttt{functions.h}
+    \begin{lstlisting}
+    #pragma once
 
-		#include <stdint.h>
+    #include <stdint.h>
 
-		uint64_t factorial(uint64_t n);
-		\end{lstlisting}
+    uint64_t factorial(uint64_t n);
+    \end{lstlisting}
 
-		If ou compiler was compiling the following input
-		\texttt{Input file}
-		\begin{lstlisting}
-		3! + (2 + 7)!
-		\end{lstlisting}
-		Here is how to call the function in LLVM code.
+    If ou compiler was compiling the following input
+    \texttt{Input file}
+    \begin{lstlisting}
+    3! + (2 + 7)!
+    \end{lstlisting}
+    Here is how to call the function in LLVM code.
 
-		\texttt{LLVM src}
-		\begin{lstlisting}
-		target triple = "x86_64-pc-linux-gnu"
-		define i32 @main() {
+    \texttt{LLVM src}
+    \begin{lstlisting}
+    target triple = "x86_64-pc-linux-gnu"
+    define i32 @main() {
 
-		    ; Calls factorial on 3 for the first part of expression
-		    %0 = call i64 @factorial(i64 3)
+        ; Calls factorial on 3 for the first part of expression
+        %0 = call i64 @factorial(i64 3)
 
-		    ; Adds 2 and 7 together
-		    %1 = add i64 2, 7
+        ; Adds 2 and 7 together
+        %1 = add i64 2, 7
 
-		    ; Calls factorial of (2 + 7)
-		    %2 = call i64 @factorial(i64 %1)
+        ; Calls factorial of (2 + 7)
+        %2 = call i64 @factorial(i64 %1)
 
-		    ; Adds the results of 3! and (2 + 7)!
-		    %3 = add i64 %0, %2
+        ; Adds the results of 3! and (2 + 7)!
+        %3 = add i64 %0, %2
 
-		    ; Done, return 0
-		    ret i32 0
-		}
+        ; Done, return 0
+        ret i32 0
+    }
 
-		; This makes the function available for calling
-		declare i64 @factorial(i64)
-		\end{lstlisting}
+    ; This makes the function available for calling
+    declare i64 @factorial(i64)
+    \end{lstlisting}
 
 \section{Compiler Implementation --- Part 1}\label{sec:part1}
-	This section lists the portions of the  \textit{Gazprea} specification that must be implemented to complete the part 1 of the compiler implementation.
+  This section lists the portions of the  \textit{Gazprea} specification that must be implemented to complete the part 1 of the compiler implementation.
 All developers are advised to read the full
-	specification for the language prior to start the implementation of Part 1 because decisions made while implementing Part 1 can make the implementation of Part 2 significantly more challenging. Thus, planning ahead for Part 2 is the recommended strategy.
+  specification for the language prior to start the implementation of Part 1 because decisions made while implementing Part 1 can make the implementation of Part 2 significantly more challenging. Thus, planning ahead for Part 2 is the recommended strategy.
 
-	\begin{enumerate}[label*=\arabic*]
-		\item \hyperref[sec:comments]{Comments}
-		\item \hyperref[sec:types]{Types}
-		\begin{enumerate}[label*=.\arabic*]
-			\item \hyperref[sec:types]{Data Types}
-			\begin{enumerate}[label*=.\arabic*]
-				\item \hyperref[ssec:boolean]{Booleans}
-				\item \hyperref[sec:character]{Characters}
-				\item \hyperref[sec:integer]{Integers}
-				\item \hyperref[sec:real]{Reals}
-				\item \hyperref[sec:tuple]{Tuples}
-			\end{enumerate}
-			\item \hyperref[sec:typeSpecifiers]{Type Specifiers}
-			\begin{enumerate}[label*=.\arabic*]
-				\item var
-				\item const
-			\end{enumerate}
-			\item \hyperref[sec:typeChecking]{Type Checking}
-			\item \hyperref[sec:typePromotion]{Type Promotion}
-			\item \hyperref[sec:typeCasting]{Type Casting}
-			\item \hyperref[sec:typeInference]{Type Inference}
-			\item \hyperref[sec:typedef]{Typedef}
-		\end{enumerate}
-		\item \hyperref[sec:statements]{Statements}
-		\begin{enumerate}[label*=.\arabic*]
-			\item \hyperref[sec:assignment]{Assignment Statement}
-			\item \hyperref[sec:declaration]{Declaration Statement}
-			\item \hyperref[sec:global]{Global values}
-			\item \hyperref[sec:block]{Block Statement}
-			\item \hyperref[sec:loop]{loop}
-			\begin{enumerate}[label*=.\arabic*]
-				\item \hyperref[sec:break]{Break}
-				\item \hyperref[sec:continue]{Continue}
-			\end{enumerate}
-			\item \hyperref[sec:conditional]{Conditionals}
-			\begin{enumerate}[label*=.\arabic*]
-				\item if
-				\item else
-			\end{enumerate}
-			\item \hyperref[sec:streams]{Streams}
-			\item \hyperref[sec:procedure]{Procedure calls}
-		\end{enumerate}
-		\item \hyperref[sec:expressions]{Expressions}
-		\begin{enumerate}[label*=.\arabic*]
-			\item unary+, unary-, not
-			\item \^{}
-			\item *,/,\%
-			\item +,-
-			\item <,>,<=,>=
-			\item and
-			\item or, xor
-			\item Variable refferences
-			\item Literal Values
-			\item Tuple reference
-			\item Function calls
-		\end{enumerate}
-	\end{enumerate}
+  \begin{enumerate}[label*=\arabic*]
+    \item \hyperref[sec:comments]{Comments}
+    \item \hyperref[sec:types]{Types}
+    \begin{enumerate}[label*=.\arabic*]
+      \item \hyperref[sec:types]{Data Types}
+      \begin{enumerate}[label*=.\arabic*]
+        \item \hyperref[ssec:boolean]{Booleans}
+        \item \hyperref[sec:character]{Characters}
+        \item \hyperref[sec:integer]{Integers}
+        \item \hyperref[sec:real]{Reals}
+        \item \hyperref[sec:tuple]{Tuples}
+      \end{enumerate}
+      \item \hyperref[sec:typeSpecifiers]{Type Specifiers}
+      \begin{enumerate}[label*=.\arabic*]
+        \item var
+        \item const
+      \end{enumerate}
+      \item \hyperref[sec:typeChecking]{Type Checking}
+      \item \hyperref[sec:typePromotion]{Type Promotion}
+      \item \hyperref[sec:typeCasting]{Type Casting}
+      \item \hyperref[sec:typeInference]{Type Inference}
+      \item \hyperref[sec:typedef]{Typedef}
+    \end{enumerate}
+    \item \hyperref[sec:statements]{Statements}
+    \begin{enumerate}[label*=.\arabic*]
+      \item \hyperref[sec:assignment]{Assignment Statement}
+      \item \hyperref[sec:declaration]{Declaration Statement}
+      \item \hyperref[sec:global]{Global values}
+      \item \hyperref[sec:block]{Block Statement}
+      \item \hyperref[sec:loop]{loop}
+      \begin{enumerate}[label*=.\arabic*]
+        \item \hyperref[sec:break]{Break}
+        \item \hyperref[sec:continue]{Continue}
+      \end{enumerate}
+      \item \hyperref[sec:conditional]{Conditionals}
+      \begin{enumerate}[label*=.\arabic*]
+        \item if
+        \item else
+      \end{enumerate}
+      \item \hyperref[sec:streams]{Streams}
+      \item \hyperref[sec:procedure]{Procedure calls}
+    \end{enumerate}
+    \item \hyperref[sec:expressions]{Expressions}
+    \begin{enumerate}[label*=.\arabic*]
+      \item unary+, unary-, not
+      \item \^{}
+      \item *,/,\%
+      \item +,-
+      \item <,>,<=,>=
+      \item and
+      \item or, xor
+      \item Variable refferences
+      \item Literal Values
+      \item Tuple reference
+      \item Function calls
+    \end{enumerate}
+  \end{enumerate}
 \section{Compiler Implementation --- Part 2}
 
-	This section list the elements of the \textit{Gazprea} specification that must be completed for the Part 2 of the compiler implementation. All the elements of Part 1 must have been completed because Part 2 builds on Part 1.
+  This section list the elements of the \textit{Gazprea} specification that must be completed for the Part 2 of the compiler implementation. All the elements of Part 1 must have been completed because Part 2 builds on Part 1.
 
-	\begin{enumerate}[label*=\arabic*]
-		\item \hyperref[sec:part1]{All Previous Features}
-		\item \hyperref[sec:types]{Data Types}
-		\begin{enumerate}[label*=.\arabic*]
-			\item \hyperref[sec:interval]{Intervals}
-			\item \hyperref[sec:vector]{Vectors}
-			\item \hyperref[sec:matrix]{Matrices}
-			\item \hyperref[sec:string]{Strings}
-		\end{enumerate}
-		\item \hyperref[sec:statements]{Statements}
-		\begin{enumerate}[label*=.\arabic*]
-			\item \hyperref[sec:iteratorLoop]{Iterator Loops}
-		\end{enumerate}
-		\item \hyperref[sec:expressions]{Expression}
-		\begin{enumerate}[label*=.\arabic*]
-			\item \hyperref[sec:operators]{Operators}
-			\item \hyperref[sec:generators]{Generator}
-			\item \hyperref[sec:filters]{Filters}
-		\end{enumerate}
-		\item \hyperref[sec:builtIn]{Built in Functions}
-		\begin{enumerate}[label*=.\arabic*]
-			\item \hyperref[sec:reverse]{reverse}
-			\item \hyperref[sec:rowsColumns]{rows}
-			\item \hyperref[sec:rowsColumns]{columns}
-			\item \hyperref[sec:length]{length}
-			\item \hyperref[sec:streamState]{Stream State}
-		\end{enumerate}
-		\item \hyperref[sec:memory]{Memory Management}
-	\end{enumerate}
+  \begin{enumerate}[label*=\arabic*]
+    \item \hyperref[sec:part1]{All Previous Features}
+    \item \hyperref[sec:types]{Data Types}
+    \begin{enumerate}[label*=.\arabic*]
+      \item \hyperref[sec:interval]{Intervals}
+      \item \hyperref[sec:vector]{Vectors}
+      \item \hyperref[sec:matrix]{Matrices}
+      \item \hyperref[sec:string]{Strings}
+    \end{enumerate}
+    \item \hyperref[sec:statements]{Statements}
+    \begin{enumerate}[label*=.\arabic*]
+      \item \hyperref[sec:iteratorLoop]{Iterator Loops}
+    \end{enumerate}
+    \item \hyperref[sec:expressions]{Expression}
+    \begin{enumerate}[label*=.\arabic*]
+      \item \hyperref[sec:operators]{Operators}
+      \item \hyperref[sec:generators]{Generator}
+      \item \hyperref[sec:filters]{Filters}
+    \end{enumerate}
+    \item \hyperref[sec:builtIn]{Built in Functions}
+    \begin{enumerate}[label*=.\arabic*]
+      \item \hyperref[sec:reverse]{reverse}
+      \item \hyperref[sec:rowsColumns]{rows}
+      \item \hyperref[sec:rowsColumns]{columns}
+      \item \hyperref[sec:length]{length}
+      \item \hyperref[sec:streamState]{Stream State}
+    \end{enumerate}
+    \item \hyperref[sec:memory]{Memory Management}
+  \end{enumerate}
 
 \section{Assertions}
 \label{sec:assertions}

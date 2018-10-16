@@ -3,7 +3,7 @@
 \begin{document}
 Input streams use the following syntax:
 \begin{lstlisting}
-	<l-value> <- inp;
+  <l-value> <- inp;
 \end{lstlisting}
 
 An l-value may be anything that can appear on the left hand side of an assignment statement.
@@ -13,16 +13,16 @@ Consider reading the discussion of an l-value
 
 Input streams may only work on the following base types:
 \begin{itemize}
-	\item
+  \item
     \code{character}: Reads a single character from stdin. Note that there can be no
     \hyperref[sssec:stream_error]{error state} for reading characters.
-	\item \code{integer}:
+  \item \code{integer}:
     Reads an integer from stdin. If an integer could not be read, an \hyperref[sssec:stream_error]
     {error state} is set on this stream.
-	\item \code{real}:
+  \item \code{real}:
     Reads a real from stdin. If a real could not be read, an \hyperref[sssec:stream_error]{error
     state} is set on this stream.
-	\item \code{boolean}:
+  \item \code{boolean}:
     Reads a boolean from stdin. If a boolean value could not be read, an
     \hyperref[sssec:stream_error]{error state} is set on this stream.
 \end{itemize}
@@ -69,9 +69,9 @@ a built in procedure that is implicitly defined in every file:
 This function can only be called with an input stream as a parameter. When called,
 \code{stream\_state} will return an integer valued error code defined as follows:
 \begin{itemize}
-	\item \code{0}: Last read from the stream was successful.
-	\item \code{1}: Last read from the stream encountered an error.
-	\item \code{2}: Last read from the stream encountered the end of the stream.
+  \item \code{0}: Last read from the stream was successful.
+  \item \code{1}: Last read from the stream encountered an error.
+  \item \code{2}: Last read from the stream encountered the end of the stream.
 \end{itemize}
 
 When an error or end of stream is encountered the value returned is the type-appropriate
