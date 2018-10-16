@@ -1,0 +1,45 @@
+\documentclass[streams.tex]{subfiles}
+
+\begin{document}
+Output streams use the following syntax:
+\begin{lstlisting}
+  <exp> -> out;
+\end{lstlisting}
+
+Values of the following base types are treated as follows when sent to an output stream:
+\begin{itemize}
+  \item
+    \code{character}: The character is printed.
+  \item
+    \code{integer}: Converted to a string representation, and then printed.
+  \item
+    \code{real}: Converted to a string representation, and then printed. This is the same behaviour
+    as the \href{http://www.cplusplus.com/reference/cstdio/printf/	}{\%g specifier in printf}.
+  \item
+    \code{boolean}: Print T for true, and F for false.
+\end{itemize}
+
+Vectors print their contents according to the rules above, with spaces only \textit{between} values.
+For example:
+\begin{lstlisting}
+  integer vector v = 1..3;
+  v -> out;
+\end{lstlisting}
+
+prints the following:
+\begin{lstlisting}
+  1 2 3
+\end{lstlisting}
+
+Note that there is \textbf{no automatic new line printed.} To print a new line, a user must
+explicitly print the new line character. For example:
+\begin{lstlisting}
+  '\n' -> out;
+\end{lstlisting}
+
+If \texttt{null} or \texttt{identity} is sent to a stream then the result is a null or identity
+character being printed.
+
+No other type may be sent to a stream. For instance functions, procedures, and tuples cannot be sent
+to streams.
+\end{document}
