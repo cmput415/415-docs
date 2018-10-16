@@ -1,0 +1,47 @@
+\documentclass[../gazprea.tex]{subfiles}
+
+\begin{document}
+\textbf{ALL} input test cases will be valid. It can be a good idea to do error checking for your
+own testing and debugging, but it is \textit{not necessary}. If you encounter what you think is
+undefined behaviour or think something is ambiguous then \textit{do} make a forum post about it to
+clarify.
+
+What does it mean to be valid input? The input must adhere to the specification. The rules below
+give more in-depth explanation of specification particulars.
+\begin{enumerate}
+  \item
+    \assertiondest{opened-comments}
+    Block comments will be opened. Not opening a block comment will cause ANTLR to encounter a lost
+    \code{*/} as well as causing a stream of word tokens starting from where the \code{/*} token
+    should be. For example, the following tests would be considered invalid:
+    \begin{lstlisting}
+      int i = 0;
+      I'm a closed comment, but I'm never opened... */
+      int j = i + 1;
+    \end{lstlisting}
+  \item
+    \assertiondest{closed-comments}
+    Block comments will be closed. Not closing a block comment will have ANTLR consume every token
+    in the file, rendering the rest of the file useless. For example, the following tests would be
+    considered invalid:
+    \begin{lstlisting}
+      int i = 0;
+      /* I'm an opened comment, but I'm never closed...
+      int j = i + 1;
+    \end{lstlisting}
+    % \assertiondest{vector-length}
+    % All vectors will have length $l$ such that $0 \leq l \leq 2^{32}$. Trying to create an index
+    % greater than $2^{32} - 1$ will cause overflow and result in a negative number. Indexing with a
+    % negative number returns $0$. Therefore, vector locations greater than $2^{32} - 1$ would be
+    % inaccessible. For example, the following tests would be considered invalid:
+    % \begin{lstlisting}
+    %   print((0-1)..2147483647);
+    % \end{lstlisting}
+    %
+    % But the following test is valid because the vector length is still within range:
+    % \begin{lstlisting}
+    %   print((0-2)..2147483645);
+    % \end{lstlisting}
+\end{enumerate}
+
+\end{document}

@@ -8,6 +8,7 @@
 \usepackage{lstautogobble}
 \usepackage[T1]{fontenc}
 \usepackage{subfiles}
+\usepackage{nameref}
 % This makes it so the web pages don't have indents as most of the time
 % they are just annoying
 \setlength{\parindent}{0pt}
@@ -20,7 +21,16 @@
   basicstyle = \ttfamily,
   columns=fullflexible
   escapeinside=||,
-  autogobble}
+  autogobble
+}
+
+% Allows for assertions and clarifications.
+\newcommand{\code}[1]{\lstinline!#1!}
+\newcommand{\assertion}[2]{\textbf{Assertion: }#1 (\hyperlink{#2}{#2})}
+\newcommand{\assertionref}[1]{\hyperlink{#1}{#1}}
+\newcommand{\assertiondest}[1]{\hypertarget{#1}{\textbf{#1}:}}
+\newcommand{\clarification}[2]{\textbf{Clarification: }#1 (\hyperlink{#2}{#2})}
+\newcommand{\clarificationdest}[1]{\hypertarget{#1}{\textbf{#1}:}}
 
 % --- This section allows for tex4ht only control statments
 % From http://tex.stackexchange.fom/questions/93852/what-is-the-correct-way-to-check-for-latex-pdflatex-and-html-in-the-same-latex
@@ -57,27 +67,9 @@ Laboratory in Markham, ON.
 \label{sec:identifiers}
 \subfile{sections/identifiers.tex}
 
-\section{Comments}\label{sec:comments}
-	\textit{Gazprea} supports \textit{C99} style comments, Single line comments are made using \textbf{//}. Anything on
-	the line after two adjacent forward slashes is ignored.
-
-	\begin{lstlisting}
-		x = 2 * 3;  // This is ignored
-	\end{lstlisting}
-
-	\textbf{/*} and \textbf{*/} can also be used for block comments in \textit{Gazprea>}. These comments can span multiple
-	lines. The start of a block comment is marked using \textbf{/*}, and the end of the block comment is the
-	\textbf{first} occurrence of the sequence of characters \textbf{*/}. For Example:
-
-	\begin{lstlisting}
-		/* This is a block comment. I can span as many lines as we want, and
-		   only ends when the closing sequence is encountered.
-		 */
-		x = 2 * 3;  /* Block comments can also be on a single line */
-	\end{lstlisting}
-
-	Mismatched block comment delimiters should raise an error, For instance if you start a block comment without closing
-	it, or having a closing */ without starting a comment.
+\section{Comments}
+\label{sec:comments}
+\subfile{sections/comments.tex}
 
 
 \section{Streams}\label{sec:streams}
@@ -2555,7 +2547,12 @@ All developers are advised to read the full
 		\item \hyperref[sec:memory]{Memory Management}
 	\end{enumerate}
 
+\section{Assertions}
+\label{sec:assertions}
+\subfile{sections/assertions.tex}
+
 \section{Change log}
+\label{sec:changelog}
 \subfile{sections/changelog.tex}
 
 \end{document}
