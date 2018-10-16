@@ -1,0 +1,64 @@
+\documentclass[../gazprea.tex]{subfiles}
+
+\begin{document}
+Boolean values can either be \texttt{true} or \texttt{false}. In the \textit{LLVM IR} boolean values
+should be represented with the type \texttt{i1}.
+
+\subsubsection{Declaration}
+\label{sssec:boolean_decl}
+Boolean values are declared with the keyword \texttt{boolean}.
+
+\subsubsection{null}
+\label{sssec:boolean_null}
+\texttt{null} is \texttt{false} for booleans.
+
+\subsubsection{identity}
+\label{sssec:boolean_ident}
+\texttt{identity} is \texttt{true} for booleans.
+
+\subsubsection{Literals}
+\label{sssec:boolean_lit}
+Booleans have the following literals:
+\begin{itemize}
+	\item \texttt{true}
+	\item \texttt{false}
+\end{itemize}
+
+\subsubsection{Operations}
+The following operations are defined between boolean values. In all of the usage examples
+\code{bool-expr} means some boolean yielding expression.
+
+\begin{center}
+\begin{tabular}{|l|l|l|}
+	\hline
+	\textbf{Operation} & \textbf{Symbol} & \textbf{Usage} \\
+	\hline
+	negation    & \texttt{not} & \texttt{not bool-expr}           \\
+	logical or  & \texttt{or}  & \texttt{bool-expr or bool-expr}  \\
+	logical xor & \texttt{xor} & \texttt{bool-expr xor bool-expr} \\
+	logical and & \texttt{and} & \texttt{bool-expr and bool-expr} \\
+	equals      & \texttt{==}	 & \texttt{bool-expr == bool-expr}  \\
+	not equals  & \texttt{!=}	 & \texttt{bool-expr != bool-expr}  \\
+	\hline
+\end{tabular}
+\end{center}
+
+	Unlike many languages the \texttt{and} and \texttt{or} operators do not short circuit evaluation. You must
+	evaluate both the left hand side, and right hand side of these expressions. The following table specifies the
+	precedence of these operations:
+
+	\begin{center}
+		\begin{tabular}{|l|l|}
+			\hline
+			\textbf{Precedence} & \textbf{Operations} \\
+			\hline
+			HIGHER & \texttt{not} \\
+			       & ==, !=       \\
+			       & or, xor      \\
+			LOWER  & and          \\
+			\hline
+		\end{tabular}
+	\end{center}
+
+	All of these operations are left associative.
+\end{document}
