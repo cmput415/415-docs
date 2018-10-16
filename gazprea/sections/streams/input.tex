@@ -30,7 +30,7 @@ Input streams may only work on the following base types:
 \subsubsection{Input Format}
 \label{sssec:input_format}
 A \code{character} from stdin is the first byte that can be read from the stream. If the end of the
-stream is encountered, then the ASCII EOF character is returned.
+stream is encountered, then \code{-1} is returned.
 
 An \code{integer} from stdin can take any legal format described in the \hyperref[sssec:int_lit]
 {integer literal} section. It may also be proceeded by a single negative or positive sign.
@@ -87,8 +87,7 @@ When an error or end of stream is encountered the value returned is the type-app
 returns non-zero, then the stream must be rewound to where it was before the read started.
 
 Reading a character can never cause an error. The character will either be successfully read or the
-end of the stream will be reached and the character value \code{-1} will be returned on this and
-subsequent reads.
+end of the stream will be reached and \code{-1} will be returned on this and subsequent reads.
 \begin{center}
   \begin{tabular}{| c | c | c | c |}
     \hline
@@ -98,7 +97,7 @@ subsequent reads.
       & end of stream & \code{F} & 2 \\ \hline
     Character
       & error & N/A & N/A \\ \cline{2-4}
-      & end of stream & \textbf{Under discussion:} \code{-1} & 0 \\ \hline
+      & end of stream & \code{-1} & 0 \\ \hline
     Integer
       & error & \code{0} & 1 \\ \cline{2-4}
       & end of stream & \code{0} & 2 \\ \hline
