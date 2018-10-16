@@ -36,10 +36,11 @@ prints the following:
 No other type may be sent to a stream. For instance functions, procedures, and tuples cannot be sent
 to streams.
 
-Note that there is \textbf{no automatic new line printed.} To print a new line, a user must
-explicitly print the new line character. For example:
+Note that there is \textbf{no automatic new line or spaces printed.} To print a new line, a user
+must explicitly print the new line or space character. For example:
 \begin{lstlisting}
   '\n' -> out;
+  ' ' -> out;
 \end{lstlisting}
 
 \subsubsection{Null and Identity}
