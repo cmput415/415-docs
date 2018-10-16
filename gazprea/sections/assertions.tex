@@ -29,6 +29,16 @@ give more in-depth explanation of specification particulars.
       /* I'm an opened comment, but I'm never closed...
       int j = i + 1;
     \end{lstlisting}
+  \item
+    \assertiondest{assign-streams}
+    The streams constructors \code{std\_output()} and \code{std\_input()} \textit{will not} be used
+    in expressions. They must be assigned before use so that \code{stream\_state} can be checked
+    later. For example, the following tests would be considered invalid:
+    \begin{lstlisting}
+      'a' -> std_output();
+      char b;
+      b <- std_input();
+    \end{lstlisting}
     % \assertiondest{vector-length}
     % All vectors will have length $l$ such that $0 \leq l \leq 2^{32}$. Trying to create an index
     % greater than $2^{32} - 1$ will cause overflow and result in a negative number. Indexing with a
