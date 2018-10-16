@@ -1,0 +1,29 @@
+\documentclass[../gazprea.tex]{subfiles}
+
+\begin{document}
+Identifiers in \textit{Gazprea} must start with either an underscore or a letter (upper or lower
+cased). Subsequent characters can be an underscore, letter (upper or lower case), or number. An
+identifier may not be any of \textit{Gazprea}'s keywords. Here are some valid identifiers in
+\textit{Gazprea}:
+\begin{lstlisting}
+	hello
+	h3ll0
+	_h3LL0
+	_Hi
+	Hi
+	_3
+\end{lstlisting}
+
+The following are some examples of invalid identifiers. They begin with a number, contain invalid
+characters, or are a keyword:
+\begin{lstlisting}
+	3d
+	in
+	a-bad-variable-name
+	no@twitter
+	we.don't.like.punctuation
+\end{lstlisting}
+
+\textit{Gazprea} imposes no restrictions on the length of identifiers.
+
+\end{document}
