@@ -83,22 +83,22 @@ end of the stream will be reached and \code{-1} will be returned on this and sub
 This table summarizes an input stream's possible error states after a read of a particular data
 type.
 \begin{center}
-  \begin{tabular}{| c | c | c | c |}
-    \hline
-    Type & Situation & Return & \code{stream\_state}\\ \hline
-    Boolean
-      & error & \code{false} & 1 \\ \cline{2-4}
-      & end of stream & \code{false} & 2 \\ \hline
-    Character
-      & error & N/A & N/A \\ \cline{2-4}
-      & end of stream & \code{-1} & 0 \\ \hline
-    Integer
-      & error & \code{0} & 1 \\ \cline{2-4}
-      & end of stream & \code{0} & 2 \\ \hline
-    Real
-      & error & \code{0.0} & 1 \\ \cline{2-4}
-      & end of stream & \code{0.0} & 2 \\ \hline
-  \end{tabular}
+\begin{tabular}{| c | c | c | c |}
+  \hline
+  Type & Situation & Return & \code{stream\_state}\\ \hline
+  Boolean
+    & error & \code{false} & 1 \\ \cline{2-4}
+    & end of stream & \code{false} & 2 \\ \hline
+  Character
+    & error & N/A & N/A \\ \cline{2-4}
+    & end of stream & \code{-1} & 0 \\ \hline
+  Integer
+    & error & \code{0} & 1 \\ \cline{2-4}
+    & end of stream & \code{0} & 2 \\ \hline
+  Real
+    & error & \code{0.0} & 1 \\ \cline{2-4}
+    & end of stream & \code{0.0} & 2 \\ \hline
+\end{tabular}
 \end{center}
 
 \end{document}
