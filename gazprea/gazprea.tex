@@ -1437,21 +1437,21 @@ All developers are advised to read the full
   specification for the language prior to start the implementation of Part 1 because decisions made while implementing Part 1 can make the implementation of Part 2 significantly more challenging. Thus, planning ahead for Part 2 is the recommended strategy.
 
   \begin{enumerate}[label*=\arabic*]
-    \item \hyperref[sec:comments]{Comments}
-    \item \hyperref[sec:types]{Types}
+    \item \nameref{sec:comments}
+    \item \nameref{sec:types}
     \begin{enumerate}[label*=.\arabic*]
-      \item \hyperref[sec:types]{Data Types}
+      \item \nameref{ssec:boolean}
+      \item \nameref{ssec:character}
+      \item \nameref{ssec:integer}
+      \item \nameref{ssec:real}
+      \item \nameref{ssec:tuple}
+    \end{enumerate}
+    \item Type Support
+    \begin{enumerate}[label*=.\arabic*]
+      \item \nameref{sec:typeQualifiers}
       \begin{enumerate}[label*=.\arabic*]
-        \item \hyperref[ssec:boolean]{Booleans}
-        \item \hyperref[ssec:character]{Characters}
-        \item \hyperref[ssec:integer]{Integers}
-        \item \hyperref[ssec:real]{Reals}
-        \item \hyperref[ssec:tuple]{Tuples}
-      \end{enumerate}
-      \item \hyperref[sec:typeQualifiers]{Type Qualifiers}
-      \begin{enumerate}[label*=.\arabic*]
-        \item var
-        \item const
+        \item \nameref{ssec:typeQualifiers_var}
+        \item \nameref{ssec:typeQualifiers_const}
       \end{enumerate}
       \item \hyperref[sec:typeChecking]{Type Checking}
       \item \hyperref[sec:typePromotion]{Type Promotion}
