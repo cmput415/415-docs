@@ -18,6 +18,10 @@
 \label{ssec:real}
 \subfile{sections/types/real.tex}
 
+\subsection{Tuple}
+\label{ssec:tuple}
+\subfile{sections/types/tuple.tex}
+
 	\subsection{Intervals}\label{sec:interval}
 		Intervals are a type used to represent ranges of values.
  		\textit{Gazprea} only has support for integer intervals.
@@ -540,88 +544,5 @@
 
 			As with vectors, out of bounds indexing is an error on Matrices.
 
-
-	\subsection{Tuples}\label{sec:tuple}
-
-		Tuples are a way of grouping multiple values with different types into one type. All types may be stored within
-		a tuple, except for other tuples.
-
-		\subsubsection{Declaration}
-
-			Here is an example of a declaration, and initialization of a tuple.
-
-			\begin{lstlisting}
-				tuple(integer, real r, integer[10]) tuple_var = (1, 2.1, [i in 1..10 | i]);
-			\end{lstlisting}
-
-			In this case the tuple contains 3 elements, an integer, a real number, and a vector containing 10 integers.
-			A tuple can have any number of elements as long as the number of elements is strictly greater than 1. Single
-			element tuples, and empty tuples are an error, and an error message should be raised for these cases.
-
-			The elements of the tuples can be accessed using dot notation. The elements are numbered starting from 1.
-			For example, considering the above example:
-
-			\begin{lstlisting}
-				tuple_var.1 /* This is the integer 1 */
-				tuple_var.2 /* This is the real number 2.1 */
-				tuple\_var.3 /* This is the vector from 1 to 10 */
-			\end{lstlisting}
-
-			These numbers must be written in the program, they can not be derived from an expression like:
-
-			\begin{lstlisting}
-				tuple\_var.(1 + 2)
-			\end{lstlisting}
-
-			This would be illegal. The elements of the tuple may be named if desired. In this example the second element
-			is also given the name r, so we can access it with:
-
-			\begin{lstlisting}
-				tuple\_var.r
-				/* This is also the real number 2.1, just like tuple\_var.2 */
-			\end{lstlisting}
-
-			The size of all of the elements within a tuple must be known when it is initialized, so any vectors and
-			matrices contained within a tuple must be given an explicit size. Doing otherwise should cause an error.
-
-			\begin{lstlisting}
-				tuple(integer, integer vector) = blah;  /* ERROR */
-			\end{lstlisting}
-
-		\subsubsection{null}
-
-			Each field in the tuple is assigned a \texttt{null} value.
-
-		\subsubsection{identity}
-
-			Each field in the tuple is assigned an \texttt{identity} value.
-
-		\subsubsection{Construction}
-
-			Tuples can be constructed by grouping values together between parenthesis in a comma separated list.
-			\begin{lstlisting}
-				/* Create a tuple containing 4 elements. The first contains the
-				   value of 'x', the second element contains the string "hello",
-				   and the third contains a vector. "var" can be used to infer
-				   the type of the tuple. */
-				var my_tuple = (x, "hello", [1, 2, 3]);
-
-				/* The tuple's type could alse be given explicitly, for instance: */
-				tuple(integer, string[5], integer[3])  my_tuple = (x, "hello", [1, 2, 3]);
-			\end{lstlisting}
-
-		\subsubsection{Operations}
-
-			No operations aside from == and != are defined between tuples. Tuples are simply a way of storing multiple
-			values, so in general it only makes sense to check if two tuples with the same type are equal or not by
-			comparing the fields for equality. For instance:
-
-			\begin{lstlisting}
-				tuple(integer, real) x = (1, 2.3);
-				tuple(integer, real) y = (1, 2.1);
-
-				/* This is the same as "x.1 == y.1 and x.2 == y.2" */
-				boolean b = x == y
-			\end{lstlisting}
 
 \end{document}

@@ -1,0 +1,103 @@
+\documentclass[types.tex]{subfiles}
+
+\begin{document}
+A \code{tuple} is a way of grouping multiple values with potentially different types into one type.
+All types may be stored within tuples except other tuples.
+
+\subsubsection{Declaration}
+\label{sssec:tuple_decl}
+A \code{tuple} value is declared with the keyword \code{tuple} followed by a parentheses-surrounded,
+comma-separated list of types. The list must contain \textit{at least two types}. Tuples are
+\textit{mutable}. For example:
+\begin{lstlisting}
+  tuple(integer, real, integer[10]) t1;
+  tuple(character, real, string[256], real) t2;
+\end{lstlisting}
+
+\assertion{A \code{tuple} will have at least two internal types.}{tuple-min-fields}
+
+The fields of a \code{tuple} may also be named. For example:
+\begin{lstlisting}
+  tuple(integer, real r, integer[10]) t3;
+  tuple(character mode, real, string[256] id, real) t4;
+\end{lstlisting}
+
+Here, \code{t3} has a named \code{real} field named \code{r} and \code{t4} has a named
+\code{character} field named \code{mode} and another named \code{string} field named \code{id}.
+
+The size of all fields in a \code{tuple} must be explicitly known at compile time, the only
+exception is when a \hyperref[sec:typeQualifiers]{variable is declared without a type using
+\code{var} or \code{const}}. In this case, the variable must be initialised immediately with a
+literal whose type is known at compile time.
+
+\assertion{The exact size of the internal types of a \code{tuple} will be inferrable at compile
+time.}{exact-tuple-types}
+
+\subsubsection{Access}
+\label{sssec:tuple_acc}
+The elements in a \code{tuple} are accessed using dot notation. Dot notation can only be applied to
+\code{tuple} variables and \textit{not} \code{tuple} literals. Therefore, dot notation is an
+identifier followed by a period and then either a literal \code{integer} or a field name. Field
+indices \textit{start at one}, not zero. For example:
+\begin{lstlisting}
+  t1.1
+  t2.4
+  t3.r
+  t4.mode
+\end{lstlisting}
+
+\assertion{Dot notation cannot be applied to \code{tuple} literals.}{tuple-literal-dot}
+
+\subsubsection{Null}
+\label{sssec:tuple_null}
+\code{null} is every field assigned their type-appropriate \code{null} for \code{tuple}.
+
+\subsubsection{identity}
+\label{sssec:tuple_ident}
+\code{identity} is every field assigned their type-appropriate \code{identity} for \code{tuple}.
+
+\subsubsection{Literals}
+\label{sssec:tuple_lit}
+
+A \code{tuple} literal is constructed by grouping values together between parentheses in a comma
+separated list. For example:
+\begin{lstlisting}
+  tuple(integer, string[5], integer[3])  my_tuple = (x, "hello", [1, 2, 3]);
+  var my_tuple = (x, "hello", [1, 2, 3]);
+  const my_tuple = (x, "hello", [1, 2, 3]);
+  tuple(integer, real r, integer[10]) tuple_var = (1, 2.1, [i in 1..10 | i]);
+\end{lstlisting}
+
+\subsubsection{Operations}
+\label{sssec:tuple_ops}
+The following operations are defined between \code{tuple} values. In all of the usage examples
+\code{tuple-expr} means some \code{tuple} yielding expression (\textbf{Under discussion:} including
+literals).
+
+\begin{center}
+\begin{tabular}{| l | c | l | c |}
+  \hline
+  \multicolumn{1}{|c|}{\textbf{Operation}} & \textbf{Symbol} & \multicolumn{1}{|c|}{\textbf{Usage}}
+    & \textbf{Associativity} \\
+  \hline
+  equals      & \code{==}  & \code{tuple-expr == tuple-expr}  & left  \\ \hline
+  not equals  & \code{!=}  & \code{tuple-expr != tuple-expr}  & left  \\
+  \hline
+\end{tabular}
+\end{center}
+
+Comparisons are performed pairwise, therefore only \code{tuple} values of the same type can be
+compared. This table describes how the comparisons are completed, where t1 and t2 are \code{tuple}
+yielding expressions (\textbf{Under discussion:} including literals):
+
+\begin{center}
+\begin{tabular}{| l | l |}
+  \hline
+  \multicolumn{1}{|c|}{\textbf{Operation}} & \multicolumn{1}{|c|}{\textbf{Meaning}} \\ \hline
+  \code{t1 == t2}  & \code{t1.1 == t2.1 and ... and t1.n == t2.n}  \\ \hline
+  \code{t1 != t2}  & \code{t1.1 != t2.1 or ... or t1.n != t2.n}  \\ \hline
+  \hline
+\end{tabular}
+\end{center}
+
+\end{document}
