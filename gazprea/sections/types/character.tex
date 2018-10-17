@@ -9,13 +9,16 @@ in \textit{LLVM IR}.
 A \code{character} value is declared with the keyword \code{character}.
 
 \subsubsection{Null}
+\label{sssec:character_null}
 \textsf{null} is ASCII \code{NUL} (\code{'\\0'}, \code{0x00}) for \code{character}.
 
 \subsubsection{Identity}
+\label{sssec:character_ident}
 \textsf{identity} is ASCII \code{SOH} (\code{0x01}) for characters. This choice allows the casting
 of a \code{character} to an \code{integer} to yield the \code{integer} \code{identity}.
 
 \subsubsection{Literals and Escape Sequences}
+\label{sssec:character_lit}
 A \code{character} literal is written in the same manner as \textit{C99}: a single character
 enclosed in single quotes. For example:
 \begin{lstlisting}
@@ -54,6 +57,7 @@ The following escape sequences are supported by \textit{Gazprea}:
 \end{center}
 
 \subsubsection{Operations}
+\label{sssec:character_ops}
 There are no operations defined for a \code{character}. To operate on a \code{character} it must
 first be cast to either an \code{boolean}, \code{integer}, or \code{real}.
 
