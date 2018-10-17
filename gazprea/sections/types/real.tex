@@ -61,11 +61,22 @@ would be recognised as an identifier. For example, the following would be identi
 \end{lstlisting}
 
 \subsubsection{Operations}
+\label{sssec:real_ops}
 Floating point operations and precedence are equivalent to \hyperref[sssec:integer_ops]{integer
 operation and precedence}.
 
-\textbf{Under discussion:} Operations on real numbers must adhere to the \textsf{IEEE 754} spec with
-regards to the representation of not-a-number(NaNs), infiity(infs), and zeros. A signaling NaN will
-cause a runtime error.
+Operations on real numbers should adhere to the \textsf{IEEE 754} spec with regards to the
+representation of not-a-number(NaNs), infiity(infs), and zeros. A signaling NaN should cause a
+runtime error. Floating point errors and semantics can be guaranteed by using the
+\href{https://llvm.org/docs/LangRef.html\#constrained-floating-point-intrinsics}{\textit{LLVM IR}
+constrained floating point intrinsics}. The \code{round.towardzero} rounding  mode should be chosen
+along with the \code{fpexcept.strict} exception behaviour.
+
+The runtime error cannot be enforced, but, if floating point semantics are not constrained, then
+\code{real} values printed after operations may not be identical.
+
+For more information on why this is necessary, look into the
+\href{https://llvm.org/docs/LangRef.html\#floatenv}{default \textit{LLVM IR} floating point
+environment}.
 
 \end{document}
