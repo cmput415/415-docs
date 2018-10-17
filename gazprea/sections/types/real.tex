@@ -75,8 +75,11 @@ along with the \code{fpexcept.strict} exception behaviour.
 The runtime error cannot be enforced, but, if floating point semantics are not constrained, then
 \code{real} values printed after operations may not be identical.
 
+\assertion{No floating point operation will create a runtime error.}{safe-reals}
+
 For more information on why this is necessary, look into the
 \href{https://llvm.org/docs/LangRef.html\#floatenv}{default \textit{LLVM IR} floating point
 environment}.
+
 
 \end{document}

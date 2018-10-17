@@ -40,6 +40,11 @@ give more in-depth explanation of specification particulars.
       b <- std_input();
     \end{lstlisting}
   \item
+    \assertiondest{safe-reals}
+    No floating point operation will create a runtime error. This is a manifestation of the
+    inability to standardise exception handling, not an extension to the spec forcing you to somehow
+    fix floating point exceptions.
+  \item
     \assertiondest{tuple-min-fields}
     A \code{tuple} will have at least two internal types. Storing one type would be equivalent to
     storing just the value and the \code{tuple} would be a useless wrapper. Storing zero types would
