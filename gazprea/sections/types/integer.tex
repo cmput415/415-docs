@@ -1,24 +1,24 @@
 \documentclass[types.tex]{subfiles}
 
 \begin{document}
-Integers are signed 32-bit values. An integer can be represented by an \code{i32} in \textit{LLVM}
-IR.
+An \code{integer} is a signed 32-bit value. An \code{integer} can be represented by an \code{i32} in
+\textit{LLVM IR}.
 
 \subsubsection{Declaration}
 \label{sssec:integer_decl}
-Integer values are declared with the keyword \code{integer}.
+A \code{integer} value is declared with the keyword \code{integer}.
 
 \subsubsection{Null}
 \label{sssec:integer_null}
-\code{null} is \code{0} for integers.
+\code{null} is \code{0} for \code{integer}.
 
 \subsubsection{Identity}
 \label{sssec:integer_ident}
-\code{identity} is \code{1} for integers.
+\code{identity} is \code{1} for \code{integer}.
 
 \subsubsection{Literals}
 \label{sssec:int_lit}
-Integer literals are specified in base 10. For example:
+An \code{integer} literal is specified in base 10. For example:
 \begin{lstlisting}
   1234
   2
@@ -26,17 +26,17 @@ Integer literals are specified in base 10. For example:
 \end{lstlisting}
 
 To aid in the readability of large numbers, underscores may be inserted anywhere within or at the
-end of an integer literal as a separator. For example, the following literals would produce the same
-integer value:
+end of an \code{integer} literal as a separator. For example, the following literals would produce
+the same \code{integer} value:
 \begin{lstlisting}
   1__23_4
   1234
   1_2_3_4___
 \end{lstlisting}
 
-The underscore may \textbf{NOT} appear at the beginning of the integer literal because then it would
-be recognised as an identifier. For example, the following would be identifiers and \textit{not}
-integer literals:
+The underscore may \textbf{NOT} appear at the beginning of the \code{integer} literal because then
+it would be recognised as an identifier. For example, the following would be identifiers and
+\textit{not} \code{integer} literals:
 \begin{lstlisting}
   _2
   ____2_3
@@ -44,8 +44,8 @@ integer literals:
 \end{lstlisting}
 
 \subsubsection{Operations}
-The following operations are defined on integer values. In all of the usage examples \code{int-expr}
-means some integer yielding expression.
+The following operations are defined between \code{integer} values. In all of the usage examples
+\code{int-expr} means some \code{integer} yielding expression.
 
 \begin{center}
   \begin{tabular}{| c | l | c | l | c |}
@@ -72,12 +72,12 @@ means some integer yielding expression.
   \end{tabular}
 \end{center}
 
-Unary negation produces the additive inverse of the integer expression. Unary plus always produces
-the same result as the integer expression it is applied to. Remainder mirrors the behaviour of
-remainder in \textit{C99}.
+Unary negation produces the additive inverse of the \code{integer} expression. Unary plus always
+produces the same result as the \code{integer} expression it is applied to. Remainder mirrors the
+behaviour of remainder in \textit{C99}.
 
-This table specifies integer operator precedence. Operators without lines between them have the same
-level of precedence.
+This table specifies \code{integer} operator precedence. Operators without lines between them have
+the same level of precedence.
 \begin{center}
 \begin{tabular}{| c | c |}
   \hline

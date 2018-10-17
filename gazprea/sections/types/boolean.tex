@@ -1,24 +1,24 @@
 \documentclass[types.tex]{subfiles}
 
 \begin{document}
-Boolean values can either be \code{true} or \code{false}. A boolean can be represented by an
-\code{i1} in \textit{LLVM} IR.
+A \code{boolean} is either \code{true} or \code{false}. A \code{boolean} can be represented by an
+\code{i1} in \textit{LLVM IR}.
 
 \subsubsection{Declaration}
 \label{sssec:boolean_decl}
-Boolean values are declared with the keyword \code{boolean}.
+A \code{boolean} value is declared with the keyword \code{boolean}.
 
 \subsubsection{Null}
 \label{sssec:boolean_null}
-\code{null} is \code{false} for booleans.
+\code{null} is \code{false} for \code{boolean}.
 
 \subsubsection{Identity}
 \label{sssec:boolean_ident}
-\code{identity} is \code{true} for booleans.
+\code{identity} is \code{true} for \code{boolean}.
 
 \subsubsection{Literals}
 \label{sssec:boolean_lit}
-Booleans have the following literals:
+The following are the only two valid \code{boolean} literals:
 \begin{itemize}
   \item \code{true}
   \item \code{false}
@@ -26,8 +26,8 @@ Booleans have the following literals:
 
 \subsubsection{Operations}
 \label{sssec:boolean_ops}
-The following operations are defined between boolean values. In all of the usage examples
-\code{bool-expr} means some boolean yielding expression.
+The following operations are defined between \code{boolean} values. In all of the usage examples
+\code{bool-expr} means some \code{boolean} yielding expression.
 
 \begin{center}
 \begin{tabular}{| l | c | l | c |}
@@ -49,8 +49,8 @@ Unlike many languages the \code{and} and \code{or} operators do not
 \href{https://en.wikipedia.org/wiki/Short-circuit_evaluation}{short circuit evaluation}. Therefore,
 both the left hand side and right hand side of an expression must always be evaluated.
 
-This table specifies boolean operator precedence. Operators without lines between them have the same
-level of precedence.
+This table specifies \code{boolean} operator precedence. Operators without lines between them have
+the same level of precedence.
 \begin{center}
 \begin{tabular}{| c | c |}
   \hline
