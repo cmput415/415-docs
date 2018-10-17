@@ -1,0 +1,52 @@
+\documentclass[../gazprea.tex]{subfiles}
+
+\begin{document}
+\textit{Gazprea} has two type qualifiers: \code{const} and \code{var}. These qualifers can prefix
+a type to specify its mutability or entirely replace the type to request that it be inferred.
+Mutability refers to a values ability to be an
+\href{https://en.wikipedia.org/wiki/Value_(computer_science)\#lrvalue}{r-value or l-value}. The two
+qualifiers cannot be combined as they are mutually exclusive.
+
+\subsection{Const}
+\label{ssec:typeQualifiers_const}
+A \code{const} value is immutable and therefore cannot be an l-value but can be an r-value. For
+example:
+\begin{lstlisting}
+  const integer i;
+\end{lstlisting}
+
+Because a \code{const} value is not an l-value, it cannot be passed to a \code{var} argument in a
+\code{procedure}.
+
+\assertion{Procedure \code{var} arguments will not be passed \code{const} values.}{const-arg}
+
+\subsection{Var}
+\label{ssec:typeQualifiers_var}
+A \code{var} value is mutable and therefore can be an l-value or r-value. For example:
+\begin{lstlisting}
+  var integer i;
+\end{lstlisting}
+
+Note that var is the default \textit{Gazprea} behaviour and is essentially a no-op unless it is
+entirely replacing the type.
+
+\subsection{Type Inference Using Qualifiers}
+\label{ssec:typeQualifiers_inf}
+Type qualifiers may be used in place of a type, in which case the real type must be inferred. A
+variable declared in this manner must be \textbf{immediately initialised} to enable inference. For
+example:
+\begin{lstlisting}
+  var i = 1; // integer
+  const i = 1; // integer
+  var r = 1.0; // real
+  const c = 'a'; // character
+  var t = (1, 2, 'a', [1, 2, 3]); // tuple(integer, integer, character, integer vector[3])
+  const v = ['a', 'b', 'c', 'd']; // character vector[4]
+\end{lstlisting}
+
+\assertion{Declarations using only qualifiers will be immediately initialised.}{qualifier-init}
+
+See \nameref{sec:typeInference} for a larger description of type inference, this section only
+provides the syntax for inference using \code{const} and \code{var}.
+
+\end{document}

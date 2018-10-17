@@ -40,6 +40,32 @@ give more in-depth explanation of specification particulars.
       b <- std_input();
     \end{lstlisting}
   \item
+    \assertiondest{const-arg}
+    Procedure \code{var} arguments will not be passed \code{const} values. A \code{var} argument
+    implies the value is mutable in the calling context, which a \code{const} value is not. See
+    \nameref{sec:procedure} for more information. For example, the following tests would be
+    considered invalid:
+    \begin{lstlisting}
+      procedure f(var integer i) {
+        i = 1;
+      }
+
+      procedure main() returns integer {
+        const integer i = 0;
+        call f(i);
+        return 0;
+      }
+    \end{lstlisting}
+  \item
+    \assertiondest{qualifier-init}
+    Declarations using only qualifiers will be immediately initialised. If they were not, it would
+    be impossible to infer their type, a necessary piece of information for use later in the AST.
+    For example, the following tests would be considered invalid:
+    \begin{lstlisting}
+      var i;
+      const i;
+    \end{lstlisting}
+  \item
     \assertiondest{safe-reals}
     No floating point operation will create a runtime error. This is a manifestation of the
     inability to standardise exception handling, not an extension to the spec forcing you to somehow

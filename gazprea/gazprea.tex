@@ -154,40 +154,9 @@ Laboratory in Markham, ON.
   \end{lstlisting}
 
 
-\section{Type Qualifiers}\label{sec:typeQualifiers}
-  A type in \textit{Gazprea} may be prefixed with \texttt{const} meaning that it can not appear on the left hand side
-  of an assignment. If a \texttt{const} variable is used on the left hand side of an assignment then an error must be
-  raised. Types can alternatively be prefixed with \texttt{var}, which means that the variable being declared is
-  mutable, which is the default behavior in \textit{Gazprea}.
-
-  \texttt{const} and \texttt{var} also allow you to specify less information about the type of the variable, as long
-  as the compiler can infer the type for the variable. For instance: (The following work with \texttt{const} as well.
-
-  \begin{lstlisting}
-    /* Whatever type f returns is fine, as long as it's some vector with 10
-    elements */
-    var x[10] = f();
-
-    /* Whatever type f returns is fine, as long as it's some vector */
-    var vector x = f();
-    var integer vector x = f();
-
-    /* Only integer vectors */
-    var integer x[*] = f();
-    var integer vector x = f();
-
-    /* Only integer vectors with 10 elements */
-    var integer x[10] = f();
-  \end{lstlisting}
-
-  A \texttt{const} variable can \textbf{NOT} be declared with a \texttt{var} type. As they are mutually exclusive.
-
-  \begin{lstlisting}
-    const var x = 6; /* Should throw an error */
-  \end{lstlisting}
-
-  It is an error to pass a \texttt{const} value as a var argument to a procedure.  Read procedures for more details.
-
+\section{Type Qualifiers}
+\label{sec:typeQualifiers}
+\subfile{sections/typeQualifiers.tex}
 
 \section{Types}
 \label{sec:types}
@@ -253,7 +222,6 @@ Laboratory in Markham, ON.
 
     var y = null + null + 1;
   \end{lstlisting}
-
 
 \section{Vector/Matrix Type Checking}\label{sec:typeChecking}
 
@@ -1480,7 +1448,7 @@ All developers are advised to read the full
         \item \hyperref[ssec:real]{Reals}
         \item \hyperref[ssec:tuple]{Tuples}
       \end{enumerate}
-      \item \hyperref[sec:typeSpecifiers]{Type Specifiers}
+      \item \hyperref[sec:typeQualifiers]{Type Qualifiers}
       \begin{enumerate}[label*=.\arabic*]
         \item var
         \item const
