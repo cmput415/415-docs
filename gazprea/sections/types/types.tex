@@ -6,6 +6,10 @@
 \label{ssec:boolean}
 \subfile{sections/types/boolean.tex}
 
+\subsection{Character}
+\label{ssec:character}
+\subfile{sections/types/character.tex}
+
 \subsection{Integer}
 \label{ssec:integer}
 \subfile{sections/types/integer.tex}
@@ -59,62 +63,6 @@
 
 		Operations on real numbers must adhere to the \textsf{IEEE 754} spec with regards to the representation of
 		not-a-number(NaNs), infiity(infs), and zeros. A signaling NaN will cause a runtime error.
-
-
-	\subsection{Character}\label{sec:character}
-
-		A character is an \textsf{i8} in \textit{LLVM IR} representing an \textit{ASCII} value. We will assume that
-		characters are unsigned integers.
-
-	\subsubsection{Declaration}
-
-		A character is declared using the \textsf{character} keyword.
-
-	\subsubsection{null}
-
-		\textsf{null} character is \textsf{'\textbackslash0'} for characters.
-
-	\subsubsection{identity}
-
-		\textsf{identity} character is \textit{ASCII} code 1. This choice allows the casting of a character to an
-		integer to yield the integer identity.
-
-
-	\subsubsection{Literals and Escape Sequences}
-
-		Character literals are written similarly to how they are written in \textit{C99}. A single character or escape
-		sequence is enclosed between two single quotes. For example:
-
-		\begin{lstlisting}
-			'a'
-			'b'
-			'\n'
-		\end{lstlisting}
-
-		You must be able to handle the following escape sequences:
-
-		\begin{center}
-			\begin{tabular}{|l|c|}
-				\hline
-				\textbf{Description} & \textbf{Escape Sequence} \\
-				\hline
-				Bell            & \textbackslash{}a \\
-				Backspace       & \textbackslash{}b \\
-				Line Feed       & \textbackslash{}n \\
-				Carriage Return & \textbackslash{}r \\
-				Tab             & \textbackslash{}t \\
-				Backslash       & \textbackslash{}\textbackslash{} \\
-				Apostrophe      & \textbackslash{}' \\
-				Quotation Mark  & \textbackslash{}" \\
-				Null            & \textbackslash0   \\
-				\hline
-			\end{tabular}
-		\end{center}
-
-	\subsubsection{Operations}
-
-		Characters must be cast to \texttt{integers}, \texttt{reals}, or \texttt{booleans} before operations may be
-		performed. They will follow the operation style of the type they are cast to.
 
 
 	\subsection{Intervals}\label{sec:interval}
