@@ -49,28 +49,28 @@ The following operations are defined between \code{integer} values. In all of th
 \code{int-expr} means some \code{integer} yielding expression.
 
 \begin{center}
-  \begin{tabular}{| c | l | c | l | c |}
-    \hline
-    \textbf{Class} & \multicolumn{1}{|c|}{\textbf{Operation}} & \textbf{Symbol} &
-    \multicolumn{1}{|c|}{\textbf{Usage}} & \textbf{Associativity} \\
-    \hline
-    Arithmetic & addition           & \code{+}  & \code{int-expr + int-expr}  & left  \\
-               & subtraction        & \code{-}  & \code{int-expr - int-expr}  & left  \\
-               & multiplication     & \code{*}  & \code{int-expr * int-expr}  & left  \\
-               & division           & \code{/}  & \code{int-expr / int-expr}  & left  \\
-               & remainder          & \code{\%} & \code{int-expr \% int-expr} & left  \\
-               & exponentiation     & \code{^}  & \code{int-expr ^ int-expr}  & right \\
-               & unary negation     & \code{-}  & \code{- int-expr} & right \\
-               & unary plus (no-op) & \code{+}  & \code{+ int-expr} & right \\
-    \hline
-    Comparison & less than                & \code{<}  & \code{int-expr < int-expr}  & left \\
-               & greater than             & \code{>}  & \code{int-expr > int-expr}  & left \\
-               & less than or equal to    & \code{<=} & \code{int-expr <= int-expr} & left \\
-               & greater than or equal to & \code{>=} & \code{int-expr >= int-expr} & left \\
-               & equals                   & \code{==} & \code{int-expr == int-expr} & left \\
-               & not equals               & \code{!=} & \code{int-expr != int-expr} & left \\
-    \hline
-  \end{tabular}
+\begin{tabular}{| c | l | c | l | c |}
+  \hline
+  \textbf{Class} & \multicolumn{1}{|c|}{\textbf{Operation}} & \textbf{Symbol} &
+  \multicolumn{1}{|c|}{\textbf{Usage}} & \textbf{Associativity} \\
+  \hline
+  Arithmetic & addition           & \code{+}  & \code{int-expr + int-expr}  & left  \\
+             & subtraction        & \code{-}  & \code{int-expr - int-expr}  & left  \\
+             & multiplication     & \code{*}  & \code{int-expr * int-expr}  & left  \\
+             & division           & \code{/}  & \code{int-expr / int-expr}  & left  \\
+             & remainder          & \code{\%} & \code{int-expr \% int-expr} & left  \\
+             & exponentiation     & \code{^}  & \code{int-expr ^ int-expr}  & right \\
+             & unary negation     & \code{-}  & \code{- int-expr} & right \\
+             & unary plus (no-op) & \code{+}  & \code{+ int-expr} & right \\
+  \hline
+  Comparison & less than                & \code{<}  & \code{int-expr < int-expr}  & left \\
+             & greater than             & \code{>}  & \code{int-expr > int-expr}  & left \\
+             & less than or equal to    & \code{<=} & \code{int-expr <= int-expr} & left \\
+             & greater than or equal to & \code{>=} & \code{int-expr >= int-expr} & left \\
+             & equals                   & \code{==} & \code{int-expr == int-expr} & left \\
+             & not equals               & \code{!=} & \code{int-expr != int-expr} & left \\
+  \hline
+\end{tabular}
 \end{center}
 
 Unary negation produces the additive inverse of the \code{integer} expression. Unary plus always
