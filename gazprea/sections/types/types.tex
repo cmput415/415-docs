@@ -14,56 +14,9 @@
 \label{ssec:integer}
 \subfile{sections/types/integer.tex}
 
-	\subsection{Real}\label{sec:real}
-
-		Reals are IEEE 754 32-bit floating-point values. In the \textit{LLVM IR} they should be represented as 32-bit
-		floats.
-
-	\subsubsection{Declaration}
-
-		Real values are declared with the \texttt{real} keyword.
-
-	\subsubsection{null}
-
-		\texttt{null} is \texttt{0.0} for reals.
-
-	\subsubsection{identity}
-
-		\texttt{identity} is \texttt{1.0} for reals.
-
-	\subsubsection{Literals}
-  \label{sssec:real_lit}
-
-		Real literals are written in several ways. They are nearly identical to decimal floating-point literals in
-		\textit{C99}. Below are some examples of floating point literals:
-
-		\begin{lstlisting}
-			.42
-			42.0
-			42e-10
-			42e10
-			42.e-10
-			42.e+10
-		\end{lstlisting}
-
-		Underscores may also be used anywhere within a real literal as a separator.  This follows as underscores in
-		integer literals.
-
-		\begin{lstlisting}
-			._____42__
-			4_2_._0_
-			4_2_e_+_10_
-		\end{lstlisting}
-
-	\subsubsection{Operations}
-
-		The operations and precedences for real numbers are the same as for their integer counterparts. Operations
-		performed between an integer and a real value must first promote the integer to a real value, and then perform
-		the operation between two real numbers.
-
-		Operations on real numbers must adhere to the \textsf{IEEE 754} spec with regards to the representation of
-		not-a-number(NaNs), infiity(infs), and zeros. A signaling NaN will cause a runtime error.
-
+\subsection{Real}
+\label{ssec:real}
+\subfile{sections/types/real.tex}
 
 	\subsection{Intervals}\label{sec:interval}
 		Intervals are a type used to represent ranges of values.
