@@ -15,9 +15,9 @@ give more in-depth explanation of specification particulars.
     \code{*/} as well as causing a stream of word tokens starting from where the \code{/*} token
     should be. For example, the following tests would be considered invalid:
     \begin{lstlisting}
-      int i = 0;
+      integer i = 0;
       I'm a closed comment, but I'm never opened... */
-      int j = i + 1;
+      integer j = i + 1;
     \end{lstlisting}
   \item
     \assertiondest{closed-comments}
@@ -25,9 +25,9 @@ give more in-depth explanation of specification particulars.
     in the file, rendering the rest of the file useless. For example, the following tests would be
     considered invalid:
     \begin{lstlisting}
-      int i = 0;
+      integer i = 0;
       /* I'm an opened comment, but I'm never closed...
-      int j = i + 1;
+      integer j = i + 1;
     \end{lstlisting}
   \item
     \assertiondest{assign-streams}
@@ -36,7 +36,7 @@ give more in-depth explanation of specification particulars.
     later. For example, the following tests would be considered invalid:
     \begin{lstlisting}
       'a' -> std_output();
-      char b;
+      character b;
       b <- std_input();
     \end{lstlisting}
     % \assertiondest{vector-length}
