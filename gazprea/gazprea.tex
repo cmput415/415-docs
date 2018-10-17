@@ -73,7 +73,6 @@ Laboratory in Markham, ON.
 \label{sec:comments}
 \subfile{sections/comments.tex}
 
-
 \section{Streams}
 \label{sec:streams}
 \subfile{sections/streams/streams.tex}
@@ -326,37 +325,9 @@ Laboratory in Markham, ON.
   \texttt{var} and \texttt{const} are implicitly included in typecasts. Default is \texttt{var}
 
 
-\section{Type Promotion}\label{sec:typePromotion}
-
-  Automatic type promotion on scalar values only happens between integer values to real values. A real number can not
-  be implicitly cast to an integer value, and doing so should raise a compiler error.
-
-  Scalar values can also be promoted to vector, or matrix types. This occurs when a matrix, or vector is used in an
-  operation with a scalar value of a base type that can be promoted to the base type of the matrix, or vector. When
-  the scalar value is promoted it becomes a vector, or matrix, with identical dimensions, and every element of this
-  new vector / matrix is equal to the original scalar value. An integer scalar may be promoted to a real vector, or a
-  real matrix.
-
-  Integer intervals may be promoted to integer vectors, and thus they may also be promoted to real vectors.
-
-  Tuples may be promoted to tuples of another type if they have the same number of fields, and each field of the
-  original can be automatically coerced into the type of the equivalent field in the other tuple.
-
-  \begin{lstlisting}
-    tuple(integer, integer) int_tup = (1, 2);
-    tuple(real, real) real_tup = int_tup; /* real_tup == (1.0, 2.0) */
-  \end{lstlisting}
-
-  No other automatic conversions are legal, and a type error should be raised.  For instance:
-
-  \begin{lstlisting}
-    character x = 'a';
-    integer y = 1 + x;
-  \end{lstlisting}
-
-  Should raise a type error. A character can be converted to an integer if it is explicitly cast, but it can not be
-  done implicitly like this.
-
+\section{Type Promotion}
+\label{sec:typePromotion}
+\subfile{sections/typePromotion.tex}
 
 \section{Typedef}\label{sec:typedef}
 

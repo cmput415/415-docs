@@ -100,6 +100,14 @@ give more in-depth explanation of specification particulars.
     \begin{lstlisting}
       integer i = ('a', 1, 3.14).2;
     \end{lstlisting}
+  \item
+    \assertiondest{limited-promotion}
+    Implicit type conversions not found in \nameref{sec:typePromotion} will not be performed. This
+    is a manifestation of the inability to standardise exception handling. For example, the
+    following tests would be considered invalid:
+    \begin{lstlisting}
+      integer i = 2.0;
+    \end{lstlisting}
     % \assertiondest{vector-length}
     % All vectors will have length $l$ such that $0 \leq l \leq 2^{32}$. Trying to create an index
     % greater than $2^{32} - 1$ will cause overflow and result in a negative number. Indexing with a
