@@ -1,0 +1,104 @@
+\documentclass[../gazprea.tex]{subfiles}
+
+\begin{document}
+Integers are signed 32-bit values. An integer can be represented by an \code{i32} in \textit{LLVM}
+IR.
+
+\subsubsection{Declaration}
+\label{sssec:integer_decl}
+Integer values are declared with the keyword \code{integer}.
+
+\subsubsection{Null}
+\label{sssec:integer_null}
+\code{null} is \code{0} for integers.
+
+\subsubsection{Identity}
+\label{sssec:integer_ident}
+\code{identity} is \code{1} for integers.
+
+\subsubsection{Literals}
+\label{sssec:int_lit}
+Integer literals are specified in base 10. For example:
+\begin{lstlisting}
+  1234
+  2
+  0
+\end{lstlisting}
+
+To aid in the readability of large numbers, underscores may be inserted anywhere within or at the
+end of an integer literal as a separator. For example, the following literals would produce the same
+integer value:
+\begin{lstlisting}
+  1__23_4
+  1234
+  1_2_3_4___
+\end{lstlisting}
+
+The underscore may \textbf{NOT} appear at the beginning of the integer literal because then it would
+be recognised as an identifier. For example, the following would be identifiers and \textit{not}
+integer literals:
+\begin{lstlisting}
+  _2
+  ____2_3
+  _2__3_
+\end{lstlisting}
+
+\subsubsection{Operations}
+The following operations are defined on integer values. In all of the usage examples \code{int-expr}
+means some integer yielding expression.
+
+\begin{center}
+  \begin{tabular}{|c|l|c|l|c|}
+    \hline
+    \textbf{Class} & \multicolumn{1}{|c|}{\textbf{Operation}} & \textbf{Symbol} &
+    \multicolumn{1}{|c|}{\textbf{Usage}} & \textbf{Associativity} \\
+    \hline
+    Arithmetic & addition           & \code{+}  & \code{int-expr + int-expr}  & left  \\
+               & subtraction        & \code{-}  & \code{int-expr - int-expr}  & left  \\
+               & multiplication     & \code{*}  & \code{int-expr * int-expr}  & left  \\
+               & division           & \code{/}  & \code{int-expr / int-expr}  & left  \\
+               & remainder          & \code{\%} & \code{int-expr \% int-expr} & left  \\
+               & exponentiation     & \code{^}  & \code{int-expr ^ int-expr}  & right \\
+               & unary negation     & \code{-}  & \code{- int-expr} & right \\
+               & unary plus (no-op) & \code{+}  & \code{+ int-expr} & right \\
+    \hline
+    Comparison & less than                & \code{<}  & \code{int-expr < int-expr}  & left \\
+               & greater than             & \code{>}  & \code{int-expr > int-expr}  & left \\
+               & less than or equal to    & \code{<=} & \code{int-expr <= int-expr} & left \\
+               & greater than or equal to & \code{>=} & \code{int-expr >= int-expr} & left \\
+               & equals                   & \code{==} & \code{int-expr == int-expr} & left \\
+               & not equals               & \code{!=} & \code{int-expr != int-expr} & left \\
+    \hline
+  \end{tabular}
+\end{center}
+
+Unary negation produces the additive inverse of the integer expression. Unary plus always produces
+the same result as the integer expression it is applied to. Remainder mirrors the behaviour of
+remainder in \textit{C99}.
+
+This table specifies integer operator precedence. Operators without lines between them have the same
+level of precedence.
+\begin{center}
+\begin{tabular}{| c | c |}
+  \hline
+  \textbf{Precedence} & \textbf{Operations} \\
+  \hline
+  HIGHER & \code{unary +} \\
+         & \code{unary -} \\ \cline{2-2}
+         & \code{^} \\ \cline{2-2}
+         & \code{*}  \\
+         & \code{/}  \\
+         & \code{\%} \\ \cline{2-2}
+         & \code{+} \\
+         & \code{-} \\ \cline{2-2}
+         & \code{<}  \\
+         & \code{>}  \\
+         & \code{<=} \\
+         & \code{>=} \\ \cline{2-2}
+         & \code{==} \\
+  LOWER  & \code{!=} \\
+  \hline
+\end{tabular}
+\end{center}
+
+\end{document}

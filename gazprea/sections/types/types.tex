@@ -2,106 +2,13 @@
 
 \begin{document}
 
-
 \subsection{Boolean}
 \label{ssec:boolean}
 \subfile{sections/types/boolean.tex}
 
-	\subsection{Integer}\label{sec:integer}
-
-		Integers are signed 32-bit values. Thus they should be represented as i32 values in the \textit{LLVM IR}.
-
-	\subsubsection{Declaration}
-
-		Integer values are declared with the keyword \texttt{integer}.
-
-	\subsubsection{null}
-
-		\texttt{null} is \texttt{0} for integers.
-
-	\subsubsection{identity}
-
-		\texttt{identity} is \texttt{1} for integers.
-
-	\subsubsection{Literals}
-  \label{sssec:int_lit}
-
-		Integer literals are specified in base 10. For example:
-
-		\begin{lstlisting}
-			1234
-			2
-			0
-		\end{lstlisting}
-
-		Are all integer literals.
-
-		To aid in the readability of large numbers, underscores may be inserted anywhere within, or at the end of, an
-		integer literal as a separator. For instance the following literals would produce the same integer value:
-
-		\begin{lstlisting}
-			1__23_4
-			1234
-			1_2_3_4___
-		\end{lstlisting}
-
-		The underscore may \textbf{NOT} appear at the beginning of the integer literal, as in:
-
-		\begin{lstlisting}
-			_2
-		\end{lstlisting}
-
-		This would be interpreted as an identifier instead of an integer literal.
-
-	\subsubsection{Operations}
-
-		The arithmetic operators on integers in \textit{Gazprea} are similar to most programming languages. In the
-		following table \texttt{int-expr} means any expression that yields an integer value.
-
-		\begin{center}
-			\begin{tabular}{|c|l|c|l|}
-				\hline
-				\textbf{Class} & \textbf{operation} & \textbf{Symbol} & \textbf{Usage} \\
-				\hline
-				Arithmetic & addition           & +  & \texttt{int-expr + int-expr}  \\
-				           & subtraction        & -  &  \texttt{int-expr - int-expr} \\
-				           & multiplication     & *  & \texttt{int-expr * int-expr}	 \\
-				           & division           & /  & \texttt{int-expr / int-expr}	 \\
-				           & modulus            & \% & \texttt{int-expr \% int-expr} \\
-				           & exponentiation     & \textasciicircum & \texttt{int-expr \textasciicircum int-expr}	\\
-				           & unary negation     & -  & \texttt{- int-expr}	         \\
-				           & unary plus (no-op) & +  & \texttt{+ int-expr}           \\
-				\hline
-				Comparison & less than                & <  & \texttt{ int-expr < int-expr}  \\
-				           & greater than             & >  & \texttt{ int-expr > int-expr}  \\
-				           & less than or equal to    & <= & \texttt{ int-expr <= int-expr} \\
-				           & greater than or equal to & >= & \texttt{ int-expr >= int-expr} \\
-				           & equals                   & == & \texttt{ int-expr == int-expr} \\
-				           & not equals               & != & \texttt{ int-expr != int-expr} \\
-				\hline
-			\end{tabular}
-		\end{center}
-
-		Unary negation produces the additive inverse of the integer expression. Unary plus always produces the same
-		result as the integer expression it is applied to. Modulus mirrors the behaviour of modulus in \textit{C99}
-
-		The precedence of the integer operations is defined by the following table:
-
-		\begin{center}
-			\begin{tabular}{|c|c|}
-			\hline
-			\textbf{Precedence} & \textbf{Operations} \\
-			\hline
-			HIGHER & unary +, unary - \\
-			       & \textasciicircum \\
-			       & *,/,\%		        \\
-			       & +,-   		        \\
-			       & <,>,<=,>=        \\
-			LOWER  & ==, !=		        \\
-			\hline
-			\end{tabular}
-		\end{center}
-
+\subsection{Integer}
+\label{ssec:integer}
+\subfile{sections/types/integer.tex}
 
 	\subsection{Real}\label{sec:real}
 
