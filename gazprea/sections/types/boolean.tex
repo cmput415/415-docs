@@ -1,18 +1,18 @@
 \documentclass[../gazprea.tex]{subfiles}
 
 \begin{document}
-Boolean values can either be \code{true} or \code{false}. In the \textit{LLVM IR} boolean values
-should be represented with the type \code{i1}.
+Boolean values can either be \code{true} or \code{false}. A boolean can be represented by an
+\code{i1} in \textit{LLVM} IR.
 
 \subsubsection{Declaration}
 \label{sssec:boolean_decl}
 Boolean values are declared with the keyword \code{boolean}.
 
-\subsubsection{null}
+\subsubsection{Null}
 \label{sssec:boolean_null}
 \code{null} is \code{false} for booleans.
 
-\subsubsection{identity}
+\subsubsection{Identity}
 \label{sssec:boolean_ident}
 \code{identity} is \code{true} for booleans.
 
@@ -35,12 +35,12 @@ The following operations are defined between boolean values. In all of the usage
   \multicolumn{1}{|c|}{\textbf{Operation}} & \textbf{Symbol} & \multicolumn{1}{|c|}{\textbf{Usage}}
     & \textbf{Associativity} \\
   \hline
-  negation    & \code{not} & \code{not bool-expr}           & left \\ \hline
-  logical or  & \code{or}  & \code{bool-expr or bool-expr}  & left \\ \hline
-  logical xor & \code{xor} & \code{bool-expr xor bool-expr} & left \\ \hline
-  logical and & \code{and} & \code{bool-expr and bool-expr} & left \\ \hline
-  equals      & \code{==}  & \code{bool-expr == bool-expr}  & left \\ \hline
-  not equals  & \code{!=}  & \code{bool-expr != bool-expr}  & left \\
+  negation    & \code{not} & \code{not bool-expr}           & right \\ \hline
+  logical or  & \code{or}  & \code{bool-expr or bool-expr}  & left  \\ \hline
+  logical xor & \code{xor} & \code{bool-expr xor bool-expr} & left  \\ \hline
+  logical and & \code{and} & \code{bool-expr and bool-expr} & left  \\ \hline
+  equals      & \code{==}  & \code{bool-expr == bool-expr}  & left  \\ \hline
+  not equals  & \code{!=}  & \code{bool-expr != bool-expr}  & left  \\
   \hline
 \end{tabular}
 \end{center}
