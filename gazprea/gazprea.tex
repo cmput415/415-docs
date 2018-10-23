@@ -247,83 +247,9 @@ Laboratory in Markham, ON.
   where the length of the vector can not be determined at all.
 
 
-\section{Type Casts}\label{sec:typeCasting}
-
-  \textit{Gazprea} provides explicit type casting. A value may be converted to a
-  different type using the following syntax:
-
-  \begin{lstlisting}
-    as<type>(value)
-  \end{lstlisting}
-
-  Where \texttt{value} is some expression, and \texttt{type} is the type we want to convert to. Conversions from one
-  type to another may not be legal. For instance converting from an integer matrix to an integer does not make sense.
-
-  This table summarizes all of the conversion rules between base types. The row is the type you are converting from,
-  and the column is the type you are converting to.
-
-  \begin{center}
-    \begin{tabular}{|ll|LLLcL|}
-    \cline{1-7}
-    \multicolumn{2}{c}{} &
-    \multicolumn{5}{c}{\textbf{To type}} \\
-    \cline{3-7}
-    \multicolumn{2}{c}{} &
-    \multicolumn{1}{c}{boolean} &
-    \multicolumn{1}{c}{integer} &
-    \multicolumn{1}{c}{real} &
-    \multicolumn{1}{c}{interval} &
-    \multicolumn{1}{c}{character} \\
-    \hline
-    \multicolumn{1}{c}{} &
-    boolean & id & 1 if true, 0 otherwise & 1.0 if true, 0.0 otherwise & N/A &
-    \textit{ASCII} value 0 if false, 1 otherwise \\
-    \multicolumn{1}{c}{} &
-    integer & false if 0, true otherwise & id & real version of integer & N/A & unsigned integer value mod 256 \\
-    \multicolumn{1}{c}{\textbf{From}} &
-    real & N/A & truncate & id & N/A & N/A \\
-    \multicolumn{1}{c}{} &
-    interval & N/A & N/A & N/A & id & N/A \\
-    \multicolumn{1}{c}{} &
-    character & false if \textit{ASCII} 0, true otherwise & \textit{ASCII} value
-    as integer & \textit{ASCII} value as real & N/A & id \\
-    \hline
-    \end{tabular}
-  \end{center}
-
-  In this table "id" means there is no change, "N/A" means the conversion is invalid and an error should be raised.
-
-  Type casting can be done on vector and matrix types. The cast is applied to the base elements. Additionally the cast
-  may be used to promote scalars, or truncate / pad vectors. For instance:
-
-  \begin{lstlisting}
-    real vector v[3] = [i in 1..3 | i + 0.3 * i];
-
-    /* Convert the real vector to an integer vector */
-    integer vector u[3] = as<integer vector>(v);
-
-    /* Convert to integers and null pad */
-    integer vector x[5] = as<integer[5]>(v);
-
-    /* Truncate the vector */
-    real vector y[2] = as<real vector[2]>(v);
-  \end{lstlisting}
-
-  An integer interval may be cast to an integer vector, or a real vector. If the vector is larger than the interval,
-  then the vector is \texttt{null} padded.
-
-  Type casting can be done between tuples as long as the tuples have the same number of fields. Each of the fields is
-  cast as specified. For instance:
-
-  \begin{lstlisting}
-    tuple(integer, integer) int_tup = (1, 2);
-    tuple(real, boolean) rb_tup = as<(real, boolean)>(int_tup);
-
-    /* rb_tup has the value (1.0, true) now */
-  \end{lstlisting}
-
-  \texttt{var} and \texttt{const} are implicitly included in typecasts. Default is \texttt{var}
-
+\section{Type Casting}
+\label{sec:typeCasting}
+\subfile{sections/typeCasting.tex}
 
 \section{Type Promotion}
 \label{sec:typePromotion}
