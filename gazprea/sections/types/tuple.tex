@@ -10,7 +10,7 @@ A \code{tuple} value is declared with the keyword \code{tuple} followed by a par
 comma-separated list of types. The list must contain \textit{at least two types}. Tuples are
 \textit{mutable}. For example:
 \begin{lstlisting}
-  tuple(integer, real, integer[10]) t1;
+  tuple(integer, real, integer vector) t1;
   tuple(character, real, string[256], real) t2;
 \end{lstlisting}
 
@@ -25,10 +25,10 @@ The fields of a \code{tuple} may also be named. For example:
 Here, \code{t3} has a named \code{real} field named \code{r} and \code{t4} has a named
 \code{character} field named \code{mode} and another named \code{string} field named \code{id}.
 
-The size of all fields in a \code{tuple} must be explicitly known at compile time, the only
-exception is when a \hyperref[sec:typeQualifiers]{variable is declared without a type using
-\code{var} or \code{const}}. In this case, the variable must be initialised immediately with a
-literal whose type is known at compile time.
+The number of fields in a \code{tuple} must be known at compile. The only exception is when a
+\hyperref[sec:typeQualifiers]{variable is declared without a type using \code{var} or \code{const}}.
+In this case, the variable must be initialised immediately with a literal whose type is known at
+compile time.
 
 \assertion{The exact size of the internal types of a \code{tuple} will be inferrable at compile
 time.}{exact-tuple-types}
