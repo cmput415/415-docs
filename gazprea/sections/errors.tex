@@ -1,0 +1,154 @@
+\documentclass[../gazprea.tex]{subfiles}
+
+\begin{document}
+The only error you need to support are are \textit{static} type errors. Error messages should be
+printed to the standard error stream.
+
+
+\subsection{In Operations}
+\label{ssec:error_ops}
+These are type errors that occur in an expression when you cannot
+\hyperref[sec:typePromotion]{implicitly convert} the type of one operand to the type of the other.
+Errors should be printed with the following form:
+\begin{lstlisting}
+  Type error: Cannot convert between <lhs type> and <rhs type> on line <line number>
+\end{lstlisting}
+
+\subsubsection{Between Scalars}
+\label{sssec:error_ops_stos}
+Scalars are the simplest case and compare their type against another. For example:
+\begin{lstlisting}
+  procedure main() returns integer {
+    int i = 'a' + 1;
+  }
+\end{lstlisting}
+
+Should raise the following error:
+\begin{lstlisting}
+  Type error: Cannot convert between character and integer on line 2
+\end{lstlisting}
+
+\subsubsection{Scalar to Vector/Matrix}
+\label{sssec:error_ops_stovm}
+\label{sssec:error_ops_stov}
+\label{sssec:error_ops_stom}
+In a scalar to \code{vector} or \code{matrix} conversion, the scalar's type must be
+\hyperref[typePromotion]{implicitly convertable} to the element type of the \code{vector} or
+\code{matrix}. Note that this comparison can be performed even if the size of the \code{vector} or
+\code{matrix} is unknown. When printing the type of the \code{vector} or \code{matrix}, include the
+\code{vector} part of the type, including size if it is known or an \code{*} otherwise. For example:
+\begin{lstlisting}
+  procedure main() returns integer {
+    var in = std_input();
+    integer a;
+    integer b;
+    a <- in;
+    b <- in;
+    integer vector v[3] = as<integer vector[3]>('a' + [i in a..b | i]);
+  }
+\end{lstlisting}
+
+Should raise the following error:
+\begin{lstlisting}
+  Type error: Cannot convert between character and integer vector[*] on line 7
+\end{lstlisting}
+
+\subsubsection{Vector to Vector}
+\label{sssec:error_ops_vtov}
+In a \code{vector} to \code{vector} conversion, one of the element types must be
+\hyperref[typePromotion]{implicitly convertable} to the other element type and the sizes of the
+each \code{vector} must match. The element type will always be known at compile time but if one or
+both of the sizes is not known, then \textbf{NO STATIC TYPE CHECKING WILL BE PERFORMED}. For
+example, with differences in sizes:
+\begin{lstlisting}
+  procedure main() returns integer {
+    integer vector a[3] = [1, 2, 3];
+    integer vector b[2] = [1, 2];
+    integer vector v[2] = as<integer vector[2]>(a + b);
+  }
+\end{lstlisting}
+
+Should raise the following error:
+\begin{lstlisting}
+  Type error: Cannot convert between integer vector[3] and integer vector[2] on line 4
+\end{lstlisting}
+
+For example, with unconvertable element types:
+\begin{lstlisting}
+  procedure main() returns integer {
+    character vector a[3] = ['a', 'b', 'c'];
+    integer vector b[3] = [1, 2, 3];
+    integer vector v[3] = a + b;
+  }
+\end{lstlisting}
+
+Should raise the following error:
+\begin{lstlisting}
+  Type error: Cannot convert between character vector[3] and integer vector[3] on line 4
+\end{lstlisting}
+
+While there is potentially a runtime error in this example, there is no compile time error because
+the size of \code{d} is unknowable:
+\begin{lstlisting}
+  procedure main() returns integer {
+    var in = std_input();
+    integer a;
+    integer b;
+    a <- in;
+    b <- in;
+    integer vector c[3] = [1, 2, 3];
+    integer vector d[*] = [i in a..b | i];
+    integer vector v[2] = as<integer vector[2]>(c + d);
+  }
+\end{lstlisting}
+
+\subsubsection{Matrix to Matrix}
+\label{sssec:error_ops_mtom}
+In a \code{matrix} to \code{matrix} conversion, one of the element types must be
+\hyperref[typePromotion]{implicitly convertable} to the other element type and the sizes of the
+each \code{matrix} must match. The element type will always be known at compile time but if one or
+both of the sizes is not known, then \textbf{NO STATIC TYPE CHECKING WILL BE PERFORMED}. For
+example, with differences in sizes:
+\begin{lstlisting}
+  procedure main() returns integer {
+    integer matrix a[2, 2] = [[1, 2], [3, 4]];
+    integer matrix b[1, 2] = [[1, 2]];
+    integer matrix m[2, 2] = as<integer matrix[2, 2]>(a + b);
+  }
+\end{lstlisting}
+
+Should raise the following error:
+\begin{lstlisting}
+  Type error: Cannot convert between integer matrix[2, 2] and integer matrix[1, 2]  on line 4
+\end{lstlisting}
+
+For example, with unconvertable element types:
+\begin{lstlisting}
+  procedure main() returns integer {
+    character matrix a[2, 2] = [['a', 'b'], ['c', 'd']];
+    integer matrix b[2, 2] = [[1, 2], [3, 4]];
+    integer matrix m[2, 2] = a + b;
+  }
+\end{lstlisting}
+
+Should raise the following error:
+\begin{lstlisting}
+  Type error: Cannot convert between character matrix[2, 2] and integer matrix[2, 2] on line 4
+\end{lstlisting}
+
+While there is potentially a runtime error in this example, there is no compile time error because
+the size of \code{d} is unknowable:
+\begin{lstlisting}
+  procedure main() returns integer {
+    var in = std_input();
+    integer a;
+    integer b;
+    a <- in;
+    b <- in;
+    integer matrix c[2, 2] = [['a', 'b'], ['c', 'd']];
+    integer matrix d[*] = [i in a..b, j in a..b | i * j];
+    integer matrix m[2, 2] = as<integer vector>[2](c + d);
+  }
+\end{lstlisting}
+
+\end{document}
