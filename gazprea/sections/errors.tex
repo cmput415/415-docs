@@ -56,7 +56,7 @@ Should raise the following error:
 \subsubsection{Vector to Vector}
 \label{sssec:error_ops_vtov}
 In a \code{vector} to \code{vector} conversion, one of the element types must be
-\hyperref[typePromotion]{implicitly convertable} to the other element type and the sizes of the
+\hyperref[sec:typePromotion]{implicitly convertable} to the other element type and the sizes of the
 each \code{vector} must match. The element type will always be known at compile time but if one or
 both of the sizes is not known, then \textbf{NO STATIC TYPE CHECKING WILL BE PERFORMED}. For
 example, with differences in sizes:
@@ -105,7 +105,7 @@ the size of \code{d} is unknowable:
 \subsubsection{Matrix to Matrix}
 \label{sssec:error_ops_mtom}
 In a \code{matrix} to \code{matrix} conversion, one of the element types must be
-\hyperref[typePromotion]{implicitly convertable} to the other element type and the sizes of the
+\hyperref[sec:typePromotion]{implicitly convertable} to the other element type and the sizes of the
 each \code{matrix} must match. The element type will always be known at compile time but if one or
 both of the sizes is not known, then \textbf{NO STATIC TYPE CHECKING WILL BE PERFORMED}. For
 example, with differences in sizes:
