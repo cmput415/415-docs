@@ -102,7 +102,7 @@ must have an equal number of internal types and each element must be pairwise ca
 the rules in \nameref{ssec:typeCasting_stos}. For example:
 \begin{lstlisting}
   tuple(integer, integer) int_tup = (1, 2);
-  tuple(real, boolean) rb_tup = as<(real, boolean)>(int_tup);
+  tuple(real, boolean) rb_tup = as<tuple(real, boolean)>(int_tup);
 \end{lstlisting}
 
 \end{document}
