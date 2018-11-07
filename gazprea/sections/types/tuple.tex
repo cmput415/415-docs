@@ -70,18 +70,21 @@ separated list. For example:
 
 \subsubsection{Operations}
 \label{sssec:tuple_ops}
-The following operations are defined between \code{tuple} values. In all of the usage examples
-\code{tuple-expr} means some \code{tuple} yielding expression (\textbf{Under discussion:} including
-literals).
+The following operations are defined on \code{tuple} values. In all of the usage examples
+\code{tuple-expr} means some \code{tuple} yielding expression, while \code{int_lit} is an
+\code{integer} literal as defined in \hyperref[sssec:integer_lit]{Integer Literals} and \code{id}
+is an identifier as defined in \nameref{sec:identifiers}.
 
 \begin{center}
-\begin{tabular}{| l | c | l | c |}
+\begin{tabular}{| c | l | c | l | c |}
   \hline
-  \multicolumn{1}{|c|}{\textbf{Operation}} & \textbf{Symbol} & \multicolumn{1}{|c|}{\textbf{Usage}}
-    & \textbf{Associativity} \\
+  \textbf{Class} & \multicolumn{1}{|c|}{\textbf{Operation}} & \textbf{Symbol} &
+  \multicolumn{1}{|c|}{\textbf{Usage}} & \textbf{Associativity} \\
   \hline
-  equals      & \code{==}  & \code{tuple-expr == tuple-expr}  & left  \\ \hline
-  not equals  & \code{!=}  & \code{tuple-expr != tuple-expr}  & left  \\
+  Access     & dot         & \code{.}   & \code{tuple-expr.int_lit}        & left  \\
+             &             &            & \code{tuple-expr.id}             &       \\ \hline
+  Comparison & equals      & \code{==}  & \code{tuple-expr == tuple-expr}  & left  \\ \cline{2-5}
+             & not equals  & \code{!=}  & \code{tuple-expr != tuple-expr}  & left  \\
   \hline
 \end{tabular}
 \end{center}
@@ -95,7 +98,7 @@ yielding expressions (\textbf{Under discussion:} including literals):
   \hline
   \multicolumn{1}{|c|}{\textbf{Operation}} & \multicolumn{1}{|c|}{\textbf{Meaning}} \\ \hline
   \code{t1 == t2}  & \code{t1.1 == t2.1 and ... and t1.n == t2.n}  \\ \hline
-  \code{t1 != t2}  & \code{t1.1 != t2.1 or ... or t1.n != t2.n}  \\ \hline
+  \code{t1 != t2}  & \code{t1.1 != t2.1 or ... or t1.n != t2.n}  \\
   \hline
 \end{tabular}
 \end{center}
