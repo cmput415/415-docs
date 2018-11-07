@@ -54,6 +54,8 @@ The following operations are defined between \code{integer} values. In all of th
   \textbf{Class} & \multicolumn{1}{|c|}{\textbf{Operation}} & \textbf{Symbol} &
   \multicolumn{1}{|c|}{\textbf{Usage}} & \textbf{Associativity} \\
   \hline
+  Grouping   & parentheses        & \code{()} & \code{(int-expr)}           & N/A   \\
+  \hline
   Arithmetic & addition           & \code{+}  & \code{int-expr + int-expr}  & left  \\
              & subtraction        & \code{-}  & \code{int-expr - int-expr}  & left  \\
              & multiplication     & \code{*}  & \code{int-expr * int-expr}  & left  \\
@@ -78,7 +80,8 @@ produces the same result as the \code{integer} expression it is applied to. Rema
 behaviour of remainder in \textit{C99}.
 
 This table specifies \code{integer} operator precedence. Operators without lines between them have
-the same level of precedence.
+the same level of precedence. Note that parentheses are not included in this list because they are
+used to override precedence and create new atoms in an expression.
 \begin{center}
 \begin{tabular}{| c | c |}
   \hline
