@@ -89,9 +89,18 @@ is an identifier as defined in \nameref{sec:identifiers}.
 \end{tabular}
 \end{center}
 
+Note that in the above table \code{tuple-expr} may refer to only a variable for access. Accessing a
+literal could be replaced immediately with the scalar inside the \code{tuple} literal. However
+\code{tuple-expr} may refer to a literal in comparison operations to enable shorthand like
+this:
+\begin{lstlisting}
+  if ((a, b) == (c, d))
+  fi;
+\end{lstlisting}
+
 Comparisons are performed pairwise, therefore only \code{tuple} values of the same type can be
 compared. This table describes how the comparisons are completed, where t1 and t2 are \code{tuple}
-yielding expressions (\textbf{Under discussion:} including literals):
+yielding expressions including literals:
 
 \begin{center}
 \begin{tabular}{| l | l |}
