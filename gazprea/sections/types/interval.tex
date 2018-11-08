@@ -72,18 +72,19 @@ Regarding the semantics of some of the operators:
 The precedence and associativity follows that of \hyperref[sssec:integer_ops]{integer operations}
 for the operators defined in the above table, with the addition of the \code{by} and \code{..}
 operators, in the following table. The \code{.} and \code{[]} operators are included for
-clarification:
+clarification but for the full table see \nameref{ssec:operators}.
 
 \begin{center}
 \begin{tabular}{| c | c |}
   \hline
   \textbf{Precedence} & \textbf{Operations} \\
   \hline
-  HIGHER & \code{.}    \\
-         & \code{[]}   \\ \cline{2-2}
-         & \code{..}   \\ \cline{2-2}
-         & integer ops \\ \cline{2-2}
-  LOWER  & \code{by}   \\
+  HIGHER & \code{.}       \\
+         & \code{[]}      \\ \cline{2-2}
+         & \code{..}      \\ \cline{2-2}
+         & arithmetic ops \\ \cline{2-2}
+         & \code{by}      \\ \cline{2-2}
+  LOWER  & comparison ops \\
   \hline
 \end{tabular}
 \end{center}
