@@ -1,13 +1,13 @@
 \documentclass[types.tex]{subfiles}
 
 \begin{document}
-Intervals are a type used to represent ranges of values. \textit{Gazprea} only has support for
-integer intervals.
+An \code{interval} is used to represent ranges of values. \textit{Gazprea} only has support for an
+\code{integer} \code{interval}.
 
 \subsubsection{Declaration}
 \label{sssec:inteval_decl}
-Intervals are declared with the keyword \code{interval}. Only the \code{integer} base type for
-intervals is supported by \textit{Gazprea}. For example:
+An \code{interval} is declared with the keyword \code{interval}. Only the \code{integer} base type
+for intervals is supported by \textit{Gazprea}. For example:
 \begin{lstlisting}
   integer interval iv;
 \end{lstlisting}
@@ -38,8 +38,8 @@ operations should be used, for instance interval division should use integer div
 explanation see \href{http://www.csgnetwork.com/directintervalcalc.html}{this website} under the
 heading of ``How the operations work''.
 
-In the following table \code{ivl-expr} means any expression that yields an interval value and
-\code{int-expr} means any integer yielding expression.
+In the following table \code{ivl-expr} means any expression that yields an \code{interval} value and
+\code{int-expr} means any \code{integer} yielding expression.
 
 \begin{center}
 \begin{tabular}{| c | l | c | l | c |}
@@ -64,9 +64,9 @@ In the following table \code{ivl-expr} means any expression that yields an inter
 
 Regarding the semantics of some of the operators:
 \begin{itemize}
-  \item Interval comparison checks the bounds of the interval.
+  \item Comparison checks the bounds of each \code{interval}.
   \item Range upper bounds must greater than or equal to the lower bound.
-  \item Both bounds must be integer valued.
+  \item Both bounds must be \code{integer} valued.
 \end{itemize}
 
 The precedence and associativity follows that of \hyperref[sssec:integer_ops]{integer operations}
