@@ -9,9 +9,16 @@
 \usepackage[T1]{fontenc}
 \usepackage{subfiles}
 \usepackage{nameref}
+\usepackage{titlesec}
 % This makes it so the web pages don't have indents as most of the time
 % they are just annoying
 \setlength{\parindent}{0pt}
+
+\setcounter{secnumdepth}{4}
+\titleformat{\paragraph}
+{\normalfont\normalsize\bfseries}{\theparagraph}{1em}{}
+\titlespacing*{\paragraph}
+{0pt}{3.25ex plus 1ex minus .2ex}{1.5ex plus .2ex}
 
 \newcolumntype{L}{>{\centering\arraybackslash}m{2.5cm}}
 
