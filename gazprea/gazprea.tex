@@ -14,12 +14,6 @@
 % they are just annoying
 \setlength{\parindent}{0pt}
 
-\setcounter{secnumdepth}{4}
-\titleformat{\paragraph}
-{\normalfont\normalsize\bfseries}{\theparagraph}{1em}{}
-\titlespacing*{\paragraph}
-{0pt}{3.25ex plus 1ex minus .2ex}{1.5ex plus .2ex}
-
 \newcolumntype{L}{>{\centering\arraybackslash}m{2.5cm}}
 
 \usepackage{textcomp}
@@ -30,6 +24,11 @@
   escapeinside=||,
   autogobble
 }
+
+\ifpdf
+  \setcounter{secnumdepth}{4}
+  \setcounter{tocdepth}{4}
+\fi
 
 % Allows for assertions and clarifications.
 \newcommand{\code}[1]{\lstinline{#1}}
@@ -50,7 +49,9 @@
 % -----------------------------------------------------------------------------
 
 \begin{document}
-  \includegraphics[width=.5\textwidth]{static/GazpreaLogo.png}
+
+% Include the logo.
+\includegraphics[width=.5\textwidth]{static/GazpreaLogo.png}
 
 % Put a tile and add some extra space into the pdf.
 \ifpdf
@@ -60,13 +61,12 @@
   \hspace{.7in}
 \fi
 
-% Change the depth of the front page ToC.
-\ifdefined\HCode
-  \Configure{tableofcontents*}{chapter,section,subsection}
-\fi
-
 \textit{Gazprea} is derived from a language originally designed at the IBM Hardware Acceleration
 Laboratory in Markham, ON.
+
+\ifpdf
+  \tableofcontents
+\fi
 
 \section{Keywords}
 \label{sec:keywords}
