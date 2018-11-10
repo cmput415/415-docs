@@ -64,6 +64,7 @@ $(foreach file, $(STATICS), $(HTML_DIR)/%): %
 # Building the PDF file.
 $(PDF_DEST): $(DEPENDS)
 	pdflatex -interaction=nonstopmode -file-line-error-style $(SRC)
+	pdflatex -interaction=nonstopmode -file-line-error-style $(SRC)
 	mkdir -p $(PDF_DIR)
 	mv -f $(SRC).pdf $(PDF_DIR)
 #rm -f $(SRC).4ct $(SRC).4tc $(SRC).aux $(SRC).div $(SRC).dvi $(SRC).idv\
