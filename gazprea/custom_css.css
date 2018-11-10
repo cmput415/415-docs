@@ -11,8 +11,4 @@ dl {
 	-webkit-margin-before: 0em;
 	-webkit-margin-after: 0em;
 }
-/* Enable paragraph ToC indenting. */
-.paragraphToc, .likeparagraphToc {
-  margin-left:6em;
-}
 /* End of Custom css */
