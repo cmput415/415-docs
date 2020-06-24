@@ -85,10 +85,10 @@ The following keywords are now also reserved in \textit{VCalc}:
 \subsection{Vectors}
 \textit{VCalc} has a new type, \code{vector}, that is a vector of integer values. Vectors are
 restricted to the length that can be represented by the \textit{largest possible index}. Indices are
-integers and integers are signed 32 bit integers. Because the largest possible integer is $2^31 - 1$
+integers and integers are signed 32 bit integers. Because the largest possible integer is $2^{31} - 1$
 or $2147483647$, a vector can have a length in the range $[0, 2^{31}]$.
 
-\assertion{All vectors will have length $l$ such that $0 \leq 0 \leq 2^{32}$.}{vector-length}
+\assertion{All vectors will have length $l$ such that $0 \leq l \leq 2^{32}$.}{vector-length}
 
 There is no way to specify a vector literal, they must be created through ranges, generators,
 filters, or index expressions with a vector index.
