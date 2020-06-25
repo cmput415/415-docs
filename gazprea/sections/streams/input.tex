@@ -40,7 +40,8 @@ A \code{real} input from stdin can take any legal format described in the \hyper
 
 A \code{boolean} input from stdin is either \code{T} or \code{F}.
 
-Whitespace will separate values in stdin.
+Whitespace will separate values in stdin, but take note that a whitespace character \textit{can} also be read from
+stdin and assigned to a character variable.
 
 When reading a value, if any other input were to be in the stream during the read then an
 \hyperref[sssec:stream_error]{error state} is set. For example, the following program:
