@@ -29,16 +29,16 @@ This would create a new stream with a clean state. For example:
 
 ::
 
-     var inp = std_input();
-     inp = std_input();
+     var in = std_input();
+     in = std_input();
 
 Assigning a stream of a different type is a **type error**. For example,
 this should result in an error.
 
 ::
 
-     var inp = std_input();
-     inp = std_output();
+     var in = std_input();
+     in = std_output();
 
 .. _ssec:output:
 
@@ -69,8 +69,9 @@ an output stream:
 
 -  ``boolean``: Print T for true, and F for false.
 
-Vectors print their contents according to the rules above, with spaces
-only *between* values. For example:
+Vectors print their contents according to the rules above, with square
+braces surrounding its elements and with spaces only *between* values.
+For example:
 
 ::
 
@@ -81,7 +82,19 @@ prints the following:
 
 ::
 
-     1 2 3
+     [1 2 3]
+
+Matrices print like a vector of vectors. For example:
+
+::
+
+     [[1, 2, 3], [4, 5, 6], [7, 8, 9]] -> out;
+
+prints the following:
+
+::
+
+     [[1 2 3] [4 5 6] [7 8 9]]
 
 No other type may be sent to a stream. For instance functions,
 procedures, and tuples cannot be sent to streams.
@@ -149,7 +162,9 @@ section. It may also be proceeded by a single negative or positive sign.
 
 A ``boolean`` input from stdin is either ``T`` or ``F``.
 
-Whitespace will separate values in stdin.
+Whitespace will separate values in stdin, but take note that a
+whitespace character *can* also be read from stdin and assigned to a
+character variable.
 
 When reading a value, if any other input were to be in the stream during
 the read then an is set. For example, the following program:
@@ -183,7 +198,7 @@ is implicitly defined in every file:
      procedure stream_state(var input_stream) returns integer;
 
 This function can only be called with an input stream as a parameter.
-When called, ``stream\_state`` will return an integer valued error code
+When called, ``stream_state`` will return an integer valued error code
 defined as follows:
 
 -  ``0``: Last read from the stream was successful.
@@ -203,7 +218,7 @@ This table summarizes an input stream’s possible error states after a
 read of a particular data type.
 
 ========= ============= ========= =================
-Type      Situation     Return    ``stream\_state``
+Type      Situation     Return    ``stream_state``
 ========= ============= ========= =================
 Boolean   error         ``false`` 1
 \         end of stream ``false`` 2

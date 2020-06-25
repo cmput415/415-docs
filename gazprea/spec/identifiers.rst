@@ -30,4 +30,3 @@ a number, contain invalid characters, or are a keyword:
    	we.don't.like.punctuation
 
 *Gazprea* imposes no restrictions on the length of identifiers.
-

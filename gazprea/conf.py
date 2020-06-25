@@ -48,9 +48,11 @@ exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 html_theme = 'sphinx_rtd_theme'
 
 html_theme_options = {
-    'collapse_navigation': False,
     'logo_only': False,
     'style_nav_header_background': '#007C41',
+    # Toc options
+    'collapse_navigation': False,
+    'sticky_navigation': False,
 }
 
 html_logo = '_static/logo-reverse.png'

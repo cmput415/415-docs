@@ -29,12 +29,9 @@ comment is the **first** occurrence of the sequence of characters
 | **Assertion:** Block comments will be closed.
   (`closed-comments <#closed-comments>`__)
 
-.. TODO: fix links
-
 Block comments cannot be nested because the comment finishes when it
 reaches the first closing sequence. For example, this is invalid:
 
 ::
 
      /* A comment /* A nested comment */ */
-
