@@ -22,15 +22,15 @@ Streams cannot be \code{const} because the only operator defined on them mutates
 internal state. This means that a variable initialised with a stream can be assigned a new stream of
 the same type. This would create a new stream with a clean state. For example:
 \begin{lstlisting}
-  var in = std_input();
-  in = std_input();
+  var inp = std_input();
+  inp = std_input();
 \end{lstlisting}
 
 Assigning a stream of a different type is a \textbf{type error}. For example, this should result in
 an error.
 \begin{lstlisting}
-  var in = std_input();
-  in = std_output();
+  var inp = std_input();
+  inp = std_output();
 \end{lstlisting}
 
 \subsection{Output Stream}
