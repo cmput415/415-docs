@@ -21,7 +21,8 @@ Values of the following base types are treated as follows when sent to an output
     \code{boolean}: Print T for true, and F for false.
 \end{itemize}
 
-Vectors print their contents according to the rules above, with spaces only \textit{between} values.
+Vectors print their contents according to the rules above, with square braces surrounding its elements
+and with spaces only \textit{between} values.
 For example:
 \begin{lstlisting}
   integer vector v = 1..3;
@@ -30,7 +31,18 @@ For example:
 
 prints the following:
 \begin{lstlisting}
-  1 2 3
+  [1 2 3]
+\end{lstlisting}
+
+Matrices print like a vector of vectors.
+For example:
+\begin{lstlisting}
+  [[1, 2, 3], [4, 5, 6], [7, 8, 9]] -> out;
+\end{lstlisting}
+
+prints the following:
+\begin{lstlisting}
+  [[1 2 3] [4 5 6] [7 8 9]]
 \end{lstlisting}
 
 No other type may be sent to a stream. For instance functions, procedures, and tuples cannot be sent
