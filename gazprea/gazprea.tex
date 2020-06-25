@@ -127,7 +127,7 @@ Laboratory in Markham, ON.
 
   because the declaration of the real version of \texttt{i} does not occur at the start of the block.
 
-  The following declaration placement is lagal:
+  The following declaration placement is legal:
 
   \begin{lstlisting}
     integer i = 10;
@@ -355,10 +355,10 @@ Laboratory in Markham, ON.
 
     \begin{lstlisting}
       /* x == ([3], [2], [2, 4], [1, 5]) */
-      var x = [i in 1..5 & i == 3 or i == 2  or i \% 2 == 0];
+      var x = [i in 1..5 & i == 3 or i == 2 or i % 2 == 0];
 
       /* y == ([1, 3, 5], [2, 4]) */
-      var y = [i in 1..5 & i \% 2 == 1);
+      var y = [i in 1..5 & i % 2 == 1);
     \end{lstlisting}
 
     There must be at least one predicate expression
@@ -561,8 +561,8 @@ Laboratory in Markham, ON.
     new scope that new variables may be declared in. For instance this is perfectly valid:
 
     \begin{lstlisting}
-      int x = 3;
-      int y = 0;
+      integer x = 3;
+      integer y = 0;
       real z = 0;
 
       {
