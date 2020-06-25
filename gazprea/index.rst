@@ -13,7 +13,8 @@ Hardware Acceleration Laboratory in Markham, ON.
 
 .. toctree::
    :maxdepth: 2
-   :caption: Language Specification:
+   :caption: Language Specification
+   :numbered:
 
    spec/keywords
    spec/identifiers
