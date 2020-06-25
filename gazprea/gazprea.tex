@@ -1025,7 +1025,9 @@ Laboratory in Markham, ON.
   \subsection{Syntax}
 
     Procedures are almost exactly the same as functions, however the returns clause is optional. Since procedures
-    can cause side effects, it makes sense to have procedures without a return value. For instance:
+    can cause side effects, it makes sense to have procedures without a return value. If a returns clause
+    is present, then a return statement must be reached by all possible control flows in the procedure before the
+    end of the procedure is encountered. For instance:
 
     \begin{lstlisting}
       procedure change_first(var integer vector v) {
@@ -1035,16 +1037,25 @@ Laboratory in Markham, ON.
       procedure increment(var integer x) {
         x = x + 1;
       }
+
+      procedure fibonacci(var integer a, var integer b) returns integer {
+        integer c = a + b;
+        a = b;
+        b = c;
+        return c;
+      }
     \end{lstlisting}
 
     These procedures can be called as follows:
 
     \begin{lstlisting}
-      integer x = 13;
+      integer x = 12;
+      integer y = 21;
       integer vector v[5] = 13;
 
       call change_first(v); /* v == [7, 13, 13, 13, 13] */
-      call increment(x); /* x == 14 */
+      call increment(x); /* x == 13 */
+      call fibonacci(x,y); /* x == 21 and y == 34 */
     \end{lstlisting}
 
     It is only possible to call procedures in this way. Functions must appear in expressions because they can not
