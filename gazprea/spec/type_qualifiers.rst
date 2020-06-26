@@ -26,7 +26,7 @@ Because a ``const`` value is not an l-value, it cannot be passed to a
 ``var`` argument in a ``procedure``.
 
 **Assertion:** Procedure ``var`` arguments will not be passed ``const``
-values. (`const-arg <#const-arg>`__)
+values. (:ref:`const-arg <assert:const-arg>`)
 
 .. _ssec:typeQualifiers_var:
 
@@ -43,7 +43,7 @@ For example:
 Note that var is the default *Gazprea* behaviour and is essentially a
 no-op unless it is entirely replacing the type.
 
-.. _ssec:typeQualifiers_inf:
+.. _ssec:typeQualifiers_infer:
 
 Type Inference Using Qualifiers
 -------------------------------
@@ -62,7 +62,7 @@ type must be inferred. A variable declared in this manner must be
      const v = ['a', 'b', 'c', 'd']; // character vector[4]
 
 **Assertion:** Declarations using only qualifiers will be immediately
-initialised. (`qualifier-init <#qualifier-init>`__)
+initialised. (:ref:`qualifier-init <assert:qualifier-init>`)
 
-See for a larger description of type inference, this section only
+See :ref:`sec:typeInference` for a larger description of type inference, this section only
 provides the syntax for inference using ``const`` and ``var``.

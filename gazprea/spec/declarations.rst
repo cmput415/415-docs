@@ -10,7 +10,7 @@ been declared.
 
 A variable may be declared in a couple different ways, and may have
 various type specifiers, such as ``const``, applied to them. Aside from
-a few special cases with ``vectors, matrices,`` and ``tuples``
+a few special cases with ``vectors``, ``matrices``, and ``tuples``
 declarations have the following formats:
 
 ::

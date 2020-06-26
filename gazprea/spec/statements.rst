@@ -3,9 +3,9 @@
 Statements
 ==========
 
-.. _sec:assignment:
+.. _ssec:statements_assign:
 
-assignment Statements
+Assignment Statements
 ---------------------
 
 In *Gazprea* a variable may have different values throughout the
@@ -140,7 +140,7 @@ may change variables, for instance:
          v[x] = p(x);
          /* If p changes x then it is important that p(x) is executed before v[x] */
 
-.. _sec:block:
+.. _ssec:statements_block:
 
 Block Statements
 ----------------
@@ -176,7 +176,7 @@ may be declared in. For instance this is perfectly valid:
 
 After execution this ``y = 3`` and ``z = 7.1``.
 
-.. _sec:conditional:
+.. _ssec:statements_cond:
 
 If/Else Statements
 ------------------
@@ -266,12 +266,12 @@ Now if ``x`` does not have a value of 3, ``y`` is assigned a value of
          /* y is negative if x is negative, positive if x is positive,
            and 0 if x is 0. */
 
-.. _sec:loop:
+.. _ssec:statements_loop:
 
 Loop
 ----
 
-.. _sec:infLoop:
+.. _sssec:statements_inf_Loop:
 
 Infinite Loop
 ~~~~~~~~~~~~~
@@ -296,7 +296,7 @@ statements.
              n = n + 1;
            }
 
-.. _sec:predicatedLoop:
+.. _sssec:statements_pred_loop:
 
 Predicated Loop
 ~~~~~~~~~~~~~~~
@@ -334,7 +334,7 @@ semicolon.
            /* Since the conditional is tested after the execution '10' is printed */
            loop x -> out; while x == 0;
 
-.. _sec:iteratorLoop:
+.. _sssec:statements_iter_loop:
 
 Iterator Loop
 ~~~~~~~~~~~~~
@@ -401,7 +401,7 @@ Multiple domain expressions may be used by separating them with commas.
 
 This can be done with as many domain expressions as desired.
 
-.. _sec:break:
+.. _ssec:statements_break:
 
 Break
 -----
@@ -434,7 +434,7 @@ actually contains the break.
 If a break statement is not contained within a loop an error must be
 raised.
 
-.. _sec:continue:
+.. _ssec:statements_continue:
 
 Continue
 --------
@@ -459,7 +459,7 @@ normally.
            x -> out; "\n" -> out;
          }
 
-.. _sec:return:
+.. _ssec:statements_return:
 
 Return
 ------
@@ -483,6 +483,8 @@ will be the result of the function / procedure call. Here is an example:
          procedure do_nothing() {
            return;
          }
+
+.. _ssec:statements_streams:
 
 Stream Statements
 -----------------

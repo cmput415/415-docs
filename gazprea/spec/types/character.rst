@@ -18,14 +18,14 @@ A ``character`` value is declared with the keyword ``character``.
 Null
 ~~~~
 
-null is ASCII ``NUL`` (``'\\0'``, ``0x00``) for ``character``.
+``null`` is ASCII ``NUL`` (``'\0'``, ``0x00``) for ``character``.
 
 .. _sssec:character_ident:
 
 Identity
 ~~~~~~~~
 
-identity is ASCII ``SOH`` (``0x01``) for characters. This choice allows
+``identity`` is ASCII ``SOH`` (``0x01``) for characters. This choice allows
 the casting of a ``character`` to an ``integer`` to yield the
 ``integer`` ``identity``.
 

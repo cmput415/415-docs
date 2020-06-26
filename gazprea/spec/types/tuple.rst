@@ -22,7 +22,7 @@ contain *at least two types*. Tuples are *mutable*. For example:
      tuple(character, real, string[256], real) t2;
 
 **Assertion:** A ``tuple`` will have at least two internal types.
-(`tuple-min-fields <#tuple-min-fields>`__)
+(:ref:`tuple-min-fields <assert:tuple-min-fields>`)
 
 The fields of a ``tuple`` may also be named. For example:
 
@@ -36,12 +36,12 @@ named ``character`` field named ``mode`` and another named ``string``
 field named ``id``.
 
 The number of fields in a ``tuple`` must be known at compile. The only
-exception is when a . In this case, the variable must be initialised
+exception is when a :ref:`variable is declared without a type using var or const <ssec:typeQualifiers_infer>`. In this case, the variable must be initialised
 immediately with a literal whose type is known at compile time.
 
 **Assertion:** The exact size of the internal types of a ``tuple`` will
 be inferrable at compile time.
-(`exact-tuple-types <#exact-tuple-types>`__)
+(:ref:`exact-tuple-types <assert:exact-tuple-types>`)
 
 .. _sssec:tuple_acc:
 
@@ -62,7 +62,7 @@ and then either a literal ``integer`` or a field name. Field indices
      t4.mode
 
 **Assertion:** Dot notation cannot be applied to ``tuple`` literals.
-(`tuple-literal-dot <#tuple-literal-dot>`__)
+(:ref:`tuple-literal-dot <assert:tuple-literal-dot>`)
 
 .. _sssec:tuple_null:
 
@@ -102,17 +102,20 @@ Operations
 
 The following operations are defined on ``tuple`` values. In all of the
 usage examples ``tuple-expr`` means some ``tuple`` yielding expression,
-while ``int_lit`` is an ``integer`` literal as defined in and ``id`` is
-an identifier as defined in .
+while ``int_lit`` is an ``integer`` literal as defined in :ref:`Integer Literals <sssec:integer_lit>` and ``id`` is
+an identifier as defined in :ref:`sec:identifiers`.
 
-========== ============= ========== ============================ =================
-**Class**  **Operation** **Symbol** **Usage**                    **Associativity**
-========== ============= ========== ============================ =================
-Access     dot           ``.``      ``tuple-expr.int_lit``       left
-\                                   ``tuple-expr.id``            \
-Comparison equals        ``==``     ``tuple-expr == tuple-expr`` left
-\          not equals    ``!=``     ``tuple-expr != tuple-expr`` left
-========== ============= ========== ============================ =================
++------------+---------------+------------+------------------------------+-------------------+
+| **Class**  | **Operation** | **Symbol** | **Usage**                    | **Associativity** |
++------------+---------------+------------+------------------------------+-------------------+
+| Access     | dot           | ``.``      | ``tuple-expr.int_lit``       | left              |
++            +               +            +                              +                   +
+|            |               |            | ``tuple-expr.id``            |                   |
++------------+---------------+------------+------------------------------+-------------------+
+| Comparison | equals        | ``==``     | ``tuple-expr == tuple-expr`` | left              |
++            +---------------+------------+------------------------------+-------------------+
+|            | not equals    | ``!=``     | ``tuple-expr != tuple-expr`` | left              |
++------------+---------------+------------+------------------------------+-------------------+
 
 Note that in the above table ``tuple-expr`` may refer to only a variable
 for access. Accessing a literal could be replaced immediately with the

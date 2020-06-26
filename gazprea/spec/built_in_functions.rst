@@ -14,7 +14,7 @@ function. If a declaration or a definition with the same name as a
 built-in function is encountered in a *Gazprea* program, then the
 compiler should issue an error message.
 
-.. _sec:length:
+.. _ssec:builtIn_length:
 
 Length
 ------
@@ -28,7 +28,7 @@ representing the length of the vector.
 
          length(v) -> out; /* Prints 5 */
 
-.. _sec:rowsColumns:
+.. _ssec:builtIn_rows_cols:
 
 Rows and Columns
 ----------------
@@ -44,7 +44,7 @@ dimension and type. ``rows`` returns the number of rows in a matrix, and
          rows(M) -> out; /* Prints 2 */
          columns(M) -> out; /* Prints 3 */
 
-.. _sec:reverse:
+.. _ssec:builtIn_reverse:
 
 Reverse
 -------
@@ -60,7 +60,7 @@ the vector.
          v -> out; /* Prints 12345 */
          w -> out; /* Prints 54321 */
 
-.. _sec:streamState:
+.. _ssec:builtIn_stream_state:
 
 Stream State
 ------------

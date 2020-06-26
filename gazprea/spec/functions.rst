@@ -22,6 +22,8 @@ It makes code easier to understand if functions only depend upon their
 inputs and not some hidden state, and it also allows the compiler to
 make more assumptions and as a result perform more optimizations.
 
+.. _ssec:function_syntax:
+
 Syntax
 ------
 
@@ -127,6 +129,8 @@ function without a return statement, so we don’t know what value
 
 Each function has its own scope, but globals can be accessed within the
 function if they were declared before the function was defined.
+
+.. _ssec:function_fwd_declr:
 
 Forward Declaration
 -------------------

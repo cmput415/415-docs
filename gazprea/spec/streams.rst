@@ -134,16 +134,16 @@ assignment statement. Consider reading the discussion of an l-value
 Input streams may only work on the following base types:
 
 -  ``character``: Reads a single character from stdin. Note that there
-   can be no for reading characters.
+   can be no :ref:`error state <sssec:stream_error>` for reading characters.
 
 -  ``integer``: Reads an integer from stdin. If an integer could not be
-   read, an is set on this stream.
+   read, an :ref:`error state <sssec:stream_error>` is set on this stream.
 
--  ``real``: Reads a real from stdin. If a real could not be read, an is
+-  ``real``: Reads a real from stdin. If a real could not be read, an :ref:`error state <sssec:stream_error>` is
    set on this stream.
 
 -  ``boolean``: Reads a boolean from stdin. If a boolean value could not
-   be read, an is set on this stream.
+   be read, an :ref:`error state <sssec:stream_error>` is set on this stream.
 
 .. _sssec:input_format:
 
@@ -154,10 +154,10 @@ A ``character`` from stdin is the first byte that can be read from the
 stream. If the end of the stream is encountered, then ``-1`` is
 returned.
 
-An ``integer`` from stdin can take any legal format described in the
+An ``integer`` from stdin can take any legal format described in the :ref:`integer literal <sssec:integer_lit>`
 section. It may also be proceeded by a single negative or positive sign.
 
-A ``real`` input from stdin can take any legal format described in the
+A ``real`` input from stdin can take any legal format described in the :ref:`real literal <sssec:real_lit>`
 section. It may also be proceeded by a single negative or positive sign.
 
 A ``boolean`` input from stdin is either ``T`` or ``F``.
@@ -181,14 +181,14 @@ With the standard input stream containing this:
 
    Ta
 
-An would be set on the stream.
+An :ref:`error state <sssec:stream_error>` would be set on the stream.
 
 .. _sssec:stream_error:
 
 Error Handling
 ~~~~~~~~~~~~~~
 
-When ``boolean``\ s, ``integer``\ s, and ``real``\ s from stdin, it is
+When reading ``boolean``\ s, ``integer``\ s, and ``real``\ s from stdin, it is
 possible that the end of the stream or an error is encountered. In order
 to handle these situations *Gazprea* provides a built in procedure that
 is implicitly defined in every file:

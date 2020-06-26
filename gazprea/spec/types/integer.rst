@@ -71,25 +71,39 @@ The following operations are defined between ``integer`` values. In all
 of the usage examples ``int-expr`` means some ``integer`` yielding
 expression.
 
-========== ======================== ========== ======================== =================
-**Class**  **Operation**            **Symbol** **Usage**                **Associativity**
-========== ======================== ========== ======================== =================
-Grouping   parentheses              ``()``     ``(int-expr)``           N/A
-Arithmetic addition                 ``+``      ``int-expr + int-expr``  left
-\          subtraction              ``-``      ``int-expr - int-expr``  left
-\          multiplication           ``*``      ``int-expr * int-expr``  left
-\          division                 ``/``      ``int-expr / int-expr``  left
-\          remainder                ``%``      ``int-expr % int-expr``  left
-\          exponentiation           ``^``      ``int-expr ^ int-expr``  right
-\          unary negation           ``-``      ``- int-expr``           right
-\          unary plus (no-op)       ``+``      ``+ int-expr``           right
-Comparison less than                ``<``      ``int-expr < int-expr``  left
-\          greater than             ``>``      ``int-expr > int-expr``  left
-\          less than or equal to    ``<=``     ``int-expr <= int-expr`` left
-\          greater than or equal to ``>=``     ``int-expr >= int-expr`` left
-\          equals                   ``==``     ``int-expr == int-expr`` left
-\          not equals               ``!=``     ``int-expr != int-expr`` left
-========== ======================== ========== ======================== =================
++------------+--------------------------+------------+--------------------------+-------------------+
+| **Class**  | **Operation**            | **Symbol** | **Usage**                | **Associativity** |
++============+==========================+============+==========================+===================+
+| Grouping   | parentheses              | ``()``     | ``(int-expr)``           | N/A               |
++------------+--------------------------+------------+--------------------------+-------------------+
+| Arithmetic | addition                 | ``+``      | ``int-expr + int-expr``  | left              |
++            +--------------------------+------------+--------------------------+-------------------+
+|            | subtraction              | ``-``      | ``int-expr - int-expr``  | left              |
++            +--------------------------+------------+--------------------------+-------------------+
+|            | multiplication           | ``*``      | ``int-expr * int-expr``  | left              |
++            +--------------------------+------------+--------------------------+-------------------+
+|            | division                 | ``/``      | ``int-expr / int-expr``  | left              |
++            +--------------------------+------------+--------------------------+-------------------+
+|            | remainder                | ``%``      | ``int-expr % int-expr``  | left              |
++            +--------------------------+------------+--------------------------+-------------------+
+|            | exponentiation           | ``^``      | ``int-expr ^ int-expr``  | right             |
++            +--------------------------+------------+--------------------------+-------------------+
+|            | unary negation           | ``-``      | ``- int-expr``           | right             |
++            +--------------------------+------------+--------------------------+-------------------+
+|            | unary plus (no-op)       | ``+``      | ``+ int-expr``           | right             |
++------------+--------------------------+------------+--------------------------+-------------------+
+| Comparison | less than                | ``<``      | ``int-expr < int-expr``  | left              |
++            +--------------------------+------------+--------------------------+-------------------+
+|            | greater than             | ``>``      | ``int-expr > int-expr``  | left              |
++            +--------------------------+------------+--------------------------+-------------------+
+|            | less than or equal to    | ``<=``     | ``int-expr <= int-expr`` | left              |
++            +--------------------------+------------+--------------------------+-------------------+
+|            | greater than or equal to | ``>=``     | ``int-expr >= int-expr`` | left              |
++            +--------------------------+------------+--------------------------+-------------------+
+|            | equals                   | ``==``     | ``int-expr == int-expr`` | left              |
++            +--------------------------+------------+--------------------------+-------------------+
+|            | not equals               | ``!=``     | ``int-expr != int-expr`` | left              |
++------------+--------------------------+------------+--------------------------+-------------------+
 
 Unary negation produces the additive inverse of the ``integer``
 expression. Unary plus always produces the same result as the
@@ -101,21 +115,34 @@ lines between them have the same level of precedence. Note that
 parentheses are not included in this list because they are used to
 override precedence and create new atoms in an expression.
 
-============== ==============
-**Precedence** **Operations**
-============== ==============
-HIGHER         ``unary +``
-\              ``unary -``
-\              ``^``
-\              ``*``
-\              ``/``
-\              ``%``
-\              ``+``
-\              ``-``
-\              ``<``
-\              ``>``
-\              ``<=``
-\              ``>=``
-\              ``==``
-LOWER          ``!=``
-============== ==============
++----------------+----------------+
+| **Precedence** | **Operations** |
++================+================+
+| HIGHER         | ``unary +``    |
++                +                +
+|                | ``unary -``    |
++----------------+----------------+
+|                | ``^``          |
++----------------+----------------+
+|                | ``*``          |
++                +                +
+|                | ``/``          |
++                +                +
+|                | ``%``          |
++----------------+----------------+
+|                | ``+``          |
++                +                +
+|                | ``-``          |
++----------------+----------------+
+|                | ``<``          |
++                +                +
+|                | ``>``          |
++                +                +
+|                | ``<=``         |
++                +                +
+|                | ``>=``         |
++----------------+----------------+
+|                | ``==``         |
++                +                +
+| LOWER          | ``!=``         |
++----------------+----------------+

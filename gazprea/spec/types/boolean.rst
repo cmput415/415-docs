@@ -47,16 +47,16 @@ The following operations are defined between ``boolean`` values. In all
 of the usage examples ``bool-expr`` means some ``boolean`` yielding
 expression.
 
-=========== ========== =========================== =================
-\           **Symbol**                             **Associativity**
-=========== ========== =========================== =================
-negation    ``not``    ``not bool-expr``           right
-logical or  ``or``     ``bool-expr or bool-expr``  left
-logical xor ``xor``    ``bool-expr xor bool-expr`` left
-logical and ``and``    ``bool-expr and bool-expr`` left
-equals      ``==``     ``bool-expr == bool-expr``  left
-not equals  ``!=``     ``bool-expr != bool-expr``  left
-=========== ========== =========================== =================
+============= ========== =========================== =================
+**Operation** **Symbol** **Usage**                   **Associativity**
+============= ========== =========================== =================
+negation      ``not``    ``not bool-expr``           right
+logical or    ``or``     ``bool-expr or bool-expr``  left
+logical xor   ``xor``    ``bool-expr xor bool-expr`` left
+logical and   ``and``    ``bool-expr and bool-expr`` left
+equals        ``==``     ``bool-expr == bool-expr``  left
+not equals    ``!=``     ``bool-expr != bool-expr``  left
+============= ========== =========================== =================
 
 Unlike many languages the ``and`` and ``or`` operators do not `short
 circuit

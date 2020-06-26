@@ -11,7 +11,7 @@ messages should be printed to the standard error stream.
 In Operations
 -------------
 
-These are type errors that occur in an expression when you cannot the
+These are type errors that occur in an expression when you cannot :ref:`implicitly convert <sec:typePromotion>` the
 type of one operand to the type of the other. Errors should be printed
 with the following form:
 
@@ -44,8 +44,8 @@ Should raise the following error:
 Scalar to Vector/Matrix
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-[sssec:error_ops_stov] [sssec:error_ops_stom] In a scalar to ``vector``
-or ``matrix`` conversion, the scalar’s type must be to the element type
+In a scalar to ``vector`` or ``matrix`` conversion, the scalar’s type 
+must be :ref:`implicitly convertable <sec:typePromotion>` to the element type
 of the ``vector`` or ``matrix``. Note that this comparison can be
 performed even if the size of the ``vector`` or ``matrix`` is unknown.
 When printing the type of the ``vector`` or ``matrix``, include the
@@ -75,10 +75,11 @@ Vector to Vector
 ~~~~~~~~~~~~~~~~
 
 In a ``vector`` to ``vector`` conversion, one of the element types must
-be to the other element type and the sizes of the each ``vector`` must
-match. The element type will always be known at compile time but if one
-or both of the sizes is not known, then **NO STATIC TYPE CHECKING WILL
-BE PERFORMED**. For example, with differences in sizes:
+be :ref:`implicitly convertable <sec:typePromotion>` to the other element
+type and the sizes of the each ``vector`` must match. The element type 
+will always be known at compile time but if one or both of the sizes is not
+known, then **NO STATIC TYPE CHECKING WILL BE PERFORMED**. 
+For example, with differences in sizes:
 
 ::
 
@@ -132,7 +133,8 @@ Matrix to Matrix
 ~~~~~~~~~~~~~~~~
 
 In a ``matrix`` to ``matrix`` conversion, one of the element types must
-be to the other element type and the sizes of the each ``matrix`` must
+be :ref:`implicitly convertable <sec:typePromotion>` to the other
+element type and the sizes of the each ``matrix`` must
 match. The element type will always be known at compile time but if one
 or both of the sizes is not known, then **NO STATIC TYPE CHECKING WILL
 BE PERFORMED**. For example, with differences in sizes:

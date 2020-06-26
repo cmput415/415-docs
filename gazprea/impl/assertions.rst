@@ -15,8 +15,10 @@ specification particulars.
 
 #. 
 
+   .. _assert:opened-comments:
+
    .. container::
-      :name: opened-comments
+      :name: opened_comments
 
       **opened-comments**:
 
@@ -32,6 +34,8 @@ specification particulars.
             integer j = i + 1;
 
 #. 
+
+   .. _assert:closed-comments:
 
    .. container::
       :name: closed-comments
@@ -51,6 +55,8 @@ specification particulars.
 
 #. 
 
+   .. _assert:assign-streams:
+
    .. container::
       :name: assign-streams
 
@@ -69,6 +75,8 @@ specification particulars.
 
 #. 
 
+   .. _assert:const-arg:
+
    .. container::
       :name: const-arg
 
@@ -76,7 +84,7 @@ specification particulars.
 
    Procedure ``var`` arguments will not be passed ``const`` values. A
    ``var`` argument implies the value is mutable in the calling context,
-   which a ``const`` value is not. See for more information. For
+   which a ``const`` value is not. See :ref:`sec:procedure` for more information. For
    example, the following tests would be considered invalid:
 
    ::
@@ -92,6 +100,8 @@ specification particulars.
             }
 
 #. 
+
+   .. _assert:qualifier-init:
 
    .. container::
       :name: qualifier-init
@@ -110,6 +120,8 @@ specification particulars.
 
 #. 
 
+   .. _assert:safe-reals:
+
    .. container::
       :name: safe-reals
 
@@ -121,6 +133,8 @@ specification particulars.
    exceptions.
 
 #. 
+
+   .. _assert:tuple-min-fields:
 
    .. container::
       :name: tuple-min-fields
@@ -140,6 +154,8 @@ specification particulars.
 
 #. 
 
+   .. _assert:exact-tuple-types:
+
    .. container::
       :name: exact-tuple-types
 
@@ -156,6 +172,8 @@ specification particulars.
 
 #. 
 
+   .. _assert:tuple-literal-dot:
+
    .. container::
       :name: tuple-literal-dot
 
@@ -163,7 +181,7 @@ specification particulars.
 
    Dot notation cannot be applied to ``tuple`` literals. A ``tuple``
    literal, to be well formed, must have all of its value’s types known
-   at compile time (`exact-tuple-types <#exact-tuple-types>`__) which is
+   at compile time (:ref:`exact-tuple-types <assert:exact-tuple-types>`) which is
    only possible if all of the values are known at compile time. If the
    value to be indexed to is known at compile time then there is no need
    to create the ``tuple``, index the single field, and finally discard
@@ -176,12 +194,14 @@ specification particulars.
 
 #. 
 
+   .. _assert:limited-promotion:
+
    .. container::
       :name: limited-promotion
 
       **limited-promotion**:
 
-   Implicit type conversions not found in will not be performed. This is
+   Implicit type conversions not found in :ref:`sec:typePromotion` will not be performed. This is
    a manifestation of the inability to standardise exception handling.
    For example, the following tests would be considered invalid:
 

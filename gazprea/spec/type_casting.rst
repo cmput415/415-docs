@@ -26,10 +26,10 @@ necessary, and anything else describes how to convert the value to the
 new type:
 
 +----------+-----------+--------------------------------+--------------------------------+--------------------------+----------------------------+
-|                      |                                              **To type**                                                                |
-+                      +--------------------------------+--------------------------------+--------------------------+----------------------------+
-|                      | boolean                        | character                      | integer                  | real                       |
+|          |                                                          **To type**                                                                |
 +----------+-----------+--------------------------------+--------------------------------+--------------------------+----------------------------+
+|          |           | boolean                        | character                      | integer                  | real                       |
++          +-----------+--------------------------------+--------------------------------+--------------------------+----------------------------+
 |          | boolean   | id                             | ‘\\0’ if false, 0x01 otherwise | 1 if true, 0 otherwise   | 1.0 if true, 0.0 otherwise |
 +          +-----------+--------------------------------+--------------------------------+--------------------------+----------------------------+
 | **From** | character | false if ‘\\0’, true otherwise | id                             | *ASCII* value as integer | *ASCII* value as real      |
@@ -39,14 +39,13 @@ new type:
 |          | real      | N/A                            | N/A                            | truncate                 |  id                        |
 +----------+-----------+--------------------------------+--------------------------------+--------------------------+----------------------------+
 
-.. _ssec:typecasting_stovm:
+.. _ssec:typeCasting_stovm:
 
 Scalar to Vector/Matrix
 -----------------------
 
-[ssec:typecasting_stov] [ssec:typecasting_stom] A scalar may be promoted
-to either a ``vector`` or ``matrix`` with an element type that the
-original scalar can be cast to according to the rules in . A scalar to
+A scalar may be promoted to either a ``vector`` or ``matrix`` with an element type that the
+original scalar can be cast to according to the rules in :ref:`ssec:typeCasting_stos`. A scalar to
 vector cast *must* include a size with the type to cast to as this
 cannot be inferred from the scalar value. For example:
 
@@ -64,7 +63,7 @@ Interval to Vector
 ------------------
 
 An ``integer`` ``interval`` may be explicitly cast to an ``integer`` or
-``real`` ``vector`` as in the , but the explicit cast can cause the
+``real`` ``vector`` as in the :ref:`type promotion rules <ssec:typePromotion_ivltov>`, but the explicit cast can cause the
 interval to be truncated or ``null`` padded.
 
 .. _ssec:typeCasting_vtov:
@@ -74,7 +73,7 @@ Vector to Vector
 
 Conversions between ``vector`` types are also possible. First, the
 values of the original are casted to the destination type’s element type
-according to the rules in and then the destination is padded with
+according to the rules in :ref:`ssec:typeCasting_stos` and then the destination is padded with
 destination element type’s ``null`` or truncated to match the
 destination type size. Note that the size is not required for vector to
 vector casting; if the size is not included in the cast type, the new
@@ -99,7 +98,7 @@ Matrix to Matrix
 ----------------
 
 Conversions between ``matrix`` types are also possible. The process is
-exactly like except padding and truncation can occur in both dimensions.
+exactly like :ref:`ssec:typeCasting_vtov` except padding and truncation can occur in both dimensions.
 For example:
 
 ::
@@ -123,7 +122,7 @@ Tuple to Tuple
 
 Conversions between ``tuple`` types are also possible. The original type
 and the destination type must have an equal number of internal types and
-each element must be pairwise castable according to the rules in . For
+each element must be pairwise castable according to the rules in :ref:`ssec:typeCasting_stos`. For
 example:
 
 ::

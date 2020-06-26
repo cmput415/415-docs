@@ -7,7 +7,7 @@ Type promotion is a sub-problem to and refers to casts that happen
 implicitly without extra syntax such as using ``as``.
 
 **Assertion:** Implicit type conversions not found in will not be
-performed. (`limited-promotion <#limited-promotion>`__)
+performed. (:ref:`limited-promotion <assert:limited-promotion>`)
 
 .. _ssec:typePromotion_scalar:
 
@@ -43,7 +43,7 @@ Scalar to Vector or Matrix
 --------------------------
 
 All scalar types can be promoted to ``vector`` or ``matrix`` types that
-have an internal type that the scalar can be . This can occur when a
+have an internal type that the scalar can be :ref:`converted to implicity <ssec:typePromotion_scalar>`. This can occur when a
 ``vector`` or ``matrix`` is used in an operation with a scalar value.
 
 The scalar will be implicitly converted to a ``vector`` or ``matrix`` of
@@ -70,7 +70,7 @@ Interval to Vector
 ------------------
 
 An ``interval`` can be implicitly converted to an identically-sized
-``vector`` of any type that ``integer`` can be . For example:
+``vector`` of any type that ``integer`` can be :ref:`converted to implicity <ssec:typePromotion_scalar>`. For example:
 
 ::
 

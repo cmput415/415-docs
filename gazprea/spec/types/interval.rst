@@ -64,19 +64,27 @@ In the following table ``ivl-expr`` means any expression that yields an
 ``interval`` value and ``int-expr`` means any ``integer`` yielding
 expression.
 
-========== ================== ========== ======================== =================
-**Class**  **Operation**      **Symbol** **Usage**                **Associativity**
-========== ================== ========== ======================== =================
-Arithmetic addition           ``+``      ``ivl-expr + ivl-expr``  left
-\          subtraction        ``-``      ``ivl-expr - ivl-expr``  left
-\          multiplication     ``*``      ``ivl-expr * ivl-expr``  left
-\          division           ``/``      ``ivl-expr / ivl-expr``  left
-\          unary negation     ``-``      ``- ivl-expr``           right
-\          unary plus (no-op) ``+``      ``+ ivl-expr``           right
-Comparison equals             ``==``     ``ivl-expr == ivl-expr`` left
-\          not equals         ``!=``     ``ivl-expr != ivl-expr`` left
-Vector     vector creation    ``by``     ``ivl-expr by int-expr`` left
-========== ================== ========== ======================== =================
++------------+--------------------+------------+--------------------------+-------------------+
+| **Class**  | **Operation**      | **Symbol** | **Usage**                | **Associativity** |
++============+====================+============+==========================+===================+
+| Arithmetic | addition           | ``+``      | ``ivl-expr + ivl-expr``  | left              |
++            +--------------------+------------+--------------------------+-------------------+
+|            | subtraction        | ``-``      | ``ivl-expr - ivl-expr``  | left              |
++            +--------------------+------------+--------------------------+-------------------+
+|            | multiplication     | ``*``      | ``ivl-expr * ivl-expr``  | left              |
++            +--------------------+------------+--------------------------+-------------------+
+|            | division           | ``/``      | ``ivl-expr / ivl-expr``  | left              |
++            +--------------------+------------+--------------------------+-------------------+
+|            | unary negation     | ``-``      | ``- ivl-expr``           | right             |
++            +--------------------+------------+--------------------------+-------------------+
+|            | unary plus (no-op) | ``+``      | ``+ ivl-expr``           | right             |
++------------+--------------------+------------+--------------------------+-------------------+
+| Comparison | equals             | ``==``     | ``ivl-expr == ivl-expr`` | left              |
++            +--------------------+------------+--------------------------+-------------------+
+|            | not equals         | ``!=``     | ``ivl-expr != ivl-expr`` | left              |
++------------+--------------------+------------+--------------------------+-------------------+
+| Vector     | vector creation    | ``by``     | ``ivl-expr by int-expr`` | left              |
++------------+--------------------+------------+--------------------------+-------------------+
 
 Regarding the semantics of some of the operators:
 
@@ -91,16 +99,21 @@ defined in the above table, with the addition of the ``by`` and ``..``
 operators, in the following table. The ``.`` and ``[]`` operators are
 included for clarification but for the full table see .
 
-============== ==============
-**Precedence** **Operations**
-============== ==============
-HIGHER         ``.``
-\              ``[]``
-\              ``..``
-\              arithmetic ops
-\              ``by``
-LOWER          comparison ops
-============== ==============
++----------------+----------------+
+| **Precedence** | **Operations** |
++----------------+----------------+
+| HIGHER         | ``.``          |
++                +                +
+|                | ``[]``         |
++----------------+----------------+
+|                | ``..``         |
++----------------+----------------+
+|                | arithmetic ops |
++----------------+----------------+
+|                | ``by``         |
++----------------+----------------+
+| LOWER          | comparison ops |
++----------------+----------------+
 
 This means that ``by`` is the lowest priority and so last binding
 operator, therefore each side of the expression will be evaluated before

@@ -166,7 +166,9 @@ Operations
 
 #. Vector Operations and functions
 
-   #. length The number of elements in a vector is given by the built-in
+   a. length 
+      
+      The number of elements in a vector is given by the built-in
       functions ``length``. For instance:
 
       ::
@@ -178,7 +180,7 @@ Operations
       In this case ``numElements`` would be 3, since the vector v
       contains 3 elements.
 
-   #. Concatenation
+   b. Concatenation
 
       Two vectors with the same base type may be concatenated into a
       single vector using the concatenation operator, ``||``. For
@@ -214,7 +216,7 @@ Operations
          								1 || [2, 3, 4] // produces [1, 2, 3, 4]
          							
 
-   #. Dot Product
+   c. Dot Product
 
       Two vectors with the same size and a numeric base type(types with
       the +, and \* operator) may be used in a dot product operation.
@@ -230,7 +232,7 @@ Operations
          								integer dot = v ** u;  /* Perform a dot product */
          							
 
-   #. Indexing
+   d. Indexing
 
       A vector may be indexed in order to retrieve the values stored in
       the vector. A vector may be indexed using integers, integer
@@ -253,7 +255,7 @@ Operations
 
       Out of bounds indexing should cause an error.
 
-   #. by
+   e. by
 
       The by operator is also defined for vectors of any base type. It
       produces a vector with every value with the given offset. For

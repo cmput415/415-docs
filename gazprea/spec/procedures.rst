@@ -27,7 +27,7 @@ them), procedures are very similar to functions. The extra capabilities
 that procedures have makes them harder to reason about, test, and
 optimize.
 
-.. _syntax-1:
+.. _ssec:procedure_syntax:
 
 Syntax
 ------
@@ -99,12 +99,14 @@ functions can be called within other functions, but procedures can not
 be used within functions since procedures may be impure. Procedures may
 only be called within procedures.
 
-.. _forward-declaration-1:
+.. _ssec:procedure_fed_declr:
 
 Forward Declaration
 -------------------
 
 Procedures can use forward declaration just like functions.
+
+.. _ssec:procedure_main:
 
 Main
 ----
@@ -126,6 +128,8 @@ raised.
            /* must have a return */
            return 0;
          }
+
+.. _ssec:procedure_alias:
 
 Aliasing
 --------

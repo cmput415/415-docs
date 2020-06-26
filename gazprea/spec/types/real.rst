@@ -103,7 +103,7 @@ are not constrained, then ``real`` values printed after operations may
 not be identical.
 
 **Assertion:** No floating point operation will create a runtime error.
-(`safe-reals <#safe-reals>`__)
+(:ref:`safe-reals <assert:safe-reals>`)
 
 For more information on why this is necessary, look into the `default
 LLVM IR floating point
