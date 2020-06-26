@@ -28,8 +28,15 @@ author = 'cmput415'
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
-    'sphinx_rtd_theme'
+    'sphinx_rtd_theme',
+    'sphinx.ext.todo'
 ]
+
+# Toggles the display of "Todo" message boxes in the output
+todo_include_todos = True
+
+# Toggle warnings in build log when todos are present
+todo_emit_warnings = True
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
