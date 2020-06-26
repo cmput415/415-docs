@@ -43,13 +43,14 @@ The following are the only two valid ``boolean`` literals:
 Operations
 ~~~~~~~~~~
 
-The following operations are defined between ``boolean`` values. In all
+The following operations are defined on ``boolean`` values. In all
 of the usage examples ``bool-expr`` means some ``boolean`` yielding
 expression.
 
 ============= ========== =========================== =================
 **Operation** **Symbol** **Usage**                   **Associativity**
 ============= ========== =========================== =================
+parenthesis   ``()``     ``(bool-expr)``             N/A
 negation      ``not``    ``not bool-expr``           right
 logical or    ``or``     ``bool-expr or bool-expr``  left
 logical xor   ``xor``    ``bool-expr xor bool-expr`` left
