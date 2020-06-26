@@ -65,7 +65,7 @@ recommended strategy.
 
    * or, xor
 
-   * Variable refferences
+   * Variable references
 
    * Literal Values
 
