@@ -1,6 +1,7 @@
 # Ignore built directories.
 *_html
 *_pdf
+_build/
 
 # Ignore build files.
 *.aux
