@@ -33,3 +33,6 @@ Additionally, here is an example of using a matrix typedef:
 
        typedef integer[2,3] two_by_three_matrix;
        two_by_three_matrix m = [i in 1..2, j in 1..3 | i + j];
+
+Typedefs of vectors and matrices with inferred sizes are allowed,
+but declarations of variables using the typedef must be initialized. 
