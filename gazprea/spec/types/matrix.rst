@@ -14,7 +14,7 @@ the same base types a vector can:
 
 -  ``character``
 
-.. _sssec:matrix_declr:
+.. _sssec:matrix_decl:
 
 Declaration
 ~~~~~~~~~~~

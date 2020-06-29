@@ -3,27 +3,20 @@
 Declarations
 ============
 
-Variables must be declared before they are used. A variable may be
-declared at the begining of any block within a ``function`` or
-``procedure`` but it must not be referenced in the program before it has
-been declared.
-
-A variable may be declared in a couple different ways, and may have
-various type specifiers, such as ``const``, applied to them. Aside from
-a few special cases with ``vectors``, ``matrices``, and ``tuples``
-declarations have the following formats:
+Variables must be declared before they are used. Aside from
+a few :ref:`special cases <ssec:declaration_special>`, declarations have the 
+following formats:
 
 ::
 
-       <specifiers> <type> <identifier> = <expression>;
-       <specifiers> <type> <identifier>;
+       <qualifier> <type> <identifier> = <expression>;
+       <qualifier> <type> <identifier>;
 
-Both declarations are creating a variable with the name given by
-<identifier> of type <type>, and with
-specifiers given by <specifiers>.
+Both declarations are creating a variable with an :ref:`identifier <sec:identifiers>` of
+``<identifier>``, with :ref:`type <sec:types>` ``<type>``, and optionally a :ref:`type qualifier <sec:typeQualifiers>` of ``<qualifier>``.
 
 The first declaration explicitly initializes the value of the new
-variable with the value of <expression>.
+variable with the value of ``<expression>``.
 
 In *Gazprea* all variables must be initialized in a well defined manner
 in order to ensure functional purity. If the variables were not
@@ -33,7 +26,7 @@ equivalent to:
 
 ::
 
-       <specifiers> <type> <identifier> = null;
+       <qualifier> <type> <identifier> = null;
 
 For simplicity *Gazprea* assumes that declarations can only appear at
 the beginning of a block. For instance this would not be legal in
@@ -84,3 +77,17 @@ variable with the same name. For instance:
 
          /* Now 'x' refers to the real version, with a value of 7.0 */
        }
+
+.. _ssec:declaration_special:
+
+Special cases
+-------------
+
+Special cases of declarations are covered in their respective sections.
+
+#. :ref:`Vectors <sssec:vector_decl>`
+#. :ref:`Matrices <sssec:matrix_decl>`
+#. :ref:`Tuples <sssec:tuple_decl>`
+#. :ref:`Globals <sec:global>`
+#. :ref:`Functions <sec:function>`
+#. :ref:`Procedures <sec:procedure>`
