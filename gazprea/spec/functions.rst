@@ -62,7 +62,7 @@ examples of functions with different numbers of arguments:
          function pythag(real a, real b) returns real = (a^2 + b^2)^(1/2);
 
          /* A function with different types of arguments */
-         function get(real vector a, integer i) returns real = a[i];
+         function get(real[*] a, integer i) returns real = a[i];
 
 These can be called as follows:
 

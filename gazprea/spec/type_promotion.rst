@@ -52,8 +52,8 @@ equivalent dimensions and equivalent internal type. For example:
 ::
 
      integer i = 1;
-     integer vector v = [1, 2, 3, 4, 5];
-     integer vector res = v + i;
+     integer[*] v = [1, 2, 3, 4, 5];
+     integer[*] res = v + i;
 
      var out = std_output();
      res -> out;
@@ -75,8 +75,8 @@ An ``interval`` can be implicitly converted to an identically-sized
 ::
 
      integer interval i = 1..5;
-     integer vector iv[5] = i;
-     real vector rv = i;
+     integer[5] iv = i;
+     real[*] rv = i;
 
 .. _ssec:typePromotion_ttot:
 

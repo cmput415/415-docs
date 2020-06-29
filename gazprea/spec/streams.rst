@@ -75,7 +75,7 @@ For example:
 
 ::
 
-     integer vector v = 1..3;
+     integer[*] v = 1..3;
      v -> out;
 
 prints the following:

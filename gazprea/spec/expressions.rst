@@ -58,10 +58,10 @@ the generated values. For example:
 
 ::
 
-         integer vector v[10] = [i in 1..10 | i * i];
+         integer[10] v = [i in 1..10 | i * i];
          /* v[i] == i * i */
 
-         integer matrix M[2, 3] = [i in 1..2, j in 1..3 | i * j];
+         integer[2, 3] M = [i in 1..2, j in 1..3 | i * j];
          /* M[i, j] == i * j */
 
 The expression to the right of the bar "|", is used to generate the
@@ -75,7 +75,7 @@ is perfectly legal:
          integer i = 7;
 
          /* The domain expression should use the previously defined i */
-         integer vector v = [i in [i in 1..i | i] | [i in 1..10 | i * i][i]];
+         integer[*] v = [i in [i in 1..i | i] | [i in 1..10 | i * i][i]];
 
          /* v should contain the first 7 squares. */
 

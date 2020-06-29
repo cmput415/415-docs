@@ -41,7 +41,7 @@ For instance:
 
 ::
 
-         procedure change_first(var integer vector v) {
+         procedure change_first(var integer[*] v) {
            v[1] = 7;
          }
 
@@ -62,7 +62,7 @@ These procedures can be called as follows:
 
          integer x = 12;
          integer y = 21;
-         integer vector v[5] = 13;
+         integer[5] v = 13;
 
          call change_first(v); /* v == [7, 13, 13, 13, 13] */
          call increment(x); /* x == 13 */

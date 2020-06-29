@@ -60,14 +60,14 @@ otherwise. For example:
        integer b;
        a <- in;
        b <- in;
-       integer vector v[3] = as<integer vector[3]>('a' + [i in a..b | i]);
+       integer[3] v = as<integer[3]>('a' + [i in a..b | i]);
      }
 
 Should raise the following error:
 
 ::
 
-     Type error: Cannot convert between character and integer vector[*] on line 7
+     Type error: Cannot convert between character and integer[*] on line 7
 
 .. _sssec:error_ops_vtov:
 
@@ -84,32 +84,32 @@ For example, with differences in sizes:
 ::
 
      procedure main() returns integer {
-       integer vector a[3] = [1, 2, 3];
-       integer vector b[2] = [1, 2];
-       integer vector v[2] = as<integer vector[2]>(a + b);
+       integer[3] a = [1, 2, 3];
+       integer[2] b = [1, 2];
+       integer[2] v = as<integer[2]>(a + b);
      }
 
 Should raise the following error:
 
 ::
 
-     Type error: Cannot convert between integer vector[3] and integer vector[2] on line 4
+     Type error: Cannot convert between integer[3] and integer[2] on line 4
 
 For example, with unconvertable element types:
 
 ::
 
      procedure main() returns integer {
-       character vector a[3] = ['a', 'b', 'c'];
-       integer vector b[3] = [1, 2, 3];
-       integer vector v[3] = a + b;
+       character[3] a = ['a', 'b', 'c'];
+       integer[3] b = [1, 2, 3];
+       integer[3] v = a + b;
      }
 
 Should raise the following error:
 
 ::
 
-     Type error: Cannot convert between character vector[3] and integer vector[3] on line 4
+     Type error: Cannot convert between character[3] and integer[3] on line 4
 
 While there is potentially a runtime error in this example, there is no
 compile time error because the size of ``d`` is unknowable:
@@ -122,9 +122,9 @@ compile time error because the size of ``d`` is unknowable:
        integer b;
        a <- in;
        b <- in;
-       integer vector c[3] = [1, 2, 3];
-       integer vector d[*] = [i in a..b | i];
-       integer vector v[2] = as<integer vector[2]>(c + d);
+       integer[3] c = [1, 2, 3];
+       integer[*] d = [i in a..b | i];
+       integer[2] v = as<integer[2]>(c + d);
      }
 
 .. _sssec:error_ops_mtom:
@@ -142,32 +142,32 @@ BE PERFORMED**. For example, with differences in sizes:
 ::
 
      procedure main() returns integer {
-       integer matrix a[2, 2] = [[1, 2], [3, 4]];
-       integer matrix b[1, 2] = [[1, 2]];
-       integer matrix m[2, 2] = as<integer matrix[2, 2]>(a + b);
+       integer[2, 2] a = [[1, 2], [3, 4]];
+       integer[1, 2] b = [[1, 2]];
+       integer[2, 2] m = as<integer[2, 2]>(a + b);
      }
 
 Should raise the following error:
 
 ::
 
-     Type error: Cannot convert between integer matrix[2, 2] and integer matrix[1, 2]  on line 4
+     Type error: Cannot convert between integer[2, 2] and integer[1, 2]  on line 4
 
 For example, with unconvertable element types:
 
 ::
 
      procedure main() returns integer {
-       character matrix a[2, 2] = [['a', 'b'], ['c', 'd']];
-       integer matrix b[2, 2] = [[1, 2], [3, 4]];
-       integer matrix m[2, 2] = a + b;
+       character[2, 2] a = [['a', 'b'], ['c', 'd']];
+       integer[2, 2] b = [[1, 2], [3, 4]];
+       integer[2, 2] m = a + b;
      }
 
 Should raise the following error:
 
 ::
 
-     Type error: Cannot convert between character matrix[2, 2] and integer matrix[2, 2] on line 4
+     Type error: Cannot convert between character[2, 2] and integer[2, 2] on line 4
 
 While there is potentially a runtime error in this example, there is no
 compile time error because the size of ``d`` is unknowable:
@@ -180,8 +180,8 @@ compile time error because the size of ``d`` is unknowable:
        integer b;
        a <- in;
        b <- in;
-       integer matrix c[2, 2] = [['a', 'b'], ['c', 'd']];
-       integer matrix d[*] = [i in a..b, j in a..b | i * j];
-       integer matrix m[2, 2] = as<integer vector>[2](c + d);
+       integer[2, 2] c = [[1, 2], [3, 4]];
+       integer[*, *] d = [i in a..b, j in a..b | i * j];
+       integer[2, 2] m = as<integer[2, 2]>(c + d);
      }
 

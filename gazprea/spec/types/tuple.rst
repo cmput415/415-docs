@@ -18,7 +18,7 @@ contain *at least two types*. Tuples are *mutable*. For example:
 
 ::
 
-     tuple(integer, real, integer vector) t1;
+     tuple(integer, real, integer[10]) t1;
      tuple(character, real, string[256], real) t2;
 
 **Assertion:** A ``tuple`` will have at least two internal types.

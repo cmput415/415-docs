@@ -48,7 +48,7 @@ instance, with vectors:
 
 ::
 
-         integer vector v = [0, 0, 0];
+         integer[*] v = [0, 0, 0];
 
          /* Can assign an entire vector value -- change 'v' to [1, 2, 3] */
          v = [1, 2, 3];
@@ -59,7 +59,7 @@ instance, with vectors:
          /* Can also use vector indexing */
          v[[1, 3]] = [4, 5];  /* 'v' is now [4, 0, 5] */
 
-         integer vector w = [3, 2, 1];
+         integer[*] w = [3, 2, 1];
 
          /* Also note this special case */
          w[w] = [2, 2, 2]; /* 'w' is now [3, 2, 2] */
@@ -72,7 +72,7 @@ Matrices can be treated similarly.
 
 ::
 
-         integer matrix M = [[1, 1], [1, 1]];
+         integer[*, *] M = [[1, 1], [1, 1]];
 
          /* Change the entire matrix M to [[1, 2], [3, 4]] */
          M = [[1, 2], [3, 4]];
@@ -118,8 +118,8 @@ assignment. For instance:
 
 ::
 
-         integer vector v = [1, 2, 3];
-         integer vector w = v;
+         integer[*] v = [1, 2, 3];
+         integer[*] w = v;
 
          w[2] = 0;  /* This must not affect 'v' */
 
@@ -382,7 +382,7 @@ instance:
 
 ::
 
-           integer vector v = [i in 1..3 | i];
+           integer[*] v = [i in 1..3 | i];
 
            /* Since the domain 'v' is only evaluated once this loop prints 1, 2,
               and then 3 even though after the first iteration 'v' is the zero

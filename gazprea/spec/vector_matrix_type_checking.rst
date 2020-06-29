@@ -24,6 +24,6 @@ as:
 
 ::
 
-       integer vector v = 1;
+       integer[*] v = 1;
 
 where the length of the vector can not be determined at all.

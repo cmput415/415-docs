@@ -52,10 +52,10 @@ cannot be inferred from the scalar value. For example:
 ::
 
      // Create a vector of reals with length three where all values are 1.0.
-     real vector v = as<real vector[3]>(1);
+     real[*] v = as<real[3]>(1);
 
      // Create a vector of booleans with length 10 where all values are true.
-     var u = as<boolean vector[10]>('c');
+     var u = as<boolean[10]>('c');
 
 .. _ssec:typeCasting_itov:
 
@@ -81,16 +81,16 @@ size is assumed to be the old size. For example:
 
 ::
 
-     real vector v[3] = [i in 1..3 | i + 0.3 * i];
+     real[3] v = [i in 1..3 | i + 0.3 * i];
 
      // Convert the real vector to an integer vector.
-     integer vector u[3] = as<integer vector>(v);
+     integer[3] u = as<integer[*]>(v);
 
      // Convert to integers and null pad.
-     integer vector x[5] = as<integer[5]>(v);
+     integer[5] x = as<integer[5]>(v);
 
      // Truncate the vector.
-     real vector y[2] = as<real vector[2]>(v);
+     real[2] y = as<real[2]>(v);
 
 .. _ssec:typeCasting_mtom:
 
@@ -103,17 +103,17 @@ For example:
 
 ::
 
-     real matrix a[2, 2] = [[1.2, 24], [-13e2, 4.0]];
+     real[2, 2] a = [[1.2, 24], [-13e2, 4.0]];
 
      // Convert to an integer matrix.
-     integer matrix b[2, 2] = as<integer matrix[2, 2]>(a);
+     integer[2, 2] b = as<integer[2, 2]>(a);
 
      // Convert to integers and pad in both dimensions.
-     integer matrix c[3, 3] = as<integer matrix[3, 3]>(a);
+     integer[3, 3] c = as<integer[3, 3]>(a);
 
      // Truncate in one dimension and pad in the other.
-     real matrix d[1, 3] = as<real matrix[1, 3]>(a);
-     real matrix e[3, 1] = as<real matrix[3, 1]>(a);
+     real[1, 3] d = as<real[1, 3]>(a);
+     real[3, 1] e = as<real[3, 1]>(a);
 
 .. _ssec:typeCasting_ttot:
 

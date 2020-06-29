@@ -14,9 +14,9 @@ We can declare several vectors of 10 integers normally as such
 
 ::
 
-       const integer a[10] = [i in 1..10 | 7];
-       const integer b[10] = [i in 1..10 | 7];
-       const integer c[10] = [i in 1..10 | 7];
+       const integer[10] a = [i in 1..10 | 7];
+       const integer[10] b = [i in 1..10 | 7];
+       const integer[10] c = [i in 1..10 | 7];
 
 or we can define a typedef for a vector of 10 integers for reusability.
 

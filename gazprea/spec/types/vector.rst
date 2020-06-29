@@ -22,10 +22,9 @@ type form a 2 element vector.
 Declaration
 ~~~~~~~~~~~
 
-Vectors may be declared multiple ways. Aside from any type specifiers,
-the base type of the vector is the first portion of the declaration. A
-vector may be declared with the ``vector`` keyword, using square
-brackets much like arrays in *C*, or a combination of both.
+Aside from any type specifiers, the base type of the vector is the first
+portion of the declaration. A vector is then declared using square brackets 
+immediately after the base type.
 
 If possible, initialization expressions may go through an implicit type
 conversion. For instance, when declaring a real vector if it is
@@ -40,23 +39,13 @@ value, and then used as a scalar initialization of the vector.
 
    ::
 
-      						<type> <identifier>[<int-expr>];
-      						<type> <identifier>[<int-expr>] = <type-expr>;
-      						<type> <identifier>[<int-expr>] = <type-vector>;
+            <type>[<int-expr>] <identifier>;
+            <type>[<int-expr>] <identifier> = <type-expr>;
+            <type>[<int-expr>] <identifier> = <type-vector>;
       					
 
    The size of the vector is given by the integer expression between the
    square brackets.
-
-   In any of these cases the vector keyword may also be used, but its
-   use does not change anything.
-
-   ::
-
-      						<type> vector <identifier>[<int-expr>];
-      						<type> vector <identifier>[<int-expr>] = <type-expr>;
-      						<type> vector <identifier>[<int-expr>] = <type-vector>;
-      					
 
    If the vector is given a scalar value of the same base type then the
    scalar value is duplicated for every single element of the vector.
@@ -71,14 +60,11 @@ value, and then used as a scalar initialization of the vector.
    If a vector is assigned an initial value when it is declared, then
    its size may be inferred. There is no need to repeat the size in the
    declaration because the size of the vector on the right-hand side is
-   known. Again, there are several different syntaxes for these
-   declarations:
+   known.
 
    ::
 
-      						<type> <identifier>[*] = <type-vector>;
-      						<type> vector <identifier> = <type-vector>;
-      						<type> vector <identifier>[*] = <type-vector>;
+            <type>[*] <identifier> = <type-vector>;
       					
 
 #. Inferred Type and Size
@@ -91,7 +77,7 @@ value, and then used as a scalar initialization of the vector.
 
    ::
 
-      						integer vector v = [ 1, 2, 3];
+      						integer[*] v = [1, 2, 3];
       						var w = v + 1;
       					
 
@@ -131,7 +117,7 @@ notation:
 
 ::
 
-   				[ expr1, expr2, ..., exprN]
+   				[expr1, expr2, ..., exprN]
    			
 
 Each ``expK`` is an expression with a compatible type. In the simplest
@@ -141,7 +127,7 @@ instance it is possible to mix integers and real numbers.
 
 ::
 
-   				real vector v = [1, 3.3, 5 * 3.4];
+   				real[*] v = [1, 3.3, 5 * 3.4];
    			
 
 It is also possible to construct a single-element vector using this
@@ -149,14 +135,14 @@ method of construction.
 
 ::
 
-   				real vector v = [7];
+   				real[*] v = [7];
    			
 
 *Gazprea* **DOES** support empty vectors.
 
 ::
 
-   				real vector v = []; /* Should create an empty vector */
+   				real[*] v = []; /* Should create an empty vector */
    			
 
 .. _sssec:vector_ops:
@@ -173,7 +159,7 @@ Operations
 
       ::
 
-         								integer vector v = [8, 9, 6];
+         								integer[*] v = [8, 9, 6];
          								integer numElements = length(v);
          							
 
@@ -198,9 +184,9 @@ Operations
 
       ::
 
-         								integer v[3] = [1, 2, 3];
-         								real u[3] = [4.0, 5.0, 6.0];
-         								real j[6] = v || u;
+         								integer[3] v = [1, 2, 3];
+         								real[3] u = [4.0, 5.0, 6.0];
+         								real[6] j = v || u;
          							
 
       would be permitted, and the integer vector v would be promoted to
@@ -224,8 +210,8 @@ Operations
 
       ::
 
-         								integer v[3] = [1, 2, 3];
-         								integer u[3] = [4, 5, 6];
+         								integer[3] v = [1, 2, 3];
+         								integer[3] u = [4, 5, 6];
 
          								/* v[1] * u[1] + v[2] * u[2] + v[3] * u[3] */
          								/* 1 * 4 + 2 * 5 + 3 * 6 &=&  32 */
@@ -244,9 +230,9 @@ Operations
 
          								intger vector v[3] = [4, 5, 6];
 
-         								integer x = v[2]; /* x ==  5 */
-         								integer vector y = v[2..3]; /* y ==  [5, 6] */
-         								integer vector z = v[[ 3, 1, 2]]; /* z ==  [6, 4, 5] */
+         								integer x = v[2]; /* x == 5 */
+         								integer[*] y = v[2..3]; /* y == [5, 6] */
+         								integer[*] z = v[[3, 1, 2]]; /* z == [6, 4, 5] */
          							
 
       When indexed with a scalar integer the result is a scalar value,
@@ -263,10 +249,10 @@ Operations
 
       ::
 
-         								integer vector v = 1..5 by 1; /* [1, 2, 3, 4, 5] */
-         								integer vector u = v by 1; /* [1, 2, 3, 4, 5] */
-         								integer vector w = v by 2; /* [1, 3, 5] */
-         								integer vector l = v by 3; /* [1, 4] */
+         								integer[*] v = 1..5 by 1; /* [1, 2, 3, 4, 5] */
+         								integer[*] u = v by 1; /* [1, 2, 3, 4, 5] */
+         								integer[*] w = v by 2; /* [1, 3, 5] */
+         								integer[*] l = v by 3; /* [1, 4] */
          							
 
 #. Operations of the Base Type
@@ -278,8 +264,8 @@ Operations
 
    ::
 
-      						boolean vector v = [true, false, true, true];
-      						boolean vector nv = not v;
+      						boolean[*] v = [true, false, true, true];
+      						boolean[*] nv = not v;
       					
 
    ``nv`` would have a value of

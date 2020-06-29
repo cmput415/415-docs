@@ -24,7 +24,7 @@ representing the length of the vector.
 
 ::
 
-         integer vector v = 1..5;
+         integer[*] v = 1..5;
 
          length(v) -> out; /* Prints 5 */
 
@@ -39,7 +39,7 @@ dimension and type. ``rows`` returns the number of rows in a matrix, and
 
 ::
 
-         integer matrix M = [[1, 2, 3], [4, 5, 6]];
+         integer[*, *] M = [[1, 2, 3], [4, 5, 6]];
 
          rows(M) -> out; /* Prints 2 */
          columns(M) -> out; /* Prints 3 */
@@ -54,8 +54,8 @@ the vector.
 
 ::
 
-         integer vector v = 1..5;
-         integer vector w = reverse(v);
+         integer[*] v = 1..5;
+         integer[*] w = reverse(v);
 
          v -> out; /* Prints 12345 */
          w -> out; /* Prints 54321 */

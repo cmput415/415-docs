@@ -166,7 +166,7 @@ specification particulars.
 
    ::
 
-            tuple(integer vector, int) t1;
+            tuple(integer[*], int) t1;
             tuple(string, real) t2;
             var t3;
 

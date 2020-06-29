@@ -58,8 +58,8 @@ type must be inferred. A variable declared in this manner must be
      const i = 1; // integer
      var r = 1.0; // real
      const c = 'a'; // character
-     var t = (1, 2, 'a', [1, 2, 3]); // tuple(integer, integer, character, integer vector[3])
-     const v = ['a', 'b', 'c', 'd']; // character vector[4]
+     var t = (1, 2, 'a', [1, 2, 3]); // tuple(integer, integer, character, integer[3])
+     const v = ['a', 'b', 'c', 'd']; // character[4]
 
 **Assertion:** Declarations using only qualifiers will be immediately
 initialised. (:ref:`qualifier-init <assert:qualifier-init>`)

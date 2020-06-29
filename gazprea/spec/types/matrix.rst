@@ -26,11 +26,11 @@ declarations:
 
 ::
 
-   				integer matrix A = [[1, 2, 3], [4, 5, 6], [7, 8, 9]];
-   				integer matrix A[3, 2] = [[1, 2], [4, 5], [7, 8]];
-   				integer matrix A[3, *] = [[1, 2], [4, 5], [7, 8]];
-   				integer matrix A[*, 2] = [[1, 2], [4, 5], [7, 8]];
-   				integer matrix A[*, *] = [[1, 2], [4, 5], [7, 8]];
+   				integer[*, *] A = [[1, 2, 3], [4, 5, 6], [7, 8, 9]];
+   				integer[*, *] A[3, 2] = [[1, 2], [4, 5], [7, 8]];
+   				integer[*, *] A[3, *] = [[1, 2], [4, 5], [7, 8]];
+   				integer[*, *] A[*, 2] = [[1, 2], [4, 5], [7, 8]];
+   				integer[*, *] A[*, *] = [[1, 2], [4, 5], [7, 8]];
    			
 
 .. _sssec:matrix_null:
@@ -62,8 +62,8 @@ amounts given in a declaration an error is to be produced.
 
 ::
 
-   				integer vector v = [1, 2, 3];
-   				integer matrix A = [v, [1, 2]];
+   				integer[*] v = [1, 2, 3];
+   				integer[*, *] A = [v, [1, 2]];
    				/* A == [[1, 2, 3], [1, 2, 0]] */
    			
 
@@ -71,8 +71,8 @@ Similarly, we can have:
 
 ::
 
-   				integer vector v = [1, 2, 3];
-   				integer matrix A[3, 3] = [v, [1, 2]];
+   				integer[*] v = [1, 2, 3];
+   				integer[3, 3] A = [v, [1, 2]];
    				/* A == [[1, 2, 3], [1, 2, 0], [0, 0, 0]] */
    			
 
@@ -109,7 +109,7 @@ matrix respectively. For instance:
 
 ::
 
-   				integer matrix M = [[1, 1, 1], [1, 1, 1]];
+   				integer[*, *] M = [[1, 1, 1], [1, 1, 1]];
 
    				integer r = rows(M);  /* This has a value of 2 */
    				integer c = columns(M);  /* This has a value of 3 */
@@ -131,7 +131,7 @@ integers the result is the scalar value in the row and column specified.
 
 ::
 
-   				integer matrix M = [[11, 12, 13], [21, 22, 23]];
+   				integer[*, *] M = [[11, 12, 13], [21, 22, 23]];
 
    				/* M[1, 2] == 12 */
    			
@@ -141,7 +141,7 @@ a scalar, then the result is a vector. For example:
 
 ::
 
-   				integer matrix M = [[11, 12, 13], [21, 22, 23]];
+   				integer[*, *] M = [[11, 12, 13], [21, 22, 23]];
 
    				/* Select from row 2 */
    				/* M[2, 2..3] == [22, 23] */
@@ -157,10 +157,10 @@ the result is another matrix.
 
 ::
 
-   				integer matrix M = [[11, 12, 13], [21, 22, 23]];
+   				integer[*, *] M = [[11, 12, 13], [21, 22, 23]];
 
    				/* Makes a matrix consisting of [[M[2, 1], M[2, 3]], [M[1, 1], M[1, 3]]] */
-   				integer matrix K = M[[2, 1], [1, 3]];
+   				integer[*, *] K = M[[2, 1], [1, 3]];
    			
 
 As with vectors, out of bounds indexing is an error on Matrices.
