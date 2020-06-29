@@ -99,12 +99,12 @@ functions can be called within other functions, but procedures can not
 be used within functions since procedures may be impure. Procedures may
 only be called within procedures.
 
-.. _ssec:procedure_fed_declr:
+.. _ssec:procedure_fwd_declr:
 
 Forward Declaration
 -------------------
 
-Procedures can use forward declaration just like functions.
+Procedures can use :ref:`forward declaration just like functions <ssec:function_fwd_declr>`.
 
 .. _ssec:procedure_main:
 
