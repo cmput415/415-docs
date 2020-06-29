@@ -164,3 +164,22 @@ definition.
 A function that has a forward declaration must have a definition
 somewhere within the file. If the function does not have a definition
 then an error should be raised.
+
+
+.. _ssec:function_vec_mat:
+
+Vector and Matrix Parameters and Returns
+----------------------------------------
+
+The arguments and return value of functions can have both explicit and inferred sizes. For example:
+
+::
+
+         function to_real_vec(integer[*] x) returns real[*] {
+             /* Some code here */
+         }
+
+         function transpose3x3(real[3,3] x) returns real[3,3] {
+             /* Some code here */
+         }
+

@@ -196,3 +196,11 @@ used would overlap. Thus, this should cause an error to be raised:
 
          call p(v[1..5], v[6..10]);
          /* p is some procedure with two variable vector arguments */
+
+
+.. _ssec:procedure_vec_mat:
+
+Vector and Matrix Parameters and Returns
+----------------------------------------
+
+:ref:`As with functions <ssec:function_vec_mat>`, the arguments and return value of procedures can have both explicit and inferred sizes.
