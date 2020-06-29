@@ -5,8 +5,8 @@ Built In Functions
 
 *Gazprea* has some built in functions. These built in functions may have
 some special behaviour that normal functions can not have, for instance
-many of them will work on vectors of any base type. Normally a function
-must specify the base type of a vector specified.
+many of them will work on vectors of any element type. Normally a function
+must specify the element type of a vector specified.
 
 The name of built in functions are reserved and a user program cannot
 define a function or a procedure with the same name as a built in
@@ -19,7 +19,7 @@ compiler should issue an error message.
 Length
 ------
 
-``length`` takes a vector of any base type, and returns an integer
+``length`` takes a vector of any element type, and returns an integer
 representing the length of the vector.
 
 ::

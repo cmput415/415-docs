@@ -14,17 +14,17 @@ Vectors are arrays that can contain any of the following base types:
 -  ``character``
 
 In *Gazprea* the number of elements in the vector also determine its
-type. A 3 element vector of any base type is always considered a diffent
-type form a 2 element vector.
+type. A 3 element vector of any base type is always considered a different
+type from a 2 element vector.
 
 .. _sssec:vector_decl:
 
 Declaration
 ~~~~~~~~~~~
 
-Aside from any type specifiers, the base type of the vector is the first
+Aside from any type specifiers, the element type of the vector is the first
 portion of the declaration. A vector is then declared using square brackets 
-immediately after the base type.
+immediately after the element type.
 
 If possible, initialization expressions may go through an implicit type
 conversion. For instance, when declaring a real vector if it is
@@ -47,7 +47,7 @@ value, and then used as a scalar initialization of the vector.
    The size of the vector is given by the integer expression between the
    square brackets.
 
-   If the vector is given a scalar value of the same base type then the
+   If the vector is given a scalar value of the same element type then the
    scalar value is duplicated for every single element of the vector.
 
    A vector may also be initialized with another vector. If the vector
@@ -94,7 +94,7 @@ Vector of ``null`` elements.
 
 When initializing a vector to a value of ``null`` an explicit size must
 be given. Such initialization is equivalent to promoting a ``null``
-value of the base type to the vector.
+value of the element type to the vector.
 
 .. _sssec:vector_ident:
 
@@ -105,7 +105,7 @@ Vector of ``identity`` elements.
 
 When initializing a vector to a value of ``identity`` an explicit size
 must be given. Such initialization is equivalent to promoting a
-``identity`` value of the base type to the vector.
+``identity`` value of the element type to the vector.
 
 .. _sssec:vector_constr:
 
@@ -168,7 +168,7 @@ Operations
 
    b. Concatenation
 
-      Two vectors with the same base type may be concatenated into a
+      Two vectors with the same element type may be concatenated into a
       single vector using the concatenation operator, ``||``. For
       instance:
 
@@ -178,8 +178,8 @@ Operations
          								[1, 2] || [] || [3, 4] // produces [1, 2, 3, 4]
          							
 
-      Concatenation is also allowed between vectors of different base
-      types, as long as one base type is coerced automatically to the
+      Concatenation is also allowed between vectors of different element
+      types, as long as one element type is coerced automatically to the
       other. For instance:
 
       ::
@@ -204,7 +204,7 @@ Operations
 
    c. Dot Product
 
-      Two vectors with the same size and a numeric base type(types with
+      Two vectors with the same size and a numeric element type(types with
       the +, and \* operator) may be used in a dot product operation.
       For instance:
 
@@ -243,7 +243,7 @@ Operations
 
    e. by
 
-      The by operator is also defined for vectors of any base type. It
+      The by operator is also defined for vectors of any element type. It
       produces a vector with every value with the given offset. For
       instance:
 
@@ -255,9 +255,9 @@ Operations
          								integer[*] l = v by 3; /* [1, 4] */
          							
 
-#. Operations of the Base Type
+#. Operations of the Element Type
 
-   Unary operations that are valid for the base type of a vector may be
+   Unary operations that are valid for the Element type of a vector may be
    applied to the vector in order to produce a vector whose result is
    the equivalent to applying that unary operation to each element of
    the vector. For instance:
@@ -271,7 +271,7 @@ Operations
    ``nv`` would have a value of
    ``[not true, not false, not true, not true] = [false, true, false, false]``.
 
-   Similarly most binary operations that are valid to the base type of a
+   Similarly most binary operations that are valid to the element type of a
    vector may be also applied to two vectors. When applied to two
    vectors of the same size, the result of the binary operation is a
    vector formed by the element-wise application of the binary operation
@@ -295,7 +295,7 @@ Operations
       						[1, 2, 3, 4] + 2 // results in [3, 4, 5, 6]
       					
 
-   Additionally the base types of vectors may be promoted, for instance
+   Additionally the element types of vectors may be promoted, for instance
    in this case the integer vector must be promoted to a real vector in
    order to perform the operation:
 

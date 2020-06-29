@@ -4,7 +4,7 @@ Matrix
 ------
 
 *Gazprea* supports two dimensional matrices. A matrix can have all of
-the same base types a vector can:
+the same element types a vector can:
 
 -  ``boolean``
 
@@ -86,7 +86,7 @@ to the scalar.
 Operations
 ~~~~~~~~~~
 
-Matrices have binary and unary operations of the base type defined in
+Matrices have binary and unary operations of the element type defined in
 the same manner as vectors. Unary operations are applied to every
 element of the matrix, and binary operations are applied between
 elements with the same position in two matrices.
@@ -96,10 +96,10 @@ These operations compare whether or not **all** elements of two matrices
 are equal.
 
 In addition to this matrices have several special operations defined on
-them. If the base type is numeric (supports addition, and
+them. If the element type is numeric (supports addition, and
 multiplication), then matrix multiplication is supported using the
 operator \**. Matrix multiplication is only defined between matrices
-with compatible base types, and the dimensions of the matrices must be
+with compatible element types, and the dimensions of the matrices must be
 valid for performing a matrix multiplication. If this is not the case
 then an error should be raised.
 

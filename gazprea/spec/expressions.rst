@@ -66,7 +66,7 @@ the generated values. For example:
 
 The expression to the right of the bar "|", is used to generate the
 value at the given index, and must result in a value with the same type
-as the base type for the matrix or vector. Generators may be nested, and
+as the element type for the matrix or vector. Generators may be nested, and
 may be used within domain expressions. For instance, the generator below
 is perfectly legal:
 
