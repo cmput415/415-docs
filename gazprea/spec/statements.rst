@@ -59,6 +59,15 @@ instance, with vectors:
          /* Can also use vector indexing */
          v[[1, 3]] = [4, 5];  /* 'v' is now [4, 0, 5] */
 
+         integer vector w = [3, 2, 1];
+
+         /* Also note this special case */
+         w[w] = [2, 2, 2]; /* 'w' is now [3, 2, 2] */
+         // The above assignment is semantically equivalent to the following loop
+         loop i in 1..3 {
+             w[w[i]] = 2;
+         }
+
 Matrices can be treated similarly.
 
 ::
