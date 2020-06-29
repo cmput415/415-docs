@@ -85,7 +85,7 @@ Filters
 -------
 
 Filters are used to accumulate elements into vectors. Each filter
-contains a single domain expression, and a list of predicates.
+contains a single domain expression, and a list of comma-separated predicates.
 
 The result of a filter operation is a tuple. This tuple contains a field
 for each of the predicates in order. Each field is a vector containing
@@ -97,7 +97,7 @@ any of the predicates. For example:
 ::
 
          /* x == ([3], [2], [2, 4], [1, 5]) */
-         var x = [i in 1..5 & i == 3 or i == 2 or i % 2 == 0];
+         var x = [i in 1..5 & i == 3, i == 2, i % 2 == 0];
 
          /* y == ([1, 3, 5], [2, 4]) */
          var y = [i in 1..5 & i % 2 == 1);
