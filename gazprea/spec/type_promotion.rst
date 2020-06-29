@@ -83,7 +83,7 @@ An ``interval`` can be implicitly converted to an identically-sized
 Tuple to Tuple
 --------------
 
-Tuples may be promoted to another type if it has an equal number of
+Tuples may be promoted to another tuple type if it has an equal number of
 internal types and the original internal types can be implicitly
 converted to the new internal types. For example:
 
@@ -94,3 +94,29 @@ converted to the new internal types. For example:
 
      tuple(char, integer, boolean[2]) many_tup = ('a', 1, [true, false]);
      tuple(char, real, boolean[2]) other_tup = many_tup;
+
+Field names of tuples are overwritten by the field names of the left-hand side in assignments and declarations when promoted. For example:
+
+::
+
+     var out = std_output();
+     tuple(real a, real b) foo = (1, 2);
+     foo.a -> out; // 1
+     foo.b -> out; // 2
+     tuple(integer c, real) bar = foo;
+     bar.a -> out; // error
+     bar.b -> out; // error
+     bar.c -> out; // 1
+
+
+If initializing a variable with a tuple via :ref:`sec:typeInference`, the variable is assumed to be the same type. Therefore, field names are also copied over accordingly. For example:
+
+::
+
+     var out = std_output();
+     tuple(real a, real b) foo = (1, 2);
+     foo.a -> out; // 1
+     foo.b -> out; // 2
+     var bar = foo;
+     bar.a -> out; // 1
+     bar.b -> out; // 2
