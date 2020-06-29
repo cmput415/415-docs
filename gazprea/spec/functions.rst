@@ -156,6 +156,11 @@ If the type signatures of the forward declaration of the function and
 the definition of the function differ then an error must be raised. A
 function may only be declared once.
 
+Note that only the type signatures of the forward declaration of the
+function and the definition must be identical. Therefore, the forward
+declaration of the function may have different argument names from its
+definition.
+
 A function that has a forward declaration must have a definition
 somewhere within the file. If the function does not have a definition
 then an error should be raised.
