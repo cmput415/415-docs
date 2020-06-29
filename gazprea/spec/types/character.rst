@@ -80,3 +80,10 @@ There are no operations defined for a ``character``. To operate on a
 ``character`` it must first be cast to either a ``boolean``,
 ``integer``, or ``real``.
 
+
+Type Casting and Type Promotion
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To see the types that ``character`` may be cast and/or promoted to, see
+the sections on :ref:`sec:typeCasting` and :ref:`sec:typePromotion` 
+respectively.

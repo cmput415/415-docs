@@ -40,28 +40,6 @@ An ``integer`` literal is specified in base 10. For example:
      2
      0
 
-To aid in the readability of large numbers, underscores may be inserted
-anywhere within or at the end of an ``integer`` literal as a separator.
-For example, the following literals would produce the same ``integer``
-value:
-
-::
-
-     1__23_4
-     1234
-     1_2_3_4___
-
-An underscore may **NOT** appear at the beginning of an ``integer``
-literal because then it would be recognised as an identifier. For
-example, the following would be identifiers and *not* ``integer``
-literals:
-
-::
-
-     _2
-     ____2_3
-     _2__3_
-
 .. _sssec:integer_ops:
 
 Operations
@@ -146,3 +124,11 @@ override precedence and create new atoms in an expression.
 +                +                +
 | LOWER          | ``!=``         |
 +----------------+----------------+
+
+
+Type Casting and Type Promotion
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To see the types that ``integer`` may be cast and/or promoted to, see
+the sections on :ref:`sec:typeCasting` and :ref:`sec:typePromotion` 
+respectively.

@@ -182,3 +182,11 @@ infinitely append values or cause an underflow. For example:
 ``3..6 by 3``     ``[3, 6]``
 ``3..6 by 4``     ``[3]``
 ================= ================
+
+
+Type Casting and Type Promotion
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To see the types that ``interval`` may be cast and/or promoted to, see
+the sections on :ref:`sec:typeCasting` and :ref:`sec:typePromotion` 
+respectively.

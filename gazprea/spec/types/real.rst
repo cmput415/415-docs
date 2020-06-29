@@ -62,26 +62,6 @@ real value. For example:
      42e+2
      42e4
 
-To aid in the readability of large numbers, underscores may be inserted
-anywhere within or at the end of a ``real`` literal as a separator. This
-includes in the integer digits, in the mantissa, and throughout the
-scientific notation. For example:
-
-::
-
-     ._____42__
-     4_._2_e_-_1_2_
-
-An underscore may **NOT** appear at the beginning of a ``real`` literal
-because then it would be recognised as an identifier. For example, the
-following would *not* be ``real`` literals:
-
-::
-
-     _.__4_2____
-     ____4_._2
-     _1_._e_-2
-
 .. _sssec:real_ops:
 
 Operations
@@ -109,3 +89,10 @@ For more information on why this is necessary, look into the `default
 LLVM IR floating point
 environment <https://llvm.org/docs/LangRef.html#floatenv>`__.
 
+
+Type Casting and Type Promotion
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To see the types that ``real`` may be cast and/or promoted to, see
+the sections on :ref:`sec:typeCasting` and :ref:`sec:typePromotion` 
+respectively.

@@ -78,3 +78,11 @@ HIGHER         ``not``
 \              or
 LOWER          xor
 ============== =============
+
+
+Type Casting and Type Promotion
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To see the types that ``boolean`` may be cast and/or promoted to, see
+the sections on :ref:`sec:typeCasting` and :ref:`sec:typePromotion` 
+respectively.

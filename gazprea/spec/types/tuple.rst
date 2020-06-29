@@ -139,3 +139,10 @@ including literals:
 ``t1 != t2``  ``t1.1 != t2.1 or ... or t1.n != t2.n``
 ============= =========================================
 
+
+Type Casting and Type Promotion
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To see the types that ``tuple`` may be cast and/or promoted to, see
+the sections on :ref:`sec:typeCasting` and :ref:`sec:typePromotion` 
+respectively.
