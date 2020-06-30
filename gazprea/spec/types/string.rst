@@ -3,22 +3,31 @@
 String
 ------
 
-A string is just a type synonym for a vector of characters.
+A string is simply an array of characters. The only difference between a
+character vector and a string is the behaviour when sent to an :ref:`output stream <sssec:output_format>`.
 
-.. _sssec:string_declr:
+.. _sssec:string_decl:
 
 Declaration
 ~~~~~~~~~~~
 
-A string may be declared with the type ``string``. ``string`` is a built-n
-typedef for character vector.
+A string may be declared with the type ``string``, and is followed by an optional size specifier.
+The same rules of :ref:`vector declarations <sssec:vector_decl>` also apply to strings, just 
+substitute ``string`` for the ``<type>``.
+
+But note one minor addition: there are two methods of declaring a string of inferred size, both depicted below.
+
+::
+
+		string <identifier> = <type-string>;
+		string[*] <identifier> = <type-string>;
 
 .. _sssec:string_null:
 
 Null
 ~~~~
 
-Same behaviour as ``null`` for vectors. Vector filled with ``null``
+Same behaviour as ``null`` for vectors. The string is filled with ``null``
 characters.
 
 .. _sssec:string_ident:
@@ -26,7 +35,7 @@ characters.
 Identity
 ~~~~~~~~
 
-Same behaviour as ``identity`` for vectors. Vector filled with
+Same behaviour as ``identity`` for vectors. The string is filled with
 ``identity`` characters.
 
 .. _sssec:string_lit:
@@ -50,7 +59,21 @@ Operations
 ~~~~~~~~~~
 
 Strings have all of the same operations defined on them as the other
-vector data types.
+vector data types, but with one caveat:
+
+The concatenation operation ``||`` between a ``string`` and a ``vector`` of ``character``\ s and vice-versa results in a ``string``.
+For example:
+
+::
+
+	var out = std_output();
+	['a', 'b'] || "cd" -> out;
+
+prints the following:
+
+::
+
+	abcd
 
 
 Type Casting and Type Promotion
