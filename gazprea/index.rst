@@ -10,6 +10,7 @@ Hardware Acceleration Laboratory in Markham, ON.
    :hidden:
 
    self
+   change_log
 
 .. toctree::
    :maxdepth: 3
@@ -44,6 +45,5 @@ Hardware Acceleration Laboratory in Markham, ON.
    impl/part_2
    impl/errors
    impl/assertions
-   impl/change_log
 
 .. |gazprea_logo| image:: _static/GazpreaLogo.png
