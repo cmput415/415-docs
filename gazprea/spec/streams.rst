@@ -167,7 +167,7 @@ whitespace character *can* also be read from stdin and assigned to a
 character variable.
 
 When reading a value, if any other input were to be in the stream during
-the read then an is set. For example, the following program:
+the read then an :ref:`error state <sssec:stream_error>` is set. For example, the following program:
 
 ::
 
