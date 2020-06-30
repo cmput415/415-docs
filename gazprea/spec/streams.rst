@@ -59,17 +59,17 @@ Output Format
 Values of the following base types are treated as follows when sent to
 an output stream:
 
--  ``character``: The character is printed.
+-  :ref:`ssec:character`: The character is printed.
 
--  ``integer``: Converted to a string representation, and then printed.
+-  :ref:`ssec:integer`: Converted to a string representation, and then printed.
 
--  ``real``: Converted to a string representation, and then printed.
+-  :ref:`ssec:real`: Converted to a string representation, and then printed.
    This is the same behaviour as the `%g specifier in
    printf <http://www.cplusplus.com/reference/cstdio/printf/>`__.
 
--  ``boolean``: Print T for true, and F for false.
+-  :ref:`ssec:boolean`: Print T for true, and F for false.
 
-Vectors print their contents according to the rules above, with square
+:ref:`Vectors <ssec:vector>` print their contents according to the rules above, with square
 braces surrounding its elements and with spaces only *between* values.
 For example:
 
@@ -84,7 +84,21 @@ prints the following:
 
      [1 2 3]
 
-Matrices print like a vector of vectors. For example:
+:ref:`Strings <ssec:string>` print their contents as a contiguous sequence of characters.
+For example:
+
+::
+
+     string str = "Hello, World!";
+     str -> out;
+
+prints the following:
+
+::
+
+     Hello, World!
+
+:ref:`Matrices <ssec:matrix>` print like a vector of vectors. For example:
 
 ::
 
