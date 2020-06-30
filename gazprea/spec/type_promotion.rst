@@ -120,3 +120,14 @@ If initializing a variable with a tuple via :ref:`sec:typeInference`, the variab
      var bar = foo;
      bar.a -> out; // 1
      bar.b -> out; // 2
+
+Character Vector to/from String
+-------------------------------
+
+A ``string`` can be implicitly converted to a ``vector`` of ``character``\ s and vice-versa (two-way type promotion).
+
+::
+
+     string str1 = "Hello"; /* str == "Hello" */
+     character[*] chars = str; /* chars == ['H', 'e', 'l', 'l', 'o'] */
+     string str2 = chars || [' ', 'W', 'o', 'r', 'l', 'd']; /* str2 == "Hello World" */
