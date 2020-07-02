@@ -47,7 +47,6 @@ features discussed in subsequent section.
    impl/tips_hints
    impl/llvm_tips_hints
    impl/ast_tips_hints
-   impl/ast_tips_hints
 
 .. toctree::
    :maxdepth: 2
