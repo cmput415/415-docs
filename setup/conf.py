@@ -17,7 +17,7 @@
 
 # -- Project information -----------------------------------------------------
 
-project = 'project_name'
+project = 'setup'
 copyright = '2020, cmput415'
 author = 'cmput415'
 
