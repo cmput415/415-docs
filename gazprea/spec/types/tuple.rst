@@ -21,9 +21,6 @@ contain *at least two types*. Tuples are *mutable*. For example:
      tuple(integer, real, integer[10]) t1;
      tuple(character, real, string[256], real) t2;
 
-**Assertion:** A ``tuple`` will have at least two internal types.
-(:ref:`tuple-min-fields <assert:tuple-min-fields>`)
-
 The fields of a ``tuple`` may also be named. For example:
 
 ::
@@ -35,9 +32,9 @@ Here, ``t3`` has a named ``real`` field named ``r`` and ``t4`` has a
 named ``character`` field named ``mode`` and another named ``string``
 field named ``id``.
 
-The number of fields in a ``tuple`` must be known at compile. The only
-exception is when a :ref:`variable is declared without a type using var or const <ssec:typeQualifiers_infer>`. In this case, the variable must be initialised
-immediately with a literal whose type is known at compile time.
+The number of fields in a ``tuple`` must be known at compile time. The only
+exception is when a :ref:`variable is declared without a type using var or const <ssec:typeQualifiers_infer>`. 
+In this case, the variable must be initialised immediately with a literal whose type is known at compile time.
 
 .. _sssec:tuple_acc:
 

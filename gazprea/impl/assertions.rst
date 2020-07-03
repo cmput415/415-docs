@@ -131,23 +131,3 @@ specification particulars.
    manifestation of the inability to standardise exception handling, not
    an extension to the spec forcing you to somehow fix floating point
    exceptions.
-
-#. 
-
-   .. _assert:tuple-min-fields:
-
-   .. container::
-      :name: tuple-min-fields
-
-      **tuple-min-fields**:
-
-   A ``tuple`` will have at least two internal types. Storing one type
-   would be equivalent to storing just the value and the ``tuple`` would
-   be a useless wrapper. Storing zero types would be an undefined
-   behaviour with operations on an empty space. For example, the
-   following tests would be considered invalid:
-
-   ::
-
-            tuple(int);
-            tuple();
