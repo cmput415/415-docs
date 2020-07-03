@@ -72,29 +72,3 @@ specification particulars.
             'a' -> std_output();
             character b;
             b <- std_input();
-
-#. 
-
-   .. _assert:const-arg:
-
-   .. container::
-      :name: const-arg
-
-      **const-arg**:
-
-   Procedure ``var`` arguments will not be passed ``const`` values. A
-   ``var`` argument implies the value is mutable in the calling context,
-   which a ``const`` value is not. See :ref:`sec:procedure` for more information. For
-   example, the following tests would be considered invalid:
-
-   ::
-
-            procedure f(var integer i) {
-              i = 1;
-            }
-
-            procedure main() returns integer {
-              const integer i = 0;
-              call f(i);
-              return 0;
-            }

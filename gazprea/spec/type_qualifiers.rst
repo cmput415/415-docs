@@ -25,9 +25,6 @@ can be an r-value. For example:
 Because a ``const`` value is not an l-value, it cannot be passed to a
 ``var`` argument in a ``procedure``.
 
-**Assertion:** Procedure ``var`` arguments will not be passed ``const``
-values. (:ref:`const-arg <assert:const-arg>`)
-
 .. _ssec:typeQualifiers_var:
 
 Var
