@@ -151,21 +151,3 @@ specification particulars.
 
             tuple(int);
             tuple();
-
-#. 
-
-   .. _assert:exact-tuple-types:
-
-   .. container::
-      :name: exact-tuple-types
-
-      **exact-tuple-types**:
-
-   The exact size of the internal types of a ``tuple`` will be
-   inferrable at compile time. For example, these are invalid:
-
-   ::
-
-            tuple(integer[*], int) t1;
-            tuple(string, real) t2;
-            var t3;

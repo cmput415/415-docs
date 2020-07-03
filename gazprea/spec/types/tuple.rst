@@ -39,10 +39,6 @@ The number of fields in a ``tuple`` must be known at compile. The only
 exception is when a :ref:`variable is declared without a type using var or const <ssec:typeQualifiers_infer>`. In this case, the variable must be initialised
 immediately with a literal whose type is known at compile time.
 
-**Assertion:** The exact size of the internal types of a ``tuple`` will
-be inferrable at compile time.
-(:ref:`exact-tuple-types <assert:exact-tuple-types>`)
-
 .. _sssec:tuple_acc:
 
 Access
