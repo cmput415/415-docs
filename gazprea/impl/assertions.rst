@@ -98,22 +98,3 @@ specification particulars.
               call f(i);
               return 0;
             }
-
-#. 
-
-   .. _assert:qualifier-init:
-
-   .. container::
-      :name: qualifier-init
-
-      **qualifier-init**:
-
-   Declarations using only qualifiers will be immediately initialised.
-   If they were not, it would be impossible to infer their type, a
-   necessary piece of information for use later in the AST. For example,
-   the following tests would be considered invalid:
-
-   ::
-
-            var i;
-            const i;

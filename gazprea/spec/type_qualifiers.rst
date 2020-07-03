@@ -61,8 +61,5 @@ type must be inferred. A variable declared in this manner must be
      var t = (1, 2, 'a', [1, 2, 3]); // tuple(integer, integer, character, integer[3])
      const v = ['a', 'b', 'c', 'd']; // character[4]
 
-**Assertion:** Declarations using only qualifiers will be immediately
-initialised. (:ref:`qualifier-init <assert:qualifier-init>`)
-
 See :ref:`sec:typeInference` for a larger description of type inference, this section only
 provides the syntax for inference using ``const`` and ``var``.
