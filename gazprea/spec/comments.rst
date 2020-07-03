@@ -24,11 +24,6 @@ comment is the **first** occurrence of the sequence of characters
    	 */
    	integer x = 2 * 3;  /* Block comments can also be on a single line */
 
-| **Assertion:** Block comments will be opened.
-  (:ref:`opened-comments <assert:opened-comments>`)
-| **Assertion:** Block comments will be closed.
-  (:ref:`closed-comments <assert:closed-comments>`)
-
 Block comments cannot be nested because the comment finishes when it
 reaches the first closing sequence. For example, this is invalid:
 
