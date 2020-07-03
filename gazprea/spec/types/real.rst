@@ -78,13 +78,6 @@ intrinsics <https://llvm.org/docs/LangRef.html#constrained-floating-point-intrin
 The ``round.towardzero`` rounding mode should be chosen along with the
 ``fpexcept.strict`` exception behaviour.
 
-The runtime error cannot be enforced, but, if floating point semantics
-are not constrained, then ``real`` values printed after operations may
-not be identical.
-
-**Assertion:** No floating point operation will create a runtime error.
-(:ref:`safe-reals <assert:safe-reals>`)
-
 For more information on why this is necessary, look into the `default
 LLVM IR floating point
 environment <https://llvm.org/docs/LangRef.html#floatenv>`__.

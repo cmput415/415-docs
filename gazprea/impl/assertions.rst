@@ -117,17 +117,3 @@ specification particulars.
 
             var i;
             const i;
-
-#. 
-
-   .. _assert:safe-reals:
-
-   .. container::
-      :name: safe-reals
-
-      **safe-reals**:
-
-   No floating point operation will create a runtime error. This is a
-   manifestation of the inability to standardise exception handling, not
-   an extension to the spec forcing you to somehow fix floating point
-   exceptions.
