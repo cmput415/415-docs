@@ -52,23 +52,3 @@ specification particulars.
             integer i = 0;
             /* I'm an opened comment, but I'm never closed...
             integer j = i + 1;
-
-#. 
-
-   .. _assert:assign-streams:
-
-   .. container::
-      :name: assign-streams
-
-      **assign-streams**:
-
-   The streams constructors ``std\_output()`` and ``std\_input()`` *will
-   not* be used in expressions. They must be assigned before use so that
-   ``stream\_state`` can be checked later. For example, the following
-   tests would be considered invalid:
-
-   ::
-
-            'a' -> std_output();
-            character b;
-            b <- std_input();

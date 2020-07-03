@@ -10,7 +10,7 @@ any other type nor any valid operations besides the stream in and out
 operators.
 
 *Gazprea* has two streams: stdout and stdin. As noted above they must be
-assigned to a var They are not automatically available and cannot be
+assigned to a var. They are not automatically available and cannot be
 used in expressions other than as the right-hand-side of an assignment
 statement. Therefore, streams *must be* assigned to a ``var`` as so:
 
@@ -19,7 +19,7 @@ statement. Therefore, streams *must be* assigned to a ``var`` as so:
      var out = std_output();
      var inp = std_input();
 
-Streams cannot be duplicated, therefore, once a stream has been
+Streams **cannot be duplicated**, therefore, once a stream has been
 assigned, it *cannot* be assigned to a new variable.
 
 Streams cannot be ``const`` because the only operator defined on them
@@ -39,6 +39,21 @@ this should result in an error.
 
      var in = std_input();
      in = std_output();
+
+
+The streams constructors ``std_output()`` and ``std_input()`` *will
+not* be used in expressions. They must be assigned before use so that
+``stream_state`` can be checked later. For example, the following
+tests would result in an error:
+
+::
+
+          'a' -> std_output();
+
+::
+
+          character b;
+          b <- std_input();
 
 .. _ssec:output:
 

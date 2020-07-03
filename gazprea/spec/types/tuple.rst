@@ -5,7 +5,7 @@ Tuple
 
 A ``tuple`` is a way of grouping multiple values with potentially
 different types into one type. All types may be stored within tuples
-except other tuples.
+except :ref:`streams <sec:streams>` and other tuples.
 
 .. _sssec:tuple_decl:
 
