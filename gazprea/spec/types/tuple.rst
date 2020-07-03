@@ -61,9 +61,6 @@ and then either a literal ``integer`` or a field name. Field indices
      t3.r
      t4.mode
 
-**Assertion:** Dot notation cannot be applied to ``tuple`` literals.
-(:ref:`tuple-literal-dot <assert:tuple-literal-dot>`)
-
 .. _sssec:tuple_null:
 
 Null

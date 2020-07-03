@@ -169,26 +169,3 @@ specification particulars.
             tuple(integer[*], int) t1;
             tuple(string, real) t2;
             var t3;
-
-#. 
-
-   .. _assert:tuple-literal-dot:
-
-   .. container::
-      :name: tuple-literal-dot
-
-      **tuple-literal-dot**:
-
-   Dot notation cannot be applied to ``tuple`` literals. A ``tuple``
-   literal, to be well formed, must have all of its value’s types known
-   at compile time (:ref:`exact-tuple-types <assert:exact-tuple-types>`) which is
-   only possible if all of the values are known at compile time. If the
-   value to be indexed to is known at compile time then there is no need
-   to create the ``tuple``, index the single field, and finally discard
-   the extra values. For example, the following tests would be
-   considered invalid:
-
-   ::
-
-            integer i = ('a', 1, 3.14).2;
-
