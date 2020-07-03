@@ -6,9 +6,6 @@ Type Promotion
 Type promotion is a sub-problem to and refers to casts that happen
 implicitly without extra syntax such as using ``as``.
 
-**Assertion:** Implicit type conversions not found in will not be
-performed. (:ref:`limited-promotion <assert:limited-promotion>`)
-
 .. _ssec:typePromotion_scalar:
 
 Scalars

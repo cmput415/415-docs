@@ -192,20 +192,3 @@ specification particulars.
 
             integer i = ('a', 1, 3.14).2;
 
-#. 
-
-   .. _assert:limited-promotion:
-
-   .. container::
-      :name: limited-promotion
-
-      **limited-promotion**:
-
-   Implicit type conversions not found in :ref:`sec:typePromotion` will not be performed. This is
-   a manifestation of the inability to standardise exception handling.
-   For example, the following tests would be considered invalid:
-
-   ::
-
-            integer i = 2.0;
-
