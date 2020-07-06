@@ -120,7 +120,7 @@ indices must be used. These indices are separated using a comma.
 
 ::
 
-   				M[i, j] -> out;
+   				M[i, j] -> std_output;
    			
 
 The first index specifies the row of the matrix, and the second index

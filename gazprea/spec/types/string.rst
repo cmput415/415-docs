@@ -67,7 +67,7 @@ For example:
 ::
 
 	var out = std_output();
-	['a', 'b'] || "cd" -> out;
+	['a', 'b'] || "cd" -> std_output;
 
 prints the following:
 

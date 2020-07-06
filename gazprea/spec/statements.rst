@@ -18,12 +18,12 @@ expression with a compatible type on the right hand side.
 
          integer x = 7;
 
-         x -> out;  /* Prints 7 */
+         x -> std_output;  /* Prints 7 */
 
          /* Give 'x' a new value */
          x = 2 * 3;  /* This is an assignment statement */
 
-         x -> out;  /* Prints 6 */
+         x -> std_output;  /* Prints 6 */
 
 Type checking must be performed on assignment statements. The expression
 on the right hand side must have a type that can be automatically
@@ -163,7 +163,7 @@ statements in other languages such as *C/C++*. As an example:
          {
            x = 3;
            z = 4;
-           x -> out; "\n" -> out; z -> out; "\n" -> out;
+           x -> std_output; "\n" -> std_output; z -> std_output; "\n" -> std_output;
          }
 
 Is a block statement. Declarations can only appear at the start of a
@@ -290,7 +290,7 @@ body statement given to it. For instance:
 
 ::
 
-           loop "hello!\n" -> out;
+           loop "hello!\n" -> std_output;
 
 Would print "hello!" indefinitely. This is often used with block
 statements.
@@ -301,7 +301,7 @@ statements.
            integer n = 0;
 
            loop {
-             n -> out; "\n" -> out;
+             n -> std_output; "\n" -> std_output;
              n = n + 1;
            }
 
@@ -327,7 +327,7 @@ predicate. For example:
            /* Print 1 to 10 */
            loop while x < 10 {
              x = x + 1;
-             x -> out; "\n" -> out;
+             x -> std_output; "\n" -> std_output;
            }
 
 A post-predicated loop is also available. In this case the control
@@ -341,7 +341,7 @@ semicolon.
            integer x = 10;
 
            /* Since the conditional is tested after the execution '10' is printed */
-           loop x -> out; while x == 0;
+           loop x -> std_output; while x == 0;
 
 .. _sssec:statements_iter_loop:
 
@@ -363,7 +363,7 @@ automatically exits. For instance:
 
            /* This will print 123 */
            loop i in [1, 2, 3] {
-             i -> out;
+             i -> std_output;
            }
 
 Integer intervals can also be used instead. In this case it is the same
@@ -374,7 +374,7 @@ instance, the above iterator loop is equivalent to the following:
 
            /* This will print 123 */
            loop i in 1..3 {
-             i -> out;
+             i -> std_output;
            }
 
 The domain is evaluated once during the first iteration of the loop. For
@@ -389,7 +389,7 @@ instance:
               vector. */
            loop i in v {
              v = 0;
-             i -> out; "\n" -> out;
+             i -> std_output; "\n" -> std_output;
            }
 
 Multiple domain expressions may be used by separating them with commas.
@@ -397,14 +397,14 @@ Multiple domain expressions may be used by separating them with commas.
 ::
 
            loop i in u, j in v {
-             "Hello!\n" -> out;
+             "Hello!\n" -> std_output;
            }
 
            /* The above loop is equivalent to the loop below */
 
            loop i in u {
              loop j in v {
-               "Hello!\n" -> out;
+               "Hello!\n" -> std_output;
              }
            }
 
@@ -434,10 +434,10 @@ actually contains the break.
              if x >= 3 break;
 
              x = x + 1;
-             "*" -> out;
+             "*" -> std_output;
            }
 
-           "\n" -> out;
+           "\n" -> std_output;
          }
 
 If a break statement is not contained within a loop an error must be
@@ -465,7 +465,7 @@ normally.
 
            if x == 7 continue;  /* Start at the beginning of the loop, skip 7 */
 
-           x -> out; "\n" -> out;
+           x -> std_output; "\n" -> std_output;
          }
 
 .. _ssec:statements_return:
@@ -505,11 +505,11 @@ Output example:
 
 ::
 
-         2 * 3 -> out;  /* Prints 6 */
+         2 * 3 -> std_output;  /* Prints 6 */
 
 Input example:
 
 ::
 
          integer x = null;
-         x <- inp; /* Read an integer into x */
+         x <- std_input; /* Read an integer into x */

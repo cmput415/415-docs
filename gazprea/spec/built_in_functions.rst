@@ -26,7 +26,7 @@ representing the length of the vector.
 
          integer[*] v = 1..5;
 
-         length(v) -> out; /* Prints 5 */
+         length(v) -> std_output; /* Prints 5 */
 
 .. _ssec:builtIn_rows_cols:
 
@@ -41,8 +41,8 @@ dimension and type. ``rows`` returns the number of rows in a matrix, and
 
          integer[*, *] M = [[1, 2, 3], [4, 5, 6]];
 
-         rows(M) -> out; /* Prints 2 */
-         columns(M) -> out; /* Prints 3 */
+         rows(M) -> std_output; /* Prints 2 */
+         columns(M) -> std_output; /* Prints 3 */
 
 .. _ssec:builtIn_reverse:
 
@@ -57,8 +57,8 @@ the vector.
          integer[*] v = 1..5;
          integer[*] w = reverse(v);
 
-         v -> out; /* Prints 12345 */
-         w -> out; /* Prints 54321 */
+         v -> std_output; /* Prints 12345 */
+         w -> std_output; /* Prints 54321 */
 
 .. _ssec:builtIn_stream_state:
 

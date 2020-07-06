@@ -3,57 +3,9 @@
 Streams
 =======
 
-Streams are an implicit language type only usable when a stream is
-assigned to a variable declared ``var``. An input stream and an output
-stream are *different types*. Both types have no valid conversions to
-any other type nor any valid operations besides the stream in and out
-operators.
+*Gazprea* has two streams: ``std_output`` and ``std_input``, 
+which are used for outputting to stdout and reading from stdin respectively.
 
-*Gazprea* has two streams: stdout and stdin. As noted above they must be
-assigned to a var. They are not automatically available and cannot be
-used in expressions other than as the right-hand-side of an assignment
-statement. Therefore, streams *must be* assigned to a ``var`` as so:
-
-::
-
-     var out = std_output();
-     var inp = std_input();
-
-Streams **cannot be duplicated**, therefore, once a stream has been
-assigned, it *cannot* be assigned to a new variable.
-
-Streams cannot be ``const`` because the only operator defined on them
-mutates the stream’s internal state. This means that a variable
-initialised with a stream can be assigned a new stream of the same type.
-This would create a new stream with a clean state. For example:
-
-::
-
-     var in = std_input();
-     in = std_input();
-
-Assigning a stream of a different type is a **type error**. For example,
-this should result in an error.
-
-::
-
-     var in = std_input();
-     in = std_output();
-
-
-The streams constructors ``std_output()`` and ``std_input()`` *will
-not* be used in expressions. They must be assigned before use so that
-``stream_state`` can be checked later. For example, the following
-tests would result in an error:
-
-::
-
-          'a' -> std_output();
-
-::
-
-          character b;
-          b <- std_input();
 
 .. _ssec:output:
 
@@ -64,7 +16,7 @@ Output streams use the following syntax:
 
 ::
 
-     <exp> -> out;
+     <exp> -> std_output;
 
 .. _sssec:output_format:
 
@@ -91,7 +43,7 @@ For example:
 ::
 
      integer[*] v = 1..3;
-     v -> out;
+     v -> std_output;
 
 prints the following:
 
@@ -105,7 +57,7 @@ For example:
 ::
 
      string str = "Hello, World!";
-     str -> out;
+     str -> std_output;
 
 prints the following:
 
@@ -117,7 +69,7 @@ prints the following:
 
 ::
 
-     [[1, 2, 3], [4, 5, 6], [7, 8, 9]] -> out;
+     [[1, 2, 3], [4, 5, 6], [7, 8, 9]] -> std_output;
 
 prints the following:
 
@@ -134,8 +86,8 @@ character. For example:
 
 ::
 
-     '\n' -> out;
-     ' ' -> out;
+     '\n' -> std_output;
+     ' ' -> std_output;
 
 .. _sssec:stream_nai:
 
@@ -154,7 +106,7 @@ Input streams use the following syntax:
 
 ::
 
-     <l-value> <- inp;
+     <l-value> <- std_input;
 
 An l-value may be anything that can appear on the left hand side of an
 assignment statement. Consider reading the discussion of an l-value
@@ -200,9 +152,8 @@ the read then an :ref:`error state <sssec:stream_error>` is set. For example, th
 
 ::
 
-     boolean b;
-     var stdin = std_input();
-     b <- stdin;
+     character b;
+     b <- std_input;
 
 With the standard input stream containing this:
 

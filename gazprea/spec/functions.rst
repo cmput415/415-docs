@@ -48,7 +48,7 @@ This defines a function called times_two which can be used as follows:
           */
          integer value = times_two(4);
 
-         value -> out; "\n" -> out;
+         value -> std_output; "\n" -> std_output;
 
 Functions can have an arbitrary number of arguments. Here are some
 examples of functions with different numbers of arguments:

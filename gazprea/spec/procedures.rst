@@ -123,7 +123,7 @@ raised.
            var out = std_output();
            integer x = 1;
            x = x + x;
-           x -> out;
+           x -> std_output;
 
            /* must have a return */
            return 0;

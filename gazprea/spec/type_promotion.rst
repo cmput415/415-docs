@@ -53,7 +53,7 @@ equivalent dimensions and equivalent internal type. For example:
      integer[*] res = v + i;
 
      var out = std_output();
-     res -> out;
+     res -> std_output;
 
 would print the following:
 
@@ -98,12 +98,12 @@ Field names of tuples are overwritten by the field names of the left-hand side i
 
      var out = std_output();
      tuple(real a, real b) foo = (1, 2);
-     foo.a -> out; // 1
-     foo.b -> out; // 2
+     foo.a -> std_output; // 1
+     foo.b -> std_output; // 2
      tuple(integer c, real) bar = foo;
-     bar.a -> out; // error
-     bar.b -> out; // error
-     bar.c -> out; // 1
+     bar.a -> std_output; // error
+     bar.b -> std_output; // error
+     bar.c -> std_output; // 1
 
 
 If initializing a variable with a tuple via :ref:`sec:typeInference`, the variable is assumed to be the same type. Therefore, field names are also copied over accordingly. For example:
@@ -112,11 +112,11 @@ If initializing a variable with a tuple via :ref:`sec:typeInference`, the variab
 
      var out = std_output();
      tuple(real a, real b) foo = (1, 2);
-     foo.a -> out; // 1
-     foo.b -> out; // 2
+     foo.a -> std_output; // 1
+     foo.b -> std_output; // 2
      var bar = foo;
-     bar.a -> out; // 1
-     bar.b -> out; // 2
+     bar.a -> std_output; // 1
+     bar.b -> std_output; // 2
 
 Character Vector to/from String
 -------------------------------

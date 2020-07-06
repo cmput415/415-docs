@@ -123,7 +123,7 @@ same scoping rules. For instance:
 
          /* This will print 1234567 */
          loop i in 1..i {
-           i -> out;
+           i -> std_output;
          }
 
 Domain variables are not initialized when they are declared. For
@@ -140,14 +140,14 @@ expressions, since the value may be uninitialized.
          /* This is illegal because the i in "j in 1..i" refers to the domain
             variable i. An error should be raised in this case. */
          loop i in 1..i, j in 1..i {
-            i * j -> out;
+            i * j -> std_output;
          }
 
          /* This is legal since i will be initialized whenever the inner loop
             is executed */
          loop i in 1..i {
            loop j in 1..i {
-             i * j -> out;
+             i * j -> std_output;
            }
          }
 
