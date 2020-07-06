@@ -72,7 +72,7 @@ built in function:
 
 ::
 
-         stream_state(inp)
+         stream_state(std_input)
 
 This function can only be called with the input stream as a parameter,
 but it’s general enough that it could be used if the language were

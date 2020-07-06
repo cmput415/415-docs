@@ -177,7 +177,7 @@ is implicitly defined in every file:
 
      procedure stream_state(var input_stream) returns integer;
 
-This function can only be called with an input stream as a parameter.
+This function can only be called with ``std_input`` as a parameter.
 When called, ``stream_state`` will return an integer valued error code
 defined as follows:
 
