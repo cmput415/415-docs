@@ -1,187 +1,113 @@
-.. _sec:errors:
-
 Errors
 ======
 
-The only error you need to support are are *static* type errors. Error
-messages should be printed to the standard error stream.
+Your implementation is required to report both compile-time and runtime errors.
 
-.. _ssec:error_ops:
+Compile-time Errors
+-------------------
 
-In Operations
--------------
+Compile-time errors must be handled by throwing `C++ standard exceptions <http://www.cplusplus.com/doc/tutorial/exceptions/>`__.
 
-These are type errors that occur in an expression when you cannot :ref:`implicitly convert <sec:typePromotion>` the
-type of one operand to the type of the other. Errors should be printed
-with the following form:
+You must create all your exception classes in a single header file ``include/exceptions.h`` and extend ``std::exception``.
 
-::
-
-     Type error: Cannot convert between <lhs type> and <rhs type> on line <line number>
-
-.. _sssec:error_ops_stos:
-
-Between Scalars
-~~~~~~~~~~~~~~~
-
-Scalars are the simplest case and compare their type against another.
-For example:
+Example exception class:
 
 ::
 
-     procedure main() returns integer {
-       int i = 'a' + 1;
-     }
+    /* exceptions.h */
 
-Should raise the following error:
+    #include <string>
+    #include <sstream>
 
-::
+    class TypeError : public std::exception {
+    private:
+        std::string msg;
+    public:
+        TypeError(std::string lhs, std::string rhs, int line) {
+            std::stringstream sstream;
+            sstream << "Type error: Cannot convert between "
+                    << lhs << " and " << rhs << " on line " << line << "\n";
+            msg = sstream.str();
+        }
 
-     Type error: Cannot convert between character and integer on line 2
+        virtual const char* what() const throw() {
+            return msg.c_str();
+        }
+    };
 
-.. _sssec:error_ops_stovm:
-
-Scalar to Vector/Matrix
-~~~~~~~~~~~~~~~~~~~~~~~
-
-In a scalar to ``vector`` or ``matrix`` conversion, the scalar’s type 
-must be :ref:`implicitly convertable <sec:typePromotion>` to the element type
-of the ``vector`` or ``matrix``. Note that this comparison can be
-performed even if the size of the ``vector`` or ``matrix`` is unknown.
-When printing the type of the ``vector`` or ``matrix``, include the
-``vector`` part of the type, including size if it is known or an ``*``
-otherwise. For example:
-
-::
-
-     procedure main() returns integer {
-       var in = std_input();
-       integer a;
-       integer b;
-       a <- in;
-       b <- in;
-       integer[3] v = as<integer[3]>('a' + [i in a..b | i]);
-     }
-
-Should raise the following error:
+Whenever you encounter an error, you throw an exception.
+For the example above:
 
 ::
 
-     Type error: Cannot convert between character and integer[*] on line 7
+    throw TypeError("int", "char", 10);
 
-.. _sssec:error_ops_vtov:
+Syntax Errors
+~~~~~~~~~~~~~
 
-Vector to Vector
-~~~~~~~~~~~~~~~~
+Syntax errors are also compile-time errors. ANTLR handles syntax errors automatically, but you are required to override the behavior and throw an exception.
 
-In a ``vector`` to ``vector`` conversion, one of the element types must
-be :ref:`implicitly convertable <sec:typePromotion>` to the other element
-type and the sizes of the each ``vector`` must match. The element type 
-will always be known at compile time but if one or both of the sizes is not
-known, then **NO STATIC TYPE CHECKING WILL BE PERFORMED**. 
-For example, with differences in sizes:
+Example:
 
 ::
 
-     procedure main() returns integer {
-       integer[3] a = [1, 2, 3];
-       integer[2] b = [1, 2];
-       integer[2] v = as<integer[2]>(a + b);
-     }
+    /* exceptions.h */
 
-Should raise the following error:
+    #include <string>
+    #include <sstream>
 
-::
+    class SyntaxError : public std::exception {
+    private:
+        std::string msg;
+    public:
+        SyntaxError(std::string msg) : msg(msg) {}
 
-     Type error: Cannot convert between integer[3] and integer[2] on line 4
-
-For example, with unconvertable element types:
-
-::
-
-     procedure main() returns integer {
-       character[3] a = ['a', 'b', 'c'];
-       integer[3] b = [1, 2, 3];
-       integer[3] v = a + b;
-     }
-
-Should raise the following error:
+        virtual const char* what() const throw() {
+            return msg.c_str();
+        }
+    };
 
 ::
 
-     Type error: Cannot convert between character[3] and integer[3] on line 4
+    /* main.cpp */
 
-While there is potentially a runtime error in this example, there is no
-compile time error because the size of ``d`` is unknowable:
+    class MyErrorListener : public antlr4::BaseErrorListener {
+        void syntaxError(antlr4::Recognizer *recognizer, antlr4::Token * offendingSymbol,
+                         size_t line, size_t charPositionInLine, const std::string &msg,
+                         std::exception_ptr e) override {
 
-::
+            std::vector<std::string> rule_stack = ((antlr4::Parser*) recognizer)->getRuleInvocationStack(); // This can be used for determining in what rule and context the error has occurred in
+            throw SyntaxError(msg);
+        }
+    };
 
-     procedure main() returns integer {
-       var in = std_input();
-       integer a;
-       integer b;
-       a <- in;
-       b <- in;
-       integer[3] c = [1, 2, 3];
-       integer[*] d = [i in a..b | i];
-       integer[2] v = as<integer[2]>(c + d);
-     }
+    int main(int argc, char **argv) {
 
-.. _sssec:error_ops_mtom:
+        ...
 
-Matrix to Matrix
-~~~~~~~~~~~~~~~~
+        gazprea::GazpreaParser parser(&tokens);
 
-In a ``matrix`` to ``matrix`` conversion, one of the element types must
-be :ref:`implicitly convertable <sec:typePromotion>` to the other
-element type and the sizes of the each ``matrix`` must
-match. The element type will always be known at compile time but if one
-or both of the sizes is not known, then **NO STATIC TYPE CHECKING WILL
-BE PERFORMED**. For example, with differences in sizes:
+        parser.removeErrorListeners(); // Remove the default console error listener
+        parser.addErrorListener(new MyErrorListener()); // Add our error listener
 
-::
+        ...
+    }
 
-     procedure main() returns integer {
-       integer[2, 2] a = [[1, 2], [3, 4]];
-       integer[1, 2] b = [[1, 2]];
-       integer[2, 2] m = as<integer[2, 2]>(a + b);
-     }
+For more information regarding the handling of syntax errors in ANTLR, refer to chapter 9 of `The Definitive ANTLR 4 Reference <https://pragprog.com/titles/tpantlr2/>`__.
 
-Should raise the following error:
+Runtime Errors
+--------------
+
+Since the runtime library is written in C, you do not have access to C++ standard exceptions.
+
+Instead, you are required to have a single header file ``errors.h`` containing all your functions that print error messages to ``stderr``.
+
+Example:
 
 ::
 
-     Type error: Cannot convert between integer[2, 2] and integer[1, 2]  on line 4
+    /* errors.h */
 
-For example, with unconvertable element types:
-
-::
-
-     procedure main() returns integer {
-       character[2, 2] a = [['a', 'b'], ['c', 'd']];
-       integer[2, 2] b = [[1, 2], [3, 4]];
-       integer[2, 2] m = a + b;
-     }
-
-Should raise the following error:
-
-::
-
-     Type error: Cannot convert between character[2, 2] and integer[2, 2] on line 4
-
-While there is potentially a runtime error in this example, there is no
-compile time error because the size of ``d`` is unknowable:
-
-::
-
-     procedure main() returns integer {
-       var in = std_input();
-       integer a;
-       integer b;
-       a <- in;
-       b <- in;
-       integer[2, 2] c = [[1, 2], [3, 4]];
-       integer[*, *] d = [i in a..b, j in a..b | i * j];
-       integer[2, 2] m = as<integer[2, 2]>(c + d);
-     }
-
+    void sizeMismatchError() {
+        fprintf(stderr, "Size mismatch error: Can not operate between two vectors or matrices of differing size");
+    }
