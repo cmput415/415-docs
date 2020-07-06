@@ -48,6 +48,14 @@ asked or useful things are found. You will be notified as appropriate.
    completed before emitting any code and instead you will see only
    their result as a constant.
 
+   You can disable code folding by adding ``NoFolder`` to your IRBuilder.
+
+::
+
+   #include "llvm/IR/IRBuilder.h"
+   #include "llvm/IR/NoFolder.h"
+   llvm::IRBuilder<llvm::NoFolder> noFoldBuilder;
+
 -  Sometimes *LLVM* generates unexpected (but correct) code. For
    example, requesting an integer cast can generate a multitude of
    instructions based on size of operands and signedness.
