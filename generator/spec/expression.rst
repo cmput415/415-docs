@@ -14,8 +14,8 @@ exponentiation ^          ``expr ^ expr`` right
 multiplication \*         ``expr * expr`` left
 division       /          ``expr / expr`` left
 remainder      %          ``expr % expr`` left
-addition       +          ``expr + expr`` left
-subtraction    -          ``expr - expr`` left
+addition       \+         ``expr + expr`` left
+subtraction    \-         ``expr - expr`` left
 ============== ========== =============== =================
 
 | **Assertion:** All exponents are :math:`\geq 0`.
@@ -65,8 +65,8 @@ works as defined in the following table:
 **Precedence** **Operations**
 ============== ==============
 HIGHER         ^
-\              \*,/,%
-LOWER          +,-
+\              \* / %
+LOWER          \+ \-
 ============== ==============
 
 The higher the precedence the sooner the value should be evaluated. For
