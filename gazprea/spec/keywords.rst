@@ -48,8 +48,6 @@ not be used by a programmer.
 
 -  loop
 
--  matrix
-
 -  not
 
 -  null
@@ -83,8 +81,6 @@ not be used by a programmer.
 -  typedef
 
 -  var
-
--  vector
 
 -  while
 
