@@ -132,7 +132,7 @@ operation represented by the symbol ``^``. For example
      2 ^ 3 ^ 4 ^ 5
 
 should be evaluated as:
-:math:`  2 ^ {\displaystyle 3 ^ {\displaystyle 4 ^ {\displaystyle 5 }}}`
+:math:`2 ^ {3 ^ {4 ^ {5}}}`
 
 In order for this expression to be evaluated correctly the following
 parse tree must be generated
