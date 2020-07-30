@@ -1,5 +1,8 @@
 Testing
--------
+=======
+
+Testing Tool
+------------
 
 Inside the ``tests`` directory, a testing configuration file,
 ``SCalcConfigInterpreterOnly.json``, is provided. You need to edit
@@ -41,3 +44,23 @@ then understand how to pull the relevant parts out of the full
 configuration (binary path changes may be needed, arguments should be
 the same).
 
+
+Generating Test Cases
+---------------------
+
+.. todo:: Put Fuzzer onto cmput415 GitHub
+
+A `Python script <https://github.com/Icohedron/ObfSCalcFuzzer>`__ ``fuzzer.py`` is 
+available for automatic generation of random test cases.
+
+More information is available in the README file included with the script,
+but an example usage of the script is as follows:
+
+::
+
+     python fuzzer.py config.json test
+
+The above command will generate two files: ``test.in`` and ``test.out``, where
+``test.in`` contains the SCalc source code of the test case and ``test.out``
+contains the expected output. These files can be placed in your ``tests`` 
+directory for use with the :ref:`testing_tool`.
