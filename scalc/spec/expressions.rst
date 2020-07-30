@@ -15,8 +15,8 @@ addition and subtraction have an equal level of precedence.
 ========== ============== ========== ================ =================
 Arithmetic multiplication \*         ``expr * expr``  left
 \          division       /          ``expr / expr``  left
-\          addition       +          ``expr + expr``  left
-\          subtraction    -          ``expr - expr``  left
+\          addition       \+         ``expr + expr``  left
+\          subtraction    \-         ``expr - expr``  left
 Comparison less than      <          ``expr < expr``  left
 \          greater than   >          ``expr > expr``  left
 \          is equal       ==         ``expr == expr`` left
@@ -69,9 +69,9 @@ works as defined in the following table:
 ============== ==============
 **Precedence** **Operations**
 ============== ==============
-HIGHER         \*,/
-\              +,-
-\              <, >
-LOWER          ==, !=
+HIGHER         \* /
+\              \+ \-
+\              < >
+LOWER          == !=
 ============== ==============
 
