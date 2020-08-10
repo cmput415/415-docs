@@ -252,7 +252,7 @@ tool for visualising the parse tree for a grammar rule and an input.
 #. Launch CLion by going to the application launcher (finder) and typing
    ``clion``. This should launch CLion.
 
-#. Open the settings window ``CLion \rightarrow Preferences...``
+#. Open the settings window ``CLion`` :math:`\rightarrow` ``Preferences...``
 
 #. Select ``Plugins`` from the menu on the left.
 
