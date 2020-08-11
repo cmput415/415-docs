@@ -10,10 +10,10 @@ LibUUID is a library required for many applications so it’s possible that you�
 already installed this while installing something else. Best to try and install
 it anyways:
 
-::
+.. code-block:: console
 
-     sudo apt-get update
-     sudo apt-get install uuid-dev
+ $ sudo apt-get update
+ $ sudo apt-get install uuid-dev
 
 Installing OpenJDK JRE 8
 ------------------------
@@ -21,10 +21,10 @@ Installing OpenJDK JRE 8
 The Java runtime environment (JRE) is required to run the ANTLR generator.
 OpenJDK’s JRE is easier to install than Oracle’s, so we’ll use that.
 
-::
+.. code-block:: console
 
-     sudo apt-get update
-     sudo apt-get install openjdk-8-jre
+ $ sudo apt-get update
+ $ sudo apt-get install openjdk-8-jre
 
 Installing Git
 --------------
@@ -32,20 +32,20 @@ Installing Git
 Git should be installed by default in Ubuntu. If you’ve removed it or it is
 otherwise unavailable then you can install it using this command:
 
-::
+.. code-block:: console
 
-     sudo apt-get update
-     sudo apt-get install git
+ $ sudo apt-get update
+ $ sudo apt-get install git
 
 Installing CMake
 ----------------
 
 Installing CMake from our package manager is easy too:
 
-::
+.. code-block:: console
 
-     sudo apt-get update
-     sudo apt-get install cmake
+ $ sudo apt-get update
+ $ sudo apt-get install cmake
 
 ANTLR 4 C++ Runtime
 -------------------
@@ -58,18 +58,18 @@ steps appropriately.
 #. To make things easy, we are going to do everything inside a new directory in
    your home directory.
 
-   ::
+   .. code-block:: console
 
-            mkdir $HOME/antlr
+    $ mkdir $HOME/antlr
 
    We’ll refer to this directory as ``ANTLR_PARENT``.
 
 #. Next we need to clone the runtime source from GitHub:
 
-   ::
+   .. code-block:: console
 
-            cd $HOME/antlr
-            git clone https://github.com/antlr/antlr4.git
+    $ cd $HOME/antlr
+    $ git clone https://github.com/antlr/antlr4.git
 
    This should create a new folder called ``antlr4`` in ``ANTLR_PARENT``. We’ll
    refer to this new directory (``<ANTLR_PARENT>/antlr4``) as ``SRC_DIR``.
@@ -77,10 +77,10 @@ steps appropriately.
 #. We will be using ANTLR 4.7.1 so we need to change to the git tag for version
    4.7.1.
 
-   ::
+   .. code-block:: console
 
-            cd <SRC_DIR>
-            git checkout 4.7.1
+    $ cd <SRC_DIR>
+    $ git checkout 4.7.1
 
    This will give you a warning about being in a “detached head state”. Since we
    won’t be changing anything in ANTLR there is no need to create a branch. No
@@ -89,10 +89,10 @@ steps appropriately.
 #. Now we need a place to build the runtime. CMake suggests making your build
    directory inside your source directory.
 
-   ::
+   .. code-block:: console
 
-            cd <SRC_DIR>
-            mkdir antlr4-build
+    $ cd <SRC_DIR>
+    $ mkdir antlr4-build
 
    We’ll refer to this new directory (``<SRC_DIR>/antlr4-build``) as
    ``BUILD_DIR``.
@@ -101,34 +101,34 @@ steps appropriately.
    referenced in the build step. This directory will have the headers and
    compiled ANTLR libraries put into it. To make the actual directory:
 
-   ::
+   .. code-block:: console
 
-            cd <ANTLR_PARENT>
-            mkdir antlr4-install
+    $ cd <ANTLR_PARENT>
+    $ mkdir antlr4-install
 
    We’ll refer to this new directory (``<ANTLR_PARENT>/antlr4-install``) as
    ``INSTALL_DIR``.
 
    Before continuing, confirm your directory structure looks like this:
 
-   ::
+   .. code-block::
 
-            +-- antlr/
-                +-- antlr4/
-                |   +-- antlr4-build/
-                +-- antlr4-install/
+    +-- antlr/
+        +-- antlr4/
+        |   +-- antlr4-build/
+        +-- antlr4-install/
 
 #. Finally, we’re ready to start the actual build process. Let’s begin by doing
    the generate and configure CMake step for the runtime. We need to do this
    while inside the build directory. As well, we need to tell it that we want a
    release build and to install it to a certain directory.
 
-   ::
+   .. code-block:: console
 
-            cd <BUILD_DIR>
-            cmake <SRC_DIR>/runtime/Cpp/ \
-              -DCMAKE_BUILD_TYPE=RELEASE \
-              -DCMAKE_INSTALL_PREFIX="<INSTALL_DIR>"
+    $ cd <BUILD_DIR>
+    $ cmake <SRC_DIR>/runtime/Cpp/ \
+        -DCMAKE_BUILD_TYPE=RELEASE \
+        -DCMAKE_INSTALL_PREFIX="<INSTALL_DIR>"
 
    You will be presented with come CMake warnings but they’re safe to ignore.
 
@@ -139,18 +139,18 @@ steps appropriately.
    failed in the past. This isn’t a big issue because you can always just try
    again with a limited number of threads.
 
-   ::
+   .. code-block:: console
 
-            make install -j<number of threads>
+    $ make install -j<number of threads>
 
 #. Now we can add the install to your bashrc. Pick your favorite text editor,
    open ``~/.bashrc``, and add the following lines to the end, substituting
    appropriately:
 
-   ::
+   .. code-block:: shell
 
-            # C415 ANTLR install
-            export ANTLR_INS=<INSTALL_DIR>
+    # C415 ANTLR install
+    export ANTLR_INS=<INSTALL_DIR>
 
    **Make sure there is no trailing /.** Restart your terminal for things to
    take effect.
@@ -165,18 +165,18 @@ Installing CLion
 #. Assuming you’ve downloaded the tarball to your ``~/Downloads`` folder, you
    can extract it to ``/opt/`` using the following command:
 
-   ::
+   .. code-block:: console
 
-            sudo tar -xzf ~/Downloads/CLion-<version>.tar.gz -C /opt/
+    $ sudo tar -xzf ~/Downloads/CLion-<version>.tar.gz -C /opt/
 
    If you are confident about your ability to setup your own install you can put
    it elsewhere but you will be on your own.
 
 #. Execute the installer:
 
-   ::
+   .. code-block:: console
 
-            /opt/CLion-<version>/bin/clion.sh
+    $ /opt/CLion-<version>/bin/clion.sh
 
 #. Perform the initial set up of CLion.
 
@@ -244,27 +244,28 @@ ANTLR generator. Follow these steps into install it:
    it elsewhere though, you can. We’ll refer to this new directory (e.g.
    ``<INSTALL_DIR>/bin``) as ``ANTLR_BIN``.
 
-   ::
+   .. code-block:: console
 
-            mkdir <ANTLR_BIN>
-            curl http://www.antlr.org/download/antlr-4.7.1-complete.jar > <ANTLR_BIN>/antlr-4.7.1-complete.jar
+    $ mkdir <ANTLR_BIN>
+    $ curl http://www.antlr.org/download/antlr-4.7.1-complete.jar \
+        > <ANTLR_BIN>/antlr-4.7.1-complete.jar
 
 #. Now we can make it easy to use. Add the following lines to your ``~/.bashrc``:
 
-   ::
+   .. code-block:: shell
 
-            # C415 Antlr Generator
-            export CLASSPATH="<ANTLR_BIN>/antlr-4.7.1-complete.jar:$CLASSPATH"
-            alias antlr4="java -Xmx500M org.antlr.v4.Tool"
-            alias grun='java org.antlr.v4.gui.TestRig'
+    # C415 Antlr Generator
+    export CLASSPATH="<ANTLR_BIN>/antlr-4.7.1-complete.jar:$CLASSPATH"
+    alias antlr4="java -Xmx500M org.antlr.v4.Tool"
+    alias grun='java org.antlr.v4.gui.TestRig'
 
    Restart your terminal for things to take effect. Now these commands should
    produce useful help outputs:
 
-   ::
+   .. code-block:: console
 
-            antlr4
-            grun
+    $ antlr4
+    $ grun
 
 Installing the Tester
 ---------------------
@@ -278,53 +279,53 @@ request and we’ll review it!
 
 #. We’ll build the tool in your home directory.
 
-   ::
+   .. code-block:: console
 
-            cd $HOME
-            git clone https://github.com/cmput415/Tester.git
+    $ cd $HOME
+    $ git clone https://github.com/cmput415/Tester.git
 
 #. Next we’ll make the build directory.
 
-   ::
+   .. code-block:: console
 
-            cd Tester
-            mkdir build
+    $ cd Tester
+    $ mkdir build
 
 #. Now, the configure and generate step.
 
-   ::
+   .. code-block:: console
 
-            cd build
-            cmake ..
+    $ cd build
+    $ cmake ..
 
 #. You may not have the uuid library installed by default. We need it to
    complete the ANTLR build:
 
-   ::
+   .. code-block:: console
 
-            sudo apt-get install uuid-dev
+    $ sudo apt-get install uuid-dev
 
 #. Finally, build the project.
 
-   ::
+   .. code-block:: console
 
-            make
+    $ make
 
 #. We could refer directly to the executable every time, but it’s probably
    easier to just have it on our path. Add these lines to the end of
    ``~/.bashrc``.
 
-   ::
+   .. code-block:: shell
 
-            # C415 Testing Utility
-            export PATH="$HOME/Tester/bin/:$PATH"
+    # C415 Testing Utility
+    export PATH="$HOME/Tester/bin/:$PATH"
 
 #. Restart your terminal to have changes take effect. Test the command to make
    sure it works.
 
-   ::
+   .. code-block:: console
 
-            tester --help
+    $ tester --help
 
 For more info about organising your tests and creating a configuration (though
 templates will be provided with your assignments) you can check `the Tester
@@ -339,21 +340,21 @@ Everything should be setup! Let’s just make sure.
 
 #. Extract it via
 
-   ::
+   .. code-block:: console
 
-            tar -xzf demo.tar.gz
+    $ tar -xzf demo.tar.gz
 
 #. Change into the extracted directory.
 
-   ::
+   .. code-block:: console
 
-            cd demo
+    $ cd demo
 
 #. Make the project.
 
-   ::
+   .. code-block:: console
 
-            make
+    $ make
 
 #. The project should compile with no warnings or errors. If there’s a problem,
    you may have set something up incorrectly. Otherwise, congrats!
@@ -384,9 +385,9 @@ Makefile
 First, download `the Makefile </_static/Makefile>`__ from the link and put it in
 your folder. Alternatively you can download straight to your directory:
 
-::
+.. code-block:: console
 
-     curl https://webdocs.cs.ualberta.ca/~c415/setup/static/Makefile > Makefile
+ $ curl https://webdocs.cs.ualberta.ca/~c415/setup/static/Makefile > Makefile
 
 This Makefile is both rather complex and simple. The internals are the
 complicated part. If you’d like to understand how the Makefile works then
@@ -405,33 +406,33 @@ As you can see, this isn’t the most scalable of directory structures but it is
 functional for playing with ANTLR and C++. To test that it’s working, create
 your grammar file with:
 
-::
+.. code-block::
 
-     grammar <file_name>;
-     <top_rule>: ANYTHING*? EOF;
-     ANYTHING: .;
+ grammar <file_name>;
+ <top_rule>: ANYTHING*? EOF;
+ ANYTHING: .;
 
 And the file that has your main in it:
 
-::
+.. code-block:: c++
 
-     #include "<grammar_name>Parser.h"
-     int main() { return 0; }
+ #include "<grammar_name>Parser.h"
+ int main() { return 0; }
 
 You should be able to make it and run the tool (it won’t produce any output):
 
-::
+.. code-block:: console
 
-     make
-     ./tool
+ $ make
+ $ ./tool
 
 We’ve also enabled you to use the ANTLR GUI through the Makefile. First, make an
 input file. Then, pass it to the Makefile ‘gui‘ rule:
 
-::
+.. code-block:: console
 
-     echo "this is a test" > test.txt
-     make gui grammar=<grammar_name> rule=<top_rule> file=test.txt
+ $ echo "this is a test" > test.txt
+ $ make gui grammar=<grammar_name> rule=<top_rule> file=test.txt
 
 Any grammar in the same directory as the make file can be used in this fashion
 (including the ``.g4`` extension is optional). The ``rule`` can be any rule in

@@ -30,18 +30,18 @@ Installing CLion
 #. Assuming you’ve downloaded the tarball to your ``~/Downloads`` folder, you
    can extract it to your home directory using the following command:
 
-   ::
+   .. code-block:: console
 
-    sudo tar -xzf ~/Downloads/CLion-<version>.tar.gz -C ~
+    $ sudo tar -xzf ~/Downloads/CLion-<version>.tar.gz -C ~
 
    If you are confident about your ability to setup your own install you can put
    it elsewhere but you will be on your own.
 
 #. From now on, you can start *CLion* by using the following command:
 
-   ::
+   .. code-block:: console
 
-    ~/CLion-<version>/bin/clion.sh
+    $ ~/CLion-<version>/bin/clion.sh
 
 #. Perform the initial set up of CLion.
 

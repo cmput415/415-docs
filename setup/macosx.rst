@@ -10,9 +10,10 @@ It’s likely that you’ve already done this since you’re in the Computing Sc
 program, but in the event that you have a fresh install, run the following
 command to install Mac OS developer tools:
 
-::
+.. code-block:: console
 
-     xcode-select --install
+ $ xcode-select --install
+
 
 Installing Homebrew
 -------------------
@@ -21,15 +22,15 @@ Homebrew is a package manager for Mac OS X. If you don’t have it yet, you can
 read about it `here <https://brew.sh/>`__. Otherwise, install it via the command
 on their front page:
 
-::
+.. code-block:: console
 
-     /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+ $ /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 
 You can check that it succeeded by checking its version:
 
-::
+.. code-block:: console
 
-     brew --version
+ $ brew --version
 
 Homebrew itself is not a requirement, just an easy suggestion, but a package
 manager is. Using another package manager (like `Nix
@@ -43,9 +44,9 @@ Installing from the Oracle download page requires a bunch of extra set up when
 instead you could just use our good friend Homebrew to install it (unfortunately
 you get the JDK not just the JRE).
 
-::
+.. code-block:: console
 
-     brew cask install java
+ $ brew cask install java
 
 .. _installing-git-1:
 
@@ -55,17 +56,17 @@ Installing Git
 The Apple managed version of git should have been installed with your developer
 tools, you can test this by checking the version.
 
-::
+.. code-block:: console
 
-     git --version
+ $ git --version
 
 (OPTIONAL) If you want a more recent version, you can install one through brew
 (or your favorite package manager). At the time of writing this, the versions
 only differ by two minor versions, so the difference is not significant.
 
-::
+.. code-block:: console
 
-     brew install git
+ $ brew install git
 
 .. _installing-cmake-1:
 
@@ -74,9 +75,9 @@ Installing CMake
 
 Brew (or otherwise) makes this easy:
 
-::
+.. code-block:: console
 
-     brew install cmake
+ $ brew install cmake
 
 .. _antlr-4-c-runtime-1:
 
@@ -91,18 +92,18 @@ steps appropriately.
 #. To make things easy, we are going to do everything inside a new directory in
    your home directory.
 
-   ::
+   .. code-block:: console
 
-            mkdir $HOME/antlr
+     $ mkdir $HOME/antlr
 
    We’ll refer to this directory as ``ANTLR_PARENT``.
 
 #. Next we need to clone the runtime source from GitHub:
 
-   ::
+   .. code-block:: console
 
-            cd $HOME/antlr
-            git clone https://github.com/antlr/antlr4.git
+    $ cd $HOME/antlr
+    $ git clone https://github.com/antlr/antlr4.git
 
    This should create a new folder called ``antlr4`` in
    ``ANTLR_PARENT``. We’ll refer to this new directory
@@ -111,10 +112,10 @@ steps appropriately.
 #. We will be using ANTLR 4.7.1 so we need to change to the git tag for version
    4.7.1.
 
-   ::
+   .. code-block:: console
 
-            cd <SRC_DIR>
-            git checkout 4.7.1
+    $ cd <SRC_DIR>
+    $ git checkout 4.7.1
 
    This will give you a warning about being in a “detached head state”. Since we
    won’t be changing anything in ANTLR there is no need to create a branch. No
@@ -123,10 +124,10 @@ steps appropriately.
 #. Now we need a place to build the runtime. CMake suggests making your build
    directory inside your source directory.
 
-   ::
+   .. code-block:: console
 
-            cd <SRC_DIR>
-            mkdir antlr4-build
+    $ cd <SRC_DIR>
+    $ mkdir antlr4-build
 
    We’ll refer to this new directory (``<SRC_DIR>/antlr4-build``) as
    ``BUILD_DIR``.
@@ -135,34 +136,34 @@ steps appropriately.
    referenced in the build step. This directory will have the headers and
    compiled ANTLR libraries put into it. To make the actual directory:
 
-   ::
+   .. code-block:: console
 
-            cd <ANTLR_PARENT>
-            mkdir antlr4-install
+    $ cd <ANTLR_PARENT>
+    $ mkdir antlr4-install
 
    We’ll refer to this new directory (``<ANTLR_PARENT>/antlr4-install``) as
    ``INSTALL_DIR``.
 
    Before continuing, confirm your directory structure looks like this:
 
-   ::
+   .. code-block::
 
-            +-- antlr/
-                +-- antlr4/
-                |   +-- antlr4-build/
-                +-- antlr4-install/
+    +-- antlr/
+        +-- antlr4/
+        |   +-- antlr4-build/
+        +-- antlr4-install/
 
 #. Finally, we’re ready to start the actual build process. Let’s begin by doing
    the generate and configure CMake step for the runtime. We need to do this
    while inside the build directory. As well, we need to tell it that we want a
    release build and to install it to a certain directory.
 
-   ::
+   .. code-block:: console
 
-            cd <BUILD_DIR>
-            cmake <SRC_DIR>/runtime/Cpp/ \
-              -DCMAKE_BUILD_TYPE=RELEASE \
-              -DCMAKE_INSTALL_PREFIX="<INSTALL_DIR>"
+    $ cd <BUILD_DIR>
+    $ cmake <SRC_DIR>/runtime/Cpp/ \
+        -DCMAKE_BUILD_TYPE=RELEASE \
+        -DCMAKE_INSTALL_PREFIX="<INSTALL_DIR>"
 
    You will be presented with come CMake warnings but they’re safe to ignore.
 
@@ -173,18 +174,18 @@ steps appropriately.
    failed in the past. This isn’t a big issue because you can always just try
    again with a limited number of threads.
 
-   ::
+   .. code-block:: console
 
-            make install -j<number of threads>
+    $ make install -j<number of threads>
 
 #. Now we can add the install to your bash profile. Pick your favorite text
    editor, open ``~/.bash_profile``, and add the following lines to the end,
    substituting appropriately:
 
-   ::
+   .. code-block:: sh
 
-            # C415 ANTLR install
-            export ANTLR_INS=<INSTALL_DIR>
+    # C415 ANTLR install
+    export ANTLR_INS=<INSTALL_DIR>
 
    **Make sure there is no trailing /.** Restart your terminal for things to
    take effect.
@@ -196,9 +197,9 @@ Installing CLion
 
 #. Use Homebrew to install CLion:
 
-   ::
+   .. code-block:: console
 
-            brew cask install clion
+    $ brew cask install clion
 
 #. Open CLion (via spotlight: command+space :math:`\rightarrow` type ``CLion``).
 
@@ -272,28 +273,29 @@ ANTLR generator. Follow these steps into install it:
    it elsewhere though, you can. We’ll refer to this new directory (e.g.
    ``<INSTALL_DIR>/bin``) as ``ANTLR_BIN``.
 
-   ::
+   .. code-block:: console
 
-            mkdir <ANTLR_BIN>
-            curl http://www.antlr.org/download/antlr-4.7.1-complete.jar > <ANTLR_BIN>/antlr-4.7.1-complete.jar
+    $ mkdir <ANTLR_BIN>
+    $ curl http://www.antlr.org/download/antlr-4.7.1-complete.jar \
+        > <ANTLR_BIN>/antlr-4.7.1-complete.jar
 
 #. Now we can make it easy to use. Add the following lines to your
    ``~/.bash_profile``:
 
-   ::
+   .. code-block:: shell
 
-            # C415 Antlr Generator
-            export CLASSPATH="<ANTLR_BIN>/antlr-4.7.1-complete.jar:$CLASSPATH"
-            alias antlr4="java -Xmx500M org.antlr.v4.Tool"
-            alias grun='java org.antlr.v4.gui.TestRig'
+    # C415 Antlr Generator
+    export CLASSPATH="<ANTLR_BIN>/antlr-4.7.1-complete.jar:$CLASSPATH"
+    alias antlr4="java -Xmx500M org.antlr.v4.Tool"
+    alias grun='java org.antlr.v4.gui.TestRig'
 
    Restart your terminal for things to take effect. Now these commands should
    produce useful help outputs:
 
-   ::
+   .. code-block:: console
 
-            antlr4
-            grun
+    $ antlr4
+    $ grun
 
 .. _installing-the-tester-1:
 
@@ -312,54 +314,54 @@ request and we’ll review it!
    While it *is* possible to build with Clang, the process and invocation is
    much more involved. Why stress ourselves when GCC can save us the trouble?
 
-   ::
+   .. code-block:: console
 
-            brew install gcc
+    $ brew install gcc
 
 #. We’ll build the tool in your home directory.
 
-   ::
+   .. code-block:: console
 
-            cd $HOME
-            git clone https://github.com/cmput415/Tester.git
+    $ cd $HOME
+    $ git clone https://github.com/cmput415/Tester.git
 
 #. Next we’ll make the build directory.
 
-   ::
+   .. code-block:: console
 
-            cd Tester
-            mkdir build
+    $ cd Tester
+    $ mkdir build
 
 #. Now, the configure and generate step.
 
-   ::
+   .. code-block:: console
 
-            cd build
-            cmake .. -DCMAKE_CXX_COMPILER="g++-8" -DCMAKE_C_COMPILER="gcc-8"
+    # cd build
+    # cmake .. -DCMAKE_CXX_COMPILER="g++-8" -DCMAKE_C_COMPILER="gcc-8"
 
    The flags on the end ensure we’re using GCC to compile this.
 
 #. Finally, build the project.
 
-   ::
+   .. code-block:: console
 
-            make
+    $ make
 
 #. We could refer directly to the executable every time, but it’s probably
    easier to just have it on our path. Add these lines to the end of
    ``~/.bash_profile``.
 
-   ::
+   .. code-block:: shell
 
-            # C415 Testing Utility
-            export PATH="$HOME/Tester/bin/:$PATH"
+    # C415 Testing Utility
+    export PATH="$HOME/Tester/bin/:$PATH"
 
 #. Restart your terminal to have changes take effect. Test the command to make
    sure it works.
 
-   ::
+   .. code-block:: console
 
-            tester --help
+    $ tester --help
 
 For more info about organising your tests and creating a configuration (though
 templates will be provided with your assignments) you can check `the Tester
@@ -376,21 +378,21 @@ Everything should be setup! Let’s just make sure.
 
 #. Extract it via
 
-   ::
+   .. code-block:: console
 
-            tar -xzf demo.tar.gz
+    $ tar -xzf demo.tar.gz
 
 #. Change into the extracted directory.
 
-   ::
+   .. code-block:: console
 
-            cd demo
+    $ cd demo
 
 #. Make the project.
 
-   ::
+   .. code-block:: console
 
-            make
+    $ make
 
 #. The project should compile with no warnings or errors. If there’s a problem,
    you may have set something up incorrectly. Otherwise, congrats!
@@ -426,9 +428,9 @@ Makefile
 First, download `the Makefile </_static/Makefile>`__ from the link and put it in
 your folder. Alternatively you can download straight to your directory:
 
-::
+.. code-block:: console
 
-     curl https://webdocs.cs.ualberta.ca/~c415/setup/static/Makefile > Makefile
+ $ curl https://webdocs.cs.ualberta.ca/~c415/setup/static/Makefile > Makefile
 
 This Makefile is both rather complex and simple. The internals are the
 complicated part. If you’d like to understand how the Makefile works then
@@ -447,33 +449,33 @@ As you can see, this isn’t the most scalable of directory structures but it is
 functional for playing with ANTLR and C++. To test that it’s working, create
 your grammar file with:
 
-::
+.. code-block::
 
-     grammar <file_name>;
-     <top_rule>: ANYTHING*? EOF;
-     ANYTHING: .;
+ grammar <file_name>;
+ <top_rule>: ANYTHING*? EOF;
+ ANYTHING: .;
 
 And the file that has your main in it:
 
-::
+.. code-block:: c++
 
-     #include "<grammar_name>Parser.h"
-     int main() { return 0; }
+ #include "<grammar_name>Parser.h"
+ int main() { return 0; }
 
 You should be able to make it and run the tool (it won’t produce any output):
 
-::
+.. code-block:: console
 
-     make
-     ./tool
+ $ make
+ $ ./tool
 
 We’ve also enabled you to use the ANTLR GUI through the Makefile. First, make an
 input file. Then, pass it to the Makefile ‘gui‘ rule:
 
-::
+.. code-block:: console
 
-     echo "this is a test" > test.txt
-     make gui grammar=<grammar_name> rule=<top_rule> file=test.txt
+ $ echo "this is a test" > test.txt
+ $ make gui grammar=<grammar_name> rule=<top_rule> file=test.txt
 
 Any grammar in the same directory as the make file can be used in this fashion
 (including the ``.g4`` extension is optional). The ``rule`` can be any rule in
