@@ -449,8 +449,7 @@ like from the demo files.
 CMake
 ~~~~~
 
-.. todo:: Complete this section
+.. todo:: WIP
 
-Two separate instructions? Using the makefile (TODO) and another for a base
-project in CMake + CLion (also TODO, could just be a near duplicate of ANTLRBase
-with info about creating assignments removed).
+A CMake setup is possible for a better scaling setup but hasn't been prepared
+for individual project consumption outside of assignments.
