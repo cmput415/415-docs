@@ -68,16 +68,21 @@ must always be evaluated.
 This table specifies ``boolean`` operator precedence. Operators without
 lines between them have the same level of precedence.
 
-============== =============
-**Precedence** **Operation**
-============== =============
-HIGHER         ``not``
-\              ==
-\              !=
-\              and
-\              or
-LOWER          xor
-============== =============
++----------------+---------------+
+| **Precedence** | **Operation** |
++================+===============+
+| HIGHER         | ``not``       |
++----------------+---------------+
+|                | ``==``        |
+|                |               |
+|                | ``!=``        |
++----------------+---------------+
+|                | ``and``       |
++----------------+---------------+
+|                | ``or``        |
+|                |               |
+| LOWER          | ``xor``       |
++----------------+---------------+
 
 
 Type Casting and Type Promotion
