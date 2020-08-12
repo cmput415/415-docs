@@ -54,3 +54,4 @@ features discussed in subsequent section.
 
    start/layout
    start/clion_setup
+   start/testing
