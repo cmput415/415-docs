@@ -1,6 +1,8 @@
 Testing
 =======
 
+.. _testing_tool:
+
 Testing Tool
 ------------
 
