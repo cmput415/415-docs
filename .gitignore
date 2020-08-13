@@ -7,3 +7,6 @@ _build/
 *.aux
 *.log
 *.out
+
+# Ignore IDE files.
+.vscode
