@@ -11,6 +11,6 @@ particular OS.
    self
    first_steps
    ubuntu
-   macosx
+   macos
    windows
    cs_computers
