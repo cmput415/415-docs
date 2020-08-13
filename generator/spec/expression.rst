@@ -150,10 +150,10 @@ which generates the following parse tree:
 |assoc-example|
 
 
-.. |left-assoc-gen| image:: /_static/left-assoc-gen.png
-.. |left-assoc-plus| image:: /_static/left-assoc-plus.png
-.. |left-assoc-plus-2| image:: /_static/left-assoc-plus-2.png
-.. |left-assoc-plus-3| image:: /_static/left-assoc-plus-3.png
-.. |right-assoc-gen| image:: /_static/right-assoc-gen.png
-.. |right-assoc-pow| image:: /_static/right-assoc-pow.png
-.. |assoc-example| image:: /_static/assoc-example.png
+.. |left-assoc-gen| image:: /_images/left-assoc-gen.png
+.. |left-assoc-plus| image:: /_images/left-assoc-plus.png
+.. |left-assoc-plus-2| image:: /_images/left-assoc-plus-2.png
+.. |left-assoc-plus-3| image:: /_images/left-assoc-plus-3.png
+.. |right-assoc-gen| image:: /_images/right-assoc-gen.png
+.. |right-assoc-pow| image:: /_images/right-assoc-pow.png
+.. |assoc-example| image:: /_images/assoc-example.png
