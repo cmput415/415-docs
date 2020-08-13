@@ -69,5 +69,11 @@ html_logo = 'assets/images/logo-reverse.png'
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ['_static']
 
+# These paths are either relative to html_static_path
+# or fully qualified paths (eg. https://...)
+html_css_files = [
+    'css/googleFonts.css',
+]
+
 # Disable syntax highlighting in code blocks
 highlight_language ='none'
