@@ -148,7 +148,7 @@ specification particulars.
       **sane-bounds**:
 
    The bounds on the index variable will always be such that
-   :math:`\text{int_1} \leq \text{int_2}`. For example, the following test would
+   :math:`\text{int}_1 \leq \text{int}_2`. For example, the following test would
    be considered invalid:
 
    ::
