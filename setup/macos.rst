@@ -384,7 +384,7 @@ Testing Your Environment
 
 Everything should be setup! Let’s just make sure.
 
-#. Download `this tarball </_static/demo.tar.gz>`__.
+#. Download `this tarball <_static/demo.tar.gz>`__.
 
 #. Extract it via
 
@@ -435,7 +435,7 @@ a project using the CMake modules that are also used by your assgnments.
 Makefile
 ~~~~~~~~
 
-First, download `the Makefile </_static/Makefile>`__ from the link and put it in
+First, download `the Makefile <_static/Makefile>`__ from the link and put it in
 your folder. Alternatively you can download straight to your directory:
 
 .. code-block:: console

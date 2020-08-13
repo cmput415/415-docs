@@ -45,9 +45,9 @@ Expected Output:
 
 The above output may be rendered incorrectly on your platform,
 therefore, the `above
-input </_static/ex.in>`__
+input <../_static/ex.in>`__
 and `its
-output </_static/ex.out>`__
+output <../_static/ex.out>`__
 are available to test for yourself. Remember that some editors (e.g.
 vim) hide a final empty line because they assume everyone will want one.
 Do not include this test in your submission.
