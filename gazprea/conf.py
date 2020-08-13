@@ -62,7 +62,7 @@ html_theme_options = {
     'sticky_navigation': False,
 }
 
-html_logo = '_images/logo-reverse.png'
+html_logo = 'assets/images/logo-reverse.png'
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,

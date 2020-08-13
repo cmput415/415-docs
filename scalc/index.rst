@@ -88,4 +88,4 @@ integer expressions.
    start/inja
    start/testing
 
-.. |expectedForm| image:: /_images/expectedForm.png
+.. |expectedForm| image:: /assets/images/expectedForm.png

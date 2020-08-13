@@ -45,4 +45,4 @@ Hardware Acceleration Laboratory in Markham, ON.
    impl/part_2
    impl/errors
 
-.. |gazprea_logo| image:: _images/GazpreaLogo.png
+.. |gazprea_logo| image:: assets/images/GazpreaLogo.png
