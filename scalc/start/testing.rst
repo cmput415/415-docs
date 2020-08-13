@@ -50,7 +50,7 @@ the same).
 Generating Test Cases
 ---------------------
 
-.. todo:: Put Fuzzer onto cmput415 GitHub
+.. todo: Put Fuzzer onto cmput415 GitHub
 
 A `Python script <https://github.com/Icohedron/ObfSCalcFuzzer>`__ ``fuzzer.py`` is 
 available for automatic generation of random test cases.

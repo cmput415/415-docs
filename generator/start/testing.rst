@@ -29,7 +29,7 @@ README <https://github.com/cmput415/Tester/blob/master/README.md>`__.
 Generating Test Cases
 ---------------------
 
-.. todo:: Put Fuzzer onto cmput415 GitHub
+.. todo: Put Fuzzer onto cmput415 GitHub
 
 A `Python script <https://github.com/Icohedron/GeneratorFuzzer>`__ ``fuzzer.py`` is 
 available for automatic generation of random test cases.
