@@ -1,0 +1,91 @@
+.. _ssec:real:
+
+Real
+----
+
+A ``real`` is an IEEE 754 32-bit floating point value. A ``real`` can be
+represented by a ``float`` in *LLVM IR*.
+
+.. _sssec:real_decl:
+
+Declaration
+~~~~~~~~~~~
+
+A ``real`` value is declared with the keyword ``real``.
+
+.. _sssec:real_null:
+
+null
+~~~~
+
+``null`` is ``0.0`` for ``real``.
+
+.. _sssec:real_ident:
+
+identity
+~~~~~~~~
+
+``identity`` is ``1.0`` for ``real``.
+
+.. _sssec:real_lit:
+
+Literals
+~~~~~~~~
+
+A ``real`` literal can be specified in several ways. A leading zero is
+not necessary and can be inferred from a leading decimal point. For
+example:
+
+::
+
+     42.0
+     4.2
+     42.
+
+A ``real`` literal can also have an attached scientific notation
+exponent following the mantissa. Scientific notation multiplies the
+literal by :math:`{10}^{x}`. For example, :math:`4.2\mathrm{e}-3=4.2
+\times10^{-3}`. The scientific notation can also replace the mantissa
+entirely, following immediately after the decimal point. Finally, the
+scientific notation can follow just a pure ``integer``, resulting in a
+real value. For example:
+
+::
+
+     4.2e-1
+     4.2e+9
+     4.2e5
+     42.e-7
+     42.e+8
+     42.e1
+     42e-3
+     42e+2
+     42e4
+
+.. _sssec:real_ops:
+
+Operations
+~~~~~~~~~~
+
+Floating point operations and precedence are equivalent to :ref:`integer operation and precedence <sssec:integer_ops>`.
+
+Operations on real numbers should adhere to the IEEE 754 spec with
+regards to the representation of not-a-number(NaNs), infiity(infs), and
+zeros. A signaling NaN should cause a runtime error. Floating point
+errors and semantics can be guaranteed by using the `LLVM IR constrained
+floating point
+intrinsics <https://llvm.org/docs/LangRef.html#constrained-floating-point-intrinsics>`__.
+The ``round.towardzero`` rounding mode should be chosen along with the
+``fpexcept.strict`` exception behaviour.
+
+For more information on why this is necessary, look into the `default
+LLVM IR floating point
+environment <https://llvm.org/docs/LangRef.html#floatenv>`__.
+
+
+Type Casting and Type Promotion
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To see the types that ``real`` may be cast and/or promoted to, see
+the sections on :ref:`sec:typeCasting` and :ref:`sec:typePromotion` 
+respectively.

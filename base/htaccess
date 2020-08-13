@@ -1,2 +1,0 @@
-IndexOptions +FancyIndexing +SuppressSize +SuppressLastModified +DescriptionWidth=*
-AddDescription "Instructions for setting up your environment for CMPUT415 2018 " setup
