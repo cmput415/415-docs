@@ -11,19 +11,24 @@ HFILES:=htaccess
 HFILESDOT:=$(foreach file, $(HFILES), .$(file))
 PDFS:=$(foreach file, $(DIRS), $(file).pdf)
 
-.PHONY: all remoteinstall clean
+.PHONY: all remoteinstall github clean
 
 all:
-	$(foreach dir, $(DIRS), $(MAKE) -C $(dir);)
+	$(foreach dir, $(DIRS), $(MAKE) html -C $(dir);)
+	$(foreach dir, $(DIRS), rm -rf $(dir)/_build/html/_static/css/fonts;)
+	$(foreach dir, $(DIRS), rm -rf $(dir)/_build/html/_static/fonts;)
+	$(foreach dir, $(DIRS), rm -rf $(dir)/_build/html/_sources/;)
+	$(foreach dir, $(DIRS), $(MAKE) latexpdf -C $(dir);)
 
 remoteinstall: all
 	@# Make the build directory and zip it.
-	mkdir .build
-	$(foreach dir, $(DIRS), cp -r $(dir)/$(dir)_html .build/$(dir);)
-	$(foreach dir, $(DIRS), cp -r $(dir)/$(dir)_pdf/$(dir).pdf .build/;)
-	$(foreach file, $(HFILES), cp base/$(file) .build/.$(file);)
-	$(foreach file, $(FILES), cp base/$(file) .build/$(file);)
-	tar -czf .build.tar.gz -C .build $(DIRS) $(HFILESDOT) $(FILES) $(PDFS)
+	mkdir .webdocs_build
+	$(foreach dir, $(DIRS), cp -r $(dir)/_build/html/ .webdocs_build/$(dir);)
+	$(foreach dir, $(DIRS), cp -r $(dir)/_build/latex/$(dir).pdf \
+		.webdocs_build/$(dir).pdf;)
+	$(foreach file, $(HFILES), cp base/$(file) .webdocs_build/.$(file);)
+	$(foreach file, $(FILES), cp base/$(file) .webdocs_build/$(file);)
+	tar -czf .build.tar.gz -C .webdocs_build $(DIRS) $(HFILESDOT) $(FILES) $(PDFS)
 
 	@# Move to ohaton and install it.
 	scp .build.tar.gz c415@ohaton.cs.ualberta.ca:~/.build.tar.gz
@@ -32,7 +37,13 @@ remoteinstall: all
 		'rm -f .build.tar.gz'
 
 	@# Clean up.
-	rm -rf .build .build.tar.gz
+	rm -rf .webdocs_build .build.tar.gz
+
+github: all
+	mkdir -p .github_build
+	$(foreach dir, $(DIRS), mkdir .github_build/$(dir);)
+	$(foreach dir, $(DIRS), cp -r -t .github_build/$(dir) $(dir)/_build/html/*;)
+	touch .github_build/.nojekyll
 
 clean:
 	$(foreach dir, $(DIRS), $(MAKE) -C $(dir) clean;)
