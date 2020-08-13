@@ -9,20 +9,20 @@ student and that gets you free things. If you already have an account
 with a student license, you can skip this.
 
 #. Fill out `this form <https://www.jetbrains.com/shop/eform/students>`__ to
-   start getting your student license. Select ``I’m a student``,
-   ``Undergraduate`` enter your first and last name, enter your **UAlberta email
-   address**, select ``Canada``, and finally agree to the account agreement.
+   start getting your student license. Select ``I’m a student`` then fill out
+   the rest of the form appropriately. You **must use your UAlberta email
+   address** in order to be approved.
 
-#. Go to your email inbox, find the email with the subject ``JetBrains
-   Educational Pack Confirmation``. Open it and click the link ``Confirm
-   Request``.
+#. Go to your email inbox (the automation process is typically quite quick),
+   find the email with the subject ``JetBrains Educational Pack Confirmation``.
+   Open it and click the link ``Confirm Request``.
 
 #. You should see a new page with the header ``Congrats! You’ve been
    #approved!``.
 
 #. There should be a new email in your inbox with the subject ``JetBrains
-   #Student License Confirmation``. Open it and click the link ``Activate
-   #Educational License``.
+   Student License Confirmation``. Open it and click the link ``Activate
+   Educational License``.
 
 #. Fill out the form to create your account. Enter your first name, last name,
    and username. Choose an appropriate password and accept the account

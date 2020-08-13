@@ -40,7 +40,7 @@ otherwise unavailable then you can install it using this command:
 Installing CMake
 ----------------
 
-Installing CMake from our package manager is easy too:
+Installing CMake from the package manager is easy too:
 
 .. code-block:: console
 
@@ -62,25 +62,25 @@ steps appropriately.
 
     $ mkdir $HOME/antlr
 
-   We’ll refer to this directory as ``ANTLR_PARENT``.
+   We’ll refer to this directory (``$HOME/antlr``) as ``ANTLR_PARENT``.
 
 #. Next we need to clone the runtime source from GitHub:
 
    .. code-block:: console
 
-    $ cd $HOME/antlr
+    $ cd <ANTLR_PARENT>
     $ git clone https://github.com/antlr/antlr4.git
 
    This should create a new folder called ``antlr4`` in ``ANTLR_PARENT``. We’ll
    refer to this new directory (``<ANTLR_PARENT>/antlr4``) as ``SRC_DIR``.
 
-#. We will be using ANTLR 4.7.1 so we need to change to the git tag for version
-   4.7.1.
+#. We will be using ANTLR 4.8 so we need to change to the git tag for version
+   4.8.
 
    .. code-block:: console
 
     $ cd <SRC_DIR>
-    $ git checkout 4.7.1
+    $ git checkout 4.8
 
    This will give you a warning about being in a “detached head state”. Since we
    won’t be changing anything in ANTLR there is no need to create a branch. No
@@ -109,10 +109,12 @@ steps appropriately.
    We’ll refer to this new directory (``<ANTLR_PARENT>/antlr4-install``) as
    ``INSTALL_DIR``.
 
-   Before continuing, confirm your directory structure looks like this:
+   Before continuing, if you're following this guide exactly, confirm your
+   directory structure looks like this:
 
    .. code-block::
 
+    $HOME
     +-- antlr/
         +-- antlr4/
         |   +-- antlr4-build/
@@ -130,14 +132,15 @@ steps appropriately.
         -DCMAKE_BUILD_TYPE=RELEASE \
         -DCMAKE_INSTALL_PREFIX="<INSTALL_DIR>"
 
-   You will be presented with come CMake warnings but they’re safe to ignore.
+   You will be presented with some CMake warnings but they’re safe to ignore.
 
-#. We can finally run make to build the library and install it. You can make the
-   process significantly faster by running with multiple threads using the
+#. We can finally run ``make`` to build the library and install it. You can make
+   the process significantly faster by running with multiple threads using the
    ``-j`` option and specifying a thread count. Using the option without a count
-   will use all cores. Be careful when using unlimited threads, the build has
-   failed in the past. This isn’t a big issue because you can always just try
-   again with a limited number of threads.
+   will use unlimited threads. Be careful when using unlimited threads, the
+   build has failed in the past due to limited resources. This isn’t a big issue
+   for the build because you can always just try again with a limited number of
+   threads but your computer may appear to hang due to being over capacity.
 
    .. code-block:: console
 
@@ -150,17 +153,17 @@ steps appropriately.
    .. code-block:: shell
 
     # C415 ANTLR install
-    export ANTLR_INS=<INSTALL_DIR>
+    export ANTLR_INS="<INSTALL_DIR>"
 
-   **Make sure there is no trailing /.** Restart your terminal for things to
-   take effect.
+   **Make sure there is no trailing /.** Close and reopen your terminal for
+   things to take effect.
 
 Installing CLion
 ----------------
 
 #. Go to the `download page
-  <https://www.jetbrains.com/clion/download/#section=linux>`__ and download
-  *CLion* for Linux.
+   <https://www.jetbrains.com/clion/download/#section=linux>`__ and download
+   *CLion* for Linux.
 
 #. Assuming you’ve downloaded the tarball to your ``~/Downloads`` folder, you
    can extract it to ``/opt/`` using the following command:
@@ -217,7 +220,7 @@ visualising the parse tree for a grammar rule and an input.
 #. Launch CLion by going to the application launcher (tap the super/Windows
    button) and typing ``clion``. This should launch CLion.
 
-#. Open the settings window ``File \rightarrow Settings...``
+#. Open the settings window ``CLion`` :math:`\rightarrow` ``Preferences...``
 
 #. Select ``Plugins`` from the menu on the left.
 
@@ -239,28 +242,35 @@ If you’d like to manually generate a listener or visitor you need to have the
 ANTLR generator. Follow these steps into install it:
 
 #. Make the destination directory. I would suggest putting this in
-   ``<INSTALL_DIR>/bin`` since the CMake projects will already automatically
+   ``<INSTALL_DIR>/bin`` since the assignments will already automatically
    download a copy there and duplicating this seems wasteful. If you want to put
-   it elsewhere though, you can. We’ll refer to this new directory (e.g.
-   ``<INSTALL_DIR>/bin``) as ``ANTLR_BIN``.
+   it elsewhere though, you can.
 
    .. code-block:: console
 
-    $ mkdir <ANTLR_BIN>
-    $ curl http://www.antlr.org/download/antlr-4.7.1-complete.jar \
-        > <ANTLR_BIN>/antlr-4.7.1-complete.jar
+    $ mkdir <INSTALL_DIR>/bin
+
+   We’ll refer to this new directory (e.g. ``<INSTALL_DIR>/bin``) as
+   ``ANTLR_BIN``.
+
+#. Next, download the tool.
+
+   .. code-block:: console
+
+    $ curl http://www.antlr.org/download/antlr-4.8-complete.jar \
+        > <ANTLR_BIN>/antlr-4.8-complete.jar
 
 #. Now we can make it easy to use. Add the following lines to your ``~/.bashrc``:
 
    .. code-block:: shell
 
-    # C415 Antlr Generator
+    # C415 ANTLR generator.
     export CLASSPATH="<ANTLR_BIN>/antlr-4.7.1-complete.jar:$CLASSPATH"
     alias antlr4="java -Xmx500M org.antlr.v4.Tool"
     alias grun='java org.antlr.v4.gui.TestRig'
 
-   Restart your terminal for things to take effect. Now these commands should
-   produce useful help outputs:
+#. Close and reopen your terminal for things to take effect. Now these commands
+   should produce useful help outputs:
 
    .. code-block:: console
 
@@ -298,13 +308,6 @@ request and we’ll review it!
     $ cd build
     $ cmake ..
 
-#. You may not have the uuid library installed by default. We need it to
-   complete the ANTLR build:
-
-   .. code-block:: console
-
-    $ sudo apt-get install uuid-dev
-
 #. Finally, build the project.
 
    .. code-block:: console
@@ -317,11 +320,11 @@ request and we’ll review it!
 
    .. code-block:: shell
 
-    # C415 Testing Utility
+    # C415 testing utility.
     export PATH="$HOME/Tester/bin/:$PATH"
 
-#. Restart your terminal to have changes take effect. Test the command to make
-   sure it works.
+#. Close and reopen your terminal to have changes take effect. Test the command
+   to make sure it works.
 
    .. code-block:: console
 
@@ -362,22 +365,23 @@ Everything should be setup! Let’s just make sure.
 #. If you’d like to start playing with the tools this is a good opportunity!
    Here are a few challenges you can attempt with the files provided:
 
-   #. There’s no input file provided for the tool. Examine the grammar and C++
-      source and figure out how to construct an appropriate input where ANTLR
-      doesn’t complain about extra tokens.
+   #. The tool is asking for an input file. Examine the grammar and C++ source
+      and figure out how to construct an appropriate input where ANTLR doesn’t
+      complain about extra tokens.
 
    #. Add floats.
 
       -  Be careful of lexer rule ordering.
 
-      -  Be careful that ``6|5`` or ``6a5`` are not recognised as floats.
+      -  Be careful that things like ``6|5`` or ``6a5`` are not recognised as
+         floats.
 
 Creating a Personal Project
 ---------------------------
 
 We’re providing two ways for you to play with ANTLR and C++. The first way uses
 the Makefile from the demo you’ve just done, and the other uses CMake to set up
-a project using the cmake modules that are also used by your assgnments.
+a project using the CMake modules that are also used by your assgnments.
 
 Makefile
 ~~~~~~~~
