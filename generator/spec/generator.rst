@@ -19,7 +19,7 @@ A generator statement will always follow the same format:
 
 ::
 
-     [ <id> in <int_1>..<int_2> | <expr>];
+     [<id> in <int_1>..<int_2> | <expr>];
 
 -  ``id`` is the identifier of the generator’s index.
 
@@ -80,4 +80,3 @@ following is invalid:
 
      [iin1..10|i*i];
      [i in1..10|2^i];
-
