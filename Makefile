@@ -45,6 +45,7 @@ github: all
 	mkdir docs/css
 	$(foreach dir, $(DIRS), mkdir docs/$(dir);)
 	$(foreach dir, $(DIRS), cp -r -t docs/$(dir) $(dir)/_build/html/*;)
+	$(foreach dir, $(DIRS), cp -r $(dir)/_build/latex/$(dir).pdf docs/$(dir).pdf;)
 	$(foreach file, $(FILES), cp base/$(file) docs/$(file);)
 	touch docs/.nojekyll
 
