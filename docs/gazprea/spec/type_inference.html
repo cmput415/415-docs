@@ -1,0 +1,471 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>8. Type Inference &mdash; gazprea  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/googleFonts.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="9. Vector/Matrix Type Checking" href="vector_matrix_type_checking.html" />
+    <link rel="prev" title="7.9. Matrix" href="types/matrix.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #007C41" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home" alt="Documentation Home"> gazprea
+          
+
+          
+            
+            <img src="../_static/logo-reverse.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Gazprea</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../change_log.html">Change log</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Language Specification</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="keywords.html">1. Keywords</a></li>
+<li class="toctree-l1"><a class="reference internal" href="identifiers.html">2. Identifiers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="comments.html">3. Comments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="streams.html">4. Streams</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="streams.html#output-stream">4.1. Output Stream</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="streams.html#output-format">4.1.1. Output Format</a></li>
+<li class="toctree-l3"><a class="reference internal" href="streams.html#null-and-identity">4.1.2. Null and Identity</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="streams.html#input-stream">4.2. Input Stream</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="streams.html#input-format">4.2.1. Input Format</a></li>
+<li class="toctree-l3"><a class="reference internal" href="streams.html#error-handling">4.2.2. Error Handling</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="declarations.html">5. Declarations</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="declarations.html#special-cases">5.1. Special cases</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="type_qualifiers.html">6. Type Qualifiers</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="type_qualifiers.html#const">6.1. Const</a></li>
+<li class="toctree-l2"><a class="reference internal" href="type_qualifiers.html#var">6.2. Var</a></li>
+<li class="toctree-l2"><a class="reference internal" href="type_qualifiers.html#type-inference-using-qualifiers">6.3. Type Inference Using Qualifiers</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="types.html">7. Types</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="types/boolean.html">7.1. Boolean</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="types/boolean.html#declaration">7.1.1. Declaration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="types/boolean.html#null">7.1.2. Null</a></li>
+<li class="toctree-l3"><a class="reference internal" href="types/boolean.html#sssec-boolean-ident">7.1.3. Identity</a></li>
+<li class="toctree-l3"><a class="reference internal" href="types/boolean.html#literals">7.1.4. Literals</a></li>
+<li class="toctree-l3"><a class="reference internal" href="types/boolean.html#operations">7.1.5. Operations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="types/boolean.html#type-casting-and-type-promotion">7.1.6. Type Casting and Type Promotion</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="types/character.html">7.2. Character</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="types/character.html#declaration">7.2.1. Declaration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="types/character.html#null">7.2.2. Null</a></li>
+<li class="toctree-l3"><a class="reference internal" href="types/character.html#sssec-character-ident">7.2.3. Identity</a></li>
+<li class="toctree-l3"><a class="reference internal" href="types/character.html#literals-and-escape-sequences">7.2.4. Literals and Escape Sequences</a></li>
+<li class="toctree-l3"><a class="reference internal" href="types/character.html#operations">7.2.5. Operations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="types/character.html#type-casting-and-type-promotion">7.2.6. Type Casting and Type Promotion</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="types/integer.html">7.3. Integer</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="types/integer.html#declaration">7.3.1. Declaration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="types/integer.html#null">7.3.2. Null</a></li>
+<li class="toctree-l3"><a class="reference internal" href="types/integer.html#sssec-integer-ident">7.3.3. Identity</a></li>
+<li class="toctree-l3"><a class="reference internal" href="types/integer.html#literals">7.3.4. Literals</a></li>
+<li class="toctree-l3"><a class="reference internal" href="types/integer.html#operations">7.3.5. Operations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="types/integer.html#type-casting-and-type-promotion">7.3.6. Type Casting and Type Promotion</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="types/real.html">7.4. Real</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="types/real.html#declaration">7.4.1. Declaration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="types/real.html#null">7.4.2. null</a></li>
+<li class="toctree-l3"><a class="reference internal" href="types/real.html#sssec-real-ident">7.4.3. identity</a></li>
+<li class="toctree-l3"><a class="reference internal" href="types/real.html#literals">7.4.4. Literals</a></li>
+<li class="toctree-l3"><a class="reference internal" href="types/real.html#operations">7.4.5. Operations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="types/real.html#type-casting-and-type-promotion">7.4.6. Type Casting and Type Promotion</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="types/tuple.html">7.5. Tuple</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="types/tuple.html#declaration">7.5.1. Declaration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="types/tuple.html#access">7.5.2. Access</a></li>
+<li class="toctree-l3"><a class="reference internal" href="types/tuple.html#null">7.5.3. Null</a></li>
+<li class="toctree-l3"><a class="reference internal" href="types/tuple.html#sssec-tuple-ident">7.5.4. Identity</a></li>
+<li class="toctree-l3"><a class="reference internal" href="types/tuple.html#literals">7.5.5. Literals</a></li>
+<li class="toctree-l3"><a class="reference internal" href="types/tuple.html#operations">7.5.6. Operations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="types/tuple.html#type-casting-and-type-promotion">7.5.7. Type Casting and Type Promotion</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="types/interval.html">7.6. Interval</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="types/interval.html#declaration">7.6.1. Declaration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="types/interval.html#null">7.6.2. Null</a></li>
+<li class="toctree-l3"><a class="reference internal" href="types/interval.html#sssec-interval-ident">7.6.3. Identity</a></li>
+<li class="toctree-l3"><a class="reference internal" href="types/interval.html#literals">7.6.4. Literals</a></li>
+<li class="toctree-l3"><a class="reference internal" href="types/interval.html#operations">7.6.5. Operations</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="types/interval.html#by-operator">7.6.5.1. By Operator</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="types/interval.html#type-casting-and-type-promotion">7.6.6. Type Casting and Type Promotion</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="types/vector.html">7.7. Vectors</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="types/vector.html#declaration">7.7.1. Declaration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="types/vector.html#null">7.7.2. Null</a></li>
+<li class="toctree-l3"><a class="reference internal" href="types/vector.html#sssec-vector-ident">7.7.3. Identity</a></li>
+<li class="toctree-l3"><a class="reference internal" href="types/vector.html#construction">7.7.4. Construction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="types/vector.html#operations">7.7.5. Operations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="types/vector.html#type-casting-and-type-promotion">7.7.6. Type Casting and Type Promotion</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="types/string.html">7.8. String</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="types/string.html#declaration">7.8.1. Declaration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="types/string.html#null">7.8.2. Null</a></li>
+<li class="toctree-l3"><a class="reference internal" href="types/string.html#sssec-string-ident">7.8.3. Identity</a></li>
+<li class="toctree-l3"><a class="reference internal" href="types/string.html#literals">7.8.4. Literals</a></li>
+<li class="toctree-l3"><a class="reference internal" href="types/string.html#operations">7.8.5. Operations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="types/string.html#type-casting-and-type-promotion">7.8.6. Type Casting and Type Promotion</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="types/matrix.html">7.9. Matrix</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="types/matrix.html#declaration">7.9.1. Declaration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="types/matrix.html#null">7.9.2. Null</a></li>
+<li class="toctree-l3"><a class="reference internal" href="types/matrix.html#sssec-matrix-ident">7.9.3. Identity</a></li>
+<li class="toctree-l3"><a class="reference internal" href="types/matrix.html#construction">7.9.4. Construction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="types/matrix.html#operations">7.9.5. Operations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="types/matrix.html#type-casting-and-type-promotion">7.9.6. Type Casting and Type Promotion</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">8. Type Inference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vector_matrix_type_checking.html">9. Vector/Matrix Type Checking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="type_casting.html">10. Type Casting</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="type_casting.html#scalar-to-scalar">10.1. Scalar to Scalar</a></li>
+<li class="toctree-l2"><a class="reference internal" href="type_casting.html#scalar-to-vector-matrix">10.2. Scalar to Vector/Matrix</a></li>
+<li class="toctree-l2"><a class="reference internal" href="type_casting.html#interval-to-vector">10.3. Interval to Vector</a></li>
+<li class="toctree-l2"><a class="reference internal" href="type_casting.html#vector-to-vector">10.4. Vector to Vector</a></li>
+<li class="toctree-l2"><a class="reference internal" href="type_casting.html#matrix-to-matrix">10.5. Matrix to Matrix</a></li>
+<li class="toctree-l2"><a class="reference internal" href="type_casting.html#tuple-to-tuple">10.6. Tuple to Tuple</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="type_promotion.html">11. Type Promotion</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="type_promotion.html#scalars">11.1. Scalars</a></li>
+<li class="toctree-l2"><a class="reference internal" href="type_promotion.html#scalar-to-vector-or-matrix">11.2. Scalar to Vector or Matrix</a></li>
+<li class="toctree-l2"><a class="reference internal" href="type_promotion.html#interval-to-vector">11.3. Interval to Vector</a></li>
+<li class="toctree-l2"><a class="reference internal" href="type_promotion.html#tuple-to-tuple">11.4. Tuple to Tuple</a></li>
+<li class="toctree-l2"><a class="reference internal" href="type_promotion.html#character-vector-to-from-string">11.5. Character Vector to/from String</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="typedef.html">12. Typedef</a></li>
+<li class="toctree-l1"><a class="reference internal" href="expressions.html">13. Expressions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="expressions.html#table-of-operator-precedence">13.1. Table of Operator precedence</a></li>
+<li class="toctree-l2"><a class="reference internal" href="expressions.html#generators">13.2. Generators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="expressions.html#filters">13.3. Filters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="expressions.html#domain-expressions">13.4. Domain Expressions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="statements.html">14. Statements</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="statements.html#assignment-statements">14.1. Assignment Statements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="statements.html#block-statements">14.2. Block Statements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="statements.html#if-else-statements">14.3. If/Else Statements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="statements.html#loop">14.4. Loop</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="statements.html#infinite-loop">14.4.1. Infinite Loop</a></li>
+<li class="toctree-l3"><a class="reference internal" href="statements.html#predicated-loop">14.4.2. Predicated Loop</a></li>
+<li class="toctree-l3"><a class="reference internal" href="statements.html#iterator-loop">14.4.3. Iterator Loop</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="statements.html#break">14.5. Break</a></li>
+<li class="toctree-l2"><a class="reference internal" href="statements.html#continue">14.6. Continue</a></li>
+<li class="toctree-l2"><a class="reference internal" href="statements.html#return">14.7. Return</a></li>
+<li class="toctree-l2"><a class="reference internal" href="statements.html#stream-statements">14.8. Stream Statements</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="functions.html">15. Functions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="functions.html#syntax">15.1. Syntax</a></li>
+<li class="toctree-l2"><a class="reference internal" href="functions.html#forward-declaration">15.2. Forward Declaration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="functions.html#vector-and-matrix-parameters-and-returns">15.3. Vector and Matrix Parameters and Returns</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="procedures.html">16. Procedures</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="procedures.html#syntax">16.1. Syntax</a></li>
+<li class="toctree-l2"><a class="reference internal" href="procedures.html#forward-declaration">16.2. Forward Declaration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="procedures.html#main">16.3. Main</a></li>
+<li class="toctree-l2"><a class="reference internal" href="procedures.html#aliasing">16.4. Aliasing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="procedures.html#vector-and-matrix-parameters-and-returns">16.5. Vector and Matrix Parameters and Returns</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="globals.html">17. Globals</a></li>
+<li class="toctree-l1"><a class="reference internal" href="built_in_functions.html">18. Built In Functions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="built_in_functions.html#length">18.1. Length</a></li>
+<li class="toctree-l2"><a class="reference internal" href="built_in_functions.html#rows-and-columns">18.2. Rows and Columns</a></li>
+<li class="toctree-l2"><a class="reference internal" href="built_in_functions.html#reverse">18.3. Reverse</a></li>
+<li class="toctree-l2"><a class="reference internal" href="built_in_functions.html#stream-state">18.4. Stream State</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Implementation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../impl/backend.html">Backend</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../impl/backend.html#memory-management">Memory Management</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../impl/backend.html#runtime-libraries">Runtime Libraries</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../impl/part_1.html">Compiler Implementation — Part 1</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../impl/part_2.html">Compiler Implementation — Part 2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../impl/errors.html">Errors</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../impl/errors.html#compile-time-errors">Compile-time Errors</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../impl/errors.html#syntax-errors">Syntax Errors</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../impl/errors.html#runtime-errors">Runtime Errors</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">gazprea</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li><span class="section-number">8. </span>Type Inference</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/spec/type_inference.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="type-inference">
+<span id="sec-typeinference"></span><h1><span class="section-number">8. </span>Type Inference<a class="headerlink" href="#type-inference" title="Permalink to this headline">¶</a></h1>
+<p>In many cases the compiler can figure out what a variable’s type, or a
+function’s return type should be without an explicit type being
+provided. For instance, instead of writing:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>integer x = 2;
+const integer y = x * 2;
+</pre></div>
+</div>
+<p><em>Gazprea</em> allows you to just write:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>var x = 2;
+const y = x * 2;
+</pre></div>
+</div>
+<p>This is allowed because the compiler knows that the initialization
+expression, 2, has the type integer. Because of this the compiler can
+automatically give x an integer type. A <em>Gazprea</em> programmer can use
+<code class="docutils literal notranslate"><span class="pre">var</span></code> or <code class="docutils literal notranslate"><span class="pre">const</span></code> for any declaration with an initial value
+expression, as long as the compiler can guess the type for the
+expression.</p>
+<p>One case where <code class="docutils literal notranslate"><span class="pre">var</span></code> or <code class="docutils literal notranslate"><span class="pre">const</span></code> will lead to an error is if the
+initial value is a polymorphic constant such as <code class="docutils literal notranslate"><span class="pre">null</span></code>, or
+<code class="docutils literal notranslate"><span class="pre">identity</span></code>. <em>Gazprea</em>’s type inference is simple, and only relies
+upon a single expression, so it can not discover the type of x in:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>var x = null;  /* Can&#39;t tell what type this is */
+const y = identity; /* Can&#39;t tell what type this is either */
+integer z = x;
+</pre></div>
+</div>
+<p>Clearly the type that makes the most sense for x here would by
+<code class="docutils literal notranslate"><span class="pre">integer</span></code>, but <em>Gazprea</em> only checks the initialization expression,
+and does not see how the variable x is used across statements. As a
+result an error should be raised in this situation.</p>
+<p><em>Gazprea</em> employs a very simple type inference algorithm on expressions.
+It finds the type that makes sense across binary expressions in a bottom
+up fashion. For instance:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>/* The type for &#39;x&#39; can be infered to be an integer. This expression
+   can be rewritten as (null + 1) + null. The type inference algorithm
+   checks (null + 1), and decides that since 1 is an integer &#39;null&#39;
+   must also be an integer because &#39;+&#39; can only be applied to numbers
+   of the same type. Similarly it then infers that since (null + 1) is
+   an integer (null + 1) + null is an integer as well, thus &#39;x&#39; must
+   be an integer. */
+
+var x = null + 1 + null;
+
+/* The simple type inference algorithm can not handle this case, and a
+   type ambiguity error should be raised. Since this expression is
+   (null + null) + 1 the type inference algorithm will try to figure
+   out the type for (null + null), but since it doesn&#39;t know what
+   either of the null values types are it can&#39;t. */
+
+var y = null + null + 1;
+</pre></div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="vector_matrix_type_checking.html" class="btn btn-neutral float-right" title="9. Vector/Matrix Type Checking" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="types/matrix.html" class="btn btn-neutral float-left" title="7.9. Matrix" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, cmput415
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(false);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -1,0 +1,510 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>6. Expressions &mdash; vcalc  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/googleFonts.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="7. Statements" href="statements.html" />
+    <link rel="prev" title="5. Filters" href="filters.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #007C41" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home" alt="Documentation Home"> vcalc
+          
+
+          
+            
+            <img src="../_static/logo-reverse.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../index.html">VCalc</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Change log</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Language Specification</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="keywords.html">1. Keywords</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vectors.html">2. Vectors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="range.html">3. Range</a></li>
+<li class="toctree-l1"><a class="reference internal" href="generators.html">4. Generators</a></li>
+<li class="toctree-l1"><a class="reference internal" href="filters.html">5. Filters</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">6. Expressions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#operators">6.1. Operators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#binary-operations-on-vectors">6.2. Binary Operations on Vectors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#integer-to-vector-promotion">6.3. Integer to Vector Promotion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#vector-indexing">6.4. Vector Indexing</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="statements.html">7. Statements</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="statements.html#declaration">7.1. Declaration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="statements.html#assignment">7.2. Assignment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="statements.html#conditional">7.3. Conditional</a></li>
+<li class="toctree-l2"><a class="reference internal" href="statements.html#loops">7.4. Loops</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="type_checking.html">8. Type Checking and ASTs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="scoping.html">9. Scoping</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Implementation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../impl/input.html">Input</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../impl/output.html">Output</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../impl/assertions.html">Assertions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../impl/clarifications.html">Clarifications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../impl/deliverables.html">Deliverables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../impl/tips_hints.html">Tips and Hints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../impl/llvm_tips_hints.html">LLVM Tips and Hints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../impl/ast_tips_hints.html">AST Tips and Hints</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../start/layout.html">Project Layout</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../start/clion_setup.html">Setting up CLion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../start/testing.html">Testing</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../start/testing.html#testing-tool">Testing Tool</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../start/testing.html#generating-test-cases">Generating Test Cases</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">vcalc</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li><span class="section-number">6. </span>Expressions</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/spec/expressions.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="expressions">
+<h1><span class="section-number">6. </span>Expressions<a class="headerlink" href="#expressions" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="operators">
+<h2><span class="section-number">6.1. </span>Operators<a class="headerlink" href="#operators" title="Permalink to this headline">¶</a></h2>
+<p>Because we’ve added a new binary operator, we need to update our
+precedence table. Operators without a horizontal line dividing them have
+equal precedence. For example, addition and subtraction have an equal
+level of precedence.</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 16%" />
+<col style="width: 21%" />
+<col style="width: 16%" />
+<col style="width: 23%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p><strong>Class</strong></p></th>
+<th class="head"><p><strong>Operation</strong></p></th>
+<th class="head"><p><strong>Symbol</strong></p></th>
+<th class="head"><p><strong>Usage</strong></p></th>
+<th class="head"><p><strong>Associativity</strong></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td rowspan="2"><p>Vector</p></td>
+<td><p>index</p></td>
+<td><p>[]</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">expr[expr]</span></code></p></td>
+<td><p>left</p></td>
+</tr>
+<tr class="row-odd"><td><p>range</p></td>
+<td><p>..</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">expr</span> <span class="pre">..</span> <span class="pre">expr</span></code></p></td>
+<td><p>left</p></td>
+</tr>
+<tr class="row-even"><td rowspan="2"><p>Arithmetic</p></td>
+<td><p>multiplication</p>
+<p>division</p>
+</td>
+<td><p>*</p>
+<p>/</p>
+</td>
+<td><p><code class="docutils literal notranslate"><span class="pre">expr</span> <span class="pre">*</span> <span class="pre">expr</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">expr</span> <span class="pre">/</span> <span class="pre">expr</span></code></p>
+</td>
+<td><p>left</p>
+<p>left</p>
+</td>
+</tr>
+<tr class="row-odd"><td><p>addition</p>
+<p>subtraction</p>
+</td>
+<td><p>+</p>
+<p>-</p>
+</td>
+<td><p><code class="docutils literal notranslate"><span class="pre">expr</span> <span class="pre">+</span> <span class="pre">expr</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">expr</span> <span class="pre">-</span> <span class="pre">expr</span></code></p>
+</td>
+<td><p>left</p>
+<p>left</p>
+</td>
+</tr>
+<tr class="row-even"><td rowspan="2"><p>Comparison</p></td>
+<td><p>less than</p>
+<p>greater than</p>
+</td>
+<td><p>&lt;</p>
+<p>&gt;</p>
+</td>
+<td><p><code class="docutils literal notranslate"><span class="pre">expr</span> <span class="pre">&lt;</span> <span class="pre">expr</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">expr</span> <span class="pre">&gt;</span> <span class="pre">expr</span></code></p>
+</td>
+<td><p>left</p>
+<p>left</p>
+</td>
+</tr>
+<tr class="row-odd"><td><p>is equal</p>
+<p>is not equal</p>
+</td>
+<td><p>==</p>
+<p>!=</p>
+</td>
+<td><p><code class="docutils literal notranslate"><span class="pre">expr</span> <span class="pre">==</span> <span class="pre">expr</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">expr</span> <span class="pre">!=</span> <span class="pre">expr</span></code></p>
+</td>
+<td><p>left</p>
+<p>left</p>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="binary-operations-on-vectors">
+<h2><span class="section-number">6.2. </span>Binary Operations on Vectors<a class="headerlink" href="#binary-operations-on-vectors" title="Permalink to this headline">¶</a></h2>
+<p>Binary oprations between vectors require extra specification.</p>
+<ol class="arabic">
+<li><p>All binary operations are performed element-wise. This means that the
+specified operation is applied to elements at the same index in both
+vectors with the result then being placed into the same index in the
+result vector. For example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vector v = 1..5 + 1..5;
+print(v);
+</pre></div>
+</div>
+<p>prints the following:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>[2 4 6 8 10]
+</pre></div>
+</div>
+</li>
+<li><p>Binary operations <em>can</em> be performed between vectors of different
+sizes. For most operations the smaller vector is padded with zeroes
+to match the larger vectors size and then the operation is applied.
+For example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>print(6..10 + 1..3);
+print(1..3 + 6..10);
+</pre></div>
+</div>
+<p>prints the following:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>[7 9 11 9 10]
+[7 9 11 9 10]
+</pre></div>
+</div>
+<p>The only exception is when the smaller vector is a <em>divisor</em>. A
+divisor must be extended with ones to prevent division by zero
+errors. For example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>print(6..10 / 1..3);
+print(6..8 / 1..5);
+</pre></div>
+</div>
+<p>prints the following:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>[6 3 2 9 10]
+[6 3 2 0 0]
+</pre></div>
+</div>
+</li>
+<li><p>Boolean operators between vectors are still applied element-wise, but
+the result will be converted to an integer as decribed in <em>SCalc</em>
+before being saved into the result. For example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vector a = [i in 0..5 | i / 2];
+vector b = [i in 1..6 | i / 2];
+print(a);
+print(b);
+print(a == b);
+</pre></div>
+</div>
+<p>prints the following:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>[0 0 1 1 2 2]
+[0 1 1 2 2 3]
+[1 0 1 0 1 0]
+</pre></div>
+</div>
+</li>
+</ol>
+</div>
+<div class="section" id="integer-to-vector-promotion">
+<h2><span class="section-number">6.3. </span>Integer to Vector Promotion<a class="headerlink" href="#integer-to-vector-promotion" title="Permalink to this headline">¶</a></h2>
+<p>Integers used in expressions with vectors will be promoted to vectors.
+The scalar value will be copied into <em>each index</em> of a new vector the
+same size as the other operand before applying the operator in the
+regular vector fashion. For example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>print(1..5 + 5);
+print(2 * 3..6);
+print(5 &lt; 3..7);
+</pre></div>
+</div>
+<p>prints the following:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>[6 7 8 9 10]
+[6 8 10 12]
+[0 0 0 1 1]
+</pre></div>
+</div>
+<p>A more complicated example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>print(5 + [i in 1..3 | 0] + 1..5);
+</pre></div>
+</div>
+<p>prints the following:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>[6 7 8 4 5]
+</pre></div>
+</div>
+<p>One might expect:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>[6 7 8 9 10]
+</pre></div>
+</div>
+<p>but recall that addition is left associative. Therefore the order of the
+operations in the print statement is:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>print((5 + [i in 1..3 | 0]) + 1..5);
+</pre></div>
+</div>
+<p>The five will be promoted to a vector of length three to match the
+generator, resulting in <code class="docutils literal notranslate"><span class="pre">[5</span> <span class="pre">5</span> <span class="pre">5]</span></code>, which will be added to the
+generator for no change. Then it will be <em>extended</em> to match the length
+five range as <code class="docutils literal notranslate"><span class="pre">[5</span> <span class="pre">5</span> <span class="pre">5</span> <span class="pre">0</span> <span class="pre">0]</span></code> before being added to create the final
+result of <code class="docutils literal notranslate"><span class="pre">[6</span> <span class="pre">7</span> <span class="pre">8</span> <span class="pre">4</span> <span class="pre">5]</span></code>.</p>
+</div>
+<div class="section" id="vector-indexing">
+<h2><span class="section-number">6.4. </span>Vector Indexing<a class="headerlink" href="#vector-indexing" title="Permalink to this headline">¶</a></h2>
+<p>Vectors can be indexed by a scalar to produce the integer value at a
+specified index. Vectors in <em>VCalc</em> are <em>zero indexed</em>. As well,
+indexing outside of the bounds of a vector (e.g. <code class="docutils literal notranslate"><span class="pre">v[i]</span></code> where
+<span class="math notranslate nohighlight">\(0 &lt;= |v| &lt; l\)</span> and <span class="math notranslate nohighlight">\(i &lt; 0\)</span> or <span class="math notranslate nohighlight">\(i &gt;= l\)</span>) is <em>not an
+error</em>. An index out of bounds <em>always returns zero</em>.</p>
+<p>Index domains must be vectors:</p>
+<ul>
+<li><p>Domain can be an identifier for a vector.</p></li>
+<li><p>Domain can be the result of a range, generator, filter, or another
+index expression with a vector index (see below).</p></li>
+<li><p>Domain cannot be an integer. For example, this is invalid:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>print(1[1]);
+</pre></div>
+</div>
+</li>
+</ul>
+<p>Examples of valid index expressions:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vector v = 1..5;
+print(v[0 - 1]);
+print(v[2]);
+print(v[5]);
+print([i in v | i * 2][3]);
+print([i in v &amp; i &gt; 2][0]);
+</pre></div>
+</div>
+<p>prints the following:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>0
+3
+0
+8
+3
+</pre></div>
+</div>
+<p>Domain vectors can also be indexed by a domain indexing vector to
+produce a new result vector. This new vector will contain the values of
+the domain vector as if each of the values in the domain indexing vector
+had individually indexed the domain vector and then been appended to the
+result vector. For example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vector v = 1..7;
+vector i = 2..4;
+print(v[i]);
+print(v[i * 2]);
+</pre></div>
+</div>
+<p>prints the following:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>[3 4 5]
+[5 7 0]
+</pre></div>
+</div>
+<p>Each value in <code class="docutils literal notranslate"><span class="pre">i</span></code> serves as an index into <code class="docutils literal notranslate"><span class="pre">v</span></code>. Each value indexed
+from v is appended to the result and then printed.</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="statements.html" class="btn btn-neutral float-right" title="7. Statements" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="filters.html" class="btn btn-neutral float-left" title="5. Filters" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, cmput415
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(false);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

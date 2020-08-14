@@ -1,0 +1,650 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>2. Ubuntu &mdash; setup  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/googleFonts.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="3. Mac OS" href="macos.html" />
+    <link rel="prev" title="1. First Steps" href="first_steps.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #007C41" >
+          
+
+          
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> setup
+          
+
+          
+            
+            <img src="_static/logo-reverse.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="index.html">CMPUT 415 Setup Instructions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="first_steps.html">1. First Steps</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="first_steps.html#jetbrains-license">1.1. JetBrains License</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">2. Ubuntu</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#installing-libuuid">2.1. Installing libUUID</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#installing-openjdk-jre-8">2.2. Installing OpenJDK JRE 8</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#installing-git">2.3. Installing Git</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#installing-cmake">2.4. Installing CMake</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#antlr-4-c-runtime">2.5. ANTLR 4 C++ Runtime</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#installing-clion">2.6. Installing CLion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#installing-the-antlr-plugin-for-clion">2.7. Installing the ANTLR Plugin for CLion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#installing-antlr-generator">2.8. Installing ANTLR Generator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#installing-the-tester">2.9. Installing the Tester</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#testing-your-environment">2.10. Testing Your Environment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#creating-a-personal-project">2.11. Creating a Personal Project</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#makefile">2.11.1. Makefile</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cmake">2.11.2. CMake</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="macos.html">3. Mac OS</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="macos.html#installing-developer-tools">3.1. Installing Developer tools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="macos.html#installing-homebrew">3.2. Installing Homebrew</a></li>
+<li class="toctree-l2"><a class="reference internal" href="macos.html#installing-oracle-java-jdk">3.3. Installing Oracle Java JDK</a></li>
+<li class="toctree-l2"><a class="reference internal" href="macos.html#installing-git">3.4. Installing Git</a></li>
+<li class="toctree-l2"><a class="reference internal" href="macos.html#installing-cmake">3.5. Installing CMake</a></li>
+<li class="toctree-l2"><a class="reference internal" href="macos.html#antlr-4-c-runtime">3.6. ANTLR 4 C++ Runtime</a></li>
+<li class="toctree-l2"><a class="reference internal" href="macos.html#installing-clion">3.7. Installing CLion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="macos.html#installing-the-antlr-plugin-for-clion">3.8. Installing the ANTLR Plugin for CLion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="macos.html#installing-antlr-generator">3.9. Installing ANTLR Generator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="macos.html#installing-the-tester">3.10. Installing the Tester</a></li>
+<li class="toctree-l2"><a class="reference internal" href="macos.html#testing-your-environment">3.11. Testing Your Environment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="macos.html#creating-a-personal-project">3.12. Creating a Personal Project</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="macos.html#makefile">3.12.1. Makefile</a></li>
+<li class="toctree-l3"><a class="reference internal" href="macos.html#cmake">3.12.2. CMake</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="windows.html">4. Windows</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cs_computers.html">5. CS Computers</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="cs_computers.html#using-prebuilt-resources">5.1. Using Prebuilt Resources</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cs_computers.html#installing-clion">5.2. Installing CLion</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">setup</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li><span class="section-number">2. </span>Ubuntu</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/ubuntu.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="ubuntu">
+<h1><span class="section-number">2. </span>Ubuntu<a class="headerlink" href="#ubuntu" title="Permalink to this headline">¶</a></h1>
+<p>This section details how to setup the Ubuntu development environment.</p>
+<div class="section" id="installing-libuuid">
+<h2><span class="section-number">2.1. </span>Installing libUUID<a class="headerlink" href="#installing-libuuid" title="Permalink to this headline">¶</a></h2>
+<p>LibUUID is a library required for many applications so it’s possible that you’ve
+already installed this while installing something else. Best to try and install
+it anyways:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> sudo apt-get update
+<span class="gp">$</span> sudo apt-get install uuid-dev
+</pre></div>
+</div>
+</div>
+<div class="section" id="installing-openjdk-jre-8">
+<h2><span class="section-number">2.2. </span>Installing OpenJDK JRE 8<a class="headerlink" href="#installing-openjdk-jre-8" title="Permalink to this headline">¶</a></h2>
+<p>The Java runtime environment (JRE) is required to run the ANTLR generator.
+OpenJDK’s JRE is easier to install than Oracle’s, so we’ll use that.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> sudo apt-get update
+<span class="gp">$</span> sudo apt-get install openjdk-8-jre
+</pre></div>
+</div>
+</div>
+<div class="section" id="installing-git">
+<h2><span class="section-number">2.3. </span>Installing Git<a class="headerlink" href="#installing-git" title="Permalink to this headline">¶</a></h2>
+<p>Git should be installed by default in Ubuntu. If you’ve removed it or it is
+otherwise unavailable then you can install it using this command:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> sudo apt-get update
+<span class="gp">$</span> sudo apt-get install git
+</pre></div>
+</div>
+</div>
+<div class="section" id="installing-cmake">
+<h2><span class="section-number">2.4. </span>Installing CMake<a class="headerlink" href="#installing-cmake" title="Permalink to this headline">¶</a></h2>
+<p>Installing CMake from the package manager is easy too:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> sudo apt-get update
+<span class="gp">$</span> sudo apt-get install cmake
+</pre></div>
+</div>
+</div>
+<div class="section" id="antlr-4-c-runtime">
+<h2><span class="section-number">2.5. </span>ANTLR 4 C++ Runtime<a class="headerlink" href="#antlr-4-c-runtime" title="Permalink to this headline">¶</a></h2>
+<p>This section details how to install the ANTLR 4 C++ runtime on Ubuntu assuming
+your default shell is bash. If you’ve changed your shell from bash it’s assumed
+that you are familiar enough with your environment that you can modify these
+steps appropriately.</p>
+<ol class="arabic">
+<li><p>To make things easy, we are going to do everything inside a new directory in
+your home directory.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> mkdir <span class="nv">$HOME</span>/antlr
+</pre></div>
+</div>
+<p>We’ll refer to this directory (<code class="docutils literal notranslate"><span class="pre">$HOME/antlr</span></code>) as <code class="docutils literal notranslate"><span class="pre">ANTLR_PARENT</span></code>.</p>
+</li>
+<li><p>Next we need to clone the runtime source from GitHub:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> <span class="nb">cd</span> &lt;ANTLR_PARENT&gt;
+<span class="gp">$</span> git clone https://github.com/antlr/antlr4.git
+</pre></div>
+</div>
+<p>This should create a new folder called <code class="docutils literal notranslate"><span class="pre">antlr4</span></code> in <code class="docutils literal notranslate"><span class="pre">ANTLR_PARENT</span></code>. We’ll
+refer to this new directory (<code class="docutils literal notranslate"><span class="pre">&lt;ANTLR_PARENT&gt;/antlr4</span></code>) as <code class="docutils literal notranslate"><span class="pre">SRC_DIR</span></code>.</p>
+</li>
+<li><p>We will be using ANTLR 4.8 so we need to change to the git tag for version
+4.8.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> <span class="nb">cd</span> &lt;SRC_DIR&gt;
+<span class="gp">$</span> git checkout <span class="m">4</span>.8
+</pre></div>
+</div>
+<p>This will give you a warning about being in a “detached head state”. Since we
+won’t be changing anything in ANTLR there is no need to create a branch. No
+extra work is needed here.</p>
+</li>
+<li><p>Now we need a place to build the runtime. CMake suggests making your build
+directory inside your source directory.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> <span class="nb">cd</span> &lt;SRC_DIR&gt;
+<span class="gp">$</span> mkdir antlr4-build
+</pre></div>
+</div>
+<p>We’ll refer to this new directory (<code class="docutils literal notranslate"><span class="pre">&lt;SRC_DIR&gt;/antlr4-build</span></code>) as
+<code class="docutils literal notranslate"><span class="pre">BUILD_DIR</span></code>.</p>
+</li>
+<li><p>We need to have an install directory prepared before building since it’s
+referenced in the build step. This directory will have the headers and
+compiled ANTLR libraries put into it. To make the actual directory:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> <span class="nb">cd</span> &lt;ANTLR_PARENT&gt;
+<span class="gp">$</span> mkdir antlr4-install
+</pre></div>
+</div>
+<p>We’ll refer to this new directory (<code class="docutils literal notranslate"><span class="pre">&lt;ANTLR_PARENT&gt;/antlr4-install</span></code>) as
+<code class="docutils literal notranslate"><span class="pre">INSTALL_DIR</span></code>.</p>
+<p>Before continuing, if you’re following this guide exactly, confirm your
+directory structure looks like this:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$HOME
++-- antlr/
+    +-- antlr4/
+    |   +-- antlr4-build/
+    +-- antlr4-install/
+</pre></div>
+</div>
+</li>
+<li><p>Finally, we’re ready to start the actual build process. Let’s begin by doing
+the generate and configure CMake step for the runtime. We need to do this
+while inside the build directory. As well, we need to tell it that we want a
+release build and to install it to a certain directory.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> <span class="nb">cd</span> &lt;BUILD_DIR&gt;
+<span class="gp">$</span> cmake &lt;SRC_DIR&gt;/runtime/Cpp/ <span class="se">\</span>
+    -DCMAKE_BUILD_TYPE<span class="o">=</span>RELEASE <span class="se">\</span>
+    -DCMAKE_INSTALL_PREFIX<span class="o">=</span><span class="s2">&quot;&lt;INSTALL_DIR&gt;&quot;</span>
+</pre></div>
+</div>
+<p>You will be presented with some CMake warnings but they’re safe to ignore.</p>
+</li>
+<li><p>We can finally run <code class="docutils literal notranslate"><span class="pre">make</span></code> to build the library and install it. You can make
+the process significantly faster by running with multiple threads using the
+<code class="docutils literal notranslate"><span class="pre">-j</span></code> option and specifying a thread count. Using the option without a count
+will use unlimited threads. Be careful when using unlimited threads, the
+build has failed in the past due to limited resources. This isn’t a big issue
+for the build because you can always just try again with a limited number of
+threads but your computer may appear to hang due to being over capacity.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> make install -j&lt;number of threads&gt;
+</pre></div>
+</div>
+</li>
+<li><p>Now we can add the install to your bashrc. Pick your favorite text editor,
+open <code class="docutils literal notranslate"><span class="pre">~/.bashrc</span></code>, and add the following lines to the end, substituting
+appropriately:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="c1"># C415 ANTLR install</span>
+<span class="nb">export</span> <span class="nv">ANTLR_INS</span><span class="o">=</span><span class="s2">&quot;&lt;INSTALL_DIR&gt;&quot;</span>
+</pre></div>
+</div>
+<p><strong>Make sure there is no trailing /.</strong> Close and reopen your terminal for
+things to take effect.</p>
+</li>
+</ol>
+</div>
+<div class="section" id="installing-clion">
+<h2><span class="section-number">2.6. </span>Installing CLion<a class="headerlink" href="#installing-clion" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic">
+<li><p>Go to the <a class="reference external" href="https://www.jetbrains.com/clion/download/#section=linux">download page</a> and download
+<em>CLion</em> for Linux.</p></li>
+<li><p>Assuming you’ve downloaded the tarball to your <code class="docutils literal notranslate"><span class="pre">~/Downloads</span></code> folder, you
+can extract it to <code class="docutils literal notranslate"><span class="pre">/opt/</span></code> using the following command:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> sudo tar -xzf ~/Downloads/CLion-&lt;version&gt;.tar.gz -C /opt/
+</pre></div>
+</div>
+<p>If you are confident about your ability to setup your own install you can put
+it elsewhere but you will be on your own.</p>
+</li>
+<li><p>Execute the installer:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> /opt/CLion-&lt;version&gt;/bin/clion.sh
+</pre></div>
+</div>
+</li>
+<li><p>Perform the initial set up of CLion.</p>
+<ol class="arabic simple">
+<li><p>Select <code class="docutils literal notranslate"><span class="pre">Do</span> <span class="pre">not</span> <span class="pre">import</span> <span class="pre">settings</span></code> and click <code class="docutils literal notranslate"><span class="pre">OK</span></code>.</p></li>
+<li><p>Scroll to the bottom of the license agreement then hit <code class="docutils literal notranslate"><span class="pre">Accept</span></code>.</p></li>
+<li><p>Choose if you want to share usage statistics.</p></li>
+<li><p>You should be presented with a prompt for your license. Select
+<code class="docutils literal notranslate"><span class="pre">Activate</span></code>, <code class="docutils literal notranslate"><span class="pre">JetBrains</span> <span class="pre">Account</span></code>, enter your UAlberta email address and
+JetBrains password. Click the <code class="docutils literal notranslate"><span class="pre">Activate</span></code> button.</p></li>
+<li><p>Pick your favorite UI. Then click <code class="docutils literal notranslate"><span class="pre">Next:</span> <span class="pre">Toolchains</span></code>.</p></li>
+<li><p>CLion bundles a version of CMake with it. If you’d prefer to use the one
+we’ve just installed change <code class="docutils literal notranslate"><span class="pre">Bundled</span></code> to <code class="docutils literal notranslate"><span class="pre">/usr/bin/cmake</span></code>. The info
+text beneath should update with a checkmark and the version of your
+installed cmake. Click <code class="docutils literal notranslate"><span class="pre">Next:</span> <span class="pre">Default</span> <span class="pre">Plugins</span></code>.</p></li>
+<li><p>You might consider disabling all but the git plugin, and even then, using
+it is up to you. It can be useful to see the color coded files for
+differences at a glance or track changes in a file. You should consider
+disabling all of the web development plugins. Disabling other tools is up
+to you as well. Now select <code class="docutils literal notranslate"><span class="pre">Next:</span> <span class="pre">Feature</span> <span class="pre">Plugins</span></code></p></li>
+<li><p>Again, the choices here are yours. If you like vim, then maybe the vim
+plugin is up your alley. The markdown plugin can be useful as well. You do
+not need the TeamCity Integration, the Lua integration, nor the Swift
+integration. Select <code class="docutils literal notranslate"><span class="pre">Start</span> <span class="pre">using</span> <span class="pre">CLion</span></code></p></li>
+</ol>
+</li>
+</ol>
+</div>
+<div class="section" id="installing-the-antlr-plugin-for-clion">
+<h2><span class="section-number">2.7. </span>Installing the ANTLR Plugin for CLion<a class="headerlink" href="#installing-the-antlr-plugin-for-clion" title="Permalink to this headline">¶</a></h2>
+<p>ANTLR has a CLion integration that gives syntax highlighting as well as tool for
+visualising the parse tree for a grammar rule and an input.</p>
+<ol class="arabic simple">
+<li><p>Launch CLion by going to the application launcher (tap the super/Windows
+button) and typing <code class="docutils literal notranslate"><span class="pre">clion</span></code>. This should launch CLion.</p></li>
+<li><p>Open the settings window <code class="docutils literal notranslate"><span class="pre">CLion</span></code> <span class="math notranslate nohighlight">\(\rightarrow\)</span> <code class="docutils literal notranslate"><span class="pre">Preferences...</span></code></p></li>
+<li><p>Select <code class="docutils literal notranslate"><span class="pre">Plugins</span></code> from the menu on the left.</p></li>
+<li><p>Click <code class="docutils literal notranslate"><span class="pre">Browse</span> <span class="pre">Repositories...</span></code> below the plugin list.</p></li>
+<li><p>In the new window, type <code class="docutils literal notranslate"><span class="pre">antlr</span></code> into the search bar at the top.</p></li>
+<li><p>From the list select <code class="docutils literal notranslate"><span class="pre">ANTLR</span> <span class="pre">v4</span> <span class="pre">grammar</span> <span class="pre">plugin</span></code>.</p></li>
+<li><p>Click <code class="docutils literal notranslate"><span class="pre">Install</span></code> in the right pane and accept the notice.</p></li>
+<li><p>After the install bar ends click the <code class="docutils literal notranslate"><span class="pre">Restart</span> <span class="pre">CLion</span></code> button that should
+have replaced the <code class="docutils literal notranslate"><span class="pre">Install</span></code> button.</p></li>
+</ol>
+</div>
+<div class="section" id="installing-antlr-generator">
+<h2><span class="section-number">2.8. </span>Installing ANTLR Generator<a class="headerlink" href="#installing-antlr-generator" title="Permalink to this headline">¶</a></h2>
+<p>If you’d like to manually generate a listener or visitor you need to have the
+ANTLR generator. Follow these steps into install it:</p>
+<ol class="arabic">
+<li><p>Make the destination directory. I would suggest putting this in
+<code class="docutils literal notranslate"><span class="pre">&lt;INSTALL_DIR&gt;/bin</span></code> since the assignments will already automatically
+download a copy there and duplicating this seems wasteful. If you want to put
+it elsewhere though, you can.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> mkdir &lt;INSTALL_DIR&gt;/bin
+</pre></div>
+</div>
+<p>We’ll refer to this new directory (e.g. <code class="docutils literal notranslate"><span class="pre">&lt;INSTALL_DIR&gt;/bin</span></code>) as
+<code class="docutils literal notranslate"><span class="pre">ANTLR_BIN</span></code>.</p>
+</li>
+<li><p>Next, download the tool.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> curl http://www.antlr.org/download/antlr-4.8-complete.jar <span class="se">\</span>
+    &gt; &lt;ANTLR_BIN&gt;/antlr-4.8-complete.jar
+</pre></div>
+</div>
+</li>
+<li><p>Now we can make it easy to use. Add the following lines to your <code class="docutils literal notranslate"><span class="pre">~/.bashrc</span></code>:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="c1"># C415 ANTLR generator.</span>
+<span class="nb">export</span> <span class="nv">CLASSPATH</span><span class="o">=</span><span class="s2">&quot;&lt;ANTLR_BIN&gt;/antlr-4.7.1-complete.jar:</span><span class="nv">$CLASSPATH</span><span class="s2">&quot;</span>
+<span class="nb">alias</span> <span class="nv">antlr4</span><span class="o">=</span><span class="s2">&quot;java -Xmx500M org.antlr.v4.Tool&quot;</span>
+<span class="nb">alias</span> <span class="nv">grun</span><span class="o">=</span><span class="s1">&#39;java org.antlr.v4.gui.TestRig&#39;</span>
+</pre></div>
+</div>
+</li>
+<li><p>Close and reopen your terminal for things to take effect. Now these commands
+should produce useful help outputs:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> antlr4
+<span class="gp">$</span> grun
+</pre></div>
+</div>
+</li>
+</ol>
+</div>
+<div class="section" id="installing-the-tester">
+<h2><span class="section-number">2.9. </span>Installing the Tester<a class="headerlink" href="#installing-the-tester" title="Permalink to this headline">¶</a></h2>
+<p>This is the tool you’ll be using for testing your solutions locally. You’ll be
+building it yourself so that any changes later are easily obtainable.</p>
+<p>If you encounter issues, please log them on the <a class="reference external" href="https://github.com/cmput415/Tester/issues">GitHub issue tracker</a> or, if you want to, submit a pull
+request and we’ll review it!</p>
+<ol class="arabic">
+<li><p>We’ll build the tool in your home directory.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> <span class="nb">cd</span> <span class="nv">$HOME</span>
+<span class="gp">$</span> git clone https://github.com/cmput415/Tester.git
+</pre></div>
+</div>
+</li>
+<li><p>Next we’ll make the build directory.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> <span class="nb">cd</span> Tester
+<span class="gp">$</span> mkdir build
+</pre></div>
+</div>
+</li>
+<li><p>Now, the configure and generate step.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> <span class="nb">cd</span> build
+<span class="gp">$</span> cmake ..
+</pre></div>
+</div>
+</li>
+<li><p>Finally, build the project.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> make
+</pre></div>
+</div>
+</li>
+<li><p>We could refer directly to the executable every time, but it’s probably
+easier to just have it on our path. Add these lines to the end of
+<code class="docutils literal notranslate"><span class="pre">~/.bashrc</span></code>.</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="c1"># C415 testing utility.</span>
+<span class="nb">export</span> <span class="nv">PATH</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$HOME</span><span class="s2">/Tester/bin/:</span><span class="nv">$PATH</span><span class="s2">&quot;</span>
+</pre></div>
+</div>
+</li>
+<li><p>Close and reopen your terminal to have changes take effect. Test the command
+to make sure it works.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> tester --help
+</pre></div>
+</div>
+</li>
+</ol>
+<p>For more info about organising your tests and creating a configuration (though
+templates will be provided with your assignments) you can check <a class="reference external" href="https://github.com/cmput415/Tester/blob/master/README.md">the Tester
+README</a>.</p>
+</div>
+<div class="section" id="testing-your-environment">
+<h2><span class="section-number">2.10. </span>Testing Your Environment<a class="headerlink" href="#testing-your-environment" title="Permalink to this headline">¶</a></h2>
+<p>Everything should be setup! Let’s just make sure.</p>
+<ol class="arabic">
+<li><p>Download <a class="reference external" href="_static/demo.tar.gz">this tarball</a>.</p></li>
+<li><p>Extract it via</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> tar -xzf demo.tar.gz
+</pre></div>
+</div>
+</li>
+<li><p>Change into the extracted directory.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> <span class="nb">cd</span> demo
+</pre></div>
+</div>
+</li>
+<li><p>Make the project.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> make
+</pre></div>
+</div>
+</li>
+<li><p>The project should compile with no warnings or errors. If there’s a problem,
+you may have set something up incorrectly. Otherwise, congrats!</p></li>
+<li><p>If you’d like to start playing with the tools this is a good opportunity!
+Here are a few challenges you can attempt with the files provided:</p>
+<ol class="arabic simple">
+<li><p>The tool is asking for an input file. Examine the grammar and C++ source
+and figure out how to construct an appropriate input where ANTLR doesn’t
+complain about extra tokens.</p></li>
+<li><p>Add floats.</p>
+<ul class="simple">
+<li><p>Be careful of lexer rule ordering.</p></li>
+<li><p>Be careful that things like <code class="docutils literal notranslate"><span class="pre">6|5</span></code> or <code class="docutils literal notranslate"><span class="pre">6a5</span></code> are not recognised as
+floats.</p></li>
+</ul>
+</li>
+</ol>
+</li>
+</ol>
+</div>
+<div class="section" id="creating-a-personal-project">
+<h2><span class="section-number">2.11. </span>Creating a Personal Project<a class="headerlink" href="#creating-a-personal-project" title="Permalink to this headline">¶</a></h2>
+<p>We’re providing two ways for you to play with ANTLR and C++. The first way uses
+the Makefile from the demo you’ve just done, and the other uses CMake to set up
+a project using the CMake modules that are also used by your assgnments.</p>
+<div class="section" id="makefile">
+<h3><span class="section-number">2.11.1. </span>Makefile<a class="headerlink" href="#makefile" title="Permalink to this headline">¶</a></h3>
+<p>First, download <a class="reference external" href="_static/Makefile">the Makefile</a> from the link and put it in
+your folder. Alternatively you can download straight to your directory:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> curl https://webdocs.cs.ualberta.ca/~c415/setup/static/Makefile &gt; Makefile
+</pre></div>
+</div>
+<p>This Makefile is both rather complex and simple. The internals are the
+complicated part. If you’d like to understand how the Makefile works then
+everything is well documented. However, that complexity makes using it simple!
+So if you’d prefer to just use the Makefile then we can keep everything simple.</p>
+<p>First things first, your grammars. All grammars need to be in the same directory
+as the Makefile. If they aren’t, then they won’t be detected, generated, built,
+or linked.</p>
+<p>Next, your source files (<code class="docutils literal notranslate"><span class="pre">.cpp</span></code> or <code class="docutils literal notranslate"><span class="pre">.h(pp)</span></code>) must also be in the same
+directory as the Makefile. Again, if they aren’t, they won’t be detected, built,
+or linked.</p>
+<p>As you can see, this isn’t the most scalable of directory structures but it is
+functional for playing with ANTLR and C++. To test that it’s working, create
+your grammar file with:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>grammar &lt;file_name&gt;;
+&lt;top_rule&gt;: ANYTHING*? EOF;
+ANYTHING: .;
+</pre></div>
+</div>
+<p>And the file that has your main in it:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&quot;&lt;grammar_name&gt;Parser.h&quot;</span><span class="cp"></span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span> <span class="k">return</span> <span class="mi">0</span><span class="p">;</span> <span class="p">}</span>
+</pre></div>
+</div>
+<p>You should be able to make it and run the tool (it won’t produce any output):</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> make
+<span class="gp">$</span> ./tool
+</pre></div>
+</div>
+<p>We’ve also enabled you to use the ANTLR GUI through the Makefile. First, make an
+input file. Then, pass it to the Makefile ‘gui‘ rule:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> <span class="nb">echo</span> <span class="s2">&quot;this is a test&quot;</span> &gt; test.txt
+<span class="gp">$</span> make gui <span class="nv">grammar</span><span class="o">=</span>&lt;grammar_name&gt; <span class="nv">rule</span><span class="o">=</span>&lt;top_rule&gt; <span class="nv">file</span><span class="o">=</span>test.txt
+</pre></div>
+</div>
+<p>Any grammar in the same directory as the make file can be used in this fashion
+(including the <code class="docutils literal notranslate"><span class="pre">.g4</span></code> extension is optional). The <code class="docutils literal notranslate"><span class="pre">rule</span></code> can be any rule in
+the grammar, but usually it makes sense to test your “top level” rule. If the
+<code class="docutils literal notranslate"><span class="pre">file</span></code> option is not included then the GUI will take input from stdin to parse
+(type into your terminal). Terminate your input with EOF (ctrl+d on linux
+generally).</p>
+<p>You’re ready to start modifying the grammar and C++ source. Don’t be afraid to
+add new source files and header files: style will eventually be part of your
+mark so starting here is a good idea! Feel free to cannibalise anything you’d
+like from the demo files.</p>
+</div>
+<div class="section" id="cmake">
+<h3><span class="section-number">2.11.2. </span>CMake<a class="headerlink" href="#cmake" title="Permalink to this headline">¶</a></h3>
+<div class="admonition-todo admonition" id="id1">
+<p class="admonition-title">Todo</p>
+<p>WIP</p>
+</div>
+<p>A CMake setup is possible for a better scaling setup but hasn’t been prepared
+for individual project consumption outside of assignments.</p>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="macos.html" class="btn btn-neutral float-right" title="3. Mac OS" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="first_steps.html" class="btn btn-neutral float-left" title="1. First Steps" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, cmput415
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(false);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

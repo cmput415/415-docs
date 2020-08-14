@@ -4,7 +4,7 @@
 # HFILES: Hidden files we need to get from the base folder. These will be moved
 #         into the build folder preprended with a period.
 DIRS:=setup generator scalc vcalc gazprea
-FILES:=
+FILES:=index.html $(patsubst base/%,%,$(wildcard base/css/*))
 HFILES:=htaccess
 
 # Created variables used in the build process, don't touch these.
@@ -40,10 +40,13 @@ remoteinstall: all
 	rm -rf .webdocs_build .build.tar.gz
 
 github: all
-	mkdir -p .github_build
-	$(foreach dir, $(DIRS), mkdir .github_build/$(dir);)
-	$(foreach dir, $(DIRS), cp -r -t .github_build/$(dir) $(dir)/_build/html/*;)
-	touch .github_build/.nojekyll
+	rm -rf docs
+	mkdir docs
+	mkdir docs/css
+	$(foreach dir, $(DIRS), mkdir docs/$(dir);)
+	$(foreach dir, $(DIRS), cp -r -t docs/$(dir) $(dir)/_build/html/*;)
+	$(foreach file, $(FILES), cp base/$(file) docs/$(file);)
+	touch docs/.nojekyll
 
 clean:
 	$(foreach dir, $(DIRS), $(MAKE) -C $(dir) clean;)

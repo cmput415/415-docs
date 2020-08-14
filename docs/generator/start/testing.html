@@ -1,0 +1,286 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Testing &mdash; generator  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/googleFonts.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="Setting up CLion" href="clion_setup.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #007C41" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home" alt="Documentation Home"> generator
+          
+
+          
+            
+            <img src="../_static/logo-reverse.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Generator Assignment</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Language Specification</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../spec/keywords.html">1. Reserved Keywords</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spec/integer_lit.html">2. Integer Literals</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spec/identifiers.html">3. Identifiers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spec/expression.html">4. Expression</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../spec/expression.html#operators">4.1. Operators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../spec/expression.html#valid-expressions">4.2. Valid Expressions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../spec/expression.html#precedence">4.3. Precedence</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../spec/expression.html#associativity">4.4. Associativity</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../spec/generator.html">5. Generator</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../spec/generator.html#generator-format">5.1. Generator Format</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Implementation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../impl/input.html">Input</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../impl/output.html">Output</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../impl/assertions.html">Assertions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../impl/clarifications.html">Clarifications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../impl/deliverables.html">Deliverables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../impl/tips_hints.html">Tips and Hints</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="get_project.html">Getting Your Project</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="get_project.html#project-layout">Project Layout</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="clion_setup.html">Setting up CLion</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Testing</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#testing-tool">Testing Tool</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#generating-test-cases">Generating Test Cases</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">generator</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>Testing</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/start/testing.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="testing">
+<h1>Testing<a class="headerlink" href="#testing" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="testing-tool">
+<span id="id1"></span><h2>Testing Tool<a class="headerlink" href="#testing-tool" title="Permalink to this headline">¶</a></h2>
+<p>Inside the <code class="docutils literal notranslate"><span class="pre">tests</span></code> directory, a testing configuration file,
+<code class="docutils literal notranslate"><span class="pre">GeneratorConfig.json</span></code>, is provided. You need to edit <code class="docutils literal notranslate"><span class="pre">inDir</span></code> with
+the absolute path of <code class="docutils literal notranslate"><span class="pre">…/tests/input</span></code>, <code class="docutils literal notranslate"><span class="pre">outDir</span></code> with the absolute
+path of <code class="docutils literal notranslate"><span class="pre">…/tests/output</span></code>, and finally <code class="docutils literal notranslate"><span class="pre">testedExecutablePaths</span></code> with
+your ccid and the absolute path of <code class="docutils literal notranslate"><span class="pre">…/bin/generator</span></code>.</p>
+<p>Running the tester should now run your tests with your solution. Note
+that the output files will not be cleaned up so it might be wise run
+your tests in a directory that is not your repository. If you would
+still like to run them in the same directory, just know that the output
+files do not need to be tracked by git and can be safely deleted.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>tester &lt;path_to_config&gt;
+</pre></div>
+</div>
+<p>For more information about the testing tool and how it works, see the
+<a class="reference external" href="https://github.com/cmput415/Tester/blob/master/README.md">Tester
+README</a>.</p>
+</div>
+<div class="section" id="generating-test-cases">
+<h2>Generating Test Cases<a class="headerlink" href="#generating-test-cases" title="Permalink to this headline">¶</a></h2>
+<p>A <a class="reference external" href="https://github.com/Icohedron/GeneratorFuzzer">Python script</a> <code class="docutils literal notranslate"><span class="pre">fuzzer.py</span></code> is
+available for automatic generation of random test cases.</p>
+<p>More information is available in the README file included with the script,
+but an example usage of the script is as follows:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>python fuzzer.py config.json test 10
+</pre></div>
+</div>
+<p>The above command will generate two files <code class="docutils literal notranslate"><span class="pre">test.in</span></code> and <code class="docutils literal notranslate"><span class="pre">test.out</span></code>, where
+<code class="docutils literal notranslate"><span class="pre">test.in</span></code> will contain 10 generators and <code class="docutils literal notranslate"><span class="pre">test.out</span></code> will contain 10 lines
+each containing the expected output for each of the 10 generators. These files
+can be placed in your <code class="docutils literal notranslate"><span class="pre">tests</span></code> directory for use with the <a class="reference internal" href="#testing-tool"><span class="std std-ref">Testing Tool</span></a>.</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="clion_setup.html" class="btn btn-neutral float-left" title="Setting up CLion" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, cmput415
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(false);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

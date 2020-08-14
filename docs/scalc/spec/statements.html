@@ -1,0 +1,394 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>6. Statements &mdash; scalc  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/googleFonts.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Backends" href="../impl/backends.html" />
+    <link rel="prev" title="5. Expressions" href="expressions.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #007C41" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home" alt="Documentation Home"> scalc
+          
+
+          
+            
+            <img src="../_static/logo-reverse.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../index.html">SCalc</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Language Specification</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="keywords.html">1. Reserved Keywords</a></li>
+<li class="toctree-l1"><a class="reference internal" href="booleans.html">2. Booleans</a></li>
+<li class="toctree-l1"><a class="reference internal" href="integers.html">3. Integers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="identifiers.html">4. Identifiers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="expressions.html">5. Expressions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="expressions.html#operators">5.1. Operators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="expressions.html#valid-expressions">5.2. Valid Expressions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="expressions.html#precedence">5.3. Precedence</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">6. Statements</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#declaration">6.1. Declaration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#assignment">6.2. Assignment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#conditional">6.3. Conditional</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#loop">6.4. Loop</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#print">6.5. Print</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Implementation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../impl/backends.html">Backends</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../impl/backends.html#mips">MIPS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../impl/backends.html#x86">x86</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../impl/backends.html#arm">ARM</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../impl/backends.html#interpreter">Interpreter</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../impl/input.html">Input</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../impl/output.html">Output</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../impl/assertions.html">Assertions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../impl/clarifications.html">Clarifications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../impl/deliverables.html">Deliverables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../impl/tips_hints.html">Tips and Hints</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../start/layout.html">Project Layout</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../start/clion_setup.html">Setting up CLion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../start/inja.html">Using Inja</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../start/testing.html">Testing</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../start/testing.html#testing-tool">Testing Tool</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../start/testing.html#generating-test-cases">Generating Test Cases</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">scalc</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li><span class="section-number">6. </span>Statements</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/spec/statements.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="statements">
+<h1><span class="section-number">6. </span>Statements<a class="headerlink" href="#statements" title="Permalink to this headline">¶</a></h1>
+<p>In <em>SCalc</em> there are five types of statements:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#sssec-declaration"><span class="std std-ref">Declaration</span></a></p></li>
+<li><p><a class="reference internal" href="#sssec-assignment"><span class="std std-ref">Assignment</span></a></p></li>
+<li><p><a class="reference internal" href="#sssec-conditional"><span class="std std-ref">Conditional</span></a></p></li>
+<li><p><a class="reference internal" href="#sssec-loop"><span class="std std-ref">Loop</span></a></p></li>
+<li><p><a class="reference internal" href="#sssec-print"><span class="std std-ref">Print</span></a></p></li>
+</ul>
+<p>Each statement ends with a semicolon. White space is not important in
+<em>SCalc</em>.</p>
+<p><strong>Assertion:</strong> Whitespace is guaranteed to be a space, a tab, a carriage
+return, or a new line. (<a class="reference internal" href="../impl/assertions.html#assert-simple-whitespace"><span class="std std-ref">simple-whitespace</span></a>)</p>
+<div class="section" id="declaration">
+<span id="sssec-declaration"></span><h2><span class="section-number">6.1. </span>Declaration<a class="headerlink" href="#declaration" title="Permalink to this headline">¶</a></h2>
+<p>A variable declaration in <em>SCalc</em> has the following form:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>int &lt;id&gt; = &lt;expr&gt;;
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">id</span></code> is the identifier of a variable.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">expr</span></code> is an expression.</p></li>
+</ul>
+<p id="variable-props">Variables have a few properties:</p>
+<ul class="simple">
+<li><p>cannot be used before being declared.</p></li>
+<li><p>cannot be declared without initialisation.</p></li>
+<li><p>cannot be declared more than once in an <em>SCalc</em> program.</p></li>
+</ul>
+<p>Examples of valid declarations are:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>int i = 9;
+int j = 9 * 4 + 10;
+int k = i * j;
+</pre></div>
+</div>
+<p>Examples of invalid declarations are:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>int i;
+int j =;
+</pre></div>
+</div>
+</div>
+<div class="section" id="assignment">
+<span id="sssec-assignment"></span><h2><span class="section-number">6.2. </span>Assignment<a class="headerlink" href="#assignment" title="Permalink to this headline">¶</a></h2>
+<p>Variable assignment is similar to variable declaration but it allows
+variables to be assigned new values. An assignment in <em>SCalc</em> has the
+following form:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;id&gt; = &lt;expr&gt;;
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">id</span></code> is the identifier of an already declared variable.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">expr</span></code> is an expression.</p></li>
+</ul>
+</div>
+<div class="section" id="conditional">
+<span id="sssec-conditional"></span><h2><span class="section-number">6.3. </span>Conditional<a class="headerlink" href="#conditional" title="Permalink to this headline">¶</a></h2>
+<p>A conditional in <em>SCalc</em> has the following form:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>if (&lt;expr&gt;)
+  &lt;statement-1&gt;
+  &lt;statement-2&gt;
+  ...
+  &lt;statement-n&gt;
+fi;
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">expr</span></code> is an expression. The body of the <code class="docutils literal notranslate"><span class="pre">if</span></code> statement is
+executed if and only if this expression evaluates to a non-zero
+value.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">statement-*</span></code> is any type of statement <em>except</em> a declaration. This
+means there can be assignments, nested loops, nested conditionals,
+and prints. There does not have to be any statements in the
+conditional.</p></li>
+</ul>
+<p><strong>Clarification:</strong> Declarations in conditionals can lead to undefined
+values due to global scoping. (<a class="reference internal" href="../impl/clarifications.html#clarify-no-decl-cond"><span class="std std-ref">no-decl-cond</span></a>)</p>
+</div>
+<div class="section" id="loop">
+<span id="sssec-loop"></span><h2><span class="section-number">6.4. </span>Loop<a class="headerlink" href="#loop" title="Permalink to this headline">¶</a></h2>
+<p>A loop in <em>SCalc</em> has the following form:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>loop (expr)
+  &lt;statement-1&gt;
+  &lt;statement-2&gt;
+  ...
+  &lt;statement-n&gt;
+pool;
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">expr</span></code> is an expression. The body of the <code class="docutils literal notranslate"><span class="pre">loop</span></code> statement is
+repeatedly evaluated as long as this expression is non-zero. The
+expression is evaluated prior to running the body similar to a <em>C</em>
+<code class="docutils literal notranslate"><span class="pre">while</span></code> loop.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">statement-*</span></code> is any type of statement <em>except</em> a declaration. This
+means there can be assignments, nested loops, nested conditionals,
+and prints. There does not have to be any statements in the loop, but
+without side effects a loop will be infinite (unless it is never
+entered).</p></li>
+</ul>
+<p><strong>Clarification:</strong> Declarations in loops can lead to undefined or
+repeatedly defined values due to global scoping.
+(<a class="reference internal" href="../impl/clarifications.html#clarify-no-decl-loop"><span class="std std-ref">no-decl-loop</span></a>)</p>
+</div>
+<div class="section" id="print">
+<span id="sssec-print"></span><h2><span class="section-number">6.5. </span>Print<a class="headerlink" href="#print" title="Permalink to this headline">¶</a></h2>
+<p>Print statements print the integer value of an expression followed by a
+newline. A print statement in <em>SCalc</em> has the following form:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>print(&lt;expr&gt;);
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">expr</span></code> is an expression.</p></li>
+</ul>
+<p>For example, the input:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>int i = 0;
+loop (i &lt; 5)
+  print(i);
+  i = i + 1;
+pool;
+</pre></div>
+</div>
+<p>should print:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>0
+1
+2
+3
+4
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../impl/backends.html" class="btn btn-neutral float-right" title="Backends" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="expressions.html" class="btn btn-neutral float-left" title="5. Expressions" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, cmput415
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(false);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

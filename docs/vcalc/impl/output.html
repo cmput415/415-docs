@@ -1,0 +1,292 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Output &mdash; vcalc  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/googleFonts.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Assertions" href="assertions.html" />
+    <link rel="prev" title="Input" href="input.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #007C41" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home" alt="Documentation Home"> vcalc
+          
+
+          
+            
+            <img src="../_static/logo-reverse.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../index.html">VCalc</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Change log</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Language Specification</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../spec/keywords.html">1. Keywords</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spec/vectors.html">2. Vectors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spec/range.html">3. Range</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spec/generators.html">4. Generators</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spec/filters.html">5. Filters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spec/expressions.html">6. Expressions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../spec/expressions.html#operators">6.1. Operators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../spec/expressions.html#binary-operations-on-vectors">6.2. Binary Operations on Vectors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../spec/expressions.html#integer-to-vector-promotion">6.3. Integer to Vector Promotion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../spec/expressions.html#vector-indexing">6.4. Vector Indexing</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../spec/statements.html">7. Statements</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../spec/statements.html#declaration">7.1. Declaration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../spec/statements.html#assignment">7.2. Assignment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../spec/statements.html#conditional">7.3. Conditional</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../spec/statements.html#loops">7.4. Loops</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../spec/type_checking.html">8. Type Checking and ASTs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spec/scoping.html">9. Scoping</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Implementation</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="input.html">Input</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Output</a></li>
+<li class="toctree-l1"><a class="reference internal" href="assertions.html">Assertions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="clarifications.html">Clarifications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deliverables.html">Deliverables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tips_hints.html">Tips and Hints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="llvm_tips_hints.html">LLVM Tips and Hints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ast_tips_hints.html">AST Tips and Hints</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../start/layout.html">Project Layout</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../start/clion_setup.html">Setting up CLion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../start/testing.html">Testing</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../start/testing.html#testing-tool">Testing Tool</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../start/testing.html#generating-test-cases">Generating Test Cases</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">vcalc</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>Output</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/impl/output.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="output">
+<h1>Output<a class="headerlink" href="#output" title="Permalink to this headline">¶</a></h1>
+<p>Output is to be written to a file specified on the command line. Your
+compiler will be invoked with the following command:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vcalc &lt;input_file_path&gt; &lt;output_file_path&gt;
+</pre></div>
+</div>
+<p>You should open the file <code class="docutils literal notranslate"><span class="pre">output_file_path</span></code> and write to it. The
+output file should be overwritten if it already exists.</p>
+<p>Output content is standardized to ensure everyone can pass everyone’s
+tests. Follow these specifications:</p>
+<ul class="simple">
+<li><p>There <em>must</em> be a new line after each <code class="docutils literal notranslate"><span class="pre">print</span></code> statement’s printed
+value.</p></li>
+<li><p>There <em>must not</em> be any trailing space after printed value and before
+the newline.</p></li>
+<li><p>There <em>must</em> be an empty line at the end of your output.</p></li>
+<li><p>There <em>must not</em> be spaces between the first and last number and the
+accompanying brackets in a vector.</p></li>
+<li><p>There <em>must</em> be spaces between the numbers in a vector.</p></li>
+<li><p>There <em>must not</em> be anything except spaces between the numbers in a
+vector.</p></li>
+</ul>
+<div class="line-block">
+<div class="line"><strong>Clarification:</strong> Empty input should result in empty output.
+(<a class="reference internal" href="clarifications.html#clarify-empty-input"><span class="std std-ref">empty-input</span></a>)</div>
+<div class="line"><strong>Clarification:</strong> Empty vectors print only brackets.
+(<a class="reference internal" href="clarifications.html#clarify-empty-vector"><span class="std std-ref">empty-vector</span></a>)</div>
+<div class="line"><strong>Clarification:</strong> A vector with one value is only the brackets and
+the value. (<a class="reference internal" href="clarifications.html#clarify-single-value-vector"><span class="std std-ref">single-value-vector</span></a>)</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="assertions.html" class="btn btn-neutral float-right" title="Assertions" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="input.html" class="btn btn-neutral float-left" title="Input" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, cmput415
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(false);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -1,0 +1,289 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>1. First Steps &mdash; setup  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/googleFonts.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="2. Ubuntu" href="ubuntu.html" />
+    <link rel="prev" title="CMPUT 415 Setup Instructions" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #007C41" >
+          
+
+          
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> setup
+          
+
+          
+            
+            <img src="_static/logo-reverse.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="index.html">CMPUT 415 Setup Instructions</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">1. First Steps</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#jetbrains-license">1.1. JetBrains License</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ubuntu.html">2. Ubuntu</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ubuntu.html#installing-libuuid">2.1. Installing libUUID</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ubuntu.html#installing-openjdk-jre-8">2.2. Installing OpenJDK JRE 8</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ubuntu.html#installing-git">2.3. Installing Git</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ubuntu.html#installing-cmake">2.4. Installing CMake</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ubuntu.html#antlr-4-c-runtime">2.5. ANTLR 4 C++ Runtime</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ubuntu.html#installing-clion">2.6. Installing CLion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ubuntu.html#installing-the-antlr-plugin-for-clion">2.7. Installing the ANTLR Plugin for CLion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ubuntu.html#installing-antlr-generator">2.8. Installing ANTLR Generator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ubuntu.html#installing-the-tester">2.9. Installing the Tester</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ubuntu.html#testing-your-environment">2.10. Testing Your Environment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ubuntu.html#creating-a-personal-project">2.11. Creating a Personal Project</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="ubuntu.html#makefile">2.11.1. Makefile</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ubuntu.html#cmake">2.11.2. CMake</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="macos.html">3. Mac OS</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="macos.html#installing-developer-tools">3.1. Installing Developer tools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="macos.html#installing-homebrew">3.2. Installing Homebrew</a></li>
+<li class="toctree-l2"><a class="reference internal" href="macos.html#installing-oracle-java-jdk">3.3. Installing Oracle Java JDK</a></li>
+<li class="toctree-l2"><a class="reference internal" href="macos.html#installing-git">3.4. Installing Git</a></li>
+<li class="toctree-l2"><a class="reference internal" href="macos.html#installing-cmake">3.5. Installing CMake</a></li>
+<li class="toctree-l2"><a class="reference internal" href="macos.html#antlr-4-c-runtime">3.6. ANTLR 4 C++ Runtime</a></li>
+<li class="toctree-l2"><a class="reference internal" href="macos.html#installing-clion">3.7. Installing CLion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="macos.html#installing-the-antlr-plugin-for-clion">3.8. Installing the ANTLR Plugin for CLion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="macos.html#installing-antlr-generator">3.9. Installing ANTLR Generator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="macos.html#installing-the-tester">3.10. Installing the Tester</a></li>
+<li class="toctree-l2"><a class="reference internal" href="macos.html#testing-your-environment">3.11. Testing Your Environment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="macos.html#creating-a-personal-project">3.12. Creating a Personal Project</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="macos.html#makefile">3.12.1. Makefile</a></li>
+<li class="toctree-l3"><a class="reference internal" href="macos.html#cmake">3.12.2. CMake</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="windows.html">4. Windows</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cs_computers.html">5. CS Computers</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="cs_computers.html#using-prebuilt-resources">5.1. Using Prebuilt Resources</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cs_computers.html#installing-clion">5.2. Installing CLion</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">setup</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li><span class="section-number">1. </span>First Steps</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/first_steps.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="first-steps">
+<h1><span class="section-number">1. </span>First Steps<a class="headerlink" href="#first-steps" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="jetbrains-license">
+<h2><span class="section-number">1.1. </span>JetBrains License<a class="headerlink" href="#jetbrains-license" title="Permalink to this headline">¶</a></h2>
+<p>You need a valid JetBrains account to use CLion. Luckily, you’re a
+student and that gets you free things. If you already have an account
+with a student license, you can skip this.</p>
+<ol class="arabic simple">
+<li><p>Fill out <a class="reference external" href="https://www.jetbrains.com/shop/eform/students">this form</a> to
+start getting your student license. Select <code class="docutils literal notranslate"><span class="pre">I’m</span> <span class="pre">a</span> <span class="pre">student</span></code> then fill out
+the rest of the form appropriately. You <strong>must use your UAlberta email
+address</strong> in order to be approved.</p></li>
+<li><p>Go to your email inbox (the automation process is typically quite quick),
+find the email with the subject <code class="docutils literal notranslate"><span class="pre">JetBrains</span> <span class="pre">Educational</span> <span class="pre">Pack</span> <span class="pre">Confirmation</span></code>.
+Open it and click the link <code class="docutils literal notranslate"><span class="pre">Confirm</span> <span class="pre">Request</span></code>.</p></li>
+<li><p>You should see a new page with the header <code class="docutils literal notranslate"><span class="pre">Congrats!</span> <span class="pre">You’ve</span> <span class="pre">been</span>
+<span class="pre">#approved!</span></code>.</p></li>
+<li><p>There should be a new email in your inbox with the subject <code class="docutils literal notranslate"><span class="pre">JetBrains</span>
+<span class="pre">Student</span> <span class="pre">License</span> <span class="pre">Confirmation</span></code>. Open it and click the link <code class="docutils literal notranslate"><span class="pre">Activate</span>
+<span class="pre">Educational</span> <span class="pre">License</span></code>.</p></li>
+<li><p>Fill out the form to create your account. Enter your first name, last name,
+and username. Choose an appropriate password and accept the account
+agreement. It’s your choice to consent to the use of your data, but it’s not
+necessary.</p></li>
+<li><p>Your account should be usable with CLion now.</p></li>
+</ol>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="ubuntu.html" class="btn btn-neutral float-right" title="2. Ubuntu" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="index.html" class="btn btn-neutral float-left" title="CMPUT 415 Setup Instructions" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, cmput415
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(false);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
