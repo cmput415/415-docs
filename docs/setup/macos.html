@@ -457,7 +457,7 @@ request and we’ll review it!</p>
 C++11) that the default clang installation doesn’t ship with by default.
 While it <em>is</em> possible to build with Clang, the process and invocation is
 much more involved. Why stress ourselves when GCC can save us the trouble?</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> brew install gcc@8
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> brew install gcc@10
 </pre></div>
 </div>
 </li>
@@ -475,7 +475,7 @@ much more involved. Why stress ourselves when GCC can save us the trouble?</p>
 </li>
 <li><p>Now, the configure and generate step.</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">#</span> <span class="nb">cd</span> build
-<span class="gp">#</span> cmake .. -DCMAKE_CXX_COMPILER<span class="o">=</span><span class="s2">&quot;g++-8&quot;</span> -DCMAKE_C_COMPILER<span class="o">=</span><span class="s2">&quot;gcc-8&quot;</span>
+<span class="gp">#</span> cmake .. -DCMAKE_CXX_COMPILER<span class="o">=</span><span class="s2">&quot;g++-10&quot;</span> -DCMAKE_C_COMPILER<span class="o">=</span><span class="s2">&quot;gcc-10&quot;</span>
 </pre></div>
 </div>
 <p>The flags on the end ensure we’re using GCC to compile this.</p>
