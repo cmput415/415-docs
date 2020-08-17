@@ -326,7 +326,7 @@ request and we’ll review it!
 
    .. code-block:: console
 
-    $ brew install gcc
+    $ brew install gcc@8
 
 #. We’ll build the tool in your home directory.
 
