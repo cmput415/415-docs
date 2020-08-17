@@ -424,14 +424,14 @@ it elsewhere though, you can.</p>
 </li>
 <li><p>Next, download the tool.</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> curl http://www.antlr.org/download/antlr-4.8-complete.jar <span class="se">\</span>
-    &gt; &lt;ANTLR_BIN&gt;/antlr-4.8-complete.jar
+    -o &lt;ANTLR_BIN&gt;/antlr-4.8-complete.jar
 </pre></div>
 </div>
 </li>
 <li><p>Now we can make it easy to use. Add the following lines to your
 <code class="docutils literal notranslate"><span class="pre">~/.bash_profile</span></code>:</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="c1"># C415 ANTLR generator.</span>
-<span class="nb">export</span> <span class="nv">CLASSPATH</span><span class="o">=</span><span class="s2">&quot;&lt;ANTLR_BIN&gt;/antlr-4.7.1-complete.jar:</span><span class="nv">$CLASSPATH</span><span class="s2">&quot;</span>
+<span class="nb">export</span> <span class="nv">CLASSPATH</span><span class="o">=</span><span class="s2">&quot;&lt;ANTLR_BIN&gt;/antlr-4.8-complete.jar:</span><span class="nv">$CLASSPATH</span><span class="s2">&quot;</span>
 <span class="nb">alias</span> <span class="nv">antlr4</span><span class="o">=</span><span class="s2">&quot;java -Xmx500M org.antlr.v4.Tool&quot;</span>
 <span class="nb">alias</span> <span class="nv">grun</span><span class="o">=</span><span class="s1">&#39;java org.antlr.v4.gui.TestRig&#39;</span>
 </pre></div>
@@ -552,7 +552,7 @@ a project using the CMake modules that are also used by your assgnments.</p>
 <span id="makefile-1"></span><h3><span class="section-number">3.12.1. </span>Makefile<a class="headerlink" href="#makefile" title="Permalink to this headline">¶</a></h3>
 <p>First, download <a class="reference external" href="_static/Makefile">the Makefile</a> from the link and put it in
 your folder. Alternatively you can download straight to your directory:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> curl https://webdocs.cs.ualberta.ca/~c415/setup/static/Makefile &gt; Makefile
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> curl https://webdocs.cs.ualberta.ca/~c415/setup/static/Makefile -o Makefile
 </pre></div>
 </div>
 <p>This Makefile is both rather complex and simple. The internals are the

@@ -287,7 +287,7 @@ ANTLR generator. Follow these steps into install it:
    .. code-block:: console
 
     $ curl http://www.antlr.org/download/antlr-4.8-complete.jar \
-        > <ANTLR_BIN>/antlr-4.8-complete.jar
+        -o <ANTLR_BIN>/antlr-4.8-complete.jar
 
 #. Now we can make it easy to use. Add the following lines to your
    ``~/.bash_profile``:
@@ -295,7 +295,7 @@ ANTLR generator. Follow these steps into install it:
    .. code-block:: shell
 
     # C415 ANTLR generator.
-    export CLASSPATH="<ANTLR_BIN>/antlr-4.7.1-complete.jar:$CLASSPATH"
+    export CLASSPATH="<ANTLR_BIN>/antlr-4.8-complete.jar:$CLASSPATH"
     alias antlr4="java -Xmx500M org.antlr.v4.Tool"
     alias grun='java org.antlr.v4.gui.TestRig'
 
@@ -440,7 +440,7 @@ your folder. Alternatively you can download straight to your directory:
 
 .. code-block:: console
 
- $ curl https://webdocs.cs.ualberta.ca/~c415/setup/static/Makefile > Makefile
+ $ curl https://webdocs.cs.ualberta.ca/~c415/setup/static/Makefile -o Makefile
 
 This Makefile is both rather complex and simple. The internals are the
 complicated part. If you’d like to understand how the Makefile works then
