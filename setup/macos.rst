@@ -326,7 +326,7 @@ request and we’ll review it!
 
    .. code-block:: console
 
-    $ brew install gcc@8
+    $ brew install gcc@10
 
 #. We’ll build the tool in your home directory.
 
@@ -347,7 +347,7 @@ request and we’ll review it!
    .. code-block:: console
 
     # cd build
-    # cmake .. -DCMAKE_CXX_COMPILER="g++-8" -DCMAKE_C_COMPILER="gcc-8"
+    # cmake .. -DCMAKE_CXX_COMPILER="g++-10" -DCMAKE_C_COMPILER="gcc-10"
 
    The flags on the end ensure we’re using GCC to compile this.
 
