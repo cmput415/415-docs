@@ -286,7 +286,7 @@ ANTLR generator. Follow these steps into install it:
 
    .. code-block:: console
 
-    $ curl http://www.antlr.org/download/antlr-4.8-complete.jar \
+    $ curl https://www.antlr.org/download/antlr-4.8-complete.jar \
         -o <ANTLR_BIN>/antlr-4.8-complete.jar
 
 #. Now we can make it easy to use. Add the following lines to your
@@ -326,7 +326,7 @@ request and we’ll review it!
 
    .. code-block:: console
 
-    $ brew install gcc
+    $ brew install gcc@8
 
 #. We’ll build the tool in your home directory.
 
