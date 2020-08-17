@@ -197,13 +197,10 @@
 <h1>Setting up CLion<a class="headerlink" href="#setting-up-clion" title="Permalink to this headline">¶</a></h1>
 <p>CLion requires a little bit of setup.</p>
 <ol class="arabic">
-<li><p>Open up CLion. From the welcome screen select
-<code class="docutils literal notranslate"><span class="pre">Import</span> <span class="pre">Project</span> <span class="pre">from</span> <span class="pre">Sources</span></code> or, if you’ve been using CLion and it
-opens to previous project, from the <code class="docutils literal notranslate"><span class="pre">File</span></code> menu select
-<code class="docutils literal notranslate"><span class="pre">Import</span> <span class="pre">Project…</span></code>. Navigate to where your project is located an
-choose it. Choose <code class="docutils literal notranslate"><span class="pre">Open</span> <span class="pre">Project</span></code> <em>not</em>
-<code class="docutils literal notranslate"><span class="pre">Overwrite</span> <span class="pre">CMakeLists.txt</span></code>. If you already have a project open, you
-can choose to use your current window or create another one.</p></li>
+<li><p>Open up CLion. If you’ve been using CLion and it opens to a previous project,
+select <code class="docutils literal notranslate"><span class="pre">Close</span> <span class="pre">project</span></code>. Now that you’re at the welcome screen, select
+<code class="docutils literal notranslate"><span class="pre">Open</span> <span class="pre">or</span> <span class="pre">Import</span></code> on the right. Navigate to where your project is located
+and select the folder that contains it. Select <code class="docutils literal notranslate"><span class="pre">OK</span></code> to open the project.</p></li>
 <li><p>CLion doesn’t make use of your command line environment, it has its
 own storage place. Therefore we need to add <code class="docutils literal notranslate"><span class="pre">ANTLR_INS</span></code> to CLion’s
 environment.</p>
@@ -223,16 +220,30 @@ field under <code class="docutils literal notranslate"><span class="pre">Value</
 directory. If you’ve forgotten it but your terminal is set up
 correctly, or if you’re using the lab machines, then you can enter
 the following command to print it:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>echo $ANTLR_INS
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> <span class="nb">echo</span> <span class="nv">$ANTLR_INS</span>
 </pre></div>
 </div>
 </li>
-<li><p>Apply all of your changes while closing the settings.</p></li>
+<li><p>Select <code class="docutils literal notranslate"><span class="pre">OK</span></code> to save your changes to the environment variables, select
+<code class="docutils literal notranslate"><span class="pre">OK</span></code> again to close the</p></li>
 </ol>
 </li>
-<li><p>Make sure you’re building the <code class="docutils literal notranslate"><span class="pre">all</span></code> target, not just the
-<code class="docutils literal notranslate"><span class="pre">generator</span></code> target. From the drop down menu in the top right of the
-IDE you can choose your build target. Change this to <code class="docutils literal notranslate"><span class="pre">Build</span> <span class="pre">All</span></code>.</p></li>
+<li><p>We want to build all targets, not just the generator target. To do this we
+must add a new build configuration. If you have an older version of CLion
+this may already be present as a target called <code class="docutils literal notranslate"><span class="pre">Build</span> <span class="pre">All</span></code>.</p>
+<ol class="arabic simple">
+<li><p>From the build configuration drop-down menu on the toolbar (which likely
+says <code class="docutils literal notranslate"><span class="pre">generator</span> <span class="pre">|</span> <span class="pre">Debug</span></code>) select <code class="docutils literal notranslate"><span class="pre">Edit</span> <span class="pre">configurations</span></code>.</p></li>
+<li><p>In the new pane, select the <code class="docutils literal notranslate"><span class="pre">+</span></code> to add a new configuration and select
+<code class="docutils literal notranslate"><span class="pre">CMake</span> <span class="pre">application</span></code>.</p></li>
+<li><p>Change the <code class="docutils literal notranslate"><span class="pre">Name</span></code> field to <code class="docutils literal notranslate"><span class="pre">all</span></code> and the target field to <code class="docutils literal notranslate"><span class="pre">All</span>
+<span class="pre">targets</span></code>.</p></li>
+<li><p>Click <code class="docutils literal notranslate"><span class="pre">OK</span></code> to save the new target.</p></li>
+<li><p>From the build configuration drop-down menu, select your new target called
+<code class="docutils literal notranslate"><span class="pre">all</span></code>.</p></li>
+<li><p>The build configuration menu should now show <code class="docutils literal notranslate"><span class="pre">all</span> <span class="pre">|</span> <span class="pre">Debug</span></code>.</p></li>
+</ol>
+</li>
 <li><p>CLion may not automatically pick up ANTLR’s generated sources as your
 project’s. We can fix this by telling CLion where the files are.
 Build once to have the <code class="docutils literal notranslate"><span class="pre">gen</span></code> directory appear in the project

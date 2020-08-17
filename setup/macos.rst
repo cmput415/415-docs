@@ -286,8 +286,8 @@ ANTLR generator. Follow these steps into install it:
 
    .. code-block:: console
 
-    $ curl http://www.antlr.org/download/antlr-4.8-complete.jar \
-        > <ANTLR_BIN>/antlr-4.8-complete.jar
+    $ curl https://www.antlr.org/download/antlr-4.8-complete.jar \
+        -o <ANTLR_BIN>/antlr-4.8-complete.jar
 
 #. Now we can make it easy to use. Add the following lines to your
    ``~/.bash_profile``:
@@ -295,7 +295,7 @@ ANTLR generator. Follow these steps into install it:
    .. code-block:: shell
 
     # C415 ANTLR generator.
-    export CLASSPATH="<ANTLR_BIN>/antlr-4.7.1-complete.jar:$CLASSPATH"
+    export CLASSPATH="<ANTLR_BIN>/antlr-4.8-complete.jar:$CLASSPATH"
     alias antlr4="java -Xmx500M org.antlr.v4.Tool"
     alias grun='java org.antlr.v4.gui.TestRig'
 
@@ -326,7 +326,7 @@ request and we’ll review it!
 
    .. code-block:: console
 
-    $ brew install gcc
+    $ brew install gcc@10
 
 #. We’ll build the tool in your home directory.
 
@@ -347,7 +347,7 @@ request and we’ll review it!
    .. code-block:: console
 
     # cd build
-    # cmake .. -DCMAKE_CXX_COMPILER="g++-8" -DCMAKE_C_COMPILER="gcc-8"
+    # cmake .. -DCMAKE_CXX_COMPILER="g++-10" -DCMAKE_C_COMPILER="gcc-10"
 
    The flags on the end ensure we’re using GCC to compile this.
 
@@ -440,7 +440,7 @@ your folder. Alternatively you can download straight to your directory:
 
 .. code-block:: console
 
- $ curl https://webdocs.cs.ualberta.ca/~c415/setup/static/Makefile > Makefile
+ $ curl https://webdocs.cs.ualberta.ca/~c415/setup/static/Makefile -o Makefile
 
 This Makefile is both rather complex and simple. The internals are the
 complicated part. If you’d like to understand how the Makefile works then
