@@ -1,0 +1,147 @@
+Weekly meetings:
+  - Styles:
+    - Scrum/standup:
+      - Appoint a scrum leader who ensures people follow scrum rules
+    - Classic:
+      - Appoint a meeting chair who will direct the meeting according to the
+        agenda and accept actions
+  - At least one larger group meeting (progress)
+    - Should be "longer"
+    - Meeting notes must be taken and committed
+      - These will be reviewed/marked
+      - See given format
+  - At least one other meeting (check-in)
+    - should be "shorter"
+    - report blockers, request help, discuss issues
+    - Does not need to be recorded
+  - Other meetings are optional
+
+Classic template:
+```
+Meeting Date/Time start/end:
+Attendees:
+Late arrivals (Person (time)):
+Early departures (Person(time)):
+Discussion items/agenda:
+Item details:
+Actions:
+Round table:
+```
+
+Scrum template:
+```
+Meeting Date/Time start/end:
+Attendees:
+Late arrivals (Person (time)):
+Early departures (Person(time)):
+Individual reports:
+```
+
+Classic example:
+```
+Meeting Date/Time start/end:
+ 19/08/2020 1:30 PM
+ 19/08/2020 2:30 PM
+Attendees:
+  Nelson
+  Braedy
+  Deric
+Late arrivals (Person (time)):
+  - Braedy (1:45 PM)
+Early departures (Person (time)):
+  - Deric (2:20 PM)
+Discussion items/agenda:
+  - Memory allocator memory leak.
+  - Missing documentation on type inference functions.
+Details:
+  - The memory allocator leaks memory when resizing vectors during addition
+    operations.
+  - Complicated functionality in the type promotion for different scalar types
+    in vectors is missing documentation.
+Actions:
+  - Nelson volunteers to address the memory allocator leak.
+  - Braedy promises to be better about documentation in the future and will
+    return to these functions to add documentation today.
+    - Deric will verify it is complete.
+Round table:
+  - Deric:
+    - Will continue working on matrix multiplication in grammar and AST.
+  - Nelson:
+    - Completed I/O runtime functions last week.
+    - Working on matrix multiplication runtime functions this week.
+  - Braedy:
+    - Completed integer arithmetic lowering to IR.
+    - Started and will continue to work on float arithmetic.
+    - Stretch goal for next week: integer to float promotion.
+```
+
+Scrum example:
+```
+Meeting Date/Time start/end:
+ 19/08/2020 1:30 PM
+ 19/08/2020 2:30 PM
+Attendees:
+  Nelson
+  Braedy
+  Deric
+Late arrivals (Person (time)):
+  - Braedy (1:45 PM)
+Early departures (Person (time)):
+  - Deric (2:20 PM)
+Individual reports:
+  - Deric:
+    - Found a memory leak in the memory allocator.
+      - Specifically with resizing vectors during additions.
+      - Nelson volunteered to fix it.
+    - Last week:
+      - Started working on matrix multiplication in grammar and AST.
+    - Next week:
+      - Will continue the same work.
+  - Nelson:
+    - Type promotion between vectors with different scalar types is missing
+      documentation.
+      - Braedy promises to be better about documentation in the future.
+      - Braedy will complete the documentation today.
+        - Deric will verify it is complete.
+    - Last week:
+      - Completed I/O runtime functions.
+    - Next week:
+      - Working on matrix multiplication runtime functions.
+  - Braedy:
+    - No issues.
+    - Last week:
+      - Completed integer arithmetic lowering.
+    - Next week:
+      - Started and will continue to work on float arithmetic.
+      - Stretch: integer to float promotion.
+```
+
+Project setup:
+  - Style:
+    - Potential resources:
+      - https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines
+      - https://llvm.org/docs/ProgrammersManual.html
+      - https://google.github.io/styleguide/cppguide.html
+    - Code style:
+      - Potential tools:
+        - clang-tidy
+        - clang-format
+    - Documentation style:
+      - Potential tools:
+        - Doxygen
+        - Sphinx
+  - Commiting:
+    - Suggested:
+      - Branching for features.
+      - Create pull requests (PRs) to merge back.
+      - Add at least one reviewer.
+    - Others workflows are allowed, but you should document it so that it's
+      followed.
+  - Conflict resolution:
+    - Team lead decision
+    - Majority vote
+
+Resources:
+  - CMake: 
+    - https://cmake.org/cmake/help/latest/guide/tutorial/index.html
+    - https://learnxinyminutes.com/docs/cmake/
