@@ -52,7 +52,7 @@ Generating Test Cases
 
 .. todo: Put Fuzzer onto cmput415 GitHub
 
-A `Python script <https://github.com/Icohedron/ObfSCalcFuzzer>`__ ``fuzzer.py`` is 
+A `Python script <https://github.com/Icohedron/C415-SCalc-Fuzzer>`__ ``fuzzer.py`` is 
 available for automatic generation of random test cases.
 
 More information is available in the README file included with the script,
