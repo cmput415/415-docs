@@ -223,10 +223,17 @@ README</a>.</p>
 </div>
 <div class="section" id="generating-test-cases">
 <h2>Generating Test Cases<a class="headerlink" href="#generating-test-cases" title="Permalink to this headline">¶</a></h2>
-<div class="admonition-todo admonition" id="id2">
-<p class="admonition-title">Todo</p>
-<p>WIP</p>
+<p>A <a class="reference external" href="https://github.com/Icohedron/C415-VCalc-Fuzzer">Python script</a> <code class="docutils literal notranslate"><span class="pre">fuzzer.py</span></code> is
+available for automatic generation of random test cases.</p>
+<p>More information is available in the README file included with the script,
+but an example usage of the script is as follows:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>python fuzzer.py config.json test
+</pre></div>
 </div>
+<p>The above command will generate two files: <code class="docutils literal notranslate"><span class="pre">test.in</span></code> and <code class="docutils literal notranslate"><span class="pre">test.out</span></code>, where
+<code class="docutils literal notranslate"><span class="pre">test.in</span></code> contains the VCalc source code of the test case and <code class="docutils literal notranslate"><span class="pre">test.out</span></code>
+contains the expected output. These files can be placed in your <code class="docutils literal notranslate"><span class="pre">tests</span></code>
+directory for use with the <a class="reference internal" href="#testing-tool"><span class="std std-ref">Testing Tool</span></a>.</p>
 </div>
 </div>
 
