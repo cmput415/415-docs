@@ -1,0 +1,357 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>SCalc &mdash; scalc  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/googleFonts.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="1. Reserved Keywords" href="spec/keywords.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #007C41" >
+          
+
+          
+            <a href="#" class="icon icon-home" alt="Documentation Home"> scalc
+          
+
+          
+            
+            <img src="_static/logo-reverse.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">SCalc</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Language Specification</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="spec/keywords.html">1. Reserved Keywords</a></li>
+<li class="toctree-l1"><a class="reference internal" href="spec/booleans.html">2. Booleans</a></li>
+<li class="toctree-l1"><a class="reference internal" href="spec/integers.html">3. Integers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="spec/identifiers.html">4. Identifiers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="spec/expressions.html">5. Expressions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="spec/expressions.html#operators">5.1. Operators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spec/expressions.html#valid-expressions">5.2. Valid Expressions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spec/expressions.html#precedence">5.3. Precedence</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="spec/statements.html">6. Statements</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="spec/statements.html#declaration">6.1. Declaration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spec/statements.html#assignment">6.2. Assignment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spec/statements.html#conditional">6.3. Conditional</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spec/statements.html#loop">6.4. Loop</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spec/statements.html#print">6.5. Print</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Implementation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="impl/backends.html">Backends</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="impl/backends.html#mips">MIPS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="impl/backends.html#x86">x86</a></li>
+<li class="toctree-l2"><a class="reference internal" href="impl/backends.html#arm">ARM</a></li>
+<li class="toctree-l2"><a class="reference internal" href="impl/backends.html#interpreter">Interpreter</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="impl/input.html">Input</a></li>
+<li class="toctree-l1"><a class="reference internal" href="impl/output.html">Output</a></li>
+<li class="toctree-l1"><a class="reference internal" href="impl/assertions.html">Assertions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="impl/clarifications.html">Clarifications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="impl/deliverables.html">Deliverables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="impl/tips_hints.html">Tips and Hints</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="start/layout.html">Project Layout</a></li>
+<li class="toctree-l1"><a class="reference internal" href="start/clion_setup.html">Setting up CLion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="start/inja.html">Using Inja</a></li>
+<li class="toctree-l1"><a class="reference internal" href="start/testing.html">Testing</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="start/testing.html#testing-tool">Testing Tool</a></li>
+<li class="toctree-l2"><a class="reference internal" href="start/testing.html#generating-test-cases">Generating Test Cases</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">scalc</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="#" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>SCalc</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="scalc">
+<h1>SCalc<a class="headerlink" href="#scalc" title="Permalink to this headline">¶</a></h1>
+<p>The goal of this assignment is to implement a compiler for a simple
+imperative language called <em>SCalc</em>. This compiler will directly generate
+code for the following three backends:</p>
+<ul class="simple">
+<li><p><em>x86</em> assembly</p></li>
+<li><p><em>MIPS</em> assembly</p></li>
+<li><p><em>ARM</em> assembly</p></li>
+</ul>
+<p>You must also create an <em>interpreter</em> for <em>SCalc</em></p>
+<p>For the interpreter you will be computing the value of the expressions
+as you traverse the tree. However, when generating assembly code for
+each of the backends <strong>you are not allowed to perform any computations
+in the compiler</strong>. You must create assembly code to perform all of the
+computations that appear in the input file.</p>
+<div class="line-block">
+<div class="line"><em>MIPS</em> assembly will be run using <em>SPIM</em></div>
+<div class="line"><em>x86</em> assembly will be assembled using the nasm assembler and run
+natively.</div>
+<div class="line"><em>ARM</em> assembly will be compiled using the <em>ARM</em> toolchain (assembler
+<code class="docutils literal notranslate"><span class="pre">arm-none-eabi-as</span></code>, linker <code class="docutils literal notranslate"><span class="pre">arm-none-eabi-gcc</span></code>) and then run using
+an <em>ARM</em> simulator (<em>qemu-arm</em>).</div>
+</div>
+<p>Your compiler will produce the assembly text files, not binaries. <strong>You
+must generate your assembly
+using</strong><a class="reference external" href="https://github.com/pantor/inja">inja</a>. Inja is a string
+template engine which allows you to make use of formatted strings. Its
+syntax is similar to <em>Python</em>’s jinja. You won’t need any advanced
+features to complete this assignment.</p>
+<p>Your classes should follow a pattern of classes matching the following
+UML diagram (structure only, names should be reasonably changed):</p>
+<p><img alt="expectedForm" src="_images/expectedForm.png" /></p>
+<p>Note that you must use the visitor pattern for the interpreter as it is
+impossible to revisit nodes during a loop when using the listener
+pattern.</p>
+<p>Beyond these constraints you are allowed to use any internal
+representation that you wish, as well as emit any code that you wish, as
+long as the output is correct.</p>
+<p><em>SCalc</em> has integer variables, conditionals, loops, prints, and various
+integer expressions.</p>
+<div class="toctree-wrapper compound">
+</div>
+<div class="toctree-wrapper compound">
+<p class="caption"><span class="caption-text">Language Specification</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="spec/keywords.html">1. Reserved Keywords</a></li>
+<li class="toctree-l1"><a class="reference internal" href="spec/booleans.html">2. Booleans</a></li>
+<li class="toctree-l1"><a class="reference internal" href="spec/integers.html">3. Integers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="spec/identifiers.html">4. Identifiers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="spec/expressions.html">5. Expressions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="spec/expressions.html#operators">5.1. Operators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spec/expressions.html#valid-expressions">5.2. Valid Expressions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spec/expressions.html#precedence">5.3. Precedence</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="spec/statements.html">6. Statements</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="spec/statements.html#declaration">6.1. Declaration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spec/statements.html#assignment">6.2. Assignment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spec/statements.html#conditional">6.3. Conditional</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spec/statements.html#loop">6.4. Loop</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spec/statements.html#print">6.5. Print</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<p class="caption"><span class="caption-text">Implementation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="impl/backends.html">Backends</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="impl/backends.html#mips">MIPS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="impl/backends.html#x86">x86</a></li>
+<li class="toctree-l2"><a class="reference internal" href="impl/backends.html#arm">ARM</a></li>
+<li class="toctree-l2"><a class="reference internal" href="impl/backends.html#interpreter">Interpreter</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="impl/input.html">Input</a></li>
+<li class="toctree-l1"><a class="reference internal" href="impl/output.html">Output</a></li>
+<li class="toctree-l1"><a class="reference internal" href="impl/assertions.html">Assertions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="impl/clarifications.html">Clarifications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="impl/deliverables.html">Deliverables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="impl/tips_hints.html">Tips and Hints</a></li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="start/layout.html">Project Layout</a></li>
+<li class="toctree-l1"><a class="reference internal" href="start/clion_setup.html">Setting up CLion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="start/inja.html">Using Inja</a></li>
+<li class="toctree-l1"><a class="reference internal" href="start/testing.html">Testing</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="start/testing.html#testing-tool">Testing Tool</a></li>
+<li class="toctree-l2"><a class="reference internal" href="start/testing.html#generating-test-cases">Generating Test Cases</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="spec/keywords.html" class="btn btn-neutral float-right" title="1. Reserved Keywords" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, cmput415
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(false);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
