@@ -4,7 +4,7 @@
 # HFILES: Hidden files we need to get from the base folder. These will be moved
 #         into the build folder preprended with a period.
 DIRS:=setup generator scalc vcalc gazprea
-FILES:=index.html $(patsubst base/%,%,$(wildcard base/css/*))
+FILES:=index.html $(patsubst base/%,%,$(wildcard base/css/*)) $(patsubst base/%,%,$(wildcard base/engineering/*))
 HFILES:=htaccess
 
 # Created variables used in the build process, don't touch these.
@@ -43,6 +43,7 @@ github: all
 	rm -rf docs
 	mkdir docs
 	mkdir docs/css
+	mkdir docs/engineering
 	$(foreach dir, $(DIRS), mkdir docs/$(dir);)
 	$(foreach dir, $(DIRS), cp -r $(dir)/_build/html/* docs/$(dir);)
 	$(foreach dir, $(DIRS), cp -r $(dir)/_build/latex/$(dir).pdf docs/$(dir).pdf;)
