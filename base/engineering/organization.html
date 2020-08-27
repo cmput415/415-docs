@@ -1,0 +1,149 @@
+<!-- saved from url=(0061)https://ro-s-web-p-02.registrar.ualberta.ca/connect/index.php -->
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <noscript>
+	    <meta http-equiv="refresh" content="0;url=noscript.html">
+    </noscript>
+
+    <title>CMPUT 415</title>
+
+    <script src="../css/jquery.min.js"></script>
+    <script src="../css/jquery-ui.min.js"></script>
+    <script src="../css/bootstrap.min.js"></script>
+    <script src="../css/main.js"></script>
+
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/custom.css" rel="stylesheet">
+    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/jquery-ui.min.css" rel="stylesheet">
+
+    <style>
+      #lectures {
+        font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+      }
+
+      #lectures td, #lectures th {
+        border: 1px solid #ddd;
+        padding: 8px;
+      }
+
+      #lectures tr:nth-child(even){background-color: #f2f2f2;}
+
+      #lectures tr:hover {background-color: #ddd;}
+
+      #lectures th {
+        padding-top: 12px;
+        padding-bottom: 12px;
+        text-align: left;
+        background-color: #007c41;
+        color: white;
+      }
+    </style>
+  </head>
+  <body>
+
+    <div class="banner container-fluid">
+      <div class="container banner-logo">
+        <a href="http://www.ualberta.ca/">
+          <img src="../css/logo-reverse.png">
+        </a>
+      </div>
+    </div>
+
+    <div class="container-fluid">
+      <h2 class="greentext">CMPUT 415 - Compiler Design</h2>
+      <h3 class="greentext">Software-Engineering Process</h3>
+
+
+      <p>The organization of the teams, the creation of a design document early on, the establishment of methodology to write code, review code, enforce code style, all will be very important for the successful completion of the project. This page sets up expectations and minimum requirements that each group must follow.</p>
+      
+      <h3 class="greentext">Project-Review Meetings</h2>
+      
+     <p><table>
+      <tr><td>Minimum Frequency: </td><td>once a week</td></tr>
+      <tr><td>Duration: </td><td>at most one hour</td></tr>
+      <tr><td>Meeting Notes: </td><td>required</td></tr>
+      <tr><td>Attendance: </td><td>required and recorded</td></tr>
+      <tr><td>Discussion items/agenda: </td><td>circulated prior to meeting</td></tr>
+      <tr><td>Actions and outstanding issues: </td><td>recorded prior to the end of the meeting</td></tr>
+      <tr><td>Note Recording: </td><td>Use the same file to record notes of all meetings. Add a new meeting header to the end of the file to start recording the notes for each meeting.</td></tr>
+      <tr><td>Notes file: </td><td><code>ProjectReviewMeetingNotes</code> in project repo</td>
+    </table></p>
+
+    <p>     The goal of project-review meeting is to discuss all aspects related with the project.</p>
+
+         <p>In each project-review meeting the individual progress for each member of the team must be reported and recorded in the notes. Outstanding issues must be discussed and can be removed from the list of outstanding issues. New issues might be added to the list. Discussion items must be recorded in the meeting notes. Actions must be recorded. Attendance records must indicate what time individuals that came late or left earlier arrived or departed.</p>
+
+    <h4 class="greentext">First Project Meeting</h4>
+    
+    The first of such meetings is an organizational meeting. This meeting may be longer than the project-review meetings, but should not last more than two hours. It may also be split into two meetings on the same week. At a minimum by the end of the first meeting the group must have agreed on the following:
+    <ul>
+      <li> a mechanism to create the project design;</li>
+      <li> code style and tools to support enforcement of code style (see resources below);</li>
+      <li> a process to create pull requests and for code review. You can choose the workflow, but it must be documented so that it is followed. We suggest the following:
+      <ul>
+	<li>Create Branches for features.</li>
+	<li>Create pull requests (PRs) to merge back.</li>
+	<li>Add at least one reviewer for each PR.</li>
+      </ul>
+    </li>
+    <li> a conflict resolution mechanism --- majority vote? a team leader decides?
+    <li> testing strategy --- or a process to create one</li>
+    <li> who will chair the meetings, who will write the notes, who will be the scrum leader;</li>
+    <li> time for all the project meetings -- designate someone that will create calendar entries;</li>
+    <li> an initial list of outstanding issues.</li>
+    <li> the initial list of actions --- every action must have at least one team member responsible for it. </li>
+  </ul></p>
+
+ 
+
+      <h3 class="greentext">Scrum Meetings</h3>
+      
+      <p><table>     
+      <tr><td>Minimum Frequency:  </td><td>twice a week -- higher frequency recommended</td></tr>
+      <tr><td>Duration:  </td><td>at most 15 minutes</td></tr>
+      <tr><td>Meeting Notes:  </td><td>brief, required</td></tr>
+      <tr><td>Notes file: </td><td><code>ScrumMeetingNotes</code> in project repo</td>
+      </table></p>
+
+      <a href="https://geekbot.com/blog/daily-standup-meeting/?k_id=dsa-910872033553&adgroup_id=96910465570&campaign_name_ad=10071775578&gclid=EAIaIQobChMIisu00M226wIVzz2tBh2LrgkqEAAYASAAEgL7CvD_BwE"> Geekbot has some interesting advice on Scrum meetings</a>.
+
+      <h3 class="greentext">Check-in Meetings</h3>
+      <p><table>
+	<tr><td>Frequency: </td><td>as needed</td></tr>
+	<tr><td>Attendance: </td><td>as needed</td></tr>
+	<tr><td>Meeting Notes: </td><td>not required</td></tr>
+	<tr><td>Goals: </td><td>report blockers, request help, discuss issues</td></tr>
+      </table></p>
+      
+      <h2 class="greentext">Resources</h2>
+
+      
+      <ul>
+	<li>Style Guidelines:
+	<ul>
+	  <li><a href="https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines">C++ Core Guidelines</a></li>
+	  <li><a href="https://google.github.io/styleguide/cppguide.html">LLVM Programmer’s Manual</a></li>
+	  </li>
+	</ul>
+	<li>Tools to support code style:</li>
+	<ul>
+	  <li><a href="https://clang.llvm.org/extra/clang-tidy/">clang-tidy</a></li>
+	  <li><a href="https://clang.llvm.org/docs/ClangFormat.html">ClangFormat</a></li>
+	</ul>
+	<li> Tools for documentation:</li>
+	<ul>
+	  <li> <a href="https://www.doxygen.nl/index.html">Doxygen</a></li>
+	  <li> <a href="https://www.sphinx-doc.org/en/master/">Sphinx</a></li>
+	</ul>
+      </ul>
+      
+    </div> 
+  </body>
+</html>
