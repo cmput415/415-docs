@@ -3,6 +3,18 @@ Ubuntu
 
 This section details how to setup the Ubuntu development environment.
 
+Installing build-essential
+--------------------------
+
+On anything except a fresh install you've almost certainly installed this
+package in the course of your regular development. In case you're working from
+a fresh install, you'll need this first:
+
+.. code-block:: console
+
+ $ sudo apt-get update
+ $ sudo apt-get install build-essential
+
 Installing libUUID
 ------------------
 

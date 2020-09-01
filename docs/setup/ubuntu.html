@@ -94,19 +94,20 @@
 </ul>
 </li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">2. Ubuntu</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#installing-libuuid">2.1. Installing libUUID</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#installing-openjdk-jre-8">2.2. Installing OpenJDK JRE 8</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#installing-git">2.3. Installing Git</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#installing-cmake">2.4. Installing CMake</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#antlr-4-c-runtime">2.5. ANTLR 4 C++ Runtime</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#installing-clion">2.6. Installing CLion</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#installing-the-antlr-plugin-for-clion">2.7. Installing the ANTLR Plugin for CLion</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#installing-antlr-generator">2.8. Installing ANTLR Generator</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#installing-the-tester">2.9. Installing the Tester</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#testing-your-environment">2.10. Testing Your Environment</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#creating-a-personal-project">2.11. Creating a Personal Project</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#makefile">2.11.1. Makefile</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#cmake">2.11.2. CMake</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#installing-build-essential">2.1. Installing build-essential</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#installing-libuuid">2.2. Installing libUUID</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#installing-openjdk-jre-8">2.3. Installing OpenJDK JRE 8</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#installing-git">2.4. Installing Git</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#installing-cmake">2.5. Installing CMake</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#antlr-4-c-runtime">2.6. ANTLR 4 C++ Runtime</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#installing-clion">2.7. Installing CLion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#installing-the-antlr-plugin-for-clion">2.8. Installing the ANTLR Plugin for CLion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#installing-antlr-generator">2.9. Installing ANTLR Generator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#installing-the-tester">2.10. Installing the Tester</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#testing-your-environment">2.11. Testing Your Environment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#creating-a-personal-project">2.12. Creating a Personal Project</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#makefile">2.12.1. Makefile</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cmake">2.12.2. CMake</a></li>
 </ul>
 </li>
 </ul>
@@ -204,8 +205,18 @@
   <div class="section" id="ubuntu">
 <h1><span class="section-number">2. </span>Ubuntu<a class="headerlink" href="#ubuntu" title="Permalink to this headline">¶</a></h1>
 <p>This section details how to setup the Ubuntu development environment.</p>
+<div class="section" id="installing-build-essential">
+<h2><span class="section-number">2.1. </span>Installing build-essential<a class="headerlink" href="#installing-build-essential" title="Permalink to this headline">¶</a></h2>
+<p>On anything except a fresh install you’ve almost certainly installed this
+package in the course of your regular development. In case you’re working from
+a fresh install, you’ll need this first:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> sudo apt-get update
+<span class="gp">$</span> sudo apt-get install build-essential
+</pre></div>
+</div>
+</div>
 <div class="section" id="installing-libuuid">
-<h2><span class="section-number">2.1. </span>Installing libUUID<a class="headerlink" href="#installing-libuuid" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">2.2. </span>Installing libUUID<a class="headerlink" href="#installing-libuuid" title="Permalink to this headline">¶</a></h2>
 <p>LibUUID is a library required for many applications so it’s possible that you’ve
 already installed this while installing something else. Best to try and install
 it anyways:</p>
@@ -215,7 +226,7 @@ it anyways:</p>
 </div>
 </div>
 <div class="section" id="installing-openjdk-jre-8">
-<h2><span class="section-number">2.2. </span>Installing OpenJDK JRE 8<a class="headerlink" href="#installing-openjdk-jre-8" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">2.3. </span>Installing OpenJDK JRE 8<a class="headerlink" href="#installing-openjdk-jre-8" title="Permalink to this headline">¶</a></h2>
 <p>The Java runtime environment (JRE) is required to run the ANTLR generator.
 OpenJDK’s JRE is easier to install than Oracle’s, so we’ll use that.</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> sudo apt-get update
@@ -224,7 +235,7 @@ OpenJDK’s JRE is easier to install than Oracle’s, so we’ll use that.</p>
 </div>
 </div>
 <div class="section" id="installing-git">
-<h2><span class="section-number">2.3. </span>Installing Git<a class="headerlink" href="#installing-git" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">2.4. </span>Installing Git<a class="headerlink" href="#installing-git" title="Permalink to this headline">¶</a></h2>
 <p>Git should be installed by default in Ubuntu. If you’ve removed it or it is
 otherwise unavailable then you can install it using this command:</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> sudo apt-get update
@@ -233,7 +244,7 @@ otherwise unavailable then you can install it using this command:</p>
 </div>
 </div>
 <div class="section" id="installing-cmake">
-<h2><span class="section-number">2.4. </span>Installing CMake<a class="headerlink" href="#installing-cmake" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">2.5. </span>Installing CMake<a class="headerlink" href="#installing-cmake" title="Permalink to this headline">¶</a></h2>
 <p>Installing CMake from the package manager is easy too:</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> sudo apt-get update
 <span class="gp">$</span> sudo apt-get install cmake
@@ -241,7 +252,7 @@ otherwise unavailable then you can install it using this command:</p>
 </div>
 </div>
 <div class="section" id="antlr-4-c-runtime">
-<h2><span class="section-number">2.5. </span>ANTLR 4 C++ Runtime<a class="headerlink" href="#antlr-4-c-runtime" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">2.6. </span>ANTLR 4 C++ Runtime<a class="headerlink" href="#antlr-4-c-runtime" title="Permalink to this headline">¶</a></h2>
 <p>This section details how to install the ANTLR 4 C++ runtime on Ubuntu assuming
 your default shell is bash. If you’ve changed your shell from bash it’s assumed
 that you are familiar enough with your environment that you can modify these
@@ -336,7 +347,7 @@ things to take effect.</p>
 </ol>
 </div>
 <div class="section" id="installing-clion">
-<h2><span class="section-number">2.6. </span>Installing CLion<a class="headerlink" href="#installing-clion" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">2.7. </span>Installing CLion<a class="headerlink" href="#installing-clion" title="Permalink to this headline">¶</a></h2>
 <ol class="arabic">
 <li><p>Go to the <a class="reference external" href="https://www.jetbrains.com/clion/download/#section=linux">download page</a> and download
 <em>CLion</em> for Linux.</p></li>
@@ -380,7 +391,7 @@ integration. Select <code class="docutils literal notranslate"><span class="pre"
 </ol>
 </div>
 <div class="section" id="installing-the-antlr-plugin-for-clion">
-<h2><span class="section-number">2.7. </span>Installing the ANTLR Plugin for CLion<a class="headerlink" href="#installing-the-antlr-plugin-for-clion" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">2.8. </span>Installing the ANTLR Plugin for CLion<a class="headerlink" href="#installing-the-antlr-plugin-for-clion" title="Permalink to this headline">¶</a></h2>
 <p>ANTLR has a CLion integration that gives syntax highlighting as well as tool for
 visualising the parse tree for a grammar rule and an input.</p>
 <ol class="arabic simple">
@@ -397,7 +408,7 @@ have replaced the <code class="docutils literal notranslate"><span class="pre">I
 </ol>
 </div>
 <div class="section" id="installing-antlr-generator">
-<h2><span class="section-number">2.8. </span>Installing ANTLR Generator<a class="headerlink" href="#installing-antlr-generator" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">2.9. </span>Installing ANTLR Generator<a class="headerlink" href="#installing-antlr-generator" title="Permalink to this headline">¶</a></h2>
 <p>If you’d like to manually generate a listener or visitor you need to have the
 ANTLR generator. Follow these steps into install it:</p>
 <ol class="arabic">
@@ -435,7 +446,7 @@ should produce useful help outputs:</p>
 </ol>
 </div>
 <div class="section" id="installing-the-tester">
-<h2><span class="section-number">2.9. </span>Installing the Tester<a class="headerlink" href="#installing-the-tester" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">2.10. </span>Installing the Tester<a class="headerlink" href="#installing-the-tester" title="Permalink to this headline">¶</a></h2>
 <p>This is the tool you’ll be using for testing your solutions locally. You’ll be
 building it yourself so that any changes later are easily obtainable.</p>
 <p>If you encounter issues, please log them on the <a class="reference external" href="https://github.com/cmput415/Tester/issues">GitHub issue tracker</a> or, if you want to, submit a pull
@@ -484,7 +495,7 @@ templates will be provided with your assignments) you can check <a class="refere
 README</a>.</p>
 </div>
 <div class="section" id="testing-your-environment">
-<h2><span class="section-number">2.10. </span>Testing Your Environment<a class="headerlink" href="#testing-your-environment" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">2.11. </span>Testing Your Environment<a class="headerlink" href="#testing-your-environment" title="Permalink to this headline">¶</a></h2>
 <p>Everything should be setup! Let’s just make sure.</p>
 <ol class="arabic">
 <li><p>Download <a class="reference external" href="_static/demo.tar.gz">this tarball</a>.</p></li>
@@ -523,12 +534,12 @@ floats.</p></li>
 </ol>
 </div>
 <div class="section" id="creating-a-personal-project">
-<h2><span class="section-number">2.11. </span>Creating a Personal Project<a class="headerlink" href="#creating-a-personal-project" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">2.12. </span>Creating a Personal Project<a class="headerlink" href="#creating-a-personal-project" title="Permalink to this headline">¶</a></h2>
 <p>We’re providing two ways for you to play with ANTLR and C++. The first way uses
 the Makefile from the demo you’ve just done, and the other uses CMake to set up
 a project using the CMake modules that are also used by your assgnments.</p>
 <div class="section" id="makefile">
-<h3><span class="section-number">2.11.1. </span>Makefile<a class="headerlink" href="#makefile" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">2.12.1. </span>Makefile<a class="headerlink" href="#makefile" title="Permalink to this headline">¶</a></h3>
 <p>First, download <a class="reference external" href="_static/Makefile">the Makefile</a> from the link and put it in
 your folder. Alternatively you can download straight to your directory:</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> curl https://webdocs.cs.ualberta.ca/~c415/setup/static/Makefile -o Makefile
@@ -580,7 +591,7 @@ mark so starting here is a good idea! Feel free to cannibalise anything you’d
 like from the demo files.</p>
 </div>
 <div class="section" id="cmake">
-<h3><span class="section-number">2.11.2. </span>CMake<a class="headerlink" href="#cmake" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">2.12.2. </span>CMake<a class="headerlink" href="#cmake" title="Permalink to this headline">¶</a></h3>
 <div class="admonition-todo admonition" id="id1">
 <p class="admonition-title">Todo</p>
 <p>WIP</p>
