@@ -403,7 +403,7 @@ your folder. Alternatively you can download straight to your directory:
 
 .. code-block:: console
 
- $ curl https://webdocs.cs.ualberta.ca/~c415/setup/static/Makefile -o Makefile
+ $ curl https://cmput415.github.io/415-docs/setup/_static/Makefile -o Makefile
 
 This Makefile is both rather complex and simple. The internals are the
 complicated part. If you’d like to understand how the Makefile works then
