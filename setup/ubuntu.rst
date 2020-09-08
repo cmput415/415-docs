@@ -27,7 +27,7 @@ it anyways:
  $ sudo apt-get update
  $ sudo apt-get install uuid-dev
 
-Installing OpenJDK JRE 8
+Installing OpenJDK JRE 11
 ------------------------
 
 The Java runtime environment (JRE) is required to run the ANTLR generator.
@@ -36,7 +36,7 @@ OpenJDK’s JRE is easier to install than Oracle’s, so we’ll use that.
 .. code-block:: console
 
  $ sudo apt-get update
- $ sudo apt-get install openjdk-8-jre
+ $ sudo apt-get install openjdk-11-jre
 
 Installing Git
 --------------
@@ -395,10 +395,20 @@ We’re providing two ways for you to play with ANTLR and C++. The first way use
 the Makefile from the demo you’ve just done, and the other uses CMake to set up
 a project using the CMake modules that are also used by your assgnments.
 
+Installing OpenJDK JDK 11
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Because running the GUI tool requires producing the Java version of your parser
+and then compiling it, you must install a JDK.
+
+.. code-block:: console
+ $ sudo apt-get update
+ $ sudo apt-get install openjdk-11-jdk
+
 Makefile
 ~~~~~~~~
 
-First, download `the Makefile <_static/Makefile>`__ from the link and put it in
+Next, download `the Makefile <_static/Makefile>`__ from the link and put it in
 your folder. Alternatively you can download straight to your directory:
 
 .. code-block:: console

@@ -96,7 +96,7 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">2. Ubuntu</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#installing-build-essential">2.1. Installing build-essential</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#installing-libuuid">2.2. Installing libUUID</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#installing-openjdk-jre-8">2.3. Installing OpenJDK JRE 8</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#installing-openjdk-jre-11">2.3. Installing OpenJDK JRE 11</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#installing-git">2.4. Installing Git</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#installing-cmake">2.5. Installing CMake</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#antlr-4-c-runtime">2.6. ANTLR 4 C++ Runtime</a></li>
@@ -106,8 +106,9 @@
 <li class="toctree-l2"><a class="reference internal" href="#installing-the-tester">2.10. Installing the Tester</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#testing-your-environment">2.11. Testing Your Environment</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#creating-a-personal-project">2.12. Creating a Personal Project</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#makefile">2.12.1. Makefile</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#cmake">2.12.2. CMake</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#installing-openjdk-jdk-11">2.12.1. Installing OpenJDK JDK 11</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#makefile">2.12.2. Makefile</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cmake">2.12.3. CMake</a></li>
 </ul>
 </li>
 </ul>
@@ -225,12 +226,12 @@ it anyways:</p>
 </pre></div>
 </div>
 </div>
-<div class="section" id="installing-openjdk-jre-8">
-<h2><span class="section-number">2.3. </span>Installing OpenJDK JRE 8<a class="headerlink" href="#installing-openjdk-jre-8" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="installing-openjdk-jre-11">
+<h2><span class="section-number">2.3. </span>Installing OpenJDK JRE 11<a class="headerlink" href="#installing-openjdk-jre-11" title="Permalink to this headline">¶</a></h2>
 <p>The Java runtime environment (JRE) is required to run the ANTLR generator.
 OpenJDK’s JRE is easier to install than Oracle’s, so we’ll use that.</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> sudo apt-get update
-<span class="gp">$</span> sudo apt-get install openjdk-8-jre
+<span class="gp">$</span> sudo apt-get install openjdk-11-jre
 </pre></div>
 </div>
 </div>
@@ -538,9 +539,14 @@ floats.</p></li>
 <p>We’re providing two ways for you to play with ANTLR and C++. The first way uses
 the Makefile from the demo you’ve just done, and the other uses CMake to set up
 a project using the CMake modules that are also used by your assgnments.</p>
+<div class="section" id="installing-openjdk-jdk-11">
+<h3><span class="section-number">2.12.1. </span>Installing OpenJDK JDK 11<a class="headerlink" href="#installing-openjdk-jdk-11" title="Permalink to this headline">¶</a></h3>
+<p>Because running the GUI tool requires producing the Java version of your parser
+and then compiling it, you must install a JDK.</p>
+</div>
 <div class="section" id="makefile">
-<h3><span class="section-number">2.12.1. </span>Makefile<a class="headerlink" href="#makefile" title="Permalink to this headline">¶</a></h3>
-<p>First, download <a class="reference external" href="_static/Makefile">the Makefile</a> from the link and put it in
+<h3><span class="section-number">2.12.2. </span>Makefile<a class="headerlink" href="#makefile" title="Permalink to this headline">¶</a></h3>
+<p>Next, download <a class="reference external" href="_static/Makefile">the Makefile</a> from the link and put it in
 your folder. Alternatively you can download straight to your directory:</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> curl https://cmput415.github.io/415-docs/setup/_static/Makefile -o Makefile
 </pre></div>
@@ -591,7 +597,7 @@ mark so starting here is a good idea! Feel free to cannibalise anything you’d
 like from the demo files.</p>
 </div>
 <div class="section" id="cmake">
-<h3><span class="section-number">2.12.2. </span>CMake<a class="headerlink" href="#cmake" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">2.12.3. </span>CMake<a class="headerlink" href="#cmake" title="Permalink to this headline">¶</a></h3>
 <div class="admonition-todo admonition" id="id1">
 <p class="admonition-title">Todo</p>
 <p>WIP</p>
