@@ -16,7 +16,8 @@ definitions to your ``~/.bashrc``.
      # C415 Predefinitions
      source "/cshome/c415/415-resources/415env.sh"
 
-This should enable you to build manually using the command line.
+This should enable you to build manually using the command line. You should log
+out and back in so that the changes can take effect.
 
 .. _installing-clion-2:
 
