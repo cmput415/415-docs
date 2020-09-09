@@ -120,6 +120,7 @@ specification particulars.
 
             [i in 0..1 | 1 / 0];
             [i in 0..1 | 1 / (1 - 1)];
+            [i in 0..1 | 1 % 0];
 
 #. 
 

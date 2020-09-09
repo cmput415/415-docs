@@ -270,6 +270,7 @@ by zero is indeterminate so we will not handle it. For example, the
 following tests would be considered invalid:</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>[i in 0..1 | 1 / 0];
 [i in 0..1 | 1 / (1 - 1)];
+[i in 0..1 | 1 % 0];
 </pre></div>
 </div>
 </li>
