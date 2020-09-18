@@ -36,7 +36,7 @@ assembly is as follows:
         syscall
 
 This reference has a `table of
-syscalls <http://students.cs.tamu.edu/tanzir/csce350/reference/syscalls.html>`__.
+syscalls <http://courses.missouristate.edu/KenVollmar/Mars/Help/SyscallHelp.html>`__.
 To print integers you should use the print int syscall (``1``). To print
 strings, you should use the print string syscall (``4``) in combination
 with the address of a string you’ve defined in the ``.data`` section
