@@ -358,6 +358,36 @@
   <div class="section" id="change-log">
 <span id="sec-changelog"></span><h1>Change log<a class="headerlink" href="#change-log" title="Permalink to this headline">¶</a></h1>
 <ul class="simple">
+<li><p><strong>2020/10/22 4:20</strong></p>
+<ul>
+<li><p>Cleaned up latex artifacts messing up a code block.
+(<a class="reference internal" href="spec/statements.html#ssec-statements-return"><span class="std std-ref">Return</span></a>, <a class="reference internal" href="spec/statements.html#ssec-statements-return"><span class="std std-numref">Section 14.7</span></a>)</p></li>
+<li><p>Changed <code class="docutils literal notranslate"><span class="pre">pythag</span></code> function so that the exponent is a real.
+(<a class="reference internal" href="spec/functions.html#ssec-function-syntax"><span class="std std-ref">Syntax</span></a>, <a class="reference internal" href="spec/functions.html#ssec-function-syntax"><span class="std std-numref">Section 15.1</span></a>)</p></li>
+<li><p>Fixed latex artifact where <code class="docutils literal notranslate"><span class="pre">character</span></code> literal for <code class="docutils literal notranslate"><span class="pre">'</span></code> was <code class="docutils literal notranslate"><span class="pre">\’</span></code>
+not <code class="docutils literal notranslate"><span class="pre">\'</span></code>. (<a class="reference internal" href="spec/types/character.html#sssec-character-lit"><span class="std std-ref">Literals and Escape Sequences</span></a>, <a class="reference internal" href="spec/types/character.html#sssec-character-lit"><span class="std std-numref">Section 7.2.4</span></a>)</p></li>
+<li><p>Removed usages of <code class="docutils literal notranslate"><span class="pre">std_output</span></code> as an assignable value.
+(<a class="reference internal" href="spec/procedures.html#ssec-procedure-main"><span class="std std-ref">Main</span></a>, <a class="reference internal" href="spec/procedures.html#ssec-procedure-main"><span class="std std-numref">Section 16.3</span></a>;
+<a class="reference internal" href="spec/type_promotion.html#ssec-typepromotion-ttot"><span class="std std-ref">Tuple to Tuple</span></a>, <a class="reference internal" href="spec/type_promotion.html#ssec-typepromotion-ttot"><span class="std std-numref">Section 11.4</span></a>;
+<a class="reference internal" href="spec/types/string.html#sssec-string-ops"><span class="std std-ref">Operations</span></a>, <a class="reference internal" href="spec/types/string.html#sssec-string-ops"><span class="std std-numref">Section 7.8.5</span></a>;
+<a class="reference internal" href="spec/type_promotion.html#ssec-typepromotion-stov"><span class="std std-ref">Scalar to Vector or Matrix</span></a>, <a class="reference internal" href="spec/type_promotion.html#ssec-typepromotion-stov"><span class="std std-numref">Section 11.2</span></a>)</p></li>
+<li><p>Remove mention of <code class="docutils literal notranslate"><span class="pre">matrix</span></code> keyword that no longer exists.
+(<a class="reference internal" href="spec/types/matrix.html#sssec-matrix-decl"><span class="std std-ref">Declaration</span></a>, <a class="reference internal" href="spec/types/matrix.html#sssec-matrix-decl"><span class="std std-numref">Section 7.9.1</span></a>)</p></li>
+<li><p>Clarify lack of <code class="docutils literal notranslate"><span class="pre">=</span> <span class="pre">&lt;stmt&gt;;</span></code> format for procedures.
+(<a class="reference internal" href="spec/procedures.html#ssec-procedure-syntax"><span class="std std-ref">Syntax</span></a>, <a class="reference internal" href="spec/procedures.html#ssec-procedure-syntax"><span class="std std-numref">Section 16.1</span></a>)</p></li>
+<li><p>Fix usage of <code class="docutils literal notranslate"><span class="pre">if</span> <span class="pre">...</span> <span class="pre">fi</span></code> that is not used in <em>Gazprea</em>.
+(<a class="reference internal" href="spec/types/tuple.html#sssec-tuple-ops"><span class="std std-ref">Operations</span></a>, <a class="reference internal" href="spec/types/tuple.html#sssec-tuple-ops"><span class="std std-numref">Section 7.5.6</span></a>).</p></li>
+<li><p>Remove usage of <code class="docutils literal notranslate"><span class="pre">0.0f</span></code> which is C syntax. (<a class="reference internal" href="spec/statements.html#ssec-statements-assign"><span class="std std-ref">Assignment Statements</span></a>,
+<a class="reference internal" href="spec/statements.html#ssec-statements-assign"><span class="std std-numref">Section 14.1</span></a>)</p></li>
+<li><p>Fix malformed types for vectors and matrices where the size was not
+attached to the type. (<a class="reference internal" href="spec/types/vector.html#sssec-vector-ops"><span class="std std-ref">Operations</span></a>, <a class="reference internal" href="spec/types/vector.html#sssec-vector-ops"><span class="std std-numref">Section 7.7.5</span></a>;
+<a class="reference internal" href="spec/types/matrix.html#sssec-matrix-decl"><span class="std std-ref">Declaration</span></a>, <a class="reference internal" href="spec/types/matrix.html#sssec-matrix-decl"><span class="std std-numref">Section 7.9.1</span></a>)</p></li>
+<li><p>Clarified format of <code class="docutils literal notranslate"><span class="pre">real</span></code> literals without scientific notation.
+(<a class="reference internal" href="spec/types/real.html#sssec-real-lit"><span class="std std-ref">Literals</span></a>, <a class="reference internal" href="spec/types/real.html#sssec-real-lit"><span class="std std-numref">Section 7.4.4</span></a>)</p></li>
+<li><p>Clarified format of <code class="docutils literal notranslate"><span class="pre">real</span></code> literals with scientific notation.
+(<a class="reference internal" href="spec/types/real.html#sssec-real-lit"><span class="std std-ref">Literals</span></a>, <a class="reference internal" href="spec/types/real.html#sssec-real-lit"><span class="std std-numref">Section 7.4.4</span></a>)</p></li>
+</ul>
+</li>
 <li><p><strong>2020/09/01 3:00</strong></p>
 <ul>
 <li><p>Initial release for Fall 2020</p></li>

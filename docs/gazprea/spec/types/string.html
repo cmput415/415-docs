@@ -398,8 +398,7 @@ sequences) in between double quotes. For instance:</p>
 vector data types, but with one caveat:</p>
 <p>The concatenation operation <code class="docutils literal notranslate"><span class="pre">||</span></code> between a <code class="docutils literal notranslate"><span class="pre">string</span></code> and a <code class="docutils literal notranslate"><span class="pre">vector</span></code> of <code class="docutils literal notranslate"><span class="pre">character</span></code>s and vice-versa results in a <code class="docutils literal notranslate"><span class="pre">string</span></code>.
 For example:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>var out = std_output();
-[&#39;a&#39;, &#39;b&#39;] || &quot;cd&quot; -&gt; std_output;
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>[&#39;a&#39;, &#39;b&#39;] || &quot;cd&quot; -&gt; std_output;
 </pre></div>
 </div>
 <p>prints the following:</p>

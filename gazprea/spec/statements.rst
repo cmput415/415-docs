@@ -32,7 +32,7 @@ promoted to the type of the variable. For instance:
 ::
 
          integer int_var = 7;
-         real real_var = 0.0f;
+         real real_var = 0.0;
          boolean bool_var = true;
 
          /* Since 'x' is an integer it can be promoted to a real number */
@@ -474,21 +474,22 @@ Return
 ------
 
 The return statement is used to stop the execution of a function or
-procedure. When a function / procedure returns execution continues where
+procedure. When a function/procedure returns execution continues where
 the function was called. The return statement must be given a value that
-is compatible with the return type of the function / procedure, this
-will be the result of the function / procedure call. Here is an example:
+is compatible with the return type of the function/procedure, this
+will be the result of the function/procedure call. Here is an example:
 
 ::
 
          function square(integer x) returns integer {
            return x * x;
          }
-       \begin{lstlisting}
 
-       If the procedure has no returns clause, then it has no return type. In this case return is used as follows:
+If a procedure has no returns clause, then it has no return type. In this
+case return is used as follows:
 
-       \begin{lstlisting}
+::
+
          procedure do_nothing() {
            return;
          }

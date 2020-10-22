@@ -52,7 +52,6 @@ equivalent dimensions and equivalent internal type. For example:
      integer[*] v = [1, 2, 3, 4, 5];
      integer[*] res = v + i;
 
-     var out = std_output();
      res -> std_output;
 
 would print the following:
@@ -96,7 +95,6 @@ Field names of tuples are overwritten by the field names of the left-hand side i
 
 ::
 
-     var out = std_output();
      tuple(real a, real b) foo = (1, 2);
      foo.a -> std_output; // 1
      foo.b -> std_output; // 2
@@ -110,7 +108,6 @@ If initializing a variable with a tuple via :ref:`sec:typeInference`, the variab
 
 ::
 
-     var out = std_output();
      tuple(real a, real b) foo = (1, 2);
      foo.a -> std_output; // 1
      foo.b -> std_output; // 2

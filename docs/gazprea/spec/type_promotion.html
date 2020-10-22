@@ -428,7 +428,6 @@ equivalent dimensions and equivalent internal type. For example:</p>
 integer[*] v = [1, 2, 3, 4, 5];
 integer[*] res = v + i;
 
-var out = std_output();
 res -&gt; std_output;
 </pre></div>
 </div>
@@ -460,8 +459,7 @@ tuple(char, real, boolean[2]) other_tup = many_tup;
 </pre></div>
 </div>
 <p>Field names of tuples are overwritten by the field names of the left-hand side in assignments and declarations when promoted. For example:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>var out = std_output();
-tuple(real a, real b) foo = (1, 2);
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>tuple(real a, real b) foo = (1, 2);
 foo.a -&gt; std_output; // 1
 foo.b -&gt; std_output; // 2
 tuple(integer c, real) bar = foo;
@@ -471,8 +469,7 @@ bar.c -&gt; std_output; // 1
 </pre></div>
 </div>
 <p>If initializing a variable with a tuple via <a class="reference internal" href="type_inference.html#sec-typeinference"><span class="std std-ref">Type Inference</span></a>, the variable is assumed to be the same type. Therefore, field names are also copied over accordingly. For example:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>var out = std_output();
-tuple(real a, real b) foo = (1, 2);
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>tuple(real a, real b) foo = (1, 2);
 foo.a -&gt; std_output; // 1
 foo.b -&gt; std_output; // 2
 var bar = foo;

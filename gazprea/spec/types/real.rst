@@ -33,34 +33,34 @@ Literals
 ~~~~~~~~
 
 A ``real`` literal can be specified in several ways. A leading zero is
-not necessary and can be inferred from a leading decimal point. For
-example:
+not necessary and can be inferred from a leading decimal point. Likewise,
+a trailing zero is not necessary and can be inferred from a trailing
+decimal point. However, at least one digit must be present in order to be
+parsed. For example:
 
 ::
 
      42.0
-     4.2
      42.
+     4.2
+     0.42
+     .42
+     .  // Illegal.
 
-A ``real`` literal can also have an attached scientific notation
-exponent following the mantissa. Scientific notation multiplies the
-literal by :math:`{10}^{x}`. For example, :math:`4.2\mathrm{e}-3=4.2
-\times10^{-3}`. The scientific notation can also replace the mantissa
-entirely, following immediately after the decimal point. Finally, the
-scientific notation can follow just a pure ``integer``, resulting in a
-real value. For example:
+A ``real`` literal can also be created by any valid ``real`` or
+``integer`` literal followed by scientific notation indicated by the
+letter ``e`` and another valid ``integer`` literal. Scientific notation
+multiplies the first literal by :math:`{10}^{x}`. For example,
+:math:`4.2\mathrm{e}{-3}=4.2 \times10^{-3}`. For example:
 
 ::
 
      4.2e-1
      4.2e+9
      4.2e5
-     42.e-7
-     42.e+8
-     42.e1
-     42e-3
-     42e+2
-     42e4
+     42.e+37
+     .42e-7
+     42e6
 
 .. _sssec:real_ops:
 
@@ -87,5 +87,5 @@ Type Casting and Type Promotion
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 To see the types that ``real`` may be cast and/or promoted to, see
-the sections on :ref:`sec:typeCasting` and :ref:`sec:typePromotion` 
+the sections on :ref:`sec:typeCasting` and :ref:`sec:typePromotion`
 respectively.

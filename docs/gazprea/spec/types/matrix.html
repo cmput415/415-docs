@@ -369,15 +369,14 @@ the same element types a vector can:</p>
 </ul>
 <div class="section" id="declaration">
 <span id="sssec-matrix-decl"></span><h2><span class="section-number">7.9.1. </span>Declaration<a class="headerlink" href="#declaration" title="Permalink to this headline">¶</a></h2>
-<p>A matrix is declared using the <code class="docutils literal notranslate"><span class="pre">matrix</span></code> keyword. Matrix declarations
-are similar to vector declarations, the difference being that matrices
-have two dimensions instead of one. The following are valid matrix
-declarations:</p>
+<p>Matrix declarations are similar to vector declarations, the difference
+being that matrices have two dimensions instead of one. The following are
+valid matrix declarations:</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>integer[*, *] A = [[1, 2, 3], [4, 5, 6], [7, 8, 9]];
-integer[*, *] A[3, 2] = [[1, 2], [4, 5], [7, 8]];
-integer[*, *] A[3, *] = [[1, 2], [4, 5], [7, 8]];
-integer[*, *] A[*, 2] = [[1, 2], [4, 5], [7, 8]];
-integer[*, *] A[*, *] = [[1, 2], [4, 5], [7, 8]];
+integer[3, 2] B = [[1, 2], [4, 5], [7, 8]];
+integer[3, *] C = [[1, 2], [4, 5], [7, 8]];
+integer[*, 2] D = [[1, 2], [4, 5], [7, 8]];
+integer[*, *] E = [[1, 2], [4, 5], [7, 8]];
 </pre></div>
 </div>
 </div>

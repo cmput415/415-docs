@@ -378,7 +378,7 @@ x -&gt; std_output;  /* Prints 6 */
 on the right hand side must have a type that can be automatically
 promoted to the type of the variable. For instance:</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>integer int_var = 7;
-real real_var = 0.0f;
+real real_var = 0.0;
 boolean bool_var = true;
 
 /* Since &#39;x&#39; is an integer it can be promoted to a real number */
@@ -747,21 +747,20 @@ loop while x &lt; 10 {
 <div class="section" id="return">
 <span id="ssec-statements-return"></span><h2><span class="section-number">14.7. </span>Return<a class="headerlink" href="#return" title="Permalink to this headline">¶</a></h2>
 <p>The return statement is used to stop the execution of a function or
-procedure. When a function / procedure returns execution continues where
+procedure. When a function/procedure returns execution continues where
 the function was called. The return statement must be given a value that
-is compatible with the return type of the function / procedure, this
-will be the result of the function / procedure call. Here is an example:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>  function square(integer x) returns integer {
-    return x * x;
-  }
-\begin{lstlisting}
-
-If the procedure has no returns clause, then it has no return type. In this case return is used as follows:
-
-\begin{lstlisting}
-  procedure do_nothing() {
-    return;
-  }
+is compatible with the return type of the function/procedure, this
+will be the result of the function/procedure call. Here is an example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>function square(integer x) returns integer {
+  return x * x;
+}
+</pre></div>
+</div>
+<p>If a procedure has no returns clause, then it has no return type. In this
+case return is used as follows:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>procedure do_nothing() {
+  return;
+}
 </pre></div>
 </div>
 </div>

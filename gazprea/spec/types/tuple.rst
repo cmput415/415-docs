@@ -33,7 +33,7 @@ named ``character`` field named ``mode`` and another named ``string``
 field named ``id``.
 
 The number of fields in a ``tuple`` must be known at compile time. The only
-exception is when a :ref:`variable is declared without a type using var or const <ssec:typeQualifiers_infer>`. 
+exception is when a :ref:`variable is declared without a type using var or const <ssec:typeQualifiers_infer>`.
 In this case, the variable must be initialised immediately with a literal whose type is known at compile time.
 
 .. _sssec:tuple_acc:
@@ -114,8 +114,7 @@ a literal in comparison operations to enable shorthand like this:
 
 ::
 
-     if ((a, b) == (c, d))
-     fi;
+     if ((a, b) == (c, d)) { }
 
 Comparisons are performed pairwise, therefore only ``tuple`` values of
 the same type can be compared. This table describes how the comparisons
@@ -134,5 +133,5 @@ Type Casting and Type Promotion
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 To see the types that ``tuple`` may be cast and/or promoted to, see
-the sections on :ref:`sec:typeCasting` and :ref:`sec:typePromotion` 
+the sections on :ref:`sec:typeCasting` and :ref:`sec:typePromotion`
 respectively.

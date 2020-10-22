@@ -360,29 +360,33 @@
 <p>A procedure in <em>Gazprea</em> is like a function, except that it does not
 have to be pure and as a result it may:</p>
 <ul class="simple">
-<li><p>Have arguments marked with var which can be mutated. By default
+<li><p>Have arguments marked with <code class="docutils literal notranslate"><span class="pre">var</span></code> which can be mutated. By default
 arguments are <code class="docutils literal notranslate"><span class="pre">const</span></code> just like functions.</p></li>
 <li><p>A procedure may only accept a literal or expression as an argument if
-and only if the procedure declares that argument as <code class="docutils literal notranslate"><span class="pre">const</span></code></p></li>
+and only if the procedure declares that argument as <code class="docutils literal notranslate"><span class="pre">const</span></code>.</p></li>
 <li><p>Procedures may perform I/O.</p></li>
 <li><p>A procedure can call other procedures.</p></li>
-<li><p>Procedures can only be called in assignment statements / procedure
-call statements.</p></li>
+<li><p>Procedures can only be called in assignment statements/procedure call
+statements.</p></li>
 <li><p>When used in an assignment statement the procedure may only be used
 with unary operations.</p></li>
 </ul>
-<p>Aside from this (and the different syntax necessary to declare / define
+<p>Aside from this (and the different syntax necessary to declare/define
 them), procedures are very similar to functions. The extra capabilities
 that procedures have makes them harder to reason about, test, and
 optimize.</p>
 <div class="section" id="syntax">
 <span id="ssec-procedure-syntax"></span><h2><span class="section-number">16.1. </span>Syntax<a class="headerlink" href="#syntax" title="Permalink to this headline">¶</a></h2>
-<p>Procedures are almost exactly the same as functions, however the returns
-clause is optional. Since procedures can cause side effects, it makes
-sense to have procedures without a return value. If a returns clause is
-present, then a return statement must be reached by all possible control
-flows in the procedure before the end of the procedure is encountered.
-For instance:</p>
+<p>Procedures are almost exactly the same as functions. However, because
+procedures can cause side effects, the returns clause is optional. Due to
+this, the <code class="docutils literal notranslate"><span class="pre">=</span> <span class="pre">&lt;stmt&gt;;</span></code> declaration format is not available for
+procedures. For example, the following code is illegal:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>procedure f() returns int = 1;
+</pre></div>
+</div>
+<p>If a returns clause is present, then a return statement must be reached
+by all possible control flows in the procedure before the end of the
+procedure is encountered. For instance:</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>procedure change_first(var integer[*] v) {
   v[1] = 7;
 }
@@ -448,7 +452,6 @@ type. If a program is missing a main procedure an error should be
 raised.</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>/* must be writen like this */
 procedure main() returns integer {
-  var out = std_output();
   integer x = 1;
   x = x + x;
   x -&gt; std_output;

@@ -6,23 +6,23 @@ Procedures
 A procedure in *Gazprea* is like a function, except that it does not
 have to be pure and as a result it may:
 
--  Have arguments marked with var which can be mutated. By default
+-  Have arguments marked with ``var`` which can be mutated. By default
    arguments are ``const`` just like functions.
 
 -  A procedure may only accept a literal or expression as an argument if
-   and only if the procedure declares that argument as ``const``
+   and only if the procedure declares that argument as ``const``.
 
 -  Procedures may perform I/O.
 
 -  A procedure can call other procedures.
 
--  Procedures can only be called in assignment statements / procedure
-   call statements.
+-  Procedures can only be called in assignment statements/procedure call
+   statements.
 
 -  When used in an assignment statement the procedure may only be used
    with unary operations.
 
-Aside from this (and the different syntax necessary to declare / define
+Aside from this (and the different syntax necessary to declare/define
 them), procedures are very similar to functions. The extra capabilities
 that procedures have makes them harder to reason about, test, and
 optimize.
@@ -32,12 +32,19 @@ optimize.
 Syntax
 ------
 
-Procedures are almost exactly the same as functions, however the returns
-clause is optional. Since procedures can cause side effects, it makes
-sense to have procedures without a return value. If a returns clause is
-present, then a return statement must be reached by all possible control
-flows in the procedure before the end of the procedure is encountered.
-For instance:
+Procedures are almost exactly the same as functions. However, because
+procedures can cause side effects, the returns clause is optional. Due to
+this, the ``= <stmt>;`` declaration format is not available for
+procedures. For example, the following code is illegal:
+
+::
+
+  procedure f() returns int = 1;
+
+
+If a returns clause is present, then a return statement must be reached
+by all possible control flows in the procedure before the end of the
+procedure is encountered. For instance:
 
 ::
 
@@ -120,7 +127,6 @@ raised.
 
          /* must be writen like this */
          procedure main() returns integer {
-           var out = std_output();
            integer x = 1;
            x = x + x;
            x -> std_output;

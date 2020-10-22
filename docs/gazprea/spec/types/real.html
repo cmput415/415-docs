@@ -376,29 +376,29 @@ represented by a <code class="docutils literal notranslate"><span class="pre">fl
 <div class="section" id="literals">
 <span id="sssec-real-lit"></span><h2><span class="section-number">7.4.4. </span>Literals<a class="headerlink" href="#literals" title="Permalink to this headline">¶</a></h2>
 <p>A <code class="docutils literal notranslate"><span class="pre">real</span></code> literal can be specified in several ways. A leading zero is
-not necessary and can be inferred from a leading decimal point. For
-example:</p>
+not necessary and can be inferred from a leading decimal point. Likewise,
+a trailing zero is not necessary and can be inferred from a trailing
+decimal point. However, at least one digit must be present in order to be
+parsed. For example:</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>42.0
-4.2
 42.
+4.2
+0.42
+.42
+.  // Illegal.
 </pre></div>
 </div>
-<p>A <code class="docutils literal notranslate"><span class="pre">real</span></code> literal can also have an attached scientific notation
-exponent following the mantissa. Scientific notation multiplies the
-literal by <span class="math notranslate nohighlight">\({10}^{x}\)</span>. For example, <span class="math notranslate nohighlight">\(4.2\mathrm{e}-3=4.2
-\times10^{-3}\)</span>. The scientific notation can also replace the mantissa
-entirely, following immediately after the decimal point. Finally, the
-scientific notation can follow just a pure <code class="docutils literal notranslate"><span class="pre">integer</span></code>, resulting in a
-real value. For example:</p>
+<p>A <code class="docutils literal notranslate"><span class="pre">real</span></code> literal can also be created by any valid <code class="docutils literal notranslate"><span class="pre">real</span></code> or
+<code class="docutils literal notranslate"><span class="pre">integer</span></code> literal followed by scientific notation indicated by the
+letter <code class="docutils literal notranslate"><span class="pre">e</span></code> and another valid <code class="docutils literal notranslate"><span class="pre">integer</span></code> literal. Scientific notation
+multiplies the first literal by <span class="math notranslate nohighlight">\({10}^{x}\)</span>. For example,
+<span class="math notranslate nohighlight">\(4.2\mathrm{e}{-3}=4.2 \times10^{-3}\)</span>. For example:</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>4.2e-1
 4.2e+9
 4.2e5
-42.e-7
-42.e+8
-42.e1
-42e-3
-42e+2
-42e4
+42.e+37
+.42e-7
+42e6
 </pre></div>
 </div>
 </div>

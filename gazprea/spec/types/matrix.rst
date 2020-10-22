@@ -19,19 +19,18 @@ the same element types a vector can:
 Declaration
 ~~~~~~~~~~~
 
-A matrix is declared using the ``matrix`` keyword. Matrix declarations
-are similar to vector declarations, the difference being that matrices
-have two dimensions instead of one. The following are valid matrix
-declarations:
+Matrix declarations are similar to vector declarations, the difference
+being that matrices have two dimensions instead of one. The following are
+valid matrix declarations:
 
 ::
 
    				integer[*, *] A = [[1, 2, 3], [4, 5, 6], [7, 8, 9]];
-   				integer[*, *] A[3, 2] = [[1, 2], [4, 5], [7, 8]];
-   				integer[*, *] A[3, *] = [[1, 2], [4, 5], [7, 8]];
-   				integer[*, *] A[*, 2] = [[1, 2], [4, 5], [7, 8]];
-   				integer[*, *] A[*, *] = [[1, 2], [4, 5], [7, 8]];
-   			
+   				integer[3, 2] B = [[1, 2], [4, 5], [7, 8]];
+   				integer[3, *] C = [[1, 2], [4, 5], [7, 8]];
+   				integer[*, 2] D = [[1, 2], [4, 5], [7, 8]];
+   				integer[*, *] E = [[1, 2], [4, 5], [7, 8]];
+
 
 .. _sssec:matrix_null:
 
@@ -65,7 +64,7 @@ amounts given in a declaration an error is to be produced.
    				integer[*] v = [1, 2, 3];
    				integer[*, *] A = [v, [1, 2]];
    				/* A == [[1, 2, 3], [1, 2, 0]] */
-   			
+
 
 Similarly, we can have:
 
@@ -74,7 +73,7 @@ Similarly, we can have:
    				integer[*] v = [1, 2, 3];
    				integer[3, 3] A = [v, [1, 2]];
    				/* A == [[1, 2, 3], [1, 2, 0], [0, 0, 0]] */
-   			
+
 
 Also matrices can be initialized with a scalar value, ``null``, or
 ``identity``. ``null`` and ``identity`` behave as previously described.
@@ -113,7 +112,7 @@ matrix respectively. For instance:
 
    				integer r = rows(M);  /* This has a value of 2 */
    				integer c = columns(M);  /* This has a value of 3 */
-   			
+
 
 Matrix indexing is done similarly to vector indexing, however, two
 indices must be used. These indices are separated using a comma.
@@ -121,7 +120,7 @@ indices must be used. These indices are separated using a comma.
 ::
 
    				M[i, j] -> std_output;
-   			
+
 
 The first index specifies the row of the matrix, and the second index
 specifies the column of the matrix. The result is retrieved from the row
@@ -134,7 +133,7 @@ integers the result is the scalar value in the row and column specified.
    				integer[*, *] M = [[11, 12, 13], [21, 22, 23]];
 
    				/* M[1, 2] == 12 */
-   			
+
 
 If one of the indices is an interval or a vector, and the other index is
 a scalar, then the result is a vector. For example:
@@ -150,7 +149,7 @@ a scalar, then the result is a vector. For example:
    				/* Select from column 1 */
    				/* M[1..2, 1] == [11, 21] */
    				/* M[[2, 1], 1] == [21, 11] */
-   			
+
 
 Finally, both of the indices may be intervals or vectors, in which case
 the result is another matrix.
@@ -161,7 +160,7 @@ the result is another matrix.
 
    				/* Makes a matrix consisting of [[M[2, 1], M[2, 3]], [M[1, 1], M[1, 3]]] */
    				integer[*, *] K = M[[2, 1], [1, 3]];
-   			
+
 
 As with vectors, out of bounds indexing is an error on Matrices.
 
@@ -170,5 +169,5 @@ Type Casting and Type Promotion
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 To see the types that ``matrix`` may be cast and/or promoted to, see
-the sections on :ref:`sec:typeCasting` and :ref:`sec:typePromotion` 
+the sections on :ref:`sec:typeCasting` and :ref:`sec:typePromotion`
 respectively.

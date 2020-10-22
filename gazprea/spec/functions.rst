@@ -59,7 +59,7 @@ examples of functions with different numbers of arguments:
          function f() returns integer = 1;
 
          /* A function with two arguments */
-         function pythag(real a, real b) returns real = (a^2 + b^2)^(1/2);
+         function pythag(real a, real b) returns real = (a^2 + b^2)^(1./2);
 
          /* A function with different types of arguments */
          function get(real[*] a, integer i) returns real = a[i];
@@ -182,4 +182,3 @@ The arguments and return value of functions can have both explicit and inferred 
          function transpose3x3(real[3,3] x) returns real[3,3] {
              /* Some code here */
          }
-

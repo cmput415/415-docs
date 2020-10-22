@@ -12,7 +12,7 @@ Declaration
 ~~~~~~~~~~~
 
 A string may be declared with the type ``string``, and is followed by an optional size specifier.
-The same rules of :ref:`vector declarations <sssec:vector_decl>` also apply to strings, just 
+The same rules of :ref:`vector declarations <sssec:vector_decl>` also apply to strings, just
 substitute ``string`` for the ``<type>``.
 
 But note one minor addition: there are two methods of declaring a string of inferred size, both depicted below.
@@ -51,7 +51,7 @@ sequences) in between double quotes. For instance:
 ::
 
    				string cats_meow = "The cat said \"Meow!\"\nThat was a good day.\n"
-   			
+
 
 .. _sssec:string_ops:
 
@@ -66,7 +66,6 @@ For example:
 
 ::
 
-	var out = std_output();
 	['a', 'b'] || "cd" -> std_output;
 
 prints the following:
@@ -80,5 +79,5 @@ Type Casting and Type Promotion
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 To see the types that ``string`` may be cast and/or promoted to, see
-the sections on :ref:`sec:typeCasting` and :ref:`sec:typePromotion` 
+the sections on :ref:`sec:typeCasting` and :ref:`sec:typePromotion`
 respectively.

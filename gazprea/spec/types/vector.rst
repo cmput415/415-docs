@@ -23,7 +23,7 @@ Declaration
 ~~~~~~~~~~~
 
 Aside from any type specifiers, the element type of the vector is the first
-portion of the declaration. A vector is then declared using square brackets 
+portion of the declaration. A vector is then declared using square brackets
 immediately after the element type.
 
 If possible, initialization expressions may go through an implicit type
@@ -42,7 +42,7 @@ value, and then used as a scalar initialization of the vector.
             <type>[<int-expr>] <identifier>;
             <type>[<int-expr>] <identifier> = <type-expr>;
             <type>[<int-expr>] <identifier> = <type-vector>;
-      					
+
 
    The size of the vector is given by the integer expression between the
    square brackets.
@@ -65,7 +65,7 @@ value, and then used as a scalar initialization of the vector.
    ::
 
             <type>[*] <identifier> = <type-vector>;
-      					
+
 
 #. Inferred Type and Size
 
@@ -79,7 +79,7 @@ value, and then used as a scalar initialization of the vector.
 
       						integer[*] v = [1, 2, 3];
       						var w = v + 1;
-      					
+
 
    In this example the compiler can infer both the size and the type of
    w from v. The size may not always be known at compile time, so this
@@ -118,7 +118,7 @@ notation:
 ::
 
    				[expr1, expr2, ..., exprN]
-   			
+
 
 Each ``expK`` is an expression with a compatible type. In the simplest
 cases each expression is of the same type, but it is possible to mix the
@@ -128,7 +128,7 @@ instance it is possible to mix integers and real numbers.
 ::
 
    				real[*] v = [1, 3.3, 5 * 3.4];
-   			
+
 
 It is also possible to construct a single-element vector using this
 method of construction.
@@ -136,14 +136,14 @@ method of construction.
 ::
 
    				real[*] v = [7];
-   			
+
 
 *Gazprea* **DOES** support empty vectors.
 
 ::
 
    				real[*] v = []; /* Should create an empty vector */
-   			
+
 
 .. _sssec:vector_ops:
 
@@ -152,8 +152,8 @@ Operations
 
 #. Vector Operations and functions
 
-   a. length 
-      
+   a. length
+
       The number of elements in a vector is given by the built-in
       functions ``length``. For instance:
 
@@ -161,7 +161,7 @@ Operations
 
          								integer[*] v = [8, 9, 6];
          								integer numElements = length(v);
-         							
+
 
       In this case ``numElements`` would be 3, since the vector v
       contains 3 elements.
@@ -176,7 +176,7 @@ Operations
 
          								[1, 2, 3] || [4, 5] // produces [1, 2, 3, 4, 5]
          								[1, 2] || [] || [3, 4] // produces [1, 2, 3, 4]
-         							
+
 
       Concatenation is also allowed between vectors of different element
       types, as long as one element type is coerced automatically to the
@@ -187,7 +187,7 @@ Operations
          								integer[3] v = [1, 2, 3];
          								real[3] u = [4.0, 5.0, 6.0];
          								real[6] j = v || u;
-         							
+
 
       would be permitted, and the integer vector v would be promoted to
       a real vector before the concatenation.
@@ -200,7 +200,7 @@ Operations
 
          								[1, 2, 3] || 4 // produces [1, 2, 3, 4]
          								1 || [2, 3, 4] // produces [1, 2, 3, 4]
-         							
+
 
    c. Dot Product
 
@@ -216,7 +216,7 @@ Operations
          								/* v[1] * u[1] + v[2] * u[2] + v[3] * u[3] */
          								/* 1 * 4 + 2 * 5 + 3 * 6 &=&  32 */
          								integer dot = v ** u;  /* Perform a dot product */
-         							
+
 
    d. Indexing
 
@@ -228,12 +228,12 @@ Operations
 
       ::
 
-         								intger vector v[3] = [4, 5, 6];
+         								integer[3] v = [4, 5, 6];
 
          								integer x = v[2]; /* x == 5 */
          								integer[*] y = v[2..3]; /* y == [5, 6] */
          								integer[*] z = v[[3, 1, 2]]; /* z == [6, 4, 5] */
-         							
+
 
       When indexed with a scalar integer the result is a scalar value,
       but when indexed with an interval or a vector the result is
@@ -253,7 +253,7 @@ Operations
          								integer[*] u = v by 1; /* [1, 2, 3, 4, 5] */
          								integer[*] w = v by 2; /* [1, 3, 5] */
          								integer[*] l = v by 3; /* [1, 4] */
-         							
+
 
 #. Operations of the Element Type
 
@@ -266,7 +266,7 @@ Operations
 
       						boolean[*] v = [true, false, true, true];
       						boolean[*] nv = not v;
-      					
+
 
    ``nv`` would have a value of
    ``[not true, not false, not true, not true] = [false, true, false, false]``.
@@ -280,7 +280,7 @@ Operations
    ::
 
       						[1, 2, 3, 4] + [2, 2, 2, 2] // results in [3, 4, 5, 6]
-      					
+
 
    Attempting to perform a binary operation between two vectors of
    different sizes should result in a type error.
@@ -293,7 +293,7 @@ Operations
    ::
 
       						[1, 2, 3, 4] + 2 // results in [3, 4, 5, 6]
-      					
+
 
    Additionally the element types of vectors may be promoted, for instance
    in this case the integer vector must be promoted to a real vector in
@@ -302,7 +302,7 @@ Operations
    ::
 
       						[1, 2, 3, 4] + 2.3 // results in [3.3, 4.3, 5.3, 6.3]
-      					
+
 
    The equality operation is the exception to the behavior of the binary
    operations. Instead of producing a boolean vector, an equality
@@ -313,14 +313,14 @@ Operations
    ::
 
       						[1, 2, 3] == [1, 2, 3]
-      					
+
 
    yields ``true``
 
    ::
 
       						[1, 1, 3] == [1, 2, 3]
-      					
+
 
    yields ``false``
 
@@ -332,5 +332,5 @@ Type Casting and Type Promotion
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 To see the types that ``vector`` may be cast and/or promoted to, see
-the sections on :ref:`sec:typeCasting` and :ref:`sec:typePromotion` 
+the sections on :ref:`sec:typeCasting` and :ref:`sec:typePromotion`
 respectively.

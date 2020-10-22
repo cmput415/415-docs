@@ -60,15 +60,15 @@ The following escape sequences are supported by *Gazprea*:
 =============== =================== ===============
 **Description** **Escape Sequence** **Value (Hex)**
 =============== =================== ===============
-Null            ``\0``               ``0x00``           
-Bell            ``\a``               ``0x07``           
-Backspace       ``\b``               ``0x08``           
-Tab             ``\t``               ``0x09``           
-Line Feed       ``\n``               ``0x0A``           
-Carriage Return ``\r``               ``0x0D``           
-Quotation Mark  ``\"``               ``0x22``           
-Apostrophe      ``\’``               ``0x27``           
-Backslash       ``\\``               ``0x5C``           
+Null            ``\0``               ``0x00``
+Bell            ``\a``               ``0x07``
+Backspace       ``\b``               ``0x08``
+Tab             ``\t``               ``0x09``
+Line Feed       ``\n``               ``0x0A``
+Carriage Return ``\r``               ``0x0D``
+Quotation Mark  ``\"``               ``0x22``
+Apostrophe      ``\'``               ``0x27``           
+Backslash       ``\\``               ``0x5C``
 =============== =================== ===============
 
 .. _sssec:character_ops:
@@ -85,5 +85,5 @@ Type Casting and Type Promotion
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 To see the types that ``character`` may be cast and/or promoted to, see
-the sections on :ref:`sec:typeCasting` and :ref:`sec:typePromotion` 
+the sections on :ref:`sec:typeCasting` and :ref:`sec:typePromotion`
 respectively.
