@@ -115,6 +115,12 @@ If initializing a variable with a tuple via :ref:`sec:typeInference`, the variab
      bar.a -> std_output; // 1
      bar.b -> std_output; // 2
 
+It is possible for a two sided promotion to occur with tuples. For example:
+
+::
+
+  boolean b = (1.0, 2) == (2, 3.0);
+
 Character Vector to/from String
 -------------------------------
 

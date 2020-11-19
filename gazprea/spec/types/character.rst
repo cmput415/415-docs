@@ -67,7 +67,7 @@ Tab             ``\t``               ``0x09``
 Line Feed       ``\n``               ``0x0A``
 Carriage Return ``\r``               ``0x0D``
 Quotation Mark  ``\"``               ``0x22``
-Apostrophe      ``\'``               ``0x27``           
+Apostrophe      ``\'``               ``0x27``
 Backslash       ``\\``               ``0x5C``
 =============== =================== ===============
 
@@ -76,9 +76,12 @@ Backslash       ``\\``               ``0x5C``
 Operations
 ~~~~~~~~~~
 
-There are no operations defined for a ``character``. To operate on a
-``character`` it must first be cast to either a ``boolean``,
+There are no operations defined between scalar values with type``character``.
+To operate on a ``character`` it must first be cast to either a ``boolean``,
 ``integer``, or ``real``.
+
+However, scalar values with type ``character`` may still be concatenated onto
+values with type ``string`` or vectors with type ``character``
 
 
 Type Casting and Type Promotion

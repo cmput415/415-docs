@@ -216,6 +216,7 @@
 <li class="toctree-l2"><a class="reference internal" href="type_casting.html#vector-to-vector">10.4. Vector to Vector</a></li>
 <li class="toctree-l2"><a class="reference internal" href="type_casting.html#matrix-to-matrix">10.5. Matrix to Matrix</a></li>
 <li class="toctree-l2"><a class="reference internal" href="type_casting.html#tuple-to-tuple">10.6. Tuple to Tuple</a></li>
+<li class="toctree-l2"><a class="reference internal" href="type_casting.html#null-and-identity">10.7. Null and Identity</a></li>
 </ul>
 </li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">11. Type Promotion</a><ul>
@@ -475,6 +476,10 @@ foo.b -&gt; std_output; // 2
 var bar = foo;
 bar.a -&gt; std_output; // 1
 bar.b -&gt; std_output; // 2
+</pre></div>
+</div>
+<p>It is possible for a two sided promotion to occur with tuples. For example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>boolean b = (1.0, 2) == (2, 3.0);
 </pre></div>
 </div>
 </div>

@@ -216,6 +216,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../type_casting.html#vector-to-vector">10.4. Vector to Vector</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../type_casting.html#matrix-to-matrix">10.5. Matrix to Matrix</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../type_casting.html#tuple-to-tuple">10.6. Tuple to Tuple</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../type_casting.html#null-and-identity">10.7. Null and Identity</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../type_promotion.html">11. Type Promotion</a><ul>
@@ -449,9 +450,11 @@ characters. For example:</p>
 </div>
 <div class="section" id="operations">
 <span id="sssec-character-ops"></span><h2><span class="section-number">7.2.5. </span>Operations<a class="headerlink" href="#operations" title="Permalink to this headline">¶</a></h2>
-<p>There are no operations defined for a <code class="docutils literal notranslate"><span class="pre">character</span></code>. To operate on a
-<code class="docutils literal notranslate"><span class="pre">character</span></code> it must first be cast to either a <code class="docutils literal notranslate"><span class="pre">boolean</span></code>,
+<p>There are no operations defined between scalar values with type``character``.
+To operate on a <code class="docutils literal notranslate"><span class="pre">character</span></code> it must first be cast to either a <code class="docutils literal notranslate"><span class="pre">boolean</span></code>,
 <code class="docutils literal notranslate"><span class="pre">integer</span></code>, or <code class="docutils literal notranslate"><span class="pre">real</span></code>.</p>
+<p>However, scalar values with type <code class="docutils literal notranslate"><span class="pre">character</span></code> may still be concatenated onto
+values with type <code class="docutils literal notranslate"><span class="pre">string</span></code> or vectors with type <code class="docutils literal notranslate"><span class="pre">character</span></code></p>
 </div>
 <div class="section" id="type-casting-and-type-promotion">
 <h2><span class="section-number">7.2.6. </span>Type Casting and Type Promotion<a class="headerlink" href="#type-casting-and-type-promotion" title="Permalink to this headline">¶</a></h2>

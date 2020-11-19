@@ -3,7 +3,7 @@
 Streams
 =======
 
-*Gazprea* has two streams: ``std_output`` and ``std_input``, 
+*Gazprea* has two streams: ``std_output`` and ``std_input``,
 which are used for outputting to stdout and reading from stdin respectively.
 
 
@@ -131,29 +131,31 @@ Input streams may only work on the following base types:
 Input Format
 ~~~~~~~~~~~~
 
-A ``character`` from stdin is the first byte that can be read from the
-stream. If the end of the stream is encountered, then ``-1`` is
-returned.
+Whitespace will separate values in stdin, but take note that a whitespace
+character *can* also be read from stdin and assigned to a character variable.
 
-An ``integer`` from stdin can take any legal format described in the :ref:`integer literal <sssec:integer_lit>`
-section. It may also be proceeded by a single negative or positive sign.
+A ``character`` from stdin is the first byte that can be read from the stream.
+If the end of the stream is encountered, then ``-1`` is returned.
 
-A ``real`` input from stdin can take any legal format described in the :ref:`real literal <sssec:real_lit>`
-section. It may also be proceeded by a single negative or positive sign.
+An ``integer`` from stdin can take any legal format described in the
+:ref:`integer literal <sssec:integer_lit>` section. It may also be proceeded by
+a single negative or positive sign.
+
+A ``real`` input from stdin can take any legal format described in the
+:ref:`real literal <sssec:real_lit>` section with the exception that no
+whitespace may be present. It may also be proceeded by a single negative or
+positive sign.
 
 A ``boolean`` input from stdin is either ``T`` or ``F``.
 
-Whitespace will separate values in stdin, but take note that a
-whitespace character *can* also be read from stdin and assigned to a
-character variable.
-
-When reading a value, if any other input were to be in the stream during
-the read then an :ref:`error state <sssec:stream_error>` is set. For example, the following program:
+When reading a value, if any other input were to be in the stream during the
+read then an :ref:`error state <sssec:stream_error>` is set. For example, the
+following program:
 
 ::
 
-     character b;
-     b <- std_input;
+  boolean b;
+  b <- std_input;
 
 With the standard input stream containing this:
 
@@ -168,34 +170,66 @@ An :ref:`error state <sssec:stream_error>` would be set on the stream.
 Error Handling
 ~~~~~~~~~~~~~~
 
-When reading ``boolean``\ s, ``integer``\ s, and ``real``\ s from stdin, it is
-possible that the end of the stream or an error is encountered. In order
-to handle these situations *Gazprea* provides a built in procedure that
-is implicitly defined in every file:
+When reading ``boolean``, ``integer``, and ``real`` from stdin, it is
+possible that the end of the stream or an error is encountered. In order to
+handle these situations *Gazprea* provides a built in procedure that is
+implicitly defined in every file: ``stream_state`` (see
+:ref:`ssec:builtIn_stream_state`).
+
+Reading a ``character`` can never cause an error. The character will either be
+successfully read or the end of the stream will be reached and ``-1`` will be
+returned on this read.
+
+Otherwise, when an error or the end of the stream is encountered, the value
+returned is the type-appropriate ``null``.
+
+Only when an error is encountered, the stream must be rewound to where it was
+when the read started. This rewind includes any whitespace that may have been
+skipped to in order to encounter the next token. This is because the subsequent
+read may be for a ``character`` which should successfully read the rewound
+whitespace. For example, with this program:
 
 ::
 
-     procedure stream_state(var input_stream) returns integer;
+  integer i;
+  character c;
+  i <- std_input;
+  i <- std_input;
+  c <- std_input;
 
-This function can only be called with ``std_input`` as a parameter.
-When called, ``stream_state`` will return an integer valued error code
-defined as follows:
+  i -> std_output;
+  c -> std_output;
+  '$' ->
 
--  ``0``: Last read from the stream was successful.
+and the input stream (with ``*`` representing ``' '``):
 
--  ``1``: Last read from the stream encountered an error.
+::
 
--  ``2``: Last read from the stream encountered the end of the stream.
+  5****10a
 
-When an error or end of stream is encountered the value returned is the
-type-appropriate ``null``.
+the output should be:
 
-Reading a character can never cause an error. The character will either
-be successfully read or the end of the stream will be reached and ``-1``
-will be returned on this and subsequent reads.
+::
 
-This table summarizes an input stream’s possible error states after a
-read of a particular data type.
+  0 $
+
+and the remaining input stream should be:
+
+::
+
+  ***10a
+
+Because this means you may have to skip a potentially nearly-infinite amount of
+whitespace this specification, this specification limits the size of the "rewind
+buffer" to 1024 characters. Therefore, no read from ``std_input`` will require
+more than 1KB of characters from the current stream position to the end of the
+next token. This means that you will only ever need to maintain at most 1024
+characters in a buffer (1025 if a ``'\0'`` character is required). If more
+characters than that are required to be read then the runtime should emit an
+error.
+
+This table summarizes an input stream’s possible error states after a read of a
+particular data type.
 
 ========= ============= ========= =================
 Type      Situation     Return    ``stream_state``

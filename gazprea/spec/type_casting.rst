@@ -97,7 +97,7 @@ size is assumed to be the old size. For example:
 Matrix to Matrix
 ----------------
 
-Conversions between ``matrix`` types are also possible. The process is
+Conversions between matrix types are also possible. The process is
 exactly like :ref:`ssec:typeCasting_vtov` except padding and truncation can occur in both dimensions.
 For example:
 
@@ -129,3 +129,15 @@ example:
 
      tuple(integer, integer) int_tup = (1, 2);
      tuple(real, boolean) rb_tup = as<tuple(real, boolean)>(int_tup);
+
+.. _ssec:typeCasting_nai:
+
+Null and Identity
+-----------------
+
+The ``null`` and ``identity`` values cannot be cast. For example, the following
+is illegal:
+
+::
+
+  real r = as<real>(null);

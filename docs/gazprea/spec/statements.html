@@ -216,6 +216,7 @@
 <li class="toctree-l2"><a class="reference internal" href="type_casting.html#vector-to-vector">10.4. Vector to Vector</a></li>
 <li class="toctree-l2"><a class="reference internal" href="type_casting.html#matrix-to-matrix">10.5. Matrix to Matrix</a></li>
 <li class="toctree-l2"><a class="reference internal" href="type_casting.html#tuple-to-tuple">10.6. Tuple to Tuple</a></li>
+<li class="toctree-l2"><a class="reference internal" href="type_casting.html#null-and-identity">10.7. Null and Identity</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="type_promotion.html">11. Type Promotion</a><ul>
@@ -746,18 +747,21 @@ loop while x &lt; 10 {
 </div>
 <div class="section" id="return">
 <span id="ssec-statements-return"></span><h2><span class="section-number">14.7. </span>Return<a class="headerlink" href="#return" title="Permalink to this headline">¶</a></h2>
-<p>The return statement is used to stop the execution of a function or
-procedure. When a function/procedure returns execution continues where
-the function was called. The return statement must be given a value that
-is compatible with the return type of the function/procedure, this
-will be the result of the function/procedure call. Here is an example:</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">return</span></code> statement is used to stop the execution of a function or
+procedure. When a function/procedure returns then execution continues where the
+function/procedure was called.</p>
+<p>If the function/procedure has a return type then the <code class="docutils literal notranslate"><span class="pre">return</span></code> statement must
+be given a value that is the same as or able to be promoted to (see
+<a class="reference internal" href="type_promotion.html#sec-typepromotion"><span class="std std-ref">Type Promotion</span></a>) the return type; this will be the result of the
+function/procedure call. Here is an example:</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>function square(integer x) returns integer {
   return x * x;
 }
 </pre></div>
 </div>
-<p>If a procedure has no returns clause, then it has no return type. In this
-case return is used as follows:</p>
+<p>If a procedure has no <code class="docutils literal notranslate"><span class="pre">returns</span></code> clause, then it has no return type and a
+<code class="docutils literal notranslate"><span class="pre">return</span></code> statement is not required but may still be present in order to
+return early. In this case return is used as follows:</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>procedure do_nothing() {
   return;
 }

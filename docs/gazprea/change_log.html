@@ -216,6 +216,7 @@
 <li class="toctree-l2"><a class="reference internal" href="spec/type_casting.html#vector-to-vector">10.4. Vector to Vector</a></li>
 <li class="toctree-l2"><a class="reference internal" href="spec/type_casting.html#matrix-to-matrix">10.5. Matrix to Matrix</a></li>
 <li class="toctree-l2"><a class="reference internal" href="spec/type_casting.html#tuple-to-tuple">10.6. Tuple to Tuple</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spec/type_casting.html#null-and-identity">10.7. Null and Identity</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="spec/type_promotion.html">11. Type Promotion</a><ul>
@@ -358,7 +359,52 @@
   <div class="section" id="change-log">
 <span id="sec-changelog"></span><h1>Change log<a class="headerlink" href="#change-log" title="Permalink to this headline">¶</a></h1>
 <ul class="simple">
-<li><p><strong>2020/10/22 4:20</strong></p>
+<li><p><strong>2020/11/18 19:00</strong></p>
+<ul>
+<li><p>Clarified when memory should be freed. (<a class="reference internal" href="impl/backend.html#ssec-backend-memory"><span class="std std-ref">Memory Management</span></a>)</p></li>
+<li><p>Clarified that typedef type symbol names do not conflict with variable or
+subroutine symbol names. (<a class="reference internal" href="spec/typedef.html#sec-typedef"><span class="std std-ref">Typedef</span></a>, <a class="reference internal" href="spec/typedef.html#sec-typedef"><span class="std std-numref">Section 12</span></a>)</p></li>
+<li><p>Clarified that <code class="docutils literal notranslate"><span class="pre">null</span></code> and <code class="docutils literal notranslate"><span class="pre">identity</span></code> cannot be cast.
+(<a class="reference internal" href="spec/type_casting.html#ssec-typecasting-nai"><span class="std std-ref">Null and Identity</span></a>, <a class="reference internal" href="spec/type_casting.html#ssec-typecasting-nai"><span class="std std-numref">Section 10.7</span></a>)</p></li>
+<li><p>Clarified that “two sided” promotion may occur with tuples.
+(<a class="reference internal" href="spec/type_promotion.html#ssec-typepromotion-ttot"><span class="std std-ref">Tuple to Tuple</span></a>, <a class="reference internal" href="spec/type_promotion.html#ssec-typepromotion-ttot"><span class="std std-numref">Section 11.4</span></a>)</p></li>
+<li><p>Clarified that <code class="docutils literal notranslate"><span class="pre">return</span></code> statements must have values compatible with the
+type in the <code class="docutils literal notranslate"><span class="pre">returns</span></code> clause. (<a class="reference internal" href="spec/statements.html#ssec-statements-return"><span class="std std-ref">Return</span></a>,
+<a class="reference internal" href="spec/statements.html#ssec-statements-return"><span class="std std-numref">Section 14.7</span></a>)</p></li>
+<li><p>Clarified that procedures without <code class="docutils literal notranslate"><span class="pre">returns</span></code> clauses do not require explicit
+<code class="docutils literal notranslate"><span class="pre">return</span></code> statements. (<a class="reference internal" href="spec/statements.html#ssec-statements-return"><span class="std std-ref">Return</span></a>,
+<a class="reference internal" href="spec/statements.html#ssec-statements-return"><span class="std std-numref">Section 14.7</span></a>)</p></li>
+<li><p>Clarified that scalar <code class="docutils literal notranslate"><span class="pre">character</span></code> values can still take part in the
+concatenation (<code class="docutils literal notranslate"><span class="pre">||</span></code>) operation with a <code class="docutils literal notranslate"><span class="pre">string</span></code> or vector with type
+<code class="docutils literal notranslate"><span class="pre">character</span></code>. (<a class="reference internal" href="spec/types/character.html#sssec-character-ops"><span class="std std-ref">Operations</span></a>, <a class="reference internal" href="spec/types/character.html#sssec-character-ops"><span class="std std-numref">Section 7.2.5</span></a>)</p></li>
+<li><p>Rewrote several sections of <code class="docutils literal notranslate"><span class="pre">string</span></code>:</p>
+<ul>
+<li><p>Clarified differences in type description. (<a class="reference internal" href="spec/types/string.html#ssec-string"><span class="std std-ref">String</span></a>,
+<a class="reference internal" href="spec/types/string.html#ssec-string"><span class="std std-numref">Section 7.8</span></a>)</p></li>
+<li><p>Clarified declaration methods. (<a class="reference internal" href="spec/types/string.html#sssec-string-decl"><span class="std std-ref">Declaration</span></a>,
+<a class="reference internal" href="spec/types/string.html#sssec-string-decl"><span class="std std-numref">Section 7.8.1</span></a>)</p></li>
+<li><p>Clarified concatentation of characters onto strings.
+(<a class="reference internal" href="spec/types/string.html#sssec-string-ops"><span class="std std-ref">Operations</span></a>, <a class="reference internal" href="spec/types/string.html#sssec-string-ops"><span class="std std-numref">Section 7.8.5</span></a>)</p></li>
+</ul>
+</li>
+<li><p>Clarified that whitespace cannot be in a real literal when in the input
+stream. (<a class="reference internal" href="spec/streams.html#sssec-input-format"><span class="std std-ref">Input Format</span></a>, <a class="reference internal" href="spec/streams.html#sssec-input-format"><span class="std std-numref">Section 4.2.1</span></a>)</p></li>
+<li><p>Fixed example of misreading a <code class="docutils literal notranslate"><span class="pre">boolean</span></code> from the <code class="docutils literal notranslate"><span class="pre">std_input</span></code>.
+(<a class="reference internal" href="spec/streams.html#sssec-input-format"><span class="std std-ref">Input Format</span></a>, <a class="reference internal" href="spec/streams.html#sssec-input-format"><span class="std std-numref">Section 4.2.1</span></a>).</p></li>
+<li><p>Added restrictions on input stream rewinding.
+(<a class="reference internal" href="spec/built_in_functions.html#ssec-builtin-stream-state"><span class="std std-ref">Stream State</span></a>, <a class="reference internal" href="spec/built_in_functions.html#ssec-builtin-stream-state"><span class="std std-numref">Section 18.4</span></a>;
+<a class="reference internal" href="spec/streams.html#sssec-stream-error"><span class="std std-ref">Error Handling</span></a>, <a class="reference internal" href="spec/streams.html#sssec-stream-error"><span class="std std-numref">Section 4.2.2</span></a>)</p></li>
+<li><p>Moved and expanded description of stream rewinding.
+(<a class="reference internal" href="spec/built_in_functions.html#ssec-builtin-stream-state"><span class="std std-ref">Stream State</span></a>, <a class="reference internal" href="spec/built_in_functions.html#ssec-builtin-stream-state"><span class="std std-numref">Section 18.4</span></a>;
+<a class="reference internal" href="spec/streams.html#sssec-stream-error"><span class="std std-ref">Error Handling</span></a>, <a class="reference internal" href="spec/streams.html#sssec-stream-error"><span class="std std-numref">Section 4.2.2</span></a>)</p></li>
+<li><p>Removed “and subsequent reads” due to ever-expanding nature of
+<code class="docutils literal notranslate"><span class="pre">std_input</span></code>. (<a class="reference internal" href="spec/streams.html#sssec-stream-error"><span class="std std-ref">Error Handling</span></a>, <a class="reference internal" href="spec/streams.html#sssec-stream-error"><span class="std std-numref">Section 4.2.2</span></a>)</p></li>
+<li><p>Trimmed information in description of <code class="docutils literal notranslate"><span class="pre">stream_state</span></code> which was duplicating
+the description of streams. (<a class="reference internal" href="spec/built_in_functions.html#ssec-builtin-stream-state"><span class="std std-ref">Stream State</span></a>,
+<a class="reference internal" href="spec/built_in_functions.html#ssec-builtin-stream-state"><span class="std std-numref">Section 18.4</span></a>)</p></li>
+</ul>
+</li>
+<li><p><strong>2020/10/22 16:20</strong></p>
 <ul>
 <li><p>Cleaned up latex artifacts messing up a code block.
 (<a class="reference internal" href="spec/statements.html#ssec-statements-return"><span class="std std-ref">Return</span></a>, <a class="reference internal" href="spec/statements.html#ssec-statements-return"><span class="std std-numref">Section 14.7</span></a>)</p></li>
@@ -388,7 +434,7 @@ attached to the type. (<a class="reference internal" href="spec/types/vector.htm
 (<a class="reference internal" href="spec/types/real.html#sssec-real-lit"><span class="std std-ref">Literals</span></a>, <a class="reference internal" href="spec/types/real.html#sssec-real-lit"><span class="std std-numref">Section 7.4.4</span></a>)</p></li>
 </ul>
 </li>
-<li><p><strong>2020/09/01 3:00</strong></p>
+<li><p><strong>2020/09/01 15:00</strong></p>
 <ul>
 <li><p>Initial release for Fall 2020</p></li>
 </ul>

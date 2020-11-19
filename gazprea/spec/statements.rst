@@ -473,26 +473,30 @@ normally.
 Return
 ------
 
-The return statement is used to stop the execution of a function or
-procedure. When a function/procedure returns execution continues where
-the function was called. The return statement must be given a value that
-is compatible with the return type of the function/procedure, this
-will be the result of the function/procedure call. Here is an example:
+The ``return`` statement is used to stop the execution of a function or
+procedure. When a function/procedure returns then execution continues where the
+function/procedure was called.
+
+If the function/procedure has a return type then the ``return`` statement must
+be given a value that is the same as or able to be promoted to (see
+:ref:`sec:typePromotion`) the return type; this will be the result of the
+function/procedure call. Here is an example:
 
 ::
 
-         function square(integer x) returns integer {
-           return x * x;
-         }
+  function square(integer x) returns integer {
+    return x * x;
+  }
 
-If a procedure has no returns clause, then it has no return type. In this
-case return is used as follows:
+If a procedure has no ``returns`` clause, then it has no return type and a
+``return`` statement is not required but may still be present in order to
+return early. In this case return is used as follows:
 
 ::
 
-         procedure do_nothing() {
-           return;
-         }
+  procedure do_nothing() {
+    return;
+  }
 
 .. _ssec:statements_streams:
 

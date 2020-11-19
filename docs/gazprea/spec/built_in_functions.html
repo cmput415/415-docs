@@ -216,6 +216,7 @@
 <li class="toctree-l2"><a class="reference internal" href="type_casting.html#vector-to-vector">10.4. Vector to Vector</a></li>
 <li class="toctree-l2"><a class="reference internal" href="type_casting.html#matrix-to-matrix">10.5. Matrix to Matrix</a></li>
 <li class="toctree-l2"><a class="reference internal" href="type_casting.html#tuple-to-tuple">10.6. Tuple to Tuple</a></li>
+<li class="toctree-l2"><a class="reference internal" href="type_casting.html#null-and-identity">10.7. Null and Identity</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="type_promotion.html">11. Type Promotion</a><ul>
@@ -402,40 +403,25 @@ w -&gt; std_output; /* Prints 54321 */
 </div>
 <div class="section" id="stream-state">
 <span id="ssec-builtin-stream-state"></span><h2><span class="section-number">18.4. </span>Stream State<a class="headerlink" href="#stream-state" title="Permalink to this headline">¶</a></h2>
-<p>When reading in values from stdin of certain types it is possible that
-an error is encountered, or that the end of the stream has been
-encountered. In order to handle these situations the language provides a
-built in function:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>stream_state(std_input)
+<p>When reading values of certain types from <code class="docutils literal notranslate"><span class="pre">std_input</span></code> it is possible that an
+error is encountered, or that the end of the stream has been encountered. In
+order to handle these situations <em>Gazprea</em> provides a built in procedure that is
+implicitly defined in every file:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>procedure stream_state(var input_stream) returns integer;
 </pre></div>
 </div>
-<p>This function can only be called with the input stream as a parameter,
-but it’s general enough that it could be used if the language were
-expanded to include multiple input streams.</p>
-<p>When called <code class="docutils literal notranslate"><span class="pre">stream_state</span></code> will return an integer value. The return
-value is an error code defined as follows:</p>
-<ul class="simple">
-<li><p>0: Last read from the stream was successful</p></li>
-<li><p>1: Last read from the stream encountered an error.</p></li>
-<li><p>2: Last read from the stream encountered the end of the stream.</p></li>
+<p>This function can only be called with the <code class="docutils literal notranslate"><span class="pre">std_input</span></code> as a parameter, but it’s
+general enough that it could be used if the language were expanded to include
+multiple input streams.</p>
+<p>When called, <code class="docutils literal notranslate"><span class="pre">stream_state</span></code> will return an integer value. The return value is
+an error code defined as follows:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">0</span></code>: Last read from the stream was successful</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">1</span></code>: Last read from the stream encountered an error.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">2</span></code>: Last read from the stream encountered the end of the stream.</p></li>
 </ul>
-<p>When an error is encountered the value assigned to the variable used in
-the stream read operation is <code class="docutils literal notranslate"><span class="pre">null</span></code>. When an end of stream is
-encountered <code class="docutils literal notranslate"><span class="pre">null</span></code> is assigned to variables of all types except for
-character. In this case character is assigned the ASCII EOF value.</p>
-<p>When a read from the stream is not successful, and <code class="docutils literal notranslate"><span class="pre">stream_state</span></code>
-returns non-0, then the stream must be rewound to where it was before
-the read started.</p>
-<p>Reading a character never causes an error. The character will either be
-successfully read, or the end of the stream has been reached and
-character is assigned EOF for each subsequent read.</p>
-<p>When reading anything else if something is read which does not match the
-data type (for instance if the letter ’a’ is read while trying to parse
-an integer), then this is an error. In this case the value returned by
-the stream is <code class="docutils literal notranslate"><span class="pre">null</span></code>, and <code class="docutils literal notranslate"><span class="pre">stream_state</span></code> should return 1. Or, if
-only whitespace and the end of the stream is encountered the stream is
-rewound to where it was before the read, <code class="docutils literal notranslate"><span class="pre">null</span></code> is returned, and
-<code class="docutils literal notranslate"><span class="pre">stream_state</span></code> will return 2.</p>
+</div></blockquote>
 </div>
 </div>
 
