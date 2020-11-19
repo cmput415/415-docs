@@ -1,0 +1,23 @@
+Should multi-step implicit promotion be allowed?
+  - e.g. `[2.4, 3.6] * 5`
+How should string concatenation with a character work?
+  - e.g. `"abcd" || 'e'`
+  - Disallowed, clarify that `||` only works between `string` and `character[*]`
+  - As an append, resulting in `"abcde"`
+  - As a splat and concatenate, resulting in `"abcdeeee"`
+Should we allow casting of `null` and `identity`?
+  - e.g. `as<real>(null)`
+Should we change to type and other symbols in a shared scope tree or remain with non-conflicting resolution paths.
+  - e.g.
+    ```
+      typedef integer a;
+      const integer a = 0; // Redefinition of symbol `a` or legal?
+    ```
+How should we refer to functions and procedures collectively when something applies to both?
+  - Routine
+  - Subroutine
+
+How should we approach rewinding whitespace?
+  - Don't.
+  - Limit buffer.
+  - Run-length encoding.
