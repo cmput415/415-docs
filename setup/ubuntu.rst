@@ -15,6 +15,16 @@ a fresh install, you'll need this first:
  $ sudo apt-get update
  $ sudo apt-get install build-essential
 
+Installing pkg-config
+---------------------
+
+pkg-config is a tool for querying installed libraries.
+
+.. code-block:: console
+
+ $ sudo apt-get update
+ $ sudo apt-get install pkg-config
+
 Installing libUUID
 ------------------
 
