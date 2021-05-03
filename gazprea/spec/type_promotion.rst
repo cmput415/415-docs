@@ -95,10 +95,12 @@ Field names of tuples are overwritten by the field names of the left-hand side i
 
 ::
 
-     tuple(real a, real b) foo = (1, 2);
+     tuple(integer a, real b) foo = (1, 2);
+     tuple(real c, real) bar = foo;
+
      foo.a -> std_output; // 1
      foo.b -> std_output; // 2
-     tuple(integer c, real) bar = foo;
+
      bar.a -> std_output; // error
      bar.b -> std_output; // error
      bar.c -> std_output; // 1
@@ -109,11 +111,16 @@ If initializing a variable with a tuple via :ref:`sec:typeInference`, the variab
 ::
 
      tuple(real a, real b) foo = (1, 2);
-     foo.a -> std_output; // 1
-     foo.b -> std_output; // 2
-     var bar = foo;
-     bar.a -> std_output; // 1
-     bar.b -> std_output; // 2
+     tuple(real c, real d) bar = (3, 4);
+
+     var baz = foo;
+     baz.a -> std_output; // 1
+     baz.b -> std_output; // 2
+
+     baz = bar;
+     baz.a -> std_output; // 3
+     baz.b -> std_output; // 4
+
 
 It is possible for a two sided promotion to occur with tuples. For example:
 
