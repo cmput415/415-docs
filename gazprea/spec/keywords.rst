@@ -30,8 +30,6 @@ not be used by a programmer.
 
 -  false
 
--  filter
-
 -  function
 
 -  identity
