@@ -106,6 +106,13 @@ functions can be called within other functions, but procedures can not
 be used within functions since procedures may be impure. Procedures may
 only be called within procedures.
 
+Procedures without a return clause may not be used in an expression.
+*Gazprea* should raise an error in such a case.
+::
+
+         /* p is some procedure with no return clause */
+         var x = 1 + p(); /* Illegal */
+
 .. _ssec:procedure_fwd_declr:
 
 Forward Declaration
