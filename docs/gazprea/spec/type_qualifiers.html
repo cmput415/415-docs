@@ -1,73 +1,37 @@
-
-
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8">
-  
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>6. Type Qualifiers &mdash; gazprea  documentation</title>
-  
-
-  
-  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/css/googleFonts.css" type="text/css" />
-
-  
-  
-  
-  
-
-  
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/googleFonts.css" type="text/css" />
   <!--[if lt IE 9]>
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/jquery.js"></script>
         <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../_static/doctools.js"></script>
-        <script src="../_static/language_data.js"></script>
-        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    
-    <script type="text/javascript" src="../_static/js/theme.js"></script>
-
-    
+    <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="7. Types" href="types.html" />
     <link rel="prev" title="5. Declarations" href="declarations.html" /> 
 </head>
 
-<body class="wy-body-for-nav">
-
-   
+<body class="wy-body-for-nav"> 
   <div class="wy-grid-for-nav">
-    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search"  style="background: #007C41" >
-          
-
-          
-            <a href="../index.html" class="icon icon-home" alt="Documentation Home"> gazprea
-          
-
-          
-            
+            <a href="../index.html" class="icon icon-home"> gazprea
             <img src="../_static/logo-reverse.png" class="logo" alt="Logo"/>
-          
           </a>
-
-          
-            
-            
-          
-
-          
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" />
@@ -75,23 +39,12 @@
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-
-          
-        </div>
-
-        
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul>
 <li class="toctree-l1"><a class="reference internal" href="../index.html">Gazprea</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../change_log.html">Change log</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Language Specification</span></p>
+<p class="caption" role="heading"><span class="caption-text">Language Specification</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="keywords.html">1. Keywords</a></li>
 <li class="toctree-l1"><a class="reference internal" href="identifiers.html">2. Identifiers</a></li>
@@ -216,6 +169,7 @@
 <li class="toctree-l2"><a class="reference internal" href="type_casting.html#vector-to-vector">10.4. Vector to Vector</a></li>
 <li class="toctree-l2"><a class="reference internal" href="type_casting.html#matrix-to-matrix">10.5. Matrix to Matrix</a></li>
 <li class="toctree-l2"><a class="reference internal" href="type_casting.html#tuple-to-tuple">10.6. Tuple to Tuple</a></li>
+<li class="toctree-l2"><a class="reference internal" href="type_casting.html#null-and-identity">10.7. Null and Identity</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="type_promotion.html">11. Type Promotion</a><ul>
@@ -273,7 +227,7 @@
 </ul>
 </li>
 </ul>
-<p class="caption"><span class="caption-text">Implementation</span></p>
+<p class="caption" role="heading"><span class="caption-text">Implementation</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../impl/backend.html">Backend</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../impl/backend.html#memory-management">Memory Management</a></li>
@@ -292,79 +246,40 @@
 </li>
 </ul>
 
-            
-          
         </div>
-        
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #007C41" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">gazprea</a>
-        
       </nav>
 
-
       <div class="wy-nav-content">
-        
         <div class="rst-content">
-        
-          
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div role="navigation" aria-label="breadcrumbs navigation">
-
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-    
       <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
-        
       <li><span class="section-number">6. </span>Type Qualifiers</li>
-    
-    
       <li class="wy-breadcrumbs-aside">
-        
-            
             <a href="../_sources/spec/type_qualifiers.rst.txt" rel="nofollow"> View page source</a>
-          
-        
       </li>
-    
   </ul>
-
-  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-            
-  <div class="section" id="type-qualifiers">
-<span id="sec-typequalifiers"></span><h1><span class="section-number">6. </span>Type Qualifiers<a class="headerlink" href="#type-qualifiers" title="Permalink to this headline">¶</a></h1>
+             
+  <section id="type-qualifiers">
+<span id="sec-typequalifiers"></span><h1><span class="section-number">6. </span>Type Qualifiers<a class="headerlink" href="#type-qualifiers" title="Permalink to this heading"></a></h1>
 <p><em>Gazprea</em> has two type qualifiers: <code class="docutils literal notranslate"><span class="pre">const</span></code> and <code class="docutils literal notranslate"><span class="pre">var</span></code>. These
 qualifers can prefix a type to specify its mutability or entirely
 replace the type to request that it be inferred. Mutability refers to a
 values ability to be an <a class="reference external" href="https://en.wikipedia.org/wiki/Value_(computer_science)#lrvalue">r-value or
 l-value</a>.
 The two qualifiers cannot be combined as they are mutually exclusive.</p>
-<div class="section" id="const">
-<span id="ssec-typequalifiers-const"></span><h2><span class="section-number">6.1. </span>Const<a class="headerlink" href="#const" title="Permalink to this headline">¶</a></h2>
+<section id="const">
+<span id="ssec-typequalifiers-const"></span><h2><span class="section-number">6.1. </span>Const<a class="headerlink" href="#const" title="Permalink to this heading"></a></h2>
 <p>A <code class="docutils literal notranslate"><span class="pre">const</span></code> value is immutable and therefore cannot be an l-value but
 can be an r-value. For example:</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>const integer i;
@@ -372,9 +287,9 @@ can be an r-value. For example:</p>
 </div>
 <p>Because a <code class="docutils literal notranslate"><span class="pre">const</span></code> value is not an l-value, it cannot be passed to a
 <code class="docutils literal notranslate"><span class="pre">var</span></code> argument in a <code class="docutils literal notranslate"><span class="pre">procedure</span></code>.</p>
-</div>
-<div class="section" id="var">
-<span id="ssec-typequalifiers-var"></span><h2><span class="section-number">6.2. </span>Var<a class="headerlink" href="#var" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="var">
+<span id="ssec-typequalifiers-var"></span><h2><span class="section-number">6.2. </span>Var<a class="headerlink" href="#var" title="Permalink to this heading"></a></h2>
 <p>A <code class="docutils literal notranslate"><span class="pre">var</span></code> value is mutable and therefore can be an l-value or r-value.
 For example:</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>var integer i;
@@ -382,9 +297,9 @@ For example:</p>
 </div>
 <p>Note that var is the default <em>Gazprea</em> behaviour and is essentially a
 no-op unless it is entirely replacing the type.</p>
-</div>
-<div class="section" id="type-inference-using-qualifiers">
-<span id="ssec-typequalifiers-infer"></span><h2><span class="section-number">6.3. </span>Type Inference Using Qualifiers<a class="headerlink" href="#type-inference-using-qualifiers" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="type-inference-using-qualifiers">
+<span id="ssec-typequalifiers-infer"></span><h2><span class="section-number">6.3. </span>Type Inference Using Qualifiers<a class="headerlink" href="#type-inference-using-qualifiers" title="Permalink to this heading"></a></h2>
 <p>Type qualifiers may be used in place of a type, in which case the real
 type must be inferred. A variable declared in this manner must be
 <strong>immediately initialised</strong> to enable inference. For example:</p>
@@ -398,63 +313,38 @@ const v = [&#39;a&#39;, &#39;b&#39;, &#39;c&#39;, &#39;d&#39;]; // character[4]
 </div>
 <p>See <a class="reference internal" href="type_inference.html#sec-typeinference"><span class="std std-ref">Type Inference</span></a> for a larger description of type inference, this section only
 provides the syntax for inference using <code class="docutils literal notranslate"><span class="pre">const</span></code> and <code class="docutils literal notranslate"><span class="pre">var</span></code>.</p>
-</div>
-</div>
+</section>
+</section>
 
 
            </div>
-           
           </div>
-          <footer>
-  
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="types.html" class="btn btn-neutral float-right" title="7. Types" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="declarations.html" class="btn btn-neutral float-left" title="5. Declarations" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="declarations.html" class="btn btn-neutral float-left" title="5. Declarations" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="types.html" class="btn btn-neutral float-right" title="7. Types" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
-  
 
   <hr/>
 
   <div role="contentinfo">
-    <p>
-        
-        &copy; Copyright 2020, cmput415
-
-    </p>
+    <p>&#169; Copyright 2020, cmput415.</p>
   </div>
-    
-    
-    
-    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
-    
-    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
-    
-    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
 
 </footer>
-
         </div>
       </div>
-
     </section>
-
   </div>
-  
-
-  <script type="text/javascript">
+  <script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(false);
       });
-  </script>
-
-  
-  
-    
-   
+  </script> 
 
 </body>
 </html>

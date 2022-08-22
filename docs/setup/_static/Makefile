@@ -82,7 +82,7 @@ all: tool
 # extensions to .o so that it's forced to build them if there were changes in
 # the .cpp. The same logic applies to (SRC_CPP).
 tool: $(GEN_RESULTS_COMP_CPP:.cpp=.o) $(SRC_CPP:.cpp=.o)
-	c++ -std=gnu++11 -Wall \
+	c++ -std=gnu++17 -Wall \
 		$(filter %.o, $^) $(ANTLRS) \
 		-I"$(ANTLRI)" -I"$(GEN_DIR)" \
 		-o tool
@@ -91,13 +91,13 @@ tool: $(GEN_RESULTS_COMP_CPP:.cpp=.o) $(SRC_CPP:.cpp=.o)
 # personal source files. Depend on our specific source file and all of the
 # generated headers/objects.
 %.o: %.cpp $(GEN_RESULTS_COMP_CPP:.cpp=.o)
-	c++ -std=gnu++11 -Wall -Wno-attributes -I"$(ANTLRI)" -I"$(GEN_DIR)" \
+	c++ -std=gnu++17 -Wall -Wno-attributes -I"$(ANTLRI)" -I"$(GEN_DIR)" \
 		-c "$<" -o "$@"
 
 # How to generate object files for cpp files in the gen directory. These are
 # generated source files.
 $(GEN_DIR)%.o: $(GEN_DIR)%.cpp
-	c++ -std=gnu++11 -Wall -Wno-attributes -I"$(ANTLRI)" -I"$(GEN_DIR)" \
+	c++ -std=gnu++17 -Wall -Wno-attributes -I"$(ANTLRI)" -I"$(GEN_DIR)" \
 		-c "$<" -o "$@"
 
 # How to generate files from a grammar. The rule says it knows how to build any

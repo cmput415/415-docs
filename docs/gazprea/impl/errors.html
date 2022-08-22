@@ -1,72 +1,36 @@
-
-
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8">
-  
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Errors &mdash; gazprea  documentation</title>
-  
-
-  
-  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/css/googleFonts.css" type="text/css" />
-
-  
-  
-  
-  
-
-  
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/googleFonts.css" type="text/css" />
   <!--[if lt IE 9]>
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/jquery.js"></script>
         <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../_static/doctools.js"></script>
-        <script src="../_static/language_data.js"></script>
-        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    
-    <script type="text/javascript" src="../_static/js/theme.js"></script>
-
-    
+    <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="prev" title="Compiler Implementation — Part 2" href="part_2.html" /> 
 </head>
 
-<body class="wy-body-for-nav">
-
-   
+<body class="wy-body-for-nav"> 
   <div class="wy-grid-for-nav">
-    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search"  style="background: #007C41" >
-          
-
-          
-            <a href="../index.html" class="icon icon-home" alt="Documentation Home"> gazprea
-          
-
-          
-            
+            <a href="../index.html" class="icon icon-home"> gazprea
             <img src="../_static/logo-reverse.png" class="logo" alt="Logo"/>
-          
           </a>
-
-          
-            
-            
-          
-
-          
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" />
@@ -74,23 +38,12 @@
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-
-          
-        </div>
-
-        
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul>
 <li class="toctree-l1"><a class="reference internal" href="../index.html">Gazprea</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../change_log.html">Change log</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Language Specification</span></p>
+<p class="caption" role="heading"><span class="caption-text">Language Specification</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../spec/keywords.html">1. Keywords</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../spec/identifiers.html">2. Identifiers</a></li>
@@ -215,6 +168,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../spec/type_casting.html#vector-to-vector">10.4. Vector to Vector</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../spec/type_casting.html#matrix-to-matrix">10.5. Matrix to Matrix</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../spec/type_casting.html#tuple-to-tuple">10.6. Tuple to Tuple</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../spec/type_casting.html#null-and-identity">10.7. Null and Identity</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../spec/type_promotion.html">11. Type Promotion</a><ul>
@@ -272,7 +226,7 @@
 </ul>
 </li>
 </ul>
-<p class="caption"><span class="caption-text">Implementation</span></p>
+<p class="caption" role="heading"><span class="caption-text">Implementation</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="backend.html">Backend</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="backend.html#memory-management">Memory Management</a></li>
@@ -291,74 +245,35 @@
 </li>
 </ul>
 
-            
-          
         </div>
-        
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #007C41" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">gazprea</a>
-        
       </nav>
 
-
       <div class="wy-nav-content">
-        
         <div class="rst-content">
-        
-          
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div role="navigation" aria-label="breadcrumbs navigation">
-
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-    
       <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
-        
       <li>Errors</li>
-    
-    
       <li class="wy-breadcrumbs-aside">
-        
-            
             <a href="../_sources/impl/errors.rst.txt" rel="nofollow"> View page source</a>
-          
-        
       </li>
-    
   </ul>
-
-  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-            
-  <div class="section" id="errors">
-<h1>Errors<a class="headerlink" href="#errors" title="Permalink to this headline">¶</a></h1>
+             
+  <section id="errors">
+<h1>Errors<a class="headerlink" href="#errors" title="Permalink to this heading"></a></h1>
 <p>Your implementation is required to report both compile-time and runtime errors.</p>
-<div class="section" id="compile-time-errors">
-<h2>Compile-time Errors<a class="headerlink" href="#compile-time-errors" title="Permalink to this headline">¶</a></h2>
+<section id="compile-time-errors">
+<h2>Compile-time Errors<a class="headerlink" href="#compile-time-errors" title="Permalink to this heading"></a></h2>
 <p>Compile-time errors must be handled by throwing <a class="reference external" href="http://www.cplusplus.com/doc/tutorial/exceptions/">C++ standard exceptions</a>.</p>
 <p>You should create different exception classes for each of the different kinds of compile-time errors you report, such as a Type Error shown in the example below.</p>
 <p>You must create all your exception classes in a single header file <code class="docutils literal notranslate"><span class="pre">exceptions.h</span></code> and extend <code class="docutils literal notranslate"><span class="pre">std::exception</span></code>.</p>
@@ -390,8 +305,8 @@ To throw an exception, use the <code class="docutils literal notranslate"><span 
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>throw TypeError(&quot;int&quot;, &quot;char&quot;, 10);
 </pre></div>
 </div>
-<div class="section" id="syntax-errors">
-<h3>Syntax Errors<a class="headerlink" href="#syntax-errors" title="Permalink to this headline">¶</a></h3>
+<section id="syntax-errors">
+<h3>Syntax Errors<a class="headerlink" href="#syntax-errors" title="Permalink to this heading"></a></h3>
 <p>Syntax errors are also compile-time errors. ANTLR handles syntax errors automatically, but you are required to override the behavior and throw your own exception from <code class="docutils literal notranslate"><span class="pre">exceptions.h</span></code>.</p>
 <p>Example:</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>/* exceptions.h */
@@ -440,10 +355,10 @@ int main(int argc, char **argv) {
 </pre></div>
 </div>
 <p>For more information regarding the handling of syntax errors in ANTLR, refer to chapter 9 of <a class="reference external" href="https://pragprog.com/titles/tpantlr2/">The Definitive ANTLR 4 Reference</a>.</p>
-</div>
-</div>
-<div class="section" id="runtime-errors">
-<h2>Runtime Errors<a class="headerlink" href="#runtime-errors" title="Permalink to this headline">¶</a></h2>
+</section>
+</section>
+<section id="runtime-errors">
+<h2>Runtime Errors<a class="headerlink" href="#runtime-errors" title="Permalink to this heading"></a></h2>
 <p>Since the runtime library is written in C, you do not have access to C++ standard exceptions.</p>
 <p>Instead, you are required to have a single header file <code class="docutils literal notranslate"><span class="pre">errors.h</span></code> containing all your functions which print error messages to <code class="docutils literal notranslate"><span class="pre">stderr</span></code> and exit.</p>
 <p>Simply call any of the functions when you need to report an error.</p>
@@ -458,61 +373,37 @@ void sizeMismatchError() {
 }
 </pre></div>
 </div>
-</div>
-</div>
+</section>
+</section>
 
 
            </div>
-           
           </div>
-          <footer>
-  
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-      
-        <a href="part_2.html" class="btn btn-neutral float-left" title="Compiler Implementation — Part 2" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="part_2.html" class="btn btn-neutral float-left" title="Compiler Implementation — Part 2" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
-  
 
   <hr/>
 
   <div role="contentinfo">
-    <p>
-        
-        &copy; Copyright 2020, cmput415
-
-    </p>
+    <p>&#169; Copyright 2020, cmput415.</p>
   </div>
-    
-    
-    
-    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
-    
-    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
-    
-    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
 
 </footer>
-
         </div>
       </div>
-
     </section>
-
   </div>
-  
-
-  <script type="text/javascript">
+  <script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(false);
       });
-  </script>
-
-  
-  
-    
-   
+  </script> 
 
 </body>
 </html>

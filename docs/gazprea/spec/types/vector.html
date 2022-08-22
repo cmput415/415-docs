@@ -1,73 +1,37 @@
-
-
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8">
-  
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>7.7. Vectors &mdash; gazprea  documentation</title>
-  
-
-  
-  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../../_static/css/googleFonts.css" type="text/css" />
-
-  
-  
-  
-  
-
-  
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/googleFonts.css" type="text/css" />
   <!--[if lt IE 9]>
     <script src="../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
         <script src="../../_static/jquery.js"></script>
         <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../_static/doctools.js"></script>
-        <script src="../../_static/language_data.js"></script>
-        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    
-    <script type="text/javascript" src="../../_static/js/theme.js"></script>
-
-    
+    <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="7.8. String" href="string.html" />
     <link rel="prev" title="7.6. Interval" href="interval.html" /> 
 </head>
 
-<body class="wy-body-for-nav">
-
-   
+<body class="wy-body-for-nav"> 
   <div class="wy-grid-for-nav">
-    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search"  style="background: #007C41" >
-          
-
-          
-            <a href="../../index.html" class="icon icon-home" alt="Documentation Home"> gazprea
-          
-
-          
-            
+            <a href="../../index.html" class="icon icon-home"> gazprea
             <img src="../../_static/logo-reverse.png" class="logo" alt="Logo"/>
-          
           </a>
-
-          
-            
-            
-          
-
-          
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" />
@@ -75,23 +39,12 @@
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-
-          
-        </div>
-
-        
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../index.html">Gazprea</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../change_log.html">Change log</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Language Specification</span></p>
+<p class="caption" role="heading"><span class="caption-text">Language Specification</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../keywords.html">1. Keywords</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../identifiers.html">2. Identifiers</a></li>
@@ -216,6 +169,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../type_casting.html#vector-to-vector">10.4. Vector to Vector</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../type_casting.html#matrix-to-matrix">10.5. Matrix to Matrix</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../type_casting.html#tuple-to-tuple">10.6. Tuple to Tuple</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../type_casting.html#null-and-identity">10.7. Null and Identity</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../type_promotion.html">11. Type Promotion</a><ul>
@@ -273,7 +227,7 @@
 </ul>
 </li>
 </ul>
-<p class="caption"><span class="caption-text">Implementation</span></p>
+<p class="caption" role="heading"><span class="caption-text">Implementation</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../impl/backend.html">Backend</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../impl/backend.html#memory-management">Memory Management</a></li>
@@ -292,73 +246,33 @@
 </li>
 </ul>
 
-            
-          
         </div>
-        
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #007C41" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../../index.html">gazprea</a>
-        
       </nav>
 
-
       <div class="wy-nav-content">
-        
         <div class="rst-content">
-        
-          
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div role="navigation" aria-label="breadcrumbs navigation">
-
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-    
       <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
-        
           <li><a href="../types.html"><span class="section-number">7. </span>Types</a> &raquo;</li>
-        
       <li><span class="section-number">7.7. </span>Vectors</li>
-    
-    
       <li class="wy-breadcrumbs-aside">
-        
-            
             <a href="../../_sources/spec/types/vector.rst.txt" rel="nofollow"> View page source</a>
-          
-        
       </li>
-    
   </ul>
-
-  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-            
-  <div class="section" id="vectors">
-<span id="ssec-vector"></span><h1><span class="section-number">7.7. </span>Vectors<a class="headerlink" href="#vectors" title="Permalink to this headline">¶</a></h1>
+             
+  <section id="vectors">
+<span id="ssec-vector"></span><h1><span class="section-number">7.7. </span>Vectors<a class="headerlink" href="#vectors" title="Permalink to this heading"></a></h1>
 <p>Vectors are arrays that can contain any of the following base types:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">boolean</span></code></p></li>
@@ -369,8 +283,8 @@
 <p>In <em>Gazprea</em> the number of elements in the vector also determine its
 type. A 3 element vector of any base type is always considered a different
 type from a 2 element vector.</p>
-<div class="section" id="declaration">
-<span id="sssec-vector-decl"></span><h2><span class="section-number">7.7.1. </span>Declaration<a class="headerlink" href="#declaration" title="Permalink to this headline">¶</a></h2>
+<section id="declaration">
+<span id="sssec-vector-decl"></span><h2><span class="section-number">7.7.1. </span>Declaration<a class="headerlink" href="#declaration" title="Permalink to this heading"></a></h2>
 <p>Aside from any type specifiers, the element type of the vector is the first
 portion of the declaration. A vector is then declared using square brackets
 immediately after the element type.</p>
@@ -421,23 +335,23 @@ w from v. The size may not always be known at compile time, so this
 may need to be handled during runtime.</p>
 </li>
 </ol>
-</div>
-<div class="section" id="null">
-<span id="sssec-vector-null"></span><h2><span class="section-number">7.7.2. </span>Null<a class="headerlink" href="#null" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="null">
+<span id="sssec-vector-null"></span><h2><span class="section-number">7.7.2. </span>Null<a class="headerlink" href="#null" title="Permalink to this heading"></a></h2>
 <p>Vector of <code class="docutils literal notranslate"><span class="pre">null</span></code> elements.</p>
 <p>When initializing a vector to a value of <code class="docutils literal notranslate"><span class="pre">null</span></code> an explicit size must
 be given. Such initialization is equivalent to promoting a <code class="docutils literal notranslate"><span class="pre">null</span></code>
 value of the element type to the vector.</p>
-</div>
-<div class="section" id="sssec-vector-ident">
-<span id="identity"></span><h2><span class="section-number">7.7.3. </span>Identity<a class="headerlink" href="#sssec-vector-ident" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="sssec-vector-ident">
+<span id="identity"></span><h2><span class="section-number">7.7.3. </span>Identity<a class="headerlink" href="#sssec-vector-ident" title="Permalink to this heading"></a></h2>
 <p>Vector of <code class="docutils literal notranslate"><span class="pre">identity</span></code> elements.</p>
 <p>When initializing a vector to a value of <code class="docutils literal notranslate"><span class="pre">identity</span></code> an explicit size
 must be given. Such initialization is equivalent to promoting a
 <code class="docutils literal notranslate"><span class="pre">identity</span></code> value of the element type to the vector.</p>
-</div>
-<div class="section" id="construction">
-<span id="sssec-vector-constr"></span><h2><span class="section-number">7.7.4. </span>Construction<a class="headerlink" href="#construction" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="construction">
+<span id="sssec-vector-constr"></span><h2><span class="section-number">7.7.4. </span>Construction<a class="headerlink" href="#construction" title="Permalink to this heading"></a></h2>
 <p>A vector value in <em>Gazprea</em> may be constructed using the following
 notation:</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>[expr1, expr2, ..., exprN]
@@ -459,9 +373,9 @@ method of construction.</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>real[*] v = []; /* Should create an empty vector */
 </pre></div>
 </div>
-</div>
-<div class="section" id="operations">
-<span id="sssec-vector-ops"></span><h2><span class="section-number">7.7.5. </span>Operations<a class="headerlink" href="#operations" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="operations">
+<span id="sssec-vector-ops"></span><h2><span class="section-number">7.7.5. </span>Operations<a class="headerlink" href="#operations" title="Permalink to this heading"></a></h2>
 <ol class="arabic">
 <li><p>Vector Operations and functions</p>
 <ol class="loweralpha">
@@ -596,69 +510,44 @@ this comparison.</p>
 The result is the logical negation of the result of the == operator.</p>
 </li>
 </ol>
-</div>
-<div class="section" id="type-casting-and-type-promotion">
-<h2><span class="section-number">7.7.6. </span>Type Casting and Type Promotion<a class="headerlink" href="#type-casting-and-type-promotion" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="type-casting-and-type-promotion">
+<h2><span class="section-number">7.7.6. </span>Type Casting and Type Promotion<a class="headerlink" href="#type-casting-and-type-promotion" title="Permalink to this heading"></a></h2>
 <p>To see the types that <code class="docutils literal notranslate"><span class="pre">vector</span></code> may be cast and/or promoted to, see
 the sections on <a class="reference internal" href="../type_casting.html#sec-typecasting"><span class="std std-ref">Type Casting</span></a> and <a class="reference internal" href="../type_promotion.html#sec-typepromotion"><span class="std std-ref">Type Promotion</span></a>
 respectively.</p>
-</div>
-</div>
+</section>
+</section>
 
 
            </div>
-           
           </div>
-          <footer>
-  
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="string.html" class="btn btn-neutral float-right" title="7.8. String" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="interval.html" class="btn btn-neutral float-left" title="7.6. Interval" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="interval.html" class="btn btn-neutral float-left" title="7.6. Interval" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="string.html" class="btn btn-neutral float-right" title="7.8. String" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
-  
 
   <hr/>
 
   <div role="contentinfo">
-    <p>
-        
-        &copy; Copyright 2020, cmput415
-
-    </p>
+    <p>&#169; Copyright 2020, cmput415.</p>
   </div>
-    
-    
-    
-    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
-    
-    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
-    
-    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
 
 </footer>
-
         </div>
       </div>
-
     </section>
-
   </div>
-  
-
-  <script type="text/javascript">
+  <script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(false);
       });
-  </script>
-
-  
-  
-    
-   
+  </script> 
 
 </body>
 </html>

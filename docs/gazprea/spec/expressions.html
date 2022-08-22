@@ -1,73 +1,37 @@
-
-
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8">
-  
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>13. Expressions &mdash; gazprea  documentation</title>
-  
-
-  
-  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/css/googleFonts.css" type="text/css" />
-
-  
-  
-  
-  
-
-  
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/googleFonts.css" type="text/css" />
   <!--[if lt IE 9]>
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/jquery.js"></script>
         <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../_static/doctools.js"></script>
-        <script src="../_static/language_data.js"></script>
-        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    
-    <script type="text/javascript" src="../_static/js/theme.js"></script>
-
-    
+    <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="14. Statements" href="statements.html" />
     <link rel="prev" title="12. Typedef" href="typedef.html" /> 
 </head>
 
-<body class="wy-body-for-nav">
-
-   
+<body class="wy-body-for-nav"> 
   <div class="wy-grid-for-nav">
-    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search"  style="background: #007C41" >
-          
-
-          
-            <a href="../index.html" class="icon icon-home" alt="Documentation Home"> gazprea
-          
-
-          
-            
+            <a href="../index.html" class="icon icon-home"> gazprea
             <img src="../_static/logo-reverse.png" class="logo" alt="Logo"/>
-          
           </a>
-
-          
-            
-            
-          
-
-          
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" />
@@ -75,23 +39,12 @@
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-
-          
-        </div>
-
-        
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul>
 <li class="toctree-l1"><a class="reference internal" href="../index.html">Gazprea</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../change_log.html">Change log</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Language Specification</span></p>
+<p class="caption" role="heading"><span class="caption-text">Language Specification</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="keywords.html">1. Keywords</a></li>
 <li class="toctree-l1"><a class="reference internal" href="identifiers.html">2. Identifiers</a></li>
@@ -216,6 +169,7 @@
 <li class="toctree-l2"><a class="reference internal" href="type_casting.html#vector-to-vector">10.4. Vector to Vector</a></li>
 <li class="toctree-l2"><a class="reference internal" href="type_casting.html#matrix-to-matrix">10.5. Matrix to Matrix</a></li>
 <li class="toctree-l2"><a class="reference internal" href="type_casting.html#tuple-to-tuple">10.6. Tuple to Tuple</a></li>
+<li class="toctree-l2"><a class="reference internal" href="type_casting.html#null-and-identity">10.7. Null and Identity</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="type_promotion.html">11. Type Promotion</a><ul>
@@ -273,7 +227,7 @@
 </ul>
 </li>
 </ul>
-<p class="caption"><span class="caption-text">Implementation</span></p>
+<p class="caption" role="heading"><span class="caption-text">Implementation</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../impl/backend.html">Backend</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../impl/backend.html#memory-management">Memory Management</a></li>
@@ -292,73 +246,34 @@
 </li>
 </ul>
 
-            
-          
         </div>
-        
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #007C41" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">gazprea</a>
-        
       </nav>
 
-
       <div class="wy-nav-content">
-        
         <div class="rst-content">
-        
-          
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div role="navigation" aria-label="breadcrumbs navigation">
-
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-    
       <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
-        
       <li><span class="section-number">13. </span>Expressions</li>
-    
-    
       <li class="wy-breadcrumbs-aside">
-        
-            
             <a href="../_sources/spec/expressions.rst.txt" rel="nofollow"> View page source</a>
-          
-        
       </li>
-    
   </ul>
-
-  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-            
-  <div class="section" id="expressions">
-<span id="sec-expressions"></span><h1><span class="section-number">13. </span>Expressions<a class="headerlink" href="#expressions" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="table-of-operator-precedence">
-<span id="ssec-expressions-toop"></span><h2><span class="section-number">13.1. </span>Table of Operator precedence<a class="headerlink" href="#table-of-operator-precedence" title="Permalink to this headline">¶</a></h2>
+             
+  <section id="expressions">
+<span id="sec-expressions"></span><h1><span class="section-number">13. </span>Expressions<a class="headerlink" href="#expressions" title="Permalink to this heading"></a></h1>
+<section id="table-of-operator-precedence">
+<span id="ssec-expressions-toop"></span><h2><span class="section-number">13.1. </span>Table of Operator precedence<a class="headerlink" href="#table-of-operator-precedence" title="Permalink to this heading"></a></h2>
 <p>The following is a table containing all of the precedences and
 associativities of the operators in <em>Gazprea</em>.</p>
 <table class="docutils align-default">
@@ -428,9 +343,9 @@ associativities of the operators in <em>Gazprea</em>.</p>
 </tr>
 </tbody>
 </table>
-</div>
-<div class="section" id="generators">
-<span id="ssec-expressions-generators"></span><h2><span class="section-number">13.2. </span>Generators<a class="headerlink" href="#generators" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="generators">
+<span id="ssec-expressions-generators"></span><h2><span class="section-number">13.2. </span>Generators<a class="headerlink" href="#generators" title="Permalink to this heading"></a></h2>
 <p>A generator may be used to construct either a vector or a matrix. A
 generator creates a value of a vector type when one domain variable is
 used, and a generator creates a value of a matrix type when two domain
@@ -459,9 +374,9 @@ integer[*] v = [i in [i in 1..i | i] | [i in 1..10 | i * i][i]];
 /* v should contain the first 7 squares. */
 </pre></div>
 </div>
-</div>
-<div class="section" id="filters">
-<span id="ssec-expressions-filters"></span><h2><span class="section-number">13.3. </span>Filters<a class="headerlink" href="#filters" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="filters">
+<span id="ssec-expressions-filters"></span><h2><span class="section-number">13.3. </span>Filters<a class="headerlink" href="#filters" title="Permalink to this heading"></a></h2>
 <p>Filters are used to accumulate elements into vectors. Each filter
 contains a single domain expression, and a list of comma-separated predicates.</p>
 <p>The result of a filter operation is a tuple. This tuple contains a field
@@ -478,9 +393,9 @@ var y = [i in 1..5 &amp; i % 2 == 1);
 </pre></div>
 </div>
 <p>There must be at least one predicate expression</p>
-</div>
-<div class="section" id="domain-expressions">
-<span id="ssec-expressions-dom-expr"></span><h2><span class="section-number">13.4. </span>Domain Expressions<a class="headerlink" href="#domain-expressions" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="domain-expressions">
+<span id="ssec-expressions-dom-expr"></span><h2><span class="section-number">13.4. </span>Domain Expressions<a class="headerlink" href="#domain-expressions" title="Permalink to this heading"></a></h2>
 <p>Domain expressions can only appear within iterator loops, generators,
 and filters. A domain expression is a way of declaring a variable that
 is local to the loop, generator, or filter, that takes on values from
@@ -531,63 +446,38 @@ loop i in 1..x {
 </div>
 <p>This is true for domain expressions within generators and filters as
 well.</p>
-</div>
-</div>
+</section>
+</section>
 
 
            </div>
-           
           </div>
-          <footer>
-  
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="statements.html" class="btn btn-neutral float-right" title="14. Statements" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="typedef.html" class="btn btn-neutral float-left" title="12. Typedef" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="typedef.html" class="btn btn-neutral float-left" title="12. Typedef" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="statements.html" class="btn btn-neutral float-right" title="14. Statements" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
-  
 
   <hr/>
 
   <div role="contentinfo">
-    <p>
-        
-        &copy; Copyright 2020, cmput415
-
-    </p>
+    <p>&#169; Copyright 2020, cmput415.</p>
   </div>
-    
-    
-    
-    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
-    
-    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
-    
-    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
 
 </footer>
-
         </div>
       </div>
-
     </section>
-
   </div>
-  
-
-  <script type="text/javascript">
+  <script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(false);
       });
-  </script>
-
-  
-  
-    
-   
+  </script> 
 
 </body>
 </html>

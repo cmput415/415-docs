@@ -1,73 +1,37 @@
-
-
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8">
-  
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>7.5. Tuple &mdash; gazprea  documentation</title>
-  
-
-  
-  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../../_static/css/googleFonts.css" type="text/css" />
-
-  
-  
-  
-  
-
-  
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/googleFonts.css" type="text/css" />
   <!--[if lt IE 9]>
     <script src="../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
         <script src="../../_static/jquery.js"></script>
         <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../_static/doctools.js"></script>
-        <script src="../../_static/language_data.js"></script>
-        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    
-    <script type="text/javascript" src="../../_static/js/theme.js"></script>
-
-    
+    <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="7.6. Interval" href="interval.html" />
     <link rel="prev" title="7.4. Real" href="real.html" /> 
 </head>
 
-<body class="wy-body-for-nav">
-
-   
+<body class="wy-body-for-nav"> 
   <div class="wy-grid-for-nav">
-    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search"  style="background: #007C41" >
-          
-
-          
-            <a href="../../index.html" class="icon icon-home" alt="Documentation Home"> gazprea
-          
-
-          
-            
+            <a href="../../index.html" class="icon icon-home"> gazprea
             <img src="../../_static/logo-reverse.png" class="logo" alt="Logo"/>
-          
           </a>
-
-          
-            
-            
-          
-
-          
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" />
@@ -75,23 +39,12 @@
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-
-          
-        </div>
-
-        
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../index.html">Gazprea</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../change_log.html">Change log</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Language Specification</span></p>
+<p class="caption" role="heading"><span class="caption-text">Language Specification</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../keywords.html">1. Keywords</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../identifiers.html">2. Identifiers</a></li>
@@ -216,6 +169,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../type_casting.html#vector-to-vector">10.4. Vector to Vector</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../type_casting.html#matrix-to-matrix">10.5. Matrix to Matrix</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../type_casting.html#tuple-to-tuple">10.6. Tuple to Tuple</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../type_casting.html#null-and-identity">10.7. Null and Identity</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../type_promotion.html">11. Type Promotion</a><ul>
@@ -273,7 +227,7 @@
 </ul>
 </li>
 </ul>
-<p class="caption"><span class="caption-text">Implementation</span></p>
+<p class="caption" role="heading"><span class="caption-text">Implementation</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../impl/backend.html">Backend</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../impl/backend.html#memory-management">Memory Management</a></li>
@@ -292,78 +246,38 @@
 </li>
 </ul>
 
-            
-          
         </div>
-        
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #007C41" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../../index.html">gazprea</a>
-        
       </nav>
 
-
       <div class="wy-nav-content">
-        
         <div class="rst-content">
-        
-          
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div role="navigation" aria-label="breadcrumbs navigation">
-
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-    
       <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
-        
           <li><a href="../types.html"><span class="section-number">7. </span>Types</a> &raquo;</li>
-        
       <li><span class="section-number">7.5. </span>Tuple</li>
-    
-    
       <li class="wy-breadcrumbs-aside">
-        
-            
             <a href="../../_sources/spec/types/tuple.rst.txt" rel="nofollow"> View page source</a>
-          
-        
       </li>
-    
   </ul>
-
-  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-            
-  <div class="section" id="tuple">
-<span id="ssec-tuple"></span><h1><span class="section-number">7.5. </span>Tuple<a class="headerlink" href="#tuple" title="Permalink to this headline">¶</a></h1>
+             
+  <section id="tuple">
+<span id="ssec-tuple"></span><h1><span class="section-number">7.5. </span>Tuple<a class="headerlink" href="#tuple" title="Permalink to this heading"></a></h1>
 <p>A <code class="docutils literal notranslate"><span class="pre">tuple</span></code> is a way of grouping multiple values with potentially
 different types into one type. All types may be stored within tuples
 except <a class="reference internal" href="../streams.html#sec-streams"><span class="std std-ref">streams</span></a> and other tuples.</p>
-<div class="section" id="declaration">
-<span id="sssec-tuple-decl"></span><h2><span class="section-number">7.5.1. </span>Declaration<a class="headerlink" href="#declaration" title="Permalink to this headline">¶</a></h2>
+<section id="declaration">
+<span id="sssec-tuple-decl"></span><h2><span class="section-number">7.5.1. </span>Declaration<a class="headerlink" href="#declaration" title="Permalink to this heading"></a></h2>
 <p>A <code class="docutils literal notranslate"><span class="pre">tuple</span></code> value is declared with the keyword <code class="docutils literal notranslate"><span class="pre">tuple</span></code> followed by a
 parentheses-surrounded, comma-separated list of types. The list must
 contain <em>at least two types</em>. Tuples are <em>mutable</em>. For example:</p>
@@ -382,9 +296,9 @@ field named <code class="docutils literal notranslate"><span class="pre">id</spa
 <p>The number of fields in a <code class="docutils literal notranslate"><span class="pre">tuple</span></code> must be known at compile time. The only
 exception is when a <a class="reference internal" href="../type_qualifiers.html#ssec-typequalifiers-infer"><span class="std std-ref">variable is declared without a type using var or const</span></a>.
 In this case, the variable must be initialised immediately with a literal whose type is known at compile time.</p>
-</div>
-<div class="section" id="access">
-<span id="sssec-tuple-acc"></span><h2><span class="section-number">7.5.2. </span>Access<a class="headerlink" href="#access" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="access">
+<span id="sssec-tuple-acc"></span><h2><span class="section-number">7.5.2. </span>Access<a class="headerlink" href="#access" title="Permalink to this heading"></a></h2>
 <p>The elements in a <code class="docutils literal notranslate"><span class="pre">tuple</span></code> are accessed using dot notation. Dot
 notation can only be applied to <code class="docutils literal notranslate"><span class="pre">tuple</span></code> variables and <em>not</em> <code class="docutils literal notranslate"><span class="pre">tuple</span></code>
 literals. Therefore, dot notation is an identifier followed by a period
@@ -396,19 +310,19 @@ t3.r
 t4.mode
 </pre></div>
 </div>
-</div>
-<div class="section" id="null">
-<span id="sssec-tuple-null"></span><h2><span class="section-number">7.5.3. </span>Null<a class="headerlink" href="#null" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="null">
+<span id="sssec-tuple-null"></span><h2><span class="section-number">7.5.3. </span>Null<a class="headerlink" href="#null" title="Permalink to this heading"></a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">null</span></code> is every field assigned their type-appropriate <code class="docutils literal notranslate"><span class="pre">null</span></code> for
 <code class="docutils literal notranslate"><span class="pre">tuple</span></code>.</p>
-</div>
-<div class="section" id="sssec-tuple-ident">
-<span id="identity"></span><h2><span class="section-number">7.5.4. </span>Identity<a class="headerlink" href="#sssec-tuple-ident" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="sssec-tuple-ident">
+<span id="identity"></span><h2><span class="section-number">7.5.4. </span>Identity<a class="headerlink" href="#sssec-tuple-ident" title="Permalink to this heading"></a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">identity</span></code> is every field assigned their type-appropriate <code class="docutils literal notranslate"><span class="pre">identity</span></code>
 for <code class="docutils literal notranslate"><span class="pre">tuple</span></code>.</p>
-</div>
-<div class="section" id="literals">
-<span id="sssec-tuple-lit"></span><h2><span class="section-number">7.5.5. </span>Literals<a class="headerlink" href="#literals" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="literals">
+<span id="sssec-tuple-lit"></span><h2><span class="section-number">7.5.5. </span>Literals<a class="headerlink" href="#literals" title="Permalink to this heading"></a></h2>
 <p>A <code class="docutils literal notranslate"><span class="pre">tuple</span></code> literal is constructed by grouping values together between
 parentheses in a comma separated list. For example:</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>tuple(integer, string[5], integer[3])  my_tuple = (x, &quot;hello&quot;, [1, 2, 3]);
@@ -417,9 +331,9 @@ const my_tuple = (x, &quot;hello&quot;, [1, 2, 3]);
 tuple(integer, real r, integer[10]) tuple_var = (1, 2.1, [i in 1..10 | i]);
 </pre></div>
 </div>
-</div>
-<div class="section" id="operations">
-<span id="sssec-tuple-ops"></span><h2><span class="section-number">7.5.6. </span>Operations<a class="headerlink" href="#operations" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="operations">
+<span id="sssec-tuple-ops"></span><h2><span class="section-number">7.5.6. </span>Operations<a class="headerlink" href="#operations" title="Permalink to this heading"></a></h2>
 <p>The following operations are defined on <code class="docutils literal notranslate"><span class="pre">tuple</span></code> values. In all of the
 usage examples <code class="docutils literal notranslate"><span class="pre">tuple-expr</span></code> means some <code class="docutils literal notranslate"><span class="pre">tuple</span></code> yielding expression,
 while <code class="docutils literal notranslate"><span class="pre">int_lit</span></code> is an <code class="docutils literal notranslate"><span class="pre">integer</span></code> literal as defined in <a class="reference internal" href="integer.html#sssec-integer-lit"><span class="std std-ref">Integer Literals</span></a> and <code class="docutils literal notranslate"><span class="pre">id</span></code> is
@@ -491,69 +405,44 @@ including literals:</p>
 </tr>
 </tbody>
 </table>
-</div>
-<div class="section" id="type-casting-and-type-promotion">
-<h2><span class="section-number">7.5.7. </span>Type Casting and Type Promotion<a class="headerlink" href="#type-casting-and-type-promotion" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="type-casting-and-type-promotion">
+<h2><span class="section-number">7.5.7. </span>Type Casting and Type Promotion<a class="headerlink" href="#type-casting-and-type-promotion" title="Permalink to this heading"></a></h2>
 <p>To see the types that <code class="docutils literal notranslate"><span class="pre">tuple</span></code> may be cast and/or promoted to, see
 the sections on <a class="reference internal" href="../type_casting.html#sec-typecasting"><span class="std std-ref">Type Casting</span></a> and <a class="reference internal" href="../type_promotion.html#sec-typepromotion"><span class="std std-ref">Type Promotion</span></a>
 respectively.</p>
-</div>
-</div>
+</section>
+</section>
 
 
            </div>
-           
           </div>
-          <footer>
-  
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="interval.html" class="btn btn-neutral float-right" title="7.6. Interval" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="real.html" class="btn btn-neutral float-left" title="7.4. Real" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="real.html" class="btn btn-neutral float-left" title="7.4. Real" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="interval.html" class="btn btn-neutral float-right" title="7.6. Interval" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
-  
 
   <hr/>
 
   <div role="contentinfo">
-    <p>
-        
-        &copy; Copyright 2020, cmput415
-
-    </p>
+    <p>&#169; Copyright 2020, cmput415.</p>
   </div>
-    
-    
-    
-    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
-    
-    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
-    
-    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
 
 </footer>
-
         </div>
       </div>
-
     </section>
-
   </div>
-  
-
-  <script type="text/javascript">
+  <script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(false);
       });
-  </script>
-
-  
-  
-    
-   
+  </script> 
 
 </body>
 </html>
