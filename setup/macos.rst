@@ -6,7 +6,7 @@ This section details how to setup the Mac OS development environment.
 Installing Developer tools
 --------------------------
 
-It’s likely that you’ve already done this since you’re take a high level CS
+It's likely that you've already done this since you're take a high level CS
 class, but in the event that you have a fresh install, run the following command
 to install Mac OS developer tools:
 
@@ -18,7 +18,7 @@ to install Mac OS developer tools:
 Installing Homebrew
 -------------------
 
-Homebrew is a package manager for Mac OS. If you don’t have it yet, you can
+Homebrew is a package manager for Mac OS. If you don't have it yet, you can
 read about it `here <https://brew.sh/>`__. Otherwise, install it via the command
 on their front page:
 
@@ -86,7 +86,7 @@ ANTLR 4 C++ Runtime
 -------------------
 
 This section details how to install the ANTLR 4 C++ runtime on Mac OS assuming
-your default shell is bash. If you’ve changed your shell from bash it’s assumed
+your default shell is bash. If you've changed your shell from bash it's assumed
 that you are familiar enough with your environment that you can modify these
 steps appropriately.
 
@@ -97,7 +97,7 @@ steps appropriately.
 
     $ mkdir $HOME/antlr
 
-   We’ll refer to this directory (``$HOME/antlr``) as ``ANTLR_PARENT``.
+   We'll refer to this directory (``$HOME/antlr``) as ``ANTLR_PARENT``.
 
 #. Next we need to clone the runtime source from GitHub:
 
@@ -106,19 +106,19 @@ steps appropriately.
     $ cd <ANTLR_PARENT>
     $ git clone https://github.com/antlr/antlr4.git
 
-   This should create a new folder called ``antlr4`` in ``ANTLR_PARENT``. We’ll
+   This should create a new folder called ``antlr4`` in ``ANTLR_PARENT``. We'll
    refer to this new directory (``<ANTLR_PARENT>/antlr4``) as ``SRC_DIR``.
 
-#. We will be using ANTLR 4.8 so we need to change to the git tag for version
-   4.8.
+#. We will be using ANTLR 4.10.1 so we need to change to the git tag for version
+   4.10.1.
 
    .. code-block:: console
 
     $ cd <SRC_DIR>
-    $ git checkout 4.8
+    $ git checkout 4.10.1
 
    This will give you a warning about being in a “detached head state”. Since we
-   won’t be changing anything in ANTLR there is no need to create a branch. No
+   won't be changing anything in ANTLR there is no need to create a branch. No
    extra work is needed here.
 
 #. Now we need a place to build the runtime. CMake suggests making your build
@@ -129,10 +129,10 @@ steps appropriately.
     $ cd <SRC_DIR>
     $ mkdir antlr4-build
 
-   We’ll refer to this new directory (``<SRC_DIR>/antlr4-build``) as
+   We'll refer to this new directory (``<SRC_DIR>/antlr4-build``) as
    ``BUILD_DIR``.
 
-#. We need to have an install directory prepared before building since it’s
+#. We need to have an install directory prepared before building since it's
    referenced in the build step. This directory will have the headers and
    compiled ANTLR libraries put into it. To make the actual directory:
 
@@ -141,7 +141,7 @@ steps appropriately.
     $ cd <ANTLR_PARENT>
     $ mkdir antlr4-install
 
-   We’ll refer to this new directory (``<ANTLR_PARENT>/antlr4-install``) as
+   We'll refer to this new directory (``<ANTLR_PARENT>/antlr4-install``) as
    ``INSTALL_DIR``.
 
    Before continuing, if you're following this guide exactly, confirm your
@@ -155,7 +155,7 @@ steps appropriately.
         |   +-- antlr4-build/
         +-- antlr4-install/
 
-#. Finally, we’re ready to start the actual build process. Let’s begin by doing
+#. Finally, we're ready to start the actual build process. Let's begin by doing
    the generate and configure CMake step for the runtime. We need to do this
    while inside the build directory. As well, we need to tell it that we want a
    release build and to install it to a certain directory.
@@ -167,13 +167,13 @@ steps appropriately.
         -DCMAKE_BUILD_TYPE=RELEASE \
         -DCMAKE_INSTALL_PREFIX="<INSTALL_DIR>"
 
-   You will be presented with some CMake warnings but they’re safe to ignore.
+   You will be presented with some CMake warnings but they're safe to ignore.
 
 #. We can finally run ``make`` to build the library and install it. You can make
    the process significantly faster by running with multiple threads using the
    ``-j`` option and specifying a thread count. Using the option without a count
    will use unlimited threads. Be careful when using unlimited threads, the
-   build has failed in the past due to limited resources. This isn’t a big issue
+   build has failed in the past due to limited resources. This isn't a big issue
    for the build because you can always just try again with a limited number of
    threads but your computer may appear to hang due to being over capacity.
 
@@ -220,8 +220,8 @@ Installing CLion
 
    #. Pick your favorite UI. Then click ``Next: Toolchains``.
 
-   #. CLion bundles a version of CMake with it. If you’d prefer to use the one
-      we’ve just installed change ``Bundled`` to ``/usr/local/bin/cmake``. The
+   #. CLion bundles a version of CMake with it. If you'd prefer to use the one
+      we've just installed change ``Bundled`` to ``/usr/local/bin/cmake``. The
       info text beneath should update with a checkmark and the version of your
       installed cmake. Click ``Next: Default Plugins``.
 
@@ -267,7 +267,7 @@ visualising the parse tree for a grammar rule and an input.
 Installing ANTLR Generator
 --------------------------
 
-If you’d like to manually generate a listener or visitor you need to have the
+If you'd like to manually generate a listener or visitor you need to have the
 ANTLR generator. Follow these steps into install it:
 
 #. Make the destination directory. I would suggest putting this in
@@ -279,15 +279,15 @@ ANTLR generator. Follow these steps into install it:
 
     $ mkdir <INSTALL_DIR>/bin
 
-   We’ll refer to this new directory (e.g. ``<INSTALL_DIR>/bin``) as
+   We'll refer to this new directory (e.g. ``<INSTALL_DIR>/bin``) as
    ``ANTLR_BIN``.
 
 #. Next, download the tool.
 
    .. code-block:: console
 
-    $ curl https://www.antlr.org/download/antlr-4.8-complete.jar \
-        -o <ANTLR_BIN>/antlr-4.8-complete.jar
+    $ curl https://www.antlr.org/download/antlr-4.10.1-complete.jar \
+        -o <ANTLR_BIN>/antlr-4.10.1-complete.jar
 
 #. Now we can make it easy to use. Add the following lines to your
    ``~/.bash_profile``:
@@ -295,7 +295,7 @@ ANTLR generator. Follow these steps into install it:
    .. code-block:: shell
 
     # C415 ANTLR generator.
-    export CLASSPATH="<ANTLR_BIN>/antlr-4.8-complete.jar:$CLASSPATH"
+    export CLASSPATH="<ANTLR_BIN>/antlr-4.10.1-complete.jar:$CLASSPATH"
     alias antlr4="java -Xmx500M org.antlr.v4.Tool"
     alias grun='java org.antlr.v4.gui.TestRig'
 
@@ -312,30 +312,21 @@ ANTLR generator. Follow these steps into install it:
 Installing the Tester
 ---------------------
 
-This is the tool you’ll be using for testing your solutions locally. You’ll be
+This is the tool you'll be using for testing your solutions locally. You'll be
 building it yourself so that any changes later are easily obtainable.
 
 If you encounter issues, please log them on the `GitHub issue tracker
 <https://github.com/cmput415/Tester/issues>`__ or, if you want to, submit a pull
-request and we’ll review it!
+request and we'll review it!
 
-#. The testing tool uses C++17 features (that have been experimental since
-   C++11) that the default clang installation doesn’t ship with by default.
-   While it *is* possible to build with Clang, the process and invocation is
-   much more involved. Why stress ourselves when GCC can save us the trouble?
-
-   .. code-block:: console
-
-    $ brew install gcc@10
-
-#. We’ll build the tool in your home directory.
+#. We'll build the tool in your home directory.
 
    .. code-block:: console
 
     $ cd $HOME
     $ git clone https://github.com/cmput415/Tester.git
 
-#. Next we’ll make the build directory.
+#. Next we'll make the build directory.
 
    .. code-block:: console
 
@@ -346,10 +337,10 @@ request and we’ll review it!
 
    .. code-block:: console
 
-    # cd build
-    # cmake .. -DCMAKE_CXX_COMPILER="g++-10" -DCMAKE_C_COMPILER="gcc-10"
+    $ cd build
+    $ cmake ..
 
-   The flags on the end ensure we’re using GCC to compile this.
+   The flags on the end ensure we're using GCC to compile this.
 
 #. Finally, build the project.
 
@@ -357,7 +348,7 @@ request and we’ll review it!
 
     $ make
 
-#. We could refer directly to the executable every time, but it’s probably
+#. We could refer directly to the executable every time, but it's probably
    easier to just have it on our path. Add these lines to the end of
    ``~/.bash_profile``.
 
@@ -382,7 +373,7 @@ README <https://github.com/cmput415/Tester/blob/master/README.md>`__.
 Testing Your Environment
 ------------------------
 
-Everything should be setup! Let’s just make sure.
+Everything should be setup! Let's just make sure.
 
 #. Download `this tarball <_static/demo.tar.gz>`__.
 
@@ -404,14 +395,14 @@ Everything should be setup! Let’s just make sure.
 
     $ make
 
-#. The project should compile with no warnings or errors. If there’s a problem,
+#. The project should compile with no warnings or errors. If there's a problem,
    you may have set something up incorrectly. Otherwise, congrats!
 
-#. If you’d like to start playing with the tools this is a good opportunity!
+#. If you'd like to start playing with the tools this is a good opportunity!
    Here are a few challenges you can attempt with the files provided:
 
    #. The tool is asking for an input file. Examine the grammar and C++ source
-      and figure out how to construct an appropriate input where ANTLR doesn’t
+      and figure out how to construct an appropriate input where ANTLR doesn't
       complain about extra tokens.
 
    #. Add floats.
@@ -426,8 +417,8 @@ Everything should be setup! Let’s just make sure.
 Creating a Personal Project
 ---------------------------
 
-We’re providing two ways for you to play with ANTLR and C++. The first way uses
-the Makefile from the demo you’ve just done, and the other uses CMake to set up
+We're providing two ways for you to play with ANTLR and C++. The first way uses
+the Makefile from the demo you've just done, and the other uses CMake to set up
 a project using the CMake modules that are also used by your assgnments.
 
 .. _makefile-1:
@@ -443,20 +434,20 @@ your folder. Alternatively you can download straight to your directory:
  $ curl https://cmput415.github.io/415-docs/setup/_static/Makefile -o Makefile
 
 This Makefile is both rather complex and simple. The internals are the
-complicated part. If you’d like to understand how the Makefile works then
+complicated part. If you'd like to understand how the Makefile works then
 everything is well documented. However, that complexity makes using it simple!
-So if you’d prefer to just use the Makefile then we can keep everything simple.
+So if you'd prefer to just use the Makefile then we can keep everything simple.
 
 First things first, your grammars. All grammars need to be in the same directory
-as the Makefile. If they aren’t, then they won’t be detected, generated, built,
+as the Makefile. If they aren't, then they won't be detected, generated, built,
 or linked.
 
 Next, your source files (``.cpp`` or ``.h(pp)``) must also be in the same
-directory as the Makefile. Again, if they aren’t, they won’t be detected, built,
+directory as the Makefile. Again, if they aren't, they won't be detected, built,
 or linked.
 
-As you can see, this isn’t the most scalable of directory structures but it is
-functional for playing with ANTLR and C++. To test that it’s working, create
+As you can see, this isn't the most scalable of directory structures but it is
+functional for playing with ANTLR and C++. To test that it's working, create
 your grammar file with:
 
 .. code-block::
@@ -472,14 +463,14 @@ And the file that has your main in it:
  #include "<grammar_name>Parser.h"
  int main() { return 0; }
 
-You should be able to make it and run the tool (it won’t produce any output):
+You should be able to make it and run the tool (it won't produce any output):
 
 .. code-block:: console
 
  $ make
  $ ./tool
 
-We’ve also enabled you to use the ANTLR GUI through the Makefile. First, make an
+We've also enabled you to use the ANTLR GUI through the Makefile. First, make an
 input file. Then, pass it to the Makefile ‘gui‘ rule:
 
 .. code-block:: console
@@ -494,9 +485,9 @@ the grammar, but usually it makes sense to test your "top level" rule. If the
 (type into your terminal). Terminate your input with EOF (ctrl+d on linux
 generally).
 
-You’re ready to start modifying the grammar and C++ source. Don’t be afraid to
+You're ready to start modifying the grammar and C++ source. Don't be afraid to
 add new source files and header files: style will eventually be part of your
-mark so starting here is a good idea! Feel free to cannibalise anything you’d
+mark so starting here is a good idea! Feel free to cannibalise anything you'd
 like from the demo files.
 
 .. _cmake-todo-1:
