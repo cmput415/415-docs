@@ -14,7 +14,7 @@ definitions to your ``~/.bashrc``.
 ::
 
      # C415 Predefinitions
-     source "/cshome/c415/415-resources/415env.sh"
+     source "/cshome/cmput415/415-resources/415env.sh"
 
 This should enable you to build manually using the command line. You should log
 out and back in so that the changes can take effect.
@@ -28,7 +28,7 @@ Installing CLion
    <https://www.jetbrains.com/clion/download/#section=linux>`__ and download
    *CLion* for Linux.
 
-#. Assuming you’ve downloaded the tarball to your ``~/Downloads`` folder, you
+#. Assuming you've downloaded the tarball to your ``~/Downloads`` folder, you
    can extract it to your home directory using the following command:
 
    .. code-block:: console
