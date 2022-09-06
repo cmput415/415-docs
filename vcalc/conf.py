@@ -18,7 +18,7 @@
 # -- Project information -----------------------------------------------------
 
 project = 'vcalc'
-copyright = '2020, cmput415'
+copyright = '2022, cmput415'
 author = 'cmput415'
 
 
