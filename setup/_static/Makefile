@@ -85,20 +85,20 @@ tool: $(GEN_RESULTS_COMP_CPP:.cpp=.o) $(SRC_CPP:.cpp=.o)
 	c++ -std=gnu++17 -Wall \
 		$(filter %.o, $^) $(ANTLRS) \
 		-I"$(ANTLRI)" -I"$(GEN_DIR)" \
-		-o tool
+		-o tool -pthread
 
 # How to generate object files for cpp files in the current directory. These are
 # personal source files. Depend on our specific source file and all of the
 # generated headers/objects.
 %.o: %.cpp $(GEN_RESULTS_COMP_CPP:.cpp=.o)
 	c++ -std=gnu++17 -Wall -Wno-attributes -I"$(ANTLRI)" -I"$(GEN_DIR)" \
-		-c "$<" -o "$@"
+		-c "$<" -o "$@" -pthread
 
 # How to generate object files for cpp files in the gen directory. These are
 # generated source files.
 $(GEN_DIR)%.o: $(GEN_DIR)%.cpp
 	c++ -std=gnu++17 -Wall -Wno-attributes -I"$(ANTLRI)" -I"$(GEN_DIR)" \
-		-c "$<" -o "$@"
+		-c "$<" -o "$@" -pthread
 
 # How to generate files from a grammar. The rule says it knows how to build any
 # generated h or cpp file in the gen dir and depends on the grammar file. If
