@@ -11,7 +11,7 @@ HFILES:=htaccess
 HFILESDOT:=$(foreach file, $(HFILES), .$(file))
 PDFS:=$(foreach file, $(DIRS), $(file).pdf)
 
-.PHONY: all remoteinstall github clean
+.PHONY: all github clean #remoteinstall
 
 all:
 	$(foreach dir, $(DIRS), $(MAKE) html -C $(dir);)
@@ -20,24 +20,25 @@ all:
 	$(foreach dir, $(DIRS), rm -rf $(dir)/_build/html/_sources/;)
 	$(foreach dir, $(DIRS), $(MAKE) latexpdf -C $(dir);)
 
-remoteinstall: all
-	@# Make the build directory and zip it.
-	mkdir .webdocs_build
-	$(foreach dir, $(DIRS), cp -r $(dir)/_build/html/ .webdocs_build/$(dir);)
-	$(foreach dir, $(DIRS), cp -r $(dir)/_build/latex/$(dir).pdf \
-		.webdocs_build/$(dir).pdf;)
-	$(foreach file, $(HFILES), cp base/$(file) .webdocs_build/.$(file);)
-	$(foreach file, $(FILES), cp base/$(file) .webdocs_build/$(file);)
-	tar -czf .build.tar.gz -C .webdocs_build $(DIRS) $(HFILESDOT) $(FILES) $(PDFS)
+# # This target no longer works
+# remoteinstall: all
+# 	@# Make the build directory and zip it.
+# 	mkdir .webdocs_build
+# 	$(foreach dir, $(DIRS), cp -r $(dir)/_build/html/ .webdocs_build/$(dir);)
+# 	$(foreach dir, $(DIRS), cp -r $(dir)/_build/latex/$(dir).pdf \
+# 		.webdocs_build/$(dir).pdf;)
+# 	$(foreach file, $(HFILES), cp base/$(file) .webdocs_build/.$(file);)
+# 	$(foreach file, $(FILES), cp base/$(file) .webdocs_build/$(file);)
+# 	tar -czf .build.tar.gz -C .webdocs_build $(DIRS) $(HFILESDOT) $(FILES) $(PDFS)
 
-	@# Move to ohaton and install it.
-	scp .build.tar.gz c415@ohaton.cs.ualberta.ca:~/.build.tar.gz
-	ssh c415@ohaton.cs.ualberta.ca \
-		'tar -xzf .build.tar.gz -C /compsci/webdocs/c415/web_docs/;'\
-		'rm -f .build.tar.gz'
+# 	@# Move to ohaton and install it.
+# 	scp .build.tar.gz c415@ohaton.cs.ualberta.ca:~/.build.tar.gz
+# 	ssh c415@ohaton.cs.ualberta.ca \
+# 		'tar -xzf .build.tar.gz -C /compsci/webdocs/c415/web_docs/;'\
+# 		'rm -f .build.tar.gz'
 
-	@# Clean up.
-	rm -rf .webdocs_build .build.tar.gz
+# 	@# Clean up.
+# 	rm -rf .webdocs_build .build.tar.gz
 
 github: all
 	rm -rf docs
