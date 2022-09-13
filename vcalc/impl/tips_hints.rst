@@ -54,7 +54,7 @@ Tips and Hints
    discrection.
 
 #. The demo that was presented in lab can be found
-   `here <https://webdocs.cs.ualberta.ca/%7Ec415/vcalc/static/labdemo.tar.gz>`__.
+   `here <../_static/labdemo.tar.gz>`__.
    Remember to set it up in CLion just like you did with your regular
    project (environment variables).
 
