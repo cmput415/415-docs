@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>3. Mac OS &mdash; setup  documentation</title>
@@ -12,11 +12,11 @@
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
-        <script src="_static/underscore.js"></script>
         <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
         <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
@@ -30,12 +30,16 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search"  style="background: #007C41" >
-            <a href="index.html" class="icon icon-home"> setup
-            <img src="_static/logo-reverse.png" class="logo" alt="Logo"/>
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            setup
+              <img src="_static/logo-reverse.png" class="logo" alt="Logo"/>
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -108,8 +112,8 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-      <li><span class="section-number">3. </span>Mac OS</li>
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active"><span class="section-number">3. </span>Mac OS</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/macos.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -127,7 +131,7 @@
 <p>It’s likely that you’ve already done this since you’re take a high level CS
 class, but in the event that you have a fresh install, run the following command
 to install Mac OS developer tools:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>xcode-select --install
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>xcode-select<span class="w"> </span>--install
 </pre></div>
 </div>
 </section>
@@ -136,12 +140,12 @@ to install Mac OS developer tools:</p>
 <p>Homebrew is a package manager for Mac OS. If you don’t have it yet, you can
 read about it <a class="reference external" href="https://brew.sh/">here</a>. Otherwise, install it via the command
 on their front page:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>/usr/bin/ruby -e <span class="s2">&quot;</span><span class="k">$(</span>curl -fsSL <span class="se">\</span>
-    https://raw.githubusercontent.com/Homebrew/install/master/install<span class="k">)</span><span class="s2">&quot;</span>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>/usr/bin/ruby<span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;</span><span class="k">$(</span>curl<span class="w"> </span>-fsSL<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>https://raw.githubusercontent.com/Homebrew/install/master/install<span class="k">)</span><span class="s2">&quot;</span>
 </pre></div>
 </div>
 <p>You can check that it succeeded by checking its version:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>brew --version
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>brew<span class="w"> </span>--version
 </pre></div>
 </div>
 <p>Homebrew itself is not a requirement, just an easy suggestion, but a package
@@ -153,7 +157,7 @@ packages.</p>
 <p>Installing from the Oracle download page requires a bunch of extra set up when
 instead you could just use our good friend Homebrew to install it (unfortunately
 you get the JDK not just the JRE).</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>brew cask install java
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>brew<span class="w"> </span>cask<span class="w"> </span>install<span class="w"> </span>java
 </pre></div>
 </div>
 </section>
@@ -161,20 +165,20 @@ you get the JDK not just the JRE).</p>
 <span id="installing-git-1"></span><h2><span class="section-number">3.4. </span>Installing Git<a class="headerlink" href="#installing-git" title="Permalink to this heading"></a></h2>
 <p>The Apple managed version of git should have been installed with your developer
 tools, you can test this by checking the version.</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>git --version
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>git<span class="w"> </span>--version
 </pre></div>
 </div>
 <p>(OPTIONAL) If you want a more recent version, you can install one through brew
 (or your favorite package manager). At the time of writing this, the versions
 only differ by two minor versions, so the difference is not significant.</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>brew install git
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>brew<span class="w"> </span>install<span class="w"> </span>git
 </pre></div>
 </div>
 </section>
 <section id="installing-cmake">
 <span id="installing-cmake-1"></span><h2><span class="section-number">3.5. </span>Installing CMake<a class="headerlink" href="#installing-cmake" title="Permalink to this heading"></a></h2>
 <p>Brew (or otherwise) makes this easy:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>brew install cmake
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>brew<span class="w"> </span>install<span class="w"> </span>cmake
 </pre></div>
 </div>
 </section>
@@ -187,14 +191,14 @@ steps appropriately.</p>
 <ol class="arabic">
 <li><p>To make things easy, we are going to do everything inside a new directory in
 your home directory.</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>mkdir <span class="nv">$HOME</span>/antlr
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>mkdir<span class="w"> </span><span class="nv">$HOME</span>/antlr
 </pre></div>
 </div>
 <p>We’ll refer to this directory (<code class="docutils literal notranslate"><span class="pre">$HOME/antlr</span></code>) as <code class="docutils literal notranslate"><span class="pre">ANTLR_PARENT</span></code>.</p>
 </li>
 <li><p>Next we need to clone the runtime source from GitHub:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span><span class="nb">cd</span> &lt;ANTLR_PARENT&gt;
-<span class="gp">$ </span>git clone https://github.com/antlr/antlr4.git
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span><span class="nb">cd</span><span class="w"> </span>&lt;ANTLR_PARENT&gt;
+<span class="gp">$ </span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/antlr/antlr4.git
 </pre></div>
 </div>
 <p>This should create a new folder called <code class="docutils literal notranslate"><span class="pre">antlr4</span></code> in <code class="docutils literal notranslate"><span class="pre">ANTLR_PARENT</span></code>. We’ll
@@ -202,8 +206,8 @@ refer to this new directory (<code class="docutils literal notranslate"><span cl
 </li>
 <li><p>We will be using ANTLR 4.10.1 so we need to change to the git tag for version
 4.10.1.</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span><span class="nb">cd</span> &lt;SRC_DIR&gt;
-<span class="gp">$ </span>git checkout <span class="m">4</span>.10.1
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span><span class="nb">cd</span><span class="w"> </span>&lt;SRC_DIR&gt;
+<span class="gp">$ </span>git<span class="w"> </span>checkout<span class="w"> </span><span class="m">4</span>.10.1
 </pre></div>
 </div>
 <p>This will give you a warning about being in a “detached head state”. Since we
@@ -212,8 +216,8 @@ extra work is needed here.</p>
 </li>
 <li><p>Now we need a place to build the runtime. CMake suggests making your build
 directory inside your source directory.</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span><span class="nb">cd</span> &lt;SRC_DIR&gt;
-<span class="gp">$ </span>mkdir antlr4-build
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span><span class="nb">cd</span><span class="w"> </span>&lt;SRC_DIR&gt;
+<span class="gp">$ </span>mkdir<span class="w"> </span>antlr4-build
 </pre></div>
 </div>
 <p>We’ll refer to this new directory (<code class="docutils literal notranslate"><span class="pre">&lt;SRC_DIR&gt;/antlr4-build</span></code>) as
@@ -222,8 +226,8 @@ directory inside your source directory.</p>
 <li><p>We need to have an install directory prepared before building since it’s
 referenced in the build step. This directory will have the headers and
 compiled ANTLR libraries put into it. To make the actual directory:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span><span class="nb">cd</span> &lt;ANTLR_PARENT&gt;
-<span class="gp">$ </span>mkdir antlr4-install
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span><span class="nb">cd</span><span class="w"> </span>&lt;ANTLR_PARENT&gt;
+<span class="gp">$ </span>mkdir<span class="w"> </span>antlr4-install
 </pre></div>
 </div>
 <p>We’ll refer to this new directory (<code class="docutils literal notranslate"><span class="pre">&lt;ANTLR_PARENT&gt;/antlr4-install</span></code>) as
@@ -242,10 +246,10 @@ directory structure looks like this:</p>
 the generate and configure CMake step for the runtime. We need to do this
 while inside the build directory. As well, we need to tell it that we want a
 release build and to install it to a certain directory.</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span><span class="nb">cd</span> &lt;BUILD_DIR&gt;
-<span class="gp">$ </span>cmake &lt;SRC_DIR&gt;/runtime/Cpp/ <span class="se">\</span>
-    -DCMAKE_BUILD_TYPE<span class="o">=</span>RELEASE <span class="se">\</span>
-    -DCMAKE_INSTALL_PREFIX<span class="o">=</span><span class="s2">&quot;&lt;INSTALL_DIR&gt;&quot;</span>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span><span class="nb">cd</span><span class="w"> </span>&lt;BUILD_DIR&gt;
+<span class="gp">$ </span>cmake<span class="w"> </span>&lt;SRC_DIR&gt;/runtime/Cpp/<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-DCMAKE_BUILD_TYPE<span class="o">=</span>RELEASE<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-DCMAKE_INSTALL_PREFIX<span class="o">=</span><span class="s2">&quot;&lt;INSTALL_DIR&gt;&quot;</span>
 </pre></div>
 </div>
 <p>You will be presented with some CMake warnings but they’re safe to ignore.</p>
@@ -257,7 +261,7 @@ will use unlimited threads. Be careful when using unlimited threads, the
 build has failed in the past due to limited resources. This isn’t a big issue
 for the build because you can always just try again with a limited number of
 threads but your computer may appear to hang due to being over capacity.</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>make install -j&lt;number of threads&gt;
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>make<span class="w"> </span>install<span class="w"> </span>-j&lt;number<span class="w"> </span>of<span class="w"> </span>threads&gt;
 </pre></div>
 </div>
 </li>
@@ -265,7 +269,7 @@ threads but your computer may appear to hang due to being over capacity.</p>
 editor, open <code class="docutils literal notranslate"><span class="pre">~/.bash_profile</span></code>, and add the following lines to the end,
 substituting appropriately:</p>
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="c1"># C415 ANTLR install</span>
-<span class="nb">export</span> <span class="nv">ANTLR_INS</span><span class="o">=</span><span class="s2">&quot;&lt;INSTALL_DIR&gt;&quot;</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">ANTLR_INS</span><span class="o">=</span><span class="s2">&quot;&lt;INSTALL_DIR&gt;&quot;</span>
 </pre></div>
 </div>
 <p><strong>Make sure there is no trailing /.</strong> Close and reopen your terminal for
@@ -277,7 +281,7 @@ things to take effect.</p>
 <span id="installing-clion-1"></span><h2><span class="section-number">3.7. </span>Installing CLion<a class="headerlink" href="#installing-clion" title="Permalink to this heading"></a></h2>
 <ol class="arabic">
 <li><p>Use Homebrew to install CLion:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>brew cask install clion
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>brew<span class="w"> </span>cask<span class="w"> </span>install<span class="w"> </span>clion
 </pre></div>
 </div>
 </li>
@@ -334,24 +338,24 @@ ANTLR generator. Follow these steps into install it:</p>
 <code class="docutils literal notranslate"><span class="pre">&lt;INSTALL_DIR&gt;/bin</span></code> since the assignments will already automatically
 download a copy there and duplicating this seems wasteful. If you want to put
 it elsewhere though, you can.</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>mkdir &lt;INSTALL_DIR&gt;/bin
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>mkdir<span class="w"> </span>&lt;INSTALL_DIR&gt;/bin
 </pre></div>
 </div>
 <p>We’ll refer to this new directory (e.g. <code class="docutils literal notranslate"><span class="pre">&lt;INSTALL_DIR&gt;/bin</span></code>) as
 <code class="docutils literal notranslate"><span class="pre">ANTLR_BIN</span></code>.</p>
 </li>
 <li><p>Next, download the tool.</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>curl https://www.antlr.org/download/antlr-4.10.1-complete.jar <span class="se">\</span>
-    -o &lt;ANTLR_BIN&gt;/antlr-4.10.1-complete.jar
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>curl<span class="w"> </span>https://www.antlr.org/download/antlr-4.10.1-complete.jar<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-o<span class="w"> </span>&lt;ANTLR_BIN&gt;/antlr-4.10.1-complete.jar
 </pre></div>
 </div>
 </li>
 <li><p>Now we can make it easy to use. Add the following lines to your
 <code class="docutils literal notranslate"><span class="pre">~/.bash_profile</span></code>:</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="c1"># C415 ANTLR generator.</span>
-<span class="nb">export</span> <span class="nv">CLASSPATH</span><span class="o">=</span><span class="s2">&quot;&lt;ANTLR_BIN&gt;/antlr-4.10.1-complete.jar:</span><span class="nv">$CLASSPATH</span><span class="s2">&quot;</span>
-<span class="nb">alias</span> <span class="nv">antlr4</span><span class="o">=</span><span class="s2">&quot;java -Xmx500M org.antlr.v4.Tool&quot;</span>
-<span class="nb">alias</span> <span class="nv">grun</span><span class="o">=</span><span class="s1">&#39;java org.antlr.v4.gui.TestRig&#39;</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">CLASSPATH</span><span class="o">=</span><span class="s2">&quot;&lt;ANTLR_BIN&gt;/antlr-4.10.1-complete.jar:</span><span class="nv">$CLASSPATH</span><span class="s2">&quot;</span>
+<span class="nb">alias</span><span class="w"> </span><span class="nv">antlr4</span><span class="o">=</span><span class="s2">&quot;java -Xmx500M org.antlr.v4.Tool&quot;</span>
+<span class="nb">alias</span><span class="w"> </span><span class="nv">grun</span><span class="o">=</span><span class="s1">&#39;java org.antlr.v4.gui.TestRig&#39;</span>
 </pre></div>
 </div>
 </li>
@@ -372,20 +376,20 @@ building it yourself so that any changes later are easily obtainable.</p>
 request and we’ll review it!</p>
 <ol class="arabic">
 <li><p>We’ll build the tool in your home directory.</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span><span class="nb">cd</span> <span class="nv">$HOME</span>
-<span class="gp">$ </span>git clone https://github.com/cmput415/Tester.git
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span><span class="nb">cd</span><span class="w"> </span><span class="nv">$HOME</span>
+<span class="gp">$ </span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/cmput415/Tester.git
 </pre></div>
 </div>
 </li>
 <li><p>Next we’ll make the build directory.</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span><span class="nb">cd</span> Tester
-<span class="gp">$ </span>mkdir build
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span><span class="nb">cd</span><span class="w"> </span>Tester
+<span class="gp">$ </span>mkdir<span class="w"> </span>build
 </pre></div>
 </div>
 </li>
 <li><p>Now, the configure and generate step.</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span><span class="nb">cd</span> build
-<span class="gp">$ </span>cmake ..
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span><span class="nb">cd</span><span class="w"> </span>build
+<span class="gp">$ </span>cmake<span class="w"> </span>..
 </pre></div>
 </div>
 <p>The flags on the end ensure we’re using GCC to compile this.</p>
@@ -399,13 +403,13 @@ request and we’ll review it!</p>
 easier to just have it on our path. Add these lines to the end of
 <code class="docutils literal notranslate"><span class="pre">~/.bash_profile</span></code>.</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="c1"># C415 testing utility.</span>
-<span class="nb">export</span> <span class="nv">PATH</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$HOME</span><span class="s2">/Tester/bin/:</span><span class="nv">$PATH</span><span class="s2">&quot;</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">PATH</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$HOME</span><span class="s2">/Tester/bin/:</span><span class="nv">$PATH</span><span class="s2">&quot;</span>
 </pre></div>
 </div>
 </li>
 <li><p>Close and reopen your terminal to have changes take effect. Test the command
 to make sure it works.</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>tester --help
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>tester<span class="w"> </span>--help
 </pre></div>
 </div>
 </li>
@@ -420,12 +424,12 @@ README</a>.</p>
 <ol class="arabic">
 <li><p>Download <a class="reference external" href="_static/demo-2022.tar.gz">this tarball</a>.</p></li>
 <li><p>Extract it via</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>tar -xzf demo-2022.tar.gz
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>tar<span class="w"> </span>-xzf<span class="w"> </span>demo-2022.tar.gz
 </pre></div>
 </div>
 </li>
 <li><p>Change into the extracted directory.</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span><span class="nb">cd</span> demo
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span><span class="nb">cd</span><span class="w"> </span>demo
 </pre></div>
 </div>
 </li>
@@ -462,7 +466,7 @@ a project using the CMake modules that are also used by your assgnments.</p>
 <span id="makefile-1"></span><h3><span class="section-number">3.12.1. </span>Makefile<a class="headerlink" href="#makefile" title="Permalink to this heading"></a></h3>
 <p>First, download <a class="reference external" href="_static/Makefile">the Makefile</a> from the link and put it in
 your folder. Alternatively you can download straight to your directory:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>curl https://cmput415.github.io/415-docs/setup/_static/Makefile -o Makefile
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>curl<span class="w"> </span>https://cmput415.github.io/415-docs/setup/_static/Makefile<span class="w"> </span>-o<span class="w"> </span>Makefile
 </pre></div>
 </div>
 <p>This Makefile is both rather complex and simple. The internals are the
@@ -484,8 +488,8 @@ ANYTHING: .;
 </pre></div>
 </div>
 <p>And the file that has your main in it:</p>
-<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;&lt;grammar_name&gt;Parser.h&quot;</span><span class="cp"></span>
-<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;&lt;grammar_name&gt;Parser.h&quot;</span>
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
 </pre></div>
 </div>
 <p>You should be able to make it and run the tool (it won’t produce any output):</p>
@@ -495,8 +499,8 @@ ANYTHING: .;
 </div>
 <p>We’ve also enabled you to use the ANTLR GUI through the Makefile. First, make an
 input file. Then, pass it to the Makefile ‘gui‘ rule:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span><span class="nb">echo</span> <span class="s2">&quot;this is a test&quot;</span> &gt; test.txt
-<span class="gp">$ </span>make gui <span class="nv">grammar</span><span class="o">=</span>&lt;grammar_name&gt; <span class="nv">rule</span><span class="o">=</span>&lt;top_rule&gt; <span class="nv">file</span><span class="o">=</span>test.txt
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;this is a test&quot;</span><span class="w"> </span>&gt;<span class="w"> </span>test.txt
+<span class="gp">$ </span>make<span class="w"> </span>gui<span class="w"> </span><span class="nv">grammar</span><span class="o">=</span>&lt;grammar_name&gt;<span class="w"> </span><span class="nv">rule</span><span class="o">=</span>&lt;top_rule&gt;<span class="w"> </span><span class="nv">file</span><span class="o">=</span>test.txt
 </pre></div>
 </div>
 <p>Any grammar in the same directory as the make file can be used in this fashion
