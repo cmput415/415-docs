@@ -1,10 +1,23 @@
 # 415-docs
 Holds all of the documentation for CMPUT 415.
 
-To make all the assignments and install the most recent version in the website use the command:
+To install the PyPI dependencies for building the documentation, use the
+command:
 
-make remoteinstall
+  ```shell
+  pip install -r requirements.txt
+  ```
+
+To make the documentation for the setup instructions and assignment
+specifications, use the command:
+
+  ```shell
+  make github
+  ````
+
+To install the most recent version in the website, push the changes to the
+master branch.
 
 The files are served from the following website:
 
-https://webdocs.cs.ualberta.ca/~c415
+  https://cmput415.github.io/415-docs
