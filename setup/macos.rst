@@ -375,13 +375,13 @@ Testing Your Environment
 
 Everything should be setup! Let's just make sure.
 
-#. Download `this tarball <_static/demo-2022.tar.gz>`__.
+#. Download `this tarball <_static/demo-2023.tar.gz>`__.
 
 #. Extract it via
 
    .. code-block:: console
 
-    $ tar -xzf demo-2022.tar.gz
+    $ tar -xzf demo-2023.tar.gz
 
 #. Change into the extracted directory.
 

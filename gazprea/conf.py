@@ -18,7 +18,7 @@
 # -- Project information -----------------------------------------------------
 
 project = 'gazprea'
-copyright = '2022, cmput415'
+copyright = '2023, cmput415'
 author = 'cmput415'
 
 
