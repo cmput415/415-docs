@@ -41,18 +41,18 @@ strings, you should use the print string ecall (``4``) in combination
 with the address of a string you’ve defined in the ``.data`` section
 containing only a new line character (see above).
 
-If you save the *RISC-V* output as ``program.s`` then you can run it with
-the command:
+If you save the *RISC-V* output as ``program.s`` then on the CS undergrad
+machines you can run it with the command:
 
 ::
 
-     java -jar .../rars1_6.jar program.s
+     /usr/local/bin/rars program.s
 
 If you wish to debug you may also launch RARS with the command:
 
 ::
 
-     java -jar .../rars1_6.jar
+     /usr/local/bin/rars
 
 which opens a graphical IDE that you can load your assembler code into.
 
