@@ -13,11 +13,11 @@ Tips and Hints
 -  As with the generator assignment, the ANTLR visitor pattern is best
    for implementing the interpreter.
 
--  The MIPS, ARM, and x86 compilers can be built using either the
+-  The RISC-V, ARM, and x86 compilers can be built using either the
    visitor or the listener pattern. The listener may be more appropriate
    so it is the suggested method.
 
--  A single listener or visitor should be able to handle the x86, MIPS,
+-  A single listener or visitor should be able to handle the x86, RISC-V,
    and ARM code generation. All that should change is the templated
    strings.
 
@@ -50,6 +50,6 @@ Tips and Hints
    -  Include type checking in this solution even though you are only
       required to handle integers in this assignment.
 
--  You are allowed to use MIPS pseudo-instructions.
+-  You are allowed to use RISC-V pseudo-instructions.
 
 

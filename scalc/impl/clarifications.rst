@@ -47,7 +47,7 @@ specification without cluttering it.
 
    Division is integer division. This means that any decimal portion of
    a division operation result is truncated (not rounded). No extra work
-   is required: this is the default in C++, MIPS, ARM, and X86. For
+   is required: this is the default in C++, RISC-V, ARM, and X86. For
    example:
 
    ::

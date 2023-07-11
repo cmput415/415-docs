@@ -7,7 +7,7 @@ code for the following three backends:
 
 -  *x86* assembly
 
--  *MIPS* assembly
+-  *RISC-V* assembly
 
 -  *ARM* assembly
 
@@ -19,7 +19,7 @@ each of the backends **you are not allowed to perform any computations
 in the compiler**. You must create assembly code to perform all of the
 computations that appear in the input file.
 
-| *MIPS* assembly will be run using *SPIM*
+| *RISC-V* assembly will be run using the RISC-V Assembler and Runtime Simulator, *RARS*
 | *x86* assembly will be assembled using the nasm assembler and run
   natively.
 | *ARM* assembly will be compiled using the *ARM* toolchain (assembler
