@@ -88,4 +88,4 @@ integer expressions.
    start/inja
    start/testing
 
-.. |expectedForm| image:: assets/images/expectedForm.png
+.. |expectedForm| image:: assets/images/scalc-class.png
