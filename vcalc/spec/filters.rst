@@ -15,7 +15,7 @@ only in the scope of the generator.
 
 As in a generator, the domain may be any vector-valued expression which
 includes identifiers (that are vector typed), ranges, generators,
-filters, and index expressions with avector index. The expression must
+filters, and index expressions with a vector index. The expression must
 evaluate to a boolean. This means that if the result of the expression
 is an integer it will be implicitly demoted to a boolean, but a vector
 result is an *error*.

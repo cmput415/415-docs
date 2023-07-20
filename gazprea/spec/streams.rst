@@ -199,7 +199,7 @@ whitespace. For example, with this program:
 
   i -> std_output;
   c -> std_output;
-  '$' ->
+  '$' -> std_output;
 
 and the input stream (with ``*`` representing ``' '``):
 

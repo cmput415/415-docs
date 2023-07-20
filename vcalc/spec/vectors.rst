@@ -21,4 +21,4 @@ range whose first bound is greater than the second bound. Once you have
 an empty vector, other operations may also produce empty vectors. That
 is, binary operations between an empty vector and another empty vector
 or a scalar, indexing by an empty vector, or using an empty vector as a
-generator or filter domain will also result in an empty result vectors.
+generator or filter domain will also result in an empty result vector.

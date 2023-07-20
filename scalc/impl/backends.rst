@@ -6,25 +6,25 @@ three backends:
 
 -  :ref:`ssec:backend_x86` assembly
 
--  :ref:`ssec:backend_mips` assembly
+-  :ref:`ssec:backend_risc` assembly
 
 -  :ref:`ssec:backend_arm` assembly
 
 You must also create an :ref:`ssec:backend_interp` for *SCalc*
 
-.. _ssec:backend_mips:
+.. _ssec:backend_risc:
 
-MIPS
-----
+RISC-V
+------
 
 We recommend that you implement variables in the ``.data`` segment of
-your assembly code using ``.word`` entries. The general syntax for MIPS
+your assembly code using ``.word`` entries. The general syntax for RISC-V
 assembly is as follows:
 
 ::
 
      .data
-     _newline: .asciiz "\n"
+     _newline: .asciz "\n"
      var1: .word 0
      var2: .word 0
      ...
@@ -32,37 +32,30 @@ assembly is as follows:
      .text
      main:
         <your generated code goes here>
-        li   $v0, 10
-        syscall
+        li   a7, 10
+        ecall
 
-This reference has a `table of
-syscalls <http://courses.missouristate.edu/KenVollmar/Mars/Help/SyscallHelp.html>`__.
-To print integers you should use the print int syscall (``1``). To print
-strings, you should use the print string syscall (``4``) in combination
+This reference is the `RISC-V Assembler and Runtime Simulator (RARS) <https://github.com/TheThirdOne/rars>`, which includes a list of available syscalls.
+To print integers you should use the print int ecall (``1``). To print
+strings, you should use the print string ecall (``4``) in combination
 with the address of a string you’ve defined in the ``.data`` section
 containing only a new line character (see above).
 
-If you save the *MIPS* output as ``program.s`` then you can run it with
-the command:
+If you save the *RISC-V* output as ``program.s`` then on the CS undergrad
+machines you can run it with the command:
 
 ::
 
-     spim -file program.s
+     /usr/local/bin/rars program.s
 
-If you wish to debug you may also launch spim with the command:
-
-::
-
-     spim
-
-and then at the spim prompt you can load your file with:
+If you wish to debug you may also launch RARS with the command:
 
 ::
 
-     load "program.s"
+     /usr/local/bin/rars
 
-The double quotes are necessary. You can type ``help`` to see the
-commands that spim provides.
+which opens a graphical IDE that you can load your assembler code into.
+
 
 .. _ssec:backend_x86:
 
@@ -195,7 +188,7 @@ a call to ``printf`` in *ARM* assembly:
 Aside from the difference in calling convention, this code is very
 similar to the *x86* example. As well, declaring the ``_format_string``
 is a lot easier because it has a null-terminated string directive and
-can parse ``\n`` like *MIPS*.
+can parse ``\n`` like *RISC-V*.
 
 *ARMv7-A* lacks a division instruction. Therefore, we have to call the
 subroutine ``__aeabi_idiv`` to perform integer division. The following

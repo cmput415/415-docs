@@ -23,7 +23,7 @@ ssh. Again, you need to edit ``inDir`` with the absolute path of
 ``…/tests/output``, and finally ``testedExecutablePaths`` with your ccid
 and the absolute path of ``…/bin/scalc``.
 
-This configuration will run the *MIPS, x86, ARM, and interpreter*
+This configuration will run the *RISC-V, x86, ARM, and interpreter*
 configurations of your compiler against all of your tests.
 
 Running the tester should now run your tests with your solution. Note

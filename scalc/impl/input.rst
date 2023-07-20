@@ -12,7 +12,7 @@ this form:
 
 Mode can be one of these four values:
 
--  ``mips``
+-  ``risc``
 
 -  ``x86``
 
