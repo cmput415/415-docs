@@ -10,7 +10,7 @@ layout.
      |   +-- antlr_generate.cmake
      |   +-- get_antlr.cmake
      |   +-- get_antlr_manual.cmake
-     |   +-- get_llvm.cmake
+     |   +-- get_mlir.cmake
      |   +-- symlink_to_bin.cmake
      +-- CMakeLists.txt
      +-- grammar
@@ -20,10 +20,15 @@ layout.
      +-- LICENSE.md
      +-- README.md
      +-- scripts
-     |   +-- configureLLVM.sh
+     |   +-- configureMLIR.sh
      +-- src
      |   +-- CMakeLists.txt
      |   +-- main.cpp
+     +-- runtime
+         +-- CMakeLists.txt
+         +-- src
+             +-- CMakeLists.txt
+             +-- placeholder.cpp
      +-- tests
          +-- input
          |   +-- ...
