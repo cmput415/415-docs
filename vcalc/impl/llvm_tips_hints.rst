@@ -1,10 +1,10 @@
-LLVM Tips and Hints
+MLIR Tips and Hints
 ===================
 
 This section is likely to be constantly updated as new questions are
 asked or useful things are found. You will be notified as appropriate.
 
--  It may be helpful to find out how *clang* translates equivalent *C*
+-  It may be helpful to find out how ``clang`` translates equivalent *C*
    programs into *LLVM IR*. You can ask *clang* to output its generated
    *LLVM IR* via this command:
 
@@ -25,36 +25,21 @@ asked or useful things are found. You will be notified as appropriate.
    forums. The instruction generation function is often found under the
    same name in the IR builder.
 
-   LLVM IR is not static and can change between versions. Often, things
-   are not too different so using a different version will not affect
-   you. If things are not working out and you would like to be
-   absolutely sure, you can build *clang* yourself or use the executable
-   that has been already built for you on the CSC lab machines (need to
-   be sourcing our setup files). We operate from the release_60 branch
-   in the `c415 repository <https://github.com/cmput415/clang>`__. The
-   version command thus produces:
+-  It can be a little harder to find programs that can emit MLIR.
+   ``Tensorflow`` and ``flang`` (Fortran compiler) are two or the more well-known
+   compilers that use MLIR, but both are admittedly niche. As an alternative,
+   you can use the ``mlir::dump()`` method, which works on all MLIR operations
+   including modules and functions. The MLIR framework provides several tools
+   that can parse and work with files containing MLIR. In particular,
+   `mlir-opt <https://gist.github.com/segeljakt/ef974041bd529389ec7895a92f3185e6>`__ can be used to run almost every optimization or transformation pass that
+   exists on your MLIR output.
 
-   ::
-
-            clang version 6.0.1 (https://github.com/cmput415/clang.git 2f27999df400d17b33cdd412fdd606a88208dfcc) (https://github.com/cmput415/llvm.git 2c9cf4f65f36fe91710c4b1bfd2f8d9533ac01b5)
-            Target: x86_64-unknown-linux-gnu
-            Thread model: posix
-            InstalledDir: /cshome/c415/415-resources/llvmi/bin
-
--  The *LLVM* interface has its own small optimisations built in. Often
-   this is only instruction reduction. Be aware that you may find code
-   that you emitted to be missing. The easiest to see case is constant
-   folding. If two constants are operated on, the operation will be
-   completed before emitting any code and instead you will see only
-   their result as a constant.
-
-   You can disable code folding by adding ``NoFolder`` to your IRBuilder.
-
-::
-
-   #include "llvm/IR/IRBuilder.h"
-   #include "llvm/IR/NoFolder.h"
-   llvm::IRBuilder<llvm::NoFolder> noFoldBuilder;
+-  While there appears to be copious quantities of *MLIR/LLVM* documentation,
+   it can be frustatingly difficult to find documentation or examples of
+   something you care about. One of the more effective tools is ``grep``,
+   especially when used on the MLIR repository. ``git grep`` is automatically
+   recursive, but because a lot of MLIR is generated at build time, ``grep -R``
+   will search files in the build tree but outside the repository.
 
 -  Sometimes *LLVM* generates unexpected (but correct) code. For
    example, requesting an integer cast can generate a multitude of
@@ -83,30 +68,26 @@ asked or useful things are found. You will be notified as appropriate.
 
    You can make sure there is no naming conflicts by either suffixing or
    prefixing your internal runtime variables or all of the program
-   variables. *LLVM IR* allows ``.`` characters in variable names while
+   variables. *MLIR* and *LLVM* allow ``.`` characters in variable names while
    *VCalc* does not. This allows for easily guaranteed conflict-free
    names.
 
--  Most instructions generated give you the opportunty to name the
-   result if you want. While you don’t need to, it can help you debug
-   when things are going wrong.
-
--  *LLVM* has an automatic way to verify modules for you. It can be a
+-  *MLIR* has an automatic way to verify modules for you. It can be a
    good idea to use it just before you output your code to make sure
    everything makes sense. This can be extremely helpful for noticing
    small errors. Here’s a basic invocation for your output using the
    verifier.
 
    ::
+            #include "mlir/IR/Verifier.h"
 
-            #include "llvm/IR/Verifier.h"
-            #include "llvm/Support/raw_os_ostream.h"
-            #include <iostream>
             ...
-            llvm::raw_os_ostream llOut(outStream);
-            llvm::raw_os_ostream llErr(std::cerr);
-            llvm::verifyModule(mymodule, &llErr);
-            myModule.print(llOut, nullptr);
+            if (mlir::failed(mlir::verify(module)))
+               std::cerr << "verification failed :-(" << std::endl;
+
+-  **DO NOT USE MLIR TENSOR TYPES**. These are abstract types that have no
+   memory layout or data pointers. This abstraction supports high level
+   optimization but requires an involved lowering and bufferization process.
 
 -  **DO NOT USE LLVM IR VECTOR TYPES**. These types are designed for
    Single Instruction Multiple Data (SIMD) processing which require
@@ -124,110 +105,97 @@ asked or useful things are found. You will be notified as appropriate.
 
    ::
 
-            #include "llvm/IR/DerivedTypes.h"
-            #include "llvm/IR/TypeBuilder.h"
-            #include "llvm/Support/Cast.h"
+            #include "mlir/Dialect/LLVMIR/LLVMDialect.h"
+            #include "mlir/IR/BuiltinAttributes.h"
+            #include "mlir/IR/TypeRange.h"
+            #include "mlir/IR/Builders.h"
+            #include "mlir/IR/BuiltinOps.h"
+            #include "mlir/IR/Value.h"
+
             ...
-            // Create main function, returns int, takes no args.
-            llvm::FunctionType *mainTy = llvm::TypeBuilder<int(), false>::get(ctx);
-            auto *mainFunc = llvm::cast<llvm::Function>(mod.getOrInsertFunction("main", mainTy));
+            // For our purposes, the prototype for main can be "int main()"
+            mlir::Type intType = mlir::IntegerType::get(&context, 32);
+            auto mainType = mlir::LLVM::LLVMFunctionType::get(intType, {}, false);
+            mlir::LLVM::LLVMFuncOp mainFunc = builder->create<mlir::LLVM::LLVMFuncOp>(builder->getUnknownLoc(), "main", mainType);
 
-            // Create an entry block and set the inserter.
-            llvm::BasicBlock *entry = llvm::BasicBlock::Create(ctx, "entry", mainFunc);
-            ir.SetInsertPoint(entry);
+            // Create an entry block and set the inserter.            
+            mlir::Block *entry = mainFunc.addEntryBlock();
+            builder->setInsertionPointToStart(entry);
 
--  When you run ``lli`` many common *c* functions are available, in
+-  When you run ``lli`` many common *C* functions are available, in
    particular you want ``printf`` to do your printing. To get
    ``printf``, you need to add it to your module similarly to adding
    your ``main``, but you do *not* define it. This corresponds to your
-   *c*-style forward declare and will make sure that llvm links
+   *C*-style forward declaration and will make sure that llvm links
    ``printf`` into you executable. Here’s your boilerplate code where
-   ``module`` is your ``llvm::Module``:
+   ``module`` is your ``mlir::ModuleOp::Module``:
 
    ::
 
-            #include "llvm/IR/Attributes.h"
-            #include "llvm/IR/DerivedTypes.h"
-            #include "llvm/IR/Function.h"
-            #include "llvm/IR/TypeBuilder.h"
-            #include "llvm/Support/Cast.h"
-            ...
-            // Declare printf. Returns int, takes string and variadic args.
-            llvm::FunctionType *printfTy = llvm::TypeBuilder<int(char *, ...), false>::get(ctx);
-            auto *printfFunc = llvm::cast<llvm::Function>(module.getOrInsertFunction("printf", fTy));
+            #include "mlir/Dialect/LLVMIR/LLVMDialect.h"
+            #include "mlir/IR/TypeRange.h"
+            #include "mlir/IR/Builders.h"
 
-            // Add the suggested argument attributes.
-            printfFunc->addAttribute(1u, llvm::Attribute::NoAlias);
-            printfFunc->addAttribute(1u, llvm::Attribute::NoCapture);
+            ...
+            // Create a function declaration for printf, the signature is:
+            //   * `i32 (i8*, ...)`
+            auto llvmI8PtrTy = mlir::LLVM::LLVMPointerType::get(charType);
+            llvmFnType = mlir::LLVM::LLVMFunctionType::get(intType, llvmI8PtrTy,
+                                                           /*isVarArg=*/true);
+
+            // Insert the printf declaration into the body of the parent module.
+            builder->create<mlir::LLVM::LLVMFuncOp>(loc, "printf", llvmFnType);
 
 -  You may need to declare global constants in your module. The method
    for integers is similar to strings, but we show strings here because
    you will need it for use with ``printf``. For example, if I wanted to
-   create a ``printf`` format string for integers (``module`` is
-   ``llvm::Module`` and ``context`` is ``llvm::Context``):
+   create a ``printf`` format string for integers (``module`` is type
+   ``mlir::ModuleOp`` and ``context`` is ``mlir::MLIRContext``):
 
    ::
 
-            #include "llvm/IR/Constant.h"
-            #include "llvm/IR/GlobalVariable.h"
-            #include "llvm/Support/Cast.h"
+            #include "mlir/Dialect/LLVMIR/LLVMDialect.h"
+            #include "mlir/IR/BuiltinAttributes.h"
+
             ...
-            // Create the constant data array of characters.
-            llvm::Constant *intFormatStr = llvm::ConstantDataArray::getString(context, "%d");
-
-            // Create the global space we will use. The string "intFormatStr" is the name you will need to
-            // to use to ask for this value later to get it from the module.
-            auto *intFormatStrLoc =
-              llvm::cast<llvm::GlobalVariable>(
-                module.getOrInsertGlobal("intFormatStr", intFormatStr->getType())
-              );
-
-            // Set the location to be initialised by the constant.
-            intFormatStrLoc->setInitializer(intFormatStr);
+            // Create the global string "\n"
+            mlir::Type charType = mlir::IntegerType::get(&context, 8);
+            auto gvalue = mlir::StringRef("\n\0", 2);
+            auto type = mlir::LLVM::LLVMArrayType::get(charType, gvalue.size());
+            builder->create<mlir::LLVM::GlobalOp>(loc, type, /*isConstant=*/true,
+                               mlir::LLVM::Linkage::Internal, "newline",
+                               builder->getStringAttr(gvalue), /*alignment=*/0);
 
 -  Calling functions is roughly the same in all places, but ``printf``
    can be a little annoying to begin with because of the way it is
    defined, so here is some more boilerplate code for calling that as
-   well (``module`` is ``llvm::Module``):
+   well (``module`` is ``mlir::ModuleOp``):
 
    ::
 
-            #include "llvm/IR/Function.h"
-            #include "llvm/Support/Cast.h"
+            #include "mlir/Dialect/LLVMIR/LLVMDialect.h"
+            #include "mlir/IR/Builders.h"
+            #include "mlir/IR/BuiltinOps.h"
+            #include "mlir/IR/Value.h"
+
             ...
-            // Note that we use getFunction not getOrInsertFunction. This will blow up if you haven't
-            // previously defined printf in your module. See above.
-            llvm::Function *printfFunc = module.getFunction("printf");
+            mlir::LLVM::GlobalOp global;
+            if (!(global = module.lookupSymbol<mlir::LLVM::GlobalOp>("newline"))) {
+                llvm::errs() << "missing format string!\n";
+                return;
+            }
 
-            // Get your string to print.
-            auto *formatStrGlobal = llvm::cast<llvm::Value>(mod.getGlobalVariable("my string name"));
+            // Get the pointer to the first character in the global string.
+            mlir::Value globalPtr = builder->create<mlir::LLVM::AddressOfOp>(loc, global);
+            mlir::Value cst0 = builder->create<mlir::LLVM::ConstantOp>(loc, builder->getI64Type(),
+                                                        builder->getIndexAttr(0));
 
-            // The type of your string will be [n x i8], it needs to be i8*, so we cast here. We
-            // explicitly use the type of printf's first arg to guarantee we are always right.
-            llvm::Value *formatStr =
-              ir.CreatePointerCast(formatStrGlobal, printfFunc->arg_begin()->getType(), "formatStr");
+            mlir::Type charType = mlir::IntegerType::get(&context, 8);
+            mlir::Value newLine = builder->create<mlir::LLVM::GEPOp>(loc,
+                          mlir::LLVM::LLVMPointerType::get(charType),
+                          globalPtr, mlir::ArrayRef<mlir::Value>({cst0, cst0}));
 
-            // Get our value.
-            llvm::Value *value = <appropriate code to get your value to print>;
+            mlir::LLVM::LLVMFuncOp printfFunc = module.lookupSymbol<mlir::LLVM::LLVMFuncOp>("printf");
+            builder->create<mlir::LLVM::CallOp>(loc, printfFunc, newLine);
 
-            // Call printf. Printing multiple values is easy: just add to the {}.
-            ir.CreateCall(printfF, {formatStr, value});
-
--  In case you wanted calloc (or malloc) as well:
-
-   ::
-
-              #include "llvm/IR/Attributes.h"
-              #include "llvm/IR/DerivedTypes.h"
-              #include "llvm/IR/Function.h"
-              #include "llvm/IR/TypeBuilder.h"
-              #include "llvm/Support/Cast.h"
-              ...
-              // Declare calloc. Returns char *, takes array size, element size.
-              llvm::FunctionType *fTy = llvm::TypeBuilder<char *(size_t, size_t), false>::get(ctx);
-              auto *callocFunc = llvm::cast<llvm::Function>(mod.getOrInsertFunction("calloc", fTy));
-
-              // Add the suggested function attributes.
-              callocFunc->addFnAttr(llvm::Attribute::NoUnwind);
-              callocFunc->addAttribute(0, llvm::Attribute::NoAlias);
 
