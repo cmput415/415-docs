@@ -2,7 +2,7 @@ Setting up CLion
 ----------------
 
 CLion requires a little bit of setup. Much of it is the same, but we
-need to add LLVM now.
+need to add MLIR now.
 
 #. Open up CLion. From the welcome screen select
    ``Import Project from Sources`` or, if you’ve been using CLion and it
@@ -14,7 +14,7 @@ need to add LLVM now.
 
 #. CLion doesn’t make use of your command line environment, it has its
    own storage place. Therefore we need to add ``ANTLR_INS`` and
-   ``LLVM_DIR`` to CLion’s environment.
+   ``MLIR_DIR`` to CLion’s environment.
 
    #. Open your settings. On Linux this is ``File`` :math:`\rightarrow`
       ``Settings…``, while on MacOS this is ``CLion``
@@ -42,14 +42,14 @@ need to add LLVM now.
                    echo $ANTLR_INS
 
    #. Select the ``+`` symbol to add another symbol to your environment.
-      In the field under ``Name`` enter ``LLVM_DIR``. Since the value
+      In the field under ``Name`` enter ``MLIR_DIR``. Since the value
       depends on how you have set up your environment (or how we have if
       you’re using the lab machines) you will need to enter this command
       in your terminal to find the value.
 
       ::
 
-                   echo $LLVM_DIR
+                   echo $MLIR_DIR
 
       Add this value in the ``Value`` field.
 
