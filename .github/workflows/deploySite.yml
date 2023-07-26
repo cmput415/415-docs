@@ -12,7 +12,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  setup:
+  build:
     runs-on: ubuntu-latest
 
     steps:
@@ -31,12 +31,7 @@ jobs:
       # required for making pdfs with latex (https://stackoverflow.com/questions/50431961/how-to-install-only-cmap-sty-required-packages-in-my-machine)
       - name: Install cmap.sty
         run: sudo apt-get install texlive-latex-extra
-
-  build:
-    needs: setup
-    runs-on: ubuntu-latest
-
-    steps:
+        
       - name: Clean docs
         run: make clean
 
