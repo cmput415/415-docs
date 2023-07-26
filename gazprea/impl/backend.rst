@@ -72,7 +72,7 @@ An example of how to make a runtime function is provided bellow.
 
        uint64_t factorial(uint64_t n);
 
-If ou compiler was compiling the following input ``Input file``
+If your compiler was compiling the following input ``Input file``
 
 ::
 
