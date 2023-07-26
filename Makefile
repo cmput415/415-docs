@@ -11,7 +11,7 @@ HFILES:=htaccess
 HFILESDOT:=$(foreach file, $(HFILES), .$(file))
 PDFS:=$(foreach file, $(DIRS), $(file).pdf)
 
-.PHONY: all github clean #remoteinstall
+.PHONY: all github clean 
 
 all:
 	$(foreach dir, $(DIRS), $(MAKE) html -C $(dir);)
