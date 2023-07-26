@@ -27,6 +27,10 @@ jobs:
           sudo apt-get update -y
           sudo apt-get install -y latexmk
           latexmk --version
+      
+      # required for making pdfs with latex (https://stackoverflow.com/questions/50431961/how-to-install-only-cmap-sty-required-packages-in-my-machine)
+      - name: Install cmap.sty
+        run: apt install texlive-latex-extra
         
       - name: Clean docs
         run: make clean
