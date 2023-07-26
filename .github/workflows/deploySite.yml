@@ -16,6 +16,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: has latexmk
+        run: latexmk --version
+        
       - name: Checkout repository
         uses: actions/checkout@v3
       
