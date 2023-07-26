@@ -22,8 +22,11 @@ jobs:
       - name: Install requirements
         run: pip install -r requirements.txt
         
-      - name: has latexmk
-        run: latexmk --version
+      - name: Install latexmk
+        run: |
+          sudo apt-get update -y
+          sudo apt-get install -y latexmk
+          latexmk --version
         
       - name: Clean docs
         run: make clean
