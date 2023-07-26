@@ -24,8 +24,8 @@ on their front page:
 
 .. code-block:: console
 
- $ /usr/bin/ruby -e "$(curl -fsSL \
-     https://raw.githubusercontent.com/Homebrew/install/master/install)"
+ $ /bin/bash -c "$(curl -fsSL \
+     https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
 You can check that it succeeded by checking its version:
 
@@ -47,7 +47,7 @@ you get the JDK not just the JRE).
 
 .. code-block:: console
 
- $ brew cask install java
+ $ brew install --cask oracle-jdk
 
 .. _installing-git-1:
 
@@ -86,7 +86,7 @@ ANTLR 4 C++ Runtime
 -------------------
 
 This section details how to install the ANTLR 4 C++ runtime on Mac OS assuming
-your default shell is bash. If you've changed your shell from bash it's assumed
+your default shell is zsh. If you've changed your shell from zsh, it's assumed
 that you are familiar enough with your environment that you can modify these
 steps appropriately.
 
@@ -109,13 +109,13 @@ steps appropriately.
    This should create a new folder called ``antlr4`` in ``ANTLR_PARENT``. We'll
    refer to this new directory (``<ANTLR_PARENT>/antlr4``) as ``SRC_DIR``.
 
-#. We will be using ANTLR 4.10.1 so we need to change to the git tag for version
-   4.10.1.
+#. We will be using ANTLR 4.12.0 so we need to change to the git tag for version
+   4.12.0.
 
    .. code-block:: console
 
     $ cd <SRC_DIR>
-    $ git checkout 4.10.1
+    $ git checkout 4.12.0
 
    This will give you a warning about being in a “detached head state”. Since we
    won't be changing anything in ANTLR there is no need to create a branch. No
@@ -181,8 +181,8 @@ steps appropriately.
 
     $ make install -j<number of threads>
 
-#. Now we can add the install to your bash profile. Pick your favorite text
-   editor, open ``~/.bash_profile``, and add the following lines to the end,
+#. Now we can add the install to your zsh environment. Pick your favorite text
+   editor, open ``~/.zshenv``, and add the following lines to the end,
    substituting appropriately:
 
    .. code-block:: sh
@@ -202,7 +202,7 @@ Installing CLion
 
    .. code-block:: console
 
-    $ brew cask install clion
+    $ brew install --cask clion
 
 #. Open CLion (via spotlight: command+space :math:`\rightarrow` type ``CLion``).
 
@@ -286,16 +286,16 @@ ANTLR generator. Follow these steps into install it:
 
    .. code-block:: console
 
-    $ curl https://www.antlr.org/download/antlr-4.10.1-complete.jar \
-        -o <ANTLR_BIN>/antlr-4.10.1-complete.jar
+    $ curl https://www.antlr.org/download/antlr-4.12.0-complete.jar \
+        -o <ANTLR_BIN>/antlr-4.12.0-complete.jar
 
 #. Now we can make it easy to use. Add the following lines to your
-   ``~/.bash_profile``:
+   ``~/.zshenv``:
 
    .. code-block:: shell
 
     # C415 ANTLR generator.
-    export CLASSPATH="<ANTLR_BIN>/antlr-4.10.1-complete.jar:$CLASSPATH"
+    export CLASSPATH="<ANTLR_BIN>/antlr-4.12.0-complete.jar:$CLASSPATH"
     alias antlr4="java -Xmx500M org.antlr.v4.Tool"
     alias grun='java org.antlr.v4.gui.TestRig'
 
@@ -319,6 +319,12 @@ If you encounter issues, please log them on the `GitHub issue tracker
 <https://github.com/cmput415/Tester/issues>`__ or, if you want to, submit a pull
 request and we'll review it!
 
+#. We'll need ``gcc`` to compile the tool.
+
+   .. code-block:: console
+
+    $ brew install gcc@13
+
 #. We'll build the tool in your home directory.
 
    .. code-block:: console
@@ -338,7 +344,7 @@ request and we'll review it!
    .. code-block:: console
 
     $ cd build
-    $ cmake ..
+    $ cmake .. -DCMAKE_CXX_COMPILER="g++-13" -DCMAKE_C_COMPILER="gcc-13"
 
    The flags on the end ensure we're using GCC to compile this.
 
@@ -349,8 +355,8 @@ request and we'll review it!
     $ make
 
 #. We could refer directly to the executable every time, but it's probably
-   easier to just have it on our path. Add these lines to the end of
-   ``~/.bash_profile``.
+   easier to just have it on our path. Add these lines to the end of your
+   ``~/.zshenv``.
 
    .. code-block:: shell
 

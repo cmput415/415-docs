@@ -46,7 +46,7 @@ OpenJDK's JRE is easier to install than Oracle's, so we'll use that.
 .. code-block:: console
 
  $ sudo apt-get update
- $ sudo apt-get install openjdk-11-jre
+ $ sudo apt-get install openjdk-19-jre
 
 Installing Git
 --------------
@@ -96,13 +96,13 @@ steps appropriately.
    This should create a new folder called ``antlr4`` in ``ANTLR_PARENT``. We'll
    refer to this new directory (``<ANTLR_PARENT>/antlr4``) as ``SRC_DIR``.
 
-#. We will be using ANTLR 4.10.1 so we need to change to the git tag for version
-   4.10.1.
+#. We will be using ANTLR 4.12.0 so we need to change to the git tag for version
+   4.12.0.
 
    .. code-block:: console
 
     $ cd <SRC_DIR>
-    $ git checkout 4.10.1
+    $ git checkout 4.12.0
 
    This will give you a warning about being in a “detached head state”. Since we
    won't be changing anything in ANTLR there is no need to create a branch. No
@@ -201,7 +201,7 @@ Installing CLion
 
    .. code-block:: console
 
-    $ /opt/CLion-<version>/bin/clion.sh
+    $ /opt/clion-<version>/bin/clion.sh
 
 #. Perform the initial set up of CLion.
 
@@ -279,15 +279,15 @@ ANTLR generator. Follow these steps into install it:
 
    .. code-block:: console
 
-    $ curl https://www.antlr.org/download/antlr-4.10.1-complete.jar \
-        -o <ANTLR_BIN>/antlr-4.10.1-complete.jar
+    $ curl https://www.antlr.org/download/antlr-4.12.0-complete.jar \
+        -o <ANTLR_BIN>/antlr-4.12.0-complete.jar
 
 #. Now we can make it easy to use. Add the following lines to your ``~/.bashrc``:
 
    .. code-block:: shell
 
     # C415 ANTLR generator.
-    export CLASSPATH="<ANTLR_BIN>/antlr-4.10.1-complete.jar:$CLASSPATH"
+    export CLASSPATH="<ANTLR_BIN>/antlr-4.12.0-complete.jar:$CLASSPATH"
     alias antlr4="java -Xmx500M org.antlr.v4.Tool"
     alias grun='java org.antlr.v4.gui.TestRig'
 
