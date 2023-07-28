@@ -5,8 +5,6 @@ on:
   # triggers the workflow on push or pull request events but only for the "master" branch
   push:
     branches: [ "master" ]
-  pull_request:
-    branches: [ "master" ]
 
   # you can run this workflow manually from the Actions tab
   workflow_dispatch:
