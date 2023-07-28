@@ -295,7 +295,8 @@ ANTLR generator. Follow these steps into install it:
    .. code-block:: shell
 
     # C415 ANTLR generator.
-    export CLASSPATH="<ANTLR_BIN>/antlr-4.13.0-complete.jar:$CLASSPATH"
+    export ANTLR_JAR="<ANTLR_BIN>/antlr-4.13.0-complete.jar"
+    export CLASSPATH="$ANTLR_JAR:$CLASSPATH"
     alias antlr4="java -Xmx500M org.antlr.v4.Tool"
     alias grun='java org.antlr.v4.gui.TestRig'
 
