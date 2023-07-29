@@ -30,9 +30,11 @@ asked or useful things are found. You will be notified as appropriate.
    compilers that use MLIR, but both are admittedly niche. As an alternative,
    you can use the ``mlir::dump()`` method, which works on all MLIR operations
    including modules and functions. The MLIR framework provides several tools
-   that can parse and work with files containing MLIR. In particular,
-   `mlir-opt <https://gist.github.com/segeljakt/ef974041bd529389ec7895a92f3185e6>`__ can be used to run almost every optimization or transformation pass that
-   exists on your MLIR output.
+   that can parse and work with files containing MLIR.
+   In particular, ``mlir-opt`` can be used to run almost every optimization or
+   transformation pass that exists on your MLIR output.
+   For more information, execute ``mlir-opt --help`` after building and setting
+   up MLIR.
 
 -  While there appears to be copious quantities of *MLIR/LLVM* documentation,
    it can be frustatingly difficult to find documentation or examples of
@@ -88,6 +90,9 @@ asked or useful things are found. You will be notified as appropriate.
 -  **DO NOT USE MLIR TENSOR TYPES**. These are abstract types that have no
    memory layout or data pointers. This abstraction supports high level
    optimization but requires an involved lowering and bufferization process.
+   In the same vein, we recommend you do not use the *MLIR* ``MemRefType``.
+   This array type is backed by memory, but requires the ``memref`` dialect
+   to allocate and manipulate instances of the type.
 
 -  **DO NOT USE LLVM IR VECTOR TYPES**. These types are designed for
    Single Instruction Multiple Data (SIMD) processing which require
@@ -101,7 +106,9 @@ asked or useful things are found. You will be notified as appropriate.
    their own unique pros and cons.
 
 -  You need to make a ``main`` function to insert code into to begin
-   with. Here’s some boilerplate to get you rolling:
+   with. Here’s some boilerplate to get you rolling (note ``builder`` is type
+   ``mlir::OpBuilder``):
+:
 
    ::
 
@@ -114,7 +121,7 @@ asked or useful things are found. You will be notified as appropriate.
 
             ...
             // For our purposes, the prototype for main can be "int main()"
-            mlir::Type intType = mlir::IntegerType::get(&context, 32);
+            mlir::Type intType = builder->getI32Type();
             auto mainType = mlir::LLVM::LLVMFunctionType::get(intType, {}, false);
             mlir::LLVM::LLVMFuncOp mainFunc = builder->create<mlir::LLVM::LLVMFuncOp>(builder->getUnknownLoc(), "main", mainType);
 
@@ -128,7 +135,7 @@ asked or useful things are found. You will be notified as appropriate.
    your ``main``, but you do *not* define it. This corresponds to your
    *C*-style forward declaration and will make sure that llvm links
    ``printf`` into you executable. Here’s your boilerplate code where
-   ``module`` is your ``mlir::ModuleOp::Module``:
+   ``builder`` is type ``mlir::OpBuilder``:
 
    ::
 
@@ -144,13 +151,15 @@ asked or useful things are found. You will be notified as appropriate.
                                                            /*isVarArg=*/true);
 
             // Insert the printf declaration into the body of the parent module.
-            builder->create<mlir::LLVM::LLVMFuncOp>(loc, "printf", llvmFnType);
+            builder->create<mlir::LLVM::LLVMFuncOp>(builder->getUnknownLoc(),
+                                                    "printf", llvmFnType);
 
 -  You may need to declare global constants in your module. The method
    for integers is similar to strings, but we show strings here because
    you will need it for use with ``printf``. For example, if I wanted to
-   create a ``printf`` format string for integers (``module`` is type
-   ``mlir::ModuleOp`` and ``context`` is ``mlir::MLIRContext``):
+   create a ``printf`` format string for newline (``builder`` is type
+   ``mlir::OpBuilder``, ``context`` is type ``mlir::MLIRContext``, and ``loc``
+   is type ``mlir::Location``):
 
    ::
 
@@ -166,10 +175,13 @@ asked or useful things are found. You will be notified as appropriate.
                                mlir::LLVM::Linkage::Internal, "newline",
                                builder->getStringAttr(gvalue), /*alignment=*/0);
 
--  Calling functions is roughly the same in all places, but ``printf``
-   can be a little annoying to begin with because of the way it is
-   defined, so here is some more boilerplate code for calling that as
-   well (``module`` is ``mlir::ModuleOp``):
+-  Calling functions is roughly the same in all places, but ``printf`` can be a
+   little annoying to begin with because of the way it is  defined, so here is
+   some more boilerplate code for calling that as well (
+   ``builder`` is type ``mlir::OpBuilder``,
+   ``module`` is type ``mlir::ModuleOp``,
+   ``context`` is type ``mlir::MLIRContext``,
+   and ``loc`` is type ``mlir::Location``):
 
    ::
 
@@ -187,15 +199,16 @@ asked or useful things are found. You will be notified as appropriate.
 
             // Get the pointer to the first character in the global string.
             mlir::Value globalPtr = builder->create<mlir::LLVM::AddressOfOp>(loc, global);
-            mlir::Value cst0 = builder->create<mlir::LLVM::ConstantOp>(loc, builder->getI64Type(),
-                                                        builder->getIndexAttr(0));
+            mlir::Value cst0 = builder->create<mlir::LLVM::ConstantOp>(loc,
+                                                      builder->getI64Type(),
+                                                      builder->getIndexAttr(0));
 
             mlir::Type charType = mlir::IntegerType::get(&context, 8);
             mlir::Value newLine = builder->create<mlir::LLVM::GEPOp>(loc,
                           mlir::LLVM::LLVMPointerType::get(charType),
                           globalPtr, mlir::ArrayRef<mlir::Value>({cst0, cst0}));
 
-            mlir::LLVM::LLVMFuncOp printfFunc = module.lookupSymbol<mlir::LLVM::LLVMFuncOp>("printf");
+            auto printfFunc = module.lookupSymbol<mlir::LLVM::LLVMFuncOp>("printf");
             builder->create<mlir::LLVM::CallOp>(loc, printfFunc, newLine);
 
 
