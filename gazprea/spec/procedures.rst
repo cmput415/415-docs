@@ -77,18 +77,16 @@ These procedures can be called as follows:
 
 It is only possible to call procedures in this way. Functions must
 appear in expressions because they can not cause side effects, so using
-a function as a statement would not do anything, and thus *Gazprea*
-should raise an error. If the procedure has a return value and is called
-in this fashion the return value is discarded.
+a function in a ``call`` statement would not do anything. *Gazprea*
+should raise an error if a function is used in a ``call`` statement.
 
-Procedures may also be called in expressions just like functions, but
-with a few more limitations. A procedure may never be called within a
-function, doing so would allow for impure functions. Procedures may only
-be called within assignment statements (procedures may not be used as
-the control expression in control flow expressions, for instance). The
-return value from a procedure call can only be manipulated with unary
+A procedure may never be called within a function, doing so would allow for
+impure functions. Procedures may only be called within assignment statements
+(procedures may not be used as the control expression in control flow expressions, for instance).
+The return value from a procedure call can only be manipulated with unary
 operators. It is illegal to use the results from a procedure call with
-binary expressions, for instance:
+binary expressions.
+For example:
 
 ::
 
@@ -98,13 +96,8 @@ binary expressions, for instance:
          var z = not p(); /* Legal, depending on the return type of p */
          var u = p() + p(); /* Illegal */
 
-This restriction is made by ``Gazprea`` in order to allow for more
+These restrictions are made by *Gazprea* in order to allow for more
 optimizations.
-
-As long as they have an appropriate return type. The difference is that
-functions can be called within other functions, but procedures can not
-be used within functions since procedures may be impure. Procedures may
-only be called within procedures.
 
 Procedures without a return clause may not be used in an expression.
 *Gazprea* should raise an error in such a case.
@@ -118,7 +111,8 @@ Procedures without a return clause may not be used in an expression.
 Forward Declaration
 -------------------
 
-Procedures can use :ref:`forward declaration just like functions <ssec:function_fwd_declr>`.
+Procedures can use :ref:`forward declaration <ssec:function_fwd_declr>`
+just like functions.
 
 .. _ssec:procedure_main:
 
@@ -180,8 +174,8 @@ should be raised when this is detected. For instance:
            return 0;
          }
 
-Whenever a procedure has a mutable argument x it must be checked that
-none of the other arguments given to the procedure are x. This is simple
+Whenever a procedure has a mutable argument ``x`` it must be checked that
+none of the other arguments given to the procedure are ``x``. This is simple
 for scalar values, but more complicated when variable vectors and
 matrices are passed to procedures. For instance:
 
