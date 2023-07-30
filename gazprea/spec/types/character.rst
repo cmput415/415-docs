@@ -4,7 +4,7 @@ Character
 ---------
 
 A ``characters`` is a signed 8-bit value. A ``character`` can be
-represented by an ``i8`` in *LLVM IR*.
+represented by an ``i8`` in *MLIR*.
 
 .. _sssec:character_decl:
 

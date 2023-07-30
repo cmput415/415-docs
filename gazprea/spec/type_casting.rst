@@ -72,7 +72,7 @@ Vector to Vector
 ----------------
 
 Conversions between ``vector`` types are also possible. First, the
-values of the original are casted to the destination type’s element type
+values of the original are cast to the destination type’s element type
 according to the rules in :ref:`ssec:typeCasting_stos` and then the destination is padded with
 destination element type’s ``null`` or truncated to match the
 destination type size. Note that the size is not required for vector to
