@@ -109,13 +109,13 @@ steps appropriately.
    This should create a new folder called ``antlr4`` in ``ANTLR_PARENT``. We'll
    refer to this new directory (``<ANTLR_PARENT>/antlr4``) as ``SRC_DIR``.
 
-#. We will be using ANTLR 4.10.1 so we need to change to the git tag for version
-   4.10.1.
+#. We will be using ANTLR 4.13.0 so we need to change to the git tag for version
+   4.13.0.
 
    .. code-block:: console
 
     $ cd <SRC_DIR>
-    $ git checkout 4.10.1
+    $ git checkout 4.13.0
 
    This will give you a warning about being in a “detached head state”. Since we
    won't be changing anything in ANTLR there is no need to create a branch. No
@@ -286,8 +286,8 @@ ANTLR generator. Follow these steps into install it:
 
    .. code-block:: console
 
-    $ curl https://www.antlr.org/download/antlr-4.10.1-complete.jar \
-        -o <ANTLR_BIN>/antlr-4.10.1-complete.jar
+    $ curl https://www.antlr.org/download/antlr-4.13.0-complete.jar \
+        -o <ANTLR_BIN>/antlr-4.13.0-complete.jar
 
 #. Now we can make it easy to use. Add the following lines to your
    ``~/.bash_profile``:
@@ -295,7 +295,8 @@ ANTLR generator. Follow these steps into install it:
    .. code-block:: shell
 
     # C415 ANTLR generator.
-    export CLASSPATH="<ANTLR_BIN>/antlr-4.10.1-complete.jar:$CLASSPATH"
+    export ANTLR_JAR="<ANTLR_BIN>/antlr-4.13.0-complete.jar"
+    export CLASSPATH="$ANTLR_JAR:$CLASSPATH"
     alias antlr4="java -Xmx500M org.antlr.v4.Tool"
     alias grun='java org.antlr.v4.gui.TestRig'
 
@@ -306,6 +307,49 @@ ANTLR generator. Follow these steps into install it:
 
     $ antlr4
     $ grun
+
+Installing MLIR
+---------------
+
+In the VCalc assignment and your final project you will be working with MLIR
+and LLVM. Due to the complex nature (and size) of MLIR we did not want to
+include it as a subproject.
+In fact, you may even want to defer the installation
+until you're about to start your assignment.
+Here are the steps to get MLIR up and running.
+
+#. Checkout LLVM to your machine
+
+   .. code-block:: console
+
+    $ cd $HOME
+    $ git clone https://github.com/llvm/llvm-project.git
+    $ cd llvm-project
+    $ git checkout llvmorg-16.0.6
+
+#. Build MLIR (more details are available `here <https://mlir.llvm.org/getting_started>`__)
+
+   .. code-block:: console
+
+    $ mkdir build
+    $ cd build
+    $ cmake -G Ninja ../llvm \
+         -DLLVM_ENABLE_PROJECTS=mlir \
+         -DLLVM_BUILD_EXAMPLES=ON \
+         -DLLVM_TARGETS_TO_BUILD="Native" \
+         -DCMAKE_BUILD_TYPE=Release \
+         -DLLVM_ENABLE_ASSERTIONS=ON
+    $ cmake --build . --target check-mlir
+
+#. Add these configuration lines to your ``~/.zprofile`` file so that you can
+   use the MLIR tools and so that ``cmake`` will find your build.
+
+   .. code-block:: shell
+
+    export MLIR_INS="$HOME/llvm-project/build/"
+    export MLIR_DIR="$MLIR_INS/lib/cmake/mlir/" # Don't change me.
+    export PATH="$MLIR_INS/bin:$PATH" # Don't change me
+
 
 .. _installing-the-tester-1:
 
