@@ -19,7 +19,7 @@ asked or useful things are found. You will be notified as appropriate.
    #. Make your code generator figure it out.
 
    #. Attach type information to your AST at this node denoting each
-      operands type during a type inference pass on your tree. Still
+      operand's type during a type inference pass on your tree. Still
       need to check for extension.
 
    #. Do a type inference pass and replace the integer operand with an

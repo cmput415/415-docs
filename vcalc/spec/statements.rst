@@ -64,14 +64,59 @@ There are a few new important points when dealing with assignments.
 Conditional
 ~~~~~~~~~~~
 
-Conditional conditions must evaluate to booleans, this means that
+Conditional conditions must evaluate to booleans, which means that
 vectors are not a valid condition. Remember, however, that integers can
 be implicitly downcast to booleans.
 
 Loops
 ~~~~~
 
-Loop conditions must evaluate to booleans, this means that vectors are
+Loop conditions must evaluate to booleans, which means that vectors are
 not a valid condition. Remember, however, that integers can be
 implicitly downcast to booleans.
 
+Print
+~~~~~
+
+The ``print`` statement in *VCalc* behaves the same as *SCalc* for integers,
+but must be extended to print vectors. All the elements of the vector are
+printed on a single line between the opening anc closing brackets.
+
+For example:
+
+::
+
+     print(1..10);
+
+prints the following:
+
+::
+
+     [1 2 3 4 5 6 7 8 9 10]
+
+
+The output of ``print`` is standardized to ensure everyone can pass everyone’s
+tests. Follow these specifications:
+
+-  There *must* be a new line after each ``print`` statement’s printed
+   value.
+
+-  There *must not* be any trailing space after printed value and before
+   the newline.
+
+-  There *must* be an empty line at the end of your output.
+
+-  There *must not* be spaces between the first and last number and the
+   accompanying brackets in a vector.
+
+-  There *must* be spaces between the numbers in a vector.
+
+-  There *must not* be anything except spaces between the numbers in a
+   vector.
+
+| **Clarification:** Empty input should result in empty output.
+  (:ref:`empty-input <clarify:empty-input>`)
+| **Clarification:** Empty vectors print only brackets.
+  (:ref:`empty-vector <clarify:empty-vector>`)
+| **Clarification:** A vector with one value is only the brackets and
+  the value. (:ref:`single-value-vector <clarify:single-value-vector>`)

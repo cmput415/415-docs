@@ -24,7 +24,7 @@ A filter will create a new vector containing only the elements of the
 domain where the predicate evaluates to a true value. The domain values
 that satisfy the predicate are appended to the result vector in their
 original order. For instance, to select all of values greater than 5 in
-a vector you might do:
+a vector you might write:
 
 ::
 
