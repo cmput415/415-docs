@@ -94,7 +94,7 @@ asked or useful things are found. You will be notified as appropriate.
    This array type is backed by memory, but requires the ``memref`` dialect
    to allocate and manipulate instances of the type.
 
--  **DO NOT USE LLVM IR VECTOR TYPES**. These types are designed for
+-  **DO NOT USE MLIR OR LLVM IR VECTOR TYPES**. These types are designed for
    Single Instruction Multiple Data (SIMD) processing which require
    specific version of processors. Using the LLVM IR vector types will
    result in a segmentation fault in architectures that do not support
