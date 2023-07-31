@@ -220,7 +220,8 @@ Operations
 
    d. Range
 
-      The ``..`` operator creates a vector holding a range of integers.
+      The ``..`` operator creates an integer vector holding the specified range
+      of integer values.
       This operator must have an expression resulting in an integer on both
       sides of it. These integers mark the *inclusive* upper and lower bounds
       of the range.
@@ -259,10 +260,9 @@ Operations
    d. Indexing
 
       A vector may be indexed in order to retrieve the values stored in
-      the vector. A vector may be indexed using integers, integer
-      vectors, and integer ranges. *Gazprea* is 1-indexed, so the
-      first element of a vector is at index 1 (as opposed to index 0 in
-      languages like *C*). For instance:
+      the vector. A vector may be indexed using integers and integer vectors.
+      *Gazprea* is 1-indexed, so the first element of a vector is at index 1
+      (as opposed to index 0 in languages like *C*). For instance:
 
       ::
 
@@ -274,8 +274,7 @@ Operations
 
 
       When indexed with a scalar integer the result is a scalar value,
-      but when indexed with a range or a vector the result is
-      another vector.
+      but when indexed with a vector the result is another vector.
 
       Out of bounds indexing should cause an error.
 
