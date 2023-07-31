@@ -307,6 +307,8 @@ In the VCalc assignment and your final project you will be working with MLIR
 and LLVM.
 Due to the complex nature (and size) of MLIR we did not want to include
 it as a subproject.
+In fact, you may even want to defer the installation
+until you're about to start your assignment.
 Here are the steps to get MLIR up and running.
 
 #. Checkout LLVM to your machine
