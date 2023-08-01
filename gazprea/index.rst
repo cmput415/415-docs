@@ -20,7 +20,6 @@ Hardware Acceleration Laboratory in Markham, ON.
    spec/keywords
    spec/identifiers
    spec/comments
-   spec/streams
    spec/declarations
    spec/type_qualifiers
    spec/types
@@ -29,6 +28,7 @@ Hardware Acceleration Laboratory in Markham, ON.
    spec/type_casting
    spec/type_promotion
    spec/typedef
+   spec/streams
    spec/expressions
    spec/statements
    spec/functions

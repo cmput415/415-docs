@@ -4,7 +4,7 @@ Boolean
 -------
 
 A ``boolean`` is either ``true`` or ``false``. A ``boolean`` can be
-represented by an ``i1`` in *LLVM IR*.
+represented by an ``i1`` in *MLIR*.
 
 .. _sssec:boolean_decl:
 

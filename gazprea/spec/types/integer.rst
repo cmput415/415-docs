@@ -4,7 +4,7 @@ Integer
 -------
 
 An ``integer`` is a signed 32-bit value. An ``integer`` can be
-represented by an ``i32`` in *LLVM IR*.
+represented by an ``i32`` in *MLIR*.
 
 .. _sssec:integer_decl:
 

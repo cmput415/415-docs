@@ -90,7 +90,7 @@ Regarding the semantics of some of the operators:
 
 -  Comparison checks the bounds of each ``interval``.
 
--  Range upper bounds must greater than or equal to the lower bound.
+-  Range upper bounds must be greater than or equal to the lower bound.
 
 -  Both bounds must be ``integer`` valued.
 

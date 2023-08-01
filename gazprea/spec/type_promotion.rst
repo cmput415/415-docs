@@ -3,8 +3,8 @@
 Type Promotion
 ==============
 
-Type promotion is a sub-problem to and refers to casts that happen
-implicitly without extra syntax such as using ``as``.
+Type promotion is a sub-problem of casting and refers to casts that happen
+implicitly.
 
 .. _ssec:typePromotion_scalar:
 

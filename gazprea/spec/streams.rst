@@ -4,7 +4,7 @@ Streams
 =======
 
 *Gazprea* has two streams: ``std_output`` and ``std_input``,
-which are used for outputting to stdout and reading from stdin respectively.
+which are used for writting to `stdout` and reading from `stdin` respectively.
 
 
 .. _ssec:output:
@@ -34,7 +34,7 @@ an output stream:
    This is the same behaviour as the `%g specifier in
    printf <http://www.cplusplus.com/reference/cstdio/printf/>`__.
 
--  :ref:`ssec:boolean`: Print T for true, and F for false.
+-  :ref:`ssec:boolean`: Prints T for true, and F for false.
 
 :ref:`Vectors <ssec:vector>` print their contents according to the rules above, with square
 braces surrounding its elements and with spaces only *between* values.

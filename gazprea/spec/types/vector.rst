@@ -204,7 +204,7 @@ Operations
 
    c. Dot Product
 
-      Two vectors with the same size and a numeric element type(types with
+      Two vectors with the same size and a numeric element type (types with
       the +, and \* operator) may be used in a dot product operation.
       For instance:
 
