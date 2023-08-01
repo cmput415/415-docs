@@ -124,9 +124,9 @@ indices must be used. These indices are separated using a comma.
 
 The first index specifies the row of the matrix, and the second index
 specifies the column of the matrix. The result is retrieved from the row
-and column. Both the row and column indices can be either integers,
-integer intervals, or integer vectors. When both indices are scalar
-integers the result is the scalar value in the row and column specified.
+and column. Both the row and column indices can be either integers or
+integer vectors. When both indices are scalar integers the result is the
+scalar value in the row and column specified.
 
 ::
 
@@ -135,7 +135,7 @@ integers the result is the scalar value in the row and column specified.
    				/* M[1, 2] == 12 */
 
 
-If one of the indices is an interval or a vector, and the other index is
+If one of the indices is a vector and the other index is
 a scalar, then the result is a vector. For example:
 
 ::
@@ -151,7 +151,7 @@ a scalar, then the result is a vector. For example:
    				/* M[[2, 1], 1] == [21, 11] */
 
 
-Finally, both of the indices may be intervals or vectors, in which case
+Finally, both of the indices may be vectors, in which case
 the result is another matrix.
 
 ::

@@ -112,7 +112,7 @@ Domain Expressions
 Domain expressions can only appear within iterator loops, generators,
 and filters. A domain expression is a way of declaring a variable that
 is local to the loop, generator, or filter, that takes on values from
-intervals and vectors in order.
+vectors in order.
 
 Domain expressions are essentially declarations, and so they follow the
 same scoping rules. For instance:

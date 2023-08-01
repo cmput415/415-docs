@@ -348,9 +348,9 @@ semicolon.
 Iterator Loop
 ~~~~~~~~~~~~~
 
-Loops can be used to iterate over the elements of an integer interval,
-or a vector of any type. This is done by using domain expressions (for
-instance ``i in v``) in conjunction with a loop statement.
+Loops can be used to iterate over the elements of a vector of any type.
+This is done by using domain expressions (for instance ``i in v``) in
+conjunction with a loop statement.
 
 When the domain is given by a vector, each time the loop is executed the
 next element of the vector is assigned to the domain variable. The
@@ -366,9 +366,7 @@ automatically exits. For instance:
              i -> std_output;
            }
 
-Integer intervals can also be used instead. In this case it is the same
-as iterating over a vector created from the interval using ``by 1``. For
-instance, the above iterator loop is equivalent to the following:
+Vector ranges can also be used instead:
 
 ::
 
@@ -382,7 +380,7 @@ instance:
 
 ::
 
-           integer[*] v = [i in 1..3 | i];
+           integer[\*] v = [i in 1..3 | i];
 
            /* Since the domain 'v' is only evaluated once this loop prints 1, 2,
               and then 3 even though after the first iteration 'v' is the zero
