@@ -48,13 +48,11 @@ Generators
 
 A generator may be used to construct either a vector or a matrix. A
 generator creates a value of a vector type when one domain variable is
-used, and a generator creates a value of a matrix type when two domain
-variables are used. Any other number of domain variables will yield an
-error.
+used, a matrix type when two domain variables are used.
+Any other number of domain variables will yield an error.
 
-A generator consists of either one or two domain expressions, which must
-evaluate to vectors whose base type matches the result type of the
-right hand side expression.
+A generator consists of either one or two domain expressions,
+and an additional  expression on the right hand side of the bar (``|``).
 This additional expression is used to create the generated values. For example:
 
 ::
@@ -110,20 +108,17 @@ There must be at least one predicate expression
 Domain Expressions
 ------------------
 
+Domain expressions consist of an identifier denoting an iterator variable and
+an expression that evaluates to **any** vector type.
 Domain expressions can only appear within iterator loops, generators,
 and filters. A domain expression is a way of declaring a variable that
 is local to the loop, generator, or filter, that takes on values from
-vectors in order.
-
-Domain expressions are essentially declarations, and so they follow the
-same scoping rules.
-The scope of the domain variable (the left hand side) is within the body of the
-generator, filter, or loop.
-The domain expressions (the right hand side) are evaluated before any of the
-domain variables are initialized, and therefore their scope is the one enclosing
-the iterator loop, generator, or filter.
-The domain expressions must evaluate to vectors whose elements match the base
-type of the domain variable.
+the domain expression vector in order.
+The scope of the domain variables (the left hand side of the declaration) is
+within the body of the generator, filter, or loop.
+The domain expressions (the right hand side) are all evaluated before any of the
+domain variables are initialized, and therefore the domain expression scope is
+the one enclosing the iterator loop, generator, or filter.
 
 For instance:
 
@@ -137,7 +132,7 @@ For instance:
          }
 
 Domain variables are not initialized when they are declared. For
-instance in loops they are initialized at the start of each execution of
+instance, in loops they are initialized at the start of each execution of
 the loop’s body statement. However, we may chain domain variables using
 commas, like in iterator loops, or matrix generators. Thus it is illegal
 to use a domain variable declared in the same chain of domain
