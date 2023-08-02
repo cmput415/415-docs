@@ -60,6 +60,26 @@ the vector.
          v -> std_output; /* Prints 12345 */
          w -> std_output; /* Prints 54321 */
 
+.. _ssec:builtIn_format:
+
+Format
+-------
+
+The ``format`` built-in takes any scalar as input and returns a string
+containing the formatted value of the scalar.
+
+::
+
+         integer i = 24;
+         real r = 2.4;
+
+         "i = " || format(i) || ", r = " || format(r) || '\n' -> std_output;
+         // Prints: "i = 24, r = 2.4\n"
+
+Note that ``format`` will have to allocate space to hold the return string.
+You will have to figure out how to manage the memory so it is reclaimed
+eventually.
+
 .. _ssec:builtIn_stream_state:
 
 Stream State
