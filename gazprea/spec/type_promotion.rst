@@ -60,19 +60,6 @@ would print the following:
 
      [2 3 4 5 6]
 
-.. _ssec:typePromotion_ivltov:
-
-Interval to Vector
-------------------
-
-An ``interval`` can be implicitly converted to an identically-sized
-``vector`` of any type that ``integer`` can be :ref:`converted to implicity <ssec:typePromotion_scalar>`. For example:
-
-::
-
-     integer interval i = 1..5;
-     integer[5] iv = i;
-     real[*] rv = i;
 
 .. _ssec:typePromotion_ttot:
 
