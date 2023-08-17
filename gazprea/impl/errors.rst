@@ -51,6 +51,9 @@ Here is a list of the types of errors expected at compile-time and run-time:
 * ``CallError``
     Raised during compilation if the procedure call statement is used to call a function.
 
+* ``DefinitionError``
+    Raised during compilation if a procedure or function is declared but not defined.
+
 Here is an example invalid program and a corresponding compile-time error:
 
 ::
