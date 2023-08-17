@@ -3,9 +3,12 @@ Errors
 
 Your implementation is required to report both compile-time and runtime errors.
 
-Your compiler must throw the exceptions defined in ``include/exceptions.h`` and ``runtime/src/exceptions.h``.
-Do not modify the error messages, you can pass a string to an exception to provide more details about a particular error. 
-You must pass the corresponding line number to the exceptions for compile-time errors but not run-time errors. 
+Your compiler must throw the exceptions defined in ``include/exceptions.h`` and 
+``runtime/src/exceptions.h``.
+Do not modify the error messages, you can pass a string to an exception to provide more details 
+about a particular error. 
+You must pass the corresponding line number to the exceptions for compile-time errors but not 
+run-time errors. 
 Do not create new exceptions.
 Your compiler is only expected to report the first error it encounters. 
 Here is a list of the types of errors expected at compile-time and run-time:
@@ -18,11 +21,13 @@ Here is a list of the types of errors expected at compile-time and run-time:
 
 * ``SymbolError``
     
-    Raised during compilation if an undefined symbol is referenced or a defined symbol is re-defined in the same scope.
+    Raised during compilation if an undefined symbol is referenced or a defined symbol is 
+    re-defined in the same scope.
     
 * ``TypeError``
 
-    Raised during compilation if an operation or statement is applied to or betweeen expressions with invalid or incompatible types.
+    Raised during compilation if an operation or statement is applied to or betweeen expressions 
+    with invalid or incompatible types.
 
 * ``AliasingError``
 
@@ -30,23 +35,29 @@ Here is a list of the types of errors expected at compile-time and run-time:
 
 * ``AssignError``
 
-    Raised during compilation if the compiler detects an assignment to a const value or a tuple unpacking assignment with the number of lvalues different than the number of fields in the tuple rvalue.
+    Raised during compilation if the compiler detects an assignment to a const value or a tuple 
+    unpacking assignment with the number of lvalues different than the number of fields in the tuple 
+    rvalue.
 
 * ``MainError``
 
-    Raised during compilation if the program does not have a procedure named ``main`` or when the signature of ``main`` is invalid.
+    Raised during compilation if the program does not have a procedure named ``main`` or when the 
+    signature of ``main`` is invalid.
 
 * ``ReturnError``
 
-    Raised during compilation if the program detects a function or procedure with a return value that does not have a return statement reachable by all control flows.
+    Raised during compilation if the program detects a function or procedure with a return value that
+    does not have a return statement reachable by all control flows.
 
 * ``GlobalError``
 
-    Raised during compilation if the program detects a ``var`` global declaration, a global declaration without an initializing expression, or a global declaration with an invalid initializing expression.
+    Raised during compilation if the program detects a ``var`` global declaration, a global declaration
+    without an initializing expression, or a global declaration with an invalid initializing expression.
 
 * ``StatmentError``
 
-    Raised during compilation if the program is syntactically valid but the compiler detects an invalid statment in a some context. For example, ``continue`` or ``break`` outside of a loop body.
+    Raised during compilation if the program is syntactically valid but the compiler detects an invalid
+    statment in a some context. For example, ``continue`` or ``break`` outside of a loop body.
 
 * ``CallError``
     Raised during compilation if the procedure call statement is used to call a function.
