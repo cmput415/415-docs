@@ -355,7 +355,8 @@ Here are the steps to get MLIR up and running.
 
 .. _installing-the-tester-1:
 
-Installing the Tester---------------------
+Installing the Tester
+---------------------
 
 This is the tool you'll be using for testing your solutions locally. You'll be
 building it yourself so that any changes later are easily obtainable.

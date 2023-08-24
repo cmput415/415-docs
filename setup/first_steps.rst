@@ -17,4 +17,4 @@ with a student license, you can skip this.
    quick), find an email from JetBrains, and follow the instructions to create
    an account.
 
-#. You should have be able to use CLion with your account now.
+#. You should be able to use CLion with your account now.

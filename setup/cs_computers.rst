@@ -33,7 +33,7 @@ Installing CLion
 
    .. code-block:: console
 
-    $ tar -xzf ~/Downloads/CLion-<version>.tar.gz -C ~
+    $ tar -xzf ~/Downloads/clion-<version>.tar.gz -C ~
 
    If you are confident about your ability to setup your own install you can put
    it elsewhere but you will be on your own.

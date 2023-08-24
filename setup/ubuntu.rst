@@ -192,7 +192,7 @@ Installing CLion
 
    .. code-block:: console
 
-    $ sudo tar -xzf ~/Downloads/CLion-<version>.tar.gz -C /opt/
+    $ sudo tar -xzf ~/Downloads/clion-<version>.tar.gz -C /opt/
 
    If you are confident about your ability to setup your own install you can put
    it elsewhere but you will be on your own.
