@@ -1,14 +1,16 @@
-Mac OS
-========
+macOS
+======
 
-This section details how to setup the Mac OS development environment.
+This section details how to setup your
+macOS
+development environment.
 
 Installing Developer tools
 --------------------------
 
 It's likely that you've already done this since you're take a high level CS
 class, but in the event that you have a fresh install, run the following command
-to install Mac OS developer tools:
+to install macOS developer tools:
 
 .. code-block:: console
 
@@ -18,14 +20,14 @@ to install Mac OS developer tools:
 Installing Homebrew
 -------------------
 
-Homebrew is a package manager for Mac OS. If you don't have it yet, you can
-read about it `here <https://brew.sh/>`__. Otherwise, install it via the command
+Homebrew is a package manager for macOS. If you don't have it yet, you can
+read about it `here <https://brew.sh/>`__. Install it via the command
 on their front page:
 
 .. code-block:: console
 
- $ /usr/bin/ruby -e "$(curl -fsSL \
-     https://raw.githubusercontent.com/Homebrew/install/master/install)"
+ $ /bin/bash -c "$(curl -fsSL \
+     https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
 You can check that it succeeded by checking its version:
 
@@ -41,15 +43,13 @@ packages.
 Installing Oracle Java JDK
 --------------------------
 
-Installing from the Oracle download page requires a bunch of extra set up when
+Installing from the Oracle download page requires a bunch of extra setup when
 instead you could just use our good friend Homebrew to install it (unfortunately
 you get the JDK not just the JRE).
 
 .. code-block:: console
 
- $ brew cask install java
-
-.. _installing-git-1:
+ $ brew install --cask oracle-jdk
 
 Installing Git
 --------------
@@ -61,15 +61,12 @@ tools, you can test this by checking the version.
 
  $ git --version
 
-(OPTIONAL) If you want a more recent version, you can install one through brew
-(or your favorite package manager). At the time of writing this, the versions
-only differ by two minor versions, so the difference is not significant.
+If you want a more recent version, you can install one through Homebrew
+(or your favorite package manager).
 
 .. code-block:: console
 
  $ brew install git
-
-.. _installing-cmake-1:
 
 Installing CMake
 ----------------
@@ -80,13 +77,16 @@ Brew (or otherwise) makes this easy:
 
  $ brew install cmake
 
-.. _antlr-4-c-runtime-1:
-
 ANTLR 4 C++ Runtime
 -------------------
 
-This section details how to install the ANTLR 4 C++ runtime on Mac OS assuming
-your default shell is bash. If you've changed your shell from bash it's assumed
+This section details how to install the ANTLR 4 C++ runtime on
+macOS
+assuming your default shell is
+zsh.
+If you've changed your shell from
+zsh,
+it's assumed
 that you are familiar enough with your environment that you can modify these
 steps appropriately.
 
@@ -181,19 +181,19 @@ steps appropriately.
 
     $ make install -j<number of threads>
 
-#. Now we can add the install to your bash profile. Pick your favorite text
-   editor, open ``~/.bash_profile``, and add the following lines to the end,
-   substituting appropriately:
+#. Now we can add the install to your
+   zsh environment.
+   Pick your favorite text editor, open
+   ``~/.zshenv``,
+   and add the following lines to the end, substituting appropriately:
 
-   .. code-block:: sh
+   .. code-block:: shell
 
     # C415 ANTLR install
     export ANTLR_INS="<INSTALL_DIR>"
 
-   **Make sure there is no trailing /.** Close and reopen your terminal for
+   **Make sure there is no trailing forward slash (/).** Close and reopen your terminal for
    things to take effect.
-
-.. _installing-clion-1:
 
 Installing CLion
 ----------------
@@ -202,7 +202,7 @@ Installing CLion
 
    .. code-block:: console
 
-    $ brew cask install clion
+    $ brew install --cask clion
 
 #. Open CLion (via spotlight: command+space :math:`\rightarrow` type ``CLion``).
 
@@ -215,13 +215,16 @@ Installing CLion
    #. Choose if you want to share usage statistics.
 
    #. You should be presented with a prompt for your license. Select
-      ``Activate``, ``JetBrains Account``, enter your UAlberta email address and
-      JetBrains password. Click the ``Activate`` button.
+      ``Activate CLion``, ``JB Account``, click
+      ``Log In to JetBrains Account...`` and enter your UAlberta email address
+      and JetBrains account password. Click the ``Activate`` button.
 
    #. Pick your favorite UI. Then click ``Next: Toolchains``.
 
    #. CLion bundles a version of CMake with it. If you'd prefer to use the one
-      we've just installed change ``Bundled`` to ``/usr/local/bin/cmake``. The
+      we've just installed change ``Bundled`` to
+      ``/usr/local/bin/cmake``.
+      The
       info text beneath should update with a checkmark and the version of your
       installed cmake. Click ``Next: Default Plugins``.
 
@@ -236,16 +239,15 @@ Installing CLion
       not need the TeamCity Integration, the Lua integration, nor the Swift
       integration. Select ``Start using CLion``
 
-.. _installing-the-antlr-plugin-for-clion-1:
-
 Installing the ANTLR Plugin for CLion
 -------------------------------------
 
-ANTLR has a CLion integration that gives syntax highlighting as well as tool for
-visualising the parse tree for a grammar rule and an input.
+ANTLR has a CLion integration that gives syntax highlighting as well as tools
+for visualising the parse tree for a grammar rule and an input.
 
-#. Launch CLion by going to the application launcher (finder) and typing
-   ``clion``. This should launch CLion.
+#. Launch CLion by going to the application launcher
+   (finder)
+   and typing ``clion``. This should launch CLion.
 
 #. Open the settings window ``CLion`` :math:`\rightarrow` ``Preferences...``
 
@@ -261,8 +263,6 @@ visualising the parse tree for a grammar rule and an input.
 
 #. After the install bar ends click the ``Restart CLion`` button that should
    have replaced the ``Install`` button.
-
-.. _installing-antlr-generator-1:
 
 Installing ANTLR Generator
 --------------------------
@@ -290,7 +290,7 @@ ANTLR generator. Follow these steps into install it:
         -o <ANTLR_BIN>/antlr-4.13.0-complete.jar
 
 #. Now we can make it easy to use. Add the following lines to your
-   ``~/.bash_profile``:
+   ``~/.zshenv``:
 
    .. code-block:: shell
 
@@ -312,8 +312,9 @@ Installing MLIR
 ---------------
 
 In the VCalc assignment and your final project you will be working with MLIR
-and LLVM. Due to the complex nature (and size) of MLIR we did not want to
-include it as a subproject.
+and LLVM.
+Due to the complex nature (and size) of MLIR we did not want to include
+it as a subproject.
 In fact, you may even want to defer the installation
 until you're about to start your assignment.
 Here are the steps to get MLIR up and running.
@@ -334,15 +335,17 @@ Here are the steps to get MLIR up and running.
     $ mkdir build
     $ cd build
     $ cmake -G Ninja ../llvm \
-         -DLLVM_ENABLE_PROJECTS=mlir \
-         -DLLVM_BUILD_EXAMPLES=ON \
-         -DLLVM_TARGETS_TO_BUILD="Native" \
-         -DCMAKE_BUILD_TYPE=Release \
-         -DLLVM_ENABLE_ASSERTIONS=ON
+        -DLLVM_ENABLE_PROJECTS=mlir \
+        -DLLVM_BUILD_EXAMPLES=ON \
+        -DLLVM_TARGETS_TO_BUILD="Native" \
+        -DCMAKE_BUILD_TYPE=Release \
+        -DLLVM_ENABLE_ASSERTIONS=ON
     $ cmake --build . --target check-mlir
 
-#. Add these configuration lines to your ``~/.zprofile`` file so that you can
-   use the MLIR tools and so that ``cmake`` will find your build.
+#. Add these configuration lines to your
+   ``~/.zshenv``
+   file so that you can use
+   the MLIR tools and so that ``cmake`` will find your build.
 
    .. code-block:: shell
 
@@ -350,8 +353,6 @@ Here are the steps to get MLIR up and running.
     export MLIR_DIR="$MLIR_INS/lib/cmake/mlir/" # Don't change me.
     export PATH="$MLIR_INS/bin:$PATH" # Don't change me
 
-
-.. _installing-the-tester-1:
 
 Installing the Tester
 ---------------------
@@ -362,6 +363,12 @@ building it yourself so that any changes later are easily obtainable.
 If you encounter issues, please log them on the `GitHub issue tracker
 <https://github.com/cmput415/Tester/issues>`__ or, if you want to, submit a pull
 request and we'll review it!
+
+#. We'll need a particular version of ``gcc`` to compile the tool.
+
+   .. code-block:: console
+
+    $ brew install gcc@13
 
 #. We'll build the tool in your home directory.
 
@@ -382,7 +389,7 @@ request and we'll review it!
    .. code-block:: console
 
     $ cd build
-    $ cmake ..
+    $ cmake .. -DCMAKE_CXX_COMPILER="g++-13" -DCMAKE_C_COMPILER="gcc-13"
 
    The flags on the end ensure we're using GCC to compile this.
 
@@ -393,8 +400,8 @@ request and we'll review it!
     $ make
 
 #. We could refer directly to the executable every time, but it's probably
-   easier to just have it on our path. Add these lines to the end of
-   ``~/.bash_profile``.
+   easier to just have it on our path. Add these lines to the end of your
+   ``~/.zshenv``.
 
    .. code-block:: shell
 
@@ -411,8 +418,6 @@ request and we'll review it!
 For more info about organising your tests and creating a configuration (though
 templates will be provided with your assignments) you can check `the Tester
 README <https://github.com/cmput415/Tester/blob/master/README.md>`__.
-
-.. _testing-your-environment-1:
 
 Testing Your Environment
 ------------------------
@@ -456,8 +461,6 @@ Everything should be setup! Let's just make sure.
       -  Be careful that things like ``6|5`` or ``6a5`` are not recognised as
          floats.
 
-.. _creating-a-personal-project-1:
-
 Creating a Personal Project
 ---------------------------
 
@@ -465,7 +468,6 @@ We're providing two ways for you to play with ANTLR and C++. The first way uses
 the Makefile from the demo you've just done, and the other uses CMake to set up
 a project using the CMake modules that are also used by your assgnments.
 
-.. _makefile-1:
 
 Makefile
 ~~~~~~~~
@@ -533,8 +535,6 @@ You're ready to start modifying the grammar and C++ source. Don't be afraid to
 add new source files and header files: style will eventually be part of your
 mark so starting here is a good idea! Feel free to cannibalise anything you'd
 like from the demo files.
-
-.. _cmake-todo-1:
 
 CMake
 ~~~~~

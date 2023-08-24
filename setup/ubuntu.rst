@@ -1,7 +1,9 @@
 Ubuntu
 ======
 
-This section details how to setup the Ubuntu development environment.
+This section details how to setup your
+Ubuntu
+development environment.
 
 Installing build-essential
 --------------------------
@@ -37,7 +39,7 @@ it anyways:
  $ sudo apt-get update
  $ sudo apt-get install uuid-dev
 
-Installing OpenJDK JRE 11
+Installing OpenJDK JRE 17
 -------------------------
 
 The Java runtime environment (JRE) is required to run the ANTLR generator.
@@ -46,7 +48,7 @@ OpenJDK's JRE is easier to install than Oracle's, so we'll use that.
 .. code-block:: console
 
  $ sudo apt-get update
- $ sudo apt-get install openjdk-11-jre
+ $ sudo apt-get install openjdk-17-jre
 
 Installing Git
 --------------
@@ -72,8 +74,13 @@ Installing CMake from the package manager is easy too:
 ANTLR 4 C++ Runtime
 -------------------
 
-This section details how to install the ANTLR 4 C++ runtime on Ubuntu assuming
-your default shell is bash. If you've changed your shell from bash it's assumed
+This section details how to install the ANTLR 4 C++ runtime on
+Ubuntu
+assuming your default shell is
+bash.
+If you've changed your shell from
+bash
+it's assumed
 that you are familiar enough with your environment that you can modify these
 steps appropriately.
 
@@ -168,16 +175,18 @@ steps appropriately.
 
     $ make install -j<number of threads>
 
-#. Now we can add the install to your bashrc. Pick your favorite text editor,
-   open ``~/.bashrc``, and add the following lines to the end, substituting
-   appropriately:
+#. Now we can add the install to your
+   bashrc.
+   Pick your favorite text editor, open
+   ``~/.bashrc``,
+   and add the following lines to the end, substituting appropriately:
 
    .. code-block:: shell
 
     # C415 ANTLR install
     export ANTLR_INS="<INSTALL_DIR>"
 
-   **Make sure there is no trailing /.** Close and reopen your terminal for
+   **Make sure there is no trailing forward slash (/).** Close and reopen your terminal for
    things to take effect.
 
 Installing CLion
@@ -188,20 +197,22 @@ Installing CLion
    *CLion* for Linux.
 
 #. Assuming you've downloaded the tarball to your ``~/Downloads`` folder, you
-   can extract it to ``/opt/`` using the following command:
+   can extract it to
+   ``/opt/``
+   using the following command:
 
    .. code-block:: console
 
-    $ sudo tar -xzf ~/Downloads/CLion-<version>.tar.gz -C /opt/
+    $ sudo tar -xzf ~/Downloads/clion-<version>.tar.gz -C /opt/
 
    If you are confident about your ability to setup your own install you can put
    it elsewhere but you will be on your own.
 
-#. Execute the installer:
+#. From now on, you can start *CLion* by using the following command:
 
    .. code-block:: console
 
-    $ /opt/CLion-<version>/bin/clion.sh
+    $ /opt/clion-<version>/bin/clion.sh
 
 #. Perform the initial set up of CLion.
 
@@ -212,14 +223,17 @@ Installing CLion
    #. Choose if you want to share usage statistics.
 
    #. You should be presented with a prompt for your license. Select
-      ``Activate``, ``JetBrains Account``, enter your UAlberta email address and
-      JetBrains password. Click the ``Activate`` button.
+      ``Activate CLion``, ``JB Account``, click
+      ``Log In to JetBrains Account...`` and enter your UAlberta email address
+      and JetBrains account password. Click the ``Activate`` button.
 
    #. Pick your favorite UI. Then click ``Next: Toolchains``.
 
    #. CLion bundles a version of CMake with it. If you'd prefer to use the one
-      we've just installed change ``Bundled`` to ``/usr/bin/cmake``. The info
-      text beneath should update with a checkmark and the version of your
+      we've just installed change ``Bundled`` to
+      ``/usr/bin/cmake``.
+      The
+      info text beneath should update with a checkmark and the version of your
       installed cmake. Click ``Next: Default Plugins``.
 
    #. You might consider disabling all but the git plugin, and even then, using
@@ -239,8 +253,9 @@ Installing the ANTLR Plugin for CLion
 ANTLR has a CLion integration that gives syntax highlighting as well as tools
 for visualising the parse tree for a grammar rule and an input.
 
-#. Launch CLion by going to the application launcher (tap the super/Windows
-   button) and typing ``clion``. This should launch CLion.
+#. Launch CLion by going to the application launcher
+   (tap the super/Windows button)
+   and typing ``clion``. This should launch CLion.
 
 #. Open the settings window ``CLion`` :math:`\rightarrow` ``Preferences...``
 
@@ -282,7 +297,8 @@ ANTLR generator. Follow these steps into install it:
     $ curl https://www.antlr.org/download/antlr-4.13.0-complete.jar \
         -o <ANTLR_BIN>/antlr-4.13.0-complete.jar
 
-#. Now we can make it easy to use. Add the following lines to your ``~/.bashrc``:
+#. Now we can make it easy to use. Add the following lines to your
+   ``~/.bashrc``:
 
    .. code-block:: shell
 
@@ -327,14 +343,16 @@ Here are the steps to get MLIR up and running.
     $ mkdir build
     $ cd build
     $ cmake -G Ninja ../llvm \
-          -DLLVM_ENABLE_PROJECTS=mlir \
-          -DLLVM_BUILD_EXAMPLES=ON \
-          -DLLVM_TARGETS_TO_BUILD="Native" \
-          -DCMAKE_BUILD_TYPE=Release \
-          -DLLVM_ENABLE_ASSERTIONS=ON
+        -DLLVM_ENABLE_PROJECTS=mlir \
+        -DLLVM_BUILD_EXAMPLES=ON \
+        -DLLVM_TARGETS_TO_BUILD="Native" \
+        -DCMAKE_BUILD_TYPE=Release \
+        -DLLVM_ENABLE_ASSERTIONS=ON
     $ cmake --build . --target check-mlir
 
-#. Add these configuration lines to your ``~/.bashrc`` file so that you can use
+#. Add these configuration lines to your
+   ``~/.bashrc``
+   file so that you can use
    the MLIR tools and so that ``cmake`` will find your build.
 
    .. code-block:: shell
@@ -382,7 +400,7 @@ request and we'll review it!
     $ make
 
 #. We could refer directly to the executable every time, but it's probably
-   easier to just have it on our path. Add these lines to the end of
+   easier to just have it on our path. Add these lines to the end of your
    ``~/.bashrc``.
 
    .. code-block:: shell
@@ -450,7 +468,7 @@ We're providing two ways for you to play with ANTLR and C++. The first way uses
 the Makefile from the demo you've just done, and the other uses CMake to set up
 a project using the CMake modules that are also used by your assgnments.
 
-Installing OpenJDK JDK 11
+Installing OpenJDK JDK 17
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Because running the GUI tool requires producing the Java version of your parser
@@ -459,12 +477,12 @@ and then compiling it, you must install a JDK.
 .. code-block:: console
 
  $ sudo apt-get update
- $ sudo apt-get install openjdk-11-jdk
+ $ sudo apt-get install openjdk-17-jdk
 
 Makefile
 ~~~~~~~~
 
-Next, download `the Makefile <_static/Makefile>`__ from the link and put it in
+First, download `the Makefile <_static/Makefile>`__ from the link and put it in
 your folder. Alternatively you can download straight to your directory:
 
 .. code-block:: console
