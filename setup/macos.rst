@@ -1,5 +1,5 @@
 Mac OS
-========
+======
 
 This section details how to setup the Mac OS development environment.
 
@@ -61,7 +61,7 @@ tools, you can test this by checking the version.
 
  $ git --version
 
-(OPTIONAL) If you want a more recent version, you can install one through brew
+If you want a more recent version, you can install one through brew
 (or your favorite package manager). At the time of writing this, the versions
 only differ by two minor versions, so the difference is not significant.
 
@@ -215,8 +215,9 @@ Installing CLion
    #. Choose if you want to share usage statistics.
 
    #. You should be presented with a prompt for your license. Select
-      ``Activate``, ``JetBrains Account``, enter your UAlberta email address and
-      JetBrains password. Click the ``Activate`` button.
+      ``Activate CLion``, ``JB Account``, click
+      ``Log In to JetBrains Account...`` and enter your UAlberta email address
+      and JetBrains account password. Click the ``Activate`` button.
 
    #. Pick your favorite UI. Then click ``Next: Toolchains``.
 
@@ -241,8 +242,8 @@ Installing CLion
 Installing the ANTLR Plugin for CLion
 -------------------------------------
 
-ANTLR has a CLion integration that gives syntax highlighting as well as tool for
-visualising the parse tree for a grammar rule and an input.
+ANTLR has a CLion integration that gives syntax highlighting as well as tools
+for visualising the parse tree for a grammar rule and an input.
 
 #. Launch CLion by going to the application launcher (finder) and typing
    ``clion``. This should launch CLion.
@@ -312,8 +313,9 @@ Installing MLIR
 ---------------
 
 In the VCalc assignment and your final project you will be working with MLIR
-and LLVM. Due to the complex nature (and size) of MLIR we did not want to
-include it as a subproject.
+and LLVM.
+Due to the complex nature (and size) of MLIR we did not want to include
+it as a subproject.
 In fact, you may even want to defer the installation
 until you're about to start your assignment.
 Here are the steps to get MLIR up and running.
@@ -334,14 +336,14 @@ Here are the steps to get MLIR up and running.
     $ mkdir build
     $ cd build
     $ cmake -G Ninja ../llvm \
-         -DLLVM_ENABLE_PROJECTS=mlir \
-         -DLLVM_BUILD_EXAMPLES=ON \
-         -DLLVM_TARGETS_TO_BUILD="Native" \
-         -DCMAKE_BUILD_TYPE=Release \
-         -DLLVM_ENABLE_ASSERTIONS=ON
+          -DLLVM_ENABLE_PROJECTS=mlir \
+          -DLLVM_BUILD_EXAMPLES=ON \
+          -DLLVM_TARGETS_TO_BUILD="Native" \
+          -DCMAKE_BUILD_TYPE=Release \
+          -DLLVM_ENABLE_ASSERTIONS=ON
     $ cmake --build . --target check-mlir
 
-#. Add these configuration lines to your ``~/.zprofile`` file so that you can
+#. Add these configuration lines to your ``~/.zshenv`` file so that you can
    use the MLIR tools and so that ``cmake`` will find your build.
 
    .. code-block:: shell
@@ -353,8 +355,7 @@ Here are the steps to get MLIR up and running.
 
 .. _installing-the-tester-1:
 
-Installing the Tester
----------------------
+Installing the Tester---------------------
 
 This is the tool you'll be using for testing your solutions locally. You'll be
 building it yourself so that any changes later are easily obtainable.
