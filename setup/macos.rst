@@ -1,7 +1,7 @@
 macOS
 ======
 
-This section details how to setup the
+This section details how to setup your
 macOS
 development environment.
 

@@ -1,7 +1,7 @@
 Ubuntu
 ======
 
-This section details how to setup the
+This section details how to setup your
 Ubuntu
 development environment.
 
@@ -197,7 +197,9 @@ Installing CLion
    *CLion* for Linux.
 
 #. Assuming you've downloaded the tarball to your ``~/Downloads`` folder, you
-   can extract it to ``/opt/`` using the following command:
+   can extract it to
+   ``/opt/``
+   using the following command:
 
    .. code-block:: console
 
@@ -206,7 +208,7 @@ Installing CLion
    If you are confident about your ability to setup your own install you can put
    it elsewhere but you will be on your own.
 
-#. Execute the installer:
+#. From now on, you can start *CLion* by using the following command:
 
    .. code-block:: console
 
