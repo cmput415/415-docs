@@ -1,7 +1,9 @@
 Ubuntu
 ======
 
-This section details how to setup the Ubuntu development environment.
+This section details how to setup the
+Ubuntu
+development environment.
 
 Installing build-essential
 --------------------------
@@ -72,8 +74,13 @@ Installing CMake from the package manager is easy too:
 ANTLR 4 C++ Runtime
 -------------------
 
-This section details how to install the ANTLR 4 C++ runtime on Ubuntu assuming
-your default shell is bash. If you've changed your shell from bash it's assumed
+This section details how to install the ANTLR 4 C++ runtime on
+Ubuntu
+assuming your default shell is
+bash.
+If you've changed your shell from
+bash
+it's assumed
 that you are familiar enough with your environment that you can modify these
 steps appropriately.
 
@@ -168,9 +175,11 @@ steps appropriately.
 
     $ make install -j<number of threads>
 
-#. Now we can add the install to your bashrc. Pick your favorite text editor,
-   open ``~/.bashrc``, and add the following lines to the end, substituting
-   appropriately:
+#. Now we can add the install to your
+   bashrc.
+   Pick your favorite text editor, open
+   ``~/.bashrc``,
+   and add the following lines to the end, substituting appropriately:
 
    .. code-block:: shell
 
@@ -219,8 +228,10 @@ Installing CLion
    #. Pick your favorite UI. Then click ``Next: Toolchains``.
 
    #. CLion bundles a version of CMake with it. If you'd prefer to use the one
-      we've just installed change ``Bundled`` to ``/usr/bin/cmake``. The info
-      text beneath should update with a checkmark and the version of your
+      we've just installed change ``Bundled`` to
+      ``/usr/bin/cmake``.
+      The
+      info text beneath should update with a checkmark and the version of your
       installed cmake. Click ``Next: Default Plugins``.
 
    #. You might consider disabling all but the git plugin, and even then, using
@@ -240,8 +251,9 @@ Installing the ANTLR Plugin for CLion
 ANTLR has a CLion integration that gives syntax highlighting as well as tools
 for visualising the parse tree for a grammar rule and an input.
 
-#. Launch CLion by going to the application launcher (tap the super/Windows
-   button) and typing ``clion``. This should launch CLion.
+#. Launch CLion by going to the application launcher
+   (tap the super/Windows button)
+   and typing ``clion``. This should launch CLion.
 
 #. Open the settings window ``CLion`` :math:`\rightarrow` ``Preferences...``
 
@@ -283,7 +295,8 @@ ANTLR generator. Follow these steps into install it:
     $ curl https://www.antlr.org/download/antlr-4.13.0-complete.jar \
         -o <ANTLR_BIN>/antlr-4.13.0-complete.jar
 
-#. Now we can make it easy to use. Add the following lines to your ``~/.bashrc``:
+#. Now we can make it easy to use. Add the following lines to your
+   ``~/.bashrc``:
 
    .. code-block:: shell
 
@@ -335,7 +348,9 @@ Here are the steps to get MLIR up and running.
         -DLLVM_ENABLE_ASSERTIONS=ON
     $ cmake --build . --target check-mlir
 
-#. Add these configuration lines to your ``~/.bashrc`` file so that you can use
+#. Add these configuration lines to your
+   ``~/.bashrc``
+   file so that you can use
    the MLIR tools and so that ``cmake`` will find your build.
 
    .. code-block:: shell
@@ -383,7 +398,7 @@ request and we'll review it!
     $ make
 
 #. We could refer directly to the executable every time, but it's probably
-   easier to just have it on our path. Add these lines to the end of
+   easier to just have it on our path. Add these lines to the end of your
    ``~/.bashrc``.
 
    .. code-block:: shell

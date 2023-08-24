@@ -1,14 +1,16 @@
-Mac OS
+macOS
 ======
 
-This section details how to setup the Mac OS development environment.
+This section details how to setup the
+macOS
+development environment.
 
 Installing Developer tools
 --------------------------
 
 It's likely that you've already done this since you're take a high level CS
 class, but in the event that you have a fresh install, run the following command
-to install Mac OS developer tools:
+to install macOS developer tools:
 
 .. code-block:: console
 
@@ -18,8 +20,8 @@ to install Mac OS developer tools:
 Installing Homebrew
 -------------------
 
-Homebrew is a package manager for Mac OS. If you don't have it yet, you can
-read about it `here <https://brew.sh/>`__. Otherwise, install it via the command
+Homebrew is a package manager for macOS. If you don't have it yet, you can
+read about it `here <https://brew.sh/>`__. Install it via the command
 on their front page:
 
 .. code-block:: console
@@ -41,15 +43,13 @@ packages.
 Installing Oracle Java JDK
 --------------------------
 
-Installing from the Oracle download page requires a bunch of extra set up when
+Installing from the Oracle download page requires a bunch of extra setup when
 instead you could just use our good friend Homebrew to install it (unfortunately
 you get the JDK not just the JRE).
 
 .. code-block:: console
 
  $ brew install --cask oracle-jdk
-
-.. _installing-git-1:
 
 Installing Git
 --------------
@@ -61,15 +61,12 @@ tools, you can test this by checking the version.
 
  $ git --version
 
-If you want a more recent version, you can install one through brew
-(or your favorite package manager). At the time of writing this, the versions
-only differ by two minor versions, so the difference is not significant.
+If you want a more recent version, you can install one through Homebrew
+(or your favorite package manager).
 
 .. code-block:: console
 
  $ brew install git
-
-.. _installing-cmake-1:
 
 Installing CMake
 ----------------
@@ -80,13 +77,16 @@ Brew (or otherwise) makes this easy:
 
  $ brew install cmake
 
-.. _antlr-4-c-runtime-1:
-
 ANTLR 4 C++ Runtime
 -------------------
 
-This section details how to install the ANTLR 4 C++ runtime on Mac OS assuming
-your default shell is zsh. If you've changed your shell from zsh, it's assumed
+This section details how to install the ANTLR 4 C++ runtime on
+macOS
+assuming your default shell is
+zsh.
+If you've changed your shell from
+zsh,
+it's assumed
 that you are familiar enough with your environment that you can modify these
 steps appropriately.
 
@@ -181,19 +181,19 @@ steps appropriately.
 
     $ make install -j<number of threads>
 
-#. Now we can add the install to your zsh environment. Pick your favorite text
-   editor, open ``~/.zshenv``, and add the following lines to the end,
-   substituting appropriately:
+#. Now we can add the install to your
+   zsh environment.
+   Pick your favorite text editor, open
+   ``~/.zshenv``,
+   and add the following lines to the end, substituting appropriately:
 
-   .. code-block:: sh
+   .. code-block:: shell
 
     # C415 ANTLR install
     export ANTLR_INS="<INSTALL_DIR>"
 
-   **Make sure there is no trailing /.** Close and reopen your terminal for
+   **Make sure there is no trailing forward slash (/).** Close and reopen your terminal for
    things to take effect.
-
-.. _installing-clion-1:
 
 Installing CLion
 ----------------
@@ -222,7 +222,9 @@ Installing CLion
    #. Pick your favorite UI. Then click ``Next: Toolchains``.
 
    #. CLion bundles a version of CMake with it. If you'd prefer to use the one
-      we've just installed change ``Bundled`` to ``/usr/local/bin/cmake``. The
+      we've just installed change ``Bundled`` to
+      ``/usr/local/bin/cmake``.
+      The
       info text beneath should update with a checkmark and the version of your
       installed cmake. Click ``Next: Default Plugins``.
 
@@ -237,16 +239,15 @@ Installing CLion
       not need the TeamCity Integration, the Lua integration, nor the Swift
       integration. Select ``Start using CLion``
 
-.. _installing-the-antlr-plugin-for-clion-1:
-
 Installing the ANTLR Plugin for CLion
 -------------------------------------
 
 ANTLR has a CLion integration that gives syntax highlighting as well as tools
 for visualising the parse tree for a grammar rule and an input.
 
-#. Launch CLion by going to the application launcher (finder) and typing
-   ``clion``. This should launch CLion.
+#. Launch CLion by going to the application launcher
+   (finder)
+   and typing ``clion``. This should launch CLion.
 
 #. Open the settings window ``CLion`` :math:`\rightarrow` ``Preferences...``
 
@@ -262,8 +263,6 @@ for visualising the parse tree for a grammar rule and an input.
 
 #. After the install bar ends click the ``Restart CLion`` button that should
    have replaced the ``Install`` button.
-
-.. _installing-antlr-generator-1:
 
 Installing ANTLR Generator
 --------------------------
@@ -343,8 +342,10 @@ Here are the steps to get MLIR up and running.
         -DLLVM_ENABLE_ASSERTIONS=ON
     $ cmake --build . --target check-mlir
 
-#. Add these configuration lines to your ``~/.zshenv`` file so that you can
-   use the MLIR tools and so that ``cmake`` will find your build.
+#. Add these configuration lines to your
+   ``~/.zshenv``
+   file so that you can use
+   the MLIR tools and so that ``cmake`` will find your build.
 
    .. code-block:: shell
 
@@ -352,8 +353,6 @@ Here are the steps to get MLIR up and running.
     export MLIR_DIR="$MLIR_INS/lib/cmake/mlir/" # Don't change me.
     export PATH="$MLIR_INS/bin:$PATH" # Don't change me
 
-
-.. _installing-the-tester-1:
 
 Installing the Tester
 ---------------------
@@ -365,7 +364,7 @@ If you encounter issues, please log them on the `GitHub issue tracker
 <https://github.com/cmput415/Tester/issues>`__ or, if you want to, submit a pull
 request and we'll review it!
 
-#. We'll need ``gcc`` to compile the tool.
+#. We'll need a particular version of ``gcc`` to compile the tool.
 
    .. code-block:: console
 
@@ -420,8 +419,6 @@ For more info about organising your tests and creating a configuration (though
 templates will be provided with your assignments) you can check `the Tester
 README <https://github.com/cmput415/Tester/blob/master/README.md>`__.
 
-.. _testing-your-environment-1:
-
 Testing Your Environment
 ------------------------
 
@@ -464,8 +461,6 @@ Everything should be setup! Let's just make sure.
       -  Be careful that things like ``6|5`` or ``6a5`` are not recognised as
          floats.
 
-.. _creating-a-personal-project-1:
-
 Creating a Personal Project
 ---------------------------
 
@@ -473,7 +468,6 @@ We're providing two ways for you to play with ANTLR and C++. The first way uses
 the Makefile from the demo you've just done, and the other uses CMake to set up
 a project using the CMake modules that are also used by your assgnments.
 
-.. _makefile-1:
 
 Makefile
 ~~~~~~~~
@@ -541,8 +535,6 @@ You're ready to start modifying the grammar and C++ source. Don't be afraid to
 add new source files and header files: style will eventually be part of your
 mark so starting here is a good idea! Feel free to cannibalise anything you'd
 like from the demo files.
-
-.. _cmake-todo-1:
 
 CMake
 ~~~~~
