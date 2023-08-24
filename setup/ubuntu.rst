@@ -96,22 +96,13 @@ steps appropriately.
    This should create a new folder called ``antlr4`` in ``ANTLR_PARENT``. We'll
    refer to this new directory (``<ANTLR_PARENT>/antlr4``) as ``SRC_DIR``.
 
-<<<<<<< HEAD
-#. We will be using ANTLR 4.12.0 so we need to change to the git tag for version
-   4.12.0.
-=======
 #. We will be using ANTLR 4.13.0 so we need to change to the git tag for version
    4.13.0.
->>>>>>> master
 
    .. code-block:: console
 
     $ cd <SRC_DIR>
-<<<<<<< HEAD
-    $ git checkout 4.12.0
-=======
     $ git checkout 4.13.0
->>>>>>> master
 
    This will give you a warning about being in a “detached head state”. Since we
    won't be changing anything in ANTLR there is no need to create a branch. No
@@ -288,25 +279,16 @@ ANTLR generator. Follow these steps into install it:
 
    .. code-block:: console
 
-<<<<<<< HEAD
-    $ curl https://www.antlr.org/download/antlr-4.12.0-complete.jar \
-        -o <ANTLR_BIN>/antlr-4.12.0-complete.jar
-=======
     $ curl https://www.antlr.org/download/antlr-4.13.0-complete.jar \
         -o <ANTLR_BIN>/antlr-4.13.0-complete.jar
->>>>>>> master
 
 #. Now we can make it easy to use. Add the following lines to your ``~/.bashrc``:
 
    .. code-block:: shell
 
     # C415 ANTLR generator.
-<<<<<<< HEAD
-    export CLASSPATH="<ANTLR_BIN>/antlr-4.12.0-complete.jar:$CLASSPATH"
-=======
     export ANTLR_JAR="<ANTLR_BIN>/antlr-4.13.0-complete.jar"
     export CLASSPATH="$ANTLR_JAR:$CLASSPATH"
->>>>>>> master
     alias antlr4="java -Xmx500M org.antlr.v4.Tool"
     alias grun='java org.antlr.v4.gui.TestRig'
 
