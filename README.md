@@ -1,23 +1,11 @@
 # 415-docs
-Holds all of the documentation for CMPUT 415.
+This repository holds all of the documentation for CMPUT 415.
 
-To install the PyPI dependencies for building the documentation, use the
-command:
+The files are served from https://cmput415.github.io/415-docs.
 
-  ```shell
-  pip install -r requirements.txt
-  ```
+The site is automatically updated using a Github Action when
+  1. a commit is pushed to the master branch
+  3. the action is manually triggered from the Github Actions page
 
-To make the documentation for the setup instructions and assignment
-specifications, use the command:
-
-  ```shell
-  make github
-  ````
-
-To install the most recent version in the website, push the changes to the
-master branch.
-
-The files are served from the following website:
-
-  https://cmput415.github.io/415-docs
+For more details on the Github Action workflow, see
+`.github/workflows/deploySite.yml`

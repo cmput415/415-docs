@@ -82,7 +82,7 @@ value, and then used as a scalar initialization of the vector.
 
 
    In this example the compiler can infer both the size and the type of
-   w from v. The size may not always be known at compile time, so this
+   ``w`` from ``v``. The size may not always be known at compile time, so this
    may need to be handled during runtime.
 
 .. _sssec:vector_null:
@@ -163,7 +163,7 @@ Operations
          								integer numElements = length(v);
 
 
-      In this case ``numElements`` would be 3, since the vector v
+      In this case ``numElements`` would be 3, since the vector ``v``
       contains 3 elements.
 
    b. Concatenation
@@ -189,7 +189,7 @@ Operations
          								real[6] j = v || u;
 
 
-      would be permitted, and the integer vector v would be promoted to
+      would be permitted, and the integer vector ``v`` would be promoted to
       a real vector before the concatenation.
 
       Concatenation may also be used with scalar values. In this case
@@ -205,7 +205,7 @@ Operations
    c. Dot Product
 
       Two vectors with the same size and a numeric element type(types with
-      the +, and \* operator) may be used in a dot product operation.
+      the ``+``, and ``\*`` operator) may be used in a dot product operation.
       For instance:
 
       ::
@@ -218,13 +218,51 @@ Operations
          								integer dot = v ** u;  /* Perform a dot product */
 
 
+   d. Range
+
+      The ``..`` operator creates an integer vector holding the specified range
+      of integer values.
+      This operator must have an expression resulting in an integer on both
+      sides of it. These integers mark the *inclusive* upper and lower bounds
+      of the range.
+
+      For example:
+
+      ::
+
+         print(1..10);
+         print((10-8)..(9+2));
+
+      prints the following:
+
+      ::
+
+         [1 2 3 4 5 6 7 8 9 10]
+         [2 3 4 5 6 7 8 9 10 11]
+
+      The number of integers in a range may not be known at compile time when
+      the integer expressions use variables. In another example, assuming at
+      runtime that ``i`` is computed as -4:
+
+      ::
+
+         print(i..5);
+
+      prints the following:
+
+      ::
+
+         [-4 -3 -2 -1 0 1 2 3 4 5]
+
+      Therefore, it is *valid* to have bounds that will produce an empty
+      vector because the difference between them is negative.
+
    d. Indexing
 
       A vector may be indexed in order to retrieve the values stored in
-      the vector. A vector may be indexed using integers, integer
-      vectors, and integer intervals. *Gazprea* is 1-indexed, so the
-      first element of a vector is at index 1 (as opposed to index 0 in
-      languages like *C*). For instance:
+      the vector. A vector may be indexed using integers and integer vectors.
+      *Gazprea* is 1-indexed, so the first element of a vector is at index 1
+      (as opposed to index 0 in languages like *C*). For instance:
 
       ::
 
@@ -236,16 +274,15 @@ Operations
 
 
       When indexed with a scalar integer the result is a scalar value,
-      but when indexed with an interval or a vector the result is
-      another vector.
+      but when indexed with a vector the result is another vector.
 
       Out of bounds indexing should cause an error.
 
-   e. by
+   e. Stride
 
-      The by operator is also defined for vectors of any element type. It
-      produces a vector with every value with the given offset. For
-      instance:
+      The ``by` operator is used to specify a step-size greater than 1 when
+      indexing across a vector. It produces a new vector with the values
+      indexed by the given stride. For instance:
 
       ::
 
@@ -253,7 +290,6 @@ Operations
          								integer[*] u = v by 1; /* [1, 2, 3, 4, 5] */
          								integer[*] w = v by 2; /* [1, 3, 5] */
          								integer[*] l = v by 3; /* [1, 4] */
-
 
 #. Operations of the Element Type
 
@@ -324,8 +360,8 @@ Operations
 
    yields ``false``
 
-   The != operation also produces a boolean instead of a boolean vector.
-   The result is the logical negation of the result of the == operator.
+   The ``!=`` operation also produces a boolean instead of a boolean vector.
+   The result is the logical negation of the result of the ``==`` operator.
 
 
 Type Casting and Type Promotion

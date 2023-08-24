@@ -57,22 +57,13 @@ cannot be inferred from the scalar value. For example:
      // Create a vector of booleans with length 10 where all values are true.
      var u = as<boolean[10]>('c');
 
-.. _ssec:typeCasting_itov:
-
-Interval to Vector
-------------------
-
-An ``integer`` ``interval`` may be explicitly cast to an ``integer`` or
-``real`` ``vector`` as in the :ref:`type promotion rules <ssec:typePromotion_ivltov>`, but the explicit cast can cause the
-interval to be truncated or ``null`` padded.
-
 .. _ssec:typeCasting_vtov:
 
 Vector to Vector
 ----------------
 
 Conversions between ``vector`` types are also possible. First, the
-values of the original are casted to the destination type’s element type
+values of the original are cast to the destination type’s element type
 according to the rules in :ref:`ssec:typeCasting_stos` and then the destination is padded with
 destination element type’s ``null`` or truncated to match the
 destination type size. Note that the size is not required for vector to

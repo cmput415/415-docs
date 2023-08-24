@@ -4,7 +4,7 @@ Real
 ----
 
 A ``real`` is an IEEE 754 32-bit floating point value. A ``real`` can be
-represented by a ``float`` in *LLVM IR*.
+represented by a ``f32`` in *MLIR*.
 
 .. _sssec:real_decl:
 
@@ -70,17 +70,12 @@ Operations
 Floating point operations and precedence are equivalent to :ref:`integer operation and precedence <sssec:integer_ops>`.
 
 Operations on real numbers should adhere to the IEEE 754 spec with
-regards to the representation of not-a-number(NaNs), infiity(infs), and
+regards to the representation of not-a-number(NaNs), infinity(infs), and
 zeros. A signaling NaN should cause a runtime error. Floating point
 errors and semantics can be guaranteed by using the `LLVM IR constrained
 floating point
 intrinsics <https://llvm.org/docs/LangRef.html#constrained-floating-point-intrinsics>`__.
-The ``round.towardzero`` rounding mode should be chosen along with the
-``fpexcept.strict`` exception behaviour.
-
-For more information on why this is necessary, look into the `default
-LLVM IR floating point
-environment <https://llvm.org/docs/LangRef.html#floatenv>`__.
+The default rounding mode (round-to-nearest) should be chosen along with ``fpexcept.strict`` exception behaviour.
 
 
 Type Casting and Type Promotion

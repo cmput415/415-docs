@@ -1,0 +1,2094 @@
+diff --git a/.github/workflows/deploySite.yml b/.github/workflows/deploySite.yml
+deleted file mode 100644
+index 8adb8f9..0000000
+--- a/.github/workflows/deploySite.yml
++++ /dev/null
+@@ -1,59 +0,0 @@
+-name: Deploy 415-docs Github Pages site
+-
+-# controls when the workflow will run
+-on:
+-  # triggers the workflow on push or pull request events but only for the "master" branch
+-  push:
+-    branches: [ "master" ]
+-
+-  # you can run this workflow manually from the Actions tab
+-  workflow_dispatch:
+-
+-jobs:
+-  build:
+-    runs-on: ubuntu-latest
+-
+-    steps:
+-      - name: Checkout repository
+-        uses: actions/checkout@v3
+-      
+-      - name: Install requirements
+-        run: pip install -r requirements.txt
+-        
+-      - name: Install latexmk
+-        run: |
+-          sudo apt-get update -y
+-          sudo apt-get install -y latexmk
+-          latexmk --version
+-      
+-      # required for making pdfs with latex (https://stackoverflow.com/questions/50431961/how-to-install-only-cmap-sty-required-packages-in-my-machine)
+-      - name: Install cmap.sty
+-        run: sudo apt-get install texlive-latex-extra
+-        
+-      - name: Clean docs
+-        run: make clean
+-
+-      - name: Build docs
+-        run: make github
+-
+-      - name: Create github-pages artifact
+-        uses: actions/upload-pages-artifact@v2
+-
+-  deploy:
+-    needs: build
+-    runs-on: ubuntu-latest
+-
+-    # Grant GITHUB_TOKEN the permissions required to make a Pages deployment
+-    permissions:
+-      pages: write      # to deploy to Pages
+-      id-token: write   # to verify the deployment originates from an appropriate source
+-
+-    # Deploy to the github-pages environment
+-    environment:
+-      name: github-pages
+-      url: ${{ steps.deployment.outputs.page_url }}
+-
+-    steps:
+-      - name: Deploy to GitHub Pages
+-        id: deployment
+-        uses: actions/deploy-pages@v2
+diff --git a/Makefile b/Makefile
+index ad5b2d9..9fd2c3c 100644
+--- a/Makefile
++++ b/Makefile
+@@ -11,7 +11,7 @@ HFILES:=htaccess
+ HFILESDOT:=$(foreach file, $(HFILES), .$(file))
+ PDFS:=$(foreach file, $(DIRS), $(file).pdf)
+ 
+-.PHONY: all github clean 
++.PHONY: all github clean #remoteinstall
+ 
+ all:
+ 	$(foreach dir, $(DIRS), $(MAKE) html -C $(dir);)
+@@ -20,16 +20,36 @@ all:
+ 	$(foreach dir, $(DIRS), rm -rf $(dir)/_build/html/_sources/;)
+ 	$(foreach dir, $(DIRS), $(MAKE) latexpdf -C $(dir);)
+ 
++# # This target no longer works
++# remoteinstall: all
++# 	@# Make the build directory and zip it.
++# 	mkdir .webdocs_build
++# 	$(foreach dir, $(DIRS), cp -r $(dir)/_build/html/ .webdocs_build/$(dir);)
++# 	$(foreach dir, $(DIRS), cp -r $(dir)/_build/latex/$(dir).pdf \
++# 		.webdocs_build/$(dir).pdf;)
++# 	$(foreach file, $(HFILES), cp base/$(file) .webdocs_build/.$(file);)
++# 	$(foreach file, $(FILES), cp base/$(file) .webdocs_build/$(file);)
++# 	tar -czf .build.tar.gz -C .webdocs_build $(DIRS) $(HFILESDOT) $(FILES) $(PDFS)
++
++# 	@# Move to ohaton and install it.
++# 	scp .build.tar.gz c415@ohaton.cs.ualberta.ca:~/.build.tar.gz
++# 	ssh c415@ohaton.cs.ualberta.ca \
++# 		'tar -xzf .build.tar.gz -C /compsci/webdocs/c415/web_docs/;'\
++# 		'rm -f .build.tar.gz'
++
++# 	@# Clean up.
++# 	rm -rf .webdocs_build .build.tar.gz
++
+ github: all
+-	rm -rf _site
+-	mkdir _site
+-	mkdir _site/css
+-	mkdir _site/engineering
+-	$(foreach dir, $(DIRS), mkdir _site/$(dir);)
+-	$(foreach dir, $(DIRS), cp -r $(dir)/_build/html/* _site/$(dir);)
+-	$(foreach dir, $(DIRS), cp -r $(dir)/_build/latex/$(dir).pdf _site/$(dir).pdf;)
+-	$(foreach file, $(FILES), cp base/$(file) _site/$(file);)
+-	touch _site/.nojekyll
++	rm -rf docs
++	mkdir docs
++	mkdir docs/css
++	mkdir docs/engineering
++	$(foreach dir, $(DIRS), mkdir docs/$(dir);)
++	$(foreach dir, $(DIRS), cp -r $(dir)/_build/html/* docs/$(dir);)
++	$(foreach dir, $(DIRS), cp -r $(dir)/_build/latex/$(dir).pdf docs/$(dir).pdf;)
++	$(foreach file, $(FILES), cp base/$(file) docs/$(file);)
++	touch docs/.nojekyll
+ 
+ clean:
+ 	$(foreach dir, $(DIRS), $(MAKE) -C $(dir) clean;)
+diff --git a/README.md b/README.md
+index 5161871..5b6cf68 100644
+--- a/README.md
++++ b/README.md
+@@ -1,11 +1,23 @@
+ # 415-docs
+-This repository holds all of the documentation for CMPUT 415.
++Holds all of the documentation for CMPUT 415.
+ 
+-The files are served from https://cmput415.github.io/415-docs.
++To install the PyPI dependencies for building the documentation, use the
++command:
+ 
+-The site is automatically updated using a Github Action when
+-  1. a commit is pushed to the master branch
+-  3. the action is manually triggered from the Github Actions page
++  ```shell
++  pip install -r requirements.txt
++  ```
+ 
+-For more details on the Github Action workflow, see
+-`.github/workflows/deploySite.yml`
++To make the documentation for the setup instructions and assignment
++specifications, use the command:
++
++  ```shell
++  make github
++  ````
++
++To install the most recent version in the website, push the changes to the
++master branch.
++
++The files are served from the following website:
++
++  https://cmput415.github.io/415-docs
+diff --git a/gazprea/impl/backend.rst b/gazprea/impl/backend.rst
+index be5d42a..4511844 100644
+--- a/gazprea/impl/backend.rst
++++ b/gazprea/impl/backend.rst
+@@ -4,7 +4,7 @@ Backend
+ =======
+ 
+ You don’t need to implement an interpreter for Gazprea. You only need to
+-implement a *MLIR* code generator that outputs *LLVM IR*.
++implement a llvm code generator.
+ 
+ .. _ssec:backend_memory:
+ 
+@@ -14,24 +14,21 @@ Memory Management
+ It is important that you are able to automatically free and allocate memory for
+ vectors and matrices when they enter and exit scope. You may use ``malloc`` and
+ ``free`` for these purposes. This may be done in either your runtime or directly
+-within MLIR.
++within LLVM, though you may find it easier to do in LLVM.
+ 
+-Below is an example of how to use ``malloc`` and ``free`` within MLIR using the LLVM dialect:
++Below is an example of how to use ``malloc`` and ``free`` within LLVM:
+ 
+ ::
+ 
+-  module {
+-    llvm.func @malloc(i32) -> !llvm.ptr<i8>
+-    llvm.func @free(!llvm.ptr<i8>)
+-    llvm.func @main() -> i32 {
+-      %0 = llvm.mlir.constant(128 : i32) : i32
+-      %1 = llvm.call @malloc(%0) : (i32) -> !llvm.ptr<i8>
+-      llvm.call @free(%1) : (!llvm.ptr<i8>) -> ()
+-      %c0_i32 = llvm.mlir.constant(0 : i32) : i32
+-      llvm.return %c0_i32 : i32
+-    }
++  define i32 @main(i32 %argc, i8** %argv) {
++    %1 = call i8* @malloc(i64 128)
++    call void @free(i8* %1)
++    ret i32 0
+   }
+ 
++  declare i8* @malloc(i64)
++  declare void @free(i8*)
++
+ It is important that the code generated by your compiler has no memory leaks,
+ and that all memory is freed as it leaves scope.
+ 
+@@ -41,10 +38,10 @@ Runtime Libraries
+ -----------------
+ 
+ If you make a runtime library, the runtime library must be implemented
+-in a runtime directory (``runtime``). Beware that in C++ there is additional
++in a runtime directory (lib). Beware that in C++ there is additional
+ name mangling that occurs to allow class functions. Thus, we recommend
+ that all runtime functions should be written in C and not in C++. There
+-is a Makefile in the ``runtime`` folder designed to turn all ``*.c`` and
++is a Makefile in the (lib) folder designed to turn all ``*.c`` and
+ ``*.h`` pairs into part of the unified runtime library ``libruntime.a``.
+ An example of how to make a runtime function is provided bellow.
+ 
+@@ -75,40 +72,36 @@ An example of how to make a runtime function is provided bellow.
+ 
+        uint64_t factorial(uint64_t n);
+ 
+-If your compiler was compiling the following input
++If ou compiler was compiling the following input ``Input file``
+ 
+ ::
+ 
+        3! + (2 + 7)!
+ 
+-Here is how to call the function in the LLVM dialect of MLIR:
++Here is how to call the function in LLVM code.
+ 
+-``MLIR src``
++``LLVM src``
+ 
+ ::
+ 
+-   module {
+-     // This makes the function available for calling
+-     llvm.func @factorial(i64) -> i64
++       target triple = "x86_64-pc-linux-gnu"
++       define i32 @main() {
+ 
+-     llvm.func @main() -> i32 {
+-       // Calls factorial with the constant 3 as an argument
+-       %0 = llvm.mlir.constant(3 : i64) : i64
+-       %1 = llvm.call @factorial(%0) : (i64) -> (i64)
++           ; Calls factorial on 3 for the first part of expression
++           %0 = call i64 @factorial(i64 3)
+ 
+-       // Adds 2 and 7 together
+-       %2 = llvm.mlir.constant(2 : i64) : i64
+-       %3 = llvm.mlir.constant(7 : i64) : i64
+-       %4 = llvm.add %2, %3 : i64
++           ; Adds 2 and 7 together
++           %1 = add i64 2, 7
+ 
+-       // Calls factorial with the result of 2+7
+-       %5 = llvm.call @factorial(%4) : (i64) -> (i64)
++           ; Calls factorial of (2 + 7)
++           %2 = call i64 @factorial(i64 %1)
+ 
+-       // Adds the result of 3! with (2+7)!
+-       %6 = llvm.add %1, %5 : i64
++           ; Adds the results of 3! and (2 + 7)!
++           %3 = add i64 %0, %2
+ 
+-       // Done, return 0
+-       %c0_i32 = llvm.mlir.constant(0 : i32) : i32
+-       llvm.return %c0_i32 : i32
+-  }
+-}
++           ; Done, return 0
++           ret i32 0
++       }
++
++       ; This makes the function available for calling
++       declare i64 @factorial(i64)
+diff --git a/gazprea/impl/part_2.rst b/gazprea/impl/part_2.rst
+index 07a31eb..cfc26a0 100644
+--- a/gazprea/impl/part_2.rst
++++ b/gazprea/impl/part_2.rst
+@@ -9,6 +9,7 @@ Part 1.
+ #. :ref:`All Previous Features <sec:part1>`
+ #. :ref:`sec:types`
+ 
++   * :ref:`ssec:interval`
+    * :ref:`ssec:vector`
+    * :ref:`ssec:matrix`
+    * :ref:`ssec:string`
+diff --git a/gazprea/index.rst b/gazprea/index.rst
+index 00adb39..b0a7383 100644
+--- a/gazprea/index.rst
++++ b/gazprea/index.rst
+@@ -20,6 +20,7 @@ Hardware Acceleration Laboratory in Markham, ON.
+    spec/keywords
+    spec/identifiers
+    spec/comments
++   spec/streams
+    spec/declarations
+    spec/type_qualifiers
+    spec/types
+@@ -28,7 +29,6 @@ Hardware Acceleration Laboratory in Markham, ON.
+    spec/type_casting
+    spec/type_promotion
+    spec/typedef
+-   spec/streams
+    spec/expressions
+    spec/statements
+    spec/functions
+diff --git a/gazprea/spec/built_in_functions.rst b/gazprea/spec/built_in_functions.rst
+index ab15581..242556c 100644
+--- a/gazprea/spec/built_in_functions.rst
++++ b/gazprea/spec/built_in_functions.rst
+@@ -60,26 +60,6 @@ the vector.
+          v -> std_output; /* Prints 12345 */
+          w -> std_output; /* Prints 54321 */
+ 
+-.. _ssec:builtIn_format:
+-
+-Format
+--------
+-
+-The ``format`` built-in takes any scalar as input and returns a string
+-containing the formatted value of the scalar.
+-
+-::
+-
+-         integer i = 24;
+-         real r = 2.4;
+-
+-         "i = " || format(i) || ", r = " || format(r) || '\n' -> std_output;
+-         // Prints: "i = 24, r = 2.4\n"
+-
+-Note that ``format`` will have to allocate space to hold the return string.
+-You will have to figure out how to manage the memory so it is reclaimed
+-eventually.
+-
+ .. _ssec:builtIn_stream_state:
+ 
+ Stream State
+diff --git a/gazprea/spec/comments.rst b/gazprea/spec/comments.rst
+index 5fd2bb3..667b64d 100644
+--- a/gazprea/spec/comments.rst
++++ b/gazprea/spec/comments.rst
+@@ -19,10 +19,10 @@ comment is the **first** occurrence of the sequence of characters
+ 
+ ::
+ 
+-    /* This is a block comment. It can span as many lines as we want, and
+-       only ends when the closing sequence is encountered.
+-     */
+-    integer x = 2 * 3;  /* Block comments can also be on a single line */
++   	/* This is a block comment. I can span as many lines as we want, and
++   	   only ends when the closing sequence is encountered.
++   	 */
++   	integer x = 2 * 3;  /* Block comments can also be on a single line */
+ 
+ Block comments cannot be nested because the comment finishes when it
+ reaches the first closing sequence. For example, this is invalid:
+diff --git a/gazprea/spec/expressions.rst b/gazprea/spec/expressions.rst
+index 57d7850..121a4bc 100644
+--- a/gazprea/spec/expressions.rst
++++ b/gazprea/spec/expressions.rst
+@@ -48,12 +48,13 @@ Generators
+ 
+ A generator may be used to construct either a vector or a matrix. A
+ generator creates a value of a vector type when one domain variable is
+-used, a matrix type when two domain variables are used.
+-Any other number of domain variables will yield an error.
++used, and a generator creates a value of a matrix type when two domain
++variables are used. Any other number of domain variables will yield an
++error.
+ 
+-A generator consists of either one or two domain expressions,
+-and an additional  expression on the right hand side of the bar (``|``).
+-This additional expression is used to create the generated values. For example:
++A generator consists of either one or two domain expression. An
++additional expression is used on the right hand side in order to create
++the generated values. For example:
+ 
+ ::
+ 
+@@ -63,7 +64,7 @@ This additional expression is used to create the generated values. For example:
+          integer[2, 3] M = [i in 1..2, j in 1..3 | i * j];
+          /* M[i, j] == i * j */
+ 
+-The expression to the right of the bar ``|``, is used to generate the
++The expression to the right of the bar "|", is used to generate the
+ value at the given index, and must result in a value with the same type
+ as the element type for the matrix or vector. Generators may be nested, and
+ may be used within domain expressions. For instance, the generator below
+@@ -108,19 +109,13 @@ There must be at least one predicate expression
+ Domain Expressions
+ ------------------
+ 
+-Domain expressions consist of an identifier denoting an iterator variable and
+-an expression that evaluates to **any** vector type.
+ Domain expressions can only appear within iterator loops, generators,
+ and filters. A domain expression is a way of declaring a variable that
+ is local to the loop, generator, or filter, that takes on values from
+-the domain expression vector in order.
+-The scope of the domain variables (the left hand side of the declaration) is
+-within the body of the generator, filter, or loop.
+-The domain expressions (the right hand side) are all evaluated before any of the
+-domain variables are initialized, and therefore the domain expression scope is
+-the one enclosing the iterator loop, generator, or filter.
++intervals, and vectors in order.
+ 
+-For instance:
++Domain expressions are essentially declarations, and so they follow the
++same scoping rules. For instance:
+ 
+ ::
+ 
+@@ -132,7 +127,7 @@ For instance:
+          }
+ 
+ Domain variables are not initialized when they are declared. For
+-instance, in loops they are initialized at the start of each execution of
++instance in loops they are initialized at the start of each execution of
+ the loop’s body statement. However, we may chain domain variables using
+ commas, like in iterator loops, or matrix generators. Thus it is illegal
+ to use a domain variable declared in the same chain of domain
+@@ -142,14 +137,20 @@ expressions, since the value may be uninitialized.
+ 
+          integer i = 7;
+ 
+-         /* The "i"s both domain expressions are at the same scope, which is
+-          * the one enclosing the loop. Therefore the output is the square of
+-          * the numbers from 1 to 7.
+-          */
++         /* This is illegal because the i in "j in 1..i" refers to the domain
++            variable i. An error should be raised in this case. */
+          loop i in 1..i, j in 1..i {
+             i * j -> std_output;
+          }
+ 
++         /* This is legal since i will be initialized whenever the inner loop
++            is executed */
++         loop i in 1..i {
++           loop j in 1..i {
++             i * j -> std_output;
++           }
++         }
++
+ The domain for the domain expression is only evaluated once. For
+ instance:
+ 
+diff --git a/gazprea/spec/keywords.rst b/gazprea/spec/keywords.rst
+index 098cdb9..c37026c 100644
+--- a/gazprea/spec/keywords.rst
++++ b/gazprea/spec/keywords.rst
+@@ -40,6 +40,8 @@ not be used by a programmer.
+ 
+ -  integer
+ 
++-  interval
++
+ -  length
+ 
+ -  loop
+diff --git a/gazprea/spec/procedures.rst b/gazprea/spec/procedures.rst
+index eeb54d3..30bcff8 100644
+--- a/gazprea/spec/procedures.rst
++++ b/gazprea/spec/procedures.rst
+@@ -77,16 +77,18 @@ These procedures can be called as follows:
+ 
+ It is only possible to call procedures in this way. Functions must
+ appear in expressions because they can not cause side effects, so using
+-a function in a ``call`` statement would not do anything. *Gazprea*
+-should raise an error if a function is used in a ``call`` statement.
+-
+-A procedure may never be called within a function, doing so would allow for
+-impure functions. Procedures may only be called within assignment statements
+-(procedures may not be used as the control expression in control flow expressions, for instance).
+-The return value from a procedure call can only be manipulated with unary
++a function as a statement would not do anything, and thus *Gazprea*
++should raise an error. If the procedure has a return value and is called
++in this fashion the return value is discarded.
++
++Procedures may also be called in expressions just like functions, but
++with a few more limitations. A procedure may never be called within a
++function, doing so would allow for impure functions. Procedures may only
++be called within assignment statements (procedures may not be used as
++the control expression in control flow expressions, for instance). The
++return value from a procedure call can only be manipulated with unary
+ operators. It is illegal to use the results from a procedure call with
+-binary expressions.
+-For example:
++binary expressions, for instance:
+ 
+ ::
+ 
+@@ -96,9 +98,14 @@ For example:
+          var z = not p(); /* Legal, depending on the return type of p */
+          var u = p() + p(); /* Illegal */
+ 
+-These restrictions are made by *Gazprea* in order to allow for more
++This restriction is made by ``Gazprea`` in order to allow for more
+ optimizations.
+ 
++As long as they have an appropriate return type. The difference is that
++functions can be called within other functions, but procedures can not
++be used within functions since procedures may be impure. Procedures may
++only be called within procedures.
++
+ Procedures without a return clause may not be used in an expression.
+ *Gazprea* should raise an error in such a case.
+ ::
+@@ -111,8 +118,7 @@ Procedures without a return clause may not be used in an expression.
+ Forward Declaration
+ -------------------
+ 
+-Procedures can use :ref:`forward declaration <ssec:function_fwd_declr>`
+-just like functions.
++Procedures can use :ref:`forward declaration just like functions <ssec:function_fwd_declr>`.
+ 
+ .. _ssec:procedure_main:
+ 
+@@ -174,8 +180,8 @@ should be raised when this is detected. For instance:
+            return 0;
+          }
+ 
+-Whenever a procedure has a mutable argument ``x`` it must be checked that
+-none of the other arguments given to the procedure are ``x``. This is simple
++Whenever a procedure has a mutable argument x it must be checked that
++none of the other arguments given to the procedure are x. This is simple
+ for scalar values, but more complicated when variable vectors and
+ matrices are passed to procedures. For instance:
+ 
+diff --git a/gazprea/spec/statements.rst b/gazprea/spec/statements.rst
+index b81882e..2dba964 100644
+--- a/gazprea/spec/statements.rst
++++ b/gazprea/spec/statements.rst
+@@ -317,7 +317,7 @@ when it is checked.
+ The loop can be pre-predicated, which means that the control expression
+ is tested before the body statement is executed. This is the same
+ behaviour as while loops in most languages, and is written using the
+-``while`` token after the ``loop``, followed by a boolean expression for the
++while token after the loop, followed by a boolean expression for the
+ predicate. For example:
+ 
+ ::
+@@ -332,7 +332,7 @@ predicate. For example:
+ 
+ A post-predicated loop is also available. In this case the control
+ expression is tested after the body statement is executed. This also
+-uses the ``while`` token followed by the control expression, but it appears
++uses the while token followed by the control expression, but it appears
+ at the end of the loop. Post Predicated loop statements must end in a
+ semicolon.
+ 
+@@ -348,9 +348,9 @@ semicolon.
+ Iterator Loop
+ ~~~~~~~~~~~~~
+ 
+-Loops can be used to iterate over the elements of a vector of any type.
+-This is done by using domain expressions (for instance ``i in v``) in
+-conjunction with a loop statement.
++Loops can be used to iterate over the elements of an integer interval,
++or a vector of any type. This is done by using domain expressions (for
++instance i in v) in conjunction with a loop statement.
+ 
+ When the domain is given by a vector, each time the loop is executed the
+ next element of the vector is assigned to the domain variable. The
+@@ -366,7 +366,9 @@ automatically exits. For instance:
+              i -> std_output;
+            }
+ 
+-Vector ranges can also be used instead:
++Integer intervals can also be used instead. In this case it is the same
++as iterating over a vector created from the interval using by 1. For
++instance, the above iterator loop is equivalent to the following:
+ 
+ ::
+ 
+@@ -380,7 +382,7 @@ instance:
+ 
+ ::
+ 
+-           integer[\*] v = [i in 1..3 | i];
++           integer[*] v = [i in 1..3 | i];
+ 
+            /* Since the domain 'v' is only evaluated once this loop prints 1, 2,
+               and then 3 even though after the first iteration 'v' is the zero
+@@ -413,10 +415,10 @@ This can be done with as many domain expressions as desired.
+ Break
+ -----
+ 
+-A ``break`` statement may only appear within the body of a loop. When a
+-``break`` statement is executed the loop is exited, and *Gazprea* continues
++A break statement may only appear within the body of a loop. When a
++break statement is executed the loop is exited, and *Gazprea* continues
+ to execute after the loop. This only exits the innermost loop, which
+-actually contains the ``break``.
++actually contains the break.
+ 
+ ::
+ 
+@@ -438,7 +440,7 @@ actually contains the ``break``.
+            "\n" -> std_output;
+          }
+ 
+-If a ``break`` statement is not contained within a loop an error must be
++If a break statement is not contained within a loop an error must be
+ raised.
+ 
+ .. _ssec:statements_continue:
+diff --git a/gazprea/spec/streams.rst b/gazprea/spec/streams.rst
+index 2428a55..c3b611b 100644
+--- a/gazprea/spec/streams.rst
++++ b/gazprea/spec/streams.rst
+@@ -4,7 +4,7 @@ Streams
+ =======
+ 
+ *Gazprea* has two streams: ``std_output`` and ``std_input``,
+-which are used for writting to `stdout` and reading from `stdin` respectively.
++which are used for outputting to stdout and reading from stdin respectively.
+ 
+ 
+ .. _ssec:output:
+@@ -34,7 +34,7 @@ an output stream:
+    This is the same behaviour as the `%g specifier in
+    printf <http://www.cplusplus.com/reference/cstdio/printf/>`__.
+ 
+--  :ref:`ssec:boolean`: Prints T for true, and F for false.
++-  :ref:`ssec:boolean`: Print T for true, and F for false.
+ 
+ :ref:`Vectors <ssec:vector>` print their contents according to the rules above, with square
+ braces surrounding its elements and with spaces only *between* values.
+diff --git a/gazprea/spec/type_casting.rst b/gazprea/spec/type_casting.rst
+index 89d9884..e138c84 100644
+--- a/gazprea/spec/type_casting.rst
++++ b/gazprea/spec/type_casting.rst
+@@ -57,13 +57,22 @@ cannot be inferred from the scalar value. For example:
+      // Create a vector of booleans with length 10 where all values are true.
+      var u = as<boolean[10]>('c');
+ 
++.. _ssec:typeCasting_itov:
++
++Interval to Vector
++------------------
++
++An ``integer`` ``interval`` may be explicitly cast to an ``integer`` or
++``real`` ``vector`` as in the :ref:`type promotion rules <ssec:typePromotion_ivltov>`, but the explicit cast can cause the
++interval to be truncated or ``null`` padded.
++
+ .. _ssec:typeCasting_vtov:
+ 
+ Vector to Vector
+ ----------------
+ 
+ Conversions between ``vector`` types are also possible. First, the
+-values of the original are cast to the destination type’s element type
++values of the original are casted to the destination type’s element type
+ according to the rules in :ref:`ssec:typeCasting_stos` and then the destination is padded with
+ destination element type’s ``null`` or truncated to match the
+ destination type size. Note that the size is not required for vector to
+diff --git a/gazprea/spec/type_promotion.rst b/gazprea/spec/type_promotion.rst
+index 745b84f..21dbdc6 100644
+--- a/gazprea/spec/type_promotion.rst
++++ b/gazprea/spec/type_promotion.rst
+@@ -3,8 +3,8 @@
+ Type Promotion
+ ==============
+ 
+-Type promotion is a sub-problem of casting and refers to casts that happen
+-implicitly.
++Type promotion is a sub-problem to and refers to casts that happen
++implicitly without extra syntax such as using ``as``.
+ 
+ .. _ssec:typePromotion_scalar:
+ 
+@@ -60,6 +60,19 @@ would print the following:
+ 
+      [2 3 4 5 6]
+ 
++.. _ssec:typePromotion_ivltov:
++
++Interval to Vector
++------------------
++
++An ``interval`` can be implicitly converted to an identically-sized
++``vector`` of any type that ``integer`` can be :ref:`converted to implicity <ssec:typePromotion_scalar>`. For example:
++
++::
++
++     integer interval i = 1..5;
++     integer[5] iv = i;
++     real[*] rv = i;
+ 
+ .. _ssec:typePromotion_ttot:
+ 
+diff --git a/gazprea/spec/types.rst b/gazprea/spec/types.rst
+index 12540fc..0fafb18 100644
+--- a/gazprea/spec/types.rst
++++ b/gazprea/spec/types.rst
+@@ -11,6 +11,7 @@ Types
+    types/integer
+    types/real
+    types/tuple
++   types/interval
+    types/vector
+    types/string
+-   types/matrix
++   types/matrix
+\ No newline at end of file
+diff --git a/gazprea/spec/types/boolean.rst b/gazprea/spec/types/boolean.rst
+index faac6bb..fbe5c61 100644
+--- a/gazprea/spec/types/boolean.rst
++++ b/gazprea/spec/types/boolean.rst
+@@ -4,7 +4,7 @@ Boolean
+ -------
+ 
+ A ``boolean`` is either ``true`` or ``false``. A ``boolean`` can be
+-represented by an ``i1`` in *MLIR*.
++represented by an ``i1`` in *LLVM IR*.
+ 
+ .. _sssec:boolean_decl:
+ 
+@@ -90,4 +90,4 @@ Type Casting and Type Promotion
+ 
+ To see the types that ``boolean`` may be cast and/or promoted to, see
+ the sections on :ref:`sec:typeCasting` and :ref:`sec:typePromotion` 
+-respectively.
++respectively.
+\ No newline at end of file
+diff --git a/gazprea/spec/types/character.rst b/gazprea/spec/types/character.rst
+index 0ba0fb3..65a62d0 100644
+--- a/gazprea/spec/types/character.rst
++++ b/gazprea/spec/types/character.rst
+@@ -4,7 +4,7 @@ Character
+ ---------
+ 
+ A ``characters`` is a signed 8-bit value. A ``character`` can be
+-represented by an ``i8`` in *MLIR*.
++represented by an ``i8`` in *LLVM IR*.
+ 
+ .. _sssec:character_decl:
+ 
+diff --git a/gazprea/spec/types/integer.rst b/gazprea/spec/types/integer.rst
+index 46a0c6f..b79ff5b 100644
+--- a/gazprea/spec/types/integer.rst
++++ b/gazprea/spec/types/integer.rst
+@@ -4,7 +4,7 @@ Integer
+ -------
+ 
+ An ``integer`` is a signed 32-bit value. An ``integer`` can be
+-represented by an ``i32`` in *MLIR*.
++represented by an ``i32`` in *LLVM IR*.
+ 
+ .. _sssec:integer_decl:
+ 
+@@ -131,4 +131,4 @@ Type Casting and Type Promotion
+ 
+ To see the types that ``integer`` may be cast and/or promoted to, see
+ the sections on :ref:`sec:typeCasting` and :ref:`sec:typePromotion` 
+-respectively.
++respectively.
+\ No newline at end of file
+diff --git a/gazprea/spec/types/interval.rst b/gazprea/spec/types/interval.rst
+new file mode 100644
+index 0000000..836cbf7
+--- /dev/null
++++ b/gazprea/spec/types/interval.rst
+@@ -0,0 +1,192 @@
++.. _ssec:interval:
++
++Interval
++--------
++
++An ``interval`` is used to represent ranges of values. *Gazprea* only
++has support for an ``integer`` ``interval``.
++
++.. _sssec:inteval_decl:
++
++Declaration
++~~~~~~~~~~~
++
++An ``interval`` is declared with the keyword ``interval``. Only the
++``integer`` base type for intervals is supported by *Gazprea*. For
++example:
++
++::
++
++     integer interval iv;
++
++.. _sssec:interval_null:
++
++Null
++~~~~
++
++``null`` is defined as ``null..null``. For the ``integer`` ``interval``
++this is ``0..0``.
++
++.. _sssec:interval_ident:
++
++Identity
++~~~~~~~~
++
++``identity`` is defined as ``identity..identity``. For the ``integer``
++``interval`` this is ``1..1``.
++
++.. _sssec:interval_lit:
++
++Literals
++~~~~~~~~
++
++An ``interval`` literal is a range expression, created using two
++inclusive bounds and the range operator (``..``). For example, a range
++from one to ten, including the endpoints:
++
++::
++
++     integer interval i = 1..10;
++
++.. _sssec:interval_ops:
++
++Operations
++~~~~~~~~~~
++
++Operations on intervals should follow the standard rules of `interval
++arithmetic <http://en.wikipedia.org/wiki/Interval_arithmetic>`__. In
++each case integer operations should be used, for instance interval
++division should use integer division. For another explanation see `this
++website <http://www.csgnetwork.com/directintervalcalc.html>`__ under the
++heading of “How the operations work”.
++
++In the following table ``ivl-expr`` means any expression that yields an
++``interval`` value and ``int-expr`` means any ``integer`` yielding
++expression.
++
+++------------+--------------------+------------+--------------------------+-------------------+
++| **Class**  | **Operation**      | **Symbol** | **Usage**                | **Associativity** |
+++============+====================+============+==========================+===================+
++| Arithmetic | addition           | ``+``      | ``ivl-expr + ivl-expr``  | left              |
+++            +--------------------+------------+--------------------------+-------------------+
++|            | subtraction        | ``-``      | ``ivl-expr - ivl-expr``  | left              |
+++            +--------------------+------------+--------------------------+-------------------+
++|            | multiplication     | ``*``      | ``ivl-expr * ivl-expr``  | left              |
+++            +--------------------+------------+--------------------------+-------------------+
++|            | unary negation     | ``-``      | ``- ivl-expr``           | right             |
+++            +--------------------+------------+--------------------------+-------------------+
++|            | unary plus (no-op) | ``+``      | ``+ ivl-expr``           | right             |
+++------------+--------------------+------------+--------------------------+-------------------+
++| Comparison | equals             | ``==``     | ``ivl-expr == ivl-expr`` | left              |
+++            +--------------------+------------+--------------------------+-------------------+
++|            | not equals         | ``!=``     | ``ivl-expr != ivl-expr`` | left              |
+++------------+--------------------+------------+--------------------------+-------------------+
++| Vector     | vector creation    | ``by``     | ``ivl-expr by int-expr`` | left              |
+++------------+--------------------+------------+--------------------------+-------------------+
++
++Note there is no division operation for intervals in Gazprea.
++
++Regarding the semantics of some of the operators:
++
++-  Comparison checks the bounds of each ``interval``.
++
++-  Range upper bounds must greater than or equal to the lower bound.
++
++-  Both bounds must be ``integer`` valued.
++
++The precedence and associativity follows that of for the operators
++defined in the above table, with the addition of the ``by`` and ``..``
++operators, in the following table. The ``.`` and ``[]`` operators are
++included for clarification but for the full table see .
++
+++----------------+----------------+
++| **Precedence** | **Operations** |
+++================+================+
++| HIGHER         | ``.``          |
++|                |                |
++|                | ``[]``         |
+++----------------+----------------+
++|                | ``..``         |
+++----------------+----------------+
++|                | arithmetic ops |
+++----------------+----------------+
++|                | ``by``         |
+++----------------+----------------+
++| LOWER          | comparison ops |
+++----------------+----------------+
++
++This means that ``by`` is the lowest priority and so last binding
++operator, therefore each side of the expression will be evaluated before
++evaluating the ``by`` operator. As well, ``..`` is the highest priority
++and first binding operator, excluding the ``.`` and ``[]`` operators
++which create atoms, and will bind to atoms before other operators. For
++example:
++
++::
++
++     1 .. 10 by 3
++     a[1] .. b.3 by 1 + 2
++
++Should be parsed as:
++
++::
++
++     (((1) .. (10)) by (3))
++     (((a[1]) .. (b.3)) by ((1) + (2)))
++
++Some tricky cases, for example:
++
++::
++
++     1 + 1 .. 10
++     - 1 .. 10
++
++Should be parsed as:
++
++::
++
++     (1 + (1 .. 10))
++     (- (1 .. 10))
++
++The first of which is *illegal* while the second is legal but
++potentially *unexpected*. For the first, there is no addition operator
++defined between an ``integer`` and an ``interval``. Second, the unary
++``-`` will be applied to the entire range not just the first operand.
++Instead, the desired expressions are likely the following:
++
++::
++
++     (1 + 1) .. 10
++     (-1) .. 10
++
++.. _sssec:interval_byop:
++
++By Operator
++^^^^^^^^^^^
++
++The by operator produces an ``integer`` ``vector`` from an ``interval``.
++The ``integer`` value to the right of the ``by`` operator represents an
++increment between elements in the resulting ``vector``. Values are
++selected beginning with and including the lower bound of the
++``interval``. Values after that are obtained by adding the increment to
++the previous value and appended to the resulting vector if it is less
++than or equal to the upper bound of the ``interval``. For this reason,
++increments of zero or less are illegal. Such an increment will
++infinitely append values or cause an underflow. For example:
++
++================= ================
++``by`` expression integer vector
++================= ================
++``3..6 by 1``     ``[3, 4, 5, 6]``
++``3..6 by 2``     ``[3, 5]``
++``3..6 by 3``     ``[3, 6]``
++``3..6 by 4``     ``[3]``
++================= ================
++
++
++Type Casting and Type Promotion
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++
++To see the types that ``interval`` may be cast and/or promoted to, see
++the sections on :ref:`sec:typeCasting` and :ref:`sec:typePromotion` 
++respectively.
+\ No newline at end of file
+diff --git a/gazprea/spec/types/matrix.rst b/gazprea/spec/types/matrix.rst
+index f9c9ba4..f051388 100644
+--- a/gazprea/spec/types/matrix.rst
++++ b/gazprea/spec/types/matrix.rst
+@@ -124,9 +124,9 @@ indices must be used. These indices are separated using a comma.
+ 
+ The first index specifies the row of the matrix, and the second index
+ specifies the column of the matrix. The result is retrieved from the row
+-and column. Both the row and column indices can be either integers or
+-integer vectors. When both indices are scalar integers the result is the
+-scalar value in the row and column specified.
++and column. Both the row and column indices can be either integers,
++integer intervals, or integer vectors. When both indices are scalar
++integers the result is the scalar value in the row and column specified.
+ 
+ ::
+ 
+@@ -135,7 +135,7 @@ scalar value in the row and column specified.
+    				/* M[1, 2] == 12 */
+ 
+ 
+-If one of the indices is a vector and the other index is
++If one of the indices is an interval or a vector, and the other index is
+ a scalar, then the result is a vector. For example:
+ 
+ ::
+@@ -151,7 +151,7 @@ a scalar, then the result is a vector. For example:
+    				/* M[[2, 1], 1] == [21, 11] */
+ 
+ 
+-Finally, both of the indices may be vectors, in which case
++Finally, both of the indices may be intervals or vectors, in which case
+ the result is another matrix.
+ 
+ ::
+diff --git a/gazprea/spec/types/real.rst b/gazprea/spec/types/real.rst
+index 7f818ee..ed850f9 100644
+--- a/gazprea/spec/types/real.rst
++++ b/gazprea/spec/types/real.rst
+@@ -4,7 +4,7 @@ Real
+ ----
+ 
+ A ``real`` is an IEEE 754 32-bit floating point value. A ``real`` can be
+-represented by a ``f32`` in *MLIR*.
++represented by a ``float`` in *LLVM IR*.
+ 
+ .. _sssec:real_decl:
+ 
+@@ -70,12 +70,17 @@ Operations
+ Floating point operations and precedence are equivalent to :ref:`integer operation and precedence <sssec:integer_ops>`.
+ 
+ Operations on real numbers should adhere to the IEEE 754 spec with
+-regards to the representation of not-a-number(NaNs), infinity(infs), and
++regards to the representation of not-a-number(NaNs), infiity(infs), and
+ zeros. A signaling NaN should cause a runtime error. Floating point
+ errors and semantics can be guaranteed by using the `LLVM IR constrained
+ floating point
+ intrinsics <https://llvm.org/docs/LangRef.html#constrained-floating-point-intrinsics>`__.
+-The default rounding mode (round-to-nearest) should be chosen along with ``fpexcept.strict`` exception behaviour.
++The ``round.towardzero`` rounding mode should be chosen along with the
++``fpexcept.strict`` exception behaviour.
++
++For more information on why this is necessary, look into the `default
++LLVM IR floating point
++environment <https://llvm.org/docs/LangRef.html#floatenv>`__.
+ 
+ 
+ Type Casting and Type Promotion
+diff --git a/gazprea/spec/types/vector.rst b/gazprea/spec/types/vector.rst
+index c2500f1..4da2a41 100644
+--- a/gazprea/spec/types/vector.rst
++++ b/gazprea/spec/types/vector.rst
+@@ -82,7 +82,7 @@ value, and then used as a scalar initialization of the vector.
+ 
+ 
+    In this example the compiler can infer both the size and the type of
+-   ``w`` from ``v``. The size may not always be known at compile time, so this
++   w from v. The size may not always be known at compile time, so this
+    may need to be handled during runtime.
+ 
+ .. _sssec:vector_null:
+@@ -163,7 +163,7 @@ Operations
+          								integer numElements = length(v);
+ 
+ 
+-      In this case ``numElements`` would be 3, since the vector ``v``
++      In this case ``numElements`` would be 3, since the vector v
+       contains 3 elements.
+ 
+    b. Concatenation
+@@ -189,7 +189,7 @@ Operations
+          								real[6] j = v || u;
+ 
+ 
+-      would be permitted, and the integer vector ``v`` would be promoted to
++      would be permitted, and the integer vector v would be promoted to
+       a real vector before the concatenation.
+ 
+       Concatenation may also be used with scalar values. In this case
+@@ -205,7 +205,7 @@ Operations
+    c. Dot Product
+ 
+       Two vectors with the same size and a numeric element type(types with
+-      the ``+``, and ``\*`` operator) may be used in a dot product operation.
++      the +, and \* operator) may be used in a dot product operation.
+       For instance:
+ 
+       ::
+@@ -218,51 +218,13 @@ Operations
+          								integer dot = v ** u;  /* Perform a dot product */
+ 
+ 
+-   d. Range
+-
+-      The ``..`` operator creates an integer vector holding the specified range
+-      of integer values.
+-      This operator must have an expression resulting in an integer on both
+-      sides of it. These integers mark the *inclusive* upper and lower bounds
+-      of the range.
+-
+-      For example:
+-
+-      ::
+-
+-         print(1..10);
+-         print((10-8)..(9+2));
+-
+-      prints the following:
+-
+-      ::
+-
+-         [1 2 3 4 5 6 7 8 9 10]
+-         [2 3 4 5 6 7 8 9 10 11]
+-
+-      The number of integers in a range may not be known at compile time when
+-      the integer expressions use variables. In another example, assuming at
+-      runtime that ``i`` is computed as -4:
+-
+-      ::
+-
+-         print(i..5);
+-
+-      prints the following:
+-
+-      ::
+-
+-         [-4 -3 -2 -1 0 1 2 3 4 5]
+-
+-      Therefore, it is *valid* to have bounds that will produce an empty
+-      vector because the difference between them is negative.
+-
+    d. Indexing
+ 
+       A vector may be indexed in order to retrieve the values stored in
+-      the vector. A vector may be indexed using integers and integer vectors.
+-      *Gazprea* is 1-indexed, so the first element of a vector is at index 1
+-      (as opposed to index 0 in languages like *C*). For instance:
++      the vector. A vector may be indexed using integers, integer
++      vectors, and integer intervals. *Gazprea* is 1-indexed, so the
++      first element of a vector is at index 1 (as opposed to index 0 in
++      languages like *C*). For instance:
+ 
+       ::
+ 
+@@ -274,15 +236,16 @@ Operations
+ 
+ 
+       When indexed with a scalar integer the result is a scalar value,
+-      but when indexed with a vector the result is another vector.
++      but when indexed with an interval or a vector the result is
++      another vector.
+ 
+       Out of bounds indexing should cause an error.
+ 
+-   e. Stride
++   e. by
+ 
+-      The ``by` operator is used to specify a step-size greater than 1 when
+-      indexing across a vector. It produces a new vector with the values
+-      indexed by the given stride. For instance:
++      The by operator is also defined for vectors of any element type. It
++      produces a vector with every value with the given offset. For
++      instance:
+ 
+       ::
+ 
+@@ -291,6 +254,7 @@ Operations
+          								integer[*] w = v by 2; /* [1, 3, 5] */
+          								integer[*] l = v by 3; /* [1, 4] */
+ 
++
+ #. Operations of the Element Type
+ 
+    Unary operations that are valid for the Element type of a vector may be
+@@ -360,8 +324,8 @@ Operations
+ 
+    yields ``false``
+ 
+-   The ``!=`` operation also produces a boolean instead of a boolean vector.
+-   The result is the logical negation of the result of the ``==`` operator.
++   The != operation also produces a boolean instead of a boolean vector.
++   The result is the logical negation of the result of the == operator.
+ 
+ 
+ Type Casting and Type Promotion
+diff --git a/setup/cs_computers.rst b/setup/cs_computers.rst
+index 599f221..2770ad3 100644
+--- a/setup/cs_computers.rst
++++ b/setup/cs_computers.rst
+@@ -33,7 +33,7 @@ Installing CLion
+ 
+    .. code-block:: console
+ 
+-    $ sudo tar -xzf ~/Downloads/CLion-<version>.tar.gz -C ~
++    $ tar -xzf ~/Downloads/CLion-<version>.tar.gz -C ~
+ 
+    If you are confident about your ability to setup your own install you can put
+    it elsewhere but you will be on your own.
+@@ -42,7 +42,7 @@ Installing CLion
+ 
+    .. code-block:: console
+ 
+-    $ ~/CLion-<version>/bin/clion.sh
++    $ ~/clion-<version>/bin/clion.sh
+ 
+ #. Perform the initial set up of CLion.
+ 
+diff --git a/setup/macos.rst b/setup/macos.rst
+index fc17bb4..373889f 100644
+--- a/setup/macos.rst
++++ b/setup/macos.rst
+@@ -24,8 +24,8 @@ on their front page:
+ 
+ .. code-block:: console
+ 
+- $ /usr/bin/ruby -e "$(curl -fsSL \
+-     https://raw.githubusercontent.com/Homebrew/install/master/install)"
++ $ /bin/bash -c "$(curl -fsSL \
++     https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+ 
+ You can check that it succeeded by checking its version:
+ 
+@@ -47,7 +47,7 @@ you get the JDK not just the JRE).
+ 
+ .. code-block:: console
+ 
+- $ brew cask install java
++ $ brew install --cask oracle-jdk
+ 
+ .. _installing-git-1:
+ 
+@@ -86,7 +86,7 @@ ANTLR 4 C++ Runtime
+ -------------------
+ 
+ This section details how to install the ANTLR 4 C++ runtime on Mac OS assuming
+-your default shell is bash. If you've changed your shell from bash it's assumed
++your default shell is zsh. If you've changed your shell from zsh, it's assumed
+ that you are familiar enough with your environment that you can modify these
+ steps appropriately.
+ 
+@@ -109,13 +109,13 @@ steps appropriately.
+    This should create a new folder called ``antlr4`` in ``ANTLR_PARENT``. We'll
+    refer to this new directory (``<ANTLR_PARENT>/antlr4``) as ``SRC_DIR``.
+ 
+-#. We will be using ANTLR 4.13.0 so we need to change to the git tag for version
+-   4.13.0.
++#. We will be using ANTLR 4.12.0 so we need to change to the git tag for version
++   4.12.0.
+ 
+    .. code-block:: console
+ 
+     $ cd <SRC_DIR>
+-    $ git checkout 4.13.0
++    $ git checkout 4.12.0
+ 
+    This will give you a warning about being in a “detached head state”. Since we
+    won't be changing anything in ANTLR there is no need to create a branch. No
+@@ -181,8 +181,8 @@ steps appropriately.
+ 
+     $ make install -j<number of threads>
+ 
+-#. Now we can add the install to your bash profile. Pick your favorite text
+-   editor, open ``~/.bash_profile``, and add the following lines to the end,
++#. Now we can add the install to your zsh environment. Pick your favorite text
++   editor, open ``~/.zshenv``, and add the following lines to the end,
+    substituting appropriately:
+ 
+    .. code-block:: sh
+@@ -202,7 +202,7 @@ Installing CLion
+ 
+    .. code-block:: console
+ 
+-    $ brew cask install clion
++    $ brew install --cask clion
+ 
+ #. Open CLion (via spotlight: command+space :math:`\rightarrow` type ``CLion``).
+ 
+@@ -286,17 +286,16 @@ ANTLR generator. Follow these steps into install it:
+ 
+    .. code-block:: console
+ 
+-    $ curl https://www.antlr.org/download/antlr-4.13.0-complete.jar \
+-        -o <ANTLR_BIN>/antlr-4.13.0-complete.jar
++    $ curl https://www.antlr.org/download/antlr-4.12.0-complete.jar \
++        -o <ANTLR_BIN>/antlr-4.12.0-complete.jar
+ 
+ #. Now we can make it easy to use. Add the following lines to your
+-   ``~/.bash_profile``:
++   ``~/.zshenv``:
+ 
+    .. code-block:: shell
+ 
+     # C415 ANTLR generator.
+-    export ANTLR_JAR="<ANTLR_BIN>/antlr-4.13.0-complete.jar"
+-    export CLASSPATH="$ANTLR_JAR:$CLASSPATH"
++    export CLASSPATH="<ANTLR_BIN>/antlr-4.12.0-complete.jar:$CLASSPATH"
+     alias antlr4="java -Xmx500M org.antlr.v4.Tool"
+     alias grun='java org.antlr.v4.gui.TestRig'
+ 
+@@ -308,49 +307,6 @@ ANTLR generator. Follow these steps into install it:
+     $ antlr4
+     $ grun
+ 
+-Installing MLIR
+----------------
+-
+-In the VCalc assignment and your final project you will be working with MLIR
+-and LLVM. Due to the complex nature (and size) of MLIR we did not want to
+-include it as a subproject.
+-In fact, you may even want to defer the installation
+-until you're about to start your assignment.
+-Here are the steps to get MLIR up and running.
+-
+-#. Checkout LLVM to your machine
+-
+-   .. code-block:: console
+-
+-    $ cd $HOME
+-    $ git clone https://github.com/llvm/llvm-project.git
+-    $ cd llvm-project
+-    $ git checkout llvmorg-16.0.6
+-
+-#. Build MLIR (more details are available `here <https://mlir.llvm.org/getting_started>`__)
+-
+-   .. code-block:: console
+-
+-    $ mkdir build
+-    $ cd build
+-    $ cmake -G Ninja ../llvm \
+-         -DLLVM_ENABLE_PROJECTS=mlir \
+-         -DLLVM_BUILD_EXAMPLES=ON \
+-         -DLLVM_TARGETS_TO_BUILD="Native" \
+-         -DCMAKE_BUILD_TYPE=Release \
+-         -DLLVM_ENABLE_ASSERTIONS=ON
+-    $ cmake --build . --target check-mlir
+-
+-#. Add these configuration lines to your ``~/.zprofile`` file so that you can
+-   use the MLIR tools and so that ``cmake`` will find your build.
+-
+-   .. code-block:: shell
+-
+-    export MLIR_INS="$HOME/llvm-project/build/"
+-    export MLIR_DIR="$MLIR_INS/lib/cmake/mlir/" # Don't change me.
+-    export PATH="$MLIR_INS/bin:$PATH" # Don't change me
+-
+-
+ .. _installing-the-tester-1:
+ 
+ Installing the Tester
+@@ -363,6 +319,12 @@ If you encounter issues, please log them on the `GitHub issue tracker
+ <https://github.com/cmput415/Tester/issues>`__ or, if you want to, submit a pull
+ request and we'll review it!
+ 
++#. We'll need ``gcc`` to compile the tool.
++
++   .. code-block:: console
++
++    $ brew install gcc@13
++
+ #. We'll build the tool in your home directory.
+ 
+    .. code-block:: console
+@@ -382,7 +344,7 @@ request and we'll review it!
+    .. code-block:: console
+ 
+     $ cd build
+-    $ cmake ..
++    $ cmake .. -DCMAKE_CXX_COMPILER="g++-13" -DCMAKE_C_COMPILER="gcc-13"
+ 
+    The flags on the end ensure we're using GCC to compile this.
+ 
+@@ -393,8 +355,8 @@ request and we'll review it!
+     $ make
+ 
+ #. We could refer directly to the executable every time, but it's probably
+-   easier to just have it on our path. Add these lines to the end of
+-   ``~/.bash_profile``.
++   easier to just have it on our path. Add these lines to the end of your
++   ``~/.zshenv``.
+ 
+    .. code-block:: shell
+ 
+diff --git a/setup/ubuntu.rst b/setup/ubuntu.rst
+index f1402d0..7591686 100644
+--- a/setup/ubuntu.rst
++++ b/setup/ubuntu.rst
+@@ -46,7 +46,7 @@ OpenJDK's JRE is easier to install than Oracle's, so we'll use that.
+ .. code-block:: console
+ 
+  $ sudo apt-get update
+- $ sudo apt-get install openjdk-11-jre
++ $ sudo apt-get install openjdk-19-jre
+ 
+ Installing Git
+ --------------
+@@ -96,13 +96,13 @@ steps appropriately.
+    This should create a new folder called ``antlr4`` in ``ANTLR_PARENT``. We'll
+    refer to this new directory (``<ANTLR_PARENT>/antlr4``) as ``SRC_DIR``.
+ 
+-#. We will be using ANTLR 4.13.0 so we need to change to the git tag for version
+-   4.13.0.
++#. We will be using ANTLR 4.12.0 so we need to change to the git tag for version
++   4.12.0.
+ 
+    .. code-block:: console
+ 
+     $ cd <SRC_DIR>
+-    $ git checkout 4.13.0
++    $ git checkout 4.12.0
+ 
+    This will give you a warning about being in a “detached head state”. Since we
+    won't be changing anything in ANTLR there is no need to create a branch. No
+@@ -201,7 +201,7 @@ Installing CLion
+ 
+    .. code-block:: console
+ 
+-    $ /opt/CLion-<version>/bin/clion.sh
++    $ /opt/clion-<version>/bin/clion.sh
+ 
+ #. Perform the initial set up of CLion.
+ 
+@@ -236,8 +236,8 @@ Installing CLion
+ Installing the ANTLR Plugin for CLion
+ -------------------------------------
+ 
+-ANTLR has a CLion integration that gives syntax highlighting as well as tools
+-for visualising the parse tree for a grammar rule and an input.
++ANTLR has a CLion integration that gives syntax highlighting as well as tool for
++visualising the parse tree for a grammar rule and an input.
+ 
+ #. Launch CLion by going to the application launcher (tap the super/Windows
+    button) and typing ``clion``. This should launch CLion.
+@@ -279,16 +279,15 @@ ANTLR generator. Follow these steps into install it:
+ 
+    .. code-block:: console
+ 
+-    $ curl https://www.antlr.org/download/antlr-4.13.0-complete.jar \
+-        -o <ANTLR_BIN>/antlr-4.13.0-complete.jar
++    $ curl https://www.antlr.org/download/antlr-4.12.0-complete.jar \
++        -o <ANTLR_BIN>/antlr-4.12.0-complete.jar
+ 
+ #. Now we can make it easy to use. Add the following lines to your ``~/.bashrc``:
+ 
+    .. code-block:: shell
+ 
+     # C415 ANTLR generator.
+-    export ANTLR_JAR="<ANTLR_BIN>/antlr-4.13.0-complete.jar"
+-    export CLASSPATH="$ANTLR_JAR:$CLASSPATH"
++    export CLASSPATH="<ANTLR_BIN>/antlr-4.12.0-complete.jar:$CLASSPATH"
+     alias antlr4="java -Xmx500M org.antlr.v4.Tool"
+     alias grun='java org.antlr.v4.gui.TestRig'
+ 
+@@ -300,50 +299,6 @@ ANTLR generator. Follow these steps into install it:
+     $ antlr4
+     $ grun
+ 
+-Installing MLIR
+----------------
+-
+-In the VCalc assignment and your final project you will be working with MLIR
+-and LLVM.
+-Due to the complex nature (and size) of MLIR we did not want to include
+-it as a subproject.
+-In fact, you may even want to defer the installation
+-until you're about to start your assignment.
+-Here are the steps to get MLIR up and running.
+-
+-#. Checkout LLVM to your machine
+-
+-   .. code-block:: console
+-
+-    $ cd $HOME
+-    $ git clone https://github.com/llvm/llvm-project.git
+-    $ cd llvm-project
+-    $ git checkout llvmorg-16.0.6
+-
+-#. Build MLIR (more details are available `here <https://mlir.llvm.org/getting_started>`__)
+-
+-   .. code-block:: console
+-
+-    $ mkdir build
+-    $ cd build
+-    $ cmake -G Ninja ../llvm \
+-          -DLLVM_ENABLE_PROJECTS=mlir \
+-          -DLLVM_BUILD_EXAMPLES=ON \
+-          -DLLVM_TARGETS_TO_BUILD="Native" \
+-          -DCMAKE_BUILD_TYPE=Release \
+-          -DLLVM_ENABLE_ASSERTIONS=ON
+-    $ cmake --build . --target check-mlir
+-
+-#. Add these configuration lines to your ``~/.bashrc`` file so that you can use
+-   the MLIR tools and so that ``cmake`` will find your build.
+-
+-   .. code-block:: shell
+-
+-    export MLIR_INS="$HOME/llvm-project/build/"
+-    export MLIR_DIR="$MLIR_INS/lib/cmake/mlir/" # Don't change me.
+-    export PATH="$MLIR_INS/bin:$PATH" # Don't change me
+-
+-
+ Installing the Tester
+ ---------------------
+ 
+diff --git a/vcalc/impl/ast_tips_hints.rst b/vcalc/impl/ast_tips_hints.rst
+index 8d1a700..094e0af 100644
+--- a/vcalc/impl/ast_tips_hints.rst
++++ b/vcalc/impl/ast_tips_hints.rst
+@@ -19,7 +19,7 @@ asked or useful things are found. You will be notified as appropriate.
+    #. Make your code generator figure it out.
+ 
+    #. Attach type information to your AST at this node denoting each
+-      operand's type during a type inference pass on your tree. Still
++      operands type during a type inference pass on your tree. Still
+       need to check for extension.
+ 
+    #. Do a type inference pass and replace the integer operand with an
+diff --git a/vcalc/impl/llvm_tips_hints.rst b/vcalc/impl/llvm_tips_hints.rst
+index 1e6a802..77f3bec 100644
+--- a/vcalc/impl/llvm_tips_hints.rst
++++ b/vcalc/impl/llvm_tips_hints.rst
+@@ -1,10 +1,10 @@
+-MLIR Tips and Hints
++LLVM Tips and Hints
+ ===================
+ 
+ This section is likely to be constantly updated as new questions are
+ asked or useful things are found. You will be notified as appropriate.
+ 
+--  It may be helpful to find out how ``clang`` translates equivalent *C*
++-  It may be helpful to find out how *clang* translates equivalent *C*
+    programs into *LLVM IR*. You can ask *clang* to output its generated
+    *LLVM IR* via this command:
+ 
+@@ -25,23 +25,36 @@ asked or useful things are found. You will be notified as appropriate.
+    forums. The instruction generation function is often found under the
+    same name in the IR builder.
+ 
+--  It can be a little harder to find programs that can emit MLIR.
+-   ``Tensorflow`` and ``flang`` (Fortran compiler) are two or the more well-known
+-   compilers that use MLIR, but both are admittedly niche. As an alternative,
+-   you can use the ``mlir::dump()`` method, which works on all MLIR operations
+-   including modules and functions. The MLIR framework provides several tools
+-   that can parse and work with files containing MLIR.
+-   In particular, ``mlir-opt`` can be used to run almost every optimization or
+-   transformation pass that exists on your MLIR output.
+-   For more information, execute ``mlir-opt --help`` after building and setting
+-   up MLIR.
+-
+--  While there appears to be copious quantities of *MLIR/LLVM* documentation,
+-   it can be frustatingly difficult to find documentation or examples of
+-   something you care about. One of the more effective tools is ``grep``,
+-   especially when used on the MLIR repository. ``git grep`` is automatically
+-   recursive, but because a lot of MLIR is generated at build time, ``grep -R``
+-   will search files in the build tree but outside the repository.
++   LLVM IR is not static and can change between versions. Often, things
++   are not too different so using a different version will not affect
++   you. If things are not working out and you would like to be
++   absolutely sure, you can build *clang* yourself or use the executable
++   that has been already built for you on the CSC lab machines (need to
++   be sourcing our setup files). We operate from the release_60 branch
++   in the `c415 repository <https://github.com/cmput415/clang>`__. The
++   version command thus produces:
++
++   ::
++
++            clang version 6.0.1 (https://github.com/cmput415/clang.git 2f27999df400d17b33cdd412fdd606a88208dfcc) (https://github.com/cmput415/llvm.git 2c9cf4f65f36fe91710c4b1bfd2f8d9533ac01b5)
++            Target: x86_64-unknown-linux-gnu
++            Thread model: posix
++            InstalledDir: /cshome/c415/415-resources/llvmi/bin
++
++-  The *LLVM* interface has its own small optimisations built in. Often
++   this is only instruction reduction. Be aware that you may find code
++   that you emitted to be missing. The easiest to see case is constant
++   folding. If two constants are operated on, the operation will be
++   completed before emitting any code and instead you will see only
++   their result as a constant.
++
++   You can disable code folding by adding ``NoFolder`` to your IRBuilder.
++
++::
++
++   #include "llvm/IR/IRBuilder.h"
++   #include "llvm/IR/NoFolder.h"
++   llvm::IRBuilder<llvm::NoFolder> noFoldBuilder;
+ 
+ -  Sometimes *LLVM* generates unexpected (but correct) code. For
+    example, requesting an integer cast can generate a multitude of
+@@ -70,31 +83,32 @@ asked or useful things are found. You will be notified as appropriate.
+ 
+    You can make sure there is no naming conflicts by either suffixing or
+    prefixing your internal runtime variables or all of the program
+-   variables. *MLIR* and *LLVM* allow ``.`` characters in variable names while
++   variables. *LLVM IR* allows ``.`` characters in variable names while
+    *VCalc* does not. This allows for easily guaranteed conflict-free
+    names.
+ 
+--  *MLIR* has an automatic way to verify modules for you. It can be a
++-  Most instructions generated give you the opportunty to name the
++   result if you want. While you don’t need to, it can help you debug
++   when things are going wrong.
++
++-  *LLVM* has an automatic way to verify modules for you. It can be a
+    good idea to use it just before you output your code to make sure
+    everything makes sense. This can be extremely helpful for noticing
+    small errors. Here’s a basic invocation for your output using the
+    verifier.
+ 
+    ::
+-            #include "mlir/IR/Verifier.h"
+ 
++            #include "llvm/IR/Verifier.h"
++            #include "llvm/Support/raw_os_ostream.h"
++            #include <iostream>
+             ...
+-            if (mlir::failed(mlir::verify(module)))
+-               std::cerr << "verification failed :-(" << std::endl;
+-
+--  **DO NOT USE MLIR TENSOR TYPES**. These are abstract types that have no
+-   memory layout or data pointers. This abstraction supports high level
+-   optimization but requires an involved lowering and bufferization process.
+-   In the same vein, we recommend you do not use the *MLIR* ``MemRefType``.
+-   This array type is backed by memory, but requires the ``memref`` dialect
+-   to allocate and manipulate instances of the type.
++            llvm::raw_os_ostream llOut(outStream);
++            llvm::raw_os_ostream llErr(std::cerr);
++            llvm::verifyModule(mymodule, &llErr);
++            myModule.print(llOut, nullptr);
+ 
+--  **DO NOT USE MLIR OR LLVM IR VECTOR TYPES**. These types are designed for
++-  **DO NOT USE LLVM IR VECTOR TYPES**. These types are designed for
+    Single Instruction Multiple Data (SIMD) processing which require
+    specific version of processors. Using the LLVM IR vector types will
+    result in a segmentation fault in architectures that do not support
+@@ -106,109 +120,114 @@ asked or useful things are found. You will be notified as appropriate.
+    their own unique pros and cons.
+ 
+ -  You need to make a ``main`` function to insert code into to begin
+-   with. Here’s some boilerplate to get you rolling (note ``builder`` is type
+-   ``mlir::OpBuilder``):
+-:
++   with. Here’s some boilerplate to get you rolling:
+ 
+    ::
+ 
+-            #include "mlir/Dialect/LLVMIR/LLVMDialect.h"
+-            #include "mlir/IR/BuiltinAttributes.h"
+-            #include "mlir/IR/TypeRange.h"
+-            #include "mlir/IR/Builders.h"
+-            #include "mlir/IR/BuiltinOps.h"
+-            #include "mlir/IR/Value.h"
+-
++            #include "llvm/IR/DerivedTypes.h"
++            #include "llvm/IR/TypeBuilder.h"
++            #include "llvm/Support/Cast.h"
+             ...
+-            // For our purposes, the prototype for main can be "int main()"
+-            mlir::Type intType = builder->getI32Type();
+-            auto mainType = mlir::LLVM::LLVMFunctionType::get(intType, {}, false);
+-            mlir::LLVM::LLVMFuncOp mainFunc = builder->create<mlir::LLVM::LLVMFuncOp>(builder->getUnknownLoc(), "main", mainType);
++            // Create main function, returns int, takes no args.
++            llvm::FunctionType *mainTy = llvm::TypeBuilder<int(), false>::get(ctx);
++            auto *mainFunc = llvm::cast<llvm::Function>(mod.getOrInsertFunction("main", mainTy));
+ 
+-            // Create an entry block and set the inserter.            
+-            mlir::Block *entry = mainFunc.addEntryBlock();
+-            builder->setInsertionPointToStart(entry);
++            // Create an entry block and set the inserter.
++            llvm::BasicBlock *entry = llvm::BasicBlock::Create(ctx, "entry", mainFunc);
++            ir.SetInsertPoint(entry);
+ 
+--  When you run ``lli`` many common *C* functions are available, in
++-  When you run ``lli`` many common *c* functions are available, in
+    particular you want ``printf`` to do your printing. To get
+    ``printf``, you need to add it to your module similarly to adding
+    your ``main``, but you do *not* define it. This corresponds to your
+-   *C*-style forward declaration and will make sure that llvm links
++   *c*-style forward declare and will make sure that llvm links
+    ``printf`` into you executable. Here’s your boilerplate code where
+-   ``builder`` is type ``mlir::OpBuilder``:
++   ``module`` is your ``llvm::Module``:
+ 
+    ::
+ 
+-            #include "mlir/Dialect/LLVMIR/LLVMDialect.h"
+-            #include "mlir/IR/TypeRange.h"
+-            #include "mlir/IR/Builders.h"
+-
++            #include "llvm/IR/Attributes.h"
++            #include "llvm/IR/DerivedTypes.h"
++            #include "llvm/IR/Function.h"
++            #include "llvm/IR/TypeBuilder.h"
++            #include "llvm/Support/Cast.h"
+             ...
+-            // Create a function declaration for printf, the signature is:
+-            //   * `i32 (i8*, ...)`
+-            auto llvmI8PtrTy = mlir::LLVM::LLVMPointerType::get(charType);
+-            llvmFnType = mlir::LLVM::LLVMFunctionType::get(intType, llvmI8PtrTy,
+-                                                           /*isVarArg=*/true);
++            // Declare printf. Returns int, takes string and variadic args.
++            llvm::FunctionType *printfTy = llvm::TypeBuilder<int(char *, ...), false>::get(ctx);
++            auto *printfFunc = llvm::cast<llvm::Function>(module.getOrInsertFunction("printf", fTy));
+ 
+-            // Insert the printf declaration into the body of the parent module.
+-            builder->create<mlir::LLVM::LLVMFuncOp>(builder->getUnknownLoc(),
+-                                                    "printf", llvmFnType);
++            // Add the suggested argument attributes.
++            printfFunc->addAttribute(1u, llvm::Attribute::NoAlias);
++            printfFunc->addAttribute(1u, llvm::Attribute::NoCapture);
+ 
+ -  You may need to declare global constants in your module. The method
+    for integers is similar to strings, but we show strings here because
+    you will need it for use with ``printf``. For example, if I wanted to
+-   create a ``printf`` format string for newline (``builder`` is type
+-   ``mlir::OpBuilder``, ``context`` is type ``mlir::MLIRContext``, and ``loc``
+-   is type ``mlir::Location``):
++   create a ``printf`` format string for integers (``module`` is
++   ``llvm::Module`` and ``context`` is ``llvm::Context``):
+ 
+    ::
+ 
+-            #include "mlir/Dialect/LLVMIR/LLVMDialect.h"
+-            #include "mlir/IR/BuiltinAttributes.h"
+-
++            #include "llvm/IR/Constant.h"
++            #include "llvm/IR/GlobalVariable.h"
++            #include "llvm/Support/Cast.h"
+             ...
+-            // Create the global string "\n"
+-            mlir::Type charType = mlir::IntegerType::get(&context, 8);
+-            auto gvalue = mlir::StringRef("\n\0", 2);
+-            auto type = mlir::LLVM::LLVMArrayType::get(charType, gvalue.size());
+-            builder->create<mlir::LLVM::GlobalOp>(loc, type, /*isConstant=*/true,
+-                               mlir::LLVM::Linkage::Internal, "newline",
+-                               builder->getStringAttr(gvalue), /*alignment=*/0);
+-
+--  Calling functions is roughly the same in all places, but ``printf`` can be a
+-   little annoying to begin with because of the way it is  defined, so here is
+-   some more boilerplate code for calling that as well (
+-   ``builder`` is type ``mlir::OpBuilder``,
+-   ``module`` is type ``mlir::ModuleOp``,
+-   ``context`` is type ``mlir::MLIRContext``,
+-   and ``loc`` is type ``mlir::Location``):
++            // Create the constant data array of characters.
++            llvm::Constant *intFormatStr = llvm::ConstantDataArray::getString(context, "%d");
+ 
+-   ::
++            // Create the global space we will use. The string "intFormatStr" is the name you will need to
++            // to use to ask for this value later to get it from the module.
++            auto *intFormatStrLoc =
++              llvm::cast<llvm::GlobalVariable>(
++                module.getOrInsertGlobal("intFormatStr", intFormatStr->getType())
++              );
++
++            // Set the location to be initialised by the constant.
++            intFormatStrLoc->setInitializer(intFormatStr);
++
++-  Calling functions is roughly the same in all places, but ``printf``
++   can be a little annoying to begin with because of the way it is
++   defined, so here is some more boilerplate code for calling that as
++   well (``module`` is ``llvm::Module``):
+ 
+-            #include "mlir/Dialect/LLVMIR/LLVMDialect.h"
+-            #include "mlir/IR/Builders.h"
+-            #include "mlir/IR/BuiltinOps.h"
+-            #include "mlir/IR/Value.h"
++   ::
+ 
++            #include "llvm/IR/Function.h"
++            #include "llvm/Support/Cast.h"
+             ...
+-            mlir::LLVM::GlobalOp global;
+-            if (!(global = module.lookupSymbol<mlir::LLVM::GlobalOp>("newline"))) {
+-                llvm::errs() << "missing format string!\n";
+-                return;
+-            }
+-
+-            // Get the pointer to the first character in the global string.
+-            mlir::Value globalPtr = builder->create<mlir::LLVM::AddressOfOp>(loc, global);
+-            mlir::Value cst0 = builder->create<mlir::LLVM::ConstantOp>(loc,
+-                                                      builder->getI64Type(),
+-                                                      builder->getIndexAttr(0));
+-
+-            mlir::Type charType = mlir::IntegerType::get(&context, 8);
+-            mlir::Value newLine = builder->create<mlir::LLVM::GEPOp>(loc,
+-                          mlir::LLVM::LLVMPointerType::get(charType),
+-                          globalPtr, mlir::ArrayRef<mlir::Value>({cst0, cst0}));
+-
+-            auto printfFunc = module.lookupSymbol<mlir::LLVM::LLVMFuncOp>("printf");
+-            builder->create<mlir::LLVM::CallOp>(loc, printfFunc, newLine);
++            // Note that we use getFunction not getOrInsertFunction. This will blow up if you haven't
++            // previously defined printf in your module. See above.
++            llvm::Function *printfFunc = module.getFunction("printf");
++
++            // Get your string to print.
++            auto *formatStrGlobal = llvm::cast<llvm::Value>(mod.getGlobalVariable("my string name"));
++
++            // The type of your string will be [n x i8], it needs to be i8*, so we cast here. We
++            // explicitly use the type of printf's first arg to guarantee we are always right.
++            llvm::Value *formatStr =
++              ir.CreatePointerCast(formatStrGlobal, printfFunc->arg_begin()->getType(), "formatStr");
++
++            // Get our value.
++            llvm::Value *value = <appropriate code to get your value to print>;
++
++            // Call printf. Printing multiple values is easy: just add to the {}.
++            ir.CreateCall(printfF, {formatStr, value});
++
++-  In case you wanted calloc (or malloc) as well:
++
++   ::
+ 
++              #include "llvm/IR/Attributes.h"
++              #include "llvm/IR/DerivedTypes.h"
++              #include "llvm/IR/Function.h"
++              #include "llvm/IR/TypeBuilder.h"
++              #include "llvm/Support/Cast.h"
++              ...
++              // Declare calloc. Returns char *, takes array size, element size.
++              llvm::FunctionType *fTy = llvm::TypeBuilder<char *(size_t, size_t), false>::get(ctx);
++              auto *callocFunc = llvm::cast<llvm::Function>(mod.getOrInsertFunction("calloc", fTy));
++
++              // Add the suggested function attributes.
++              callocFunc->addFnAttr(llvm::Attribute::NoUnwind);
++              callocFunc->addAttribute(0, llvm::Attribute::NoAlias);
+ 
+diff --git a/vcalc/impl/output.rst b/vcalc/impl/output.rst
+index 561ed67..1d8121e 100644
+--- a/vcalc/impl/output.rst
++++ b/vcalc/impl/output.rst
+@@ -11,9 +11,29 @@ compiler will be invoked with the following command:
+ You should open the file ``output_file_path`` and write to it. The
+ output file should be overwritten if it already exists.
+ 
+-The output of your compiler is the *LLVM IR* that corresponds to the given
+-input program. The output file can be used as input to ``llc``, for example,
+-which compiles *LLVM IR* input into assembly language for a specified machine.
+-From there the tools you used in *SCalc* can be used to create an executable.
++Output content is standardized to ensure everyone can pass everyone’s
++tests. Follow these specifications:
+ 
++-  There *must* be a new line after each ``print`` statement’s printed
++   value.
++
++-  There *must not* be any trailing space after printed value and before
++   the newline.
++
++-  There *must* be an empty line at the end of your output.
++
++-  There *must not* be spaces between the first and last number and the
++   accompanying brackets in a vector.
++
++-  There *must* be spaces between the numbers in a vector.
++
++-  There *must not* be anything except spaces between the numbers in a
++   vector.
++
++| **Clarification:** Empty input should result in empty output.
++  (:ref:`empty-input <clarify:empty-input>`)
++| **Clarification:** Empty vectors print only brackets.
++  (:ref:`empty-vector <clarify:empty-vector>`)
++| **Clarification:** A vector with one value is only the brackets and
++  the value. (:ref:`single-value-vector <clarify:single-value-vector>`)
+ 
+diff --git a/vcalc/impl/tips_hints.rst b/vcalc/impl/tips_hints.rst
+index d31909d..75c57d1 100644
+--- a/vcalc/impl/tips_hints.rst
++++ b/vcalc/impl/tips_hints.rst
+@@ -1,12 +1,12 @@
+ Tips and Hints
+ ==============
+ 
+-#. The learning curve for *LLVM* and *MLIR* is not trivial. Thus **START EARLY**.
++#. The learning curve for *LLVM* is not trivial. Thus **START EARLY**.
+    There will be a lot of things to learn. If you can’t figure out how
+    to do something don’t be afraid to ask. Someone else will know or
+    someone else will also want to know.
+ 
+-   As well, you should check the *MLIR/LLVM* Tips and Hints section for a
++   As well, you should check the *LLVM* Tips and Hints section for a
+    good starting place.
+ 
+ #. You should definitely consider making an AST in this assignment.
+@@ -35,7 +35,7 @@ Tips and Hints
+    together.
+ 
+ #. Remember that your style should be consistent. Now that you’re in a
+-   team you should discuss some probable points of code contention to
++   team you should discuss some probably points of code contention to
+    make sure you’re on the same page.
+ 
+ #. This is the biggest assignment, thus **START EARLY**. **DO NOT USE
+@@ -45,14 +45,15 @@ Tips and Hints
+    types will result in a segmentation fault in architectures that do
+    not support them. Not all lab machines support the *LLVM IR* vector.
+ 
+-#. The `Getting Started with the LLVM System <https://llvm.org/docs/GettingStarted.html>`__
+-   can help introduce you to *LLVM*. For *MLIR*, see `Getting Started <https://mlir.llvm.org/getting_started/>`__.
+-   In particular, sections three and five of the `Kaleidoscope tutorial<https://llvm.org/docs/tutorial/MyFirstLanguageFrontend/index.html>`__ are of particular interest for generating *LLVM IR*. Generating *MLIR* is similar.
+-   Section 7 is worth looking through for more discussion of the use of
+-   ``alloca`` over ``phi`` nodes.
+-   The other sections can be read at your own discrection.
++#. The `LLVM language implementation
++   tutorial <http://releases.llvm.org/6.0.1/docs/tutorial/index.html>`__
++   can help with some ideas on how to begin codegen. In particular,
++   sections three and five are of particular interest. Section 7 is
++   worth looking through for more discussion of the use of ``alloca``
++   over ``phi`` nodes. The other sections can be read at your own
++   discrection.
+ 
+-#. The demo that was presented in the lab can be found
++#. The demo that was presented in lab can be found
+    `here <../_static/labdemo.tar.gz>`__.
+    Remember to set it up in CLion just like you did with your regular
+    project (environment variables).
+diff --git a/vcalc/index.rst b/vcalc/index.rst
+index 3ba3e04..646fd5a 100644
+--- a/vcalc/index.rst
++++ b/vcalc/index.rst
+@@ -1,18 +1,12 @@
+ VCalc
+ =====
+ 
+-This assignment expands the simple calculator, *SCalc*, to build a vector
+-calculator called *VCalc*.
+-For *VCalc* you will build a compiler that generates `MLIR <https://mlir.llvm.org>`__. As *MLIR* is an IR infrastructure it supports many special purpose
+-intermediate representations called `dialects`.
+-You will target the `LLVM Dialect <https://mlir.llvm.org/docs/Dialects/LLVM/>`__
+-in this assignment.
+-All *MLIR* dialects must evenually be lowered to *LLVM IR*, which is the
+-common IR that the LLVM back-end uses to generate machine specific object code.
+-None of the assembly back ends that you built for *SCalc* need to be supported
+-for *VCalc*, because the LLVM back-end can support them all.
+-An interpreter is not necessary but can be a good way to ensure that your
+-grammar works as expected.
++This assignment expands the simple calculator, *SCalc*, to build a
++vector calculator called *VCalc*. For *VCalc* you need only build an
++*LLVM IR* back end. None of the assembly back ends that you built for
++*SCalc* need to be supported for *VCalc*. An interpreter is not
++necessary but can be a good way to ensure that your grammar works as
++expected.
+ 
+ *VCalc* is a superset of *SCalc*. **All operations supported by SCalc
+ must be fully also supported by VCalc. All valid SCalc programs must run
+diff --git a/vcalc/spec/filters.rst b/vcalc/spec/filters.rst
+index 9631195..bcba336 100644
+--- a/vcalc/spec/filters.rst
++++ b/vcalc/spec/filters.rst
+@@ -24,7 +24,7 @@ A filter will create a new vector containing only the elements of the
+ domain where the predicate evaluates to a true value. The domain values
+ that satisfy the predicate are appended to the result vector in their
+ original order. For instance, to select all of values greater than 5 in
+-a vector you might write:
++a vector you might do:
+ 
+ ::
+ 
+diff --git a/vcalc/spec/statements.rst b/vcalc/spec/statements.rst
+index aa2dd20..13dac7f 100644
+--- a/vcalc/spec/statements.rst
++++ b/vcalc/spec/statements.rst
+@@ -64,59 +64,14 @@ There are a few new important points when dealing with assignments.
+ Conditional
+ ~~~~~~~~~~~
+ 
+-Conditional conditions must evaluate to booleans, which means that
++Conditional conditions must evaluate to booleans, this means that
+ vectors are not a valid condition. Remember, however, that integers can
+ be implicitly downcast to booleans.
+ 
+ Loops
+ ~~~~~
+ 
+-Loop conditions must evaluate to booleans, which means that vectors are
++Loop conditions must evaluate to booleans, this means that vectors are
+ not a valid condition. Remember, however, that integers can be
+ implicitly downcast to booleans.
+ 
+-Print
+-~~~~~
+-
+-The ``print`` statement in *VCalc* behaves the same as *SCalc* for integers,
+-but must be extended to print vectors. All the elements of the vector are
+-printed on a single line between the opening anc closing brackets.
+-
+-For example:
+-
+-::
+-
+-     print(1..10);
+-
+-prints the following:
+-
+-::
+-
+-     [1 2 3 4 5 6 7 8 9 10]
+-
+-
+-The output of ``print`` is standardized to ensure everyone can pass everyone’s
+-tests. Follow these specifications:
+-
+--  There *must* be a new line after each ``print`` statement’s printed
+-   value.
+-
+--  There *must not* be any trailing space after printed value and before
+-   the newline.
+-
+--  There *must* be an empty line at the end of your output.
+-
+--  There *must not* be spaces between the first and last number and the
+-   accompanying brackets in a vector.
+-
+--  There *must* be spaces between the numbers in a vector.
+-
+--  There *must not* be anything except spaces between the numbers in a
+-   vector.
+-
+-| **Clarification:** Empty input should result in empty output.
+-  (:ref:`empty-input <clarify:empty-input>`)
+-| **Clarification:** Empty vectors print only brackets.
+-  (:ref:`empty-vector <clarify:empty-vector>`)
+-| **Clarification:** A vector with one value is only the brackets and
+-  the value. (:ref:`single-value-vector <clarify:single-value-vector>`)
+diff --git a/vcalc/spec/type_checking.rst b/vcalc/spec/type_checking.rst
+index cd69f66..6c48c77 100644
+--- a/vcalc/spec/type_checking.rst
++++ b/vcalc/spec/type_checking.rst
+@@ -4,7 +4,7 @@ Type Checking and ASTs
+ With the addition of another type that can be mixed in, type checking
+ becomes a necessity in *Vcalc*. This means ensuring that vectors and
+ scalars are where they belong. Most expressions allow the interchange of
+-vectors and scalars, but there are a few cases where it is necessary to
++vectors and scalars, but there’s a few cases where it is necessary to
+ have one or the other.
+ 
+ Note that these rules are already in their respective sections, this
+@@ -20,7 +20,7 @@ important.
+    must be a vector.
+ 
+ -  Generators: the expression must be an integer (remember that booleans
+-   can be implicitly upcast to integers).
++   can be implicitly upcast integers).
+ 
+ -  Filters: the predicate must be a boolean (remember that integers can
+    be implicitly downcast to booleans).
+diff --git a/vcalc/start/clion_setup.rst b/vcalc/start/clion_setup.rst
+index f0b4b40..d5bf80a 100644
+--- a/vcalc/start/clion_setup.rst
++++ b/vcalc/start/clion_setup.rst
+@@ -2,7 +2,7 @@ Setting up CLion
+ ----------------
+ 
+ CLion requires a little bit of setup. Much of it is the same, but we
+-need to add MLIR now.
++need to add LLVM now.
+ 
+ #. Open up CLion. From the welcome screen select
+    ``Import Project from Sources`` or, if you’ve been using CLion and it
+@@ -14,7 +14,7 @@ need to add MLIR now.
+ 
+ #. CLion doesn’t make use of your command line environment, it has its
+    own storage place. Therefore we need to add ``ANTLR_INS`` and
+-   ``MLIR_DIR`` to CLion’s environment.
++   ``LLVM_DIR`` to CLion’s environment.
+ 
+    #. Open your settings. On Linux this is ``File`` :math:`\rightarrow`
+       ``Settings…``, while on MacOS this is ``CLion``
+@@ -42,14 +42,14 @@ need to add MLIR now.
+                    echo $ANTLR_INS
+ 
+    #. Select the ``+`` symbol to add another symbol to your environment.
+-      In the field under ``Name`` enter ``MLIR_DIR``. Since the value
++      In the field under ``Name`` enter ``LLVM_DIR``. Since the value
+       depends on how you have set up your environment (or how we have if
+       you’re using the lab machines) you will need to enter this command
+       in your terminal to find the value.
+ 
+       ::
+ 
+-                   echo $MLIR_DIR
++                   echo $LLVM_DIR
+ 
+       Add this value in the ``Value`` field.
+ 
+diff --git a/vcalc/start/layout.rst b/vcalc/start/layout.rst
+index 2945f2f..927c784 100644
+--- a/vcalc/start/layout.rst
++++ b/vcalc/start/layout.rst
+@@ -10,7 +10,7 @@ layout.
+      |   +-- antlr_generate.cmake
+      |   +-- get_antlr.cmake
+      |   +-- get_antlr_manual.cmake
+-     |   +-- get_mlir.cmake
++     |   +-- get_llvm.cmake
+      |   +-- symlink_to_bin.cmake
+      +-- CMakeLists.txt
+      +-- grammar
+@@ -20,15 +20,10 @@ layout.
+      +-- LICENSE.md
+      +-- README.md
+      +-- scripts
+-     |   +-- configureMLIR.sh
++     |   +-- configureLLVM.sh
+      +-- src
+      |   +-- CMakeLists.txt
+      |   +-- main.cpp
+-     +-- runtime
+-         +-- CMakeLists.txt
+-         +-- src
+-             +-- CMakeLists.txt
+-             +-- placeholder.cpp
+      +-- tests
+          +-- input
+          |   +-- ...

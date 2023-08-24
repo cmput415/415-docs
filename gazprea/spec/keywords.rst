@@ -40,8 +40,6 @@ not be used by a programmer.
 
 -  integer
 
--  interval
-
 -  length
 
 -  loop

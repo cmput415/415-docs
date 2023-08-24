@@ -317,7 +317,7 @@ when it is checked.
 The loop can be pre-predicated, which means that the control expression
 is tested before the body statement is executed. This is the same
 behaviour as while loops in most languages, and is written using the
-while token after the loop, followed by a boolean expression for the
+``while`` token after the ``loop``, followed by a boolean expression for the
 predicate. For example:
 
 ::
@@ -332,7 +332,7 @@ predicate. For example:
 
 A post-predicated loop is also available. In this case the control
 expression is tested after the body statement is executed. This also
-uses the while token followed by the control expression, but it appears
+uses the ``while`` token followed by the control expression, but it appears
 at the end of the loop. Post Predicated loop statements must end in a
 semicolon.
 
@@ -348,9 +348,9 @@ semicolon.
 Iterator Loop
 ~~~~~~~~~~~~~
 
-Loops can be used to iterate over the elements of an integer interval,
-or a vector of any type. This is done by using domain expressions (for
-instance i in v) in conjunction with a loop statement.
+Loops can be used to iterate over the elements of a vector of any type.
+This is done by using domain expressions (for instance ``i in v``) in
+conjunction with a loop statement.
 
 When the domain is given by a vector, each time the loop is executed the
 next element of the vector is assigned to the domain variable. The
@@ -366,9 +366,7 @@ automatically exits. For instance:
              i -> std_output;
            }
 
-Integer intervals can also be used instead. In this case it is the same
-as iterating over a vector created from the interval using by 1. For
-instance, the above iterator loop is equivalent to the following:
+Vector ranges can also be used instead:
 
 ::
 
@@ -382,7 +380,7 @@ instance:
 
 ::
 
-           integer[*] v = [i in 1..3 | i];
+           integer[\*] v = [i in 1..3 | i];
 
            /* Since the domain 'v' is only evaluated once this loop prints 1, 2,
               and then 3 even though after the first iteration 'v' is the zero
@@ -415,10 +413,10 @@ This can be done with as many domain expressions as desired.
 Break
 -----
 
-A break statement may only appear within the body of a loop. When a
-break statement is executed the loop is exited, and *Gazprea* continues
+A ``break`` statement may only appear within the body of a loop. When a
+``break`` statement is executed the loop is exited, and *Gazprea* continues
 to execute after the loop. This only exits the innermost loop, which
-actually contains the break.
+actually contains the ``break``.
 
 ::
 
@@ -440,7 +438,7 @@ actually contains the break.
            "\n" -> std_output;
          }
 
-If a break statement is not contained within a loop an error must be
+If a ``break`` statement is not contained within a loop an error must be
 raised.
 
 .. _ssec:statements_continue:
