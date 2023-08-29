@@ -47,7 +47,7 @@ value, and then used as a scalar initialization of the vector.
    The size of the vector is given by the integer expression between the
    square brackets.
 
-   If the vector is given a scalar value of the same element type then the
+   If the vector is given a scalar value (``type-expr``) of the same element type then the
    scalar value is duplicated for every single element of the vector.
 
    A vector may also be initialized with another vector. If the vector
