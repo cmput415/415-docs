@@ -104,3 +104,16 @@ an error code defined as follows:
   - ``0``: Last read from the stream was successful
   - ``1``: Last read from the stream encountered an error.
   - ``2``: Last read from the stream encountered the end of the stream.
+
+::
+
+         boolean b;
+         integer i;
+
+         input: 9 10
+         b <- std_input // 9
+         x = stream_state(std_input) // 1 - Wrong Input Type
+         i <- std_input // 9
+         x = stream_state(std_input) // 0 - Success
+         i <- std_input // 10
+         x = stream_state(std_input) // 2 - No More Input
