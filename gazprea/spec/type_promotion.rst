@@ -60,6 +60,13 @@ would print the following:
 
      [2 3 4 5 6]
 
+Other examples:
+
+::
+
+     1 == [1, 1] // True
+     1..2 || null // [1,2,null] 
+
 
 .. _ssec:typePromotion_ttot:
 
