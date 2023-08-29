@@ -165,6 +165,8 @@ With the standard input stream containing this:
 
 An :ref:`error state <sssec:stream_error>` would be set on the stream.
 
+Type promotion is not performed for stream input.
+
 .. _sssec:stream_error:
 
 Error Handling
