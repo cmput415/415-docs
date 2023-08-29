@@ -60,8 +60,8 @@ as well as to assign a new value to the element.
 
 ::
 
-     y = x + t1.1;  // Allowed
-     t1.1 = 5;      // Allowed
+     y = x + t1.1;     // Allowed
+     t1.1 = type-expr; // Allowed
 
 
 .. _sssec:tuple_null:
