@@ -348,7 +348,7 @@ Here are the steps to get MLIR up and running.
         -DLLVM_TARGETS_TO_BUILD="Native" \
         -DCMAKE_BUILD_TYPE=Release \
         -DLLVM_ENABLE_ASSERTIONS=ON
-    $ cmake --build . --target check-all
+    $ ninja check-all -j<number of threads>
 
 #. Add these configuration lines to your
    ``~/.bashrc``
