@@ -6,6 +6,8 @@ Type Promotion
 Type promotion is a sub-problem of casting and refers to casts that happen
 implicitly.
 
+Any conversion that can be done implicitly via promotion can also be done explicitly via typecast expression.
+
 .. _ssec:typePromotion_scalar:
 
 Scalars
