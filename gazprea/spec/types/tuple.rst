@@ -44,7 +44,8 @@ Access
 The elements in a ``tuple`` are accessed using dot notation. Dot
 notation can only be applied to ``tuple`` variables and *not* ``tuple``
 literals. Therefore, dot notation is an identifier followed by a period
-and then either a literal ``integer`` or a field name. Field indices
+and then either a literal ``integer`` or a field name. Spaces are not
+allowed inbetween elements in dot notation. Field indices
 *start at one*, not zero. For example:
 
 ::
