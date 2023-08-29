@@ -268,6 +268,7 @@ Operations
 
          								integer[3] v = [4, 5, 6];
          								integer x = v[2]; /* x == 5 */
+                                 integer y = [4,5,6][3] /* y == 6 */
 
       Out of bounds indexing should cause an error.
 
