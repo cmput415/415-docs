@@ -15,6 +15,8 @@ A function in *Gazprea* has several requirements:
 
 -  Functions can not call any procedures.
 
+-  Must be declared in the global scope.
+
 The reason for this is to ensure that functions in *Gazprea* behave as
 pure functions. Every time you call a function with the same arguments
 it will perform the exact same operations. This has a lot of benefits.
