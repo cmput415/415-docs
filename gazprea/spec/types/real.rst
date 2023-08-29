@@ -49,7 +49,7 @@ parsed. For example:
 
 A ``real`` literal can also be created by any valid ``real`` or
 ``integer`` literal followed by scientific notation indicated by the
-letter ``e`` and another valid ``integer`` literal. Scientific notation
+letter ``e`` or ``E`` and another valid ``integer`` literal. Scientific notation
 multiplies the first literal by :math:`{10}^{x}`. For example,
 :math:`4.2\mathrm{e}{-3}=4.2 \times10^{-3}`. For example:
 
@@ -57,10 +57,10 @@ multiplies the first literal by :math:`{10}^{x}`. For example,
 
      4.2e-1
      4.2e+9
-     4.2e5
+     4.2E5
      42.e+37
      .42e-7
-     42e6
+     42E6
 
 .. _sssec:real_ops:
 
