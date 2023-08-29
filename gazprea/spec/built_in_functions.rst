@@ -28,6 +28,12 @@ representing the length of the vector.
 
          length(v) -> std_output; /* Prints 5 */
 
+Empty vectors can be passed to the function, but they must have a type.
+
+::
+
+         length([]) // Not allowed
+
 .. _ssec:builtIn_rows_cols:
 
 Rows and Columns
