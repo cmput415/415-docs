@@ -165,3 +165,12 @@ instance:
 
 This is true for domain expressions within generators and filters as
 well.
+
+Iterator variables can be assigned to and re-declared within the enclosed iterator loop,
+generator or filter. The variable is re-initialized according to the expression each iteration.
+
+::
+
+         loop i in 1..6 {
+           integer i = 5;
+         }   
