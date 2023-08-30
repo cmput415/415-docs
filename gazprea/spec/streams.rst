@@ -222,13 +222,16 @@ and the remaining input stream should be:
   ***10a
 
 Because this means you may have to skip a potentially nearly-infinite amount of
-whitespace this specification, this specification limits the size of the "rewind
+whitespace, this specification limits the size of the "rewind
 buffer" to 1024 characters. Therefore, no read from ``std_input`` will require
 more than 1KB of characters from the current stream position to the end of the
 next token. This means that you will only ever need to maintain at most 1024
 characters in a buffer (1025 if a ``'\0'`` character is required). If more
 characters than that are required to be read then the runtime should emit an
 error.
+
+Valid input that reaches the buffer end can be assumed to complete at that
+point and remain valid.
 
 This table summarizes an input stream’s possible error states after a read of a
 particular data type.
