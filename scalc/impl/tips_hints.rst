@@ -36,10 +36,9 @@ Tips and Hints
 
                    std::string literalDivision =
                      "\n  # Div.\n"
-                     "  addi $t0, $0, {{ dividend }} # Set dividend.\n"
-                     "  addi $t1, $0, {{ divisor }} # Set divisor.\n"
-                     "  div  $t1, $t0      # Divide.\n"
-                     "  mflo $t0           # Get result.\n";
+                     "  addi  t0, zero, {{ dividend }} # Set dividend.\n"
+                     "  addi  t1, zero, {{ divisor }}  # Set divisor.\n"
+                     "  div   t1, t0                   # Divide.\n"
 
 -  This assignment will be extended to build a calculator that handles
    vectors in the next assignment. For that assignment you will need to
