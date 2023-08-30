@@ -8,6 +8,8 @@ A function in *Gazprea* has several requirements:
 -  All of the arguments are implicitly ``const``, and can not be
    mutable.
 
+-  Argument types must be explicit.
+
 -  Functions can not perform any I/O.
 
 -  Functions can not rely upon any mutable state outside of the
