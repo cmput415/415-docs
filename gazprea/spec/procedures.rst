@@ -187,14 +187,18 @@ matrices are passed to procedures. For instance:
 It is impossible to tell whether or not these overlap at compile time
 due to the halting problem. Thus for simplicity, whenever a vector or a
 matrix is passed to a procedure *Gazprea* detects aliasing whenever the
-same vector / matrix is used, regardless of whether or not the sections
-used would overlap. Thus, this should cause an error to be raised:
+same vector / matrix is used, regardless of whether or not the access
+would overlap.
+
+Another instance of aliasing relates to tuples, such as passing the
+same tuple twice in one procedure, or passing the entire tuple and
+separately passing a single tuple field. In both cases this can cause
+aliasing.
 
 ::
 
-         call p(v[1..5], v[6..10]);
-         /* p is some procedure with two variable vector arguments */
-
+         call p(t1, t1.1);
+         /* p is some procedure with a tuple argument and a real argument */
 
 .. _ssec:procedure_vec_mat:
 
