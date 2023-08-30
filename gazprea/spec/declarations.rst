@@ -78,6 +78,13 @@ variable with the same name. For instance:
          /* Now 'x' refers to the real version, with a value of 7.0 */
        }
 
+A variable with a given identifier can be re-declared by a subsequent definition.
+
+::
+
+       integer x = 5; // x = 5
+       real x = 3.5;  // x = 3.5
+
 .. _ssec:declaration_special:
 
 Special cases
