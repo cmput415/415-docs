@@ -181,15 +181,6 @@ matrices are passed to procedures. For instance:
 
 ::
 
-         call p(v[1..5], v[6..10]);
-         /* p is some procedure with two variable vector arguments */
-
-In this case the arguments technically wouldn’t be aliased, since the
-vector slices represent different locations in memory, but since the
-vector slices may depend upon variables:
-
-::
-
          call p(v[x], v[y]);
          /* p is some procedure with two variable vector arguments */
 
