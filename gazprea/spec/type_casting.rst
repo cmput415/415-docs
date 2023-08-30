@@ -3,7 +3,8 @@
 Type Casting
 ============
 
-*Gazprea* provides explicit type casting. A value may be converted to a
+*Gazprea* provides explicit type casting. Type cast is an expression. 
+A value may be converted to a
 different type using the following syntax where ``value`` is an
 expression and ``toType`` is our destination type:
 
