@@ -71,11 +71,8 @@ Floating point operations and precedence are equivalent to :ref:`integer operati
 
 Operations on real numbers should adhere to the IEEE 754 spec with
 regards to the representation of not-a-number(NaNs), infinity(infs), and
-zeros. A signaling NaN should cause a runtime error. Floating point
-errors and semantics can be guaranteed by using the `LLVM IR constrained
-floating point
-intrinsics <https://llvm.org/docs/LangRef.html#constrained-floating-point-intrinsics>`__.
-The default rounding mode (round-to-nearest) should be chosen along with ``fpexcept.strict`` exception behaviour.
+zeros. The default rounding mode (round-to-nearest) should be chosen
+along with ``fpexcept.strict`` exception behaviour.
 
 
 Type Casting and Type Promotion
