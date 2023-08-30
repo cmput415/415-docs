@@ -30,3 +30,21 @@ a number, contain invalid characters, or are a keyword:
    	we.don't.like.punctuation
 
 *Gazprea* imposes no restrictions on the length of identifiers.
+
+.. _ssec:namespace:
+
+Namespace
+===========
+
+Identifiers are used by variables, typedefs, functions and procedures.
+
+These share the same namespace in a scope and shadowing
+is possible between these types.
+
+::
+
+   function x() returns 1; // "x" refers to this function in the global scope
+   
+   {
+     integer x = 3; // "x" refers to this variable in the block scope
+   }
