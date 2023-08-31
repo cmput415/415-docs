@@ -1,9 +1,15 @@
 # Ignore built directories.
 _build/
 
+# Ignore deploy directory.
+_site/
+
 # Ignore build files.
 *.aux
 *.log
 
 # Ignore IDE files.
 .vscode
+
+# Ignore macOS files.
+.DS_STORE
