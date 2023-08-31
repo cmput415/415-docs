@@ -28,7 +28,7 @@ within the local scope:
 
        {
          integer v[3] = 3;
-         integer w[2] = v;
+         integer w[4] = v;
        }
 
 The compiler should also be able to detect cases such as:
