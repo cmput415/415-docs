@@ -21,15 +21,12 @@ vector must either be given with an expression of literal values, or not
 be provided. If a size mismatch is detected here the compiler should
 throw an error.
 
-The compiler should also handle cases where a type can be propogated
-within the local scope:
+The compiler should also handle cases where a type can be propogated from
+evaluating an expression of literals:
 
 ::
 
-       {
-         integer v[3] = 3;
-         integer w[4] = v;
-       }
+         integer w[4] = [1,2,3] || [4,5];
 
 The compiler should also be able to detect cases such as:
 
