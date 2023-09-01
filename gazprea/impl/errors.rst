@@ -3,67 +3,79 @@ Errors
 
 Your implementation is required to report both compile-time and runtime errors.
 
-Your compiler must throw the exceptions defined in ``include/exceptions.h`` and 
-``runtime/src/exceptions.h``.
-Do not modify the error messages, you can pass a string to an exception to provide more details 
-about a particular error. 
-You must pass the corresponding line number to the exceptions for compile-time errors but not 
-run-time errors. 
-Do not create new exceptions.
-Your compiler is only expected to report the first error it encounters. 
-Here is a list of the types of errors expected at compile-time and run-time:
+Your compiler must throw the exceptions defined in
+``include/CompileTimeExceptions.h`` and ``runtime/src/RunTimeExceptions.h``.
+Do not modify these files, you can pass a string to an exception to provide more
+details about a particular error. You must pass the corresponding line number to
+the exceptions for compile-time errors but not run-time errors. Do not create
+new exceptions. Your compiler is only expected to report the first error it
+encounters. Here is a list of the types of errors expected at compile-time and
+run-time:
 
 **Compile-time Errors**
 
-* ``SyntaxError``
+* ``GazpreaSyntaxError``
 
-    Raised during compilation if the parser encounters a syntactic error in the program.
+    Raised during compilation if the parser encounters a syntactic error in the
+    program.
 
-* ``SymbolError``
+* ``GazpreaSymbolError``
     
-    Raised during compilation if an undefined symbol is referenced or a defined symbol is 
-    re-defined in the same scope.
+    Raised during compilation if an undefined symbol is referenced or a defined
+    symbol is re-defined in the same scope.
     
-* ``TypeError``
+* ``GazpreaTypeError``
 
-    Raised during compilation if an operation or statement is applied to or betweeen expressions 
-    with invalid or incompatible types.
+    Raised during compilation if an operation or statement is applied to or
+    betweeen expressions with invalid or incompatible types.
 
-* ``AliasingError``
+* ``GazpreaAliasingError``
 
-    Raised during compilation if the compiler detects that mutable memory locations are aliased.
+    Raised during compilation if the compiler detects that mutable memory
+    locations are aliased.
 
-* ``AssignError``
+* ``GazpreaAssignError``
 
-    Raised during compilation if the compiler detects an assignment to a const value or a tuple 
-    unpacking assignment with the number of lvalues different than the number of fields in the tuple 
-    rvalue.
+    Raised during compilation if the compiler detects an assignment to a const
+    value or a tuple unpacking assignment with the number of lvalues different
+    than the number of fields in the tuple rvalue.
 
-* ``MainError``
+* ``GazpreaMainError``
 
-    Raised during compilation if the program does not have a procedure named ``main`` or when the 
-    signature of ``main`` is invalid.
+    Raised during compilation if the program does not have a procedure named
+    ``main`` or when the signature of ``main`` is invalid.
 
-* ``ReturnError``
+* ``GazpreaReturnError``
 
-    Raised during compilation if the program detects a function or procedure with a return value that
-    does not have a return statement reachable by all control flows.
+    Raised during compilation if the program detects a function or procedure
+    with a return value that does not have a return statement reachable by all
+    control flows.
 
-* ``GlobalError``
+* ``GazpreaGlobalError``
 
-    Raised during compilation if the program detects a ``var`` global declaration, a global declaration
-    without an initializing expression, or a global declaration with an invalid initializing expression.
+    Raised during compilation if the program detects a ``var`` global
+    declaration, a global declaration without an initializing expression, or a
+    global declaration with an invalid initializing expression.
 
-* ``StatmentError``
+* ``GazpreaStatementError``
 
-    Raised during compilation if the program is syntactically valid but the compiler detects an invalid
-    statment in a some context. For example, ``continue`` or ``break`` outside of a loop body.
+    Raised during compilation if the program is syntactically valid but the
+    compiler detects an invalid statment in a some context. For example,
+    ``continue`` or ``break`` outside of a loop body.
 
-* ``CallError``
-    Raised during compilation if the procedure call statement is used to call a function.
+* ``GazpreaCallError``
 
-* ``DefinitionError``
-    Raised during compilation if a procedure or function is declared but not defined.
+    Raised during compilation if the procedure call statement is used to call a
+    function.
+
+* ``GazpreaDefinitionError``
+
+    Raised during compilation if a procedure or function is declared but not
+    defined.
+
+* ``GazpreaSizeError``
+
+    Raised during compilation if a 
 
 Here is an example invalid program and a corresponding compile-time error:
 
@@ -75,26 +87,29 @@ Here is an example invalid program and a corresponding compile-time error:
 
 ::
 
-    ReturnError on line 1: procedure "main" does not have a return statement reachable by all control flows
+    GazpreaReturnError on line 1: procedure "main" does not have a return statement reachable by all control flows
 
 
 **Run-time Errors**
 
-* ``SizeError``
+* ``GazpreaSizeError``
 
-    Raised at runtime if an operation or statement is applied to or between vectors and matrices with invalid or incompatible sizes.
+    Raised at runtime if an operation or statement is applied to or between
+    vectors and matrices with invalid or incompatible sizes.
 
-* ``IndexError``
+* ``GazpreaIndexError``
 
-    Raised at runtime if an expression used to index a vector or matrix is an `integer`, but is invalid for the vector/matrix size.
+    Raised at runtime if an expression used to index a vector or matrix is an
+    ``integer``, but is invalid for the vector/matrix size.
     
-* ``DivisionError``
+* ``GazpreaDivisionError``
     
     Raised at runtime if a division by zero is detected.
     
-* ``StrideError``
+* ``GazpreaStrideError``
     
-    Raised at runtime if the `by` operation is used with a stride valud of `0`.
+    Raised at runtime if the ``by`` operation is used with a stride value of
+    ``0``.
 
 Here is an example invalid program and a corresponding run-time error:
 
@@ -107,7 +122,22 @@ Here is an example invalid program and a corresponding run-time error:
 
 ::
     
-    IndexError: invalid index "4" on vector with size 3
+    GazpreaIndexError: invalid index "4" on vector with size 3
+
+How to Write an Error Test Case
+-------------------------------
+
+Your compiler test-suite can include error test cases. An error test case can be
+a compile-time error test case or a run-time error test case. In either case,
+the last line of the corresponding expected output file should be the substring
+of the error message preceding the colon.
+
+Compile-time test cases should be exactly one line since the compilation failed.
+
+
+
+Any test case whose 
+
 
 Compile-time Errors
 -------------------
