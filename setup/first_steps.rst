@@ -13,8 +13,8 @@ with a student license, you can skip this.
    the rest of the form appropriately. **You must use your ualberta email
    address to be approved.** If your email address is rejected, click the
    ``Official Document`` link and fill out that form instead. You should still
-   use your ualberta email address. Use a photo of your ONEcard as your official
-   document.
+   use your ualberta email address. Submit two pictures of your ONEcard as your
+   official document, one of the front and one of the back.
 
 #. Go to your ualberta email inbox (the automation process is typically quite
    quick), find an email from JetBrains, and follow the instructions to create
