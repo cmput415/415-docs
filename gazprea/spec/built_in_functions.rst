@@ -28,6 +28,15 @@ representing the length of the vector.
 
          length(v) -> std_output; /* Prints 5 */
 
+Empty vector literals cannot be passed to ``length``.
+
+::
+
+    length([]) -> std_output; // Illegal
+
+    integer[*] empty = [];
+    length(empty) -> std_output; // Legal
+
 .. _ssec:builtIn_rows_cols:
 
 Rows and Columns
@@ -104,3 +113,20 @@ an error code defined as follows:
   - ``0``: Last read from the stream was successful
   - ``1``: Last read from the stream encountered an error.
   - ``2``: Last read from the stream encountered the end of the stream.
+
+::
+
+    boolean b;
+    integer i;
+
+    // Input stream: 9
+    b <- std_input;              // b = false (error reading boolean)
+    i = stream_state(std_input); // i = -1    (last read was error)
+    i <- std_input;              // i = 9     (successfully read integer)
+    i = stream_state(std_input); // i = 0     (last read was success)
+    b <- std_input;              // b = false (read end of stream)
+    i = stream_state(std_input); // i = 2     (last read was end of stream)
+
+
+The input stream is described in more detail in the
+:ref:`input stream <ssec:input>` section. 

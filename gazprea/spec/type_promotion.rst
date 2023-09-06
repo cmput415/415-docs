@@ -6,6 +6,8 @@ Type Promotion
 Type promotion is a sub-problem of casting and refers to casts that happen
 implicitly.
 
+Any conversion that can be done implicitly via promotion can also be done explicitly via typecast expression.
+
 .. _ssec:typePromotion_scalar:
 
 Scalars
@@ -59,6 +61,13 @@ would print the following:
 ::
 
      [2 3 4 5 6]
+
+Other examples:
+
+::
+
+  1 == [1, 1]  // True
+  1..2 || null // [1, 2, 0] 
 
 
 .. _ssec:typePromotion_ttot:

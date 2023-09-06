@@ -3,6 +3,8 @@
 Expressions
 ===========
 
+Expressions can only exist within a statement or another expression.
+
 .. _ssec:expressions_toop:
 
 Table of Operator precedence
@@ -113,7 +115,7 @@ an expression that evaluates to **any** vector type.
 Domain expressions can only appear within iterator loops, generators,
 and filters. A domain expression is a way of declaring a variable that
 is local to the loop, generator, or filter, that takes on values from
-the domain expression vector in order.
+the domain expression vector in order. Domain expressions must evaluate to a type.
 The scope of the domain variables (the left hand side of the declaration) is
 within the body of the generator, filter, or loop.
 The domain expressions (the right hand side) are all evaluated before any of the
@@ -165,3 +167,12 @@ instance:
 
 This is true for domain expressions within generators and filters as
 well.
+
+Iterator variables can be assigned to and re-declared within the enclosed iterator loop.
+The variable is re-initialized according to the expression each iteration.
+
+::
+
+         loop i in 1..6 {
+           integer i = 5;
+         }   

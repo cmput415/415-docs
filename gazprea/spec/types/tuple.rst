@@ -44,7 +44,8 @@ Access
 The elements in a ``tuple`` are accessed using dot notation. Dot
 notation can only be applied to ``tuple`` variables and *not* ``tuple``
 literals. Therefore, dot notation is an identifier followed by a period
-and then either a literal ``integer`` or a field name. Field indices
+and then either a literal ``integer`` or a field name. Spaces are not
+allowed inbetween elements in dot notation. Field indices
 *start at one*, not zero. For example:
 
 ::
@@ -53,6 +54,15 @@ and then either a literal ``integer`` or a field name. Field indices
      t2.4
      t3.r
      t4.mode
+
+Tuple access can both be used to retrieve the element value for an expression
+as well as to assign a new value to the element.
+
+::
+
+     y = x + t1.1;     // Allowed
+     t1.1 = type-expr; // Allowed
+
 
 .. _sssec:tuple_null:
 

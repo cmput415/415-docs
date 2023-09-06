@@ -87,30 +87,160 @@
           </tr>
           <tr>
 	    <td><a href="generator/">Generator</a></td>
-	    <td><a href="https://classroom.github.com/a/-6nsCipp">Assignment Repo</a></td>
+	    <td><a href="https://classroom.github.com/a/uvkYRos3">Assignment Repo</a></td>
             <td><a href="generator.pdf">generator.pdf</a></td>
           </tr>
           <tr>
 	    <td><a href="scalc/">SCalc</a></td>
-	    <td><a href="https://classroom.github.com/a/UY8BU0_P">Assignment Repo</a></td>
+	    <td><a href="https://classroom.github.com/a/MqQMz1-P">Assignment Repo</a></td>
             <td><a href="scalc.pdf">scalc.pdf</a></td>
           </tr>
           <tr>
 	    <td><a href="vcalc/">VCalc</a></td>
-	    <td><a href="https://classroom.github.com/a/ZzpxRFnw">Assignment Repo</a></td>
+	    <td><a href="https://classroom.github.com/a/JQs2lsuV">Assignment Repo</a></td>
             <td><a href="vcalc.pdf">vcalc.pdf</a></td>
           </tr>
           <tr>
 	    <td><a href="gazprea/">Gazprea Language Specification</a></td>
-	    <td><a href="https://classroom.github.com/a/u7XUI5gz">Assignment Repo</a></td>
+	    <td><a href="https://classroom.github.com/a/XQbLdfhW">Assignment Repo</a></td>
             <td><a href="gazprea.pdf">gazprea.pdf</a></td>
           </tr>
         </tbody>
       </table>
 
-      <h4 class="greentext">Gazprea Software-Engineering Process</h4>
-
-      <p>For the Gazprea project, all teams must follow the requirements outlined in the <a href="engineering/organization.html">Software-Engineering Process</a></p>
+      <a id="grading"> <h3 class="greentext">Grading</h3> </a>
+      <p>Your assignment grades will be computed as follows: </p>
+      <h5 class="greentext">Code Style and Consistency: 15% (10% for Gazprea)
+      </h5>
+      <ul>
+        <li>You should have a consistent style throughout your assignment. For
+            example: commenting, variable names, function names, class names,
+            file names, indentation, etc… should be consistent in your program.
+            You can use tools like clang-format and clang-tidy to support a
+            consistent style. When working in teams for VCalc and Gazprea, you
+            should discuss style early.</li>
+        <li>You are expected to separate class definitions from implementations
+            using header (.h) and source (.cpp) files.</li>
+        <li>Your code should be clean and readable.</li>
+        <li>There is no minimum expectation for commenting or documentation.
+            </li>
+      </ul>
+      <h5 class="greentext">Software Engineering Process: 5% (Gazprea only)</h5>
+      <ul>
+        <li>You should have meetings and record notes. Read more about the
+            software engineering requirements
+            <a href="engineering/organization.html">here</a>.</li>
+        <li>You should follow a consistent process for code reviews.</li>
+      </ul>
+      <h5 class="greentext">Grammar Implementation: 5% (15% for Generator)</h5>
+      <ul>
+        <li>Your grammar should correctly implement the specification.</li>
+        <li>Your grammar should not have any unnamed tokens.</li>
+        <li>Your grammar should have a consistent style.</li>
+        <li>Your grammar should be clean and readable.</li>
+      </ul>
+      <h5 class="greentext">Implementation Guidelines Compliance: 10% (not
+                            applicable for Generator)</h5>
+      <ul>
+        <li>You should comply with the implementation guidelines described for
+            the assignments.</li>
+        <ul>
+          <li><b>SCalc:</b></li>
+          <ul>
+            <li>You should comply with the guidelines described
+                <a href="https://cmput415.github.io/415-docs/scalc/index.html">
+                here</a>.</li>
+          </ul>
+          <li><b>VCalc:</b></li>
+          <ul>
+            <li>You should write your compiler as a series of passes each with
+                simple functionality. Do not implement your compiler as a single
+                pass. As a minimun, your compiler should have an  individual
+                pass that performs each of the following actions:</li>
+            <ul>
+              <li>Create an abstract syntax tree.</li>
+              <li>Emit LLVM Dialect MLIR.</li>
+            </ul>
+          </ul>
+          <li><b>Gazprea:</b></li>
+          <ul>
+            <li>You should write your compiler as a series of passes each with
+                simple functionality. Do not implement your compiler as a single
+                pass. As a minimun, your compiler should have an  individual
+                pass that performs each of the following actions:</li>
+            <ul>
+              <li>Create an abstract syntax tree.</li>
+              <li>Define symbols and ensure that symbols can be referenced in
+                  the locations they are used. These actions may be performed by
+                  two separate passes.</li>
+              <li>Propogate type information through expressions and perform
+                  static type checking. These actions may be performed by two
+                  separate passes.</li>
+              <li>Emit LLVM Dialect MLIR.</li>
+            </ul>
+            <li>Your compiler shouild use a symbol table to track symbol
+                definitions and scopes.</li>
+          </ul>
+        </ul>
+      </ul>
+      <h5 class="greentext">TA Specification Tests: 50%</h5>
+      <ul>
+        <li>For each assignment, your submission will be tested on a private
+            test suite that tests the features defined in the assignment
+            specification.</li>
+      </ul>
+      <h5 class="greentext">Competitive Testing: 20%</h5>
+      <ul>
+        <li>Each submission should include a test suite.</li>
+        <ul>
+          <li>Your submitted tests should be unit-tests. Each test should be
+              written to test a particular feature and use a minimal subset of
+              the language.</li>
+        </ul>
+        <li>Your competitive testing grade will be determined by a tournament.
+            </li>
+        <ul>
+          <li>In this tournament, submissions earn points based on the
+              performance of their submitted compiler and test suite. Each
+              submitted compiler will be run on each submitted test suite.
+              Consider two distinct submissions, submission-A and submission-B.
+              submission-A earns points as follows:</li>
+          <ul>
+            <li><b>Coherence Points:</b> if compiler-A passes every test in
+                test-suite-A, submission-A earns 1 point.</li>
+            <li><b>Defensive Points:</b> if compiler-A passes every test in
+                test-suite-B, submission-A earns 2 points.</li>
+            <li><b>Offensive Points:</b> if compiler-B fails N tests in tests-A,
+                submission-A earns N / (number of tests in test-suite-A) points.
+                </li>
+          </ul>
+          <li>Your competitive testing grade is computed by dividing your
+              submission’s tournament score by the highest tournament score
+              earned by a submission for that assignment in this term. For
+              example, if your submission earned 30.0 tournament points and the
+              other submissions in the class earned 24.3, 40.0, and 15.9
+              tournament points, you will receive a competitive testing grade of
+              75%.</li>
+        </ul>
+        <li>In the past, there was a minor penalty for submitting tests that did
+            not adhere to the unit-testing practice. So, clever students
+            submitted test suites with a few large test cases each including
+            many features thus making it more likely that a compiler would fail
+            the test cases. Their intent was to offset the penalty with the
+            offensive points they earn and the defensive points they prevent
+            other students from receiving. To prevent this from happening again
+            and to incentivize students to practice writing good unit-tests, the
+            TA can exclude tests that they think are not good unit-tests. If the
+            TA excludes several tests from a submission and believes that the
+            students intentionally created bad unit-tests to abuse competitive
+            testing, they may receive a competitive testing grade of 0%.</li>
+      </ul>
+      <p>Once a week during team assignments and after each submission of a team
+         assignment, you must fill out a team assessment. Reach out to the TA if
+         your team encounters problems with collaboration that you are unable to
+         resolve on your own. Your final individual grade may be lower than your
+         team grade by a factor proportional to your contribution to the
+         assignment.</p>
 
       <h3 class="greentext">New in Fall 2020: Fuzzers for Generator, SCalc and VCalc</h3>
 

@@ -65,3 +65,11 @@ up fashion. For instance:
           either of the null values types are it can't. */
 
        var y = null + null + 1;
+
+When composed entirely of null/identity elements, vector literals follow the
+same type inference rules as null/identity themselves.
+
+::
+
+    boolean[2] a = [null, identity]; // Promotes the literal to a Boolean vector
+    // a = [false, true] 
