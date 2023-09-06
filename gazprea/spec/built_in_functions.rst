@@ -28,7 +28,7 @@ representing the length of the vector.
 
          length(v) -> std_output; /* Prints 5 */
 
-Empty vector literals cannot be passed to the ``length``.
+Empty vector literals cannot be passed to ``length``.
 
 ::
 
