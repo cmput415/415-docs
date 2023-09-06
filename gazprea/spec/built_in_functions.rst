@@ -32,10 +32,10 @@ Empty vector literals cannot be passed to the ``length``.
 
 ::
 
-         length([]) -> std_output; // Illegal
-         
-         integer[*] empty = [];
-         length(empty) -> std_output; // Legal
+    length([]) -> std_output; // Illegal
+
+    integer[*] empty = [];
+    length(empty) -> std_output; // Legal
 
 .. _ssec:builtIn_rows_cols:
 
@@ -116,16 +116,16 @@ an error code defined as follows:
 
 ::
 
-         boolean b;
-         integer i;
+    boolean b;
+    integer i;
 
-         // Input stream: 9
-         b <- std_input;              // b = false (error reading boolean)
-         i = stream_state(std_input); // i = -1    (last read was error)
-         i <- std_input;              // i = 9     (successfully read integer)
-         i = stream_state(std_input); // i = 0     (last read was success)
-         b <- std_input;              // b = false (read end of stream)
-         i = stream_state(std_input); // i = 2     (last read was end of stream)
+    // Input stream: 9
+    b <- std_input;              // b = false (error reading boolean)
+    i = stream_state(std_input); // i = -1    (last read was error)
+    i <- std_input;              // i = 9     (successfully read integer)
+    i = stream_state(std_input); // i = 0     (last read was success)
+    b <- std_input;              // b = false (read end of stream)
+    i = stream_state(std_input); // i = 2     (last read was end of stream)
 
 
 The input stream is described in more detail in the
