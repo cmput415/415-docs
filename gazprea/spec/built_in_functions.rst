@@ -28,11 +28,14 @@ representing the length of the vector.
 
          length(v) -> std_output; /* Prints 5 */
 
-Empty vectors can be passed to the function, but they must have a type.
+Empty vector literals cannot be passed to the ``length``.
 
 ::
 
-         length([]) // Not allowed
+         length([]) -> std_output; // Illegal
+         
+         integer[*] empty = [];
+         length(empty) -> std_output; // Legal
 
 .. _ssec:builtIn_rows_cols:
 
@@ -116,10 +119,14 @@ an error code defined as follows:
          boolean b;
          integer i;
 
-         input: 9 10
-         b <- std_input // 9
-         x = stream_state(std_input) // 1 - Wrong Input Type
-         i <- std_input // 9
-         x = stream_state(std_input) // 0 - Success
-         i <- std_input // 10
-         x = stream_state(std_input) // 2 - No More Input
+         // Input stream: 9
+         b <- std_input;              // b = false (error reading boolean)
+         i = stream_state(std_input); // i = -1    (last read was error)
+         i <- std_input;              // i = 9     (successfully read integer)
+         i = stream_state(std_input); // i = 0     (last read was success)
+         b <- std_input;              // b = false (read end of stream)
+         i = stream_state(std_input); // i = 2     (last read was end of stream)
+
+
+The input stream is described in more detail in the
+:ref:`input stream <ssec:input>` section. 

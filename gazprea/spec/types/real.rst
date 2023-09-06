@@ -71,9 +71,7 @@ Floating point operations and precedence are equivalent to :ref:`integer operati
 
 Operations on real numbers should adhere to the IEEE 754 spec with
 regards to the representation of not-a-number(NaNs), infinity(infs), and
-zeros. The default rounding mode (round-to-nearest) should be chosen
-along with ``fpexcept.strict`` exception behaviour.
-
+zeros.
 
 Type Casting and Type Promotion
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

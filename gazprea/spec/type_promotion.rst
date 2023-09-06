@@ -66,8 +66,8 @@ Other examples:
 
 ::
 
-     1 == [1, 1] // True
-     1..2 || null // [1,2,null] 
+  1 == [1, 1]  // True
+  1..2 || null // [1, 2, 0] 
 
 
 .. _ssec:typePromotion_ttot:

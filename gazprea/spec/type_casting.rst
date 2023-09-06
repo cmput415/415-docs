@@ -84,7 +84,8 @@ size is assumed to be the old size. For example:
      // Truncate the vector.
      real[2] y = as<real[2]>(v);
 
-Casting non-variable empty vectors ``[]`` is not allowed, because a standalone empty vector does not have a type.
+Casting non-variable empty vectors ``[]`` is not allowed, because a literal
+empty vector does not have a type.
 
 .. _ssec:typeCasting_mtom:
 

@@ -78,12 +78,43 @@ variable with the same name. For instance:
          /* Now 'x' refers to the real version, with a value of 7.0 */
        }
 
-A variable with a given identifier can be re-declared by a subsequent definition.
+Within a given scope, a symbol can be declared with any identifer name provided
+that no other symbol was declared with the same name in the scope.
 
 ::
 
-       integer x = 5; // x = 5
-       real x = 3.5;  // x = 3.5
+       const integer name-1 = 5;
+       const boolean name-1 = true; // Illegal, name-1 was already declared in this scope
+
+       procedure name-1() {         // Illegal, name-1 was already declared in this scope
+         return;
+       }
+
+       procedure name-2() {
+         boolean name-1;
+         integer name-1;            // Illegal, name-1 was already declared in this scope
+
+         {
+           integer name-1;
+         }
+         
+         return;
+       } 
+
+A symbol use will always resolve to the symbol declaration with the same name
+highest in the current scope stack.
+
+::
+
+       procedure name-1() {
+         call name-1();
+         {
+           integer name-1;
+           call name-1(); // Illegal, name-1 is an integer in this scope
+         }
+         
+         return;
+       }
 
 .. _ssec:declaration_special:
 

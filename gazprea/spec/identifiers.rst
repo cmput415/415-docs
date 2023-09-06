@@ -36,7 +36,7 @@ a number, contain invalid characters, or are a keyword:
 Namespace
 ===========
 
-Identifiers are used by variables, typedefs, functions and procedures.
+Identifiers are used by variables, functions and procedures.
 
 These share the same namespace in a scope and shadowing
 is possible between these types.

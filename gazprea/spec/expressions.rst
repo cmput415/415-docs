@@ -3,7 +3,7 @@
 Expressions
 ===========
 
-Expressions must exist within a statement or another expression.
+Expressions can only exist within a statement or another expression.
 
 .. _ssec:expressions_toop:
 
