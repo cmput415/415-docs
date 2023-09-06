@@ -80,6 +80,12 @@ Also matrices can be initialized with a scalar value, ``null``, or
 Initializing with a scalar value makes every element of the matrix equal
 to the scalar.
 
+Gazprea supports empty matrices.
+
+::
+
+   integer[*,*] m = []; /* Should create an empty matrix */
+
 .. _sssec:matrix_ops:
 
 Operations
@@ -124,43 +130,13 @@ indices must be used. These indices are separated using a comma.
 
 The first index specifies the row of the matrix, and the second index
 specifies the column of the matrix. The result is retrieved from the row
-and column. Both the row and column indices can be either integers or
-integer vectors. When both indices are scalar integers the result is the
-scalar value in the row and column specified.
+and column. Both the row and column indices must be integers.
 
 ::
 
    				integer[*, *] M = [[11, 12, 13], [21, 22, 23]];
 
    				/* M[1, 2] == 12 */
-
-
-If one of the indices is a vector and the other index is
-a scalar, then the result is a vector. For example:
-
-::
-
-   				integer[*, *] M = [[11, 12, 13], [21, 22, 23]];
-
-   				/* Select from row 2 */
-   				/* M[2, 2..3] == [22, 23] */
-   				/* M[2, [3, 2]] == [23, 22] */
-
-   				/* Select from column 1 */
-   				/* M[1..2, 1] == [11, 21] */
-   				/* M[[2, 1], 1] == [21, 11] */
-
-
-Finally, both of the indices may be vectors, in which case
-the result is another matrix.
-
-::
-
-   				integer[*, *] M = [[11, 12, 13], [21, 22, 23]];
-
-   				/* Makes a matrix consisting of [[M[2, 1], M[2, 3]], [M[1, 1], M[1, 3]]] */
-   				integer[*, *] K = M[[2, 1], [1, 3]];
-
 
 As with vectors, out of bounds indexing is an error on Matrices.
 

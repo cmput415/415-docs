@@ -8,12 +8,16 @@ A function in *Gazprea* has several requirements:
 -  All of the arguments are implicitly ``const``, and can not be
    mutable.
 
+-  Argument types must be explicit. Inferred size vectors are allowed
+
 -  Functions can not perform any I/O.
 
 -  Functions can not rely upon any mutable state outside of the
    function.
 
 -  Functions can not call any procedures.
+
+-  Must be declared in the global scope.
 
 The reason for this is to ensure that functions in *Gazprea* behave as
 pure functions. Every time you call a function with the same arguments

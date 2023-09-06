@@ -47,7 +47,7 @@ value, and then used as a scalar initialization of the vector.
    The size of the vector is given by the integer expression between the
    square brackets.
 
-   If the vector is given a scalar value of the same element type then the
+   If the vector is given a scalar value (``type-expr``) of the same element type then the
    scalar value is duplicated for every single element of the vector.
 
    A vector may also be initialized with another vector. If the vector
@@ -260,21 +260,15 @@ Operations
    d. Indexing
 
       A vector may be indexed in order to retrieve the values stored in
-      the vector. A vector may be indexed using integers and integer vectors.
+      the vector. A vector may be indexed using integers.
       *Gazprea* is 1-indexed, so the first element of a vector is at index 1
       (as opposed to index 0 in languages like *C*). For instance:
 
       ::
 
-         								integer[3] v = [4, 5, 6];
-
-         								integer x = v[2]; /* x == 5 */
-         								integer[*] y = v[2..3]; /* y == [5, 6] */
-         								integer[*] z = v[[3, 1, 2]]; /* z == [6, 4, 5] */
-
-
-      When indexed with a scalar integer the result is a scalar value,
-      but when indexed with a vector the result is another vector.
+         integer[3] v = [4, 5, 6];
+         integer x = v[2]; /* x == 5 */
+         integer y = [4,5,6][3] /* y == 6 */
 
       Out of bounds indexing should cause an error.
 

@@ -76,13 +76,20 @@ Backslash       ``\\``               ``0x5C``
 Operations
 ~~~~~~~~~~
 
-There are no operations defined between scalar values with type``character``.
-To operate on a ``character`` it must first be cast to either a ``boolean``,
-``integer``, or ``real``.
+The following operations are defined between ``character`` values. 
 
-However, scalar values with type ``character`` may still be concatenated onto
-values with type ``string`` or vectors with type ``character``
++------------+--------------------------+------------+---------------------------+-------------------+
+| **Class**  | **Operation**            | **Symbol** | **Usage**                 | **Associativity** |
++============+==========================+============+===========================+===================+
+| Grouping   | parentheses              | ``()``     | ``(character)``           | N/A               |
++------------+--------------------------+------------+---------------------------+-------------------+
+| Comparison | equals                   | ``==``     | ``character == character``| left              |
+|            +--------------------------+------------+---------------------------+-------------------+
+|            | not equals               | ``!=``     | ``character != character``| left              |
++------------+--------------------------+------------+---------------------------+-------------------+
 
+Scalar values with type ``character`` may be concatenated onto
+values with type ``string`` or vectors with type ``character``.
 
 Type Casting and Type Promotion
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

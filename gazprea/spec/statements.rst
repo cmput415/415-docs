@@ -110,7 +110,7 @@ The types of the variables must match the types of the tuple’s fields,
 or the tuple’s fields must be able to be automatically promoted to the
 variable’s type. The number of variables in the comma separated list
 must match the number of fields in the tuple, if this is not the case an
-error should be raised.
+error should be raised. This assignment is performed left-to-right.
 
 Assignments and initializations must perform a deep copy. It should not
 be possible to cause the aliasing of memory locations with an

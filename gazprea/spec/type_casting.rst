@@ -3,7 +3,8 @@
 Type Casting
 ============
 
-*Gazprea* provides explicit type casting. A value may be converted to a
+*Gazprea* provides explicit type casting. Type casting is an expression. 
+A value may be converted to a
 different type using the following syntax where ``value`` is an
 expression and ``toType`` is our destination type:
 
@@ -82,6 +83,9 @@ size is assumed to be the old size. For example:
 
      // Truncate the vector.
      real[2] y = as<real[2]>(v);
+
+Casting non-variable empty vectors ``[]`` is not allowed, because a literal
+empty vector does not have a type.
 
 .. _ssec:typeCasting_mtom:
 
