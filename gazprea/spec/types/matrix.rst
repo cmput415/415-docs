@@ -80,7 +80,7 @@ Also matrices can be initialized with a scalar value, ``null``, or
 Initializing with a scalar value makes every element of the matrix equal
 to the scalar.
 
-Gazprea DOES support empty matrices.
+Gazprea supports empty matrices.
 
 ::
 
