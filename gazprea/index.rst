@@ -24,7 +24,6 @@ Hardware Acceleration Laboratory in Markham, ON.
    spec/type_qualifiers
    spec/types
    spec/type_inference
-   spec/vector_matrix_type_checking
    spec/type_casting
    spec/type_promotion
    spec/typedef

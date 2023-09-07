@@ -1,3 +1,5 @@
+.. _sec:errors:
+
 Errors
 ======
 
@@ -13,7 +15,7 @@ encounters.
 Compile-time Errors
 -------------------
 
-Compile-time errors must be handled by throwing the exceptions defined in 
+Compile-time errors must be handled by throwing the exceptions defined in
 ``include/CompileTimeExceptions.h``. To throw an exception, use the ``throw``
 keyword.
 
@@ -84,7 +86,10 @@ Here are the compile-time errors you need to report:
 
 * ``SizeError``
 
-    Raised during compilation if a 
+    Raised during compilation if the compiler detects an operation or statement
+    is applied to or between vectors and matrices with invalid or incompatible
+    sizes. Read more about when a ``SizeError`` should be raised at run-time
+    instead of compile-time in the :ref:`ssec:errors_sizeErrors` section.
 
 Here is an example invalid program and a corresponding compile-time error:
 
@@ -155,7 +160,9 @@ Here are the run-time errors you need to report:
 * ``SizeError``
 
     Raised at runtime if an operation or statement is applied to or between
-    vectors and matrices with invalid or incompatible sizes.
+    vectors and matrices with invalid or incompatible sizes. Read more about
+    when a ``SizeError`` should be raised at compile-time instead of run-time in
+    the :ref:`ssec:errors_sizeErrors` section.
 
 * ``IndexError``
 
@@ -183,6 +190,87 @@ Here is an example invalid program and a corresponding run-time error:
 ::
 
     IndexError: invalid index "4" on vector with size 3
+
+.. _ssec:errors_sizeErrors:
+
+Compile-time vs Run-time Size Errors
+------------------------------------
+
+While the size of vectors and matrices may not always be known at
+compile time, there are instances where the compiler can perform length
+checks at compile time. For instance:
+
+::
+
+       integer[2] vec = 1..10;
+
+For simplicity, this section defines a subset of the size errors detectable at
+compile-time for which your compiler should report a ``SizeError`` at
+compile-time.
+
+In particular, your compiler should raise a ``SizeError`` at compile-time if and
+only if it finds one of the following two cases:
+
+#. An operation between vectors or matrices with compatible types such that
+
+   #. each operand vector or matrix expression is formed by operations on
+      literal expressions, and
+
+   #. the sizes of the operand vectors or matrices do not match.
+
+#. A vector or matrix declaration statement such that
+
+   #. the expressions used to declare the size of the vector or matrix are
+      literal integers,
+
+   #. the declaration is initialized with a vector or matrix expression with
+      compatible type that is formed by operations on literal expressions, and
+
+   #. the size of the initialization expression is larger, in some dimension,
+      than the declared size.
+
+#. A vector or matrix declaration statement such that
+
+   #. one of the expressions used to declare the size of the vector or matrix is
+      a literal integer with a negative value.
+
+Here are some example statements that should raise a compile-time ``SizeError``:
+
+::
+
+  [1, 2, 3] + [1.3] -> std_output;
+
+::
+
+  [[1, 2], [3, 4]] % [[2, 2]] -> std_output;
+
+::
+
+  integer[2] vec = [1, 2, 3] + 1;
+
+::
+
+  integer[2, 2] mat = [[1, 2, 3], [4, 5, 6]];
+
+::
+
+  integer[2] vec = 1..10;
+
+
+Here are some example statements that should not raise a compile-time
+``SizeError``, but may raise a run-time ``SizeError``:
+
+::
+
+  [1, 2, 3] + vec -> std_output;
+
+::
+
+  integer[2] vec = [1, 2, 3] + scal;
+
+::
+
+  integer[two] vec = [1, 2, 3];
 
 How to Write an Error Test Case
 -------------------------------
@@ -216,5 +304,3 @@ To ensure that the tester does not falsely identify a regular test case as an
 error test case, you must not write test cases whose corresponding expected
 output file contains exactly one line and the substring "Error".
 
-Compile-time vs Run-time Size Errors
-------------------------------------

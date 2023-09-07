@@ -110,5 +110,6 @@ Here is how to call the function in the LLVM dialect of MLIR:
        // Done, return 0
        %c0_i32 = llvm.mlir.constant(0 : i32) : i32
        llvm.return %c0_i32 : i32
+    }
   }
-}
+

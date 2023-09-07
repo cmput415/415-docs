@@ -32,3 +32,4 @@ Part 1.
 
 #. :ref:`ssec:backend_memory`
 
+#. :ref:`sec:errors`
