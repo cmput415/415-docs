@@ -27,7 +27,6 @@ recommended strategy.
       * :ref:`ssec:typeQualifiers_var`
       * :ref:`ssec:typeQualifiers_const`
 
-   * :ref:`sec:typeChecking`
    * :ref:`sec:typePromotion`
    * :ref:`sec:typeCasting`
    * :ref:`sec:typeInference`
@@ -73,3 +72,26 @@ recommended strategy.
 
    * Function calls
 
+#. :ref:`sec:errors`
+
+   * SyntaxError
+
+   * SymbolError
+
+   * TypeError
+
+   * AliasingError
+
+   * MainError
+
+   * ReturnError
+
+   * GlobalError
+
+   * StatementError
+
+   * CallError
+
+   * DefinitionError
+
+   * DivisionError

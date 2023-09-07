@@ -1,73 +1,116 @@
+.. _sec:errors:
+
 Errors
 ======
 
-Your implementation is required to report both compile-time and runtime errors.
+Your implementation is required to report both compile-time and run-time errors.
+You must use the exceptions defined in ``include/CompileTimeExceptions.h`` and
+the functions defined in ``runtime/src/run_time_exceptions.h``. Do not modify
+these files, you can pass a string to a consstructor/function to provide more
+details about a particular error. You must pass the corresponding line number to
+the exceptions for compile-time errors but not run-time errors. Do not create
+new exceptions. Your compiler is only expected to report the first error it
+encounters.
 
 Compile-time Errors
 -------------------
 
-Compile-time errors must be handled by throwing `C++ standard exceptions <http://www.cplusplus.com/doc/tutorial/exceptions/>`__.
-
-You should create different exception classes for each of the different kinds of compile-time errors you report, such as a Type Error shown in the example below.
-
-You must create all your exception classes in a single header file ``exceptions.h`` and extend ``std::exception``.
-
-Example exception class:
+Compile-time errors must be handled by throwing the exceptions defined in
+``include/CompileTimeExceptions.h``. To throw an exception, use the ``throw``
+keyword.
 
 ::
 
-    /* exceptions.h */
+    throw MainError(1, "program does not have a main procedure");
 
-    #include <string>
-    #include <sstream>
+Here are the compile-time errors you need to report:
 
-    class TypeError : public std::exception {
-    private:
-        std::string msg;
-    public:
-        TypeError(std::string lhs, std::string rhs, int line) {
-            std::stringstream sstream;
-            sstream << "Type error: Cannot convert between "
-                    << lhs << " and " << rhs << " on line " << line << "\n";
-            msg = sstream.str();
-        }
+* ``SyntaxError``
 
-        virtual const char* what() const throw() {
-            return msg.c_str();
-        }
-    };
+    Raised during compilation if the parser encounters a syntactic error in the
+    program.
 
-Whenever you encounter an error, you throw an appropriate exception.
-To throw an exception, use the ``throw`` keyword. As an example for the exception defined above, we throw it as follows:
+* ``SymbolError``
+
+    Raised during compilation if an undefined symbol is referenced or a defined
+    symbol is re-defined in the same scope.
+
+* ``TypeError``
+
+    Raised during compilation if an operation or statement is applied to or
+    betweeen expressions with invalid or incompatible types.
+
+* ``AliasingError``
+
+    Raised during compilation if the compiler detects that mutable memory
+    locations are aliased.
+
+* ``AssignError``
+
+    Raised during compilation if the compiler detects an assignment to a const
+    value or a tuple unpacking assignment with the number of lvalues different
+    than the number of fields in the tuple rvalue.
+
+* ``MainError``
+
+    Raised during compilation if the program does not have a procedure named
+    ``main`` or when the signature of ``main`` is invalid.
+
+* ``ReturnError``
+
+    Raised during compilation if the program detects a function or procedure
+    with a return value that does not have a return statement reachable by all
+    control flows.
+
+* ``GlobalError``
+
+    Raised during compilation if the program detects a ``var`` global
+    declaration, a global declaration without an initializing expression, or a
+    global declaration with an invalid initializing expression.
+
+* ``StatementError``
+
+    Raised during compilation if the program is syntactically valid but the
+    compiler detects an invalid statment in a some context. For example,
+    ``continue`` or ``break`` outside of a loop body.
+
+* ``CallError``
+
+    Raised during compilation if the procedure call statement is used to call a
+    function.
+
+* ``DefinitionError``
+
+    Raised during compilation if a procedure or function is declared but not
+    defined.
+
+* ``SizeError``
+
+    Raised during compilation if the compiler detects an operation or statement
+    is applied to or between vectors and matrices with invalid or incompatible
+    sizes. Read more about when a ``SizeError`` should be raised at run-time
+    instead of compile-time in the :ref:`ssec:errors_sizeErrors` section.
+
+Here is an example invalid program and a corresponding compile-time error:
 
 ::
 
-    throw TypeError("int", "char", 10);
+    1 procedure main() returns integer {
+    2     integer x;
+    3 }
+
+::
+
+    ReturnError on line 1: procedure "main" does not have a return statement reachable by all control flows
 
 Syntax Errors
 ~~~~~~~~~~~~~
 
-Syntax errors are also compile-time errors. ANTLR handles syntax errors automatically, but you are required to override the behavior and throw your own exception from ``exceptions.h``.
+ANTLR handles syntax errors automatically, but you are required to override the
+behavior and throw the ``SyntaxError`` exception from
+``include/CompileTimeExceptions.h``.
 
-Example:
-
-::
-
-    /* exceptions.h */
-
-    #include <string>
-    #include <sstream>
-
-    class SyntaxError : public std::exception {
-    private:
-        std::string msg;
-    public:
-        SyntaxError(std::string msg) : msg(msg) {}
-
-        virtual const char* what() const throw() {
-            return msg.c_str();
-        }
-    };
+For example:
 
 ::
 
@@ -82,7 +125,7 @@ Example:
             // You may want to print the stack along with the error message, or use the stack contents to 
             // make a more detailed error message.
 
-            throw SyntaxError(msg); // Throw our exception with ANTLR's error message. You can customize this as appropriate.
+            throw SyntaxError(line, msg); // Throw our exception with ANTLR's error message. You can customize this as appropriate.
         }
     };
 
@@ -98,27 +141,166 @@ Example:
         ...
     }
 
-For more information regarding the handling of syntax errors in ANTLR, refer to chapter 9 of `The Definitive ANTLR 4 Reference <https://pragprog.com/titles/tpantlr2/>`__.
+For more information regarding the handling of syntax errors in ANTLR, refer to
+chapter 9 of
+`The Definitive ANTLR 4 Reference <https://pragprog.com/titles/tpantlr2/>`__.
 
+Run-time Errors
+---------------
 
-Runtime Errors
---------------
-
-Since the runtime library is written in C, you do not have access to C++ standard exceptions.
-
-Instead, you are required to have a single header file ``errors.h`` containing all your functions which print error messages to ``stderr`` and exit.
-
-Simply call any of the functions when you need to report an error.
-
-Example:
+Run-time errors must be handled by calling the functions defined in
+``runtime/src/run_time_exceptions.h``.
 
 ::
 
-    /* errors.h */
+    DivisionError("cannot divide by zero")
 
-    #include <stdlib.h>
+Here are the run-time errors you need to report:
 
-    void sizeMismatchError() {
-        fprintf(stderr, "Size mismatch error: Can not operate between two vectors or matrices of differing size");
-        exit(1);
-    }
+* ``SizeError``
+
+    Raised at runtime if an operation or statement is applied to or between
+    vectors and matrices with invalid or incompatible sizes. Read more about
+    when a ``SizeError`` should be raised at compile-time instead of run-time in
+    the :ref:`ssec:errors_sizeErrors` section.
+
+* ``IndexError``
+
+    Raised at runtime if an expression used to index a vector or matrix is an
+    ``integer``, but is invalid for the vector/matrix size.
+
+* ``DivisionError``
+
+    Raised at runtime if a division by zero is detected.
+
+* ``StrideError``
+
+    Raised at runtime if the ``by`` operation is used with a stride value of
+    ``0``.
+
+Here is an example invalid program and a corresponding run-time error:
+
+::
+
+    1 procedure main() returns integer {
+    2     integer[3] x = [2, 4, 6];
+    3     return integer[4];
+    4 }
+
+::
+
+    IndexError: invalid index "4" on vector with size 3
+
+.. _ssec:errors_sizeErrors:
+
+Compile-time vs Run-time Size Errors
+------------------------------------
+
+While the size of vectors and matrices may not always be known at
+compile time, there are instances where the compiler can perform length
+checks at compile time. For instance:
+
+::
+
+       integer[2] vec = 1..10;
+
+For simplicity, this section defines a subset of the size errors detectable at
+compile-time for which your compiler should report a ``SizeError`` at
+compile-time.
+
+In particular, your compiler should raise a ``SizeError`` at compile-time if and
+only if it finds one of the following two cases:
+
+#. An operation between vectors or matrices with compatible types such that
+
+   #. each operand vector or matrix expression is formed by operations on
+      literal expressions, and
+
+   #. the sizes of the operand vectors or matrices do not match.
+
+#. A vector or matrix declaration statement such that
+
+   #. the expressions used to declare the size of the vector or matrix are
+      literal integers,
+
+   #. the declaration is initialized with a vector or matrix expression with
+      compatible type that is formed by operations on literal expressions, and
+
+   #. the size of the initialization expression is larger, in some dimension,
+      than the declared size.
+
+#. A vector or matrix declaration statement such that
+
+   #. one of the expressions used to declare the size of the vector or matrix is
+      a literal integer with a negative value.
+
+Here are some example statements that should raise a compile-time ``SizeError``:
+
+::
+
+  [1, 2, 3] + [1.3] -> std_output;
+
+::
+
+  [[1, 2], [3, 4]] % [[2, 2]] -> std_output;
+
+::
+
+  integer[2] vec = [1, 2, 3] + 1;
+
+::
+
+  integer[2, 2] mat = [[1, 2, 3], [4, 5, 6]];
+
+::
+
+  integer[2] vec = 1..10;
+
+
+Here are some example statements that should not raise a compile-time
+``SizeError``, but may raise a run-time ``SizeError``:
+
+::
+
+  [1, 2, 3] + vec -> std_output;
+
+::
+
+  integer[2] vec = [1, 2, 3] + scal;
+
+::
+
+  integer[two] vec = [1, 2, 3];
+
+How to Write an Error Test Case
+-------------------------------
+
+Your compiler test-suite can include error test cases. An error test case can be
+a compile-time error test case or a run-time error test case. In either case,
+the corresponding expected output file should include exactly one line of text.
+The line text should be the substring of the expected error message preceding
+the colon. For example here is an example compile-time test case and
+corresponding expected output file:
+
+::
+
+    var integer x = 0;
+
+::
+
+    GlobalError on line 1
+
+For error test cases, the tester only inspects the first line of the output.
+Therefore, you must ensure that your run-time error test cases do not execute
+any output stream statements before they raise a run-time error. The tester
+assumes that the first output printed when attempting to compile and run an
+error test case is the error message.
+
+To handle error test cases, the tester checks the output and reports *pass* if
+the output begins with the same substring as the line in the expected output
+file and *fail* otherwise.
+
+To ensure that the tester does not falsely identify a regular test case as an
+error test case, you must not write test cases whose corresponding expected
+output file contains exactly one line and the substring "Error".
+

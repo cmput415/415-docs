@@ -274,7 +274,7 @@ Operations
 
    e. Stride
 
-      The ``by` operator is used to specify a step-size greater than 1 when
+      The ``by`` operator is used to specify a step-size greater than 1 when
       indexing across a vector. It produces a new vector with the values
       indexed by the given stride. For instance:
 
