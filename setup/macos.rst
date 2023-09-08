@@ -75,7 +75,7 @@ Brew (or otherwise) makes this easy:
 
 .. code-block:: console
 
- $ brew install cmake
+ $ brew install cmake ninja
 
 ANTLR 4 C++ Runtime
 -------------------
