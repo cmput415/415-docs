@@ -209,7 +209,7 @@ compile-time for which your compiler should report a ``SizeError`` at
 compile-time.
 
 In particular, your compiler should raise a ``SizeError`` at compile-time if and
-only if it finds one of the following two cases:
+only if it finds one of the following five cases:
 
 #. An operation between vectors or matrices with compatible types such that
 
@@ -234,6 +234,20 @@ only if it finds one of the following two cases:
    #. one of the expressions used to declare the size of the vector or matrix is
       a literal integer with a negative value.
 
+#. A vector or matrix declaration statement such that
+
+   #. the declaration has no declared size and
+
+   #. there is no initialization expression.
+
+#. A vector or matrix declaration statement such that
+
+   #. the declaration has no declared size,
+
+   #. the initialization expression has compatible type, and
+
+   #. the initialization expression is not a vector type.
+
 Here are some example statements that should raise a compile-time ``SizeError``:
 
 ::
@@ -256,9 +270,24 @@ Here are some example statements that should raise a compile-time ``SizeError``:
 
   integer[2] vec = 1..10;
 
+::
+
+  real[-1] vec;
+
+::
+
+  character[*] vec;
+
+::
+
+  boolean[*] vec = true;
+
+::
+
+  real[*] vec = 3;
 
 Here are some example statements that should not raise a compile-time
-``SizeError``, but may raise a run-time ``SizeError``:
+``SizeError`` in your implementation, but may raise a run-time ``SizeError``:
 
 ::
 
