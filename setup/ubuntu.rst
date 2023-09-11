@@ -424,7 +424,7 @@ Testing Your Environment
 
 Everything should be setup! Let's just make sure.
 
-#. Download `this tarball <_static/demo-2023.tar.gz>`__.
+#. Download `this tarball <https://cmput415.github.io/415-docs/setup/_static/demo-2023.tar.gz>`__.
 
 #. Extract it via
 
