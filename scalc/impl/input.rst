@@ -12,7 +12,7 @@ this form:
 
 Mode can be one of these four values:
 
--  ``risc``
+-  ``riscv``
 
 -  ``x86``
 
