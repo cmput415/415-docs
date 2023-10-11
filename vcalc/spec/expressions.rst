@@ -12,25 +12,27 @@ level of precedence.
 +------------+----------------+------------+------------------+-------------------+
 | **Class**  | **Operation**  | **Symbol** | **Usage**        | **Associativity** |
 +============+================+============+==================+===================+
-| Vector     | index          | []         | ``expr[expr]``   | left              |
-+            +----------------+------------+------------------+-------------------+
-|            | range          | \..        | ``expr .. expr`` | left              |
+| Grouping   | parentheses    | ``()``     | ``(expr)``       | N/A               |
 +------------+----------------+------------+------------------+-------------------+
-| Arithmetic | multiplication | \*         | ``expr * expr``  | left              |
-|            |                |            |                  |                   |
-|            | division       | /          | ``expr / expr``  | left              |
+| Vector     | index          | ``[]``     | ``expr[expr]``   | left              |
 +            +----------------+------------+------------------+-------------------+
-|            | addition       | \+         | ``expr + expr``  | left              |
-|            |                |            |                  |                   |
-|            | subtraction    | \-         | ``expr - expr``  | left              |
+|            | range          | ``..``     | ``expr .. expr`` | left              |
 +------------+----------------+------------+------------------+-------------------+
-| Comparison | less than      | <          | ``expr < expr``  | left              |
+| Arithmetic | multiplication | ``*``      | ``expr * expr``  | left              |
 |            |                |            |                  |                   |
-|            | greater than   | >          | ``expr > expr``  | left              |
+|            | division       | ````       | ``expr / expr``  | left              |
 +            +----------------+------------+------------------+-------------------+
-|            | is equal       | ==         | ``expr == expr`` | left              |
+|            | addition       | ``+``      | ``expr + expr``  | left              |
 |            |                |            |                  |                   |
-|            | is not equal   | !=         | ``expr != expr`` | left              |
+|            | subtraction    | ``-``      | ``expr - expr``  | left              |
++------------+----------------+------------+------------------+-------------------+
+| Comparison | less than      | ``<``      | ``expr < expr``  | left              |
+|            |                |            |                  |                   |
+|            | greater than   | ``>``      | ``expr > expr``  | left              |
++            +----------------+------------+------------------+-------------------+
+|            | is equal       | ``==``     | ``expr == expr`` | left              |
+|            |                |            |                  |                   |
+|            | is not equal   | ``!=``     | ``expr != expr`` | left              |
 +------------+----------------+------------+------------------+-------------------+
 
 Binary Operations on Vectors
