@@ -20,7 +20,7 @@ level of precedence.
 +------------+----------------+------------+------------------+-------------------+
 | Arithmetic | multiplication | ``*``      | ``expr * expr``  | left              |
 |            |                |            |                  |                   |
-|            | division       | ````       | ``expr / expr``  | left              |
+|            | division       | ``/``      | ``expr / expr``  | left              |
 +            +----------------+------------+------------------+-------------------+
 |            | addition       | ``+``      | ``expr + expr``  | left              |
 |            |                |            |                  |                   |
