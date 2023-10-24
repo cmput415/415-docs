@@ -5,12 +5,12 @@ Errors
 
 Your implementation is required to report both compile-time and run-time errors.
 You must use the exceptions defined in ``include/CompileTimeExceptions.h`` and
-the functions defined in ``runtime/include/run_time_exceptions.h``. Do not
-modify these files, you can pass a string to a consstructor/function to provide
-more details about a particular error. You must pass the corresponding line
-number to the exceptions for compile-time errors but not run-time errors. Do not
-create new exceptions. Your compiler is only expected to report the first error
-it encounters.
+the functions defined in ``runtime/include/run_time_errors.h``. Do not modify
+these files, you can pass a string to a constructor/function to provide more
+details about a particular error. You must pass the corresponding line number to
+the exceptions for compile-time errors but not run-time errors. Do not create
+new errors. Your compiler is only expected to report the first error it
+encounters.
 
 Compile-time Errors
 -------------------
@@ -149,7 +149,7 @@ Run-time Errors
 ---------------
 
 Run-time errors must be handled by calling the functions defined in
-``runtime/include/run_time_exceptions.h``.
+``runtime/include/run_time_errors.h``.
 
 ::
 
