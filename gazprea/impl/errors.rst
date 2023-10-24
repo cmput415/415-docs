@@ -5,12 +5,12 @@ Errors
 
 Your implementation is required to report both compile-time and run-time errors.
 You must use the exceptions defined in ``include/CompileTimeExceptions.h`` and
-the functions defined in ``runtime/src/run_time_exceptions.h``. Do not modify
-these files, you can pass a string to a consstructor/function to provide more
-details about a particular error. You must pass the corresponding line number to
-the exceptions for compile-time errors but not run-time errors. Do not create
-new exceptions. Your compiler is only expected to report the first error it
-encounters.
+the functions defined in ``runtime/include/run_time_exceptions.h``. Do not
+modify these files, you can pass a string to a consstructor/function to provide
+more details about a particular error. You must pass the corresponding line
+number to the exceptions for compile-time errors but not run-time errors. Do not
+create new exceptions. Your compiler is only expected to report the first error
+it encounters.
 
 Compile-time Errors
 -------------------
@@ -149,11 +149,11 @@ Run-time Errors
 ---------------
 
 Run-time errors must be handled by calling the functions defined in
-``runtime/src/run_time_exceptions.h``.
+``runtime/include/run_time_exceptions.h``.
 
 ::
 
-    DivisionError("cannot divide by zero")
+    MathError("cannot divide by zero")
 
 Here are the run-time errors you need to report:
 
@@ -169,9 +169,10 @@ Here are the run-time errors you need to report:
     Raised at runtime if an expression used to index a vector or matrix is an
     ``integer``, but is invalid for the vector/matrix size.
 
-* ``DivisionError``
+* ``MathError``
 
-    Raised at runtime if a division by zero is detected.
+    Raised at runtime if either zero to the power of zero or a division by zero
+    is evaluated.
 
 * ``StrideError``
 
@@ -308,7 +309,7 @@ Your compiler test-suite can include error test cases. An error test case can be
 a compile-time error test case or a run-time error test case. In either case,
 the corresponding expected output file should include exactly one line of text.
 The line text should be the substring of the expected error message preceding
-the colon. For example here is an example compile-time test case and
+the colon. For example here is an example compile-time error test case and
 corresponding expected output file:
 
 ::
@@ -318,6 +319,20 @@ corresponding expected output file:
 ::
 
     GlobalError on line 1
+
+Here is an example of a run-time error test case and the corresponding expected
+output file:
+
+::
+
+  procedure main() returns integer {
+    1..1 by 0 -> std_output;
+    return 0;
+  }
+
+::
+
+  StrideError
 
 For error test cases, the tester only inspects the first line of the output.
 Therefore, you must ensure that your run-time error test cases do not execute
