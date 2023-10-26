@@ -230,8 +230,8 @@ Operations
 
       ::
 
-         print(1..10);
-         print((10-8)..(9+2));
+         1..10 -> std_output;
+         (10-8)..(9+2) -> std_output;
 
       prints the following:
 
@@ -246,7 +246,7 @@ Operations
 
       ::
 
-         print(i..5);
+         i..5 -> std_output;
 
       prints the following:
 
