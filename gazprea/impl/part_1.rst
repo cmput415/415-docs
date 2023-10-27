@@ -94,4 +94,4 @@ recommended strategy.
 
    * DefinitionError
 
-   * DivisionError
+   * MathError
