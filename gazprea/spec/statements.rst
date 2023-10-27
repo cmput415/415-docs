@@ -217,7 +217,7 @@ example. The if statement above could also be written as:
 
 ::
 
-         if x == 3
+         if (x == 3)
            y = 7;
 
 Since ``y = 7;`` is a statement it can be used as the body statement.
@@ -226,7 +226,7 @@ For instance:
 
 ::
 
-         if x == 3
+         if (x == 3)
            y = 7;
            z = 32;
 
@@ -245,7 +245,7 @@ something like:
 
 ::
 
-         if x == 3 y = 7;
+         if (x == 3) y = 7;
 
 An if statement may also be followed by an else statement. The else has
 a body statement just like the if statement, but this is only run if the
@@ -253,7 +253,7 @@ conditional expression on the if statement fails.
 
 ::
 
-         if x == 3
+         if (x == 3)
            y = 7;
          else
            y = 32;
@@ -325,7 +325,7 @@ predicate. For example:
            integer x = 0;
 
            /* Print 1 to 10 */
-           loop while x < 10 {
+           loop while (x < 10) {
              x = x + 1;
              x -> std_output; "\n" -> std_output;
            }
@@ -341,7 +341,7 @@ semicolon.
            integer x = 10;
 
            /* Since the conditional is tested after the execution '10' is printed */
-           loop x -> std_output; while x == 0;
+           loop x -> std_output; while (x == 0);
 
 .. _sssec:statements_iter_loop:
 
@@ -424,12 +424,12 @@ actually contains the ``break``.
          integer x = 0;
          integer y = 0;
 
-         loop while y < 3 {
+         loop while (y < 3) {
            y = y + 1;
 
            /* Normally this would loop forever, but the break exits this inner loop */
            loop {
-             if x >= 3 break;
+             if (x >= 3) break;
 
              x = x + 1;
              "*" -> std_output;
@@ -458,10 +458,10 @@ normally.
          /* Prints every number between 1 and 10, except for 7 */
          integer x = 0;
 
-         loop while x < 10 {
+         loop while (x < 10) {
            x = x + 1;
 
-           if x == 7 continue;  /* Start at the beginning of the loop, skip 7 */
+           if (x == 7) continue;  /* Start at the beginning of the loop, skip 7 */
 
            x -> std_output; "\n" -> std_output;
          }
