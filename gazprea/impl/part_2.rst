@@ -28,6 +28,7 @@ Part 1.
    * :ref:`ssec:builtIn_reverse`
    * :ref:`ssec:builtIn_rows_cols`
    * :ref:`ssec:builtIn_length`
+   * :ref:`ssec:builtIn_format`
    * :ref:`ssec:builtIn_stream_state`
 
 #. :ref:`ssec:backend_memory`
