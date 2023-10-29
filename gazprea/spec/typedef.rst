@@ -15,7 +15,7 @@ to refer to the old type. For instance:
   const int a = 0;
 
 Additionally, these new type names should not conflict with variable names. The
-following is therefore legal code:
+following is therefore illegal:
 
 ::
 
