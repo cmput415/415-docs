@@ -30,6 +30,8 @@ not be used by a programmer.
 
 -  false
 
+-  format
+
 -  function
 
 -  identity
