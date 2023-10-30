@@ -19,8 +19,8 @@ following is therefore legal:
 
 ::
 
-  typedef main character;
-  typedef i integer;
+  typedef character main;
+  typedef integer i;
 
   const main A = 'A';
 
