@@ -14,13 +14,20 @@ to refer to the old type. For instance:
   typedef integer int;
   const int a = 0;
 
-Additionally, these new type names should not conflict with variable names. The
-following is therefore illegal:
+Additionally, these new type names can conflict with symbol names. The
+following is therefore legal:
 
 ::
 
-  typedef integer a;
-  const integer a = 0;
+  typedef main character;
+  typedef i integer;
+
+  const main A = 'A';
+
+  procedure main() returns i {
+    i i = 0;
+    return i;
+  }
 
 We can also typedef vectors and matrices with sizes for easy reusability:
 
