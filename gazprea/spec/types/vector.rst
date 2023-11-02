@@ -70,7 +70,7 @@ value, and then used as a scalar initialization of the vector.
 #. Inferred Type and Size
 
    It is also possible to declare a vector with an implied type and
-   length using the var keyword. This type of declaration can only be
+   length using the var or const keyword. This type of declaration can only be
    used when the variable is initialized in the declaration, otherwise
    the compiler will not be able to infer the type or the size of the
    vector.
