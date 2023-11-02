@@ -194,8 +194,7 @@ An if statement takes a boolean value as a conditional expression, and a
 statement for the body. If the conditional expression evaluates to true,
 then the body is executed. If the conditional expression evaluates to
 false then the body of the if statement is not executed. If statements
-in *Gazprea* do not require the conditional expression to be enclosed in
-parenthesis.
+in *Gazprea* require the conditional expression to be enclosed in parentheses.
 
 ::
 
