@@ -136,19 +136,16 @@ For instance:
 Domain variables are not initialized when they are declared. For
 instance, in loops they are initialized at the start of each execution of
 the loop’s body statement. However, we may chain domain variables using
-commas, like in iterator loops, or matrix generators. Thus it is illegal
-to use a domain variable declared in the same chain of domain
-expressions, since the value may be uninitialized.
+commas, like in iterator loops, or matrix generators.
 
 ::
 
-         integer i = 7;
+         integer i = 2;
 
          /* The "i"s both domain expressions are at the same scope, which is
-          * the one enclosing the loop. Therefore the output is the square of
-          * the numbers from 1 to 7.
+          * the one enclosing the loop. Therefore the output is: 000012024
           */
-         loop i in 1..i, j in 1..i {
+         loop i in 0..i, j in 0..i {
             i * j -> std_output;
          }
 
