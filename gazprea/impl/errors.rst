@@ -84,6 +84,11 @@ Here are the compile-time errors you need to report:
     Raised during compilation if a procedure or function is declared but not
     defined.
 
+* ``LiteralError``
+
+    Raised during compilation if a literal value in the program does not fit
+    into its corresponding data type.
+
 * ``SizeError``
 
     Raised during compilation if the compiler detects an operation or statement
