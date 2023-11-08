@@ -314,9 +314,13 @@ Your compiler test-suite can include error test cases. An error test case can be
 a compile-time error test case or a run-time error test case. In either case,
 the corresponding expected output file should include exactly one line of text.
 The line text should be the substring of the expected error message preceding
-the colon. Also, since there is no standard order for reporting errors, an error
-test case cannot include more than one error. For example, here is an example
-compile-time error test case and corresponding expected output file:
+the colon. Since there is no standard order for reporting compile-time errors, a
+compile-time error test case cannot include more than one compile-time error. A
+run-time error test case can include more than one run-time error since only the
+first run-time error encountered should be raised.
+
+Here is an example compile-time error test case and corresponding expected
+output file:
 
 ::
 
