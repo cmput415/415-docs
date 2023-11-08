@@ -314,16 +314,21 @@ Your compiler test-suite can include error test cases. An error test case can be
 a compile-time error test case or a run-time error test case. In either case,
 the corresponding expected output file should include exactly one line of text.
 The line text should be the substring of the expected error message preceding
-the colon. For example here is an example compile-time error test case and
-corresponding expected output file:
+the colon. Also, since there is no standard order for reporting errors, an error
+test case cannot include more than one error. For example, here is an example
+compile-time error test case and corresponding expected output file:
 
 ::
 
-    var integer x = 0;
+  var integer x = 0;
+
+  procedure main() returns integer {
+    return 0;
+  }
 
 ::
 
-    GlobalError on line 1
+  GlobalError on line 1
 
 Here is an example of a run-time error test case and the corresponding expected
 output file:
