@@ -71,13 +71,14 @@ Here are the compile-time errors you need to report:
 * ``StatementError``
 
     Raised during compilation if the program is syntactically valid but the
-    compiler detects an invalid statment in a some context. For example,
+    compiler detects an invalid statement in some context. For example,
     ``continue`` or ``break`` outside of a loop body.
 
 * ``CallError``
 
     Raised during compilation if the procedure call statement is used to call a
-    function.
+    function. Also raised if a procedure is called in an invalid context. For
+    example, a procedure call in an output stream expression.
 
 * ``DefinitionError``
 
