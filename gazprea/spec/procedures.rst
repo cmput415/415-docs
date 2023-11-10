@@ -16,8 +16,8 @@ have to be pure and as a result it may:
 
 -  A procedure can call other procedures.
 
--  Procedures can only be called in assignment statements/procedure call
-   statements.
+-  Procedures can only be called in declaration statements, assignment
+   statements, and procedure call statements.
 
 -  When used in an assignment statement the procedure may only be used
    with unary operations.
@@ -104,7 +104,7 @@ Procedures without a return clause may not be used in an expression.
 ::
 
          /* p is some procedure with no return clause */
-         var x = 1 + p(); /* Illegal */
+         integer x = p(); /* Illegal */
 
 .. _ssec:procedure_fwd_declr:
 
