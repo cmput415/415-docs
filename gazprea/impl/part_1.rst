@@ -82,6 +82,8 @@ recommended strategy.
 
    * AliasingError
 
+   * AssignError
+
    * MainError
 
    * ReturnError
