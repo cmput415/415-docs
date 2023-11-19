@@ -313,7 +313,7 @@ Operations
 
 
    Attempting to perform a binary operation between two vectors of
-   different sizes should result in a type error.
+   different sizes should result in a ``SizeError``.
 
    When one of the operands of a binary operation is a vector and the
    other operand this a scalar value, then the scalar value must first

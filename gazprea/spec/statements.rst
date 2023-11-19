@@ -56,9 +56,6 @@ instance, with vectors:
          /* Change 'v' to [1, 0, 3] */
          v[2] = 0;
 
-         /* Can also use vector indexing */
-         v[[1, 3]] = [4, 5];  /* 'v' is now [4, 0, 5] */
-
          integer[*] w = [3, 2, 1];
 
          /* Also note this special case */
