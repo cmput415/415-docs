@@ -43,7 +43,8 @@ promoted to the type of the variable. For instance:
 
 Assignments can also be more complicated than this with vectors,
 matrices, and tuples. With matrices and vectors indices may be provided
-in order to change the value of a portion of the matrix or vector. For
+in order to change the value of a matrix or vector element. In Gazprea, vectors
+and matrices cannot be indexed with vector expressions. For
 instance, with vectors:
 
 ::
@@ -56,15 +57,6 @@ instance, with vectors:
          /* Change 'v' to [1, 0, 3] */
          v[2] = 0;
 
-         integer[*] w = [3, 2, 1];
-
-         /* Also note this special case */
-         w[w] = [2, 2, 2]; /* 'w' is now [3, 2, 2] */
-         // The above assignment is semantically equivalent to the following loop
-         loop i in 1..3 {
-             w[w[i]] = 2;
-         }
-
 Matrices can be treated similarly.
 
 ::
@@ -76,9 +68,6 @@ Matrices can be treated similarly.
 
          /* Change a single position of M */
          M[1, 2] = 7;  /* M is now [[1, 7], [3, 4]] */
-
-         /* Can use vector indexing on rows or columns.
-            Uses all combinations of row / column coordinates */
 
 Tuples also have a special unpacking syntax in *Gazprea*. A tuple’s
 field may be assigned to comma separated variables instead of a tuple
