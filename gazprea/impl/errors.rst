@@ -253,7 +253,7 @@ only if it finds one of the following five cases:
 
    #. the initialization expression has compatible type, and
 
-   #. the initialization expression is not a vector type.
+   #. the initialization expression is not a vector or matrix type.
 
 Here are some example statements that should raise a compile-time ``SizeError``:
 
