@@ -121,7 +121,7 @@ an error code defined as follows:
 
     // Input stream: 9
     b <- std_input;              // b = false (error reading boolean)
-    i = stream_state(std_input); // i = -1    (last read was error)
+    i = stream_state(std_input); // i = 1     (last read was error)
     i <- std_input;              // i = 9     (successfully read integer)
     i = stream_state(std_input); // i = 0     (last read was success)
     b <- std_input;              // b = false (read end of stream)
