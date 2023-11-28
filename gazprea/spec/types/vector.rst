@@ -53,7 +53,9 @@ value, and then used as a scalar initialization of the vector.
    A vector may also be initialized with another vector. If the vector
    is initialized using a vector that is too small then the vector will
    be null padded. However, if the vector is initialized with a vector
-   that is too large then a type error will occur.
+   that is too large then a ``SizeError`` should be thrown at compile-time or
+   run-time. Check the :ref:`ssec:errors_sizeErrors` section to know when you
+   should throw the error.
 
 #. Inferred Size Declarations
 

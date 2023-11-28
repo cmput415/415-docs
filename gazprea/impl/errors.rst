@@ -182,8 +182,8 @@ Here are the run-time errors you need to report:
 
 * ``StrideError``
 
-    Raised at runtime if the ``by`` operation is used with a stride value of
-    ``0``.
+    Raised at runtime if the ``by`` operation is used with a stride value
+    ``<=0``.
 
 Here is an example invalid program and a corresponding run-time error:
 
