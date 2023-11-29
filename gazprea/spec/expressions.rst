@@ -65,9 +65,14 @@ This additional expression is used to create the generated values. For example:
          integer[2, 3] M = [i in 1..2, j in 1..3 | i * j];
          /* M[i, j] == i * j */
 
-The expression to the right of the bar ``|``, is used to generate the
-value at the given index, and must result in a value with the same type
-as the element type for the matrix or vector. Generators may be nested, and
+The expression to the right of the bar (``|``), is used to generate the
+value at the given index.
+Let ``T`` be the type of the expression to the right of the bar (``|``). Then,
+if the domain of the generator is a vector of size ``N``, the result will be a
+vector of size ``N`` with element type ``T``. Otherwise, if the domain of the
+generator is a matrix of size ``N``x``M``, the result will be a matrix of size
+``N``x``M`` with element type ``T``.
+Generators may be nested, and
 may be used within domain expressions. For instance, the generator below
 is perfectly legal:
 
