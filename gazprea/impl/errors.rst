@@ -238,11 +238,6 @@ only if it finds one of the following five cases:
 
 #. A vector or matrix declaration statement such that
 
-   #. one of the expressions used to declare the size of the vector or matrix is
-      a literal integer with a negative value.
-
-#. A vector or matrix declaration statement such that
-
    #. the declaration has no declared size and
 
    #. there is no initialization expression.
