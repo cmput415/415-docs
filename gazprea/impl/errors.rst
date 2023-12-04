@@ -274,10 +274,6 @@ Here are some example statements that should raise a compile-time ``SizeError``:
 
 ::
 
-  real[-1] vec;
-
-::
-
   character[*] vec;
 
 ::
