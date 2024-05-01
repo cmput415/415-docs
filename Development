@@ -5,3 +5,21 @@
 * Gazprea test suites for categories of program (Like CSuite)
 * (EXTRA) syntax highlighting VSCode for Gazprea files
 * MLIR usage review
+
+* Git Hosting - Forgejo (Working on small scale for personal projects)
+  - Protect branches
+  - run CI/CD jobs
+  - devise coherent and effective code-review strategies.
+* CI/CD - Woodpecker CI (Working on small scale for personal projects)
+  - Allow groups to run tests before merge requests
+  - ensure regression testing correctness before any changes are applied to their main branches
+* Testing Utilities
+  - Would like to look in to the LLVM filechecker system, it may offer a more flexible approach to testing than we have
+  - Barring the filechecker solution, rewrite the current tester to enable multithreading of the testing workload (reduce bottlenecks in testing with many tests) (currently started in a personal repo)
+* Competitive Testing
+  - Encouraging/rewarding the use of MLIR instead of a large runtime library
+* Fuzzer
+  - Fuzzer for the Gazprea language (currently started on a personal repo) or
+  - Fuzzer for complex portions of the gazprea language, such as generators, filters and matrix operations
+* Dr. Unrau
+  - Dr. Unreau and I had a brief chat about implementing some elements from the rust language in Gazprea, maybe adding some focus on safety analysis in the Gazprea language as well, but we have not spoken further
