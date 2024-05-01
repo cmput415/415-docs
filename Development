@@ -1,0 +1,7 @@
+
+* Testing for optimization passes / wall time - encourage more translation to intermediate representation.
+* Error handling: better specification, requirements, and  incentives 
+* Reference Parser to validate correctness (Web or CLI)
+* Gazprea test suites for categories of program (Like CSuite)
+* (EXTRA) syntax highlighting VSCode for Gazprea files
+* MLIR usage review
