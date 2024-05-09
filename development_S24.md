@@ -15,10 +15,9 @@ Update documentation and Base projects to reflect the following:
 - [] CMake >= 3.20.0 (Per LLVM 17.X requirement)
 
 ## Documentation Updates
-- [] Update for CLion lisence changes  
+- [x] Update for CLion lisence changes  
 - [] Reference Compile and Runtime error types, where relevent, throughout docs. 
-- [] UML Diagram on SCalc as per Quinns notes.
-- [] 0^0 should be undefined in docs.
+- [x] 0^0 should be undefined in docs.
 
 ## Totorials / New Docs
 - [] CMake tutorial

@@ -157,15 +157,15 @@ steps appropriately.
 
 #. Finally, we're ready to start the actual build process. Let's begin by doing
    the generate and configure CMake step for the runtime. We need to do this
-   while inside the build directory. As well, we need to tell it that we want a
-   release build and to install it to a certain directory.
+   while inside the build directory. Tell CMake to use a release build, and direct 
+   its ouput using an absolute path to the `<INSTALL_DIR>`
 
    .. code-block:: console
 
     $ cd <BUILD_DIR>
-    $ cmake <SRC_DIR>/runtime/Cpp/ \
-        -DCMAKE_BUILD_TYPE=RELEASE \
-        -DCMAKE_INSTALL_PREFIX="<INSTALL_DIR>"
+    $ cmake ../runtime/Cpp/
+    $ cmake --build . --config release
+    $ cmake --install . --prefix <INSTALL_DIR>
 
    You will be presented with some CMake warnings but they're safe to ignore.
 
