@@ -36,8 +36,6 @@ layout.
        +-- main.cpp
    +-- tests
        +-- GeneratorConfig.json
-       +-- input
-           +-- ...
-       +-- output
-           +-- ...
-
+       +-- testfiles
+           +-- <ccid>
+               +-- ...
