@@ -13,3 +13,6 @@ _site/
 
 # Ignore macOS files.
 .DS_STORE
+
+# Ignore virtual environment
+env/

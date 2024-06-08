@@ -22,33 +22,25 @@ tests. Follow these specifications:
 -  There *must not* be any trailing space after the final number and
    before the newline.
 
--  There *must* be an empty line at the end of your output.
+-  There *must* be an empty line at the end of your output (a result of #2).
 
 **Clarification:** Empty input should result in empty output.
 (:ref:`empty-input <clarify:empty-input>`)
 
-Example input:
-
+Example input (3 lines):
 ::
 
      [i in 1..10| i];
      [x in 0..3| x-1];
      [x in 1..4| 10];
 
-Expected Output:
-
+Expected Output (4 lines since each generator is newline terminated.):
 ::
 
    1 2 3 4 5 6 7 8 9 10
    -1 0 1 2
    10 10 10 10
 
-The above output may be rendered incorrectly on your platform,
-therefore, the `above
-input <../_static/ex.in>`__
-and `its
-output <../_static/ex.out>`__
-are available to test for yourself. Remember that some editors (e.g.
-vim) hide a final empty line because they assume everyone will want one.
-Do not include this test in your submission.
-
+Depending on the text editor a file is viewed in, the final empty line may not be
+rendered (like the viewer above). See the tests in the base Generator repo for a
+definitive example. 
