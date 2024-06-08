@@ -42,5 +42,6 @@ Expected Output (4 lines since each generator is newline terminated.):
    10 10 10 10
 
 Depending on the text editor a file is viewed in, the final empty line may not be
-rendered (like the viewer above). See the tests in the base Generator repo for a
-definitive example. 
+rendered (like the viewer above). To be sure your test cases adhere to the spec, make use
+of the `415 Tester <https://example.com>`_ which ensures that generated and expected 
+output match to every single byte.
