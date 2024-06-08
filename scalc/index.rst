@@ -66,6 +66,7 @@ integer expressions.
    spec/identifiers
    spec/expressions
    spec/statements
+   spec/comments
 
 .. toctree::
    :maxdepth: 2

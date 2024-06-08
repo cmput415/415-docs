@@ -38,6 +38,7 @@ features discussed in subsequent section.
    spec/filters
    spec/expressions
    spec/statements
+   spec/comments
    spec/type_checking
    spec/scoping
 
