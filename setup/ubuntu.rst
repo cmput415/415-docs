@@ -330,25 +330,26 @@ Here are the steps to get MLIR up and running.
 #. Checkout LLVM to your machine
 
    .. code-block:: console
-
-    $ cd $HOME
-    $ git clone https://github.com/llvm/llvm-project.git
-    $ cd llvm-project
-    $ git checkout llvmorg-16.0.6
+    
+    $ mkdir -p $HOME/llvm/llvm-18
+    $ cd $HOME/llvm
+    $ git clone --depth 1 --branch llvmorg-18.1.6 git@github.com:llvm/llvm-project.git
 
 #. Build MLIR (more details are available `here <https://mlir.llvm.org/getting_started>`__)
 
    .. code-block:: console
 
-    $ mkdir build
-    $ cd build
-    $ cmake -G Ninja ../llvm \
-        -DLLVM_ENABLE_PROJECTS=mlir \
-        -DLLVM_BUILD_EXAMPLES=ON \
-        -DLLVM_TARGETS_TO_BUILD="Native" \
-        -DCMAKE_BUILD_TYPE=Release \
-        -DLLVM_ENABLE_ASSERTIONS=ON
-    $ ninja check-all -j<number of threads>
+   $ cd $HOME/llvm/llvm-project
+   $ mkdir build && cd build
+   $ cmake -G Ninja ../llvm \
+      -DLLVM_ENABLE_PROJECTS=mlir \
+      -DLLVM_BUILD_EXAMPLES=ON \
+      -DLLVM_TARGETS_TO_BUILD="Native" \
+      -DCMAKE_BUILD_TYPE=Release \
+      -DLLVM_ENABLE_ASSERTIONS=ON 
+   $ ninja check-all -j<n_threads>
+   $ cmake --install . --prefix $HOME/llvm-18
+
 
 #. Add these configuration lines to your
    ``~/.bashrc``
@@ -357,10 +358,9 @@ Here are the steps to get MLIR up and running.
 
    .. code-block:: shell
 
-    export MLIR_INS="$HOME/llvm-project/build/"
+    export MLIR_INS="$HOME/llvm-project/llvm-18"
     export MLIR_DIR="$MLIR_INS/lib/cmake/mlir/" # Don't change me.
     export PATH="$MLIR_INS/bin:$PATH" # Don't change me
-
 
 Installing the Tester
 ---------------------
