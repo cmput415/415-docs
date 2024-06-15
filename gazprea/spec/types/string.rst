@@ -30,22 +30,6 @@ declaration:
 
   string <identifier> = <type-string>;
 
-.. _sssec:string_null:
-
-Null
-~~~~
-
-Same behaviour as ``null`` for vectors. The string is filled with ``null``
-characters.
-
-.. _sssec:string_ident:
-
-Identity
-~~~~~~~~
-
-Same behaviour as ``identity`` for vectors. The string is filled with
-``identity`` characters.
-
 .. _sssec:string_lit:
 
 Literals

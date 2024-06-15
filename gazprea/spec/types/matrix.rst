@@ -31,21 +31,6 @@ valid matrix declarations:
    				integer[*, 2] D = [[1, 2], [4, 5], [7, 8]];
    				integer[*, *] E = [[1, 2], [4, 5], [7, 8]];
 
-
-.. _sssec:matrix_null:
-
-Null
-~~~~
-
-Matrix of ``null`` elements.
-
-.. _sssec:matrix_ident:
-
-Identity
-~~~~~~~~
-
-Matrix of ``identity`` elements.
-
 .. _sssec:matrix_constr:
 
 Construction
@@ -53,10 +38,10 @@ Construction
 
 To construct a matrix the programmer may use nested vectors. Each vector
 element represents a single row of the matrix. All rows with fewer
-elements than the row of maximum row length are padded with ``null``
-values on the right. Similarly, if the matrix is declared with a column
+elements than the row of maximum row length are padded with zeros
+on the right. Similarly, if the matrix is declared with a column
 length larger than the number of rows provided, the bottom rows of the
-matrix are ``null``. If the number of rows or columns exceeds the
+matrix are zero. If the number of rows or columns exceeds the
 amounts given in a declaration an error is to be produced.
 
 ::
@@ -75,8 +60,7 @@ Similarly, we can have:
    				/* A == [[1, 2, 3], [1, 2, 0], [0, 0, 0]] */
 
 
-Also matrices can be initialized with a scalar value, ``null``, or
-``identity``. ``null`` and ``identity`` behave as previously described.
+Also matrices can be initialized with a scalar value.
 Initializing with a scalar value makes every element of the matrix equal
 to the scalar.
 

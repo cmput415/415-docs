@@ -13,20 +13,6 @@ Declaration
 
 A ``real`` value is declared with the keyword ``real``.
 
-.. _sssec:real_null:
-
-null
-~~~~
-
-``null`` is ``0.0`` for ``real``.
-
-.. _sssec:real_ident:
-
-identity
-~~~~~~~~
-
-``identity`` is ``1.0`` for ``real``.
-
 .. _sssec:real_lit:
 
 Literals

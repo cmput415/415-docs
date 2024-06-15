@@ -13,20 +13,6 @@ Declaration
 
 A ``integer`` value is declared with the keyword ``integer``.
 
-.. _sssec:integer_null:
-
-Null
-~~~~
-
-``null`` is ``0`` for ``integer``.
-
-.. _sssec:integer_ident:
-
-Identity
-~~~~~~~~
-
-``identity`` is ``1`` for ``integer``.
-
 .. _sssec:integer_lit:
 
 Literals

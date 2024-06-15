@@ -21,12 +21,8 @@ variable with the value of ``<expression>``.
 In *Gazprea* all variables must be initialized in a well defined manner
 in order to ensure functional purity. If the variables were not
 initialized to a known value their initial value might change depending
-on when the program is run. Therefore, the second declaration is
-equivalent to:
-
-::
-
-       <qualifier> <type> <identifier> = null;
+on when the program is run. Therefore, the second declaration is equivalent
+to setting the value to zero.
 
 For simplicity *Gazprea* assumes that declarations can only appear at
 the beginning of a block. For instance this would not be legal in
