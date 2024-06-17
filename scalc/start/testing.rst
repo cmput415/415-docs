@@ -6,24 +6,15 @@ Testing
 Testing Tool
 ------------
 
-Inside the ``tests`` directory, a testing configuration file,
-``SCalcConfigInterpreterOnly.json``, is provided. You need to edit
-``inDir`` with the absolute path of ``…/tests/input``, ``outDir`` with
-the absolute path of ``…/tests/output``, and finally
-``testedExecutablePaths`` with your ccid and the absolute path of
-``…/bin/scalc``.
-
-This configuration will run *only your interpreter* and can be run on
+Inside the ``tests`` directory a configuration file,
+``SCalcConfigInterpreterOnly.json``, is provided. You need to supply the missing
+paths. If in doubt, perfer the use of absolute paths for executables and directory
+paths. This configuration will run *only your interpreter* and can be run on
 your local machine.
 
 Another configuration is provided in ``SCalcConfigCS.json``. This is for
 use on the machines in CSC either by being physically logged on or via
-ssh. Again, you need to edit ``inDir`` with the absolute path of
-``…/tests/input``, ``outDir`` with the absolute path of
-``…/tests/output``, and finally ``testedExecutablePaths`` with your ccid
-and the absolute path of ``…/bin/scalc``.
-
-This configuration will run the *RISC-V, x86, ARM, and interpreter*
+ssh. This configuration will run the *RISC-V, x86, ARM, and interpreter*
 configurations of your compiler against all of your tests.
 
 Running the tester should now run your tests with your solution. Note
