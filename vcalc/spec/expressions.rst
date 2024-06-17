@@ -56,9 +56,11 @@ Binary oprations between vectors require extra specification.
 
             [2 4 6 8 10]
 
-#. Binary operations *can* be performed between vectors of different
-   sizes. For most operations the smaller vector is padded with zeroes
-   to match the larger vectors size and then the operation is applied.
+#. Binary operations should only be performed on vectors of the same size.
+   Because it can be challenging to know the vector length at compile or run
+   time, *VCalc* does not prohibit operations between vectors of different
+   lengths. However, *VCalc* is not required to pad or even check the
+   size of the vectors, which means the results are **undefined**.
    For example:
 
    ::
@@ -66,28 +68,11 @@ Binary oprations between vectors require extra specification.
             print(6..10 + 1..3);
             print(1..3 + 6..10);
 
-   prints the following:
+   the two statements could print different values, because there could be
+   garbage at the end of the smaller vector. Note also that the length of the
+   result vector is also undefined: it could be either the length
+   of the longer or the shorter vector.
 
-   ::
-
-            [7 9 11 9 10]
-            [7 9 11 9 10]
-
-   The only exception is when the smaller vector is a *divisor*. A
-   divisor must be extended with ones to prevent division by zero
-   errors. For example:
-
-   ::
-
-            print(6..10 / 1..3);
-            print(6..8 / 1..5);
-
-   prints the following:
-
-   ::
-
-            [6 3 2 9 10]
-            [6 3 2 0 0]
 
 #. Boolean operators between vectors are still applied element-wise, but
    the result will be converted to an integer as decribed in *SCalc*
