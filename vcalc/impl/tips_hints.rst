@@ -1,7 +1,7 @@
 Tips and Hints
 ==============
 
-#. The learning curve for *LLVM* and *MLIR* is not trivial. Thus **START EARLY**.
+#. The learning curve for *LLVM* and *MLIR* is not trivial: **START EARLY**.
    There will be a lot of things to learn. If you can’t figure out how
    to do something don’t be afraid to ask. Someone else will know or
    someone else will also want to know.
@@ -11,7 +11,7 @@ Tips and Hints
 
 #. You should definitely consider making an AST in this assignment.
    While it’s not strictly necessary it can be a great help, and you’ll
-   be much better equipped moving into *gazprea*.
+   be much better equipped moving into *Gazprea*.
 
    You should check the AST Tips and Hints section for a good starting
    place here as well.

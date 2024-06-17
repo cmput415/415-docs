@@ -57,7 +57,6 @@ There are a few new important points when dealing with assignments.
 
    ::
 
-      ;
             vector v = 1..3;
             v[0] = 99;
 
