@@ -23,9 +23,6 @@ features discussed in subsequent section.
 .. toctree::
    :hidden:
 
-   self
-   changelog
-
 .. toctree::
    :maxdepth: 3
    :caption: Language Specification
