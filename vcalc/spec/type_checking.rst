@@ -25,16 +25,3 @@ important.
 -  Filters: the predicate must be a boolean (remember that integers can
    be implicitly downcast to booleans).
 
-A good way to handle this now and plan ahead for *gazprea* is to start
-building an abstract syntax tree (AST) from your parse tree as well as a
-class that knows how to traverse it.
-
-An AST will allow you to attach information in ways that make sense to
-you. It allows you to strip away unecessary tokens from the parse tree
-as well as allowing you to convert the parse tree into a new form that
-also makes sense to you. This could mean normalising parts of the tree
-to reduce code generation efforts, attaching information through fields
-or entirely new nodes, and more.
-
-You can find more advice in the AST Tips and Tricks section.
-
