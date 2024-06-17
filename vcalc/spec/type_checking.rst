@@ -1,5 +1,5 @@
-Type Checking and ASTs
-----------------------
+Type Checking
+-------------
 
 With the addition of another type that can be mixed in, type checking
 becomes a necessity in *Vcalc*. This means ensuring that vectors and
