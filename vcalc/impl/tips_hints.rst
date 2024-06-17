@@ -46,8 +46,8 @@ Tips and Hints
    not support them. Not all lab machines support the *LLVM IR* vector.
 
 #. The `Getting Started with the LLVM System <https://llvm.org/docs/GettingStarted.html>`__
-   can help introduce you to *LLVM*. For *MLIR*, see `Getting Started <https://mlir.llvm.org/getting_started/>`__.
-   In particular, sections three and five of the `Kaleidoscope tutorial<https://llvm.org/docs/tutorial/MyFirstLanguageFrontend/index.html>`__ are of particular interest for generating *LLVM IR*. Generating *MLIR* is similar.
+   can help introduce you to *LLVM*. For *MLIR*, see `Getting Started <https://mlir.llvm.org/getting_started>`__.
+   In particular, sections three and five of the `Kaleidoscope tutorial <https://llvm.org/docs/tutorial/MyFirstLanguageFrontend/index.html>`__ are of particular interest for generating *LLVM IR*. Generating *MLIR* is similar.
    Section 7 is worth looking through for more discussion of the use of
    ``alloca`` over ``phi`` nodes.
    The other sections can be read at your own discrection.
