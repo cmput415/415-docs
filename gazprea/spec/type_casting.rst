@@ -66,7 +66,7 @@ Vector to Vector
 Conversions between ``vector`` types are also possible. First, the
 values of the original are cast to the destination type’s element type
 according to the rules in :ref:`ssec:typeCasting_stos` and then the destination is padded with
-destination element type’s ``null`` or truncated to match the
+destination element type’s zero or truncated to match the
 destination type size. Note that the size is not required for vector to
 vector casting; if the size is not included in the cast type, the new
 size is assumed to be the old size. For example:
@@ -78,7 +78,7 @@ size is assumed to be the old size. For example:
      // Convert the real vector to an integer vector.
      integer[3] u = as<integer[*]>(v);
 
-     // Convert to integers and null pad.
+     // Convert to integers and zero pad.
      integer[5] x = as<integer[5]>(v);
 
      // Truncate the vector.
@@ -124,15 +124,3 @@ example:
 
      tuple(integer, integer) int_tup = (1, 2);
      tuple(real, boolean) rb_tup = as<tuple(real, boolean)>(int_tup);
-
-.. _ssec:typeCasting_nai:
-
-Null and Identity
------------------
-
-The ``null`` and ``identity`` values cannot be cast. For example, the following
-is illegal:
-
-::
-
-  real r = as<real>(null);

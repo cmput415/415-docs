@@ -3,7 +3,7 @@
 Character
 ---------
 
-A ``characters`` is a signed 8-bit value. A ``character`` can be
+A ``character`` is a signed 8-bit value. A ``character`` can be
 represented by an ``i8`` in *MLIR*.
 
 .. _sssec:character_decl:
@@ -12,22 +12,6 @@ Declaration
 ~~~~~~~~~~~
 
 A ``character`` value is declared with the keyword ``character``.
-
-.. _sssec:character_null:
-
-Null
-~~~~
-
-``null`` is ASCII ``NUL`` (``'\0'``, ``0x00``) for ``character``.
-
-.. _sssec:character_ident:
-
-Identity
-~~~~~~~~
-
-``identity`` is ASCII ``SOH`` (``0x01``) for characters. This choice allows
-the casting of a ``character`` to an ``integer`` to yield the
-``integer`` ``identity``.
 
 .. _sssec:character_lit:
 

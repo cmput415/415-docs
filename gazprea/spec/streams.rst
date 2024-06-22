@@ -89,14 +89,6 @@ character. For example:
      '\n' -> std_output;
      ' ' -> std_output;
 
-.. _sssec:stream_nai:
-
-Null and Identity
-~~~~~~~~~~~~~~~~~
-
-If ``null`` or ``identity`` is sent to a stream then the result is a
-null or identity character being printed.
-
 .. _ssec:input:
 
 Input Stream
@@ -183,7 +175,7 @@ successfully read or the end of the stream will be reached and ``-1`` will be
 returned on this read.
 
 Otherwise, when an error or the end of the stream is encountered, the value
-returned is the type-appropriate ``null``.
+returned is the type-appropriate zero.
 
 Only when an error is encountered, the stream must be rewound to where it was
 when the read started. This rewind includes any whitespace that may have been

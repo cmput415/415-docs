@@ -52,7 +52,7 @@ value, and then used as a scalar initialization of the vector.
 
    A vector may also be initialized with another vector. If the vector
    is initialized using a vector that is too small then the vector will
-   be null padded. However, if the vector is initialized with a vector
+   be padded with zeros. However, if the vector is initialized with a vector
    that is too large then a ``SizeError`` should be thrown at compile-time or
    run-time. Check the :ref:`ssec:errors_sizeErrors` section to know when you
    should throw the error.
@@ -86,28 +86,6 @@ value, and then used as a scalar initialization of the vector.
    In this example the compiler can infer both the size and the type of
    ``w`` from ``v``. The size may not always be known at compile time, so this
    may need to be handled during runtime.
-
-.. _sssec:vector_null:
-
-Null
-~~~~
-
-Vector of ``null`` elements.
-
-When initializing a vector to a value of ``null`` an explicit size must
-be given. Such initialization is equivalent to promoting a ``null``
-value of the element type to the vector.
-
-.. _sssec:vector_ident:
-
-Identity
-~~~~~~~~
-
-Vector of ``identity`` elements.
-
-When initializing a vector to a value of ``identity`` an explicit size
-must be given. Such initialization is equivalent to promoting a
-``identity`` value of the element type to the vector.
 
 .. _sssec:vector_constr:
 
