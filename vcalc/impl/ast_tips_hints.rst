@@ -49,5 +49,4 @@ asked or useful things are found. You will be notified as appropriate.
 
 -  An AST is not a “scope tree”. You can maintain a stack of tables that
    tell you what is currently in scope as you *traverse the tree* but
-   scoping is not inherently part of the ast.
-
+   scoping is not inherently part of the AST.
