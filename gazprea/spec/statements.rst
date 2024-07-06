@@ -355,7 +355,7 @@ Vector ranges can also be used instead:
 
 ::
 
-           /* This will print 123 */
+           // This will print 123
            loop i in 1..3 {
              i -> std_output;
            }
@@ -365,7 +365,7 @@ instance:
 
 ::
 
-           integer[\*] v = [i in 1..3 | i];
+           integer[*] v = [i in 1..3 | i];
 
            /* Since the domain 'v' is only evaluated once this loop prints 1, 2,
               and then 3 even though after the first iteration 'v' is the zero
@@ -375,23 +375,21 @@ instance:
              i -> std_output; "\n" -> std_output;
            }
 
-Multiple domain expressions may be used by separating them with commas.
+Multiple domain expressions are *not* allowed:
 
 ::
 
+           // This is illegal
            loop i in u, j in v {
              "Hello!\n" -> std_output;
            }
 
-           /* The above loop is equivalent to the loop below */
-
+           // If you want multiple domains, use a nested loop
            loop i in u {
              loop j in v {
                "Hello!\n" -> std_output;
              }
            }
-
-This can be done with as many domain expressions as desired.
 
 .. _ssec:statements_break:
 
