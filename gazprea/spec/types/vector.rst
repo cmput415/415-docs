@@ -178,8 +178,16 @@ Operations
 
       ::
 
-         								[1, 2, 3] || 4 // produces [1, 2, 3, 4]
-         								1 || [2, 3, 4] // produces [1, 2, 3, 4]
+         [1, 2, 3] || 4 // produces [1, 2, 3, 4]
+         1 || [2, 3, 4] // produces [1, 2, 3, 4]
+
+
+      An interesting corollary to vector-scalar concatenation is that
+      two scalars can be concatenated to produce a vector:
+
+      ::
+
+         integer[3] v = 1 || 2 || 3; // produces [1, 2, 3]
 
 
    c. Dot Product
@@ -190,12 +198,12 @@ Operations
 
       ::
 
-         								integer[3] v = [1, 2, 3];
-         								integer[3] u = [4, 5, 6];
+         integer[3] v = [1, 2, 3];
+         integer[3] u = [4, 5, 6];
 
-         								/* v[1] * u[1] + v[2] * u[2] + v[3] * u[3] */
-         								/* 1 * 4 + 2 * 5 + 3 * 6 &=&  32 */
-         								integer dot = v ** u;  /* Perform a dot product */
+         /* v[1] * u[1] + v[2] * u[2] + v[3] * u[3] */
+         /* 1 * 4 + 2 * 5 + 3 * 6 &=&  32 */
+         integer dot = v ** u;  /* Perform a dot product */
 
 
    d. Range
