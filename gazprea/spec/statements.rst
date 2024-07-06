@@ -375,7 +375,18 @@ instance:
              i -> std_output; "\n" -> std_output;
            }
 
-Multiple domain expressions are *not* allowed:
+Similarly, the domain variable is assigned from the domain vector at the top of
+the loop for every iteration, even if it is reassigned in the body of the loop:
+
+::
+
+           // This will print 123456
+           loop i in 1..6 {
+             i -> std_output;
+             i = 5;
+           }
+
+Note that multiple domain expressions are *not* allowed:
 
 ::
 
