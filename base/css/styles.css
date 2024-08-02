@@ -9,7 +9,7 @@ body {
 }
 
 header {
-    background-color: #007d40;
+    background-color: #085630;
     padding: 20px 0;
     position: relative;
     border-bottom: 5px solid #fcdc04;
@@ -22,7 +22,7 @@ header {
 }
 
 .title {
-    font-size: 24px;
+    font-size: 28px;
     text-align: center;
     color: rgb(18, 20, 19);
     margin-bottom: 10px;
@@ -41,7 +41,8 @@ main {
 }
 
 .assignment-logo {
-    width: 600px;
+    width: 500px;
+
     max-width: 100%;
 }
 
@@ -49,6 +50,17 @@ main {
     width: 100%;
     display: block;
     margin: 0 auto;
+}
+
+.players-count {
+    /* margin-left: 25px;  */
+    margin-bottom: 10px;
+    min-height: 25px;
+}
+
+.players-count img {
+    min-height: 25px;
+    height: 25px;
 }
 
 nav {
