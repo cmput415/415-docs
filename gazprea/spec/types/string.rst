@@ -44,6 +44,21 @@ double quotes. For instance:
 
   string cats_meow = "The cat said \"Meow!\"\nThat was a good day.\n"
 
+Although strings and character vectors look similar, they are still treated
+differently by the compiler:
+
+::
+
+   character[*] vec = "hello world\n";
+   vec -> std_output;
+
+prints:
+
+::
+
+  [h e l l o   w o r l d
+  ]
+
 .. _sssec:string_ops:
 
 Operations

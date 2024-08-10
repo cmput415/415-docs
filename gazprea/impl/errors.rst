@@ -299,6 +299,28 @@ Here are some example statements that should not raise a compile-time
 
   integer[two] vec = [1, 2, 3];
 
+More Examples
+-------------
+
+::
+
+   /* Indexes */
+   character[3] v = ['a', 'b', 'c']; // Indexing is harder than it looks!
+   integer i = 10;
+   v(3) = 'X'; // SyntaxError
+   v[i] = '?'; // Run-timeerror
+   v['a'] = '!'; // TypeError
+   i[1] = 1; // SymbolError
+
+   /* Tuples */
+   tuple (integerm integer) a = (9, 5);
+   integer b;
+   integer c;
+   integer d;
+   b, c, d = a; // AssignError
+   tuple(integer, integer, integer) z = a; // TypeError
+
+
 How to Write an Error Test Case
 -------------------------------
 

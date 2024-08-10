@@ -110,9 +110,12 @@ multiple input streams.
 When called, ``stream_state`` will return an integer value. The return value is
 an error code defined as follows:
 
-  - ``0``: Last read from the stream was successful
+  - ``0``: Last read from the stream was successful.
   - ``1``: Last read from the stream encountered an error.
   - ``2``: Last read from the stream encountered the end of the stream.
+
+``stream_state`` is initialized to ``0``, which is the value return if no
+read has been issued.
 
 ::
 
