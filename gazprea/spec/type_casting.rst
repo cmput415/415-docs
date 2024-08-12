@@ -13,7 +13,7 @@ expression and ``toType`` is our destination type:
      as<toType>(value)
 
 Conversions from one type to another is not always legal. For instance
-converting from an ``integer`` ``matrix`` to an ``integer`` has no
+converting from an ``integer`` matrix to an ``integer`` has no
 reasonable conversion.
 
 .. _ssec:typeCasting_stos:
@@ -45,9 +45,9 @@ new type:
 Scalar to Vector/Matrix
 -----------------------
 
-A scalar may be promoted to either a ``vector`` or ``matrix`` with an element type that the
-original scalar can be cast to according to the rules in :ref:`ssec:typeCasting_stos`. A scalar to
-vector cast *must* include a size with the type to cast to as this
+A scalar may be promoted to either a vector or matrix with an element type that
+the original scalar can be cast to according to the rules in :ref:`ssec:typeCasting_stos`.
+A scalar to vector cast *must* include a size with the type to cast to as this
 cannot be inferred from the scalar value. For example:
 
 ::
@@ -63,10 +63,10 @@ cannot be inferred from the scalar value. For example:
 Vector to Vector
 ----------------
 
-Conversions between ``vector`` types are also possible. First, the
+Conversions between vector types are also possible. First, the
 values of the original are cast to the destination type’s element type
-according to the rules in :ref:`ssec:typeCasting_stos` and then the destination is padded with
-destination element type’s zero or truncated to match the
+according to the rules in :ref:`ssec:typeCasting_stos` and then the destination
+is padded with destination element type’s zero or truncated to match the
 destination type size. Note that the size is not required for vector to
 vector casting; if the size is not included in the cast type, the new
 size is assumed to be the old size. For example:
@@ -92,9 +92,9 @@ empty vector does not have a type.
 Matrix to Matrix
 ----------------
 
-Conversions between matrix types are also possible. The process is
-exactly like :ref:`ssec:typeCasting_vtov` except padding and truncation can occur in both dimensions.
-For example:
+Conversions between matrix types are also possible. The process is exactly like
+:ref:`ssec:typeCasting_vtov` except padding and truncation can occur in both
+dimensions. For example:
 
 ::
 
