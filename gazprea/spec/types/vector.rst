@@ -27,7 +27,7 @@ portion of the declaration. A vector is then declared using square brackets
 immediately after the element type.
 
 If possible, initialization expressions may go through an implicit type
-conversion. For instance, when declaring a real vector if it is
+conversion. For instance, when declaring a real vector that is
 initialized with an integer value the integer will be promoted to a real
 value, and then used as a scalar initialization of the vector.
 
@@ -297,9 +297,9 @@ Operations
    different sizes should result in a ``SizeError``.
 
    When one of the operands of a binary operation is a vector and the
-   other operand this a scalar value, then the scalar value must first
-   be promoted with a vector of the same size as the vector operand and
-   with the value of each element equal the scalar value. For example:
+   other operand is a scalar, the scalar value must first
+   be promoted to a vector of the same size as the vector operand and
+   with the value of each element equal to the scalar value. For example:
 
    ::
 
@@ -342,6 +342,6 @@ Operations
 Type Casting and Type Promotion
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-To see the types that ``vector`` may be cast and/or promoted to, see
+To see the types that a vector may be cast and/or promoted to, see
 the sections on :ref:`sec:typeCasting` and :ref:`sec:typePromotion`
 respectively.
