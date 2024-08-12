@@ -62,6 +62,14 @@ Here are the compile-time errors you need to report:
     with a return value that does not have a return statement reachable by all
     control flows.
 
+    If the subroutine has a ``return`` statement with a type that does not
+    match the owning subroutine's type, the line number of the ``return``
+    statement should be reported, along with the name and (correct) type of the
+    enclosing routine.
+    Note also that, strictly speaking, this is a type error, not a return error.
+    If the procedure/function is missing a ``return`` statement, then the line
+    number of the subroutine declaration should be printed instead.
+
 * ``GlobalError``
 
     Raised during compilation if the program detects a ``var`` global
