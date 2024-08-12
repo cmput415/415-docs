@@ -77,8 +77,10 @@ prints the following:
 
      [[1 2 3] [4 5 6] [7 8 9]]
 
-No other type may be sent to a stream. For instance functions,
-procedures, and tuples cannot be sent to streams.
+No other type may be sent to a stream. For instance,
+procedures with no return type and tuples cannot be sent to streams.
+Also, empty vectors and matrices can be send to streams, but not empty
+literals (e.g. ``[]``), because they have no type.
 
 Note that there is **no automatic new line or spaces printed.** To print
 a new line, a user must explicitly print the new line or space
@@ -139,6 +141,38 @@ whitespace may be present. It may also be proceeded by a single negative or
 positive sign.
 
 A ``boolean`` input from stdin is either ``T`` or ``F``.
+
+For the following program:
+
+::
+
+   boolean b;
+   character c;
+   integer i;
+   real r;
+   b <- std_input;
+   i <- std_input;
+   c <- std_input;
+   f <- std_input;
+   format(b) || " " || format(f) -> std_output;
+
+And this input (where '\\t' is TAB, '*' is space, and each line ends with a
+newline ('\\n'):
+
+::
+
+   \tF\n
+   1\n
+   *1.\n
+
+The output would be:
+
+::
+
+   F 1.0
+
+because the white space is consumed for characters and skipped for other types.
+
 
 When reading a value, if any other input were to be in the stream during the
 read then an :ref:`error state <sssec:stream_error>` is set. For example, the
@@ -220,6 +254,10 @@ more than 1KB of characters from the current stream position to the end of the
 next token. This means that you will only ever need to maintain at most 1024
 characters in a buffer (1025 if a ``'\0'`` character is required).
 
+Also note that because the 1KB character limit is a simplification for this
+project, any competitive tests that capitalize on or exploit difficult to
+handle end conditions **will be rejected**.
+
 Valid input that reaches the buffer end can be assumed to complete at that
 point and remain valid.
 
@@ -232,7 +270,7 @@ Type      Situation     Return    ``stream_state``
 Boolean   error         ``false`` 1
 \         end of stream ``false`` 2
 Character error         N/A       N/A
-\         end of stream ``-1``    0
+\         end of stream ``-1``    2
 Integer   error         ``0``     1
 \         end of stream ``0``     2
 Real      error         ``0.0``   1
