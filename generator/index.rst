@@ -36,11 +36,3 @@ documentation <https://github.com/antlr/antlr4/blob/master/doc/index.md>`__.
    impl/clarifications
    impl/deliverables
    impl/tips_hints
-
-.. toctree::
-   :maxdepth: 2
-   :caption: Getting Started
-
-   start/get_project
-   start/clion_setup
-   start/testing
