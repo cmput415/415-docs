@@ -120,7 +120,9 @@ an expression that evaluates to **any** vector type.
 Domain expressions can only appear within iterator loops, generators,
 and filters. A domain expression is a way of declaring a variable that
 is local to the loop, generator, or filter, that takes on values from
-the domain expression vector in order. Domain expressions must evaluate to a type.
+the domain expression vector in order.
+Domain expressions must evaluate to a type, which means empty literal vectors
+yield a ``TypeError``.
 The scope of the domain variables (the left hand side of the declaration) is
 within the body of the generator, filter, or loop.
 The domain expressions (the right hand side) are all evaluated before any of the

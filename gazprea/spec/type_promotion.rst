@@ -41,11 +41,11 @@ conversion possible, id means no conversion necessary,
 Scalar to Vector or Matrix
 --------------------------
 
-All scalar types can be promoted to ``vector`` or ``matrix`` types that
+All scalar types can be promoted to vector or matrix types that
 have an internal type that the scalar can be :ref:`converted to implicity <ssec:typePromotion_scalar>`. This can occur when a
-``vector`` or ``matrix`` is used in an operation with a scalar value.
+vector or matrix is used in an operation with a scalar value.
 
-The scalar will be implicitly converted to a ``vector`` or ``matrix`` of
+The scalar will be implicitly converted to a vector or matrix of
 equivalent dimensions and equivalent internal type. For example:
 
 ::
@@ -69,6 +69,11 @@ Other examples:
   1 == [1, 1]  // True
   1..2 || 3 // [1, 2, 3]
 
+Note that a vector or matrix can never be downcast to a scalar, even if
+type casting is used. Also note that matrix multiply imposes strict
+requirements on the dimensionality of the the operands. The consequence is
+that scalars can only be promoted to a matrix if the matrix multiply
+operand is a square matrix (:math:`m \times m`).
 
 .. _ssec:typePromotion_ttot:
 
@@ -127,7 +132,7 @@ It is possible for a two sided promotion to occur with tuples. For example:
 Character Vector to/from String
 -------------------------------
 
-A ``string`` can be implicitly converted to a ``vector`` of ``character``\ s and vice-versa (two-way type promotion).
+A ``string`` can be implicitly converted to a vector of ``character``\ s and vice-versa (two-way type promotion).
 
 ::
 
