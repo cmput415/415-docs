@@ -26,20 +26,12 @@
             <img src="css/players-1.png" alt="" id="players-img">
         </div>
         <nav>
-            <div class="nav-section" id="info">
-                <div class="nav-title">Info</div>
-                <a href="#">lectures</a>
-                <a href="setup/">setup</a>
-                <a href="grading.html">grading</a>
-                <a href="#">mlir guide</a>
-            </div>
             <div class="nav-section" id="generator">
                 <div class="nav-title">Generator</div>
                 <a href="generator/">spec</a>
                 <a href="scalc/">pdf</a>
                 <a href="#">repo</a>
                 <a href="#">fuzzer</a>
-                <a href="#">godbolt</a>
             </div>
             <div class="nav-section" id="scalc">
                 <div class="nav-title">SCalc</div>
@@ -47,7 +39,6 @@
                 <a href="scalc/">pdf</a>
                 <a href="#">repo</a>
                 <a href="#">fuzzer</a>
-                <a href="#">godbolt</a>
             </div>
             <div class="nav-section" id="vcalc">
                 <div class="nav-title">VCalc</div>
@@ -55,16 +46,20 @@
                 <a href="scalc/">pdf</a>
                 <a href="#">repo</a>
                 <a href="#">fuzzer</a>
-                <a href="#">godbolt</a>
             </div>
             <div class="nav-section" id="gazprea">
                 <div class="nav-title">Gazprea</div>
                 <a href="gazprea/">spec</a>
                 <a href="scalc/">pdf</a>
                 <a href="#">repo</a>
-                <a href="#">godbolt</a>
             </div>
         </nav>
+        <nav class="info-nav">
+            <a href="setup/">setup</a>
+            <a href="https://cmput415.github.io/415-lectures/">lectures</a>
+            <a href="https://oyster-app-ljzkx.ondigitalocean.app/">godbolt</a>
+            <a href="info/">more info</a>
+        </nav> 
     </main>
     <footer>
         <div>&copy; 2024 University of Alberta</div>
@@ -72,25 +67,3 @@
     <script src="css/logo.js"></script>
 </body>
 </html>
-
-      <!-- <div class="greentext">New in Fall 2020: Fuzzers for Generator, SCalc and VCalc</div>
-
-      <p>In Fall 2020 <i>fuzzers</i> were added for the Generator, SCalc and VCalc assignments.</p>
-
-      <p>Fuzzers are tools used in a method of software testing called <i>fuzz testing</i>, where a program is fed random inputs in hope of finding software bugs.</p>
-
-      <p>You can essentially view fuzzers as random test-case generators for helping you find bugs in the compilers and interpreters that you create.</p>
-
-      Fuzzers for the Generator, SCalc and VCalc can be found by visiting the
-      <i>Testing</i> sections of the assignment specifications.<br><br>
-
-      Fuzz testing is an active area of research that has broad applications in finding compilers bugs, security vulnerabilities, etc. There are many approaches to fuzz testing; all varying in sophistication.<br>
-      In the following readings you will explore two different fuzzers, CSmith and NAUTILUS, which each have their own take on how to approach fuzzing.<br>
-
-      <div class="greentext">Readings:</div>
-      <ol>
-      <li>Yang, X., Chen, Y., Eide, E., & Regehr, J. (2011). <a href="https://drive.google.com/file/d/18hgl3t0N5wILDAVw3SusErZr5KJYM6BC/view?usp=sharing">Finding and Understanding Bugs in C Compilers</a>. ACM SIGPLAN Conference on Programming Language Design and Implementation (PLDI), June 2011, San Jose, CA, USA.</li>
-
-	<li>Aschermann, C., Frassetto, T., Holz, T., Jauernig, P., Sadeghi, A., & Teuchert, D. (2019). <a href="https://drive.google.com/file/d/14mba2hvPtJiDniVt89UJsoBfE6eKArd9/view?usp=sharing">NAUTILUS: Fishing for Deep Bugs with Grammars</a>. Network and Distributed Systems Security (NDSS) Symposium, February 2019, San Diego, CA, USA.</li>
-	</ol>
- -->

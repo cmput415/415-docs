@@ -3,8 +3,8 @@
 # FILES: Files we need to get from the base folder.
 # HFILES: Hidden files we need to get from the base folder. These will be moved
 #         into the build folder preprended with a period.
-DIRS:=setup generator scalc vcalc gazprea
-FILES:=index.html grading.html $(patsubst base/%,%,$(wildcard base/css/*)) $(patsubst base/%,%,$(wildcard base/engineering/*))
+DIRS:=setup generator scalc vcalc gazprea info
+FILES:=index.html $(patsubst base/%,%,$(wildcard base/css/*)) $(patsubst base/%,%,$(wildcard base/engineering/*))
 HFILES:=htaccess
 
 # Created variables used in the build process, don't touch these.

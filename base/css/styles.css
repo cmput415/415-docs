@@ -41,7 +41,7 @@ main {
 }
 
 .assignment-logo {
-    width: 500px;
+    width: 400px;
 
     max-width: 100%;
 }
@@ -53,7 +53,6 @@ main {
 }
 
 .players-count {
-    /* margin-left: 25px;  */
     margin-bottom: 10px;
     min-height: 25px;
 }
@@ -71,7 +70,6 @@ nav {
     flex-wrap: wrap;
     padding: 20px;
     border-top: 2px solid #cccccc;
-    border-bottom: 2px solid #cccccc;
     width: 70%;
     max-width: 1000px;
 }
@@ -85,7 +83,11 @@ nav {
     margin: 10px;
 }
 
-.nav-section a {
+.info-nav {
+    max-width: 600px;
+}
+
+.nav-section a, .info-nav a {
     display: block;
     color: #4CAF50;
     text-decoration: none;
