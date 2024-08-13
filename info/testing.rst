@@ -9,7 +9,7 @@ directory to put your tests. The default executable paths in the config should b
 For more information on the 415 tester see `here <https://github.com/cmput415/Tester>`_.
 
 Competative Testing
-----------------
+------------------------------
 * Each submission should include a test-suite.
 
   * Your submitted tests should be unit-tests. Each test should be written to test a particular feature
@@ -47,7 +47,7 @@ Competative Testing
   unit-tests to abuse competitive testing, they may receive a competitive testing grade of 0%.
 
 Execution Timing Testing
-----------------
+------------------------------
 
 * Over a selected set of Gazprea programs, the LLVM IR emitted by each compiler will be fed into an
   optimization pipeline. The 415 tester will trace how long your executable takes to run.

@@ -25,6 +25,7 @@ github: all
 	mkdir _site
 	mkdir _site/css
 	mkdir _site/engineering
+	cp -r base/fuzzers _site/
 	$(foreach dir, $(DIRS), mkdir _site/$(dir);)
 	$(foreach dir, $(DIRS), cp -r $(dir)/_build/html/* _site/$(dir);)
 	$(foreach dir, $(DIRS), cp -r $(dir)/_build/latex/$(dir).pdf _site/$(dir).pdf;)

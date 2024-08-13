@@ -31,7 +31,7 @@ The following table shows the weight distribution for each grading category acro
 
 
 Code Style and Consistency
---------------
+---------------------------------------------------
 * You should have a consistent style throughout your assignment. For example: commenting, variable names,
   function names, class names, file names, indentation, etc… should be consistent in your program. You can
   use tools like clang-format and clang-tidy to support a consistent style. When working in teams for VCalc
@@ -42,19 +42,19 @@ Code Style and Consistency
 * There is no minimum expectation for commenting or documentation.
 
 Software Engineering Process (Gazprea only)
---------------
+---------------------------------------------------
 * You should have meetings and record notes. Read more about the software engineering requirements
   `here <engineering/organization.html>`_.
 * You should follow a consistent process for code reviews.
 
 Grammar
---------------
+---------------------------------------------------
 * Your grammar should correctly implement the specification.
 * Your grammar should have a consistent style.
 * Your grammar should be clean and readable.
 
 Implementation Guidelines Compliance
---------------
+---------------------------------------------------
 * You should comply with the implementation guidelines described for the assignments.
 
   * **Generator:**
@@ -90,18 +90,18 @@ Implementation Guidelines Compliance
     * Your compiler should use a symbol table to track symbol definitions and scopes.
 
 TA Specification Tests
---------------
+---------------------------------------------------
 
 * For each assignment, your submission will be tested on a private test-suite that tests the features
   defined in the assignment specification.
 
 Competitive Testing
---------------
+---------------------------------------------------
 
 * Competative testing rules are outlined here: :doc:`testing`.
 
 Execution Timing Testing
---------------
+---------------------------------------------------
 
 * The speed of the executable your compiler produces will be put to the test against all other compilers.
   See the timing test section for details.
