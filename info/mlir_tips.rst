@@ -51,7 +51,7 @@ You and your team member(s) will face an important decision regarding which dial
 what extent. The endorsed dialects ``llvm``, ``scf``, ``memref``, ``func`` and ``arith`` exist at various
 "heights" in the MLIR tree; interactions between types and operations in each dialect can be
 surprising. Despite there being many subsets of the 5 dialects to choose from we do not recommend choosing
-arbitrarily. The reasons should be apparent after reading individual dialect sections below.
+arbitrarily.
 
 Recommended options:
 
@@ -61,8 +61,8 @@ Recommended options:
 
 LLVM
 ----
-* The LLVM dialect is well tested in 415. All years previous to fall 2024 have used
-  this exclusively.
+* The LLVM dialect is well tested on the 415 assignments. All years previous to Fall 2024 have used
+  either LLVM or the LLVM dialect exclusively.
 
 * All control flow in both vcalc and gazprea can be implemented entirely using the llvm dialect.
   The LLVM Dialect lets you create basic blocks, lay out branches, jumps and returns explicitly.
@@ -89,7 +89,7 @@ LLVM
 SCF
 ---
 
-* ``scf`` Ops such as ``scf.if``, ``scf.for`` and ``scf.while`` offer convenient, modular interfaces
+* ``scf`` ops such as ``scf.if``, ``scf.for`` and ``scf.while`` offer convenient, modular interfaces
   for creating control flow that abstract away the work of manually laying out basic blocks.
   In contrast, the ``llvm`` dialect offers fine-grained control over how basic blocks are arranged and connected.
 
@@ -101,8 +101,8 @@ SCF
 Memref
 ------
 
-* ``memref`` Ops such as ``alloc`` and ``alloca`` may be used as an alternative to ``llvm.alloca`` and ``malloc``.
-  A memref Op has more meta-data surrounding the buffer. The stride and shape of each dimension is built into the type,
+* ``memref`` ops such as ``alloc`` and ``alloca`` may be used as an alternative to ``llvm.alloca`` and ``malloc``.
+  A memref op has more meta-data surrounding the buffer. The stride and shape of each dimension is built into the type,
   and can be easily accessed using a ``memref.dimOp``. The trade-off is that the corresponding ``C`` type needed to
   "catch" a memref value on the receiving side of a function call is a large struct compared to a simple void pointer as in malloc.
 
@@ -112,17 +112,17 @@ Memref
 
      typedef struct {
        float *alloc;
-       float *allign;
+       float *align;
        uint64_t offset;
        uint64_t sizes[1];    // single dim size
        uint64_t strides[1];  // single dim stride
      } memref_vector_float_t;
 
 * The need to create a vector from a previously computed `mlir::Value` is common.
-  For example, creating a range from ``2..7`` from the result of a subtraction.
-  To do this, a specific memref type must be created.
+  For example, creating a range from ``2..7`` involves using the result of a subtraction.
+  To do this, a specific memref type must be created which has a dynamic size.
 
-  For example, creating a memref type for a vector of floats.
+  Creating a memref type for a vector of floats.
 
   .. code-block:: c
 
@@ -137,7 +137,7 @@ Memref
 Arith
 -----
 
-* If using memref, the only type needed from this dialect is the ``Index`` type. Otherwise `arith`
+* If using memref, the only type needed from this dialect is the ``Index`` type. Otherwise ``arith``
   is not necessary.
 
 * The underlying representation of the ``Index`` type is a 64-bit signed integer.
@@ -146,7 +146,7 @@ Arith
 
   .. code-block:: 
 
-     mlir::Value integer = builder->crate<mlir::LLVM::ConstantOp>(
+     mlir::Value integer = builder->create<mlir::LLVM::ConstantOp>(
                    loc, builder->getI32Type(), 1024);
      mlir::Value index = builder->create<mlir::arith::IndexCastOp>(
                    loc, builder->getIndexType(), integer);
