@@ -4,7 +4,9 @@
 # HFILES: Hidden files we need to get from the base folder. These will be moved
 #         into the build folder preprended with a period.
 DIRS:=setup generator scalc vcalc gazprea info
-FILES:=index.html $(patsubst base/%,%,$(wildcard base/css/*)) $(patsubst base/%,%,$(wildcard base/engineering/*))
+FILES:=index.html $(patsubst base/%,%,$(wildcard base/css/*)) \
+				  $(patsubst base/%,%,$(wildcard base/engineering/*)) \
+				  $(patsubst base/%,%,$(wildcard base/static/*))
 HFILES:=htaccess
 
 # Created variables used in the build process, don't touch these.
@@ -24,6 +26,7 @@ github: all
 	rm -rf _site
 	mkdir _site
 	mkdir _site/css
+	mkdir _site/static
 	mkdir _site/engineering
 	cp -r base/fuzzers _site/
 	$(foreach dir, $(DIRS), mkdir _site/$(dir);)

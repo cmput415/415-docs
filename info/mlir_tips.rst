@@ -44,41 +44,124 @@ MLIR tips
   will only ever produce a trunc (truncate) instruction. This is correct but it's not always what
   you want.
 
-MLIR Dialect tips
------------------
+MLIR Dialect Tips
+=================
 
 You and your team member(s) will face an important decision regarding which dialects to use and to
-what extent. The four dialects ``llvm``, ``scf``, ``memref`` and ``arith`` exist at various
+what extent. The endorsed dialects ``llvm``, ``scf``, ``memref``, ``func`` and ``arith`` exist at various
 "heights" in the MLIR tree; interactions between types and operations in each dialect can be
-surprising. This page lays out some of the common pitfalls to watch out for.
+surprising. Despite there being many subsets of the 5 dialects to choose from we do not recommend choosing
+arbitrarily. The reasons should be apparent after reading individual dialect sections below.
 
-SCF Ops and Regular LLVM Control Flow 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Recommended options:
 
-``scf`` Ops such as ``scf.if``, ``scf.for`` and ``scf.while`` offer convenient, modular interfaces
-for creating control flow that abstract away much of the minute detail of manually laying out basic
-blocks. In contrast, the ``llvm`` dialect offers fine-grained control over how basic blocks are laid
-out in your program. 
+1. llvm
+2. llvm + scf
+3. llvm + scf + memref + arith + func
 
-If both ``llvm`` and ``scf`` sound tempting, there is one unfortunate caveat: **All scf ops only
-allow one basic block in their body**. As a consequence, ``scf`` ops cannot be mixed with ``llvm``
-control flow. Under this restriction, for example, nesting an ``llvm`` while loop made with basic
-blocks inside an ``scf.if`` Op is impossible. This imposes that control flow be implemented "all or
-nothing" with either ``scf`` or ``llvm``. (By control flow here we mean only the
-``intra-procedural`` kind -- excluding functions which are always implemented in the ``llvm``
-dialect)
+LLVM
+----
+* The LLVM dialect is well tested in 415. All years previous to fall 2024 have used
+  this exclusively.
 
-Large, Composite Memref Types & the C Runtime
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+* All control flow in both vcalc and gazprea can be implemented entirely using the llvm dialect.
+  The LLVM Dialect lets you create basic blocks, lay out branches, jumps and returns explicitly.
+  
+* Functions can be declared and/or defined in the MLIR module. A great utility header
+  ``"mlir/Dialect/LLVMIR/FunctionCallUtils.h"`` gives some convenient interfaces for working with functions.
+  Included are methods to declare malloc and free out of the box.
 
-You will find a C runtime library ready to go in both ``vcalc`` and ``gazprea``. This library
-allows interoperability with the ``llvm`` dialect you emit. Teams often find the runtime convenient
-for printing vectors and matrices as well as for I/O operations.
+* Functions that are declared can find definitions at runtime from the dynamically
+  linked C library included in your projects. In general, the llvm dialect types are easier
+  to pass through to runtime funtions. 
 
-One challenge with the runtime comes if choosing to implement vectors using the ``memref`` dialect.
-With each ``memref.alloc`` or ``memref.alloca`` op, various metadata is stored such as the
-dimensions, alignment, and element type. As a consequence, the corresponding ``C`` type needed to
-"catch" a memref value on the receiving side of a function call is a large struct.
+* LLVM Struct types allow you to create aggregate data structures from other llvm dialect types.
+  A custom struct type can be constructed:
 
-In contrast, a vector implemented with ``alloca`` or a ``malloc`` can be passed to the runtime as a
-``void *`` C type or ``llvm.i8*`` ``llvm`` type.
+  .. code-block:: cpp
+
+     mlir::ArrayRef<mlir::Type> types; // a collection of scalar types 
+     mlir::Type struct_type =
+         mlir::LLVM::LLVMStructType::getLiteral(&ctx::context, types);
+
+* All vectors and matrices can be implemented within the LLVM dialect.
+
+SCF
+---
+
+* ``scf`` Ops such as ``scf.if``, ``scf.for`` and ``scf.while`` offer convenient, modular interfaces
+  for creating control flow that abstract away the work of manually laying out basic blocks.
+  In contrast, the ``llvm`` dialect offers fine-grained control over how basic blocks are arranged and connected.
+
+* **All scf ops allow only one basic block in their body**. As a consequence, ``scf`` ops cannot be mixed with ``llvm``
+  control flow. Under this restriction, for example, nesting an ``llvm`` while loop made with basic
+  blocks inside an ``scf.if`` is impossible. This imposes that intra-procedural control flow be
+  implemented "all or nothing" with either ``scf`` or ``llvm``.
+
+Memref
+------
+
+* ``memref`` Ops such as ``alloc`` and ``alloca`` may be used as an alternative to ``llvm.alloca`` and ``malloc``.
+  A memref Op has more meta-data surrounding the buffer. The stride and shape of each dimension is built into the type,
+  and can be easily accessed using a ``memref.dimOp``. The trade-off is that the corresponding ``C`` type needed to
+  "catch" a memref value on the receiving side of a function call is a large struct compared to a simple void pointer as in malloc.
+
+* For example, an ``alloc`` of one dimension and type float32 has the following corresponding C struct:
+
+  .. code-block:: c
+
+     typedef struct {
+       float *alloc;
+       float *allign;
+       uint64_t offset;
+       uint64_t sizes[1];    // single dim size
+       uint64_t strides[1];  // single dim stride
+     } memref_vector_float_t;
+
+* The need to create a vector from a previously computed `mlir::Value` is common.
+  For example, creating a range from ``2..7`` from the result of a subtraction.
+  To do this, a specific memref type must be created.
+
+  For example, creating a memref type for a vector of floats.
+
+  .. code-block:: c
+
+     mlir::Type floatType = mlir::Float32Type::get(&context);
+     mlir::MemRefType floatVecTy = mlir::MemRefType::get(mlir::ShapedType::kDynamic, floatType);
+
+* memref is relatively high in the dialect tree. As a consequence, passing an allocOp through an llvm function
+  parameter will not lower correctly. As a result, using memref requires also using the func dialect.  
+
+* Similar to the previous point, memref types are indexed using the Index type from the ``arith`` dialect.
+
+Arith
+-----
+
+* If using memref, the only type needed from this dialect is the ``Index`` type. Otherwise `arith`
+  is not necessary.
+
+* The underlying representation of the ``Index`` type is a 64-bit signed integer.
+
+* With caution, i32 type Integers can be cast into index types and vice versa:
+
+  .. code-block:: 
+
+     mlir::Value integer = builder->crate<mlir::LLVM::ConstantOp>(
+                   loc, builder->getI32Type(), 1024);
+     mlir::Value index = builder->create<mlir::arith::IndexCastOp>(
+                   loc, builder->getIndexType(), integer);
+     integer = builder->create<mlir::arith::IndexCastOp>(
+                   loc, builder->getI32Type(), integer);
+
+Func
+----
+
+* The func dialect is quite small and self-explanatory. The advantage over
+  llvm functions is that the func dialect can handle types from other high
+  level dialects like memref.
+
+* It is useful to be able to lookup a function you have already declared.
+  
+  .. code-block:: c
+
+     module.lookupSymbol<mlir::func::FuncOp>("vectorAdd");

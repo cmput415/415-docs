@@ -1,8 +1,6 @@
 More Information
 ============================
 
-Context about how the course is structured
-
 .. toctree::
    .. :numbered:
 
