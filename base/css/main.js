@@ -8,18 +8,10 @@ document.addEventListener("DOMContentLoaded", function() {
         section.addEventListener("mouseenter", function() {
             const sectionId = section.id;
             
-            // replace the assignment logo with the one currently being hovered over. 
-            
-            // TODO: This code can replace the logo on hover. I had trouble making
-            // logos as nice as the LLVM logo, so for now they're all LLVM
-            // const currentSrc = assignmentLogo.src;
-            // const newSrc = currentSrc.replace(/[^\/]+(?=-logo\.png$)/, sectionId);
-            
-            if (sectionId == "gazprea") {
-                assignmentLogo.src = "static/gazprea-logo.png";
-            } else {
-                assignmentLogo.src = "static/vcalc-logo.png";
-            }
+            // replace the assignment logo with the one currently being hovered over.   
+            const currentSrc = assignmentLogo.src;
+            const newSrc = currentSrc.replace(/[^\/]+(?=-logo\.png$)/, sectionId);  
+            assignmentLogo.src = newSrc;
  
             // replace the player count for the assignment with current hover
             if (sectionId === "gazprea") {
