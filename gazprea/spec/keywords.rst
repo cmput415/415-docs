@@ -34,8 +34,6 @@ not be used by a programmer.
 
 -  function
 
--  identity
-
 -  if
 
 -  in
@@ -47,8 +45,6 @@ not be used by a programmer.
 -  loop
 
 -  not
-
--  null
 
 -  or
 

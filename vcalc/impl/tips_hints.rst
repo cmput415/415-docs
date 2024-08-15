@@ -1,7 +1,7 @@
 Tips and Hints
 ==============
 
-#. The learning curve for *LLVM* and *MLIR* is not trivial. Thus **START EARLY**.
+#. The learning curve for *LLVM* and *MLIR* is not trivial: **START EARLY**.
    There will be a lot of things to learn. If you can’t figure out how
    to do something don’t be afraid to ask. Someone else will know or
    someone else will also want to know.
@@ -11,7 +11,7 @@ Tips and Hints
 
 #. You should definitely consider making an AST in this assignment.
    While it’s not strictly necessary it can be a great help, and you’ll
-   be much better equipped moving into *gazprea*.
+   be much better equipped moving into *Gazprea*.
 
    You should check the AST Tips and Hints section for a good starting
    place here as well.
@@ -46,8 +46,8 @@ Tips and Hints
    not support them. Not all lab machines support the *LLVM IR* vector.
 
 #. The `Getting Started with the LLVM System <https://llvm.org/docs/GettingStarted.html>`__
-   can help introduce you to *LLVM*. For *MLIR*, see `Getting Started <https://mlir.llvm.org/getting_started/>`__.
-   In particular, sections three and five of the `Kaleidoscope tutorial<https://llvm.org/docs/tutorial/MyFirstLanguageFrontend/index.html>`__ are of particular interest for generating *LLVM IR*. Generating *MLIR* is similar.
+   can help introduce you to *LLVM*. For *MLIR*, see `Getting Started <https://mlir.llvm.org/getting_started>`__.
+   In particular, sections three and five of the `Kaleidoscope tutorial <https://llvm.org/docs/tutorial/MyFirstLanguageFrontend/index.html>`__ are of particular interest for generating *LLVM IR*. Generating *MLIR* is similar.
    Section 7 is worth looking through for more discussion of the use of
    ``alloca`` over ``phi`` nodes.
    The other sections can be read at your own discrection.

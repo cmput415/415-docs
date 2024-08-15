@@ -138,6 +138,32 @@ raised.
 
 .. _ssec:procedure_alias:
 
+Type Promotion of Arguments
+---------------------------
+
+Argument types can be promoted at call time, but only if the argument is
+call by value (``const``). The reason is that mutable arguments are effectively
+call by reference, and are therefore *l-values* (pointers).
+
+::
+
+
+         procedure byvalue(string x) returns integer {
+           return len(x);
+         }
+         procedure byreference(var string x) returns integer {
+           return len(x);
+         }
+         procedure main() returns integer {
+           character[3] y = ['y', 'e', 's'];
+
+           integer size = byvalue(y); // legal
+           call byreference(y);       // illegal
+
+           return 0;
+         }
+
+
 Aliasing
 --------
 

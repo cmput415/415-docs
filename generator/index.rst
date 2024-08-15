@@ -25,6 +25,7 @@ documentation <https://github.com/antlr/antlr4/blob/master/doc/index.md>`__.
    spec/identifiers
    spec/expression
    spec/generator
+   spec/comments
 
 .. toctree::
    :maxdepth: 2
@@ -35,4 +36,3 @@ documentation <https://github.com/antlr/antlr4/blob/master/doc/index.md>`__.
    impl/assertions
    impl/clarifications
    impl/deliverables
-   impl/tips_hints

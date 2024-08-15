@@ -27,7 +27,7 @@ portion of the declaration. A vector is then declared using square brackets
 immediately after the element type.
 
 If possible, initialization expressions may go through an implicit type
-conversion. For instance, when declaring a real vector if it is
+conversion. For instance, when declaring a real vector that is
 initialized with an integer value the integer will be promoted to a real
 value, and then used as a scalar initialization of the vector.
 
@@ -52,7 +52,7 @@ value, and then used as a scalar initialization of the vector.
 
    A vector may also be initialized with another vector. If the vector
    is initialized using a vector that is too small then the vector will
-   be null padded. However, if the vector is initialized with a vector
+   be padded with zeros. However, if the vector is initialized with a vector
    that is too large then a ``SizeError`` should be thrown at compile-time or
    run-time. Check the :ref:`ssec:errors_sizeErrors` section to know when you
    should throw the error.
@@ -86,28 +86,6 @@ value, and then used as a scalar initialization of the vector.
    In this example the compiler can infer both the size and the type of
    ``w`` from ``v``. The size may not always be known at compile time, so this
    may need to be handled during runtime.
-
-.. _sssec:vector_null:
-
-Null
-~~~~
-
-Vector of ``null`` elements.
-
-When initializing a vector to a value of ``null`` an explicit size must
-be given. Such initialization is equivalent to promoting a ``null``
-value of the element type to the vector.
-
-.. _sssec:vector_ident:
-
-Identity
-~~~~~~~~
-
-Vector of ``identity`` elements.
-
-When initializing a vector to a value of ``identity`` an explicit size
-must be given. Such initialization is equivalent to promoting a
-``identity`` value of the element type to the vector.
 
 .. _sssec:vector_constr:
 
@@ -282,10 +260,11 @@ Operations
 
       ::
 
-         								integer[*] v = 1..5 by 1; /* [1, 2, 3, 4, 5] */
-         								integer[*] u = v by 1; /* [1, 2, 3, 4, 5] */
-         								integer[*] w = v by 2; /* [1, 3, 5] */
-         								integer[*] l = v by 3; /* [1, 4] */
+         integer[*] v = 1..5 by 1; /* [1, 2, 3, 4, 5] */
+         integer[*] u = v by 1; /* [1, 2, 3, 4, 5] */
+         integer[*] w = v by 2; /* [1, 3, 5] */
+         integer[*] l = v by 3; /* [1, 4] */
+         integer[*] s = v by 4; /* [1] */
 
 #. Operations of the Element Type
 
@@ -318,9 +297,9 @@ Operations
    different sizes should result in a ``SizeError``.
 
    When one of the operands of a binary operation is a vector and the
-   other operand this a scalar value, then the scalar value must first
-   be promoted with a vector of the same size as the vector operand and
-   with the value of each element equal the scalar value. For example:
+   other operand is a scalar, the scalar value must first
+   be promoted to a vector of the same size as the vector operand and
+   with the value of each element equal to the scalar value. For example:
 
    ::
 
@@ -363,6 +342,6 @@ Operations
 Type Casting and Type Promotion
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-To see the types that ``vector`` may be cast and/or promoted to, see
+To see the types that a vector may be cast and/or promoted to, see
 the sections on :ref:`sec:typeCasting` and :ref:`sec:typePromotion`
 respectively.
