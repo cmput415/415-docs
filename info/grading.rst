@@ -98,13 +98,13 @@ TA Specification Tests
 Competitive Testing
 ---------------------------------------------------
 
-* Competative testing rules are outlined here: :doc:`testing`.
+* Competitive testing rules are outlined here: :doc:`testing`.
 
 Execution Timing Testing
 ---------------------------------------------------
 
 * The speed of the executable your compiler produces will be put to the test against all other compilers.
-  See the timing test section for details.
+  See here :doc:`testing` for details.
 
 
 After each submission of a team assignment you must fill out a
