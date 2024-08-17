@@ -6,7 +6,7 @@ Procedures
 A procedure in *Gazprea* is like a function, except that it does not
 have to be pure and as a result it may:
 
--  Have arguments marked with ``var`` which can be mutated. By default
+-  Have arguments marked with ``var`` that can be mutated. By default
    arguments are ``const`` just like functions.
 
 -  A procedure may only accept a literal or expression as an argument if
@@ -108,8 +108,8 @@ Procedures without a return clause may not be used in an expression.
 
 .. _ssec:procedure_fwd_declr:
 
-Forward Declaration
--------------------
+Procedure Declarations
+----------------------
 
 Procedures can use :ref:`forward declaration <ssec:function_fwd_declr>`
 just like functions.
@@ -121,8 +121,9 @@ Main
 
 Execution of a *Gazprea* program starts with a procedure called
 ``main``. This procedure takes no arguments, and has an integer return
-type. If a program is missing a main procedure an error should be
-raised.
+type. ``main`` is called by the operating system, and the return value is
+used by the operating system, so if you are using multiple compilation units
+one and only one compilation unit must define ``main``.
 
 ::
 

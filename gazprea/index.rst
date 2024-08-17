@@ -10,7 +10,6 @@ Hardware Acceleration Laboratory in Markham, ON.
    :hidden:
 
    self
-   change_log
 
 .. toctree::
    :maxdepth: 3

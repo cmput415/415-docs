@@ -79,8 +79,8 @@ value, and then used as a scalar initialization of the vector.
 
    ::
 
-      						integer[*] v = [1, 2, 3];
-      						var w = v + 1;
+      integer[*] v = [1, 2, 3];
+      var w = v + 1;
 
 
    In this example the compiler can infer both the size and the type of
@@ -97,7 +97,7 @@ notation:
 
 ::
 
-   				[expr1, expr2, ..., exprN]
+   [expr1, expr2, ..., exprN]
 
 
 Each ``expK`` is an expression with a compatible type. In the simplest
@@ -107,7 +107,7 @@ instance it is possible to mix integers and real numbers.
 
 ::
 
-   				real[*] v = [1, 3.3, 5 * 3.4];
+   real[*] v = [1, 3.3, 5 * 3.4];
 
 
 It is also possible to construct a single-element vector using this
@@ -115,14 +115,14 @@ method of construction.
 
 ::
 
-   				real[*] v = [7];
+   real[*] v = [7];
 
 
 *Gazprea* **DOES** support empty vectors.
 
 ::
 
-   				real[*] v = []; /* Should create an empty vector */
+   real[*] v = []; /* Should create an empty vector */
 
 
 .. _sssec:vector_ops:
@@ -139,8 +139,8 @@ Operations
 
       ::
 
-         								integer[*] v = [8, 9, 6];
-         								integer numElements = length(v);
+         integer[*] v = [8, 9, 6];
+         integer numElements = length(v);
 
 
       In this case ``numElements`` would be 3, since the vector ``v``
@@ -154,8 +154,8 @@ Operations
 
       ::
 
-         								[1, 2, 3] || [4, 5] // produces [1, 2, 3, 4, 5]
-         								[1, 2] || [] || [3, 4] // produces [1, 2, 3, 4]
+         [1, 2, 3] || [4, 5] // produces [1, 2, 3, 4, 5]
+         [1, 2] || [] || [3, 4] // produces [1, 2, 3, 4]
 
 
       Concatenation is also allowed between vectors of different element
@@ -164,9 +164,9 @@ Operations
 
       ::
 
-         								integer[3] v = [1, 2, 3];
-         								real[3] u = [4.0, 5.0, 6.0];
-         								real[6] j = v || u;
+         integer[3] v = [1, 2, 3];
+         real[3] u = [4.0, 5.0, 6.0];
+         real[6] j = v || u;
 
 
       would be permitted, and the integer vector ``v`` would be promoted to
@@ -178,8 +178,16 @@ Operations
 
       ::
 
-         								[1, 2, 3] || 4 // produces [1, 2, 3, 4]
-         								1 || [2, 3, 4] // produces [1, 2, 3, 4]
+         [1, 2, 3] || 4 // produces [1, 2, 3, 4]
+         1 || [2, 3, 4] // produces [1, 2, 3, 4]
+
+
+      An interesting corollary to vector-scalar concatenation is that
+      two scalars can be concatenated to produce a vector:
+
+      ::
+
+         integer[3] v = 1 || 2 || 3; // produces [1, 2, 3]
 
 
    c. Dot Product
@@ -190,12 +198,12 @@ Operations
 
       ::
 
-         								integer[3] v = [1, 2, 3];
-         								integer[3] u = [4, 5, 6];
+         integer[3] v = [1, 2, 3];
+         integer[3] u = [4, 5, 6];
 
-         								/* v[1] * u[1] + v[2] * u[2] + v[3] * u[3] */
-         								/* 1 * 4 + 2 * 5 + 3 * 6 &=&  32 */
-         								integer dot = v ** u;  /* Perform a dot product */
+         /* v[1] * u[1] + v[2] * u[2] + v[3] * u[3] */
+         /* 1 * 4 + 2 * 5 + 3 * 6 &=&  32 */
+         integer dot = v ** u;  /* Perform a dot product */
 
 
    d. Range
@@ -275,8 +283,8 @@ Operations
 
    ::
 
-      						boolean[*] v = [true, false, true, true];
-      						boolean[*] nv = not v;
+      boolean[*] v = [true, false, true, true];
+      boolean[*] nv = not v;
 
 
    ``nv`` would have a value of
@@ -290,7 +298,7 @@ Operations
 
    ::
 
-      						[1, 2, 3, 4] + [2, 2, 2, 2] // results in [3, 4, 5, 6]
+      [1, 2, 3, 4] + [2, 2, 2, 2] // results in [3, 4, 5, 6]
 
 
    Attempting to perform a binary operation between two vectors of
@@ -303,7 +311,7 @@ Operations
 
    ::
 
-      						[1, 2, 3, 4] + 2 // results in [3, 4, 5, 6]
+      [1, 2, 3, 4] + 2 // results in [3, 4, 5, 6]
 
 
    Additionally the element types of vectors may be promoted, for instance
@@ -312,7 +320,7 @@ Operations
 
    ::
 
-      						[1, 2, 3, 4] + 2.3 // results in [3.3, 4.3, 5.3, 6.3]
+      [1, 2, 3, 4] + 2.3 // results in [3.3, 4.3, 5.3, 6.3]
 
 
    The equality operation is the exception to the behavior of the binary
@@ -323,14 +331,14 @@ Operations
 
    ::
 
-      						[1, 2, 3] == [1, 2, 3]
+      [1, 2, 3] == [1, 2, 3]
 
 
    yields ``true``
 
    ::
 
-      						[1, 1, 3] == [1, 2, 3]
+      [1, 1, 3] == [1, 2, 3]
 
 
    yields ``false``
