@@ -66,6 +66,7 @@ integer expressions.
    spec/identifiers
    spec/expressions
    spec/statements
+   spec/comments
 
 .. toctree::
    :maxdepth: 2
@@ -82,10 +83,7 @@ integer expressions.
 .. toctree::
    :maxdepth: 2
    :caption: Getting Started
-
-   start/layout
-   start/clion_setup
+   
    start/inja
-   start/testing
 
 .. |expectedForm| image:: assets/images/scalc-class.png

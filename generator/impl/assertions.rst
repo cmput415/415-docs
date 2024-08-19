@@ -184,8 +184,9 @@ specification particulars.
 
    Whitespace is guaranteed to be a space, a tab, a carriage return, or
    a new line. Any other whitespace characters will render the input
-   invalid. The following ANTLR rule will ensure you adhere to this:
+   invalid. Line comments skip all characters until the next newline or EOF.
+   The following ANTLR rules will ensure you adhere to this:
 
    ::
-
             WS: [ \t\r\n]+ -> skip;
+            LINE_COMMENT: '//' .*? ('\n' | EOF) -> skip;

@@ -29,15 +29,25 @@ following is therefore legal:
     return i;
   }
 
-We can also typedef vectors and matrices with sizes for easy reusability:
+In addition to base types, ``typedef`` can be used with vectors, matrices,
+strings and tuples. Using ``typedef`` on tuples, or on vectors and matrices
+with sizes helps reusability and consistency:
 
 ::
 
-  typedef integer[10] ten_ints;
-  const ten_ints a = [i in 1..10 | 7];
+  typedef tuple(string[64], integer, real) student_id_grade;
+  student_id_grade chucky_cheese = ("C. Cheese", 123456, 77.0);
 
   typedef integer[2,3] two_by_three_matrix;
   two_by_three_matrix m = [i in 1..2, j in 1..3 | i + j];
 
 Typedefs of vectors and matrices with inferred sizes are allowed, but
 declarations of variables using the typedef must be initialized appropriately.
+
+Because ``typedef`` is really an aliased name for a type, you can use
+``typedef`` on typedef'ed types:
+
+::
+
+  typedef integer int;
+  typedef int also_int;

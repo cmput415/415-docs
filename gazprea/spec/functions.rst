@@ -15,12 +15,11 @@ A function in *Gazprea* has several requirements:
 
 -  Functions can not perform any I/O.
 
--  Functions can not rely upon any mutable state outside of the
-   function.
+-  Functions can not rely upon any mutable state outside of the function.
 
 -  Functions can not call any procedures.
 
--  Must be declared in the global scope.
+-  Functions must be declared in the global scope.
 
 The reason for this is to ensure that functions in *Gazprea* behave as
 pure functions. Every time you call a function with the same arguments
@@ -38,7 +37,7 @@ A function is declared using the function keyword. Each function is
 given an identifier, and an arguments list enclosed in parenthesis. If
 no arguments are provided an empty set of parenthesis, ``()``, must be
 used. The return type of the function is specified after the arguments
-using returns.
+using ``returns``.
 
 A function can be given by a single expression. For instance:
 
@@ -139,17 +138,18 @@ function if they were declared before the function was defined.
 
 .. _ssec:function_fwd_declr:
 
-Forward Declaration
+Function Prototypes
 -------------------
 
 Functions can be declared before they are defined in a *Gazprea* file.
 This allows function definitions to be moved to more convenient
-locations in the file.
+locations in the file, and allows for multiple compilation units if the
+functions.
 
 ::
 
          /* Forward declaration, no body */
-         function f(integer x) returns integer;
+         function f(integer y, integer) returns integer;
 
          procedure main() returns integer {
            integer y = f(13);
@@ -157,20 +157,12 @@ locations in the file.
            return 0;
          }
 
-         function f(integer x) returns integer = x^2;
-
-If the type signatures of the forward declaration of the function and
-the definition of the function differ then an error must be raised. A
-function may only be declared once.
+         function f(integer x, integer z) returns integer = x*z;
 
 Note that only the type signatures of the forward declaration of the
-function and the definition must be identical. Therefore, the forward
-declaration of the function may have different argument names from its
-definition.
-
-A function that has a forward declaration must have a definition
-somewhere within the file. If the function does not have a definition
-then an error should be raised.
+function and the definition must be identical. That means the argument names in
+the prototype are *optional*. If the prototype arguments are given names they
+do not have to match the argument names in the function definition.
 
 
 .. _ssec:function_vec_mat:

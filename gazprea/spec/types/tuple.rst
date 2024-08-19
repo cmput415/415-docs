@@ -64,22 +64,6 @@ as well as to assign a new value to the element.
      t1.1 = type-expr; // Allowed
 
 
-.. _sssec:tuple_null:
-
-Null
-~~~~
-
-``null`` is every field assigned their type-appropriate ``null`` for
-``tuple``.
-
-.. _sssec:tuple_ident:
-
-Identity
-~~~~~~~~
-
-``identity`` is every field assigned their type-appropriate ``identity``
-for ``tuple``.
-
 .. _sssec:tuple_lit:
 
 Literals

@@ -17,14 +17,11 @@ grammar works as expected.
 *VCalc* is a superset of *SCalc*. **All operations supported by SCalc
 must be fully also supported by VCalc. All valid SCalc programs must run
 in VCalc without modification.** (The only exceptions are variable names
-in a *SCalc* that are now reserved Keywords.) *VCalc* has the additional
+in *SCalc* that are now reserved Keywords.) *VCalc* has the additional
 features discussed in subsequent section.
 
 .. toctree::
    :hidden:
-
-   self
-   changelog
 
 .. toctree::
    :maxdepth: 3
@@ -38,6 +35,7 @@ features discussed in subsequent section.
    spec/filters
    spec/expressions
    spec/statements
+   spec/comments
    spec/type_checking
    spec/scoping
 
@@ -53,11 +51,3 @@ features discussed in subsequent section.
    impl/tips_hints
    impl/llvm_tips_hints
    impl/ast_tips_hints
-
-.. toctree::
-   :maxdepth: 2
-   :caption: Getting Started
-
-   start/layout
-   start/clion_setup
-   start/testing
