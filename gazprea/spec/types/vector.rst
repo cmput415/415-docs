@@ -27,7 +27,7 @@ portion of the declaration. A vector is then declared using square brackets
 immediately after the element type.
 
 If possible, initialization expressions may go through an implicit type
-conversion. For instance, when declaring a real vector if it is
+conversion. For instance, when declaring a real vector that is
 initialized with an integer value the integer will be promoted to a real
 value, and then used as a scalar initialization of the vector.
 
@@ -52,7 +52,7 @@ value, and then used as a scalar initialization of the vector.
 
    A vector may also be initialized with another vector. If the vector
    is initialized using a vector that is too small then the vector will
-   be null padded. However, if the vector is initialized with a vector
+   be padded with zeros. However, if the vector is initialized with a vector
    that is too large then a ``SizeError`` should be thrown at compile-time or
    run-time. Check the :ref:`ssec:errors_sizeErrors` section to know when you
    should throw the error.
@@ -79,35 +79,13 @@ value, and then used as a scalar initialization of the vector.
 
    ::
 
-      						integer[*] v = [1, 2, 3];
-      						var w = v + 1;
+      integer[*] v = [1, 2, 3];
+      var w = v + 1;
 
 
    In this example the compiler can infer both the size and the type of
    ``w`` from ``v``. The size may not always be known at compile time, so this
    may need to be handled during runtime.
-
-.. _sssec:vector_null:
-
-Null
-~~~~
-
-Vector of ``null`` elements.
-
-When initializing a vector to a value of ``null`` an explicit size must
-be given. Such initialization is equivalent to promoting a ``null``
-value of the element type to the vector.
-
-.. _sssec:vector_ident:
-
-Identity
-~~~~~~~~
-
-Vector of ``identity`` elements.
-
-When initializing a vector to a value of ``identity`` an explicit size
-must be given. Such initialization is equivalent to promoting a
-``identity`` value of the element type to the vector.
 
 .. _sssec:vector_constr:
 
@@ -119,7 +97,7 @@ notation:
 
 ::
 
-   				[expr1, expr2, ..., exprN]
+   [expr1, expr2, ..., exprN]
 
 
 Each ``expK`` is an expression with a compatible type. In the simplest
@@ -129,7 +107,7 @@ instance it is possible to mix integers and real numbers.
 
 ::
 
-   				real[*] v = [1, 3.3, 5 * 3.4];
+   real[*] v = [1, 3.3, 5 * 3.4];
 
 
 It is also possible to construct a single-element vector using this
@@ -137,14 +115,14 @@ method of construction.
 
 ::
 
-   				real[*] v = [7];
+   real[*] v = [7];
 
 
 *Gazprea* **DOES** support empty vectors.
 
 ::
 
-   				real[*] v = []; /* Should create an empty vector */
+   real[*] v = []; /* Should create an empty vector */
 
 
 .. _sssec:vector_ops:
@@ -161,8 +139,8 @@ Operations
 
       ::
 
-         								integer[*] v = [8, 9, 6];
-         								integer numElements = length(v);
+         integer[*] v = [8, 9, 6];
+         integer numElements = length(v);
 
 
       In this case ``numElements`` would be 3, since the vector ``v``
@@ -176,8 +154,8 @@ Operations
 
       ::
 
-         								[1, 2, 3] || [4, 5] // produces [1, 2, 3, 4, 5]
-         								[1, 2] || [] || [3, 4] // produces [1, 2, 3, 4]
+         [1, 2, 3] || [4, 5] // produces [1, 2, 3, 4, 5]
+         [1, 2] || [] || [3, 4] // produces [1, 2, 3, 4]
 
 
       Concatenation is also allowed between vectors of different element
@@ -186,9 +164,9 @@ Operations
 
       ::
 
-         								integer[3] v = [1, 2, 3];
-         								real[3] u = [4.0, 5.0, 6.0];
-         								real[6] j = v || u;
+         integer[3] v = [1, 2, 3];
+         real[3] u = [4.0, 5.0, 6.0];
+         real[6] j = v || u;
 
 
       would be permitted, and the integer vector ``v`` would be promoted to
@@ -200,8 +178,16 @@ Operations
 
       ::
 
-         								[1, 2, 3] || 4 // produces [1, 2, 3, 4]
-         								1 || [2, 3, 4] // produces [1, 2, 3, 4]
+         [1, 2, 3] || 4 // produces [1, 2, 3, 4]
+         1 || [2, 3, 4] // produces [1, 2, 3, 4]
+
+
+      An interesting corollary to vector-scalar concatenation is that
+      two scalars can be concatenated to produce a vector:
+
+      ::
+
+         integer[3] v = 1 || 2 || 3; // produces [1, 2, 3]
 
 
    c. Dot Product
@@ -212,12 +198,12 @@ Operations
 
       ::
 
-         								integer[3] v = [1, 2, 3];
-         								integer[3] u = [4, 5, 6];
+         integer[3] v = [1, 2, 3];
+         integer[3] u = [4, 5, 6];
 
-         								/* v[1] * u[1] + v[2] * u[2] + v[3] * u[3] */
-         								/* 1 * 4 + 2 * 5 + 3 * 6 &=&  32 */
-         								integer dot = v ** u;  /* Perform a dot product */
+         /* v[1] * u[1] + v[2] * u[2] + v[3] * u[3] */
+         /* 1 * 4 + 2 * 5 + 3 * 6 &=&  32 */
+         integer dot = v ** u;  /* Perform a dot product */
 
 
    d. Range
@@ -282,10 +268,11 @@ Operations
 
       ::
 
-         								integer[*] v = 1..5 by 1; /* [1, 2, 3, 4, 5] */
-         								integer[*] u = v by 1; /* [1, 2, 3, 4, 5] */
-         								integer[*] w = v by 2; /* [1, 3, 5] */
-         								integer[*] l = v by 3; /* [1, 4] */
+         integer[*] v = 1..5 by 1; /* [1, 2, 3, 4, 5] */
+         integer[*] u = v by 1; /* [1, 2, 3, 4, 5] */
+         integer[*] w = v by 2; /* [1, 3, 5] */
+         integer[*] l = v by 3; /* [1, 4] */
+         integer[*] s = v by 4; /* [1] */
 
 #. Operations of the Element Type
 
@@ -296,8 +283,8 @@ Operations
 
    ::
 
-      						boolean[*] v = [true, false, true, true];
-      						boolean[*] nv = not v;
+      boolean[*] v = [true, false, true, true];
+      boolean[*] nv = not v;
 
 
    ``nv`` would have a value of
@@ -311,20 +298,20 @@ Operations
 
    ::
 
-      						[1, 2, 3, 4] + [2, 2, 2, 2] // results in [3, 4, 5, 6]
+      [1, 2, 3, 4] + [2, 2, 2, 2] // results in [3, 4, 5, 6]
 
 
    Attempting to perform a binary operation between two vectors of
    different sizes should result in a ``SizeError``.
 
    When one of the operands of a binary operation is a vector and the
-   other operand this a scalar value, then the scalar value must first
-   be promoted with a vector of the same size as the vector operand and
-   with the value of each element equal the scalar value. For example:
+   other operand is a scalar, the scalar value must first
+   be promoted to a vector of the same size as the vector operand and
+   with the value of each element equal to the scalar value. For example:
 
    ::
 
-      						[1, 2, 3, 4] + 2 // results in [3, 4, 5, 6]
+      [1, 2, 3, 4] + 2 // results in [3, 4, 5, 6]
 
 
    Additionally the element types of vectors may be promoted, for instance
@@ -333,7 +320,7 @@ Operations
 
    ::
 
-      						[1, 2, 3, 4] + 2.3 // results in [3.3, 4.3, 5.3, 6.3]
+      [1, 2, 3, 4] + 2.3 // results in [3.3, 4.3, 5.3, 6.3]
 
 
    The equality operation is the exception to the behavior of the binary
@@ -344,14 +331,14 @@ Operations
 
    ::
 
-      						[1, 2, 3] == [1, 2, 3]
+      [1, 2, 3] == [1, 2, 3]
 
 
    yields ``true``
 
    ::
 
-      						[1, 1, 3] == [1, 2, 3]
+      [1, 1, 3] == [1, 2, 3]
 
 
    yields ``false``
@@ -363,6 +350,6 @@ Operations
 Type Casting and Type Promotion
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-To see the types that ``vector`` may be cast and/or promoted to, see
+To see the types that a vector may be cast and/or promoted to, see
 the sections on :ref:`sec:typeCasting` and :ref:`sec:typePromotion`
 respectively.

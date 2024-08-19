@@ -1,282 +1,69 @@
-<!-- saved from url=(0061)https://ro-s-web-p-02.registrar.ualberta.ca/connect/index.php -->
+<!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
+    <meta charset="UTF-8">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <noscript>
-	    <meta http-equiv="refresh" content="0;url=noscript.html">
-    </noscript>
-
     <title>CMPUT 415</title>
-
-    <script src="css/jquery.min.js"></script>
-    <script src="css/jquery-ui.min.js"></script>
-    <script src="css/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@200;400&display=swap">
+</head>
+<body>
+    <header>
+        <div class="logo">
+          <a href="/" target="_blank">
+            <img src="static/ualberta-logo.png" alt="University of Alberta Logo" id="university-logo">
+          </a>
+        </div>
+    </header>
+    <main>
+        <div class="title">CMPUT 415 - Compiler Design</div>
+        <div class="assignment-logo">
+            <img src="static/vcalc-logo.png" id="assignment-logo"> <!--Color is #143A02-->
+        </div> 
+        <div class="players-count">
+            <img src="static/players-1.png" alt="" id="players-img">
+        </div>
+        <nav>
+            <div class="nav-section" id="generator">
+                <div class="nav-title">Generator</div>
+                <a href="generator/" target="_blank">spec</a>
+                <a href="generator.pdf" target="_blank">pdf</a>
+                <a href="#" target="_blank">repo</a>
+                <a href="fuzzers/GeneratorFuzzer.tar.gz" download target="_blank">fuzzer</a>
+            </div>
+            <div class="nav-section" id="scalc">
+                <div class="nav-title">SCalc</div>
+                <a href="scalc/" target="_blank">spec</a>
+                <a href="scalc.pdf" target="_blank">pdf</a>
+                <a href="#" target="_blank">repo</a>
+                <a href="fuzzers/SCalcFuzzer.tar.gz" download target="_blank">fuzzer</a>
+            </div>
+            <div class="nav-section" id="vcalc">
+                <div class="nav-title">VCalc</div>
+                <a href="vcalc/" target="_blank">spec</a>
+                <a href="vcalc.pdf" target="_blank">pdf</a>
+                <a href="#" target="_blank">repo</a>
+                <a href="fuzzers/VCalcFuzzer.tar.gz" download target="_blank">fuzzer</a>
+            </div> 
+            <div class="nav-section" id="gazprea">
+                <div class="nav-title">Gazprea</div>
+                <a href="gazprea/" target="_blank">spec</a>
+                <a href="gazprea.pdf" target="_blank">pdf</a>
+                <a href="#" target="_blank">repo</a>
+            </div>
+        </nav>
+        <nav class="info-nav">
+            <a href="setup/" target="_blank">setup</a>
+            <a href="https://cmput415.github.io/415-lectures/" target="_blank">lectures</a>
+            <a href="" target="_blank">godbolt</a>
+            <a href="info/" target="_blank">more info</a>
+        </nav> 
+    </main>
+    <footer>
+        <div>&copy; 2024 University of Alberta</div>
+    </footer>
     <script src="css/main.js"></script>
-
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/custom.css" rel="stylesheet">
-    <link href="css/font-awesome.min.css" rel="stylesheet">
-    <link href="css/jquery-ui.min.css" rel="stylesheet">
-
-    <style>
-      table, caption {
-        font-size: inherit;
-        font-weight: inherit;
-        font-style: inherit;
-        font-variant: inherit;
-      }
-
-      #lectures {
-        font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
-        border-collapse: collapse;
-        width: 100%;
-      }
-
-      #lectures td, #lectures th {
-        border: 1px solid #ddd;
-        padding: 8px;
-      }
-
-      #lectures tr:nth-child(even){background-color: #f2f2f2;}
-
-      #lectures tr:hover {background-color: #ddd;}
-
-      #lectures th {
-        padding-top: 12px;
-        padding-bottom: 12px;
-        text-align: left;
-        background-color: #007c41;
-        color: white;
-      }
-    </style>
-  </head>
-  <body>
-
-    <div class="banner container-fluid">
-      <div class="container banner-logo">
-        <a href="http://www.ualberta.ca/">
-          <img src="css/logo-reverse.png">
-        </a>
-      </div>
-    </div>
-
-    <div class="container-fluid">
-      <h2 class="greentext">CMPUT 415 - Compiler Design</h2>
-      <h3 class="greentext">Specifications</h3>
-
-
-      <p>The assignments are to be completed in github repos linked to the cmput415-fall23 classroom. The first time that you click in an Assignment Repo you need to accept the assignment for your repository to be created.</p>
-
-
-      <table id="lectures">
-        <thead>
-        	<tr>
-		  <th>Assignment</th>
-		  <th>Git classroom</th>
-          <th>Offline (PDF)</th>
-          <th>Due Date</th>
-        	</tr>
-        </thead>
-        <tbody>
-          <tr>
-	        <td><a href="setup/">Setup Instructions</a></td>
-	        <td></td>
-            <td><a href="setup.pdf">setup.pdf</a></td>
-	        <td></td>
-          </tr>
-          <tr>
-	    <td><a href="generator/">Generator</a></td>
-	    <td><a href="https://classroom.github.com/a/uvkYRos3">Assignment Repo</a></td>
-            <td><a href="generator.pdf">generator.pdf</a></td>
-	        <td>September 22</td>
-          </tr>
-          <tr>
-	    <td><a href="scalc/">SCalc</a></td>
-	    <td><a href="https://classroom.github.com/a/MqQMz1-P">Assignment Repo</a></td>
-            <td><a href="scalc.pdf">scalc.pdf</a></td>
-	        <td>October 6</td>
-          </tr>
-          <tr>
-	    <td><a href="vcalc/">VCalc</a></td>
-	    <td><a href="https://classroom.github.com/a/Uo_Gcxia">Assignment Repo</a></td>
-            <td><a href="vcalc.pdf">vcalc.pdf</a></td>
-	        <td>October 20</td>
-          </tr>
-          <tr>
-	    <td><a href="gazprea/">Gazprea Language Specification</a></td>
-	    <td><a href="https://classroom.github.com/a/7qFwzQ06">Assignment Repo</a></td>
-            <td><a href="gazprea.pdf">gazprea.pdf</a></td>
-	        <td>November 10/December 8</td>
-          </tr>
-        </tbody>
-      </table>
-
-      <a id="grading"> <h3 class="greentext">Grading</h3> </a>
-      <p>Your assignment grades will be computed as follows: </p>
-      <h5 class="greentext">Code Style and Consistency: 15% (10% for Gazprea)
-      </h5>
-      <ul>
-        <li>You should have a consistent style throughout your assignment. For
-            example: commenting, variable names, function names, class names,
-            file names, indentation, etc… should be consistent in your program.
-            You can use tools like clang-format and clang-tidy to support a
-            consistent style. When working in teams for VCalc and Gazprea, you
-            should discuss style early.</li>
-        <li>You are expected to separate class definitions from implementations
-            using header (.h) and source (.cpp) files.</li>
-        <li>Your code should be clean and readable.</li>
-        <li>There is no minimum expectation for commenting or documentation.
-            </li>
-      </ul>
-      <h5 class="greentext">Software Engineering Process: 5% (Gazprea only)</h5>
-      <ul>
-        <li>You should have meetings and record notes. Read more about the
-            software engineering requirements
-            <a href="engineering/organization.html">here</a>.</li>
-        <li>You should follow a consistent process for code reviews.</li>
-      </ul>
-      <h5 class="greentext">Grammar: 5% (15% for Generator)</h5>
-      <ul>
-        <li>Your grammar should correctly implement the specification.</li>
-        <li>Your grammar should have a consistent style.</li>
-        <li>Your grammar should be clean and readable.</li>
-      </ul>
-      <h5 class="greentext">Implementation Guidelines Compliance: 10% (not
-                            applicable for Generator)</h5>
-      <ul>
-        <li>You should comply with the implementation guidelines described for
-            the assignments.</li>
-        <ul>
-          <li><b>SCalc:</b></li>
-          <ul>
-            <li>You should comply with the guidelines described
-                <a href="https://cmput415.github.io/415-docs/scalc/index.html">
-                here</a>.</li>
-          </ul>
-          <li><b>VCalc:</b></li>
-          <ul>
-            <li>You should write your compiler as a series of passes each with
-                simple functionality. Do not implement your compiler as a single
-                pass. As a minimun, your compiler should individual passes that
-                perform each of the following actions:</li>
-            <ul>
-              <li>Create an abstract syntax tree.</li>
-              <li>Emit LLVM Dialect MLIR.</li>
-            </ul>
-          </ul>
-          <li><b>Gazprea:</b></li>
-          <ul>
-            <li>You should write your compiler as a series of passes each with
-                simple functionality. Do not implement your compiler as a single
-                pass. As a minimun, your compiler should individual passes that
-                perform each of the following actions:</li>
-            <ul>
-              <li>Create an abstract syntax tree.</li>
-              <li>Define symbols and ensure that symbols can be referenced in
-                  the locations they are used. These actions may be performed by
-                  two separate passes.</li>
-              <li>Propogate type information through expressions and perform
-                  static type checking. These actions may be performed by two
-                  separate passes.</li>
-              <li>Emit LLVM Dialect MLIR.</li>
-            </ul>
-            <li>Your compiler shouild use a symbol table to track symbol
-                definitions and scopes.</li>
-          </ul>
-        </ul>
-      </ul>
-      <h5 class="greentext">TA Specification Tests: 50%</h5>
-      <ul>
-        <li>For each assignment, your submission will be tested on a private
-            test-suite that tests the features defined in the assignment
-            specification.</li>
-      </ul>
-      <h5 class="greentext">Competitive Testing: 20%</h5>
-      <ul>
-        <li>Each submission should include a test-suite.</li>
-        <ul>
-          <li>Your submitted tests should be unit-tests. Each test should be
-              written to test a particular feature and use a minimal subset of
-              the language.</li>
-          <li>You should submit a minimum of 5 tests in your test-suite. If you
-              submit fewer than 5 tests or some of your tests are removed for
-              any reason, the TA will add empty tests to your test-suite until
-              it contains at least 5 tests.</li>
-          <li>You should name all of your tests according to the feature they
-              test.</li>
-          <li>You should not submit multiple tests that test the same
-              feature.</li>
-          <li>You should not submit tests created by a fuzzifier.
-        </ul>
-        <li>Your competitive testing grade will be determined by a tournament.
-            </li>
-        <ul>
-          <li>In this tournament, submissions earn points based on the
-              performance of their submitted compiler and test-suite. Each
-              submitted compiler will be run on each submitted test-suite.
-              Consider two distinct submissions, submission-A and submission-B.
-              submission-A earns points as follows:</li>
-          <ul>
-            <li><b>Coherence Points:</b> if compiler-A passes every test in
-                test-suite-A, submission-A earns 1 point.</li>
-            <li><b>Defensive Points:</b> if compiler-A passes every test in
-                test-suite-B, submission-A earns 2 points.</li>
-            <li><b>Offensive Points:</b> if compiler-B fails N tests in tests-A,
-                submission-A earns N / (number of tests in test-suite-A) points.
-                </li>
-          </ul>
-          <li>Your competitive testing grade is computed by dividing your
-              submission’s tournament score by the highest tournament score
-              earned by a submission for that assignment in this term. For
-              example, if your submission earned 30.0 tournament points and the
-              other submissions in the class earned 24.3, 40.0, and 15.9
-              tournament points, you will receive a competitive testing grade of
-              75%.</li>
-        </ul>
-        <li>In the past, there was a minor penalty for submitting tests that did
-            not adhere to the unit-testing practice. So, clever students
-            submitted test-suites with a few large test cases each including
-            many features thus making it more likely that a compiler would fail
-            the test cases. Their intent was to offset the penalty with the
-            offensive points they earn and the defensive points they prevent
-            other students from receiving. To prevent this from happening again
-            and to incentivize students to practice writing good unit-tests, the
-            TA can exclude tests that they think are not good unit-tests. If the
-            TA excludes several tests from a submission and believes that the
-            students intentionally created bad unit-tests to abuse competitive
-            testing, they may receive a competitive testing grade of 0%.</li>
-      </ul>
-      <p>Once a week during team assignments and after each submission of a team
-         assignment, you must fill out a team assessment. Reach out to the TA if
-         your team encounters problems with collaboration that you are unable to
-         resolve on your own. Your final individual grade may be lower than your
-         team grade by a factor proportional to your contribution to the
-         assignment.</p>
-
-      <h3 class="greentext">New in Fall 2020: Fuzzers for Generator, SCalc and VCalc</h3>
-
-      <p>In Fall 2020 <i>fuzzers</i> were added for the Generator, SCalc and VCalc assignments.</p>
-
-      <p>Fuzzers are tools used in a method of software testing called <i>fuzz testing</i>, where a program is fed random inputs in hope of finding software bugs.</p>
-
-      <p>You can essentially view fuzzers as random test-case generators for helping you find bugs in the compilers and interpreters that you create.</p>
-
-      Fuzzers for the Generator, SCalc and VCalc can be found by visiting the
-      <i>Testing</i> sections of the assignment specifications.<br><br>
-
-      Fuzz testing is an active area of research that has broad applications in finding compilers bugs, security vulnerabilities, etc. There are many approaches to fuzz testing; all varying in sophistication.<br>
-      In the following readings you will explore two different fuzzers, CSmith and NAUTILUS, which each have their own take on how to approach fuzzing.<br>
-
-      <h4 class="greentext">Readings:</h4>
-      <ol>
-      <li>Yang, X., Chen, Y., Eide, E., & Regehr, J. (2011). <a href="https://drive.google.com/file/d/18hgl3t0N5wILDAVw3SusErZr5KJYM6BC/view?usp=sharing">Finding and Understanding Bugs in C Compilers</a>. ACM SIGPLAN Conference on Programming Language Design and Implementation (PLDI), June 2011, San Jose, CA, USA.</li>
-
-	<li>Aschermann, C., Frassetto, T., Holz, T., Jauernig, P., Sadeghi, A., & Teuchert, D. (2019). <a href="https://drive.google.com/file/d/14mba2hvPtJiDniVt89UJsoBfE6eKArd9/view?usp=sharing">NAUTILUS: Fishing for Deep Bugs with Grammars</a>. Network and Distributed Systems Security (NDSS) Symposium, February 2019, San Diego, CA, USA.</li>
-	</ol>
-
-    </div>
-  </body>
+</body>
 </html>

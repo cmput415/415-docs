@@ -12,20 +12,7 @@ Declaration
 ~~~~~~~~~~~
 
 A ``boolean`` value is declared with the keyword ``boolean``.
-
-.. _sssec:boolean_null:
-
-Null
-~~~~
-
-``null`` is ``false`` for ``boolean``.
-
-.. _sssec:boolean_ident:
-
-Identity
-~~~~~~~~
-
-``identity`` is ``true`` for ``boolean``.
+If the variable is not initialized explicitly, it is set to ``false`` (zero).
 
 .. _sssec:boolean_lit:
 

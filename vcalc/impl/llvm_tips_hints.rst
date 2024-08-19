@@ -81,6 +81,7 @@ asked or useful things are found. You will be notified as appropriate.
    verifier.
 
    ::
+
             #include "mlir/IR/Verifier.h"
 
             ...
@@ -108,7 +109,6 @@ asked or useful things are found. You will be notified as appropriate.
 -  You need to make a ``main`` function to insert code into to begin
    with. Here’s some boilerplate to get you rolling (note ``builder`` is type
    ``mlir::OpBuilder``):
-:
 
    ::
 
@@ -145,7 +145,7 @@ asked or useful things are found. You will be notified as appropriate.
 
             ...
             // Create a function declaration for printf, the signature is:
-            //   * `i32 (i8*, ...)`
+            //   i32 (i8*, ...)
             auto llvmI8PtrTy = mlir::LLVM::LLVMPointerType::get(charType);
             llvmFnType = mlir::LLVM::LLVMFunctionType::get(intType, llvmI8PtrTy,
                                                            /*isVarArg=*/true);

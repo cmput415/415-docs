@@ -14,5 +14,12 @@ _site/
 # Ignore macOS files.
 .DS_STORE
 
+<<<<<<< HEAD
 # Ignore virtual environment
 env/
+=======
+# Ignore virutal environments
+venv/
+env/
+tmp/
+>>>>>>> master

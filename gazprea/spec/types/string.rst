@@ -30,22 +30,6 @@ declaration:
 
   string <identifier> = <type-string>;
 
-.. _sssec:string_null:
-
-Null
-~~~~
-
-Same behaviour as ``null`` for vectors. The string is filled with ``null``
-characters.
-
-.. _sssec:string_ident:
-
-Identity
-~~~~~~~~
-
-Same behaviour as ``identity`` for vectors. The string is filled with
-``identity`` characters.
-
 .. _sssec:string_lit:
 
 Literals
@@ -59,6 +43,21 @@ double quotes. For instance:
 ::
 
   string cats_meow = "The cat said \"Meow!\"\nThat was a good day.\n"
+
+Although strings and character vectors look similar, they are still treated
+differently by the compiler:
+
+::
+
+   character[*] vec = "hello world\n";
+   vec -> std_output;
+
+prints:
+
+::
+
+  [h e l l o   w o r l d
+  ]
 
 .. _sssec:string_ops:
 
