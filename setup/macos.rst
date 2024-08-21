@@ -315,10 +315,11 @@ until you're about to start your assignment. Here are the steps to get MLIR up a
 
    .. code-block:: console
 
-    $ git clone --depth 1 --branch llvmorg-18.1.8 https://github.com/llvm/llvm-project.git llvm-project 
+    $ git clone https://github.com/llvm/llvm-project.git
     $ cd llvm-project
+    $ git checkout llvmorg-18.1.8
     $ mkdir build && cd build
-    $ export MLIR_INS=$(pwd)     # remember this to be <MLIR_INS>
+    $ pwd  # remember this to be <MLIR_INS> for later.
 
 #. Build MLIR (more details are available `here <https://mlir.llvm.org/getting_started>`__)
 
