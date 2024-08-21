@@ -334,7 +334,7 @@ until you're about to start your assignment. Here are the steps to get MLIR up a
         -DLLVM_ENABLE_ASSERTIONS=ON
     $ ninja -j<number of threads>
 
-#. Add these configuration lines to your ``~/.bashrc`` file so that you can use
+#. Add these configuration lines to your ``~/.zshrc`` file so that you can use
    the MLIR tools and so that ``cmake`` will find your build.
 
    .. code-block:: shell
