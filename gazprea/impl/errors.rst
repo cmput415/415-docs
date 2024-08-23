@@ -332,14 +332,13 @@ More Examples
 How to Write an Error Test Case
 -------------------------------
 
-Your compiler test-suite can include error test cases. An error test case can be
-a compile-time or run-time error test case. In either case, the expected output
-should include exactly one line of text.
+Your compiler test suite can include error test cases. An error test case can include
+a compile-time or run-time error. In either case, the expected output should include
+exactly one line of text.
 
-
-For compile time errors the line should include the error type, proceeded by the line
-number which it occurs. Here is an example compile-time error test case and corresponding expected
-output file:
+For compile time error tests, only one error should be present in the test case and
+exactly one line of expected output should catch it. The single line should include the error
+type and the line number on which it occurs. Below is an example:
 
 ::
 
@@ -353,6 +352,22 @@ output file:
 
   GlobalError on line 1
 
+Precisely defining the line number on which an error occurs can be difficult.
+Should the ``AssignError`` below occur on line 3, 6 or in between? 
+
+::
+
+  procedure main() returns integer {
+      const integer i = 5;
+      i
+      =
+      5
+      ;
+  }
+
+Test cases that deliberately make the line number ambiguous will be disqualified.
+If an obvious line number is not apparent, refer to the reference solution on the 415
+compiler explorer.
 
 For runtime errors, the line number is not required. Here is an example of a run-time error
 test case and the corresponding expected output file:
@@ -368,44 +383,21 @@ test case and the corresponding expected output file:
 
   StrideError
 
+
 How to make the Tester Happy
 ------------------------------------------
 
 For error test cases, the tester inspects the first line from ``stderr``.
 Therefore, you must ensure that you do not pollute this stream with debug messages etc.
-The tester assumes that the first line is the error message.
 
-Additionally, the tester only knows to stop the toolchain prematurely if your program terminates
-with a non-zero exit code. So once you have caught a compile time exception, make sure to return
-an integer greater than zero.
+Additionally, the tester only knows to stop the toolchain prematurely if your program 
+terminates with a non-zero exit code. Once you have caught an error make sure to return
+a non-zero exit code.
 
-Finally, the tester is lenient with respect to what types of errors are thrown. Given an
-expected error output, the tester simply confims that the substring "Error" is present, and for compile
-time errors, that the correct line is provided. This leniency is motivated by the fact
-that a single line may have different compile time errors. Depending on the order you implement
-passes, one error may be caught before the other. For example:
+Finally, the tester is lenient towards the type given to a particular errror. Specifically
+the tester simply confirms that the substring "Error" is present and for compile
+time errors that the correct line is provided.
 
-::
-
-  procedure foo(var integer a, var real b) returns integer {
-    return a + b;  
-  }
-
-  procedure main() returns integer {
-    vector v = 1..10;
-    call foo(v[1], v[3]); 
-    return 0;
-  }
-
-::
-
-Should the error raised on line 7 be an ``AliasError`` or a ``TypeError``? Since we don't define
-an "Error precedence", the following will pass.
-
-::
-
-  AliasError on line 7
-
-As well as
-::
-  TypeError on line 7
+This leniency is motivated by the fact that sometimes determining which type to call an error is
+difficult. For example, it may be arguable that a ``ReturnError`` should be interpreted as a 
+``TypeError`` and vice versa as previously mentioned.
