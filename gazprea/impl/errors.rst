@@ -332,17 +332,13 @@ More Examples
 How to Write an Error Test Case
 -------------------------------
 
-Your compiler test-suite can include error test cases. An error test case can be
-a compile-time error test case or a run-time error test case. In either case,
-the corresponding expected output file should include exactly one line of text.
-The line text should be the substring of the expected error message preceding
-the colon. Since there is no standard order for reporting compile-time errors, a
-compile-time error test case cannot include more than one compile-time error. A
-run-time error test case can include more than one run-time error since only the
-first run-time error encountered should be raised.
+Your compiler test suite can include error test cases. An error test case can include
+a compile-time or run-time error. In either case, the expected output should include
+exactly one line of text.
 
-Here is an example compile-time error test case and corresponding expected
-output file:
+For compile time error tests, only one error should be present in the test case and
+exactly one line of expected output should catch it. The single line should include the error
+type and the line number on which it occurs. Below is an example:
 
 ::
 
@@ -356,8 +352,25 @@ output file:
 
   GlobalError on line 1
 
-Here is an example of a run-time error test case and the corresponding expected
-output file:
+Precisely defining the line number on which an error occurs can be difficult.
+Should the ``AssignError`` below occur on line 3, 6 or in between? 
+
+::
+
+  procedure main() returns integer {
+      const integer i = 5;
+      i
+      =
+      5
+      ;
+  }
+
+Test cases that deliberately make the line number ambiguous will be disqualified.
+If an obvious line number is not apparent, refer to the reference solution on the 415
+compiler explorer.
+
+For runtime errors, the line number is not required. Here is an example of a run-time error
+test case and the corresponding expected output file:
 
 ::
 
@@ -370,17 +383,21 @@ output file:
 
   StrideError
 
-For error test cases, the tester only inspects the first line of the output.
-Therefore, you must ensure that your run-time error test cases do not execute
-any output stream statements before they raise a run-time error. The tester
-assumes that the first output printed when attempting to compile and run an
-error test case is the error message.
 
-To handle error test cases, the tester checks the output and reports *pass* if
-the output begins with the same substring as the line in the expected output
-file and *fail* otherwise.
+How to make the Tester Happy
+------------------------------------------
 
-To ensure that the tester does not falsely identify a regular test case as an
-error test case, you must not write test cases whose corresponding expected
-output file contains exactly one line and the substring "Error".
+For error test cases, the tester inspects the first line from ``stderr``.
+Therefore, you must ensure that you do not pollute this stream with debug messages etc.
 
+Additionally, the tester only knows to stop the toolchain prematurely if your program 
+terminates with a non-zero exit code. Once you have caught an error make sure to return
+a non-zero exit code.
+
+Finally, the tester is lenient towards the type given to a particular errror. Specifically
+the tester simply confirms that the substring "Error" is present and for compile
+time errors that the correct line is provided.
+
+This leniency is motivated by the fact that sometimes determining which type to call an error is
+difficult. For example, it may be arguable that a ``ReturnError`` should be interpreted as a 
+``TypeError`` and vice versa as previously mentioned.
