@@ -133,14 +133,14 @@ EOF occurs that breaks the pattern match for the given types specifier. The long
 successful match is returned.
 
 In general input stream semantics are designed for parity with ``scanf``.
-The onyl differences are the :ref:`ssec:builtIn_stream_state`, a boolean specifier
+The only differences are the :ref:`ssec:builtIn_stream_state`, a boolean specifier
 and a restriction on the maximum number of bytes that can be consumed in a single read to 512.
 
 For each of the allowed types the semantics are given below. 
 
 Reading a ``character`` from stdin consumes the first byte that can be read from the
 stream. If the end of the stream is encountered, then a value of ``-1`` is set. There
-is no concept of skipping whitespace for characters, since space and escape characters
+is no concept of skipping whitespace for characters, since space and escaped characters
 must be readable.
 
 An ``integer`` from stdin can take any legal format described in the
