@@ -120,27 +120,41 @@ Input streams may only work on the following base types:
 -  ``boolean``: Reads a boolean from stdin. If a boolean value could not
    be read, an :ref:`error state <sssec:stream_error>` is set on this stream.
 
-.. _sssec:input_format:
+Type promotion is not performed for stream input over any type.
 
-Input Format
-~~~~~~~~~~~~
+   .. _sssec:input_format:
 
-Whitespace will separate values in stdin, but take note that a whitespace
-character *can* also be read from stdin and assigned to a character variable.
+Input Semantics
+~~~~~~~~~~~~~~~
 
-A ``character`` from stdin is the first byte that can be read from the stream.
-If the end of the stream is encountered, then ``-1`` is returned.
+``std_input`` expects an input stream of values which do not need to be
+whitespace separated. A read will consume the stream until a character or
+EOF occurs that breaks the pattern match for the given types specifier. The longest 
+successful match is returned.
+
+In general input stream semantics are designed for parity with ``scanf``.
+The only differences are the :ref:`ssec:builtIn_stream_state`, a boolean specifier
+and a restriction on the maximum number of bytes that can be consumed in a single read to 512.
+
+For each of the allowed types the semantics are given below. 
+
+Reading a ``character`` from stdin consumes the first byte that can be read from the
+stream. If the end of the stream is encountered, then a value of ``-1`` is set. There
+is no concept of skipping whitespace for characters, since space and escaped characters
+must be readable.
 
 An ``integer`` from stdin can take any legal format described in the
-:ref:`integer literal <sssec:integer_lit>` section. It may also be proceeded by
-a single negative or positive sign.
+:ref:`integer literal <sssec:integer_lit>` section. It may also be preceded by
+a single negative or positive sign. All preceeding whitespace before the number or
+sign character may be skipped up to the limit imposed by the 512 byte read restriction.
 
 A ``real`` input from stdin can take any legal format described in the
 :ref:`real literal <sssec:real_lit>` section with the exception that no
 whitespace may be present. It may also be proceeded by a single negative or
-positive sign.
+positive sign. Preceeding whitespace may be skipped in the same way as integers. 
 
-A ``boolean`` input from stdin is either ``T`` or ``F``.
+A ``boolean`` input from stdin is either ``T`` or ``F``. Preceeding whitespace may be
+skipped in the same way as integers and reals. 
 
 For the following program:
 
@@ -153,8 +167,8 @@ For the following program:
    b <- std_input;
    i <- std_input;
    c <- std_input;
-   f <- std_input;
-   format(b) || " " || format(f) -> std_output;
+   r <- std_input;
+   format(b) || " " || format(r) -> std_output;
 
 And this input (where '\\t' is TAB, '*' is space, and each line ends with a
 newline ('\\n'):
@@ -174,25 +188,6 @@ The output would be:
 because the white space is consumed for characters and skipped for other types.
 
 
-When reading a value, if any other input were to be in the stream during the
-read then an :ref:`error state <sssec:stream_error>` is set. For example, the
-following program:
-
-::
-
-  boolean b;
-  b <- std_input;
-
-With the standard input stream containing this:
-
-::
-
-   Ta
-
-An :ref:`error state <sssec:stream_error>` would be set on the stream.
-
-Type promotion is not performed for stream input.
-
 .. _sssec:stream_error:
 
 Error Handling
@@ -208,58 +203,45 @@ Reading a ``character`` can never cause an error. The character will either be
 successfully read or the end of the stream will be reached and ``-1`` will be
 returned on this read.
 
-Otherwise, when an error or the end of the stream is encountered, the value
-returned is the type-appropriate zero.
+Otherwise, when an error or the end of the stream is encountered, the the null value 
+for the type is set and the input stream remains pointing where it was before
+the error occured.
 
-Only when an error is encountered, the stream must be rewound to where it was
-when the read started. This rewind includes any whitespace that may have been
-skipped to in order to encounter the next token. This is because the subsequent
-read may be for a ``character`` which should successfully read the rewound
-whitespace. For example, with this program:
+The program below demonstrates 4 reads which set the error
+states 1,0,0,2 respectively.
 
 ::
 
-  integer i;
-  character c;
-  i <- std_input;
-  i <- std_input;
-  c <- std_input;
+    integer ss;
+    integer i;
+    boolean b;
+    character c;
 
-  i -> std_output;
-  c -> std_output;
-  '$' -> std_output;
+    i <- std_input;
+    i -> std_output;
+    ss = stream_state(std_input);
+    ss -> std_output;
 
-and the input stream (with ``*`` representing ``' '``):
-
-::
-
-  5****10a
-
-the output should be:
-
-::
-
-  0 $
-
-and the remaining input stream should be:
+    c <- std_input; //eat the .
+   
+    i <- std_input;
+    i -> std_output;
+  
+    c <- std_input;
+    ss = stream_state(std_input);
+    ss -> std_output;
+    
+With the input stream: 
 
 ::
 
-  ***10a
+  .7
 
-Because this means you may have to skip a potentially nearly-infinite amount of
-whitespace, this specification limits the size of the "rewind
-buffer" to 1024 characters. Therefore, no read from ``std_input`` will require
-more than 1KB of characters from the current stream position to the end of the
-next token. This means that you will only ever need to maintain at most 1024
-characters in a buffer (1025 if a ``'\0'`` character is required).
+And the expected output:
 
-Also note that because the 1KB character limit is a simplification for this
-project, any competitive tests that capitalize on or exploit difficult to
-handle end conditions **will be rejected**.
+::
 
-Valid input that reaches the buffer end can be assumed to complete at that
-point and remain valid.
+  0172
 
 This table summarizes an input stream’s possible error states after a read of a
 particular data type.
