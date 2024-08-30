@@ -26,7 +26,7 @@ The following table shows the weight distribution for each grading category acro
 +------------------------+-----------+---------+---------+--------------+--------------+
 | Competitive Testing    | 20%       | 20%     | 20%     | 20%          | 20%          |
 +------------------------+-----------+---------+---------+--------------+--------------+
-| Execution Timing       | 0%        | 0%      | 0%      | 0%           | 10%          |
+| Performance Testing    | 0%        | 0%      | 0%      | 0%           | 10%          |
 +------------------------+-----------+---------+---------+--------------+--------------+
 
 
@@ -100,7 +100,7 @@ Competitive Testing
 
 * Competitive testing rules are outlined here: :doc:`testing`.
 
-Execution Timing Testing
+Performance Testing
 ---------------------------------------------------
 
 * The speed of the executable your compiler produces will be put to the test against all other compilers.

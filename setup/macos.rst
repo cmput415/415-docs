@@ -354,11 +354,6 @@ If you encounter issues, please log them on the `GitHub issue tracker
 <https://github.com/cmput415/Tester/issues>`__ or, if you want to, submit a pull
 request and we'll review it!
 
-#. We'll need a particular version of ``gcc`` to compile the tool.
-
-   .. code-block:: console
-
-    $ brew install gcc@13
 
 #. We'll build the tool in your home directory.
 
@@ -379,7 +374,7 @@ request and we'll review it!
    .. code-block:: console
 
     $ cd build
-    $ cmake .. -DCMAKE_CXX_COMPILER="g++-13" -DCMAKE_C_COMPILER="gcc-13"
+    $ cmake ..
 
    The flags on the end ensure we're using GCC to compile this.
 
