@@ -46,17 +46,19 @@ Competative Testing
   excludes several tests from a submission and believes that the students intentionally created bad
   unit-tests to abuse competitive testing, they may receive a competitive testing grade of 0%.
 
-Execution Timing Testing
+Performance Testing
 ------------------------------
 
-* Over a selected set of Gazprea programs, the LLVM IR emitted by each compiler will be fed into an
-  optimization pipeline. The 415 tester will trace how long your executable takes to run.
+* Your performance testing grade will be determined by the speed of your produced binaries over a set of
+  pre-selected Gazprea programs. Specifically, the LLVM IR emitted by your compiler will be fed into an
+  optimization pipeline and the 415 tester will trace how long your executable takes.
 
-* The fastest executable for a given program gets a score of 1. Every other executable gets the ratio
-  between the fastest time and their own time. For example if compiler A generates the fastest
-  executable at 3s and your executable can run it in 5s, your score is 3/5, while team A gets 5/5.
+* Performance grades are relative. The compiler to produce the fastest executable for a given program gets
+  a score of 1. Every other compiler gets a score corresponding to the ratio of the fastest time and its
+  own time. For example if compiler A generates the fastest executable at 3s and your executable can run
+  it in 5s, your score is 3/5, while team A gets 1.
 
-* Your total timing score is the mean of individual scores for each timing program.
+* Your total timing score is the mean of scores for each timing program.
 
 * If your compiler fails to produce the expected output, you recieve the max-timeout for the tournament which
   is set by the grader. (May be 5s to 10s depending on the machine.)
