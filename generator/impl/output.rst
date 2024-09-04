@@ -43,5 +43,5 @@ Expected Output (4 lines since each generator is newline terminated.):
 
 Depending on the text editor a file is viewed in, the final empty line may not be
 rendered (like the viewer above). To be sure your test cases adhere to the spec, make use
-of the `415 Tester <https://example.com>`_ which ensures that generated and expected 
+of the `415 Tester <https://github.com/cmput415/Tester>`_ which ensures that generated and expected 
 output match to every single byte.
