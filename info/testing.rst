@@ -3,10 +3,40 @@ Testing
 
 Local Testing
 ----------------
-
-In each base repository you will find a `test` directory which contains a default JSON config and a `testfiles`
+In each base repository there exists a `test` directory which contains a default JSON config and a `testfiles`
 directory to put your tests. The default executable paths in the config should be updated to your local environtment.
 For more information on the 415 tester see `here <https://github.com/cmput415/Tester>`_.
+
+Test Submission Guidelines 
+---------------------------
+
+* A minimum of five tests must be used for submission. If less than five are submitted, empty tests will inserted in
+  their absence.
+
+* It is good practice to make *feature tests* -- tests for a specific feature of the language being implemented
+
+* Tests which attempt to cause failure through brute force (excessive loop bounds, memory allocation etc) are discouraged.
+  During grading a timeout will be used and all tests that exceed this timeout will be disqualified. Instead, focus on
+  tricky language constructs, interactions and edge cases that others are less likely to notice. 
+
+* The structure of submitted tests must follow a specific structure. The top level package in the testfiles directory must
+  be named your team-id (for VCalc and Gazprea) or your CCID (for Generator and SCalc).
+
+  For example, if your repository is called ``generator-myccid`` then your tests should be placed in
+  ``tests/testfiles/myccid``. If your repository is called ``vcalc-my-cool-team``, then your tests should
+  be in ``tests/testfiles/my-cool-team``. Following this convention is important for the grader to
+  be able to match your tests to your executable.
+
+The structure should look like this::
+
+    └── tests
+        └── testfiles
+            └── <TEAM-ID/CCID>
+                ├── package-1
+                └── package-2
+                    ...
+                |
+                └── package-N
 
 Competative Testing
 ------------------------------
