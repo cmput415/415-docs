@@ -13,11 +13,13 @@ Test Submission Guidelines
 * A minimum of five tests must be used for submission. If less than five are submitted, empty tests will inserted in
   their absence.
 
-* It is good practice to make *feature tests* -- tests for a specific feature of the language being implemented
+* It is good practice to make *feature tests* -- tests for a specific feature of the language being implemented. 
 
 * Tests which attempt to cause failure through brute force (excessive loop bounds, memory allocation etc) are discouraged.
   During grading a timeout will be used and all tests that exceed this timeout will be disqualified. Instead, focus on
   tricky language constructs, interactions and edge cases that others are less likely to notice. 
+
+* Procedrualaly generated tests, including fuzzer tests, are not allowed for submission. Competative tests should be hand written.
 
 * The structure of submitted tests must follow a specific structure. The top level package in the testfiles directory must
   be named your team-id (for VCalc and Gazprea) or your CCID (for Generator and SCalc).
