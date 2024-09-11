@@ -4,7 +4,7 @@ Testing
 Local Testing
 ----------------
 In each base repository there exists a `test` directory which contains a default JSON config and a `testfiles`
-directory to put your tests. The default executable paths in the config should be updated to your local environtment.
+directory to put your tests. The default executable paths in the config should be updated to your local environment.
 For more information on the 415 tester see `here <https://github.com/cmput415/Tester>`_.
 
 Test Submission Guidelines 
@@ -13,22 +13,20 @@ Test Submission Guidelines
 * A minimum of five tests must be used for submission. If less than five are submitted, empty tests will inserted in
   their absence.
 
-* It is good practice to make *feature tests* -- tests for a specific feature of the language being implemented. 
+* It is good practice to make *feature tests* -- tests for a specific feature of the language being implemented, and 
+  name each test accordingly.
 
 * Tests which attempt to cause failure through brute force (excessive loop bounds, memory allocation etc) are discouraged.
-  During grading a timeout will be used and all tests that exceed this timeout will be disqualified. Instead, focus on
+  During grading, a timeout will be used and all tests that exceed this timeout will be disqualified. Instead, focus on
   tricky language constructs, interactions and edge cases that others are less likely to notice. 
 
-* Procedrualaly generated tests, including fuzzer tests, are not allowed for submission. Competative tests should be hand written.
+* Procedurally generated tests, including fuzzer tests, are not allowed for submission. Competitive tests should be hand written.
 
 * The structure of submitted tests must follow a specific structure. The top level package in the testfiles directory must
-  be named your team-id (for VCalc and Gazprea) or your CCID (for Generator and SCalc).
-
-  For example, if your repository is called ``generator-myccid`` then your tests should be placed in
-  ``tests/testfiles/myccid``. If your repository is called ``vcalc-my-cool-team``, then your tests should
-  be in ``tests/testfiles/my-cool-team``. Following this convention is important for the grader to
-  be able to match your tests to your executable.
-
+  be named your team-id (for VCalc and Gazprea) or your CCID (for Generator and SCalc). In VCalc for example, if your repository
+  is called ``vcalc-my-cool-team``, then your tests should be in ``tests/testfiles/my-cool-team``. Following this convention
+  is important for the grader to be able to match your tests to your executable.
+  
 The structure should look like this::
 
     └── tests
@@ -40,15 +38,16 @@ The structure should look like this::
                 |
                 └── package-N
 
-Competative Testing
-------------------------------
-* Each submission should include a test-suite.
+* Other tests which break these guidelines don't need to be thrown away! Simply keep them in another test package adjacent to your
+  submitted package. There they can be used as local regression tests. For example, it's common to keep a corpus of difficult fuzzer tests
+  and simpler tests that are not expected to yield high competative scores.
 
-  * Your submitted tests should be unit-tests. Each test should be written to test a particular feature
-    and use a minimal subset of the language.
-  * You should submit a minimum of 5 tests in your test-suite. If you submit fewer than 5 tests or some of
-    your tests are removed for any reason, the TA will add empty tests to your test-suite until it
-    contains at least 5 tests.
+Competitive Testing
+------------------------------
+* Each submission should include a test-suite. To reitterate the submission guidelines above:
+
+  * Your submitted tests should be feature-tests.
+  * You should submit a minimum of 5 tests in your test-suite. 
   * You should name all of your tests according to the feature they test.
   * You should not submit multiple tests that test the same feature.
   * You should not submit tests created by a fuzzer.
