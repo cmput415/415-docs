@@ -92,11 +92,12 @@ specification particulars.
 
       **expression-size**:
 
-   All expressions will result in a value that will fit in 32 signed
-   bits. This means the result of an expression can be anywhere in the
-   range :math:`[-2^{31}, 2^{31} - 1]` or :math:`[-2147483648, 2147483647]`. Any operation that results in underflow or overflow
-   will render the input invalid. For example, the following tests would
-   be considered invalid:
+   All expressions and their intermediate values will be representable in 32
+   signed bits. This means the result of an expression can be anywhere in
+   the range :math:`[-2^{31}, 2^{31} - 1]` or :math:`[-2147483648, 2147483647]`.
+   Any expression which results in or produces in its intermediate computation
+   an integer underflow or overflow is considered invalid. For example, the following
+   testcase is invalid:
 
    ::
 
