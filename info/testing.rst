@@ -17,8 +17,7 @@ Test Submission Guidelines
   name each test accordingly.
 
 * Tests which attempt to cause failure through brute force (excessive loop bounds, memory allocation etc) are discouraged.
-  During grading, a timeout will be used and all tests that exceed this timeout will be disqualified. Instead, focus on
-  tricky language constructs, interactions and edge cases that others are less likely to notice. 
+  During grading a timeout will be used. Exceeding this timeout creates the risk of failing your own tests. Instead, focus on tricky language constructs, interactions and edge cases that others are less likely to notice. 
 
 * Procedurally generated tests, including fuzzer tests, are not allowed for submission. Competitive tests should be hand written.
 

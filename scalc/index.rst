@@ -33,7 +33,7 @@ template engine which allows you to make use of formatted strings. Its
 syntax is similar to *Python*\ ’s jinja. You won’t need any advanced
 features to complete this assignment.
 
-Your classes should follow a pattern of classes matching the following
+It is recommended to follow a pattern of classes matching the following
 UML diagram (structure only, names should be reasonably changed):
 
 |expectedForm|
