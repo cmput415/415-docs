@@ -88,18 +88,7 @@ asked or useful things are found. You will be notified as appropriate.
             if (mlir::failed(mlir::verify(module)))
                std::cerr << "verification failed :-(" << std::endl;
 
--  **DO NOT USE MLIR TENSOR TYPES**. These are abstract types that have no
-   memory layout or data pointers. This abstraction supports high level
-   optimization but requires an involved lowering and bufferization process.
-   In the same vein, we recommend you do not use the *MLIR* ``MemRefType``.
-   This array type is backed by memory, but requires the ``memref`` dialect
-   to allocate and manipulate instances of the type.
-
--  **DO NOT USE MLIR OR LLVM IR VECTOR TYPES**. These types are designed for
-   Single Instruction Multiple Data (SIMD) processing which require
-   specific version of processors. Using the LLVM IR vector types will
-   result in a segmentation fault in architectures that do not support
-   them. Not all lab machines support the *LLVM IR* vector.
+-  Stick to the ensorsed dialects found in the base repository.  
 
 -  You will need to divise your own vector type and method of storing
    data. One way is to use a linked list of structs with predefined

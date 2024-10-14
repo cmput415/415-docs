@@ -134,6 +134,8 @@ Memref
 
 * Similar to the previous point, memref types are indexed using the Index type from the ``arith`` dialect.
 
+* Most importantly, the memref types are not recommended to be passed into the runtime. Dialects are all designed to be lowered completely before being poked at through the C ABI. Forcing memref types through the runtime may lead to undefined behavior.
+
 Arith
 -----
 
