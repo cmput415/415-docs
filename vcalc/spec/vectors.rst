@@ -6,10 +6,10 @@ Vectors are restricted to the length that can be represented by the
 *largest possible index*. Indices are integers and integers are signed
 32 bit integers. Because the largest possible integer is
 :math:`2^{31} - 1` or :math:`2147483647`, a vector can have a length in
-the range :math:`[0, 2^{31}]`.
+the range :math:`[0, 2^{31}-1]`.
 
 **Assertion:** All vectors will have length :math:`l` such that
-:math:`0 \leq l \leq 2^{32}`. (:ref:`vector-length <assert:vector-length>`)
+:math:`0 \leq l \leq 2^{31}-1`. (:ref:`vector-length <assert:vector-length>`)
 
 There is no way to specify a vector literal, they must be created
 through ranges, generators, filters, or index expressions with a vector
