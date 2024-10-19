@@ -21,10 +21,10 @@ specification particulars.
       **vector-length**:
 
    All vectors will have length :math:`l` such that
-   :math:`0 \leq l \leq 2^{32}`. Trying to create an index greater than
-   :math:`2^{32} - 1` will cause overflow and result in a negative
+   :math:`0 \leq l \leq 2^{31}-1`. Trying to create an index greater than
+   :math:`2^{31} - 1` will cause overflow and result in a negative
    number. Indexing with a negative number returns :math:`0`. Therefore,
-   vector locations greater than :math:`2^{32} - 1` would be
+   vector locations greater than :math:`2^{31} - 1` would be
    inaccessible. For example, the following tests would be considered
    invalid:
 
@@ -37,5 +37,5 @@ specification particulars.
 
    ::
 
-            print((0-2)..2147483645);
+            print((0-2)..2147483644);
 
