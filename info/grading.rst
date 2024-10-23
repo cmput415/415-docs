@@ -43,9 +43,14 @@ Code Style and Consistency
 
 Software Engineering Process (Gazprea only)
 ---------------------------------------------------
-* You should have meetings and record notes. Read more about the software engineering requirements
-  `here <engineering/organization.html>`_.
-* You should follow a consistent process for code reviews.
+
+* Each team should outline a software engineering process which they are expected to adhere to. This plan should be comprehensive. For example, a comprehensive plan would specify commit conventions, branch structure, code style conventions, CI jobs to be used, etc.
+
+* Each team should be ready to present evidence that they adhered to their plan. It is suggested to create
+a PLAN.md (or similarly named) file in the base of your repo. Updating your plan throughout the project is fine so long as it represents an improvement to the process.
+
+* Failure to specify a thorough plan or to adhere to it may result in mark deductions from this category.
+Otherwise, this should be an easy 5%. The most successful teams will establish a clear software engineering process even without being explicitly required.
 
 Grammar
 ---------------------------------------------------
