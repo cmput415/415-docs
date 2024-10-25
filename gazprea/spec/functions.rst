@@ -58,7 +58,6 @@ This defines a function called times_two which can be used as follows:
 
 Functions can have an arbitrary number of arguments. Here are some
 examples of functions with different numbers of arguments:
-
 ::
 
          /* A function with no arguments */
@@ -124,7 +123,7 @@ function without a return statement, so we don’t know what value
          /* This is valid. Even though the loop goes on forever so that a
             return is never reached, execution never hits the end of the
             function without a return. */
-         function g() return integer {
+         function g() returns integer {
            integer x = 0;
            loop {
              x = x + 1;
