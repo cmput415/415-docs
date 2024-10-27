@@ -151,7 +151,7 @@ functions.
          function f(integer y, integer) returns integer;
 
          procedure main() returns integer {
-           integer y = f(13);
+           integer y = f(13, 2);
            /* Can use this in main, even though the definition is below */
            return 0;
          }
