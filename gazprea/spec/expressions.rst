@@ -106,7 +106,7 @@ any of the predicates. For example:
          var x = [i in 1..5 & i == 3, i == 2, i % 2 == 0];
 
          /* y == ([1, 3, 5], [2, 4]) */
-         var y = [i in 1..5 & i % 2 == 1);
+         var y = [i in 1..5 & i % 2 == 1];
 
 There must be at least one predicate expression
 
