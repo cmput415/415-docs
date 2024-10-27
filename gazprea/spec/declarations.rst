@@ -57,7 +57,7 @@ illegal to refer to a variable within its own initialization statement.
        /* All of these declarations are illegal, they would result in garbage
           values. */
        integer i = i;
-       integer v[10] = v[0] * 2;
+       integer[10] v = v[0] * 2;
 
 An error message should be raised about the use of undeclared variables
 in these cases. If a variable of the same name is declared in an
