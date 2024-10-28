@@ -121,7 +121,7 @@ Main
 
 Execution of a *Gazprea* program starts with a procedure called
 ``main``. This procedure takes no arguments, and has an integer return
-type. ``main`` is called by the operating system, and the return value is
+type. ``main`` is called exclusively by the operating system, and the return value is
 used by the operating system, so if you are using multiple compilation units
 one and only one compilation unit must define ``main``.
 
