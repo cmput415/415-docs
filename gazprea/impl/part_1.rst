@@ -58,7 +58,7 @@ recommended strategy.
 
    * +,-
 
-   * <,>,<=,>=
+   * <,>,<=,>=,==,!=
 
    * and
 
