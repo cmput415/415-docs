@@ -306,10 +306,12 @@ Here are some example statements that should raise a compile-time ``SizeError``:
   real[*] vec = 3;
 
 ::
+
   function f(integer[3] x) returns integer = 0;
   integer y = f(1..2); // Case 5
 
 ::
+
   function f() returns integer[3] = 1..2; // Case 6
 
 Here are some example statements that should not raise a compile-time
