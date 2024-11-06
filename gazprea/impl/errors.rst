@@ -258,6 +258,19 @@ only if it finds one of the following five cases:
 
    #. the initialization expression is not a vector or matrix type.
 
+#. A function call where
+
+   #. The argument is a matrix or vector literal
+
+   #. The parameter type is the same type but with a different literal size.  
+
+#. A return statement where
+
+   #. The value being returned is a matrix or vector literal
+
+   #. The return type of the function is the same type but with a different literal size.  
+
+
 Here are some example statements that should raise a compile-time ``SizeError``:
 
 ::
@@ -291,6 +304,13 @@ Here are some example statements that should raise a compile-time ``SizeError``:
 ::
 
   real[*] vec = 3;
+
+::
+  function f(integer[3] x) returns integer = 0;
+  integer y = f(1..2); // Case 5
+
+::
+  function f() returns integer[3] = 1..2; // Case 6
 
 Here are some example statements that should not raise a compile-time
 ``SizeError`` in your implementation, but may raise a run-time ``SizeError``:
