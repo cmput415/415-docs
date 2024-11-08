@@ -185,8 +185,8 @@ Here are the run-time errors you need to report:
 
 * ``MathError``
 
-    Raised at runtime if either zero to the power of zero or a division by zero
-    is evaluated.
+    Raised at runtime if either zero to the power of N, where N is <= 0, or a
+    division by zero is evaluated.
 
 * ``StrideError``
 
