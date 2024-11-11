@@ -44,10 +44,18 @@ with sizes helps reusability and consistency:
 Typedefs of vectors and matrices with inferred sizes are allowed, but
 declarations of variables using the typedef must be initialized appropriately.
 
-Because ``typedef`` is really an aliased name for a type, you can use
+Because ``typedef`` is an aliased name for a type, you can use
 ``typedef`` on typedef'ed types:
 
 ::
 
   typedef integer int;
   typedef int also_int;
+
+Duplicate ``typedef`` should raise a `SymbolError`
+
+::
+
+  typedef integer ty;
+  typedef character ty;
+
