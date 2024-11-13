@@ -110,8 +110,8 @@ a literal in comparison operations to enable shorthand like this:
 
      if ((a, b) == (c, d)) { }
 
-Comparisons are performed pairwise, therefore only ``tuple`` values of
-the same type can be compared. This table describes how the comparisons
+Comparisons are performed pairwise, inheriting the comparisson semantics of
+each underlying type. This table describes how the comparisons
 are completed, where t1 and t2 are ``tuple`` yielding expressions
 including literals:
 
