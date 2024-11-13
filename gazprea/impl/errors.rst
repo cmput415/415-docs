@@ -23,7 +23,7 @@ keyword.
 
     throw MainError(1, "program does not have a main procedure");
 
-Here are the compile-time errors you need to report:
+Here are the compile-time errors your compiler must throw: 
 
 * ``SyntaxError``
 
@@ -43,7 +43,7 @@ Here are the compile-time errors you need to report:
 * ``AliasingError``
 
     Raised during compilation if the compiler detects that mutable memory
-    locations are aliased.
+    locations may be aliased.
 
 * ``AssignError``
 
@@ -75,8 +75,9 @@ Here are the compile-time errors you need to report:
 * ``GlobalError``
 
     Raised during compilation if the program detects a ``var`` global
-    declaration, a global declaration without an initializing expression, or a
-    global declaration with an invalid initializing expression.
+    declaration, a global declaration without an initializing expression, a
+    global declaration with an invalid initializing expression or any statement
+    that does not belong in the global scope.
 
 * ``StatementError``
 
@@ -425,3 +426,4 @@ time errors that the correct line is provided.
 This leniency is motivated by the fact that sometimes determining which type to call an error is
 difficult. For example, it may be arguable that a ``ReturnError`` should be interpreted as a 
 ``TypeError`` and vice versa as previously mentioned.
+
