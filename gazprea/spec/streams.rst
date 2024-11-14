@@ -203,9 +203,8 @@ Reading a ``character`` can never cause an error. The character will either be
 successfully read or the end of the stream will be reached and ``-1`` will be
 returned on this read.
 
-Otherwise, when an error or the end of the stream is encountered, the the null value 
-for the type is set and the input stream remains pointing where it was before
-the error occured.
+When an error occurs the the null value is assigned and the input stream
+remains pointing to the same position as before the read occured.
 
 The program below demonstrates 4 reads which set the error
 states 1,0,0,2 respectively.
