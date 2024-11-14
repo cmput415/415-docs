@@ -110,8 +110,10 @@ a literal in comparison operations to enable shorthand like this:
 
      if ((a, b) == (c, d)) { }
 
-Comparisons are performed pairwise, inheriting the comparisson semantics of
-each underlying type. This table describes how the comparisons
+Comparisons are performed pairwise. Two tuples are equal when
+for every expression pair, the equality operator returns true.
+Two tuples are unequal when one or more expression pair is unequal or the
+sizes mismatch. This table describes how the comparisons
 are completed, where t1 and t2 are ``tuple`` yielding expressions
 including literals:
 
