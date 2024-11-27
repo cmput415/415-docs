@@ -143,18 +143,16 @@ For instance:
 Domain variables are not initialized when they are declared. For
 instance, in loops they are initialized at the start of each execution of
 the loop’s body statement. However, we may chain domain variables using
-commas, like in iterator loops, or matrix generators.
+commas, such as in matrix generators.
 
 ::
 
          integer i = 2;
 
          /* The "i"s both domain expressions are at the same scope, which is
-          * the one enclosing the loop. Therefore the output is: 000012024
+          * the one enclosing the loop. Therefore the matrix is: [[0 0 0] [0 1 2] [0 2 4]]
           */
-         loop i in 0..i, j in 0..i {
-            i * j -> std_output;
-         }
+         integer[3,3] = [ i in 0..i, j in 0..i | i*j ];
 
 The domain for the domain expression is only evaluated once. For
 instance:
