@@ -19,8 +19,8 @@ have to be pure and as a result it may:
 -  Procedures can only be called in declaration statements, assignment
    statements, and procedure call statements.
 
--  When used in an assignment statement the procedure may only be used
-   with unary operations.
+-  When used within a valid statement, the only legal operators to apply
+   to a procedure are unary operators. 
 
 Aside from this (and the different syntax necessary to declare/define
 them), procedures are very similar to functions. The extra capabilities
