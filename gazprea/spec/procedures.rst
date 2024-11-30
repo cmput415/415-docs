@@ -17,7 +17,7 @@ have to be pure and as a result it may:
 -  A procedure can call other procedures.
 
 -  Procedures can only be called in declaration statements, assignment
-   statements, and procedure call statements.
+   statements, and as the procedure being called in a call statement.
 
 -  When used within a valid statement, the only legal operators to apply
    to a procedure are unary operators. 
