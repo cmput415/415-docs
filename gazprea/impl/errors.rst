@@ -244,10 +244,10 @@ only if it finds one of the following five cases:
 #. A vector or matrix declaration statement such that
 
    #. the expressions used to declare the size of the vector or matrix are
-      literal integers,
+      formed exclusively from arithmetic operations on scalar literals
 
    #. the declaration is initialized with a vector or matrix expression with
-      compatible type that is formed by operations on literal expressions, and
+      compatible type that is formed by arithmetic operations on scalar literals 
 
    #. the size of the initialization expression is larger, in some dimension,
       than the declared size.
