@@ -101,6 +101,11 @@ Here are the compile-time errors your compiler must throw:
     Raised during compilation if a literal value in the program does not fit
     into its corresponding data type.
 
+* ``MathError``
+
+    Raised during compile time expression evaluation when division by zero occurs.
+    Conditions for raising are eqivalent to a runtime ``MathError``. 
+
 * ``SizeError``
 
     Raised during compilation if the compiler detects an operation or statement
