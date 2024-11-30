@@ -22,8 +22,7 @@ have to be pure and as a result it may:
 -  When used within a valid statement, the only legal operators which can
    be applied to a procedure call are unary operators and casts.
    Additionally, the result of the call may not be used in the direct construction
-   of a value which is not of equivalent or promotable type to the return type of
-   the procedure.
+   of a type that does not match the return type of the procedure.
 
 Aside from this (and the different syntax necessary to declare/define
 them), procedures are very similar to functions. The extra capabilities
