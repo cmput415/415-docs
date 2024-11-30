@@ -59,3 +59,14 @@ Duplicate ``typedef`` should raise a `SymbolError`
   typedef integer ty;
   typedef character ty;
 
+Some typedefs may be parameterized with an expression, such as with vector or matrix types, such expressions are resitrcted to be composed exclusively from arithmetic operations on scalar literals. Practically speaking, this requires constant folding but *not* constant propogation.
+
+::
+
+  typedef integer[1 + 3 - 2] vec_of_two;
+  procedure main() returns integer {
+    vec_of_two v = 1..3;   
+  }
+
+Should raise a ``SizeError`` on line 3 since the ``vec_of_two`` type has a size of 2 and a vector of size 3 is being assigned.
+
