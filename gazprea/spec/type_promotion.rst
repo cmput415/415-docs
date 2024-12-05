@@ -7,6 +7,8 @@ Type promotion is a sub-problem of casting and refers to casts that happen
 implicitly.
 
 Any conversion that can be done implicitly via promotion can also be done explicitly via typecast expression.
+The notable exception is vector to matrix promotion, which occurs as a consequence of scalar to vector promotion
+since a matrix is effectively a vector of vectors.
 
 .. _ssec:typePromotion_scalar:
 
@@ -74,6 +76,28 @@ type casting is used. Also note that matrix multiply imposes strict
 requirements on the dimensionality of the the operands. The consequence is
 that scalars can only be promoted to a matrix if the matrix multiply
 operand is a square matrix (:math:`m \times m`).
+
+.. _ssec:typePromotion_stov:
+
+Vector to Matrix
+--------------------------
+
+Vector to matrix promotion occurs because a row in a matrix is equivalent to a vector.
+When a matrix is initialized or operated with a vector, each scalar
+element in the vector is interpreted as a row. By applying the scalar to
+vector promotion rule, each scalar element in the vector will be promoted to a vector, becoming a row.
+The number of columns of each row are inferred, first by the expression
+indicating the column size in the type declaration, and second, if the columnn size
+is inferred as ``*``, by the columns present in the literal or RHS expression.
+The example below demonstrates scalar to row promotion, row padding and column
+padding all together.
+
+::
+  
+    integer[3,4] m = [1,[1,2,3]];
+    // m = [[1, 1, 1, 1], [1, 2, 3, 0], [0, 0, 0, 0]]
+
+Vector to matrix promotions as such apply in all contexts where operations matricies are defined.
 
 .. _ssec:typePromotion_ttot:
 
