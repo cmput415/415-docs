@@ -106,7 +106,7 @@ produces a square matrix.
     integer[2, *] m2 = [3, 4];
     // m2 = [[3, 3], [4, 4]]
 
-Vector to matrix promotions apply in all contexts where operations matricies are defined.
+Vector to matrix promotions apply in all contexts where operations on matricies are defined.
 
 .. _ssec:typePromotion_ttot:
 
