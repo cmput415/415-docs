@@ -86,7 +86,7 @@ Vector to matrix promotion occurs because a row in a matrix is equivalent to
 a vector. When a matrix is initialized or operated with a vector, each scalar
 element in the vector is interpreted as a row. By applying the scalar to
 vector promotion rule, each scalar element in the vector will be promoted
-to a vector,becoming a row. The example below demonstrates scalar to row promotion,
+to a row. The example below demonstrates scalar to row promotion,
 row padding and column padding all together.
 
 ::
