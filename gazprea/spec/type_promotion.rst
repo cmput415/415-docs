@@ -82,22 +82,31 @@ operand is a square matrix (:math:`m \times m`).
 Vector to Matrix
 --------------------------
 
-Vector to matrix promotion occurs because a row in a matrix is equivalent to a vector.
-When a matrix is initialized or operated with a vector, each scalar
+Vector to matrix promotion occurs because a row in a matrix is equivalent to
+a vector. When a matrix is initialized or operated with a vector, each scalar
 element in the vector is interpreted as a row. By applying the scalar to
-vector promotion rule, each scalar element in the vector will be promoted to a vector, becoming a row.
-The number of columns of each row are inferred, first by the expression
-indicating the column size in the type declaration, and second, if the columnn size
-is inferred as ``*``, by the columns present in the literal or RHS expression.
-The example below demonstrates scalar to row promotion, row padding and column
-padding all together.
+vector promotion rule, each scalar element in the vector will be promoted
+to a vector,becoming a row. The example below demonstrates scalar to row promotion,
+row padding and column padding all together.
 
 ::
   
-    integer[3,4] m = [1,[1,2,3]];
-    // m = [[1, 1, 1, 1], [1, 2, 3, 0], [0, 0, 0, 0]]
+    integer[3,4] m1 = [1,[1,2,3]];
+    // m1 = [[1, 1, 1, 1], [1, 2, 3, 0], [0, 0, 0, 0]]
+    
 
-Vector to matrix promotions as such apply in all contexts where operations matricies are defined.
+The number of columns in each row are inferred, first by the expression
+indicating the column size in the type declaration, and second, if the columnn
+size is inferred as ``*``, by the size of the vector literal or expression.
+Therefore, when the column size is infered, a vector to matrix promotion always
+produces a square matrix.
+
+::
+
+    integer[2, *] m2 = [3, 4];
+    // m2 = [[3, 3], [4, 4]]
+
+Vector to matrix promotions apply in all contexts where operations matricies are defined.
 
 .. _ssec:typePromotion_ttot:
 
