@@ -59,7 +59,7 @@ Duplicate ``typedef`` should raise a `SymbolError`
   typedef integer ty;
   typedef character ty;
 
-Some typedefs may be parameterized with an expression, such as with vector or matrix types, such expressions are resitrcted to be composed exclusively from arithmetic operations on scalar literals. Practically speaking, this requires constant folding but *not* constant propogation.
+Some typedefs may be parameterized with an expression, such as with vector or matrix types, such expressions are resitrcted to be composed exclusively from arithmetic operations on integer literals. Practically speaking, this requires constant folding but *not* constant propogation.
 
 ::
 

@@ -244,10 +244,10 @@ only if it finds one of the following five cases:
 #. A vector or matrix declaration, found either in a regular declaration statement, function parameter binding or constant procedure parameter binding such that
 
    #. the expressions used to declare the size of the vector or matrix type are
-      formed exclusively from arithmetic operations on scalar literals
+      formed exclusively from arithmetic operations on integer literals
 
    #. the declaration or parameter is initialized with a vector or matrix expression with
-      compatible type that is formed by arithmetic operations on scalar literals 
+      compatible type that is formed by arithmetic operations on integer literals 
 
    #. the size of the initialization expression is larger, in some dimension,
       than the declared size.
