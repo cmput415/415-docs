@@ -241,12 +241,12 @@ only if it finds one of the following five cases:
 
    #. the sizes of the operand vectors or matrices do not match.
 
-#. A vector or matrix declaration statement such that
+#. A vector or matrix declaration, found either in a regular declaration statement, function parameter binding or constant procedure parameter binding such that
 
-   #. the expressions used to declare the size of the vector or matrix are
+   #. the expressions used to declare the size of the vector or matrix type are
       formed exclusively from arithmetic operations on scalar literals
 
-   #. the declaration is initialized with a vector or matrix expression with
+   #. the declaration or parameter is initialized with a vector or matrix expression with
       compatible type that is formed by arithmetic operations on scalar literals 
 
    #. the size of the initialization expression is larger, in some dimension,
@@ -265,12 +265,6 @@ only if it finds one of the following five cases:
    #. the initialization expression has compatible type, and
 
    #. the initialization expression is not a vector or matrix type.
-
-#. A function call where
-
-   #. The argument is a matrix or vector literal
-
-   #. The parameter type is the same type but with a different literal size.  
 
 #. A return statement where
 
