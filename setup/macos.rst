@@ -160,6 +160,7 @@ that you can modify these steps appropriately.
     $ cd <BUILD_DIR>
     $ cmake <SRC_DIR>/runtime/Cpp/ \
         -DCMAKE_BUILD_TYPE=RELEASE \
+        -DLLVM_ENABLE_RTTI=ON \ # for using the llvm::cl utilities
         -DCMAKE_INSTALL_PREFIX="<INSTALL_DIR>"
 
    You will be presented with some CMake warnings but they're safe to ignore.
