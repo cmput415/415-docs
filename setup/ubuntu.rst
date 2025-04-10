@@ -154,9 +154,13 @@ you can modify these steps appropriately.
     $ cd <BUILD_DIR>
     $ cmake <SRC_DIR>/runtime/Cpp/ \
         -DCMAKE_BUILD_TYPE=RELEASE \
+        -DLLVM_ENABLE_RTTI=ON \  # for using llvm::cl (see below)
         -DCMAKE_INSTALL_PREFIX="<INSTALL_DIR>"
 
    You will be presented with some CMake warnings but they're safe to ignore.
+
+   The `llvm::cl` system requires the runtime type information to be enabled,
+   which provides some runtime reflection capabilities to the system.
 
 #. We can finally run ``make`` to build the library and install it. You can make
    the process significantly faster by running with multiple threads using the
