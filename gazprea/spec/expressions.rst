@@ -85,31 +85,6 @@ is perfectly legal:
 
          /* v should contain the first 7 squares. */
 
-.. _ssec:expressions_filters:
-
-Filters
--------
-
-Filters are used to accumulate elements into vectors. Each filter
-contains a single domain expression, and a list of comma-separated predicates.
-
-The result of a filter operation is a tuple. This tuple contains a field
-for each of the predicates in order. Each field is a vector containing
-only the elements from the domain which satisfied the predicate
-expressions. Each filter result has an additional field which is a
-vector containing all of the values in the domain which did not satisfy
-any of the predicates. For example:
-
-::
-
-         /* x == ([3], [2], [2, 4], [1, 5]) */
-         var x = [i in 1..5 & i == 3, i == 2, i % 2 == 0];
-
-         /* y == ([1, 3, 5], [2, 4]) */
-         var y = [i in 1..5 & i % 2 == 1];
-
-There must be at least one predicate expression
-
 .. _ssec:expressions_dom_expr:
 
 Domain Expressions
@@ -117,17 +92,17 @@ Domain Expressions
 
 Domain expressions consist of an identifier denoting an iterator variable and
 an expression that evaluates to **any** vector type.
-Domain expressions can only appear within iterator loops, generators,
-and filters. A domain expression is a way of declaring a variable that
-is local to the loop, generator, or filter, that takes on values from
+Domain expressions can only appear within iterator loops and generators.
+A domain expression is a way of declaring a variable that
+is local to the loop or generator, that takes on values from
 the domain expression vector in order.
 Domain expressions must evaluate to a type, which means empty literal vectors
 yield a ``TypeError``.
 The scope of the domain variables (the left hand side of the declaration) is
-within the body of the generator, filter, or loop.
+within the body of the generator or loop.
 The domain expressions (the right hand side) are all evaluated before any of the
 domain variables are initialized, and therefore the domain expression scope is
-the one enclosing the iterator loop, generator, or filter.
+the one enclosing the iterator loop or generator.
 
 For instance:
 
@@ -167,8 +142,7 @@ instance:
            x = x + 1;
          }
 
-This is true for domain expressions within generators and filters as
-well.
+This is true for domain expressions within generators as well.
 
 Iterator variables can be assigned to and re-declared within the enclosed iterator loop.
 The variable is re-initialized according to the expression each iteration.
