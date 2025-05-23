@@ -21,7 +21,6 @@ Part 1.
 
    * :ref:`Operators <ssec:expressions_toop>`
    * :ref:`ssec:expressions_generators`
-   * :ref:`ssec:expressions_filters`
 
 #. :ref:`sec:builtIn`
 
