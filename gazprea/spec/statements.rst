@@ -41,17 +41,17 @@ promoted to the type of the variable. For instance:
          /* Real numbers can not be turned into boolean values automatically. */
          bool_var = real_var; /* Illegal */
 
-Assignments can also be more complicated than this with vectors,
-matrices, and tuples. With matrices and vectors indices may be provided
-in order to change the value of a matrix or vector element. In Gazprea, vectors
-and matrices cannot be indexed with vector expressions. For
-instance, with vectors:
+Assignments can also be more complicated than this with arrays,
+matrices, and tuples. With matrices and arrays indices may be provided
+in order to change the value of a matrix or array element. In Gazprea, arrays
+and matrices cannot be indexed with array expressions. For
+instance, with arrays:
 
 ::
 
          integer[*] v = [0, 0, 0];
 
-         /* Can assign an entire vector value -- change 'v' to [1, 2, 3] */
+         /* Can assign an entire array value -- change 'v' to [1, 2, 3] */
          v = [1, 2, 3];
 
          /* Change 'v' to [1, 0, 3] */
@@ -117,9 +117,9 @@ assignment. For instance:
             this happens modifying 'w' would change 'v' as well.
           */
 
-The above is a simple example using vectors. You must ensure that values
+The above is a simple example using arrays. You must ensure that values
 can not be aliased with an assignment between any types, including
-vectors, matrices, and tuples.
+arrays, matrices, and tuples.
 
 Variables may be declared as const, and in this case it is illegal for
 them to appear on the left hand side of an assignment expression. The
@@ -333,15 +333,15 @@ semicolon.
 Iterator Loop
 ~~~~~~~~~~~~~
 
-Loops can be used to iterate over the elements of a vector of any type.
+Loops can be used to iterate over the elements of an array of any type.
 This is done by using domain expressions (for instance ``i in v``) in
 conjunction with a loop statement.
 
-When the domain is given by a vector, each time the loop is executed the
-next element of the vector is assigned to the domain variable. The
-elements of the domain vector are assigned to the domain variable
-starting from index 1, and going up to the final element of the vector.
-When all of the elements of the domain vector have been used the loop
+When the domain is given by an array, each time the loop is executed the
+next element of the array is assigned to the domain variable. The
+elements of the domain array are assigned to the domain variable
+starting from index 1, and going up to the final element of the array.
+When all of the elements of the domain array have been used the loop
 automatically exits. For instance:
 
 ::
@@ -351,7 +351,7 @@ automatically exits. For instance:
              i -> std_output;
            }
 
-Vector ranges can also be used instead:
+Array ranges can also be used instead:
 
 ::
 
@@ -369,13 +369,13 @@ instance:
 
            /* Since the domain 'v' is only evaluated once this loop prints 1, 2,
               and then 3 even though after the first iteration 'v' is the zero
-              vector. */
+              array. */
            loop i in v {
              v = 0;
              i -> std_output; "\n" -> std_output;
            }
 
-Similarly, the domain variable is assigned from the domain vector at the top of
+Similarly, the domain variable is assigned from the domain array at the top of
 the loop for every iteration, even if it is reassigned in the body of the loop:
 
 ::

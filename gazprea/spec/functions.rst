@@ -11,7 +11,7 @@ A function in *Gazprea* has several requirements:
 -  Function arguments cannot contain type qualifiers. Including a type qualifier
    with a function argument should result in a ``SyntaxError``.
 
--  Argument types must be explicit. Inferred size vectors are allowed
+-  Argument types must be explicit. Inferred size arrays are allowed
 
 -  Functions can not perform any I/O.
 

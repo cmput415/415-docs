@@ -1,122 +1,85 @@
-.. _ssec:vector:
-
 Vectors
 -------
 
-Vectors are arrays that can contain any of the following base types:
+Vectors are language supported dynamically sized objects
 
--  ``boolean``
+-  Current vectors will be renamed to arrays (note vector is not a keyword)
 
--  ``integer``
+-  New keyword Vector will be introduced
 
--  ``real``
-
--  ``character``
-
-In *Gazprea* the number of elements in the vector also determine its
-type. A 3 element vector of any base type is always considered a different
-type from a 2 element vector.
-
-.. _sssec:vector_decl:
-
-Declaration
-~~~~~~~~~~~
-
-Aside from any type specifiers, the element type of the vector is the first
-portion of the declaration. A vector is then declared using square brackets
-immediately after the element type.
-
-If possible, initialization expressions may go through an implicit type
-conversion. For instance, when declaring a real vector that is
-initialized with an integer value the integer will be promoted to a real
-value, and then used as a scalar initialization of the vector.
-
-#. Explicit Size Declarations
-
-   When a vector is declared it may be explicitly given a size. This
-   size can be given as any integer expression, thus the size of the
-   vector may not be known until runtime.
+-  Vectors can only be created from literals:
 
    ::
+        Vector<character> vec = ["a", "b", "c"];
+        Vector<integer> ivec = [];
+        Vector<real[*]> ragged_right = [[1.0], [2.0, 2.0]];
 
-            <type>[<int-expr>] <identifier>;
-            <type>[<int-expr>] <identifier> = <type-expr>;
-            <type>[<int-expr>] <identifier> = <type-vector>;
+-  Gazprea supports some methods on Vector objects
 
+   - push() - pushes a new element to the back
+   - len() - number of elements in vector
+   - to_c()
+   - concat/append - add another vector
+   - other operations? pop? sort? get?
 
-   The size of the vector is given by the integer expression between the
-   square brackets.
+- Operations on ``Vectors`` are identical syntactically and semantically to operations on arrays. In particular lengths must match.
 
-   If the vector is given a scalar value (``type-expr``) of the same element type then the
-   scalar value is duplicated for every single element of the vector.
+- Vectors passed as arguments to functions are slices. This should also work for arrays
 
-   A vector may also be initialized with another vector. If the vector
-   is initialized using a vector that is too small then the vector will
-   be padded with zeros. However, if the vector is initialized with a vector
-   that is too large then a ``SizeError`` should be thrown at compile-time or
-   run-time. Check the :ref:`ssec:errors_sizeErrors` section to know when you
-   should throw the error.
-
-#. Inferred Size Declarations
-
-   If a vector is assigned an initial value when it is declared, then
-   its size may be inferred. There is no need to repeat the size in the
-   declaration because the size of the vector on the right-hand side is
-   known.
+- Should we allow type inference for Vectors?       
 
    ::
+        Vector<character> vec = ["a", "b", "c"];
+        var cpy = vec;
+        Vector vv;  // Is it better with or without the <>?
+        vv.push(vec);
+        vv.push(cpy);
 
-            <type>[*] <identifier> = <type-vector>;
+Strings
+-------
 
+Gazprea ``string`` will be renamed to String and follow Vector rules/semantics
 
-#. Inferred Type and Size
+- Declaration does not need type because it is always character
+      ::
+        String str = "hello";
+        String angular = "is this better?";
 
-   It is also possible to declare a vector with an implied type and
-   length using the var or const keyword. This type of declaration can only be
-   used when the variable is initialized in the declaration, otherwise
-   the compiler will not be able to infer the type or the size of the
-   vector.
+- Should we attempt to supprt unicode?
 
-   ::
+Structs
+-------
 
-      integer[*] v = [1, 2, 3];
-      var w = v + 1;
-
-
-   In this example the compiler can infer both the size and the type of
-   ``w`` from ``v``. The size may not always be known at compile time, so this
-   may need to be handled during runtime.
-
-.. _sssec:vector_constr:
-
-Construction
-~~~~~~~~~~~~
-
-A vector value in *Gazprea* may be constructed using the following
-notation:
+Current tuple declaration:
 
 ::
 
-   [expr1, expr2, ..., exprN]
+     (integer, real, integer[10]) t1, t3;
+     tuple(integer, real, integer[10]) t4 = ;
+     var tuple(character mode, real, string[256] id, real) t4 = ("m", 1.0, "hello");
+     typedef tuple(integer)  foo;
 
-
-Each ``expK`` is an expression with a compatible type. In the simplest
-cases each expression is of the same type, but it is possible to mix the
-types as long as all of the types can be promoted to a common type. For
-instance it is possible to mix integers and real numbers.
-
-::
-
-   real[*] v = [1, 3.3, 5 * 3.4];
-
-
-It is also possible to construct a single-element vector using this
-method of construction.
+     
+-  Should structs define a type?
 
 ::
 
-   real[*] v = [7];
+     var integer foo;
+     foo = 4;
+     struct S (integer i, real r, integer[10] iv);
+     struct T (integer i, real r, integer[10] iv) t3;
+     struct stype (character mode, real float, String id);
+     stype stype_var = ("c", 1.0, "id");
+     stype alt_init = (mode = "c", id = "id", float = 0.0);
 
+- can we require field names for structs and disallow field names for tuples?
+
+- should structs use ``{}`` instead of ``()``?
+
+- what is the difference between structs and tuples in Rust? I noticed that tuples and arrays are introduced together, but Objects and structs are introduced later.
+  
+
+        
 
 *Gazprea* **DOES** support empty vectors.
 
@@ -354,3 +317,5 @@ Type Casting and Type Promotion
 To see the types that a vector may be cast and/or promoted to, see
 the sections on :ref:`sec:typeCasting` and :ref:`sec:typePromotion`
 respectively.
+=======
+   

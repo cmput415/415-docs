@@ -7,8 +7,8 @@ Type promotion is a sub-problem of casting and refers to casts that happen
 implicitly.
 
 Any conversion that can be done implicitly via promotion can also be done explicitly via typecast expression.
-The notable exception is vector to matrix promotion, which occurs as a consequence of scalar to vector promotion
-since a matrix is effectively a vector of vectors.
+The notable exception is array to matrix promotion, which occurs as a consequence of scalar to array promotion
+since a matrix is effectively an array of arrays.
 
 .. _ssec:typePromotion_scalar:
 
@@ -38,16 +38,16 @@ conversion possible, id means no conversion necessary,
 |          |   real    |   N/A   |    N/A    |   N/A   |      id       |
 +----------+-----------+---------+-----------+---------+---------------+
 
-.. _ssec:typePromotion_stov:
+.. _ssec:typePromotion_stoa:
 
-Scalar to Vector or Matrix
+Scalar to Array or Matrix
 --------------------------
 
-All scalar types can be promoted to vector or matrix types that
+All scalar types can be promoted to array or matrix types that
 have an internal type that the scalar can be :ref:`converted to implicity <ssec:typePromotion_scalar>`. This can occur when a
-vector or matrix is used in an operation with a scalar value.
+array or matrix is used in an operation with a scalar value.
 
-The scalar will be implicitly converted to a vector or matrix of
+The scalar will be implicitly converted to an array or matrix of
 equivalent dimensions and equivalent internal type. For example:
 
 ::
@@ -71,21 +71,21 @@ Other examples:
   1 == [1, 1]  // True
   1..2 || 3 // [1, 2, 3]
 
-Note that a vector or matrix can never be downcast to a scalar, even if
+Note that an array or matrix can never be downcast to a scalar, even if
 type casting is used. Also note that matrix multiply imposes strict
 requirements on the dimensionality of the the operands. The consequence is
 that scalars can only be promoted to a matrix if the matrix multiply
 operand is a square matrix (:math:`m \times m`).
 
-.. _ssec:typePromotion_stov:
+.. _ssec:typePromotion_atom:
 
-Vector to Matrix
+Array to Matrix
 --------------------------
 
-Vector to matrix promotion occurs because a row in a matrix is equivalent to
-a vector. When a matrix is initialized or operated with a vector, each scalar
-element in the vector is interpreted as a row. By applying the scalar to
-vector promotion rule, each scalar element in the vector will be promoted
+Array to matrix promotion occurs because a row in a matrix is equivalent to
+an array. When a matrix is initialized or operated with an array, each scalar
+element in the array is interpreted as a row. By applying the scalar to
+array promotion rule, each scalar element in the array will be promoted
 to a row. The example below demonstrates scalar to row promotion,
 row padding and column padding all together.
 
@@ -97,8 +97,8 @@ row padding and column padding all together.
 
 The number of columns in each row are inferred, first by the expression
 indicating the column size in the type declaration, and second, if the columnn
-size is inferred as ``*``, by the size of the vector literal or expression.
-Therefore, when the column size is infered, a vector to matrix promotion always
+size is inferred as ``*``, by the size of the array literal or expression.
+Therefore, when the column size is infered, an array to matrix promotion always
 produces a square matrix.
 
 ::
@@ -106,7 +106,7 @@ produces a square matrix.
     integer[2, *] m2 = [3, 4];
     // m2 = [[3, 3], [4, 4]]
 
-Vector to matrix promotions apply in all contexts where operations on matricies are defined.
+Array to matrix promotions apply in all contexts where operations on matricies are defined.
 
 .. _ssec:typePromotion_ttot:
 
@@ -162,10 +162,10 @@ It is possible for a two sided promotion to occur with tuples. For example:
 
   boolean b = (1.0, 2) == (2, 3.0);
 
-Character Vector to/from String
+Character Array to/from String
 -------------------------------
 
-A ``string`` can be implicitly converted to a vector of ``character``\ s and vice-versa (two-way type promotion).
+A ``string`` can be implicitly converted to an array of ``character``\ s and vice-versa (two-way type promotion).
 
 ::
 

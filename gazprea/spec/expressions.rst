@@ -48,8 +48,8 @@ associativities of the operators in *Gazprea*.
 Generators
 ----------
 
-A generator may be used to construct either a vector or a matrix. A
-generator creates a value of a vector type when one domain variable is
+A generator may be used to construct either an array or a matrix. A
+generator creates a value of an array type when one domain variable is
 used, a matrix type when two domain variables are used.
 Any other number of domain variables will yield an error.
 
@@ -68,8 +68,8 @@ This additional expression is used to create the generated values. For example:
 The expression to the right of the bar (``|``), is used to generate the
 value at the given index.
 Let ``T`` be the type of the expression to the right of the bar (``|``). Then,
-if the domain of the generator is a vector of size ``N``, the result will be a
-vector of size ``N`` with element type ``T``. Otherwise, if the domain of the
+if the domain of the generator is an array of size ``N``, the result will be a
+array of size ``N`` with element type ``T``. Otherwise, if the domain of the
 generator is a matrix of size ``N`` x ``M``, the result will be a matrix of size
 ``N`` x ``M`` with element type ``T``.
 Generators may be nested, and
@@ -91,12 +91,12 @@ Domain Expressions
 ------------------
 
 Domain expressions consist of an identifier denoting an iterator variable and
-an expression that evaluates to **any** vector type.
+an expression that evaluates to **any** array type.
 Domain expressions can only appear within iterator loops and generators.
 A domain expression is a way of declaring a variable that
 is local to the loop or generator, that takes on values from
-the domain expression vector in order.
-Domain expressions must evaluate to a type, which means empty literal vectors
+the domain expression array in order.
+Domain expressions must evaluate to a type, which means empty literal arrays
 yield a ``TypeError``.
 The scope of the domain variables (the left hand side of the declaration) is
 within the body of the generator or loop.
