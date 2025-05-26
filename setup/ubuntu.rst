@@ -353,6 +353,7 @@ until you're about to start your assignment. Here are the steps to get MLIR up a
     export MLIR_DIR="$MLIR_INS/lib/cmake/mlir/" # Don't change me.
     export PATH="$MLIR_INS/bin:$PATH" # Don't change me
 
+
 Installing the Tester
 ---------------------
 
@@ -360,55 +361,18 @@ This is the tool you'll be using for testing your solutions locally. You'll be
 building it yourself so that any changes later are easily obtainable.
 
 If you encounter issues, please log them on the `GitHub issue tracker
-<https://github.com/cmput415/Tester/issues>`__ or, if you want to, submit a pull
+<https://github.com/cmput415/Dragon-Runner/issues>`__ or, if you want to, submit a pull
 request and we'll review it!
 
-#. We'll build the tool in your home directory.
-
-   .. code-block:: console
-
-    $ cd $HOME
-    $ git clone https://github.com/cmput415/Tester.git
-
-#. Next we'll make the build directory.
-
-   .. code-block:: console
-
-    $ cd Tester
-    $ mkdir build
-
-#. Now, the configure and generate step.
-
-   .. code-block:: console
-
-    $ cd build
-    $ cmake ..
-
-#. Finally, build the project.
-
-   .. code-block:: console
-
-    $ make
-
-#. We could refer directly to the executable every time, but it's probably
-   easier to just have it on our path. Add these lines to the end of your
-   ``~/.bashrc``.
-
-   .. code-block:: shell
-
-    # C415 testing utility.
-    export PATH="$HOME/Tester/bin/:$PATH"
-
-#. Close and reopen your terminal to have changes take effect. Test the command
-   to make sure it works.
-
-   .. code-block:: console
-
-    $ tester --help
+```
+git clone https://github.com/cmput415/Dragon-Runner.git
+cd Dragon-Runner
+pip install .
+```
 
 For more info about organising your tests and creating a configuration (though
 templates will be provided with your assignments) you can check `the Tester
-README <https://github.com/cmput415/Tester/blob/master/README.md>`__.
+README <https://github.com/cmput415/Dragon-Runner/blob/main/README.md>`__.
 
 Testing Your Environment
 ------------------------
