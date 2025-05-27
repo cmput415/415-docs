@@ -3,7 +3,12 @@
 String
 ------
 
-A ``string`` is fundamentally an array of ``character``. However, there exists
+A ``String`` is another object within *Gazprea*. Fundamentally, a ``String``
+is a ``Vector`` of ``character``. This means that, like a vector, a string
+behaves like a dynamically sized array, but because it is an object *Gazprea*
+can provide type specific features.
+
+However, there exists
 several differences between the two types: an :ref:`extra declaration style
 <sssec:string_decl>`, an :ref:`extra literal style <sssec:string_lit>`, the
 :ref:`result of a concatenation <sssec:string_ops>` and :ref:`behaviour when
@@ -14,21 +19,13 @@ sent to an output stream <sssec:output_format>`.
 Declaration
 ~~~~~~~~~~~
 
-A string may be declared with the keyword ``string``. The same rules of
-:ref:`array declarations <sssec:array_decl>` also apply to strings, allowing
-for both explicit and inferred size declarations:
+A string may be declared with the keyword ``String``. The same rules of
+:ref:`vector declarations <sssec:vec_decl>` also apply to strings, which means
+that all lenghts are inferred:
 
 ::
 
-  string[*] <identifier> = <type-string>;
-  string[int-expr] <identifier> = <type-string>;
-
-However, ``string`` variables have an extra method of writing an inferred size
-declaration:
-
-::
-
-  string <identifier> = <type-string>;
+  String <identifier> = <type-string>;
 
 .. _sssec:string_lit:
 
@@ -42,7 +39,7 @@ double quotes. For instance:
 
 ::
 
-  string cats_meow = "The cat said \"Meow!\"\nThat was a good day.\n"
+  String cats_meow = "The cat said \"Meow!\"\nThat was a good day.\n"
 
 Although strings and character arrays look similar, they are still treated
 differently by the compiler:
@@ -64,21 +61,21 @@ prints:
 Operations
 ~~~~~~~~~~
 
-Strings have all of the same operations defined on them as the other array data
-types, but with one extra addition. Because a ``string`` and array of
+As character arrays, strings have all of the same operations defined on them as
+the other array data types, Remember that because a ``String`` and array of
 ``character`` are fundamentally the same, the concatenation operation may be
-used to concatenate values of the two types. As well, a scalar ``character`` may
-be concatenated onto a ``string`` in the same way as it would be concatenated
-onto an array of ``character``.
-
-This operation should always result in a value with type ``string``. Again,
-because a ``string`` is always able to be converted to an array of
-``character``, this is only apparent when printing the result. For example:
+used to concatenate values of the two types.
+As well, a scalar ``character`` may be concatenated onto a ``String`` in the
+same way as it would be concatenated onto an array of ``character``.
+Note that because a ``String`` is a type of ``Vector``, concatenation may
+also be accomplished with ``concat`` and ``push`` methods:
 
 ::
 
-  ['a', 'b'] || "cd" -> std_output;
-  "ef" || 'g' -> std_output;
+  String letters = ['a', 'b'] || "cd";
+  letters.concat("ef");
+  letters.push('g');
+  letters  -> std_output;
 
 prints the following:
 
@@ -90,5 +87,5 @@ prints the following:
 Type Casting and Type Promotion
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-To see the types that ``string`` may be cast and/or promoted to, see the
+To see the types that ``String`` may be cast and/or promoted to, see the
 sections on :ref:`sec:typeCasting` and :ref:`sec:typePromotion` respectively.
