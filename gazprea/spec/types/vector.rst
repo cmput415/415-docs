@@ -42,8 +42,14 @@ As a language supported object, *Gazprea* provides several methods for ``Vector`
 
 - append - append another array slice to the vector
   
+   ::
 
-Declaration
+        Vector<tuple(bool, integer)> tvec;
+        tvec.push((false, 0));
+        tvec.append((true, 1));
+        tvec[tvec.len()] -> std_output; // prints (true, 1)
+
+Operations
 ~~~~~~~~~~~
 
 Operations on ``Vectors`` are identical syntactically and semantically to
@@ -52,6 +58,15 @@ expressions and dot product.
 
 A ``Vector`` or vector slice can be passed as a call argument that has been
 declared as an array slice of the same size and type.
+
+When indexing a vector of arrays, the first index selects the array element
+within the vector, and the second index selects the element within the array:
+
+ ::
+
+        Vector<real[*]> ragged_right = [[1.0], [2.1, 1.2]];
+        length(ragged_right[1]) -> std_output; // prints 1
+        ragged_right[2][2] -> std_output; // prints 1.2
 
 
    
