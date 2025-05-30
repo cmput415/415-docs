@@ -8,11 +8,11 @@ is a ``Vector`` of ``character``. This means that, like a vector, a string
 behaves like a dynamically sized array, but because it is an object *Gazprea*
 can provide type specific features.
 
-However, there exists
-several differences between the two types: an :ref:`extra declaration style
-<sssec:string_decl>`, an :ref:`extra literal style <sssec:string_lit>`, the
-:ref:`result of a concatenation <sssec:string_ops>` and :ref:`behaviour when
-sent to an output stream <sssec:output_format>`.
+``String`` vectors behave a lot like character arrays, but there are
+several differences between the two types:
+an :ref:`extra literal style <sssec:string_lit>`,
+the :ref:`result of a concatenation <sssec:string_ops>`
+and :ref:`behaviour when sent to an output stream <sssec:output_format>`.
 
 .. _sssec:string_decl:
 
@@ -46,7 +46,9 @@ differently by the compiler:
 
 ::
 
-   character[*] vec = "hello world\n";
+   character[*] carray = ['h', 'e', 'l', 'l', 'o', ' ', 'w', 'o', 'r', 'l', 'd', '\n'];
+   carry -> std_output;
+   String vec = carray;
    vec -> std_output;
 
 prints:
@@ -55,6 +57,8 @@ prints:
 
   [h e l l o   w o r l d
   ]
+  hello world
+
 
 .. _sssec:string_ops:
 
