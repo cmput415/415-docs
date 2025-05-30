@@ -118,7 +118,6 @@ method of construction.
 
    real[*] v = []; /* Should create an empty array */
 
-
 .. _sssec:array_ops:
 
 Operations
@@ -252,6 +251,15 @@ Operations
          integer x = v[2]; /* x == 5 */
          integer y = [4,5,6][3] /* y == 6 */
 
+      Like Python, *Gazprea* allows negative indices, which are interpreted as
+      starting from the _back_ of the array instead of the front:
+
+      ::
+
+         integer[3] v = [4, 5, 6];
+         integer x = v[-2]; /* x == 5 */
+         integer y = [4,5,6][-1] /* y == 6 */
+
       Out of bounds indexing should cause an error.
 
    e. Stride
@@ -267,6 +275,38 @@ Operations
          integer[*] w = v by 2; /* [1, 3, 5] */
          integer[*] l = v by 3; /* [1, 4] */
          integer[*] s = v by 4; /* [1] */
+
+   d. Slices
+
+      An array may be indexed by a range to create a new array that is a *slice*
+      of the original.
+
+      ::
+
+         integer[*] a = 0..10 by 2; /* a = [0, 2, 4, 6, 8, 10] */
+         integer x = a[2..4]; /* x == [2, 4, 6] */
+
+      Note that for slices only a stride of 1 is allowed.
+      For indexing purposes three additions are made to range syntax:
+
+      +-----+---------------------------------+
+      |     | Interpretation                  |
+      +-----+---------------------------------+
+      + ..  | all elements                    |
+      +-----+---------------------------------+
+      + i.. | ith to nth elements             |
+      +-----+---------------------------------+
+      + ..-i | first to n-i-1th elements      |
+      +-----+---------------------------------+
+
+      Examples:
+
+      ::
+
+         integer[*] a = 0..10 by 2; /* a = [0, 2, 4, 6, 8, 10] */
+         integer x = a[..4]; /* x == [0, 2, 4, 6] */
+         integer y = a[4..]; /* x == [6, 8, 10] */
+         integer z = a[..-1]; /* x == [0, 2, 4, 6, 8] */
 
 #. Operations of the Element Type
 

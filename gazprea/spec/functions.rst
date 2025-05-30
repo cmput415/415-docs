@@ -166,17 +166,34 @@ do not have to match the argument names in the function definition.
 
 .. _ssec:function_vec_mat:
 
-Vector and Matrix Parameters and Returns
+Array and Matrix Parameters and Returns
 ----------------------------------------
 
 The arguments and return value of functions can have both explicit and inferred sizes. For example:
 
 ::
 
-         function to_real_vec(integer[*] x) returns real[*] {
+         function to_real_vec(integer[\*] x) returns real[\*] {
              /* Some code here */
          }
 
          function transpose3x3(real[3,3] x) returns real[3,3] {
              /* Some code here */
+         }
+
+
+Like Rust, array *slices* may be passed as arguments:
+
+::
+
+         function to_real_vec(integer[\*] x) returns real[\*] {
+            real[\*] rvec = x;
+            return rvec;
+         }
+
+         function slicer() returns real[\*] {
+             integer a[10] = 1..10;
+             Vector<real> two_halves = to_real_vec(a[1..5]);
+             two_halves.append(to_real_vec(a[6..]));
+             return two_halves;
          }
