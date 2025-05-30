@@ -9,7 +9,7 @@ Part 1.
 #. :ref:`All Previous Features <sec:part1>`
 #. :ref:`sec:types`
 
-   * :ref:`ssec:vector`
+   * :ref:`ssec:array`
    * :ref:`ssec:matrix`
    * :ref:`ssec:string`
 

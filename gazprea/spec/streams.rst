@@ -36,7 +36,7 @@ an output stream:
 
 -  :ref:`ssec:boolean`: Prints T for true, and F for false.
 
-:ref:`Vectors <ssec:vector>` print their contents according to the rules above, with square
+:ref:`Arrays <ssec:array>` print their contents according to the rules above, with square
 braces surrounding its elements and with spaces only *between* values.
 For example:
 
@@ -65,7 +65,7 @@ prints the following:
 
      Hello, World!
 
-:ref:`Matrices <ssec:matrix>` print like a vector of vectors. For example:
+:ref:`Matrices <ssec:matrix>` print like an array of arrays. For example:
 
 ::
 
@@ -79,7 +79,7 @@ prints the following:
 
 No other type may be sent to a stream. For instance,
 procedures with no return type and tuples cannot be sent to streams.
-Also, empty vectors and matrices can be send to streams, but not empty
+Also, empty arrays and matrices can be send to streams, but not empty
 literals (e.g. ``[]``), because they have no type.
 
 Note that there is **no automatic new line or spaces printed.** To print
