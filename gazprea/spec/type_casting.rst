@@ -42,50 +42,50 @@ new type:
 
 .. _ssec:typeCasting_stovm:
 
-Scalar to Vector/Matrix
+Scalar to Array/Matrix
 -----------------------
 
-A scalar may be promoted to either a vector or matrix with an element type that
+A scalar may be promoted to either an array or matrix with an element type that
 the original scalar can be cast to according to the rules in :ref:`ssec:typeCasting_stos`.
-A scalar to vector cast *must* include a size with the type to cast to as this
+A scalar to array cast *must* include a size with the type to cast to as this
 cannot be inferred from the scalar value. For example:
 
 ::
 
-     // Create a vector of reals with length three where all values are 1.0.
+     // Create an array of reals with length three where all values are 1.0.
      real[*] v = as<real[3]>(1);
 
-     // Create a vector of booleans with length 10 where all values are true.
+     // Create an array of booleans with length 10 where all values are true.
      var u = as<boolean[10]>('c');
 
 .. _ssec:typeCasting_vtov:
 
-Vector to Vector
+Array to Array
 ----------------
 
-Conversions between vector types are also possible. First, the
+Conversions between array types are also possible. First, the
 values of the original are cast to the destination type’s element type
 according to the rules in :ref:`ssec:typeCasting_stos` and then the destination
 is padded with destination element type’s zero or truncated to match the
-destination type size. Note that the size is not required for vector to
-vector casting; if the size is not included in the cast type, the new
+destination type size. Note that the size is not required for array to
+array casting; if the size is not included in the cast type, the new
 size is assumed to be the old size. For example:
 
 ::
 
      real[3] v = [i in 1..3 | i + 0.3 * i];
 
-     // Convert the real vector to an integer vector.
+     // Convert the real array to an integer array.
      integer[3] u = as<integer[*]>(v);
 
      // Convert to integers and zero pad.
      integer[5] x = as<integer[5]>(v);
 
-     // Truncate the vector.
+     // Truncate the array.
      real[2] y = as<real[2]>(v);
 
-Casting non-variable empty vectors ``[]`` is not allowed, because a literal
-empty vector does not have a type.
+Casting non-variable empty arrays ``[]`` is not allowed, because a literal
+empty array does not have a type.
 
 .. _ssec:typeCasting_mtom:
 

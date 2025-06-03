@@ -12,7 +12,7 @@ Memory Management
 -----------------
 
 It is important that you are able to automatically free and allocate memory for
-vectors and matrices when they enter and exit scope. You may use ``malloc`` and
+arrays and matrices when they enter and exit scope. You may use ``malloc`` and
 ``free`` for these purposes. This may be done in either your runtime or directly
 within MLIR.
 

@@ -81,7 +81,7 @@ Special cases
 
 Special cases of declarations are covered in their respective sections.
 
-#. :ref:`Vectors <sssec:vector_decl>`
+#. :ref:`Arrays <sssec:array_decl>`
 #. :ref:`Matrices <sssec:matrix_decl>`
 #. :ref:`Tuples <sssec:tuple_decl>`
 #. :ref:`Globals <sec:global>`
