@@ -4,7 +4,7 @@ Matrix
 ------
 
 *Gazprea* supports two dimensional matrices. A matrix can have all of
-the same element types a vector can:
+the same element types an array can:
 
 -  ``boolean``
 
@@ -14,12 +14,14 @@ the same element types a vector can:
 
 -  ``character``
 
+-  ``tuple``
+
 .. _sssec:matrix_decl:
 
 Declaration
 ~~~~~~~~~~~
 
-Matrix declarations are similar to vector declarations, the difference
+Matrix declarations are similar to array declarations, the difference
 being that matrices have two dimensions instead of one. The following are
 valid matrix declarations:
 
@@ -36,7 +38,7 @@ valid matrix declarations:
 Construction
 ~~~~~~~~~~~~
 
-To construct a matrix the programmer may use nested vectors. Each vector
+To construct a matrix the programmer may use nested arrays. Each array
 element represents a single row of the matrix. All rows with fewer
 elements than the row of maximum row length are padded with zeros
 on the right. Similarly, if the matrix is declared with a column
@@ -76,11 +78,11 @@ Operations
 ~~~~~~~~~~
 
 Matrices have binary and unary operations of the element type defined in
-the same manner as vectors. Unary operations are applied to every
+the same manner as arrays. Unary operations are applied to every
 element of the matrix, and binary operations are applied between
 elements with the same position in two matrices.
 
-The operators ==, and != also have the same behaviors that vectors do.
+The operators ==, and != also have the same behaviors that arrays do.
 These operations compare whether or not **all** elements of two matrices
 are equal.
 
@@ -107,7 +109,7 @@ matrix respectively. For instance:
    				integer c = columns(M);  /* This has a value of 3 */
 
 
-Matrix indexing is done similarly to vector indexing, however, two
+Matrix indexing is done similarly to array indexing, however, two
 indices must be used. These indices are separated using a comma.
 
 ::
@@ -125,7 +127,7 @@ and column. Both the row and column indices must be integers.
 
    				/* M[1, 2] == 12 */
 
-As with vectors, out of bounds indexing is an error on Matrices.
+As with arrays, out of bounds indexing is an error on Matrices.
 
 
 Type Casting and Type Promotion

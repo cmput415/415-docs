@@ -5,8 +5,8 @@ Built In Functions
 
 *Gazprea* has some built in functions. These built in functions may have
 some special behaviour that normal functions can not have, for instance
-many of them will work on vectors of any element type. Normally a function
-must specify the element type of a vector specified.
+many of them will work on arrays of any element type. Normally a function
+must specify the element type of an array argument.
 
 The name of built in functions are reserved and a user program cannot
 define a function or a procedure with the same name as a built in
@@ -19,8 +19,8 @@ compiler should issue an error message.
 Length
 ------
 
-``length`` takes a vector of any element type, and returns an integer
-representing the length of the vector.
+``length`` takes an array of any element type, and returns an integer
+representing the number of elements in the array.
 
 ::
 
@@ -28,14 +28,6 @@ representing the length of the vector.
 
          length(v) -> std_output; /* Prints 5 */
 
-Empty vector literals cannot be passed to ``length``.
-
-::
-
-    length([]) -> std_output; // Illegal
-
-    integer[*] empty = [];
-    length(empty) -> std_output; // Legal
 
 .. _ssec:builtIn_rows_cols:
 
@@ -58,8 +50,7 @@ dimension and type. ``rows`` returns the number of rows in a matrix, and
 Reverse
 -------
 
-The reverse built-in takes any vector, and returns a reversed version of
-the vector.
+The reverse built-in takes any array, and returns a reversed version of it.
 
 ::
 
