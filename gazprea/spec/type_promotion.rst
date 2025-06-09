@@ -6,9 +6,10 @@ Type Promotion
 Type promotion is a sub-problem of casting and refers to casts that happen
 implicitly.
 
-Any conversion that can be done implicitly via promotion can also be done explicitly via typecast expression.
-The notable exception is array to matrix promotion, which occurs as a consequence of scalar to array promotion
-since a matrix is effectively an array of arrays.
+Any conversion that can be done implicitly via promotion can also be done
+explicitly via typecast expression.
+The notable exception is array promotion to a higher dimension, which occurs as
+a consequence of scalar to array promotion.
 
 .. _ssec:typePromotion_scalar:
 
@@ -40,21 +41,21 @@ conversion possible, id means no conversion necessary,
 
 .. _ssec:typePromotion_stoa:
 
-Scalar to Array or Matrix
+Scalar to Array
 --------------------------
 
-All scalar types can be promoted to array or matrix types that
-have an internal type that the scalar can be :ref:`converted to implicity <ssec:typePromotion_scalar>`. This can occur when a
-array or matrix is used in an operation with a scalar value.
+All scalar types can be promoted to arrays that have an internal type that the
+scalar can be :ref:`converted to implicity <ssec:typePromotion_scalar>`.
+This can occur when an array is used in an operation with a scalar value.
 
-The scalar will be implicitly converted to an array or matrix of
+The scalar will be implicitly converted to an array of
 equivalent dimensions and equivalent internal type. For example:
 
 ::
 
      integer i = 1;
-     integer[*] v = [1, 2, 3, 4, 5];
-     integer[*] res = v + i;
+     integer[\*] v = [1, 2, 3, 4, 5];
+     integer[\*] res = v + i;
 
      res -> std_output;
 
@@ -71,27 +72,28 @@ Other examples:
   1 == [1, 1]  // True
   1..2 || 3 // [1, 2, 3]
 
-Note that an array or matrix can never be downcast to a scalar, even if
-type casting is used. Also note that matrix multiply imposes strict
+Note that an array can never be downcast to a scalar,
+even if type casting is used. Also note that matrix multiply imposes strict
 requirements on the dimensionality of the the operands. The consequence is
 that scalars can only be promoted to a matrix if the matrix multiply
 operand is a square matrix (:math:`m \times m`).
 
 .. _ssec:typePromotion_atom:
 
-Array to Matrix
+Multi-dimensional Arrays
 --------------------------
 
-Array to matrix promotion occurs because a row in a matrix is equivalent to
-an array. When a matrix is initialized or operated with an array, each scalar
-element in the array is interpreted as a row. By applying the scalar to
+Array promotion to a higher dimension occurs because, for example,
+a row in a 2D array is equivalent to a 1D array.
+When a 2D array is initialized or operated on with a 1D array, each scalar
+element in the 1D array is interpreted as a row. By applying the scalar to
 array promotion rule, each scalar element in the array will be promoted
 to a row. The example below demonstrates scalar to row promotion,
 row padding and column padding all together.
 
 ::
   
-    integer[3,4] m1 = [1,[1,2,3]];
+    integer[3][4] m1 = [1,[1,2,3]];
     // m1 = [[1, 1, 1, 1], [1, 2, 3, 0], [0, 0, 0, 0]]
     
 
@@ -103,10 +105,11 @@ produces a square matrix.
 
 ::
 
-    integer[2, *] m2 = [3, 4];
+    integer[2][*] m2 = [3, 4];
     // m2 = [[3, 3], [4, 4]]
 
-Array to matrix promotions apply in all contexts where operations on matricies are defined.
+Array promotions to a higher dimensionality apply in all contexts where
+operations on arrays are defined.
 
 .. _ssec:typePromotion_ttot:
 

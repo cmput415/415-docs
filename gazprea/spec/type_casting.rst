@@ -12,8 +12,8 @@ expression and ``toType`` is our destination type:
 
      as<toType>(value)
 
-Conversions from one type to another is not always legal. For instance
-converting from an ``integer`` matrix to an ``integer`` has no
+Conversion from one type to another is not always legal. For instance
+converting from an ``integer`` array to an ``integer`` has no
 reasonable conversion.
 
 .. _ssec:typeCasting_stos:
@@ -42,10 +42,10 @@ new type:
 
 .. _ssec:typeCasting_stovm:
 
-Scalar to Array/Matrix
+Scalar to Array
 -----------------------
 
-A scalar may be promoted to either an array or matrix with an element type that
+A scalar may be promoted to an array of any dimension with an element type that
 the original scalar can be cast to according to the rules in :ref:`ssec:typeCasting_stos`.
 A scalar to array cast *must* include a size with the type to cast to as this
 cannot be inferred from the scalar value. For example:
@@ -89,26 +89,26 @@ empty array does not have a type.
 
 .. _ssec:typeCasting_mtom:
 
-Matrix to Matrix
-----------------
+Multi-dimensional Arrays
+------------------------
 
-Conversions between matrix types are also possible. The process is exactly like
-:ref:`ssec:typeCasting_vtov` except padding and truncation can occur in both
-dimensions. For example:
+Conversions between arrays of any dimension are possible.
+The process is exactly like :ref:`ssec:typeCasting_vtov` except padding and
+truncation can occur in all dimensions. For example:
 
 ::
 
-     real[2, 2] a = [[1.2, 24], [-13e2, 4.0]];
+     real[2][2] a = [[1.2, 24], [-13e2, 4.0]];
 
      // Convert to an integer matrix.
-     integer[2, 2] b = as<integer[2, 2]>(a);
+     integer[2][2] b = as<integer[2][2]>(a);
 
      // Convert to integers and pad in both dimensions.
-     integer[3, 3] c = as<integer[3, 3]>(a);
+     integer[3][3] c = as<integer[3][3]>(a);
 
      // Truncate in one dimension and pad in the other.
-     real[1, 3] d = as<real[1, 3]>(a);
-     real[3, 1] e = as<real[3, 1]>(a);
+     real[1][3] d = as<real[1][3]>(a);
+     real[3][1] e = as<real[3][1]>(a);
 
 .. _ssec:typeCasting_ttot:
 
@@ -117,8 +117,8 @@ Tuple to Tuple
 
 Conversions between ``tuple`` types are also possible. The original type
 and the destination type must have an equal number of internal types and
-each element must be pairwise castable according to the rules in :ref:`ssec:typeCasting_stos`. For
-example:
+each element must be pairwise castable according to the rules
+in :ref:`ssec:typeCasting_stos`. For example:
 
 ::
 

@@ -204,9 +204,9 @@ should be raised when this is detected. For instance:
          }
 
 Whenever a procedure has a mutable argument ``x`` it must be checked that
-none of the other arguments given to the procedure are ``x``. This is simple
-for scalar values, but more complicated when variable arrays and
-matrices are passed to procedures. For instance:
+none of the other arguments given to the procedure are ``x``.
+This is simple for scalar values, but more complicated when variable arrays are
+passed toprocedures. For instance:
 
 ::
 
@@ -214,10 +214,9 @@ matrices are passed to procedures. For instance:
          /* p is some procedure with two variable array arguments */
 
 It is impossible to tell whether or not these overlap at compile time
-due to the halting problem. Thus for simplicity, whenever an array or a
-matrix is passed to a procedure *Gazprea* detects aliasing whenever the
-same array / matrix is used, regardless of whether or not the access
-would overlap.
+due to the halting problem. Thus for simplicity, whenever an array is passed
+to a procedure *Gazprea* detects aliasing whenever the same array is used,
+regardless of whether or not the access would overlap.
 
 Another instance of aliasing relates to tuples, such as passing the
 same tuple twice in one procedure, or passing the entire tuple and
@@ -231,7 +230,7 @@ aliasing.
 
 .. _ssec:procedure_vec_mat:
 
-Array and Matrix Parameters and Returns
+Array Parameters and Returns
 ----------------------------------------
 
 :ref:`As with functions <ssec:function_vec_mat>`, the arguments and return value of procedures can have both explicit and inferred sizes.
