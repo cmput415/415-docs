@@ -35,39 +35,38 @@ promoted to the type of the variable. For instance:
          real real_var = 0.0;
          boolean bool_var = true;
 
-         /* Since 'x' is an integer it can be promoted to a real number */
+         /* Since 'x' is an integer it can be promoted to a real number \*/
          real_var = int_var;  /* Legal */
 
-         /* Real numbers can not be turned into boolean values automatically. */
+         /* Real numbers can not be turned into boolean values automatically. \*/
          bool_var = real_var; /* Illegal */
 
-Assignments can also be more complicated than this with arrays,
-matrices, and tuples. With matrices and arrays indices may be provided
-in order to change the value of a matrix or array element. In Gazprea, arrays
-and matrices cannot be indexed with array expressions. For
-instance, with arrays:
+Assignments can also be more complicated than this with arrays and tuples.
+With arrays indices may be provided in order to change the value of an array
+element. In Gazprea, arrays cannot be indexed with array expressions.
+For instance, with single dimensional arrays:
 
 ::
 
-         integer[*] v = [0, 0, 0];
+         integer[\*] v = [0, 0, 0];
 
-         /* Can assign an entire array value -- change 'v' to [1, 2, 3] */
+         /* Can assign an entire array value -- change 'v' to [1, 2, 3] \*/
          v = [1, 2, 3];
 
-         /* Change 'v' to [1, 0, 3] */
+         /* Change 'v' to [1, 0, 3] \*/
          v[2] = 0;
 
-Matrices can be treated similarly.
+This applies to arrays of any dimension.
 
 ::
 
-         integer[*, *] M = [[1, 1], [1, 1]];
+         integer[\*][\*] M = [[1, 1], [1, 1]];
 
-         /* Change the entire matrix M to [[1, 2], [3, 4]] */
+         /* Change the entire matrix M to [[1, 2], [3, 4]] \*/
          M = [[1, 2], [3, 4]];
 
-         /* Change a single position of M */
-         M[1, 2] = 7;  /* M is now [[1, 7], [3, 4]] */
+         /* Change a single position of M \*/
+         M[1][2] = 7;  /* M is now [[1, 7], [3, 4]] */
 
 Tuples also have a special unpacking syntax in *Gazprea*. A tuple’s
 field may be assigned to comma separated variables instead of a tuple
@@ -81,12 +80,12 @@ variable. For instance:
 
          tuple(integer, real) tup = (1, 2.0);
 
-         /* x == 1, and y == 2.0 now */
+         /* x == 1, and y == 2.0 now \*/
          x, y = tup;
 
          /* Types can be promoted */
 
-         /* z == 1.0, y == 2.0 */
+         /* z == 1.0, y == 2.0 \*/
          z, y = tup;
 
          /* Can swap: z == 2.0, y == 1.0 */
@@ -104,8 +103,8 @@ assignment. For instance:
 
 ::
 
-         integer[*] v = [1, 2, 3];
-         integer[*] w = v;
+         integer[\*] v = [1, 2, 3];
+         integer[\*] w = v;
 
          w[2] = 0;  /* This must not affect 'v' */
 
@@ -119,7 +118,7 @@ assignment. For instance:
 
 The above is a simple example using arrays. You must ensure that values
 can not be aliased with an assignment between any types, including
-arrays, matrices, and tuples.
+arrays and tuples.
 
 Variables may be declared as const, and in this case it is illegal for
 them to appear on the left hand side of an assignment expression. The

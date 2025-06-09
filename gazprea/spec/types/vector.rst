@@ -28,7 +28,7 @@ specifier, often called *capacity* in other languages.
 
    ::
 
-        Vector<character> vec = ["a", "b", "c"];
+        Vector<character> vec = ['a', 'b', 'c'];
         var Vector<integer> ivec;
         Vector<real[*]> ragged_right = [[1.0], [2.0, 2.0]];
         const Vector<character> const_vec = vec;
@@ -67,6 +67,3 @@ within the vector, and the second index selects the element within the array:
         Vector<real[*]> ragged_right = [[1.0], [2.1, 1.2]];
         length(ragged_right[1]) -> std_output; // prints 1
         ragged_right[2][2] -> std_output; // prints 1.2
-
-
-   

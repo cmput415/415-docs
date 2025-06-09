@@ -109,7 +109,7 @@ Here are the compile-time errors your compiler must throw:
 * ``SizeError``
 
     Raised during compilation if the compiler detects an operation or statement
-    is applied to or between arrays and matrices with invalid or incompatible
+    is applied to or between arrays with invalid or incompatible
     sizes. Read more about when a ``SizeError`` should be raised at run-time
     instead of compile-time in the :ref:`ssec:errors_sizeErrors` section.
 
@@ -182,14 +182,14 @@ Here are the run-time errors you need to report:
 * ``SizeError``
 
     Raised at runtime if an operation or statement is applied to or between
-    arrays and matrices with invalid or incompatible sizes. Read more about
+    arrays with invalid or incompatible sizes. Read more about
     when a ``SizeError`` should be raised at compile-time instead of run-time in
     the :ref:`ssec:errors_sizeErrors` section.
 
 * ``IndexError``
 
-    Raised at runtime if an expression used to index an array or matrix is an
-    ``integer``, but is invalid for the array/matrix size.
+    Raised at runtime if an expression used to index an array is an
+    ``integer``, but is invalid for the array size.
 
 * ``MathError``
 
@@ -219,8 +219,8 @@ Here is an example invalid program and a corresponding run-time error:
 Compile-time vs Run-time Size Errors
 ------------------------------------
 
-While the size of arrays and matrices may not always be known at
-compile time, there are instances where the compiler can perform length
+While the size of arrays may not always be known at compile time,
+there are instances where the compiler can perform length
 checks at compile time. For instance:
 
 ::
@@ -234,48 +234,49 @@ compile-time.
 In particular, your compiler should raise a ``SizeError`` at compile-time if and
 only if it finds one of the following five cases:
 
-#. An operation between arrays or matrices with compatible types such that
+#. An operation between arrays with compatible sizes such that
 
-   #. each operand array or matrix expression is formed by operations on
+   #. each operand array expression is formed by operations on
       literal expressions, and
 
-   #. the sizes of the operand arrays or matrices do not match.
+   #. the sizes of the operand arrays do not match.
 
-#. An array or matrix declaration, found either in a regular declaration statement, function parameter binding or constant procedure parameter binding such that
+#. An array declaration, found either in a regular declaration statement,
+   function parameter binding or constant procedure parameter binding such that
 
-   #. the expressions used to declare the size of the array or matrix are
+   #. the expressions used to declare the size of the array are
       formed exclusively from arithmetic operations on scalar literals
 
-   #. the declaration or parameter is initialized with an array or matrix
+   #. the declaration or parameter is initialized with an array
       expression with compatible type that is formed by arithmetic operations
       on scalar literals 
 
    #. the size of the initialization expression is larger, in some dimension,
       than the declared size.
 
-#. An array or matrix declaration statement such that
+#. An array declaration statement such that
 
    #. the declaration has no declared size and
 
    #. there is no initialization expression.
 
-#. An array or matrix declaration statement such that
+#. An array declaration statement such that
 
    #. the declaration has no declared size,
 
    #. the initialization expression has compatible type, and
 
-   #. the initialization expression is not an array or matrix type.
+   #. the initialization expression is not an array.
 
 #. A function call where
 
-   #. The argument is a matrix or array literal
+   #. The argument is an array literal
 
    #. The parameter type is the same type but with a different literal size.  
 
 #. A return statement where
 
-   #. The value being returned is a matrix or array literal
+   #. The value being returned is an array literal
 
    #. The return type of the function is the same type but with a different literal size.  
 
@@ -296,7 +297,7 @@ Here are some example statements that should raise a compile-time ``SizeError``:
 
 ::
 
-  integer[2, 2] mat = [[1, 2, 3], [4, 5, 6]];
+  integer[2][2] mat = [[1, 2, 3], [4, 5, 6]];
 
 ::
 

@@ -29,8 +29,8 @@ following is therefore legal:
     return i;
   }
 
-In addition to base types, ``typedef`` can be used with arrays, matrices,
-strings and tuples. Using ``typedef`` on tuples, or on arrays and matrices
+In addition to base types, ``typedef`` can be used with arrays,
+strings and tuples. Using ``typedef`` on tuples, or on arrays
 with sizes helps reusability and consistency:
 
 ::
@@ -38,10 +38,10 @@ with sizes helps reusability and consistency:
   typedef tuple(string[64], integer, real) student_id_grade;
   student_id_grade chucky_cheese = ("C. Cheese", 123456, 77.0);
 
-  typedef integer[2,3] two_by_three_matrix;
+  typedef integer[2][3] two_by_three_matrix;
   two_by_three_matrix m = [i in 1..2, j in 1..3 | i + j];
 
-Typedefs of arrays and matrices with inferred sizes are allowed, but
+Typedefs of arrays with inferred sizes are allowed, but
 declarations of variables using the typedef must be initialized appropriately.
 
 Because ``typedef`` is an aliased name for a type, you can use
@@ -59,7 +59,10 @@ Duplicate ``typedef`` should raise a `SymbolError`
   typedef integer ty;
   typedef character ty;
 
-Some typedefs may be parameterized with an expression, such as with array or matrix types, such expressions are resitrcted to be composed exclusively from arithmetic operations on scalar literals. Practically speaking, this requires constant folding but *not* constant propogation.
+Some typedefs may be parameterized with an expression, such as with arrays,
+such expressions are restricted to be composed exclusively from arithmetic
+operations on scalar literals. Practically speaking, this requires constant
+folding but *not* constant propogation.
 
 ::
 

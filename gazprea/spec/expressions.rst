@@ -48,9 +48,9 @@ associativities of the operators in *Gazprea*.
 Generators
 ----------
 
-A generator may be used to construct either an array or a matrix. A
-generator creates a value of an array type when one domain variable is
-used, a matrix type when two domain variables are used.
+A generator may be used to construct either a one or two dimensional array.
+A generator creates a value of a 1D array type when one domain variable is
+used, and a 2D array type when two domain variables are used.
 Any other number of domain variables will yield an error.
 
 A generator consists of either one or two domain expressions,
@@ -62,8 +62,8 @@ This additional expression is used to create the generated values. For example:
          integer[10] v = [i in 1..10 | i * i];
          /* v[i] == i * i */
 
-         integer[2, 3] M = [i in 1..2, j in 1..3 | i * j];
-         /* M[i, j] == i * j */
+         integer[2][3] M = [i in 1..2, j in 1..3 | i * j];
+         /* M[i][j] == i * j */
 
 The expression to the right of the bar (``|``), is used to generate the
 value at the given index.
@@ -80,7 +80,7 @@ is perfectly legal:
 
          integer i = 7;
 
-         /* The domain expression should use the previously defined i */
+         /* The domain expression should use the previously defined i \*/
          integer[*] v = [i in [i in 1..i | i] | [i in 1..10 | i * i][i]];
 
          /* v should contain the first 7 squares. */

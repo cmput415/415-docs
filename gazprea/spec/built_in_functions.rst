@@ -31,19 +31,17 @@ representing the number of elements in the array.
 
 .. _ssec:builtIn_rows_cols:
 
-Rows and Columns
-----------------
+Shape
+-----
 
-The built-ins ``rows`` and ``columns`` operate on matrices of any
-dimension and type. ``rows`` returns the number of rows in a matrix, and
-``columns`` returns the number of columns in the matrix.
+The built-in ``shape`` operates on arrays of any dimension, and returns an
+array listing the size of each dimension.
 
 ::
 
-         integer[*, *] M = [[1, 2, 3], [4, 5, 6]];
+         integer[\*, \*] M = [[1, 2, 3], [4, 5, 6]];
 
-         rows(M) -> std_output; /* Prints 2 */
-         columns(M) -> std_output; /* Prints 3 */
+         shape(M) -> std_output; /* Prints [2, 3] */
 
 .. _ssec:builtIn_reverse:
 
