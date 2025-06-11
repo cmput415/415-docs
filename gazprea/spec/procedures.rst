@@ -233,4 +233,9 @@ aliasing.
 Array Parameters and Returns
 ----------------------------------------
 
-:ref:`As with functions <ssec:function_vec_mat>`, the arguments and return value of procedures can have both explicit and inferred sizes.
+:ref:`As with functions <ssec:function_vec_mat>`, the arguments and return
+value of procedures can have both explicit and inferred sizes.
+
+Similarly, slices can be used whereever arrays are declared as parameters, and
+unlike functions, array parameters in procedures can be ``var``.
+

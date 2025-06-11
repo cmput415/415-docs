@@ -1,25 +1,25 @@
-.. _sec:function:
+1.. _sec:function:
 
 Functions
 =========
 
 A function in *Gazprea* has several requirements:
 
--  All of the arguments are implicitly ``const``, and can not be
+1.  All of the arguments are implicitly ``const``, and can not be
    mutable.
 
--  Function arguments cannot contain type qualifiers. Including a type qualifier
+2.  Function arguments cannot contain type qualifiers. Including a type qualifier
    with a function argument should result in a ``SyntaxError``.
 
--  Argument types must be explicit. Inferred size arrays are allowed
+3.  Argument types must be explicit. Inferred size arrays are allowed
 
--  Functions can not perform any I/O.
+4.  Functions can not perform any I/O.
 
--  Functions can not rely upon any mutable state outside of the function.
+5.  Functions can not rely upon any mutable state outside of the function.
 
--  Functions can not call any procedures.
+6.  Functions can not call any procedures.
 
--  Functions must be declared in the global scope.
+7.  Functions must be declared in the global scope.
 
 The reason for this is to ensure that functions in *Gazprea* behave as
 pure functions. Every time you call a function with the same arguments
@@ -143,7 +143,7 @@ Function Prototypes
 Functions can be declared before they are defined in a *Gazprea* file.
 This allows function definitions to be moved to more convenient
 locations in the file, and allows for multiple compilation units if the
-functions.
+function definitions are in different source files.
 
 ::
 
@@ -197,3 +197,9 @@ Like Rust, array *slices* may be passed as arguments:
              two_halves.append(to_real_vec(a[6..]));
              return two_halves;
          }
+
+Remember that all function parameters are ``const`` in *Gazprea*, so that all
+functions are pure. That means that while it is legal to pass arrays and slices
+*be reference*, the array contents cannot be modified inside the function,
+because the change would be visible outside the function. You must check that
+the ``const`` requirement is honored.
