@@ -360,19 +360,21 @@ Installing the Tester
 This is the tool you'll be using for testing your solutions locally. You'll be
 building it yourself so that any changes later are easily obtainable.
 
+.. code-block:: console
+
+ $ git clone https://github.com/cmput415/Dragon-Runner.git
+ $ cd Dragon-Runner
+ $ pip install .
+
+
 If you encounter issues, please log them on the `GitHub issue tracker
 <https://github.com/cmput415/Dragon-Runner/issues>`__ or, if you want to, submit a pull
 request and we'll review it!
 
-```
-git clone https://github.com/cmput415/Dragon-Runner.git
-cd Dragon-Runner
-pip install .
-```
-
 For more info about organising your tests and creating a configuration (though
 templates will be provided with your assignments) you can check `the Tester
 README <https://github.com/cmput415/Dragon-Runner/blob/main/README.md>`__.
+
 
 Testing Your Environment
 ------------------------
