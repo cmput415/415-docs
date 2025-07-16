@@ -83,13 +83,7 @@ operand is a square matrix (:math:`m \times m`).
 Multi-dimensional Arrays
 --------------------------
 
-Array promotion to a higher dimension occurs because, for example,
-a row in a 2D array is equivalent to a 1D array.
-When a 2D array is initialized or operated on with a 1D array, each scalar
-element in the 1D array is interpreted as a row. By applying the scalar to
-array promotion rule, each scalar element in the array will be promoted
-to a row. The example below demonstrates scalar to row promotion,
-row padding and column padding all together.
+Array promotion to a higher dimension occurs when elements of the initialization array can be promoted from the corresponding element type of the declaration. For example, when a declaration of a 2D array (matrix) is initialized with a 1D array (vector), each scalar element in the 1D array is interpreted as a row. This is because higher dimensional arrays are defined as an array of arrays, therefore each scalar element is promoted to a 1D array. The example below demonstrates scalar to array promotion and dimension padding.
 
 ::
   
@@ -97,11 +91,7 @@ row padding and column padding all together.
     // m1 = [[1, 1, 1, 1], [1, 2, 3, 0], [0, 0, 0, 0]]
     
 
-The number of columns in each row are inferred, first by the expression
-indicating the column size in the type declaration, and second, if the columnn
-size is inferred as ``*``, by the size of the array literal or expression.
-Therefore, when the column size is infered, an array to matrix promotion always
-produces a square matrix.
+In the example above, the second size expression, representing the column length, is used for the implicit promotion from each RHS element. If the promotion size is infered using the ``*`` notation, a compile time ``SizeError`` should be thrown.
 
 ::
 
