@@ -29,13 +29,14 @@ following is therefore legal:
     return i;
   }
 
-In addition to base types, ``typedef`` can be used with arrays,
-strings and tuples. Using ``typedef`` on tuples, or on arrays
-with sizes helps reusability and consistency:
+In addition to base types, ``typedef`` can be used with compound types (arrays,
+Vectors, and Strings) and aggregate types (structs and tuples).
+Using ``typedef`` on tuples, or on arrays with sizes helps reusability and
+consistency:
 
 ::
 
-  typedef tuple(string[64], integer, real) student_id_grade;
+  typedef tuple(character[64], integer, real) student_id_grade;
   student_id_grade chucky_cheese = ("C. Cheese", 123456, 77.0);
 
   typedef integer[2][3] two_by_three_matrix;

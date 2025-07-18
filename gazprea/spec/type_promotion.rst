@@ -143,7 +143,9 @@ Field names of tuples are overwritten by the field names of the left-hand side i
      bar.c -> std_output; // 1
 
 
-If initializing a variable with a tuple via :ref:`sec:typeInference`, the variable is assumed to be the same type. Therefore, field names are also copied over accordingly. For example:
+If initializing a variable with a tuple via :ref:`sec:typeInference`, the
+variable is assumed to be the same type.
+Therefore, field names are also copied over accordingly. For example:
 
 ::
 
@@ -168,10 +170,10 @@ It is possible for a two sided promotion to occur with tuples. For example:
 Character Array to/from String
 -------------------------------
 
-A ``string`` can be implicitly converted to an array of ``character``\ s and vice-versa (two-way type promotion).
+A ``String`` can be implicitly converted to an array of ``character``\ s and vice-versa (two-way type promotion).
 
 ::
 
-     string str1 = "Hello"; /* str == "Hello" */
-     character[*] chars = str; /* chars == ['H', 'e', 'l', 'l', 'o'] */
-     string str2 = chars || [' ', 'W', 'o', 'r', 'l', 'd']; /* str2 == "Hello World" */
+     String str1 = "Hello"; /* str1 == "Hello" */
+     character[*] chars = str1; /* chars == ['H', 'e', 'l', 'l', 'o'] */
+     String str2 = chars || [' ', 'W', 'o', 'r', 'l', 'd']; /* str2 == "Hello World" */

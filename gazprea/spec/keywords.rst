@@ -66,7 +66,7 @@ not be used by a programmer.
 
 -  stream_state
 
--  string
+-  String
 
 -  true
 
@@ -75,6 +75,8 @@ not be used by a programmer.
 -  typedef
 
 -  var
+
+-  Vector
 
 -  while
 

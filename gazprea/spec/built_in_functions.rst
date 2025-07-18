@@ -63,7 +63,7 @@ The reverse built-in takes any array, and returns a reversed version of it.
 Format
 -------
 
-The ``format`` built-in takes any scalar as input and returns a string
+The ``format`` built-in takes any scalar as input and returns a String
 containing the formatted value of the scalar.
 
 ::
@@ -74,7 +74,7 @@ containing the formatted value of the scalar.
          "i = " || format(i) || ", r = " || format(r) || '\n' -> std_output;
          // Prints: "i = 24, r = 2.4\n"
 
-Note that ``format`` will have to allocate space to hold the return string.
+Note that ``format`` will have to allocate space to hold the return String.
 You will have to figure out how to manage the memory so it is reclaimed
 eventually.
 
