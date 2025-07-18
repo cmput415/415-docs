@@ -73,7 +73,7 @@ The following operations are defined between ``character`` values.
 +------------+--------------------------+------------+---------------------------+-------------------+
 
 Scalar values with type ``character`` may be concatenated onto
-values with type ``string`` or arrays with type ``character``.
+variables with type ``String`` or arrays with type ``character``.
 
 Type Casting and Type Promotion
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
