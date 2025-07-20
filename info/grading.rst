@@ -29,6 +29,15 @@ The following table shows the weight distribution for each grading category acro
 | Performance Testing    | 0%        | 0%      | 0%      | 0%           | 10%          |
 +------------------------+-----------+---------+---------+--------------+--------------+
 
+Late Policy
+---------------------------------------------------
+At the moment of the deadline repositories are automatically pulled from Github Classroom. In the case
+of a late submission, the following policy is employed.
+
+* Late submissions within the first 24 hour interval after the deadline are excluded from the competitive testing tournament.
+* If competitive testing is not being organized for this assignment for any reason, a commensurate deduction will be applied.
+* Each 24 hour interval thereafter a 10% deduction is incurred.
+* Marks for submissions late beyond three days are capped at the minimum passing grade. 
 
 Code Style and Consistency
 ---------------------------------------------------
