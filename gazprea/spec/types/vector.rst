@@ -2,7 +2,7 @@ Vectors
 -------
 
 Vectors are language supported objects that allow for dynamically sized arrays.
-Once created, vectors in *Gazprea* behave exactly like arrays: they can be
+Once created, Vectors in *Gazprea* behave exactly like arrays: they can be
 intermixed with arrays in expressions; they can be use on the RHS of array
 declarations and initializations; and they can be passed as array arguments to
 subroutines and functions.
@@ -23,7 +23,7 @@ the literals ``<`` and ``>`` are used in the declaration)
             Vector<|type|> |identifier| = |type-array|;
 
 
-Unlike the array type, *Gazprea* vectors do not have an explicit size
+Unlike the array type, *Gazprea* Vectors do not have an explicit size
 specifier, often called *capacity* in other languages.
 
    ::
@@ -36,11 +36,11 @@ specifier, often called *capacity* in other languages.
 
 As a language supported object, *Gazprea* provides several methods for ``Vector``:
 
-- push() - pushes a new element to the back of the vector
+- push() - pushes a new element to the back of the Vector
 
-- len() - number of elements in the vector
+- len() - number of elements in the Vector
 
-- append - append another array slice to the vector
+- append - append another array slice to the Vector
   
    ::
 
@@ -52,15 +52,15 @@ As a language supported object, *Gazprea* provides several methods for ``Vector`
 Operations
 ~~~~~~~~~~~
 
-Operations on ``Vectors`` are identical syntactically and semantically to
+Operations on Vectors are identical syntactically and semantically to
 operations on arrays. In particular, operand lengths must match for binary
 expressions and dot product.
 
-A ``Vector`` or vector slice can be passed as a call argument that has been
+A Vector or Vector slice can be passed as a call argument that has been
 declared as an array slice of the same size and type.
 
-When indexing a vector of arrays, the first index selects the array element
-within the vector, and the second index selects the element within the array:
+When indexing a Vector of arrays, the first index selects the array element
+within the Vector, and the second index selects the element within the array:
 
  ::
 
