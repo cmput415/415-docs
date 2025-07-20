@@ -77,7 +77,7 @@ be accomplished with ``concat`` and ``push`` methods:
 
 ::
 
-  String letters = ['a', 'b'] || "cd";
+  var String letters = ['a', 'b'] || "cd";
   letters.concat("ef");
   letters.push('g');
   letters  -> std_output;

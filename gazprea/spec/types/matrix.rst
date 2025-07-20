@@ -1,7 +1,7 @@
 .. _ssec:matrix:
 
 Matrices
-------
+--------
 
 *Gazprea* supports two dimensional matrices as arrays of arrays.
 Although the syntax and concepts are easily generalizable to many dimensions,
@@ -18,11 +18,11 @@ valid matrix declarations:
 
 ::
 
-           integer[\*][\*] A = [[1, 2, 3], [4, 5, 6], [7, 8, 9]];
+           integer[*][*] A = [[1, 2, 3], [4, 5, 6], [7, 8, 9]];
            integer[3][2] B = [[1, 2], [4, 5], [7, 8]];
-           integer[3][\*] C = [[1, 2], [4, 5], [7, 8]];
-           integer[\*][2] D = [[1, 2], [4, 5], [7, 8]];
-           integer[\*][*] E = [[1, 2], [4, 5], [7, 8]];
+           integer[3][*] C = [[1, 2], [4, 5], [7, 8]];
+           integer[*][2] D = [[1, 2], [4, 5], [7, 8]];
+           integer[*][*] E = [[1, 2], [4, 5], [7, 8]];
 
 .. _sssec:matrix_constr:
 
@@ -39,18 +39,18 @@ amounts given in a declaration an error is to be produced.
 
 ::
 
-           integer[\*] v = [1, 2, 3];
-           integer[\*][\*] A = [v, [1, 2]];
-           /* A == [[1, 2, 3], [1, 2, 0]] \*/
+           integer[*] v = [1, 2, 3];
+           integer[*][*] A = [v, [1, 2]];
+           /* A == [[1, 2, 3], [1, 2, 0]] */
 
 
 Similarly, we can have:
 
 ::
 
-           integer[\*] v = [1, 2, 3];
+           integer[*] v = [1, 2, 3];
            integer[3, 3] A = [v, [1, 2]];
-           /* A == [[1, 2, 3], [1, 2, 0], [0, 0, 0]] \*/
+           /* A == [[1, 2, 3], [1, 2, 0], [0, 0, 0]] */
 
 
 Also matrices can be initialized with a scalar value.
@@ -61,7 +61,7 @@ Gazprea supports empty matrices.
 
 ::
 
-   integer[\*][\*] m = []; /* Should create an empty matrix */
+   integer[*][*] m = []; /* Should create an empty matrix */
 
 .. _sssec:matrix_ops:
 
@@ -94,7 +94,7 @@ matrix respectively. For instance:
 
 ::
 
-           integer[\*][\*] M = [[1, 1, 1], [1, 1, 1]];
+           integer[*][*] M = [[1, 1, 1], [1, 1, 1]];
 
            integer r = rows(M);  /* This has a value of 2 */
            integer c = columns(M);  /* This has a value of 3 \*/
@@ -115,7 +115,7 @@ and column. Both the row and column indices must be integers.
 
 ::
 
-           integer[\*][\*] M = [[11, 12, 13], [21, 22, 23]];
+           integer[*][*] M = [[11, 12, 13], [21, 22, 23]];
 
            /* M[1, 2] == 12 */
 

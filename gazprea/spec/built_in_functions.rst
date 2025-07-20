@@ -1,18 +1,20 @@
 .. _sec:builtIn:
 
-Built In Functions
+Built-In Functions
 ==================
 
-*Gazprea* has some built in functions. These built in functions may have
+*Gazprea* has some built-in functions. These built in functions may have
 some special behaviour that normal functions can not have, for instance
-many of them will work on arrays of any element type. Normally a function
-must specify the element type of an array argument.
+many of them will work on arrays of any element type.
+Normally a function must specify the element type of an array argument.
 
 The name of built in functions are reserved and a user program cannot
-define a function or a procedure with the same name as a built in
-function. If a declaration or a definition with the same name as a
-built-in function is encountered in a *Gazprea* program, then the
-compiler should issue an error message.
+define a function or a procedure with the same name as a built-in function.
+If a declaration or a definition with the same name as a built-in function is
+encountered in a *Gazprea* program, then the compiler should issue an error.
+
+Note that although the examples below all use arrays, all the built-ins work
+on Vectors and Strings, since they are always compatible with arrays.
 
 .. _ssec:builtIn_length:
 
@@ -39,7 +41,7 @@ array listing the size of each dimension.
 
 ::
 
-         integer[\*, \*] M = [[1, 2, 3], [4, 5, 6]];
+         integer[*, *] M = [[1, 2, 3], [4, 5, 6]];
 
          shape(M) -> std_output; /* Prints [2, 3] */
 
@@ -48,7 +50,8 @@ array listing the size of each dimension.
 Reverse
 -------
 
-The reverse built-in takes any array, and returns a reversed version of it.
+The reverse built-in takes any array, Vector, or String, and returns a
+reversed version of it.
 
 ::
 

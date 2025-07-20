@@ -1,15 +1,13 @@
-1.. _sec:function:
+.. _sec:function:
 
 Functions
 =========
 
 A function in *Gazprea* has several requirements:
 
-1.  All of the arguments are implicitly ``const``, and can not be
-   mutable.
+1.  All of the arguments are implicitly ``const``, and can not be mutable.
 
-2.  Function arguments cannot contain type qualifiers. Including a type qualifier
-   with a function argument should result in a ``SyntaxError``.
+2.  Function arguments cannot contain type qualifiers. Including a type qualifier with a function argument should result in a ``SyntaxError``.
 
 3.  Argument types must be explicit. Inferred size arrays are allowed
 
@@ -114,7 +112,7 @@ function without a return statement, so we don’t know what value
             forever, so we make the assumption that all branches in the control
             flow could be followed. */
          function f() returns integer {
-           integer x = 0;
+           var integer x = 0;
            loop {
              x = x + 1;
            }
@@ -124,7 +122,7 @@ function without a return statement, so we don’t know what value
             return is never reached, execution never hits the end of the
             function without a return. */
          function g() returns integer {
-           integer x = 0;
+           var integer x = 0;
            loop {
              x = x + 1;
            }
@@ -193,7 +191,7 @@ Like Rust, array *slices* may be passed as arguments:
 
          function slicer() returns real[*] {
              integer a[10] = 1..10;
-             Vector<real> two_halves = to_real_vec(a[1..5]);
+             var Vector<real> two_halves = to_real_vec(a[1..5]);
              two_halves.append(to_real_vec(a[6..]));
              return two_halves;
          }

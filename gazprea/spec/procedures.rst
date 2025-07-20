@@ -131,7 +131,7 @@ one and only one compilation unit must define ``main``.
 
          /* must be writen like this */
          procedure main() returns integer {
-           integer x = 1;
+           var integer x = 1;
            x = x + x;
            x -> std_output;
 
@@ -151,14 +151,14 @@ call by reference, and are therefore *l-values* (pointers).
 ::
 
 
-         procedure byvalue(string x) returns integer {
+         procedure byvalue(String x) returns integer {
            return len(x);
          }
-         procedure byreference(var string x) returns integer {
+         procedure byreference(var String x) returns integer {
            return len(x);
          }
          procedure main() returns integer {
-           character[3] y = ['y', 'e', 's'];
+           const character[3] y = ['y', 'e', 's'];
 
            integer size = byvalue(y); // legal
            call byreference(y);       // illegal
@@ -186,9 +186,9 @@ should be raised when this is detected. For instance:
          }
 
          procedure main() returns integer {
-           integer x = 0;
-           integer y = 0;
-           integer z = 0;
+           var integer x = 0;
+           var integer y = 0;
+           var integer z = 0;
 
            /* Illegal */
            call p(x, x, x, x); /* Aliasing, this is an error. */
@@ -197,8 +197,7 @@ should be raised when this is detected. For instance:
 
            /* Legal */
              call p(x, y, z, z);
-             /* Even though 'z' is aliased with 'c' and 'd' they are
-             both const. */
+             /* Even though 'z' is aliased with 'c' and 'd' they are both const. */
 
            return 0;
          }
