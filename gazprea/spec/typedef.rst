@@ -30,7 +30,7 @@ following is therefore legal:
   }
 
 In addition to base types, ``typedef`` can be used with compound types (arrays,
-Vectors, and Strings) and aggregate types (structs and tuples).
+vectors, and strings) and aggregate types (structs and tuples).
 Using ``typedef`` on tuples, or on arrays with sizes helps reusability and
 consistency:
 

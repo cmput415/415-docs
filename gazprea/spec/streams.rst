@@ -51,7 +51,7 @@ prints the following:
 
      [1 2 3]
 
-:ref:`Strings <ssec:string>` print their contents as a contiguous sequence of characters.
+:ref:`strings <ssec:string>` print their contents as a contiguous sequence of characters.
 For example:
 
 ::

@@ -66,7 +66,7 @@ not be used by a programmer.
 
 -  stream_state
 
--  String
+-  string
 
 -  true
 
@@ -76,7 +76,7 @@ not be used by a programmer.
 
 -  var
 
--  Vector
+-  vector
 
 -  while
 

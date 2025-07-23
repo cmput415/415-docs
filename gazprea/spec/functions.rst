@@ -191,7 +191,7 @@ Like Rust, array *slices* may be passed as arguments:
 
          function slicer() returns real[*] {
              integer a[10] = 1..10;
-             var Vector<real> two_halves = to_real_vec(a[1..5]);
+             var vector<real> two_halves = to_real_vec(a[1..5]);
              two_halves.append(to_real_vec(a[6..]));
              return two_halves;
          }

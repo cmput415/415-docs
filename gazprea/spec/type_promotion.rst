@@ -170,10 +170,10 @@ It is possible for a two sided promotion to occur with tuples. For example:
 Character Array to/from String
 -------------------------------
 
-A ``String`` can be implicitly converted to an array of ``character``\ s and vice-versa (two-way type promotion).
+A ``string`` can be implicitly converted to an array of ``character``\ s and vice-versa (two-way type promotion).
 
 ::
 
-     String str1 = "Hello"; /* str1 == "Hello" */
+     string str1 = "Hello"; /* str1 == "Hello" */
      character[*] chars = str1; /* chars == ['H', 'e', 'l', 'l', 'o'] */
-     String str2 = chars || [' ', 'W', 'o', 'r', 'l', 'd']; /* str2 == "Hello World" */
+     string str2 = chars || [' ', 'W', 'o', 'r', 'l', 'd']; /* str2 == "Hello World" */
