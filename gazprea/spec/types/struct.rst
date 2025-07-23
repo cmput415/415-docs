@@ -65,7 +65,7 @@ or right hand side of an expression:
      t1.iv[i] = type-expr; // Allowed
 
 
-.. _sssec:tuple_lit:
+.. _sssec:struct_lit:
 
 Literals
 ~~~~~~~~
@@ -80,7 +80,7 @@ parentheses in a comma separated list. For example:
      const S s = (x, "hello", [1, 2, 3]);
      struct V (integer i, real r, integer[10] arr) v = (1, 2.1, [i in 1..10 | i]);
 
-.. _sssec:tuple_ops:
+.. _sssec:struct_ops:
 
 Operations
 ~~~~~~~~~~
