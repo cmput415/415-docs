@@ -15,9 +15,9 @@ a struct.
 Declaration
 ~~~~~~~~~~~
 
-A struct is declared with the keyword ``struct`` followed by a _type name_,
+A struct is declared with the keyword ``struct`` followed by a *type name*,
 followed by a parentheses-surrounded, comma-separated list of
-_field declarations_.
+*field declarations*.
 Field declarations look identical to parameter declarations in functions,
 and consist of a ``<type id>`` pair:
 
@@ -43,9 +43,10 @@ Access
 The fields of a struct are accessed using dot notation, as in tuples.
 Dot notation can only be applied to struct instances and *not* struct literals.
 Dot notation can be specified as ``<id>.<field>``, where:
-  - ``id`` is an instance identifier/name of a struct of type ``T``
-  - ``.`` is a literal period (dot)
-  - ``field`` is a field within struct ``T``
+
+  * ``id`` is an instance identifier/name of a struct of type ``T``
+  * ``.`` is a literal period (dot)
+  * ``field`` is a field within struct ``T``
 
 For example:
 ::
@@ -88,8 +89,7 @@ The following operations are defined on ``struct`` instances.
 In all of the usage examples, ``struct-type`` means some struct yielding
 expression of a particular type, while ``id`` is a field within the struct.
 
-
-+------------+---------------+------------+----------------------------  --+-------------------+
++------------+---------------+------------+--------------------------------+-------------------+
 | **Class**  | **Operation** | **Symbol** | **Usage**                      | **Associativity** |
 +------------+---------------+------------+--------------------------------+-------------------+
 | Access     | dot           | ``.``      | ``struct-type.id``             | left              |

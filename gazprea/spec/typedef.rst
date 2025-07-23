@@ -14,7 +14,7 @@ to refer to the old type. For instance:
   typedef integer int;
   const int a = 0;
 
-Additionally, these new type names can conflict with symbol names. The
+Additionally, these new type names can *appear* to conflict with symbol names. The
 following is therefore legal:
 
 ::
@@ -25,7 +25,7 @@ following is therefore legal:
   const main A = 'A';
 
   procedure main() returns i {
-    i i = 0;
+    i i = 0; // <type> <id> = <type-expr>;
     return i;
   }
 

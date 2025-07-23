@@ -54,8 +54,8 @@ equivalent dimensions and equivalent internal type. For example:
 ::
 
      integer i = 1;
-     integer[\*] v = [1, 2, 3, 4, 5];
-     integer[\*] res = v + i;
+     integer[*] v = [1, 2, 3, 4, 5];
+     integer[*] res = v + i;
 
      res -> std_output;
 

@@ -160,10 +160,10 @@ For the following program:
 
 ::
 
-   boolean b;
-   character c;
-   integer i;
-   real r;
+   var boolean b;
+   var character c;
+   var integer i;
+   var real r;
    b <- std_input;
    i <- std_input;
    c <- std_input;
@@ -211,10 +211,10 @@ states 1,0,0,2 respectively.
 
 ::
 
-    integer ss;
-    integer i;
-    boolean b;
-    character c;
+    var integer ss;
+    var integer i;
+    var boolean b;
+    var character c;
 
     i <- std_input;
     i -> std_output;

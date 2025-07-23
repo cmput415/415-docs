@@ -25,6 +25,10 @@ can be an r-value. For example:
 Because a ``const`` value is not an l-value, it cannot be passed to a
 ``var`` argument in a ``procedure``.
 
+Note that ``const`` is the default *Gazprea* behaviour and is essentially a
+no-op unless it is entirely replacing the type.
+
+
 .. _ssec:typeQualifiers_var:
 
 Var
@@ -37,8 +41,8 @@ For example:
 
      var integer i;
 
-Note that var is the default *Gazprea* behaviour and is essentially a
-no-op unless it is entirely replacing the type.
+The compiler should raise an error if an attempt is made to modify a variable
+that is not explicitly declared ``var``.
 
 .. _ssec:typeQualifiers_infer:
 

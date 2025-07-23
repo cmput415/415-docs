@@ -44,7 +44,7 @@ As a language supported object, *Gazprea* provides several methods for ``Vector`
   
    ::
 
-        Vector<tuple(bool, integer)> tvec;
+        var Vector<tuple(bool, integer)> tvec;
         tvec.push((false, 0));
         tvec.append((true, 1));
         tvec[tvec.len()] -> std_output; // prints (true, 1)

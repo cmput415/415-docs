@@ -14,8 +14,12 @@ following formats:
 
 Both declarations are creating a variable with an :ref:`identifier <sec:identifiers>` of
 ``<identifier>``, with :ref:`type <sec:types>` ``<type>``, and optionally a :ref:`type qualifier <sec:typeQualifiers>` of ``<qualifier>``.
+The two qualifiers are ``var`` and ``const``, which qualify the identifier as
+_mutable_ or _immutable_, respectively.
+In *Gazprea* it is important to remember that if the optional qualifier is
+omitted the default is ``const``, i.e. variables are immutable by default.
 
-The first declaration explicitly initializes the value of the new
+The first declaration style explicitly initializes the value of the new
 variable with the value of ``<expression>``.
 
 In *Gazprea* all variables must be initialized in a well defined manner
@@ -30,7 +34,7 @@ the beginning of a block. For instance this would not be legal in
 
 ::
 
-       integer i = 10;
+       var integer i = 10;
        if (blah) {
          i = i + 1;
          real i = 0;  // Illegal placement of a declaration.
@@ -43,9 +47,9 @@ The following declaration placement is legal:
 
 ::
 
-       integer i = 10;
+       var integer i = 10;
        if (blah) {
-         real i = 0;  // At the start of the block. All good.
+         var real i = 0;  // At the start of the block. All good.
          i = i + 1;
        }
 
@@ -54,8 +58,7 @@ illegal to refer to a variable within its own initialization statement.
 
 ::
 
-       /* All of these declarations are illegal, they would result in garbage
-          values. */
+       /* All of these declarations are illegal, they would result in garbage values. */
        integer i = i;
        integer[10] v = v[0] * 2;
 

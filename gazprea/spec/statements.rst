@@ -8,15 +8,15 @@ Statements
 Assignment Statements
 ---------------------
 
-In *Gazprea* a variable may have different values throughout the
-execution of the program. Variables may have their values changed with
+In *Gazprea* a mutable variable may have different values throughout the
+execution of the program. Mutable variables may have their values changed with
 an assignment statement. In the simplest case an assignment statement
 contains an identifier on the left hand side of an equals sign, and an
 expression with a compatible type on the right hand side.
 
 ::
 
-         integer x = 7;
+         var integer x = 7;
 
          x -> std_output;  /* Prints 7 */
 
@@ -31,9 +31,9 @@ promoted to the type of the variable. For instance:
 
 ::
 
-         integer int_var = 7;
-         real real_var = 0.0;
-         boolean bool_var = true;
+         var integer int_var = 7;
+         var real real_var = 0.0;
+         var boolean bool_var = true;
 
          /* Since 'x' is an integer it can be promoted to a real number \*/
          real_var = int_var;  /* Legal */
@@ -48,21 +48,21 @@ For instance, with single dimensional arrays:
 
 ::
 
-         integer[\*] v = [0, 0, 0];
+         var integer[*] v = [0, 0, 0];
 
-         /* Can assign an entire array value -- change 'v' to [1, 2, 3] \*/
+         /* Can assign an entire array value -- change 'v' to [1, 2, 3] */
          v = [1, 2, 3];
 
-         /* Change 'v' to [1, 0, 3] \*/
+         /* Change 'v' to [1, 0, 3] */
          v[2] = 0;
 
 This applies to arrays of any dimension.
 
 ::
 
-         integer[\*][\*] M = [[1, 1], [1, 1]];
+         var integer[*][*] M = [[1, 1], [1, 1]];
 
-         /* Change the entire matrix M to [[1, 2], [3, 4]] \*/
+         /* Change the entire matrix M to [[1, 2], [3, 4]] */
          M = [[1, 2], [3, 4]];
 
          /* Change a single position of M \*/
@@ -74,18 +74,18 @@ variable. For instance:
 
 ::
 
-         integer x = 0;
-         real y = 0;
-         real z = 0;
+         var integer x = 0;
+         var real y = 0;
+         var real z = 0;
 
          tuple(integer, real) tup = (1, 2.0);
 
-         /* x == 1, and y == 2.0 now \*/
+         /* x == 1, and y == 2.0 now */
          x, y = tup;
 
          /* Types can be promoted */
 
-         /* z == 1.0, y == 2.0 \*/
+         /* z == 1.0, y == 2.0 */
          z, y = tup;
 
          /* Can swap: z == 2.0, y == 1.0 */
@@ -103,8 +103,8 @@ assignment. For instance:
 
 ::
 
-         integer[\*] v = [1, 2, 3];
-         integer[\*] w = v;
+         integer[*] v = [1, 2, 3];
+         var integer[*] w = v;
 
          w[2] = 0;  /* This must not affect 'v' */
 
@@ -158,8 +158,8 @@ may be declared in. For instance this is perfectly valid:
 ::
 
          integer x = 3;
-         integer y = 0;
-         real z = 0;
+         var integer y = 0;
+         var real z = 0;
 
          {
            real x = 7.1;
@@ -184,7 +184,7 @@ in *Gazprea* require the conditional expression to be enclosed in parentheses.
 ::
 
          integer x = 0;
-         integer y = 0;
+         var integer y = 0;
 
          /* Compute some value for x */
 
@@ -282,7 +282,7 @@ statements.
 ::
 
            /* Infinite counter */
-           integer n = 0;
+           var integer n = 0;
 
            loop {
              n -> std_output; "\n" -> std_output;
@@ -306,7 +306,7 @@ predicate. For example:
 
 ::
 
-           integer x = 0;
+           var integer x = 0;
 
            /* Print 1 to 10 */
            loop while (x < 10) {
@@ -364,7 +364,7 @@ instance:
 
 ::
 
-           integer[*] v = [i in 1..3 | i];
+           var integer[*] v = [i in 1..3 | i];
 
            /* Since the domain 'v' is only evaluated once this loop prints 1, 2,
               and then 3 even though after the first iteration 'v' is the zero
@@ -415,7 +415,7 @@ actually contains the ``break``.
 
          /* Prints a 3x3 square of *'s */
          integer x = 0;
-         integer y = 0;
+         var integer y = 0;
 
          loop while (y < 3) {
            y = y + 1;
@@ -449,7 +449,7 @@ normally.
 ::
 
          /* Prints every number between 1 and 10, except for 7 */
-         integer x = 0;
+         var integer x = 0;
 
          loop while (x < 10) {
            x = x + 1;
