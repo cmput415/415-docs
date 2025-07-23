@@ -72,7 +72,7 @@ not be used by a programmer.
 
 -  tuple
 
--  typedef
+-  typealias
 
 -  var
 

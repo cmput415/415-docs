@@ -30,7 +30,7 @@ recommended strategy.
    * :ref:`sec:typePromotion`
    * :ref:`sec:typeCasting`
    * :ref:`sec:typeInference`
-   * :ref:`sec:typedef`
+   * :ref:`sec:typealias`
 
 #. :ref:`sec:statements`
 
