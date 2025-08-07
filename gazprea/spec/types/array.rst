@@ -183,6 +183,19 @@ Operations
          integer[3] v = 1 || 2 || 3; // produces [1, 2, 3]
 
 
+      Remember that arrays have a fixed length, which means you cannot grow an
+      array by concatenating elements to the end:
+
+      ::
+
+         var integer[*] growme = [0]; // length is now 1
+         var integer i = 1;
+         loop while (i < 10) {
+             growme = growme || i; // illegal: SizeError
+             i = i + 1;
+         }
+
+
    c. Dot Product
 
       Two arrays with the same size and a numeric element type(types with
