@@ -78,41 +78,6 @@ requirements on the dimensionality of the the operands. The consequence is
 that scalars can only be promoted to a matrix if the matrix multiply
 operand is a square matrix (:math:`m \times m`).
 
-.. _ssec:typePromotion_atom:
-
-Multi-dimensional Arrays
---------------------------
-
-Array promotion to a higher dimension occurs because, for example,
-a row in a 2D array is equivalent to a 1D array.
-When a 2D array is initialized or operated on with a 1D array, each scalar
-element in the 1D array is interpreted as a row. By applying the scalar to
-array promotion rule, each scalar element in the array will be promoted
-to a row. The example below demonstrates scalar to row promotion,
-row padding and column padding all together.
-
-::
-  
-    integer[3][4] m1 = [1,[1,2,3]];
-    // m1 = [[1, 1, 1, 1], [1, 2, 3, 0], [0, 0, 0, 0]]
-    
-
-The number of columns in each row are inferred, first by the expression
-indicating the column size in the type declaration, and second, if the columnn
-size is inferred as ``*``, by the size of the array literal or expression.
-Therefore, when the column size is infered, an array to matrix promotion always
-produces a square matrix.
-
-::
-
-    integer[2][*] m2 = [3, 4];
-    // m2 = [[3, 3], [4, 4]]
-
-Array promotions to a higher dimensionality apply in all contexts where
-operations on arrays are defined.
-
-.. _ssec:typePromotion_ttot:
-
 Tuple to Tuple
 --------------
 
