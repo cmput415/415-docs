@@ -302,15 +302,15 @@ Operations
       Note that for slices only a stride of 1 is allowed.
       For indexing purposes three additions are made to range syntax:
 
-      +-----+---------------------------------+
-      |     | Interpretation                  |
-      +-----+---------------------------------+
-      + ..  | all elements                    |
-      +-----+---------------------------------+
-      + i.. | ith to nth elements             |
-      +-----+---------------------------------+
-      + ..-i | first to n-i-1th elements      |
-      +-----+---------------------------------+
+      +---------+---------------------------------+
+      |         | Interpretation                  |
+      +---------+---------------------------------+
+      + `..`    | all elements                    |
+      +---------+---------------------------------+
+      + `i..`   | ith to nth elements             |
+      +---------+---------------------------------+
+      + `..-i`  | first to n-i-1th elements       |
+      +---------+---------------------------------+
 
       Examples:
 
