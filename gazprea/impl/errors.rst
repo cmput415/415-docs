@@ -12,6 +12,48 @@ the exceptions for compile-time errors but not run-time errors. Do not create
 new errors. Your compiler is only expected to report the first error it
 encounters.
 
+Syntax Errors
+~~~~~~~~~~~~~
+
+ANTLR handles syntax errors automatically, but you are required to override the
+behavior and throw the ``SyntaxError`` exception from
+``include/CompileTimeExceptions.h``.
+
+For example:
+
+::
+
+    /* main.cpp */
+
+    class MyErrorListener : public antlr4::BaseErrorListener {
+        void syntaxError(antlr4::Recognizer *recognizer, antlr4::Token * offendingSymbol,
+                         size_t line, size_t charPositionInLine, const std::string &msg,
+                         std::exception_ptr e) override {
+            std::vector<std::string> rule_stack = ((antlr4::Parser*) recognizer)->getRuleInvocationStack();
+            // The rule_stack may be used for determining what rule and context the error has occurred in.
+            // You may want to print the stack along with the error message, or use the stack contents to 
+            // make a more detailed error message.
+
+            throw SyntaxError(line, msg); // Throw our exception with ANTLR's error message. You can customize this as appropriate.
+        }
+    };
+
+    int main(int argc, char **argv) {
+
+        ...
+
+        gazprea::GazpreaParser parser(&tokens);
+
+        parser.removeErrorListeners(); // Remove the default console error listener
+        parser.addErrorListener(new MyErrorListener()); // Add our error listener
+
+        ...
+    }
+
+For more information regarding the handling of syntax errors in ANTLR, refer to
+chapter 9 of
+`The Definitive ANTLR 4 Reference <https://pragprog.com/titles/tpantlr2/>`__.
+
 Compile-time Errors
 -------------------
 
@@ -106,12 +148,22 @@ Here are the compile-time errors your compiler must throw:
     Raised during compile time expression evaluation when division by zero occurs.
     Conditions for raising are eqivalent to a runtime ``MathError``. 
 
+* ``IndexError``
+
+    Raised during compilation if an expression used to index an array is an
+    ``integer``, but is invalid for the array size.
+
 * ``SizeError``
 
     Raised during compilation if the compiler detects an operation or statement
     is applied to or between arrays with invalid or incompatible
     sizes. Read more about when a ``SizeError`` should be raised at run-time
     instead of compile-time in the :ref:`ssec:errors_sizeErrors` section.
+
+* ``StrideError``
+
+    Raised during compilation if the ``by`` operation is used with a stride value
+    ``<=0``.
 
 Here is an example invalid program and a corresponding compile-time error:
 
@@ -124,48 +176,6 @@ Here is an example invalid program and a corresponding compile-time error:
 ::
 
     ReturnError on line 1: procedure "main" does not have a return statement reachable by all control flows
-
-Syntax Errors
-~~~~~~~~~~~~~
-
-ANTLR handles syntax errors automatically, but you are required to override the
-behavior and throw the ``SyntaxError`` exception from
-``include/CompileTimeExceptions.h``.
-
-For example:
-
-::
-
-    /* main.cpp */
-
-    class MyErrorListener : public antlr4::BaseErrorListener {
-        void syntaxError(antlr4::Recognizer *recognizer, antlr4::Token * offendingSymbol,
-                         size_t line, size_t charPositionInLine, const std::string &msg,
-                         std::exception_ptr e) override {
-            std::vector<std::string> rule_stack = ((antlr4::Parser*) recognizer)->getRuleInvocationStack();
-            // The rule_stack may be used for determining what rule and context the error has occurred in.
-            // You may want to print the stack along with the error message, or use the stack contents to 
-            // make a more detailed error message.
-
-            throw SyntaxError(line, msg); // Throw our exception with ANTLR's error message. You can customize this as appropriate.
-        }
-    };
-
-    int main(int argc, char **argv) {
-
-        ...
-
-        gazprea::GazpreaParser parser(&tokens);
-
-        parser.removeErrorListeners(); // Remove the default console error listener
-        parser.addErrorListener(new MyErrorListener()); // Add our error listener
-
-        ...
-    }
-
-For more information regarding the handling of syntax errors in ANTLR, refer to
-chapter 9 of
-`The Definitive ANTLR 4 Reference <https://pragprog.com/titles/tpantlr2/>`__.
 
 Run-time Errors
 ---------------
@@ -216,128 +226,16 @@ Here is an example invalid program and a corresponding run-time error:
 
 .. _ssec:errors_sizeErrors:
 
-Compile-time vs Run-time Size Errors
+
+Ambiguous Errors
 ------------------------------------
+Certain error types can be raised either at compile time or runtime depending on their context.
+All of the runtime-errors listed above can be raised at compile time under simplified conditions,
+for example, a compile time `SizeError` may be raised when adding two array literals of different size,
+or may be rasied at runtime, for example when expression sizes can not be statically determined at compile
+time. For such errors it is implementation defined whether the compiler is proactive in identifying
+compile time errors, through tracking expression sizes and types, or defers the task to the runtime.
 
-While the size of arrays may not always be known at compile time,
-there are instances where the compiler can perform length
-checks at compile time. For instance:
-
-::
-
-       integer[2] vec = 1..10;
-
-For simplicity, this section defines a subset of the size errors detectable at
-compile-time for which your compiler should report a ``SizeError`` at
-compile-time.
-
-In particular, your compiler should raise a ``SizeError`` at compile-time if and
-only if it finds one of the following five cases:
-
-#. An operation between arrays with compatible sizes such that
-
-   #. each operand array expression is formed by operations on
-      literal expressions, and
-
-   #. the sizes of the operand arrays do not match.
-
-#. An array declaration, found either in a regular declaration statement,
-   function parameter binding or constant procedure parameter binding such that
-
-   #. the expressions used to declare the size of the array are
-      formed exclusively from arithmetic operations on scalar literals
-
-   #. the declaration or parameter is initialized with an array
-      expression with compatible type that is formed by arithmetic operations
-      on scalar literals 
-
-   #. the size of the initialization expression is larger, in some dimension,
-      than the declared size.
-
-#. An array declaration statement such that
-
-   #. the declaration has no declared size and
-
-   #. there is no initialization expression.
-
-#. An array declaration statement such that
-
-   #. the declaration has no declared size,
-
-   #. the initialization expression has compatible type, and
-
-   #. the initialization expression is not an array.
-
-#. A function call where
-
-   #. The argument is an array literal
-
-   #. The parameter type is the same type but with a different literal size.  
-
-#. A return statement where
-
-   #. The value being returned is an array literal
-
-   #. The return type of the function is the same type but with a different literal size.  
-
-
-Here are some example statements that should raise a compile-time ``SizeError``:
-
-::
-
-  [1, 2, 3] + [1.3] -> std_output;
-
-::
-
-  [[1, 2], [3, 4]] % [[2, 2]] -> std_output;
-
-::
-
-  integer[2] vec = [1, 2, 3] + 1;
-
-::
-
-  integer[2][2] mat = [[1, 2, 3], [4, 5, 6]];
-
-::
-
-  integer[2] vec = 1..10;
-
-::
-
-  character[*] vec;
-
-::
-
-  boolean[*] vec = true;
-
-::
-
-  real[*] vec = 3;
-
-::
-
-  function f(integer[3] x) returns integer = 0;
-  integer y = f(1..2); // Case 5
-
-::
-
-  function f() returns integer[3] = 1..2; // Case 6
-
-Here are some example statements that should not raise a compile-time
-``SizeError`` in your implementation, but may raise a run-time ``SizeError``:
-
-::
-
-  [1, 2, 3] + vec -> std_output;
-
-::
-
-  integer[2] vec = [1, 2, 3] + scal;
-
-::
-
-  integer[two] vec = [1, 2, 3];
 
 More Examples
 -------------
@@ -368,7 +266,7 @@ Your compiler test suite can include error test cases. An error test case can in
 a compile-time or run-time error. In either case, the expected output should include
 exactly one line of text.
 
-For compile time error tests, only one error should be present in the test case and
+For error tests, **only one error should be present in the test case** and
 exactly one line of expected output should catch it. The single line should include the error
 type and the line number on which it occurs. Below is an example:
 
@@ -399,10 +297,8 @@ Should the ``AssignError`` below occur on line 3, 6 or in between?
 
 Test cases that deliberately make the line number ambiguous will be disqualified.
 If an obvious line number is not apparent, refer to the reference solution on the 415
-compiler explorer.
-
-For runtime errors, the line number is not required. Here is an example of a run-time error
-test case and the corresponding expected output file:
+compiler explorer. For runtime errors, the line number is not required. Here is an
+example of a run-time error test case and the corresponding expected output file:
 
 ::
 
@@ -414,7 +310,6 @@ test case and the corresponding expected output file:
 ::
 
   StrideError
-
 
 How to make the Tester Happy
 ------------------------------------------
@@ -433,4 +328,5 @@ time errors that the correct line is provided.
 This leniency is motivated by the fact that sometimes determining which type to call an error is
 difficult. For example, it may be arguable that a ``ReturnError`` should be interpreted as a 
 ``TypeError`` and vice versa as previously mentioned.
+
 
