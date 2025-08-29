@@ -145,24 +145,24 @@ Here are the compile-time errors your compiler must throw:
 
 * ``MathError``
 
-    Raised during compile time expression evaluation when division by zero occurs.
+    May be raised during compile time expression evaluation when division by zero occurs.
     Conditions for raising are eqivalent to a runtime ``MathError``. 
 
 * ``IndexError``
 
-    Raised during compilation if an expression used to index an array is an
+    May be raised during compilation if an expression used to index an array is an
     ``integer``, but is invalid for the array size.
 
 * ``SizeError``
 
-    Raised during compilation if the compiler detects an operation or statement
+    May be aised during compilation if the compiler detects an operation or statement
     is applied to or between arrays with invalid or incompatible
     sizes. Read more about when a ``SizeError`` should be raised at run-time
     instead of compile-time in the :ref:`ssec:errors_sizeErrors` section.
 
 * ``StrideError``
 
-    Raised during compilation if the ``by`` operation is used with a stride value
+    May be raised during compilation if the ``by`` operation is used with a stride value
     ``<=0``.
 
 Here is an example invalid program and a corresponding compile-time error:
@@ -187,14 +187,15 @@ Run-time errors must be handled by calling the functions defined in
 
     MathError("cannot divide by zero")
 
-Here are the run-time errors you need to report:
+The runtime errors listed below are a subset of compile time errors. Since it is not only impractical,
+but undecidable to catch the following errors exclusively at compile time, Gazprea leaves the setting
+at which they are raised up to the implementation. To put simply, you can raise runtime errors either
+at compile time or at runtime and the tester will accomodate to different implementations.
 
 * ``SizeError``
 
     Raised at runtime if an operation or statement is applied to or between
-    arrays with invalid or incompatible sizes. Read more about
-    when a ``SizeError`` should be raised at compile-time instead of run-time in
-    the :ref:`ssec:errors_sizeErrors` section.
+    arrays with invalid or incompatible sizes. 
 
 * ``IndexError``
 
@@ -211,7 +212,8 @@ Here are the run-time errors you need to report:
     Raised at runtime if the ``by`` operation is used with a stride value
     ``<=0``.
 
-Here is an example invalid program and a corresponding run-time error:
+Here is an example invalid program. If your compiler is smart, you may raise the later error, if you
+perfer not to implement static analysis, the former error can be emited at runtime.
 
 ::
 
@@ -222,20 +224,12 @@ Here is an example invalid program and a corresponding run-time error:
 
 ::
 
-    IndexError: invalid index "4" on array with size 3
+    IndexError: This is a runtime error, invalid index "4" on array with size 3.
 
-.. _ssec:errors_sizeErrors:
-
-
-Ambiguous Errors
-------------------------------------
-Certain error types can be raised either at compile time or runtime depending on their context.
-All of the runtime-errors listed above can be raised at compile time under simplified conditions,
-for example, a compile time `SizeError` may be raised when adding two array literals of different size,
-or may be rasied at runtime, for example when expression sizes can not be statically determined at compile
-time. For such errors it is implementation defined whether the compiler is proactive in identifying
-compile time errors, through tracking expression sizes and types, or defers the task to the runtime.
-
+::
+    
+    IndexError on line 3: This is a compile time error, invalid index of "4" on array with size 3.
+ 
 
 More Examples
 -------------
@@ -264,11 +258,8 @@ How to Write an Error Test Case
 
 Your compiler test suite can include error test cases. An error test case can include
 a compile-time or run-time error. In either case, the expected output should include
-exactly one line of text.
-
-For error tests, **only one error should be present in the test case** and
-exactly one line of expected output should catch it. The single line should include the error
-type and the line number on which it occurs. Below is an example:
+exactly one line of text. In order to simplify marking, **only one error should be present in the test case**
+and exactly one line of expected output should catch it. Below is an example:
 
 ::
 
@@ -295,7 +286,7 @@ Should the ``AssignError`` below occur on line 3, 6 or in between?
       ;
   }
 
-Test cases that deliberately make the line number ambiguous will be disqualified.
+For this reason, test cases that deliberately make the line number ambiguous will be disqualified.
 If an obvious line number is not apparent, refer to the reference solution on the 415
 compiler explorer. For runtime errors, the line number is not required. Here is an
 example of a run-time error test case and the corresponding expected output file:
