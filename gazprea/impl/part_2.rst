@@ -12,6 +12,7 @@ Part 1.
    * :ref:`ssec:array`
    * :ref:`ssec:matrix`
    * :ref:`ssec:string`
+   * :ref:`ssec:vector`
 
 #. :ref:`sec:statements`
 
