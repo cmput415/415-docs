@@ -5,7 +5,7 @@ Local Testing
 ----------------
 In each base repository there exists a `test` directory which contains a default JSON config and a `testfiles`
 directory to put your tests. The default executable paths in the config should be updated to your local environment.
-For more information on the 415 tester see `here <https://github.com/cmput415/Tester>`_.
+For more information on the 415 tester see `here <https://github.com/cmput415/Dragon-Runner>`_.
 
 Test Submission Guidelines 
 ---------------------------
@@ -81,7 +81,7 @@ Performance Testing
 
 * Your performance testing grade will be determined by the speed of your produced binaries over a set of
   pre-selected Gazprea programs. Specifically, the LLVM IR emitted by your compiler will be fed into an
-  optimization pipeline and the 415 tester will trace how long your executable takes.
+  optimization pipeline and `dragon-runner` will trace how long your executable takes.
 
 * Performance grades are relative. The compiler to produce the fastest executable for a given program gets
   a score of 1. Every other compiler gets a score corresponding to the ratio of the fastest time and its
