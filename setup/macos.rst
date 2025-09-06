@@ -80,10 +80,10 @@ Brew (or otherwise) makes this easy:
 ANTLR 4 C++ Runtime
 -------------------
 
-This section details how to install the ANTLR 4 C++ runtime on macOS
-assuming your default shell is zsh. If you've changed your shell from
-zsh, it's assumed that you are familiar enough with your environment
-that you can modify these steps appropriately.
+This section details how to install the ANTLR 4 C++ runtime on Ubuntu
+assuming your default shell is bash. If you've changed your shell from
+bash it's assumed that you are familiar enough with your environment that
+you can modify these steps appropriately.
 
 #. To make things easy, we are going to do everything inside a new directory in
    your home directory.
@@ -104,13 +104,14 @@ that you can modify these steps appropriately.
    This should create a new folder called ``antlr4`` in ``ANTLR_PARENT``. We'll
    refer to this new directory (``<ANTLR_PARENT>/antlr4``) as ``SRC_DIR``.
 
-#. We will be using ANTLR 4.13.0 so we need to change to the git tag for version
-   4.13.0.
+#. We will be using ANTLR 4.13.2 so we need to change to the git tag for version
+   4.13.2. **NOTE** If you are using ``cmake`` version 4 or higher, you may need
+   to use the `dev` branch.
 
    .. code-block:: console
 
     $ cd <SRC_DIR>
-    $ git checkout 4.13.0
+    $ git checkout dev
 
    This will give you a warning about being in a “detached head state”. Since we
    won't be changing anything in ANTLR there is no need to create a branch. No
@@ -158,14 +159,13 @@ that you can modify these steps appropriately.
    .. code-block:: console
 
     $ cd <BUILD_DIR>
-    $ cmake <SRC_DIR>/runtime/Cpp/ \
+    $ cmake -G Ninja -S <SRC_DIR>/runtime/Cpp/ \
         -DCMAKE_BUILD_TYPE=RELEASE \
-        -DLLVM_ENABLE_RTTI=ON \ # for using the llvm::cl utilities
         -DCMAKE_INSTALL_PREFIX="<INSTALL_DIR>"
 
    You will be presented with some CMake warnings but they're safe to ignore.
 
-#. We can finally run ``make`` to build the library and install it. You can make
+#. We can finally run ``ninja`` to build the library and install it. You can make
    the process significantly faster by running with multiple threads using the
    ``-j`` option and specifying a thread count. Using the option without a count
    will use unlimited threads. Be careful when using unlimited threads, the
@@ -175,12 +175,10 @@ that you can modify these steps appropriately.
 
    .. code-block:: console
 
-    $ make install -j<number of threads>
+    $ ninja install -j<number of threads>
 
-#. Now we can add the install to your
-   zsh environment.
-   Pick your favorite text editor, open
-   ``~/.zshenv``,
+#. Now we can add the install to your bash environment.
+   Pick your favorite text editor, open ``~/.bashrc``,
    and add the following lines to the end, substituting appropriately:
 
    .. code-block:: shell
@@ -190,6 +188,7 @@ that you can modify these steps appropriately.
 
    **Make sure there is no trailing forward slash (/).** Close and reopen your terminal for
    things to take effect.
+
 
 Installing CLion
 ----------------
