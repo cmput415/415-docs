@@ -28,7 +28,7 @@ computations that appear in the input file.
 
 Your compiler will produce the assembly text files, not binaries. **You
 must generate your assembly
-using**\ `inja <https://github.com/pantor/inja>`__. Inja is a string
+using** \ `inja <https://github.com/pantor/inja>`__. Inja is a string
 template engine which allows you to make use of formatted strings. Its
 syntax is similar to *Python*\ ’s jinja. You won’t need any advanced
 features to complete this assignment.
