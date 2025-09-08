@@ -63,7 +63,7 @@ Tips and Hints
       that you make yourself). You should be explicit about your file
       paths (use ``CMAKE_CURRENT_SOURCE_DIR`` to make them absolute).
       `These
-      variables <https://cmake.org/Wiki/CMake_Useful_Variables>`__ may
+      variables <https://gitlab.kitware.com/cmake/community/-/wikis/doc/cmake/Useful-Variables>`__ may
       be helpful.
 
    -  This assignment is not as demanding as later assignments so a lack

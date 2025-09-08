@@ -36,3 +36,5 @@ documentation <https://github.com/antlr/antlr4/blob/master/doc/index.md>`__.
    impl/assertions
    impl/clarifications
    impl/deliverables
+   impl/tips_hints
+
