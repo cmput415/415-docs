@@ -26,15 +26,17 @@ Test Submission Guidelines
   is called ``vcalc-my-cool-team``, then your tests should be in ``tests/testfiles/my-cool-team``. Following this convention
   is important for the grader to be able to match your tests to your executable.
   
-The structure should look like this::
+The structure could look like the following. Anything below the ``<TEAM-ID/CCID>`` directory will be included. ::
 
     └── tests
         └── testfiles
             └── <TEAM-ID/CCID>
-                ├── package-1
-                └── package-2
+                ├── test1.in
+                ├── test1.out
                     ...
                 |
+                ├── package-1
+                    ... 
                 └── package-N
 
 * Other tests which break these guidelines don't need to be thrown away! Simply keep them in another test package adjacent to your
@@ -43,7 +45,7 @@ The structure should look like this::
 
 Competitive Testing
 ------------------------------
-* Each submission should include a test-suite. To reitterate the submission guidelines above:
+* Each submission should include a test-suite. To reiterate the submission guidelines above:
 
   * Your submitted tests should be feature-tests.
   * You should submit a minimum of 5 tests in your test-suite. 
