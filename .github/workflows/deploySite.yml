@@ -16,6 +16,8 @@ jobs:
     steps:
       - name: Check links with linkcheck
         uses: filiph/linkcheck@3.0.0
+          with:
+            args: localhost:8080/415-docs
         
   build:
     runs-on: ubuntu-latest
