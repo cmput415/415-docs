@@ -2,7 +2,7 @@ Tips and Hints
 ==============
 
 -  Review the `Tips and
-   Hints <https://webdocs.cs.ualberta.ca/%7Ec415/generator/>`__ from the
+   Hints <https://cmput415.github.io/415-docs/generator/impl/tips_hints.html>`__ from the
    generator assignment: much of it applies to this assignment as well.
    In particular, the style and design sections are necessary.
 
@@ -22,7 +22,7 @@ Tips and Hints
    strings.
 
 -  In addition to the `previous
-   tips <https://webdocs.cs.ualberta.ca/%7Ec415/generator/>`__, here’s
+   tips <https://cmput415.github.io/415-docs/generator/impl/tips_hints.html>`__, here’s
    how to stay stylish in this assignment:
 
    -  There is no specified syntax guide for use with *inja*, thus you
