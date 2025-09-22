@@ -21,16 +21,11 @@ Test Submission Guidelines
 
 * Procedurally generated tests, including fuzzer tests, are not allowed for submission. Competitive tests should be hand written.
 
-* The structure of submitted tests must follow a specific structure. The top level package in the testfiles directory must
-  be named your team-id (for VCalc and Gazprea) or your CCID (for Generator and SCalc). In VCalc for example, if your repository
-  is called ``vcalc-my-cool-team``, then your tests should be in ``tests/testfiles/my-cool-team``. Following this convention
-  is important for the grader to be able to match your tests to your executable.
-  
-The structure could look like the following. Anything below the ``<TEAM-ID/CCID>`` directory will be included. ::
+*  The structure shuold look like the following. Anything below the ``<TEAM-ID/SID>`` directory will be included. ::
 
     └── tests
         └── testfiles
-            └── <TEAM-ID/CCID>
+            └── <TEAM-ID/SID>
                 ├── test1.in
                 ├── test1.out
                     ...
@@ -39,6 +34,11 @@ The structure could look like the following. Anything below the ``<TEAM-ID/CCID>
                     ... 
                 └── package-N
 
+* Example: In VCalc, if your repository is called ``vcalc-my-cool-team``, then your tests should be in ``tests/testfiles/my-cool-team``.
+
+* Example: In Generator if your SID is 1660000, then a directory named ``tests/testfiles/160000`` should be present. Following this convention
+  is important for the grader to be able to match your tests to your executable.
+  
 * Other tests which break these guidelines don't need to be thrown away! Simply keep them in another test package adjacent to your
   submitted package. There they can be used as local regression tests. For example, it's common to keep a corpus of difficult fuzzer tests
   and simpler tests that are not expected to yield high competative scores.
