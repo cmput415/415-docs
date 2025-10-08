@@ -60,7 +60,7 @@ Competitive Testing
     submissions, submission-A and submission-B. submission-A earns points as follows:
 
     * **Coherence Points:** if compiler-A passes every test in test-suite-A, submission-A earns 1 point.
-    * **Defensive Points:** if compiler-A passes every test in test-suite-B, submission-A earns 2 points.
+    * **Defensive Points:** if compiler-A passes N test in test-suite-B of size M, submission-A earns N/M points.
     * **Offensive Points:** if compiler-B fails N tests in tests-A, submission-A earns N / (number of
       tests in test-suite-A) points.
 
