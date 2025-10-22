@@ -13,6 +13,8 @@ Part 1.
    * :ref:`ssec:matrix`
    * :ref:`ssec:string`
    * :ref:`ssec:vector`
+   * :ref:`ssec:struct`
+   * :ref:`ssec:tuple`
 
 #. :ref:`sec:statements`
 
