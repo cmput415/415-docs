@@ -41,7 +41,7 @@ procedures. For example, the following code is illegal:
 
 ::
 
-  procedure f() returns int = 1;
+  procedure f() returns integer = 1;
 
 
 If a returns clause is present, then a return statement must be reached
