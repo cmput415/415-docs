@@ -19,8 +19,7 @@ Literals and Escape Sequences
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 A ``character`` literal is written in the same manner as *C99*: a single
-character enclosed in single quotes. You may not use literal newlines.
-For example:
+character enclosed in single quotes. For example:
 
 ::
 

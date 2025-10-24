@@ -292,12 +292,12 @@ Operations
    d. Slices
 
       An array may be indexed by a range to create a new array that is a *slice*
-      of the original.
+      of the original. The left hand index is inclusive, while the right is exclusive.
 
       ::
 
          integer[*] a = 0..10 by 2; /* a = [0, 2, 4, 6, 8, 10] */
-         integer x = a[2..4]; /* x == [2, 4, 6] */
+         integer x = a[2..4]; /* x == [2, 4] */
 
       Note that for slices only a stride of 1 is allowed.
       For indexing purposes three additions are made to range syntax:
@@ -311,13 +311,14 @@ Operations
       +---------+---------------------------------+
       + `..-i`  | first to n-i-1th elements       |
       +---------+---------------------------------+
-
+      + `i..j`  | i to jth elements               |
+      +---------+---------------------------------+
       Examples:
 
       ::
 
          integer[*] a = 0..10 by 2; /* a = [0, 2, 4, 6, 8, 10] */
-         integer x = a[..4]; /* x == [0, 2, 4, 6] */
+         integer x = a[..4]; /* x == [0, 2, 4] */
          integer y = a[4..]; /* x == [6, 8, 10] */
          integer z = a[..-1]; /* x == [0, 2, 4, 6, 8] */
 
