@@ -15,18 +15,18 @@ following formats:
 Both declarations are creating a variable with an :ref:`identifier <sec:identifiers>` of
 ``<identifier>``, with :ref:`type <sec:types>` ``<type>``, and optionally a :ref:`type qualifier <sec:typeQualifiers>` of ``<qualifier>``.
 The two qualifiers are ``var`` and ``const``, which qualify the identifier as
-_mutable_ or _immutable_, respectively.
+*mutable* or *immutable*, respectively.
 In *Gazprea* it is important to remember that if the optional qualifier is
 omitted the default is ``const``, i.e. variables are immutable by default.
 
 The first declaration style explicitly initializes the value of the new
 variable with the value of ``<expression>``.
 
-In *Gazprea* all variables must be initialized in a well defined manner
-in order to ensure functional purity. If the variables were not
-initialized to a known value their initial value might change depending
-on when the program is run. Therefore, the second declaration is equivalent
-to setting the value to zero.
+In *Gazprea* all variables must be initialized in a well defined manner in order
+to ensure functional purity. If the variables are not initialized to a known
+value their initial value might change depending on when the program is run.
+Therefore, the second declaration style is equivalent to setting the value to
+zero.
 
 For simplicity *Gazprea* assumes that declarations can only appear at
 the beginning of a block. For instance this would not be legal in
