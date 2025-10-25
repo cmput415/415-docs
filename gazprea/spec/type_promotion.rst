@@ -93,7 +93,8 @@ converted to the new internal types. For example:
      tuple(char, integer, boolean[2]) many_tup = ('a', 1, [true, false]);
      tuple(char, real, boolean[2]) other_tup = many_tup;
 
-Field names of tuples are overwritten by the field names of the left-hand side in assignments and declarations when promoted. For example:
+Field names of tuples are overwritten by the field names of the left-hand side
+in assignments and declarations when promoted. For example:
 
 ::
 
