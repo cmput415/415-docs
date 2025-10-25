@@ -56,7 +56,7 @@ For example:
      t1.iv[2]
      t1.r
 
-Struct access can both be used as LVALs and as RVALs, i.e. on either the left
+Struct fields can be used as both LVALs and RVALs, i.e. on either the left
 or right hand side of an expression:
 
 ::
@@ -70,15 +70,22 @@ or right hand side of an expression:
 Literals
 ~~~~~~~~
 
-A ``sturct`` literal is constructed by grouping values together between
-parentheses in a comma separated list. For example:
+A ``struct`` literal is constructed by listing comma separated values for each
+field in the struct, in the order defined in the struct's definition.
+The value list is surrounded by parenthesis and prefaced by the struct type:
 
 ::
 
-     struct S (integer i, character[5] c, integer[3] a3) my_s = (x, "hello", [1, 2, 3]);
-     var S s = (x, "hello", [1, 2, 3]);
-     const S s = (x, "hello", [1, 2, 3]);
-     struct V (integer i, real r, integer[10] arr) v = (1, 2.1, [i in 1..10 | i]);
+     struct S (integer i, character[5] c, integer[3] a3);
+     const S cs = S(x, "hello", [1, 2, 3]);
+     var S vs = S(0, ' ', 0);
+     struct V (integer i, real r, integer[10] arr) v = V(1, 2.1, [i in 1..10 | i]);
+
+The type of each value in the list must match the type of the corresponding
+field definition in the struct. To save having to explicitly specify a value
+for each index in an array, *Gazprea* allows a single scalar to be propagated
+across all elements in the array. Finally, note that the field values may need
+to be evaluated at run-time.
 
 .. _sssec:struct_ops:
 
@@ -107,7 +114,7 @@ This allows struct instances to be compared to struct literals:
 ::
 
      struct Complex (real r, real i) c = (r, 0.0);
-     if (c == (0.0, i)) { }
+     if (c == Complex(0.0, i)) { }
 
 Two structs are equal when all fields within each struct have the same value.
 It is an error to compare two structs of different types.
