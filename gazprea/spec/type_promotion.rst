@@ -93,25 +93,9 @@ converted to the new internal types. For example:
      tuple(char, integer, boolean[2]) many_tup = ('a', 1, [true, false]);
      tuple(char, real, boolean[2]) other_tup = many_tup;
 
-Field names of tuples are overwritten by the field names of the left-hand side
-in assignments and declarations when promoted. For example:
-
-::
-
-     tuple(integer, real) foo = (1, 2);
-     tuple(real, real) bar = foo;
-
-     foo.1 -> std_output; // 1
-     foo.2 -> std_output; // 2
-
-     bar.1 -> std_output; // error
-     bar.2 -> std_output; // error
-     bar.3 -> std_output; // 1
-
-
 If initializing a variable with a tuple via :ref:`sec:typeInference`, the
 variable is assumed to be the same type.
-Therefore, field names are also copied over accordingly. For example:
+Therefore, tuple elements also copied accordingly. For example:
 
 ::
 
