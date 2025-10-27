@@ -98,15 +98,15 @@ in assignments and declarations when promoted. For example:
 
 ::
 
-     tuple(integer a, real b) foo = (1, 2);
-     tuple(real c, real) bar = foo;
+     tuple(integer, real) foo = (1, 2);
+     tuple(real, real) bar = foo;
 
-     foo.a -> std_output; // 1
-     foo.b -> std_output; // 2
+     foo.1 -> std_output; // 1
+     foo.2 -> std_output; // 2
 
-     bar.a -> std_output; // error
-     bar.b -> std_output; // error
-     bar.c -> std_output; // 1
+     bar.1 -> std_output; // error
+     bar.2 -> std_output; // error
+     bar.3 -> std_output; // 1
 
 
 If initializing a variable with a tuple via :ref:`sec:typeInference`, the
@@ -115,16 +115,16 @@ Therefore, field names are also copied over accordingly. For example:
 
 ::
 
-     tuple(real a, real b) foo = (1, 2);
-     tuple(real c, real d) bar = (3, 4);
+     tuple(real, real) foo = (1, 2);
+     tuple(real, real) bar = (3, 4);
 
      var baz = foo;
-     baz.a -> std_output; // 1
-     baz.b -> std_output; // 2
+     baz.1 -> std_output; // 1
+     baz.2 -> std_output; // 2
 
      baz = bar;
-     baz.a -> std_output; // 3
-     baz.b -> std_output; // 4
+     baz.1 -> std_output; // 3
+     baz.2 -> std_output; // 4
 
 
 It is possible for a two sided promotion to occur with tuples. For example:
