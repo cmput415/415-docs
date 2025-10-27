@@ -127,7 +127,7 @@ commas, such as in matrix generators.
          /* The "i"s both domain expressions are at the same scope, which is
           * the one enclosing the loop. Therefore the matrix is: [[0 0 0] [0 1 2] [0 2 4]]
           */
-         integer[3,3] = [ i in 0..i, j in 0..i | i*j ];
+         integer[3,3] mat = [ i in 0..i, j in 0..i | i*j ];
 
 The domain for the domain expression is only evaluated once. For
 instance:
