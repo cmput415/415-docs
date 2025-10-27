@@ -68,6 +68,8 @@ not be used by a programmer.
 
 -  string
 
+-  struct
+
 -  true
 
 -  tuple
