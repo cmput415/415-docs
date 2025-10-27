@@ -297,7 +297,7 @@ Operations
       ::
 
          integer[*] a = 0..10 by 2; /* a = [0, 2, 4, 6, 8, 10] */
-         integer x = a[2..4]; /* x == [2, 4] */
+         integer[2] x = a[2..4]; /* x == [2, 4] */
 
       Note that for slices only a stride of 1 is allowed.
       For indexing purposes three additions are made to range syntax:
