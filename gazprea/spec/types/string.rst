@@ -47,8 +47,8 @@ differently by the compiler:
 ::
 
    character[*] carray = ['h', 'e', 'l', 'l', 'o', ' ', 'w', 'o', 'r', 'l', 'd', '\n'];
-   carry -> std_output;
    string vec = carray;
+   carry -> std_output;
    vec -> std_output;
 
 prints:
