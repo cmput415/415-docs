@@ -125,3 +125,20 @@ Type Casting and Type Promotion
 A struct itself cannot be cast or promoted. However, the fields within a struct
 can be individually cast/promoted, as described in
 sections :ref:`sec:typeCasting` and :ref:`sec:typePromotion`.
+
+.. _ssec:function_namespacing:
+
+Struct Namespacing
+--------------------
+
+In *Gazprea*, struct declarations can occur in *any* scope.
+This means that two struct types with the same name *can* coexist in the same
+gazprea program so long as they are not in the same scope
+
+Additionally, ``structs`` share the following namespaces:
+
+-  The ``procedure`` namespace: You cannot have a procedure and struct with
+   the same name in the same gazprea program.
+
+-  The ``function`` namespace: You cannot have a function and struct with
+   the same name in the same gazprea program.
