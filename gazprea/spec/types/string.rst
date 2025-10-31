@@ -65,11 +65,12 @@ prints:
 Operations
 ~~~~~~~~~~
 
-As character arrays, strings have all of the same operations defined on them as
+As character vectors, strings have all of the same operations defined on them as
 the other array data types.
-Remember that because a ``string`` and array of ``character`` are fundamentally
+Remember that because a ``string`` and vector of ``character`` are fundamentally
 the same, the concatenation operation may be used to concatenate values of the
-two types.
+two types. You may also append a slice of characters to a string using the
+append method.
 As well, a scalar character may be concatenated onto a string in the same way
 as it would be concatenated onto an array of characters.
 Note that because a ``string`` is a type of ``vector``, concatenation may also
