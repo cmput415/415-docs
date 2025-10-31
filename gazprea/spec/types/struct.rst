@@ -113,7 +113,7 @@ This allows struct instances to be compared to struct literals:
 
 ::
 
-     struct Complex (real r, real i) c = (r, 0.0);
+     struct Complex (real r, real i) c = Complex(r, 0.0);
      if (c == Complex(0.0, i)) { }
 
 Two structs are equal when all fields within each struct have the same value.
