@@ -32,24 +32,26 @@ specifier, often called *capacity* in other languages.
 
         vector<character> vec = ['a', 'b', 'c'];
         var vector<integer> ivec;
-        vector<real[*]> ragged_right = [[1.0], [2.0, 2.0]];
+        vector<real[*]> ragged_right = [[1.0], [2.0, 2.0]]; // invalid, size error
         const vector<character> const_vec = vec;
 
 
 As a language supported object, *Gazprea* provides several methods for ``vector``:
 
-- push() - pushes a new element to the back of the vector
+- ``push()`` - pushes a new element to the back of the vector
 
-- len() - number of elements in the vector
+- ``len()`` - number of elements in the vector
 
-- append - append another array slice to the vector
-  
+- ``append(T[*])`` - append another array slice to the vector (`T` is the type
+   of the original vector or a type that can be implicitly cast to it)
+
    ::
 
         var vector<tuple(bool, integer)> tvec;
         tvec.push((false, 0));
         tvec.append((true, 1));
         tvec[tvec.len()] -> std_output; // prints (true, 1)
+
 
 Operations
 ~~~~~~~~~~~
@@ -66,6 +68,6 @@ within the vector, and the second index selects the element within the array:
 
  ::
 
-        vector<real[*]> ragged_right = [[1.0], [2.1, 1.2]];
+        vector<real[*]> ragged_right = [[1.0], [2.1]];
         length(ragged_right[1]) -> std_output; // prints 1
-        ragged_right[2][2] -> std_output; // prints 1.2
+        ragged_right[2][1] -> std_output; // prints 2.1
