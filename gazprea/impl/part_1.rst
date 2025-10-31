@@ -32,6 +32,10 @@ recommended strategy.
    * :ref:`sec:typeInference`
    * :ref:`sec:typealias`
 
+#. :ref:`sec:streams`
+
+   * :ref:`ssec:output`
+
 #. :ref:`sec:statements`
 
    * :ref:`ssec:statements_assign`
@@ -44,7 +48,6 @@ recommended strategy.
       * :ref:`ssec:statements_continue`
 
    * :ref:`ssec:statements_cond`
-   * :ref:`sec:streams`
    * :ref:`sec:function`
    * :ref:`sec:procedure`
 

@@ -25,6 +25,10 @@ Part 1.
    * :ref:`Operators <ssec:expressions_toop>`
    * :ref:`ssec:expressions_generators`
 
+#. :ref:`sec:streams`
+
+   * :ref:`ssec:input`
+
 #. :ref:`sec:builtIn`
 
    * :ref:`ssec:builtIn_reverse`
