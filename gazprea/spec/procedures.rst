@@ -173,9 +173,8 @@ Aliasing
 Since procedures can have mutable arguments, it would be possible to
 cause `aliasing <http://en.wikipedia.org/wiki/Aliasing_(computing)>`__.
 In *Gazprea* aliasing of mutable variables is illegal (the only case
-where any aliasing is allowed is that tuple members can be accessed by
-name, or by number, but this is easily spotted). This helps *Gazprea*
-compilers perform more optimizations. However, the compiler must be able
+where any aliasing is allowed is through disjoint tuple field access.) This
+helps *Gazprea* compilers perform more optimizations. However, the compiler must be able
 to catch cases where mutable memory locations are aliased, and an error
 should be raised when this is detected. For instance:
 
@@ -205,7 +204,7 @@ should be raised when this is detected. For instance:
 Whenever a procedure has a mutable argument ``x`` it must be checked that
 none of the other arguments given to the procedure are ``x``.
 This is simple for scalar values, but more complicated when variable arrays are
-passed toprocedures. For instance:
+passed to procedures. For instance:
 
 ::
 
