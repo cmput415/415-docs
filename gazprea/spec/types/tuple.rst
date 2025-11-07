@@ -109,6 +109,22 @@ comparisons are completed, where ``t1`` and ``t2`` are tuple yielding expression
 ============= =========================================
 
 
+.. _sssec:tuple_unpack:
+
+Unpacking
+~~~~~~~~~
+
+Any tuple expression may be assigned (unpacked) into multiple lvalues. If the size of
+the tuple being unpacked does not match the number of lvalues being asigned, an ``AssignError``
+may be raised. There is no partial unpacking of tuples.
+
+::
+
+    var real a;
+    var real b;
+    a, b = (3.14, 1.5);
+
+
 Type Casting and Type Promotion
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
