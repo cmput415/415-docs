@@ -5,7 +5,7 @@ Arrays
 
 Arrays are fixed size collections, where each element of the array has the
 same type. Arrays can contain any of *Gazprea*'s base types (``boolean``,
-``integer``, ``real``, and ``character``) or compound type ``tuple``.
+``integer``, ``real``, and ``character``).
 
 .. _sssec:array_decl:
 

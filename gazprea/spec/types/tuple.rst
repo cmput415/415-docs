@@ -3,12 +3,7 @@
 Tuples
 ------
 
-A ``tuple`` is a way of grouping multiple values with potentially different
-types into an aggregate data structure.
-Tuples are similar to :ref:`structs<ssec:struct>`, except that a tuple's fields
-are indexed instead of named.
-Tuples are often used to return multiple values from a function or procedure.
-Any type may be stored within tuples except structs and tuples. 
+A ``tuple`` is a way of grouping multiple values with potentially different types into an aggregate data structure. Tuples are similar to :ref:`structs<ssec:struct>`, except that a tuple's fields are indexed instead of named. Tuples are often used to return multiple values from a function or procedure. Any type may be stored within tuples except structs and tuples. Additionally streams can not be stored in tuples.
 
 .. _sssec:tuple_decl:
 
