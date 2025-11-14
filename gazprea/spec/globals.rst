@@ -3,6 +3,19 @@
 Globals
 =======
 
+Valid global scope statements inclulde: 
+
+* Variable Declarations
+* Function and Procedure Declarations
+* Function and Procedure Prototypes
+* Typealias
+
+All global statements are considered declarations. Global statements may occur
+in any order, given respective symbols are defined before being referenced.
+
+Variable Declarations
+=====================
+
 In *Gazprea* values can be assigned to a global identifier. All globals
 must be immutable (``const``). If a global identifier is declared with
 the ``var`` specifier, then an error should be raised. This restriction is in
@@ -11,9 +24,10 @@ If functions have access to mutable global state then we can not guarantee
 their purity.
 
 Globals must be initialized, but the initialization expressions may only contain
-literals.
-That means that functions and even previously defined globals may not appear
-on the RHS of a global declaration.
-The reason is because it is very difficult to evaluate variables and functions
-at compile time. Global expression evaluation could be deferred to runtime,
-but that has the disadvantage of changing errors from compile time to run time.
+a single literal. That means that functions and even previously defined globals may not
+appear on the RHS of a global declaration. The reason is because it is very difficult to
+evaluate variables and functions at compile time. Global expression evaluation could
+be deferred to runtime, but that has the disadvantage of changing errors from compile
+time to run time.
+
+
