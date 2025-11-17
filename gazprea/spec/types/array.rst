@@ -287,7 +287,7 @@ Operations
          integer[*] u = v by 1; /* [1, 2, 3, 4, 5] */
          integer[*] w = v by 2; /* [1, 3, 5] */
          integer[*] l = v by 3; /* [1, 4] */
-         integer[*] s = v by 4; /* [1] */
+         integer[*] s = v by 4; /* [1, 5] */
 
    d. Slices
 
