@@ -50,7 +50,7 @@ array listing the size of each dimension.
 Reverse
 -------
 
-The reverse built-in takes any array, Vector, or String, and returns a
+The reverse built-in takes any single dimensional array, Vector, or String, and returns a
 reversed version of it.
 
 ::
