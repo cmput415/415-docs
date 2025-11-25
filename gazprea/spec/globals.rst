@@ -24,7 +24,7 @@ If functions have access to mutable global state then we can not guarantee
 their purity.
 
 Globals must be initialized, but the initialization expressions may only contain
-a single literal. That means that functions and even previously defined globals may not
+a single _scalar_ literal. That means that functions and even previously defined globals may not
 appear on the RHS of a global declaration. The reason is because it is very difficult to
 evaluate variables and functions at compile time. Global expression evaluation could
 be deferred to runtime, but that has the disadvantage of changing errors from compile
