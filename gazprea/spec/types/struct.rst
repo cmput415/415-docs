@@ -8,7 +8,7 @@ different types into an aggregate data structure.
 The main differences between tuples and structs are that the fields of a struct
 are named, and the type signature of a struct is named as a user defined type.
 Any type except ``tuple``, another ``struct`` and :ref:`streams<sec:streams>`
-may be stored within a struct.
+may be stored within a struct. Also like tuples, structs must contain *at least two fields*.
 
 .. _sssec:struct_decl:
 
