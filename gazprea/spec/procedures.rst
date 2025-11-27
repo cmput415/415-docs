@@ -172,8 +172,8 @@ Aliasing
 
 Since procedures can have mutable arguments, it would be possible to
 cause `aliasing <http://en.wikipedia.org/wiki/Aliasing_(computing)>`__.
-In *Gazprea* aliasing of mutable variables is illegal (the only case
-where any aliasing is allowed is through disjoint tuple field access.) This
+In *Gazprea* aliasing of mutable variables is illegal. The only case
+where aliasing of arguments is allowed is through disjoint tuple or struct field access. This
 helps *Gazprea* compilers perform more optimizations. However, the compiler must be able
 to catch cases where mutable memory locations are aliased, and an error
 should be raised when this is detected. For instance:
