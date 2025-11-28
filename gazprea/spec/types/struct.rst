@@ -35,17 +35,30 @@ and ``struct_field``.
 The instance variables are ``t1`` and ``t2`` have types ``s1`` and ``another``,
 respectively.
 
+
+.. _sssec:struct_typealias:
+
+
+Type Aliasing
+~~~~~~~~~~~~~
+
+A struct can be typealiased and used in any context a regular struct declaration may occur. Notably, the alias can only be used in a type positions, not literal constructors. 
+
+::
+    
+    typealias struct S(integer x, integer y) Pair;
+    
+    function add(Pair p1, Pair p2) returns Pair {
+        Pair p3 = S(p1.x + p2.x, p1.y + p2.y); // Pair can not be used in place of S
+        return p3;
+    }
+ 
+
 .. _sssec:struct_acc:
 
 Access
 ~~~~~~
 
-The fields of a struct are accessed using dot notation, as in tuples.
-Dot notation can only be applied to struct instances and *not* struct literals.
-Dot notation can be specified as ``<id>.<field>``, where:
-
-  * ``id`` is an instance identifier/name of a struct of type ``T``
-  * ``.`` is a literal period (dot)
   * ``field`` is a field within struct ``T``
 
 For example:
