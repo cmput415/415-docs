@@ -42,9 +42,7 @@ As a language supported object, *Gazprea* provides several methods for ``vector`
 
 - ``len()`` - number of elements in the vector
 
-- ``append(T[*])`` - append another array slice to the vector where `T` is the type
-   of the original vector or a type that can be implicitly cast to it. The following
-   example tracks the elements inside `vec` through various appends.
+- ``append(T[*])`` - append another array slice to the vector where `T` is the type of the original vector or a type that can be implicitly cast to it. The following example tracks the elements inside `vec` through various appends.
 
    ::
 
