@@ -56,7 +56,7 @@ As a language supported object, *Gazprea* provides several methods for ``vector`
         vec.append(3..3);              // [[1,0, 1.0], [3.0, 0.0]]               
         
         // slices
-        vec.append(x[5..6]);           // [[1,0, 1.0], [3.0, 0.0], [5.0, 6.0]]
+        vec.append(x[5..7]);           // [[1,0, 1.0], [3.0, 0.0], [5.0, 6.0]]
 
         vec[tvec.len()] -> std_output; // prints 3
 
