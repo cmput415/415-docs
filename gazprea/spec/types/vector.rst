@@ -42,15 +42,25 @@ As a language supported object, *Gazprea* provides several methods for ``vector`
 
 - ``len()`` - number of elements in the vector
 
-- ``append(T[*])`` - append another array slice to the vector (`T` is the type
-   of the original vector or a type that can be implicitly cast to it)
+- ``append(T[*])`` - append another array slice to the vector where `T` is the type
+   of the original vector or a type that can be implicitly cast to it. The following
+   example tracks the elements inside `vec` through various appends.
 
    ::
 
-        var vector<integer> tvec;
-        tvec.push(0);
-        tvec.append(1);
-        tvec[tvec.len()] -> std_output; // prints 1
+        const x = 1..10; 
+        var vector<real[2]> vec;       // []
+        
+        // scalar to array promotion
+        vec.append(1);                 // [[1.0, 1.0]]
+
+        // array padding
+        vec.append(3..3);              // [[1,0, 1.0], [3.0, 0.0]]               
+        
+        // slices
+        vec.append(x[5..6]);           // [[1,0, 1.0], [3.0, 0.0], [5.0, 6.0]]
+
+        vec[tvec.len()] -> std_output; // prints 3
 
 
 Operations
