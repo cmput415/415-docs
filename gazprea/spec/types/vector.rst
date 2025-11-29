@@ -26,13 +26,16 @@ the literals ``<`` and ``>`` are used in the declaration)
 
 
 Unlike the array type, *Gazprea* vectors do not have an explicit size
-specifier, often called *capacity* in other languages.
+specifier, often called *capacity* in other languages. Vectors of
+inferred sized arrays assume the size of the *first* array in the vector.
+Subsequent array elements of less than the inferred size are padded. Those
+nreater raise a runtime ``SizeError``
 
    ::
 
-        vector<character> vec = ['a', 'b', 'c'];
-        var vector<integer> ivec;
-        vector<real[*]> ragged_right = [[1.0], [2.0, 2.0]]; // invalid, size error
+        const vector<character> vec = ['a', 'b', 'c'];
+        const vector<real[*]> ragged_right = [[1.0], [2.0, 2.0]]; // SizeError
+        const vector<real[*]> paddeded_right = [[1.0, 2.0], [1.0]]; // Padds second element
         const vector<character> const_vec = vec;
 
 
