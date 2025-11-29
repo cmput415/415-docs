@@ -73,7 +73,7 @@ two types. You may also append a slice of characters to a string using the
 append method.
 As well, a scalar character may be concatenated onto a string in the same way
 as it would be concatenated onto an array of characters.
-Note that because a ``string`` is a type of ``vector``, concatenation may also
+Note that because a ``string`` is a sub-type of ``vector``, concatenation may also
 be accomplished with ``concat`` and ``push`` methods:
 
 ::
