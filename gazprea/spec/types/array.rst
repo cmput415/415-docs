@@ -43,12 +43,12 @@ array instead of a ``real`` array.
    If the array is given a scalar value (``type-expr``) of the same element type then the
    scalar value is duplicated for every single element of the array.
 
-   An array may also be initialized with another array. If the LHS array
-   is initialized using a RHS array that is too small then the LHS array will
+   An array may also be initialized with another array. Initialization occurs element-wise,
+   with the RHS element type's initialization semantics applying from left to right.
+   If the LHS array is initialized using a RHS array that is too small then the LHS array will
    be padded with zeros. However, if the LHS array is initialized with a RHS
    array that is too large then a ``SizeError`` should be thrown at
-   compile-time or run-time.
-   Check the :ref:`ssec:errors_sizeErrors` section to know when you
+   compile-time or run-time. Check the :ref:`ssec:errors_sizeErrors` section to know when you
    should throw the error.
 
 #. Inferred Size Declarations
