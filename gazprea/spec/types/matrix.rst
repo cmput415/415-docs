@@ -49,7 +49,7 @@ Similarly, we can have:
 ::
 
            integer[*] v = [1, 2, 3];
-           integer[3, 3] A = [v, [1, 2]];
+           integer[3][3] A = [v, [1, 2]];
            /* A == [[1, 2, 3], [1, 2, 0], [0, 0, 0]] */
 
 

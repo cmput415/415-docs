@@ -41,7 +41,7 @@ array listing the size of each dimension.
 
 ::
 
-         integer[*, *] M = [[1, 2, 3], [4, 5, 6]];
+         integer[*][*] M = [[1, 2, 3], [4, 5, 6]];
 
          shape(M) -> std_output; /* Prints [2, 3] */
 
