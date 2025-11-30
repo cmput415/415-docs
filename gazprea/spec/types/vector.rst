@@ -26,10 +26,20 @@ the literals ``<`` and ``>`` are used in the declaration)
 
 
 Unlike the array type, *Gazprea* vectors do not have an explicit size
-specifier, often called *capacity* in other languages. Vectors of
-inferred sized arrays assume the size of the *first* array in the vector.
+specifier, often called *capacity* in other languages. Below are some examples of 
+`vector` declarations.
+   
+    ::
+
+        const vector<integer[2]> v1 = 3;       // [[3, 3]]
+        const vector<integer[2]> v2 = [4, 5];  // [[4, 5]]
+        const vector<integer> v3 = 42;         // [42]
+        const vector<real> v4 = 1;             // [1.0]
+
+
+Vectors of inferred sized arrays assume the size of the *first* array in the vector.
 Subsequent array elements of less than the inferred size are padded. Those
-nreater raise a runtime ``SizeError``
+nreater raise a runtime ``SizeError``.
 
    ::
 
@@ -37,6 +47,25 @@ nreater raise a runtime ``SizeError``
         const vector<real[*]> ragged_right = [[1.0], [2.0, 2.0]]; // SizeError
         const vector<real[*]> paddeded_right = [[1.0, 2.0], [1.0]]; // Padds second element
         const vector<character> const_vec = vec;
+
+
+Operations
+~~~~~~~~~~~
+
+Operations on vectors are identical syntactically and semantically to
+operations on arrays. In particular, operand lengths must match for binary
+expressions and dot product.
+
+A vector or vector slice can be passed as a call argument that has been
+declared as an array slice of the same size and type. When indexing a vector of arrays,
+the first index selects the array element within the vector, and the second index selects
+the element within the array:
+
+ ::
+
+        vector<real[*]> ragged_right = [[1.0], [2.1]];
+        length(ragged_right[1]) -> std_output; // prints 1
+        ragged_right[2][1] -> std_output; // prints 2.1
 
 
 As a language supported object, *Gazprea* provides several methods for ``vector``:
@@ -63,22 +92,3 @@ As a language supported object, *Gazprea* provides several methods for ``vector`
 
         vec[tvec.len()] -> std_output; // prints 3
 
-
-Operations
-~~~~~~~~~~~
-
-Operations on vectors are identical syntactically and semantically to
-operations on arrays. In particular, operand lengths must match for binary
-expressions and dot product.
-
-A vector or vector slice can be passed as a call argument that has been
-declared as an array slice of the same size and type.
-
-When indexing a vector of arrays, the first index selects the array element
-within the vector, and the second index selects the element within the array:
-
- ::
-
-        vector<real[*]> ragged_right = [[1.0], [2.1]];
-        length(ragged_right[1]) -> std_output; // prints 1
-        ragged_right[2][1] -> std_output; // prints 2.1
