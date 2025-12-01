@@ -38,8 +38,8 @@ specifier, often called *capacity* in other languages. Below are some examples o
 
 
 Vectors of inferred sized arrays assume the size of the *first* array in the vector.
-Subsequent array elements of less than the inferred size are padded. Those
-nreater raise a runtime ``SizeError``.
+Subsequent array elements of less than the inferred size are padded.
+Those greater raise a runtime ``SizeError``.
 
    ::
 
@@ -54,7 +54,17 @@ Operations
 
 Operations on vectors are identical syntactically and semantically to
 operations on arrays. In particular, operand lengths must match for binary
-expressions and dot product.
+expressions and dot product. Vectors can behave as arrays by using slices:
+
+   ::
+
+      var vector<integer> v1, v2;
+      var integer[3] a;
+      v1.append([1, 2, 3]);
+      a = v1; // slice of v yields array and can be used to initialize 'a'
+      v2 = v1 + a; // slice of vector plus array yields result type array
+      a = v1 + v2; // slice of v1 + slice of v2 still yields array type
+
 
 A vector or vector slice can be passed as a call argument that has been
 declared as an array slice of the same size and type. When indexing a vector of arrays,
