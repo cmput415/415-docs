@@ -359,8 +359,8 @@ Array ranges can also be used instead:
              i -> std_output;
            }
 
-The domain is evaluated once during the first iteration of the loop. For
-instance:
+The domain is evaluated once during the first iteration of the loop. Each iteration
+defines a constant domain variable from it's respective index. For instance:
 
 ::
 
@@ -372,17 +372,6 @@ instance:
            loop i in v {
              v = 0;
              i -> std_output; "\n" -> std_output;
-           }
-
-Similarly, the domain variable is assigned from the domain array at the top of
-the loop for every iteration, even if it is reassigned in the body of the loop:
-
-::
-
-           // This will print 123456
-           loop i in 1..6 {
-             i -> std_output;
-             i = 5;
            }
 
 Note that multiple domain expressions are *not* allowed:
