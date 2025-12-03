@@ -120,7 +120,7 @@ It is possible for a two sided promotion to occur with tuples. For example:
 Character Array to/from String
 -------------------------------
 
-A ``string`` can be implicitly converted to an array of ``character``\ s and vice-versa (two-way type promotion).
+A ``string`` can be implicitly converted to a vector of ``character``\ s and vice-versa (two-way type promotion).
 
 ::
 
