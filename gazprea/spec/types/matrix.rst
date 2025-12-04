@@ -32,7 +32,7 @@ Construction
 A 2D matrix can be viewed as an array of arrays.
 The elements in each array form a single row of the matrix.
 All rows with fewer elements than the row of maximum row length are padded with
-zeros on the right. Similarly, if the matrix is declared with a column
+zeros on the right. Similarly, if the matrix is declared with a row
 length larger than the number of rows provided, the bottom rows of the
 matrix are zero. If the number of rows or columns exceeds the
 amounts given in a declaration an error is to be produced.
