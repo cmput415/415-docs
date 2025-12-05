@@ -9,7 +9,7 @@
 This report analyzes the Gazprea language specification from the perspective of a student attempting to implement the language for the first time. After comprehensively reviewing all 26 specification files, I identified **8 major categories of issues** that would significantly hinder implementation efforts:
 
 1. **Inconsistent Terminology** - Same concepts described differently across files
-2. **Missing Critical Definitions** - Key implementation details left undefined  
+2. **Missing Critical Definitions** - Key implementation details left undefined
 3. **Contradictory Rules** - Conflicting statements about language behavior
 4. **Unclear Precedence/Evaluation Order** - Ambiguous execution semantics
 5. **Missing Edge Cases** - Insufficient coverage of boundary conditions
@@ -30,19 +30,24 @@ These issues range from minor terminological inconsistencies to fundamental ambi
 #### Examples:
 
 **Matrix vs Multi-dimensional Array**
-- `types/matrix.rst` describes matrices as "2D arrays" 
+- `types/matrix.rst` describes matrices as "2D arrays"
 - `types/array.rst` discusses "multi-dimensional arrays"
 - `type_promotion.rst` mentions "multi-dimensional array promotion"
 - **Problem**: Unclear if matrices are a special case of multi-dimensional arrays or a distinct type
+
+- **Solution**: Matrices are N-D arrays with N=2. They are a simple extension
+  to the standard array terminology
 
 **String Case Inconsistency**
 - `types/string.rst` uses both "String" and "string"
 - Keywords list includes "string" (lowercase)
 - **Problem**: Case sensitivity unclear - are these the same type?
+- **Solution**: `string` is the correct keyword
 
 **Vector Capitalization**
 - Sometimes "Vector", sometimes "vector"
 - Method syntax suggests object-oriented features inconsistent with rest of language
+- eliminate vector in favour of the alternative syntax
 
 **Student Impact**: A student would waste time trying to understand if these are different features or just documentation inconsistencies.
 
@@ -56,11 +61,15 @@ These issues range from minor terminological inconsistencies to fundamental ambi
 - `declarations.rst`: "All declarations must appear at the beginning of the block"
 - **Missing**: What exactly constitutes "beginning"? Can there be empty statements? Comments?
 - **Student Impact**: Cannot write a parser without knowing exactly what's allowed
+- **Solution**: "Any and all declaration statements must be the first statements
+  in a given block" does this apply to globals?
 
 **Memory Management Model**
 - `built_in_functions.rst`: `format()` returns a string
 - **Missing**: Who manages this memory? When is it freed?
 - **Student Impact**: Cannot implement memory-safe code generation
+- **Solution**: Strings are freed when they go out of scope. Since strings
+  are just a variable length array of characters, they are treated the same
 
 **Constant Folding in Typedef**
 - `typedef.rst`: "Parameterized expressions (constant folding)"
@@ -70,6 +79,7 @@ These issues range from minor terminological inconsistencies to fundamental ambi
 **Array Size Limits**
 - No mention of maximum array sizes or memory limits
 - **Student Impact**: Cannot implement bounds checking or prevent memory exhaustion
+- **Solution**: Gazprea is, in essence, a 32-bit language
 
 ### 3. Contradictory Rules
 
@@ -79,8 +89,9 @@ These issues range from minor terminological inconsistencies to fundamental ambi
 
 **Matrix Indexing Syntax**
 - `types/matrix.rst` examples show `M[i][j]` syntax
-- Some examples use `M[i, j]` syntax  
+- Some examples use `M[i, j]` syntax
 - **Problem**: Which is correct? Are both supported?
+- **Solution**: We should switch back to `M[i,j]`
 
 **Vector Methods vs Functions**
 - `types/vector.rst`: "Methods: `push()`, `len()`, `append()`"
@@ -124,22 +135,28 @@ These issues range from minor terminological inconsistencies to fundamental ambi
 **Empty Array Literals**
 - No mention of how `[]` should be typed
 - **Problem**: What type does an empty array have?
+- Whatever type it is declared to have. Empty arrays cannot be created literally
+- Does type inference fail here?
 
 **Negative Range Bounds**
 - Range operator `..` defined for positive bounds
 - **Missing**: What does `5..1` mean? Error or empty range?
+- Empty range
 
 **Integer Overflow/Underflow**
 - `types/integer.rst`: 32-bit signed integers
 - **Missing**: Behavior on overflow (wrap, error, undefined)?
+- Should produce an error
 
 **NaN Propagation in Real Arithmetic**
 - `types/real.rst`: IEEE 754 compliance mentioned
 - **Missing**: Specific rules for NaN handling in operations
+- Arithmetic between NaN is... UB?
 
 **Zero-Length Slices**
 - Array slicing syntax defined
 - **Missing**: What does `arr[5..4]` return?
+- I'm thinking an empty array
 
 **Student Impact**: Must guess at edge case behavior, leading to unpredictable implementations.
 
@@ -221,7 +238,7 @@ These issues range from minor terminological inconsistencies to fundamental ambi
 
 #### Strong Points:
 1. **Type Safety**: Clear emphasis on type checking and safety
-2. **Functional Purity**: Well-defined restrictions on functions vs procedures  
+2. **Functional Purity**: Well-defined restrictions on functions vs procedures
 3. **Operator Precedence**: Complete precedence tables provided
 4. **I/O Model**: Stream-based I/O is well-specified
 5. **Array Operations**: Rich set of array operations with good examples
@@ -352,7 +369,7 @@ The Gazprea language specification shows thoughtful design for a functional lang
 
 The most critical issues are:
 1. **Contradictory syntax rules** that make parsing impossible
-2. **Missing semantic definitions** that prevent correct code generation  
+2. **Missing semantic definitions** that prevent correct code generation
 3. **Inconsistent terminology** that creates confusion about language features
 
 **Priority for fixes:**
