@@ -5,11 +5,12 @@ Functions
 
 A function in *Gazprea* has several requirements:
 
-1.  All of the arguments are implicitly ``const``, and can not be mutable.
+1.  All of the arguments are implicitly ``const``, and can not be mutable or
+    mutated within the function.
 
 2.  Function arguments cannot contain type qualifiers. Including a type qualifier with a function argument should result in a ``SyntaxError``.
 
-3.  Argument types must be explicit. Inferred size arrays are allowed
+3.  Argument types must be explicit. Dynamic sized arrays are allowed
 
 4.  Functions can not perform any I/O.
 
@@ -180,7 +181,7 @@ The arguments and return value of functions can have both explicit and inferred 
          }
 
 
-Like Rust, array *slices* may be passed as arguments:
+Like Rust, array *slices* :ref:`_sssec:array_ops` may be passed as arguments:
 
 ::
 
@@ -198,7 +199,7 @@ Like Rust, array *slices* may be passed as arguments:
 
 Remember that all function parameters are ``const`` in *Gazprea*, so that all
 functions are pure. That means that while it is legal to pass arrays and slices
-*be reference*, the array contents cannot be modified inside the function,
+*by reference*, the array contents cannot be modified inside the function,
 because the change would be visible outside the function. You must check that
 the ``const`` requirement is honored.
 
@@ -212,9 +213,6 @@ This means that two functions with the same name cannot coexist in the same
 gazprea program, nor can you forward declare the same function twice.
 
 Additionally, functions share the following namespaces:
-
--  The ``struct`` namespace: you cannot have a struct and function with the same
-   name in the same gazprea program.
 
 -  The ``procedure`` namespace: You cannot have a procedure and function with
    the same name in the same gazprea program.

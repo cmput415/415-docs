@@ -4,12 +4,8 @@ String
 ------
 
 A ``string`` is another object within *Gazprea*. Fundamentally, a ``string`` is
-a ``vector`` of ``character``.
-This means that, like a vector, a string behaves like a dynamically sized array,
-but because it is an object *Gazprea* can provide type specific features.
-
-String vectors behave a lot like character arrays, but there are several
-differences between the two types:
+a dynamic-sized ``array`` of ``character``. There are several
+additional behaviours that are unique to strings:
 an :ref:`extra literal style <sssec:string_lit>`,
 the :ref:`result of a concatenation <sssec:string_ops>`
 and :ref:`behaviour when sent to an output stream <sssec:output_format>`.
@@ -20,7 +16,8 @@ Declaration
 ~~~~~~~~~~~
 
 A string may be declared with the keyword ``string``. The same rules of
-:ref:`vector declarations <sssec:vec_decl>` also apply to strings, which means
+:ref:`dynamic array declarations <sssec:array_decl>` also apply to strings,
+which means
 that all lenghts are inferred:
 
 ::

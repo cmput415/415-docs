@@ -23,7 +23,8 @@ An expression is a valid ``constexpr`` if it is composed exclusively of:
 1.  Literals of base types (``boolean``, ``integer``, ``real``, ``character``).
 2.  Operators, including ``+``, ``-``, ``*``, ``/``, ``not``, ``and``, ``or``.
     between two or more ``constexpr``s.
-3.  Constructors for aggregate types, provided they follow the rules below.
+3.  Constructors for aggregate types, provided that the aggregate is const and
+    all members are ``constexpr``s.
 4.  Index or field access on ``constexpr`` aggregate types.
 5.  Other variables that are themselves valid ``constexpr``s.
 
@@ -68,7 +69,8 @@ allowing them to be used to define other constants.
    2. All of its element initializers are valid ``constexpr``s.
 
    Dynamically-sized arrays (e.g., ``integer[*]``) cannot be ``constexpr``
-   aggregates as their size is not known at compile time.
+   aggregates as their size is not known at compile time even if it can be
+   inferred.
 
    ::
 
@@ -83,6 +85,8 @@ allowing them to be used to define other constants.
 
    Note that these rules also apply to variables marked ``const`` within
    non-global scopes.
+
+   <!--- TODO: Can constexprs be inside control flow? -->
 
 #. Tuples
 

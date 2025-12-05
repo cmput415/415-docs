@@ -99,8 +99,8 @@ known.
 
 ::
 
-    var a: integer[*] = []; // Legal
-    var b: integer[5] = []; // Illegal: size mismatch
+    var integer[*] a: = []; // Legal
+    var integer[5] b: = []; // Illegal: size mismatch
 
 .. _sssec:array_spread:
 
@@ -117,11 +117,11 @@ evaluated left-to-right.
 
 ::
 
-   var a: integer[2] = [1, 2];
-   var b: integer[3] = [3, 4, 5];
+   var integer[2] a = [1, 2];
+   var integer[3] b = [3, 4, 5];
 
    // c becomes [0, 1, 2, 3, 4, 5, 6]
-   var c: integer[7] = [0, ...a, ...b, 6];
+   var integer[7] c = [0, ...a, ...b, 6];
 
 When constructing a static array, the compiler must be able to verify the final
 size at compile time. Spreading a dynamic array into a static array is a
@@ -193,7 +193,7 @@ Operations
 
    ::
 
-      var a: integer[*] = [1, 2];
+      var integer[*] a = [1, 2];
       a = a || [3, 4]; // a is now [1, 2, 3, 4]
 
    Attempting to reassign the result of a concatenation to a static array will
@@ -217,14 +217,14 @@ Operations
 
    ::
 
-      var m: integer[3, 4] = ...;
-      var v: integer[4] = [1, 2, 3, 4];
+      var integer[3, 4] m = ...;
+      var integer[4] n = [1, 2, 3, 4];
       var s = 10;
 
       var r1 = m + s; // Legal: scalar broadcast
       var r2 = m + v; // Legal: [4] is a suffix of [3, 4]. v is added to each row.
 
-      var v2: integer[3];
+      var integer[3] v2;
       var r3 = m + v2; // Illegal: [3] is not a suffix of [3, 4].
 
    The equality operators ``==`` and ``!=`` are an exception. They perform a

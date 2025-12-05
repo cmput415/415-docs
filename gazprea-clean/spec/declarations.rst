@@ -4,7 +4,7 @@ Declarations
 ============
 
 Variables must be declared before they are used. Aside from
-a few :ref:`special cases <ssec:declaration_special>`, declarations have the 
+a few :ref:`special cases <ssec:declaration_special>`, declarations have the
 following formats:
 
 ::
@@ -85,7 +85,6 @@ Special cases
 Special cases of declarations are covered in their respective sections.
 
 #. :ref:`Arrays <sssec:array_decl>`
-#. :ref:`Matrices <sssec:matrix_decl>`
 #. :ref:`Tuples <sssec:tuple_decl>`
 #. :ref:`Globals <sec:global>`
 #. :ref:`Functions <sec:function>`
