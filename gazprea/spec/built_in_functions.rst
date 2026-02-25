@@ -14,22 +14,8 @@ If a declaration or a definition with the same name as a built-in function is
 encountered in a *Gazprea* program, then the compiler should issue an error.
 
 Note that although the examples below all use arrays, all the built-ins work
-on Vectors and Strings, since they are always compatible with arrays.
-
-.. _ssec:builtIn_length:
-
-Length
-------
-
-``length`` takes an array of any element type, and returns an integer
-representing the number of elements in the array.
-
-::
-
-         integer[*] v = 1..5;
-
-         length(v) -> std_output; /* Prints 5 */
-
+on strings as well, since a ``string`` is structurally compatible with
+``character[*]``.
 
 .. _ssec:builtIn_rows_cols:
 
@@ -37,12 +23,16 @@ Shape
 -----
 
 The built-in ``shape`` operates on arrays of any dimension, and returns an
-array listing the size of each dimension.
+``integer[*]`` listing the size of each dimension. For a 1-dimensional array,
+``shape`` returns a single-element array, so ``shape(v)[1]`` gives the number
+of elements in ``v``.
 
 ::
 
-         integer[*][*] M = [[1, 2, 3], [4, 5, 6]];
+         integer[4] v = 1..5;
+         shape(v)[1] -> std_output; /* Prints 4 */
 
+         integer[*, *] M = [[1, 2, 3], [4, 5, 6]];
          shape(M) -> std_output; /* Prints [2, 3] */
 
 .. _ssec:builtIn_reverse:
@@ -50,16 +40,16 @@ array listing the size of each dimension.
 Reverse
 -------
 
-The reverse built-in takes any single dimensional array, Vector, or String, and returns a
-reversed version of it.
+The ``reverse`` built-in takes any array or ``string``, and returns a
+reversed copy of it.
 
 ::
 
-         integer[*] v = 1..5;
-         integer[*] w = reverse(v);
+         integer[4] v = 1..5;
+         integer[4] w = reverse(v);
 
-         v -> std_output; /* Prints 12345 */
-         w -> std_output; /* Prints 54321 */
+         v -> std_output; /* Prints 1234 */
+         w -> std_output; /* Prints 4321 */
 
 .. _ssec:builtIn_format:
 
