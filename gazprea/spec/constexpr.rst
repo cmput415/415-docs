@@ -128,8 +128,10 @@ allowing them to be used to define other constants.
         x <- std_input;
         const integer y = x; // Legal: y is immutable, but NOT a constexpr
                              // because its value depends on runtime input.
-        integer[y] arr;      // Illegal: y is not a constexpr, so it cannot
-                             // be used as a static array size.
+        integer[y] arr;      // Legal, but not constexpr: y is not a 
+                             // constexpr, so it cannot
+                             // be used as a static array size. arr is
+                             // a dynamic-sized array
 
    The compiler propagates the constexpr property through local scopes
    normally — there is no restriction on where in a block the declaration
