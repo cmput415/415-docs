@@ -37,18 +37,13 @@ Hardware Acceleration Laboratory in Markham, ON.
 
 .. toctree::
    :maxdepth: 2
-   :caption: Hints and Reference
-
-   spec/hints/value_categories
-
-.. toctree::
-   :maxdepth: 2
    :caption: Implementation
 
    impl/backend
    impl/part_1
    impl/part_2
    impl/errors
+   impl/value_categories
    impl/slice_passing
 
 .. |gazprea_logo| image:: assets/images/GazpreaLogo.png
