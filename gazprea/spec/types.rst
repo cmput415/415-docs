@@ -13,6 +13,5 @@ Types
    types/tuple
    types/struct
    types/array
-   types/vector
    types/string
    types/matrix
