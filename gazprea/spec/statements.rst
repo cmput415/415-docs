@@ -60,13 +60,13 @@ This applies to arrays of any dimension.
 
 ::
 
-         var integer[*][*] M = [[1, 1], [1, 1]];
+         var integer[*, *] M = [[1, 1], [1, 1]];
 
          /* Change the entire matrix M to [[1, 2], [3, 4]] */
          M = [[1, 2], [3, 4]];
 
          /* Change a single position of M \*/
-         M[1][2] = 7;  /* M is now [[1, 7], [3, 4]] */
+         M[1, 2] = 7;  /* M is now [[1, 7], [3, 4]] */
 
 Tuples also have a special unpacking syntax in *Gazprea*. A tuple’s
 field may be assigned to comma separated variables instead of a tuple

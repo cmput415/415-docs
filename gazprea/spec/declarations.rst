@@ -4,7 +4,7 @@ Declarations
 ============
 
 Variables must be declared before they are used. Aside from
-a few :ref:`special cases <ssec:declaration_special>`, declarations have the 
+a few :ref:`special cases <ssec:declaration_special>`, declarations have the
 following formats:
 
 ::

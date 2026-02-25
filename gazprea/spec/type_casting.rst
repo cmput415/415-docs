@@ -98,17 +98,17 @@ truncation can occur in all dimensions. For example:
 
 ::
 
-     real[2][2] a = [[1.2, 24], [-13e2, 4.0]];
+     real[2, 2] a = [[1.2, 24], [-13e2, 4.0]];
 
      // Convert to an integer matrix.
-     integer[2][2] b = as<integer[2][2]>(a);
+     integer[2, 2] b = as<integer[2, 2]>(a);
 
      // Convert to integers and pad in both dimensions.
-     integer[3][3] c = as<integer[3][3]>(a);
+     integer[3, 3] c = as<integer[3, 3]>(a);
 
      // Truncate in one dimension and pad in the other.
-     real[1][3] d = as<real[1][3]>(a);
-     real[3][1] e = as<real[3][1]>(a);
+     real[1, 3] d = as<real[1, 3]>(a);
+     real[3, 1] e = as<real[3, 1]>(a);
 
 .. _ssec:typeCasting_ttot:
 

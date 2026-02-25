@@ -3,19 +3,6 @@
 Globals
 =======
 
-Valid global scope statements inclulde:
-
-* Variable Declarations
-* Function and Procedure Declarations
-* Function and Procedure Prototypes
-* Typealias
-
-All global statements are considered declarations. Global statements may occur
-in any order, given respective symbols are defined before being referenced.
-
-Variable Declarations
-=====================
-
 In *Gazprea* values can be assigned to a global identifier. All globals
 must be immutable (``const``). If a global identifier is declared with
 the ``var`` specifier, then an error should be raised. This restriction is in
@@ -35,5 +22,3 @@ rule:
 *   Globals cannot have a dynamically-sized array type (e.g., ``integer[*]``),
     as their size cannot be determined at compile time.
 *   All globals are implicitly ``constexpr``.
-
-

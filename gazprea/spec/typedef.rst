@@ -40,7 +40,7 @@ consistency:
   typealias tuple(character[64], integer, real) student_id_grade;
   student_id_grade chucky_cheese = ("C. Cheese", 123456, 77.0);
 
-  typealias integer[2][3] two_by_three_matrix;
+  typealias integer[2, 3] two_by_three_matrix;
   two_by_three_matrix m = [i in 1..2, j in 1..3 | i + j];
 
 Type aliases of arrays with inferred sizes are allowed, but declarations
