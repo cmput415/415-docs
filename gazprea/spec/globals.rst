@@ -23,11 +23,17 @@ place since mutable global variables would ruin functional purity.
 If functions have access to mutable global state then we can not guarantee
 their purity.
 
-Globals must be initialized, but the initialization expressions may only contain
-a single _scalar_ literal. That means that functions and even previously defined globals may not
-appear on the RHS of a global declaration. The reason is because it is very difficult to
-evaluate variables and functions at compile time. Global expression evaluation could
-be deferred to runtime, but that has the disadvantage of changing errors from compile
-time to run time.
+Globals must be initialized with a valid :ref:`constant expression <sec:constexpr>`.
+
+This requirement ensures that the value of every global can be determined by
+the compiler before the program runs. This restriction is in place to support
+functional purity and enable compile-time optimizations. As a result of this
+rule:
+
+*   Functions, procedures, or I/O operations may not appear in a global's
+    initializer.
+*   Globals cannot have a dynamically-sized array type (e.g., ``integer[*]``),
+    as their size cannot be determined at compile time.
+*   All globals are implicitly ``constexpr``.
 
 
