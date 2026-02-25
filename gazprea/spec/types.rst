@@ -13,4 +13,3 @@ Types
    types/tuple
    types/array
    types/string
-   types/matrix
