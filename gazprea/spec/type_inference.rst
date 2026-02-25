@@ -46,3 +46,14 @@ at least one of the qualifier or the type to be present:
        x = 2; // assignment to undeclared variable? - illegal
        var x; // can't infer type - illegal
        integer x; // const integer initialized to 0 - legal
+
+Type inference also applies when the initializer is a procedure call. The
+compiler synthesises the variable's type from the procedure's declared return
+type:
+
+::
+
+       procedure get_count() returns integer { ... }
+
+       var n = get_count(); // n is inferred as var integer
+       const m = get_count(); // m is inferred as const integer
