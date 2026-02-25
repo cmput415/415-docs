@@ -1,403 +1,320 @@
 .. _ssec:array:
 
 Arrays
--------
+------
 
-Arrays are fixed size collections, where each element of the array has the
-same type. Arrays can contain any of *Gazprea*'s base types (``boolean``,
-``integer``, ``real``, and ``character``).
+Arrays are ordered, homogeneous collections of elements. *Gazprea*'s array
+system offers a unified syntax for
+statically-sized, dynamically-sized, and multi-dimensional arrays.
+
+An array's elements can be of any single type, including base types (
+``boolean``,
+``integer``, ``real``), compound types (``tuple``), and other arrays.
+
+.. _sssec:array_lrvalue:
+
+L-values and R-values
+~~~~~~~~~~~~~~~~~~~~~
+
+Every expression in *Gazprea* has a **value category** — either an *lvalue*
+or an *rvalue* — which governs where the expression may appear. A full
+discussion of value categories, including their relationship to the richer
+C++ taxonomy (glvalue, xvalue, prvalue), is given in
+:ref:`sec:value_categories`.
+
+For arrays the key consequence is that **slice expressions are rvalues**.
+A slice such as ``v[2..5]`` produces a new, independent deep copy of the
+selected elements. Because it is an rvalue, a slice:
+
+- cannot appear on the left-hand side of an assignment, and
+- cannot be passed as a ``var`` (mutable) parameter to a procedure.
+
+Attempting either is a compile-time error. Because slices produce deep copies
+and carry no persistent address, they do not participate in aliasing analysis
+(see :ref:`ssec:procedure_alias`).
 
 .. _sssec:array_decl:
 
 Declaration
 ~~~~~~~~~~~
 
-Aside from any type specifiers, the element type of the array is the first
-portion of the declaration. An array is then declared using square brackets
-immediately after the element type.
+An array type is specified by providing a shape in
+square brackets (``[]``) to a type.
 
-If possible, initialization expressions may go through an implicit type
-conversion. For instance, when declaring a real array that is
-initialized with an integer value the integer will be promoted to a real
-value, and then used as a scalar initialization of the array.
-Be careful about type inference! If the type of the array is being inferred
-from the right had side, the previous example would create an ``integer``
-array instead of a ``real`` array.
+#. Static vs. Dynamic Sizing
 
-#. Explicit Size Declarations
+   *Gazprea* distinguishes between arrays whose size is fixed at compile time
+   (static) and arrays that can change size at runtime (dynamic).
 
-   When an array is declared it may be explicitly given a size. This
-   size can be given as any integer expression, thus the size of the
-   array may not be known until runtime.
+   -  A **static dimension** is declared using an integer literal or a
+      :ref:`constant expression <sec:constexpr>`.
+   -  A **dynamic dimension** is declared using an asterisk (``*``).
 
    ::
 
-            <type>[<int-expr>] <identifier>;
-            <type>[<int-expr>] <identifier> = <type-expr>;
-            <type>[<int-expr>] <identifier> = <type-array>;
+        // A statically-sized array of 10 integers.
+        var integer[10] a;
 
+        // A dynamically-sized array of integers.
+        var integer[*] b;
 
-   The size of the array is given by the integer expression between the
-   square brackets.
+#. N-Dimensional Arrays
 
-   If the array is given a scalar value (``type-expr``) of the same element type then the
-   scalar value is duplicated for every single element of the array.
-
-   An array may also be initialized with another array. Initialization occurs element-wise,
-   with the RHS element type's initialization semantics applying from left to right.
-   If the LHS array is initialized using a RHS array that is too small then the LHS array will
-   be padded with zeros. However, if the LHS array is initialized with a RHS
-   array that is too large then a ``SizeError`` should be thrown at
-   compile-time or run-time. Check the :ref:`ssec:errors_sizeErrors` section to know when you
-   should throw the error.
-
-#. Inferred Size Declarations
-
-   If an array is assigned an initial value when it is declared, then
-   its size may be inferred. There is no need to repeat the size in the
-   declaration because the size of the array on the right-hand side is
-   known.
+   Multi-dimensional arrays are declared by providing a comma-separated list of
+   dimension specifiers (the shape). Any dimension can be static or dynamic,
+   allowing for
+   the creation of fixed-size matrices, jagged arrays, and more general n-d
+   arrays.
 
    ::
 
-            <type>[*] <identifier> = <type-array>;
+        // A 3x4 matrix of real numbers.
+        var real[3, 4] matrix;
+
+        // A jagged array: 5 rows, each a dynamic array of characters.
+        var character[5, *] jagged;
+
+        // A dynamic list of static 3-element integer vectors.
+        var integer[*, 3] vectors;
 
 
 #. Inferred Type and Size
 
-   It is also possible to declare an array with an implied type and
-   length using the var or const keyword. This type of declaration can only be
-   used when the variable is initialized in the declaration, otherwise
-   the compiler will not be able to infer the type or the size of the
-   array.
+   When initializing a variable with an array literal, its type and size can
+   be inferred by the compiler using ``var``. The resulting array is always
+   statically-sized unless _any_ initializer contains a dynamic dimension
+   or is a dynamically-sized array.
 
    ::
 
-      integer[*] v = [1, 2, 3];
-      var w = v + 1;
+      // v is inferred as type integer[3].
+      var v = [1, 2, 3];
 
+      // w is inferred as type real[2, 2].
+      var w = [[1.0, 2.0], [3.0, 4.0]];
 
-   In this example the compiler can infer both the size and the type of
-   ``w`` from ``v``. The size may not always be known at compile time, so this
-   may need to be handled during runtime.
+      // x is inferred as type integer[*].
+      var integer[*] dyn = [1, 2, 3, 4, 5];
+      var x = [...dyn];
 
 .. _sssec:array_constr:
 
 Construction
 ~~~~~~~~~~~~
 
-An array value in *Gazprea* may be constructed using the following
-notation:
+An array value is constructed using a comma-separated list of expressions
+within square brackets. All elements must share a common promotable type.
+The element type of an unspecified array is the top-most type in the type
+hierarchy that elements can be _implicitly_ promoted to. Any other unpromotable
+types will result in a compile-time type error.
 
 ::
 
-   [expr1, expr2, ..., exprN]
+   [1, 2, 3]                     // An integer array
+   [1, 2.5, 3]                   // A real array (integer 1 is promoted)
+   [(1, true), (2, false)]       // An array of tuples
+   [1, [2, 3], [4, 5, 6]]        // A ragged integer array integer[3,*]
 
+*Gazprea* supports empty array literals (``[]``). The literal has no inherent
+type and acquires its element type from the declared variable type.
 
-Each ``expK`` is an expression with a compatible type. In the simplest
-cases each expression is of the same type, but it is possible to mix the
-types as long as all of the types can be promoted to a common type. For
-instance it is possible to mix integers and real numbers.
+A dynamic array (``integer[*]``) initialised with ``[]`` starts as an empty,
+growable array. A static array of size zero (``integer[0]``) is also legal,
+though of limited practical use. Any other static size is a compile-time
+``SizeError``.
 
-::
-
-   real[*] v = [1, 3.3, 5 * 3.4];
-
-
-It is also possible to construct a single-element array using this
-method of construction.
-
-::
-
-   real[*] v = [7];
-
-
-*Gazprea* **DOES** support empty arrays.
+Because ``[]`` carries no element type, **type inference cannot be used with
+an empty array literal.** A declaration of the form ``var x = []`` is a
+compile-time ``TypeError`` — the compiler has no information from which to
+derive the element type of ``x``.
 
 ::
 
-   real[*] v = []; /* Should create an empty array */
+    var integer[*] a = []; // Legal: dynamic empty array
+    integer[0] b = [];     // Legal: static array of size zero (not very useful)
+    var integer[5] c = []; // Illegal: size mismatch — static array needs 5 elements
+    var d = [];            // Illegal: element type cannot be inferred from []
+
+.. _sssec:array_spread:
+
+Spread Operator
+~~~~~~~~~~~~~~~
+
+The spread operator (``...``) provides a concise, declarative way to construct
+a new array by unpacking elements from existing arrays. It can be used multiple
+times within an array literal and can be combined with other elements.
+
+The spread operator is a syntactic feature **exclusive** to array literals.
+It is
+evaluated left-to-right.
+
+::
+
+   var integer[2] a = [1, 2];
+   var integer[3] b = [3, 4, 5];
+
+   // c becomes [0, 1, 2, 3, 4, 5, 6]
+   var integer[7] c = [0, ...a, ...b, 6];
+
+When constructing a static array, the compiler must be able to verify the final
+size at compile time. Spreading a dynamic array into a static array is a
+compile-time size error. See :ref:`sec:constexpr` for more details.
 
 .. _sssec:array_ops:
 
 Operations
 ~~~~~~~~~~
 
-#. Array Operations and functions
-
-   a. length
-
-      The number of elements in an array is given by the built-in
-      functions ``length``. For instance:
-
-      ::
-
-         integer[*] v = [8, 9, 6];
-         integer numElements = length(v);
-
-
-      In this case ``numElements`` would be 3, since the array ``v``
-      contains 3 elements.
-
-   b. Concatenation
-
-      Two arrays with the same element type may be concatenated into a
-      single array using the concatenation operator, ``||``. For
-      instance:
-
-      ::
-
-         [1, 2, 3] || [4, 5] // produces [1, 2, 3, 4, 5]
-         [1, 2] || [] || [3, 4] // produces [1, 2, 3, 4]
-
-
-      Concatenation is also allowed between arrays of different element
-      types, as long as one element type is coerced automatically to the
-      other. For instance:
-
-      ::
-
-         integer[3] v = [1, 2, 3];
-         real[3] u = [4.0, 5.0, 6.0];
-         real[6] j = v || u;
-
-
-      would be permitted, and the integer array ``v`` would be promoted to
-      a real array before the concatenation.
-
-      Concatenation may also be used with scalar values. In this case
-      the scalar values are treated as though they were single element
-      arrays.
-
-      ::
-
-         [1, 2, 3] || 4 // produces [1, 2, 3, 4]
-         1 || [2, 3, 4] // produces [1, 2, 3, 4]
-
-
-      An interesting corollary to array-scalar concatenation is that
-      two scalars can be concatenated to produce an array:
-
-      ::
-
-         integer[3] v = 1 || 2 || 3; // produces [1, 2, 3]
-
-
-      Remember that arrays have a fixed length, which means you cannot grow an
-      array by concatenating elements to the end:
-
-      ::
-
-         var integer[*] growme = [0]; // length is now 1
-         var integer i = 1;
-         loop while (i < 10) {
-             growme = growme || i; // illegal: SizeError
-             i = i + 1;
-         }
-
-
-   c. Dot Product
-
-      Two arrays with the same size and a numeric element type(types with
-      the ``+``, and ``\*`` operator) may be used in a dot product operation.
-      For instance:
-
-      ::
-
-         integer[3] v = [1, 2, 3];
-         integer[3] u = [4, 5, 6];
-
-         /* v[1] * u[1] + v[2] * u[2] + v[3] * u[3] */
-         /* 1 * 4 + 2 * 5 + 3 * 6 &=&  32 */
-         integer dot = v ** u;  /* Perform a dot product */
-
-
-   d. Range
-
-      The ``..`` operator creates an integer array holding the specified range
-      of integer values.
-      This operator must have an expression resulting in an integer on both
-      sides of it. These integers mark the *inclusive* upper and lower bounds
-      of the range.
-
-      For example:
-
-      ::
-
-         1..10 -> std_output;
-         (10-8)..(9+2) -> std_output;
-
-      prints the following:
-
-      ::
-
-         [1 2 3 4 5 6 7 8 9 10]
-         [2 3 4 5 6 7 8 9 10 11]
-
-      The number of integers in a range may not be known at compile time when
-      the integer expressions use variables. In another example, assuming at
-      runtime that ``i`` is computed as -4:
-
-      ::
-
-         i..5 -> std_output;
-
-      prints the following:
-
-      ::
-
-         [-4 -3 -2 -1 0 1 2 3 4 5]
-
-      Therefore, it is *valid* to have bounds that will produce an empty
-      array because the difference between them is negative.
-
-   d. Indexing
-
-      An array may be indexed in order to retrieve the values stored in
-      the array. An array may be indexed using integers.
-      *Gazprea* is 1-indexed, so the first element of an array is at index 1
-      (as opposed to index 0 in languages like *C*). For instance:
-
-      ::
-
-         integer[3] v = [4, 5, 6];
-         integer x = v[2]; /* x == 5 */
-         integer y = [4,5,6][3] /* y == 6 */
-
-      Like Python, *Gazprea* allows negative indices, which are interpreted as
-      starting from the _back_ of the array instead of the front:
-
-      ::
-
-         integer[3] v = [4, 5, 6];
-         integer x = v[-2]; /* x == 5 */
-         integer y = [4,5,6][-1] /* y == 6 */
-
-      Out of bounds indexing should cause an error.
-
-   e. Stride
-
-      The ``by`` operator is used to specify a step-size greater than 1 when
-      indexing across an array. It produces a new array with the values
-      indexed by the given stride. For instance:
-
-      ::
-
-         integer[*] v = 1..5 by 1; /* [1, 2, 3, 4, 5] */
-         integer[*] u = v by 1; /* [1, 2, 3, 4, 5] */
-         integer[*] w = v by 2; /* [1, 3, 5] */
-         integer[*] l = v by 3; /* [1, 4] */
-         integer[*] s = v by 4; /* [1, 5] */
-
-   d. Slices
-
-      An array may be indexed by a range to create a new array that is a *slice*
-      of the original. The left hand index is inclusive, while the right is exclusive.
-
-      ::
-
-         integer[*] a = 0..10 by 2; /* a = [0, 2, 4, 6, 8, 10] */
-         integer[2] x = a[2..4]; /* x == [2, 4] */
-
-      Note that for slices only a stride of 1 is allowed.
-      For indexing purposes three additions are made to range syntax:
-
-      +---------+---------------------------------+
-      |         | Interpretation                  |
-      +---------+---------------------------------+
-      + `..`    | all elements                    |
-      +---------+---------------------------------+
-      + `i..`   | ith to nth elements             |
-      +---------+---------------------------------+
-      + `..-i`  | first to n-i-1th elements       |
-      +---------+---------------------------------+
-      + `i..j`  | i to jth elements               |
-      +---------+---------------------------------+
-      Examples:
-
-      ::
-
-         integer[*] a = 0..10 by 2; /* a = [0, 2, 4, 6, 8, 10] */
-         integer x = a[..4]; /* x == [0, 2, 4] */
-         integer y = a[4..]; /* x == [6, 8, 10] */
-         integer z = a[..-1]; /* x == [0, 2, 4, 6, 8] */
-
-#. Operations of the Element Type
-
-   Unary operations that are valid for the Element type of an array may be
-   applied to the array in order to produce an array whose result is
-   the equivalent to applying that unary operation to each element of
-   the array. For instance:
+#. Indexing and Slicing
+
+   -  **Indexing:** Elements of an N-dimensional array are accessed using a
+      comma-separated list of 1-based integer indices. Negative indices count
+      from the end of a dimension.
+   -  **Slicing (Deep Copy):** A slice expression creates a **new, independent
+      array** by performing a **deep copy** of a segment of an existing array.
+      The resulting array has its own memory, and modifications to it will
+      never affect the original array. This behavior is consistent with
+      *Gazprea*'s rule that all assignments are deep copies.
+
+      A slice expression is an **r-value**, meaning it produces a value and
+      cannot be the target of an assignment. For N-D arrays, slicing is only
+      permitted on the last dimension.
 
    ::
 
-      boolean[*] v = [true, false, true, true];
-      boolean[*] nv = not v;
+        var integer[5] a = [10, 20, 30, 40, 50];
 
+        // Legal: Create a new array 'b' from a slice of 'a'.
+        var integer[3] b = a[2..5]; // b is [20, 30, 40]
 
-   ``nv`` would have a value of
-   ``[not true, not false, not true, not true] = [false, true, false, false]``.
+        // 'b' is independent of 'a'.
+        b[1] = 99; // 'a' remains [10, 20, 30, 40, 50]
 
-   Similarly most binary operations that are valid to the element type of a
-   array may be also applied to two arrays. When applied to two
-   arrays of the same size, the result of the binary operation is a
-   array formed by the element-wise application of the binary operation
-   to the array operands.
+        // Illegal: A slice is not an l-value and cannot be assigned to.
+        a[1..3] = [1, 2]; // COMPILE-TIME ERROR
 
-   ::
+#. shape
 
-      [1, 2, 3, 4] + [2, 2, 2, 2] // results in [3, 4, 5, 6]
+   The built-in function ``shape`` returns the shape of an array as a
+   dynamically-sized integer array (``integer[*]``).
 
-
-   Attempting to perform a binary operation between two arrays of
-   different sizes should result in a ``SizeError``.
-
-   When one of the operands of a binary operation is an array and the
-   other operand is a scalar, the scalar value must first
-   be promoted to an array of the same size as the array operand and
-   with the value of each element equal to the scalar value. For example:
+   For jagged arrays, ``shape`` returns the shape of the longest non-jagged
+   (rectangular) prefix of the array's dimensions. To get the shape of a
+   specific inner array, it must be indexed directly.
 
    ::
 
-      [1, 2, 3, 4] + 2 // results in [3, 4, 5, 6]
+      var integer[10] a;
+      shape(a) // returns [10]
 
+      var real[3, 4] b;
+      shape(b) // returns [3, 4]
 
-   Additionally the element types of arrays may be promoted, for instance
-   in this case the integer array must be promoted to a real array in
-   order to perform the operation:
+      var character[5, *] c;
+      shape(c) // returns [5]
 
-   ::
+      var integer[2, 3, *] d;
+      shape(d) // returns [2, 3]
 
-      [1, 2, 3, 4] + 2.3 // results in [3.3, 4.3, 5.3, 6.3]
+      // To get the size of an inner array of c:
+      shape(c[1]) // returns [N] where N is the size of the first inner array
 
+#. Concatenation (``||``)
 
-   The equality operation is the exception to the behavior of the binary
-   operations. Instead of producing a boolean array, an equality
-   operation checks whether or not all of the elements of two arrays
-   are equal, and return a single boolean value reflecting the result of
-   this comparison.
-
-   ::
-
-      [1, 2, 3] == [1, 2, 3]
-
-
-   yields ``true``
+   The ``||`` operator concatenates two arrays. This operation is primarily
+   useful for **dynamically-sized arrays**.
 
    ::
 
-      [1, 1, 3] == [1, 2, 3]
+      var integer[*] a = [1, 2];
+      a = a || [3, 4]; // a is now [1, 2, 3, 4]
 
+   Attempting to reassign the result of a concatenation to a static array will
+   result in a ``SizeError`` if the new size does not match the declared size.
+   The :ref:`spread operator <sssec:array_spread>` is the preferred method for
+   composition. Note that working with a dynamically-sized array implies that
+   the size check must be performed at runtime.
 
-   yields ``false``
+#. Element-wise Operations and Broadcasting
 
-   The ``!=`` operation also produces a boolean instead of a boolean array.
-   The result is the logical negation of the result of the ``==`` operator.
+   Unary and binary operations (e.g., ``not``, ``+``, ``-``, ``*``) can be applied
+   element-wise to arrays.
 
+   -  For operations between two arrays, their dimensions must be compatible.
+   -  For operations between an array and a scalar, the scalar is **broadcast**
+      across the array.
 
-Type Casting and Type Promotion
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   *Gazprea* follows a simple "trailing dimensions" rule for broadcasting: an
+   array ``A`` can be broadcast over array ``B`` if ``A``'s dimensions are a suffix
+   of ``B``'s dimensions.
 
-To see the types that an array may be cast and/or promoted to, see
-the sections on :ref:`sec:typeCasting` and :ref:`sec:typePromotion`
-respectively.
+   ::
+
+      var integer[3, 4] m = ...;
+      var integer[4] n = [1, 2, 3, 4];
+      var s = 10;
+
+      var r1 = m + s; // Legal: scalar broadcast
+      var r2 = m + v; // Legal: [4] is a suffix of [3, 4]. v is added to each row.
+
+      var integer[3] v2;
+      var r3 = m + v2; // Illegal: [3] is not a suffix of [3, 4].
+
+   The equality operators ``==`` and ``!=`` are an exception. They perform a
+   deep, element-wise comparison and return a single ``boolean`` value.
+
+   These element-wise operations are fully supported for dynamic arrays where the
+   shape is regular (e.g., ``integer[*]``, ``integer[*, 5]``). Compatibility
+   checks are performed at **runtime**, and a ``SizeError`` will be thrown if
+   the shapes are incompatible.
+
+   However, element-wise operations are **disallowed** on any array that has a
+   jagged dimension (e.g., ``integer[5, *]``). This restriction exists because
+   the operation is ambiguous when inner arrays have different lengths. This is
+   a compile-time error. To perform an operation on a jagged array, the
+   programmer must do so explicitly by iterating over its elements.
+
+   ::
+
+      // Legal operation on a dynamic array
+      var integer[*, 5] dyn;
+      var res = dyn + 5;
+
+      // Illegal operation on a jagged array
+      var integer[5, *] jagged;
+      var err = jagged + 5; // Compile-time TypeError or ShapeError
+
+.. _sssec:array_taxonomy:
+
+Array Type Summary
+~~~~~~~~~~~~~~~~~~
+
+The following table summarises the different array forms in *Gazprea*, their
+declaration syntax, the meaning of each wildcard (``*``) position, and the
+key restrictions that apply.
+
++------------------------+-------------------+----------------------------------------------+------------------------------------+
+| **Form**               | **Declaration**   | **Description**                              | **Element-wise ops allowed?**      |
++========================+===================+==============================================+====================================+
+| Static                 | ``T[N]``          | Size fixed at compile time. ``N`` must be a  | Yes — size known at compile time.  |
+|                        |                   | literal or :ref:`constexpr <sec:constexpr>`. |                                    |
++------------------------+-------------------+----------------------------------------------+------------------------------------+
+| Static N-D             | ``T[N, M]``       | All dimensions fixed at compile time.        | Yes — checked at compile time.     |
++------------------------+-------------------+----------------------------------------------+------------------------------------+
+| Dynamic 1-D            | ``T[*]``          | Size unknown at compile time; grows          | Yes — shape checked at runtime.    |
+|                        |                   | or shrinks at runtime.                       |                                    |
++------------------------+-------------------+----------------------------------------------+------------------------------------+
+| Regular dynamic N-D    | ``T[*, N]``       | Leading dimension(s) dynamic; final          | Yes — shape checked at runtime.    |
+|                        |                   | dimension(s) static. All rows have the       |                                    |
+|                        |                   | same fixed inner length.                     |                                    |
++------------------------+-------------------+----------------------------------------------+------------------------------------+
+| Jagged                 | ``T[N, *]``       | Final dimension is ``*``: each inner array   | **No** — ambiguous inner lengths.  |
+|                        | ``T[*, *]``       | may have a different length. Applies         | Compile-time error.                |
+|                        |                   | whenever ``*`` appears in the last           |                                    |
+|                        |                   | dimension.                                   |                                    |
++------------------------+-------------------+----------------------------------------------+------------------------------------+
+
+``shape`` returns only the static prefix of an array's dimensions. For a
+jagged array ``integer[5, *]``, ``shape(a)`` returns ``[5]``; to inspect an
+individual row's length, index into the array first: ``shape(a[1])[1]``.
+
