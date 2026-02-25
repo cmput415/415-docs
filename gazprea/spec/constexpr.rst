@@ -38,21 +38,34 @@ The compiler must perform this validation recursively. When checking if a variab
 is a ``constexpr``, the compiler must trace its entire dependency chain. If the
 chain ever depends on a runtime value, the check fails.
 
+The only expressions that *must* be ``constexpr`` are global constants. Other
+constexprs arising from constants inside function scope may also be constexprs
+but the implementation does not need to enforce or necessarily identify this.
+Students should also note that mlir has a constant propagation pass built in,
+so doing constant folding yourself may not be necessary depending on your
+implementation.
+
 **Examples:**
 
-::
+**Note**: we will annotate the scope explicitly in these examples. Some
+'illegal' examples here would be legal within a non-global scope.
 
-    // Legal Constant Expressions
+::
+    // ----------------------------
+    // in global scope
+    // ----------------------------
+
+    // Legal Global Constant Expressions
     const A = 10;
     const B = A * 2; // Depends on another constexpr
     const C = B + 5; // C is 25
 
-    // Illegal Constant Expressions
+    // Illegal Global Constant Expressions
     var x = 10;
-    const Y = x + 5; // Illegal: depends on a 'var'
+    const Y = x + 5; // Not a constexpr: depends on a 'var'
 
     function get_val() returns integer { return 100; }
-    const Z = get_val(); // Illegal: depends on a function call
+    const Z = get_val(); // Not a constexpr: depends on a function call
 
 .. _ssec:constexpr_aggregates:
 
@@ -76,6 +89,10 @@ allowing them to be used to define other constants.
 
    ::
 
+        // ----------------------------
+        // in global scope
+        // ----------------------------
+
         const WIDTH = 5;
         const integer[WIDTH] LOOKUP_TABLE = [10, 20, 30, 40, 50]; // Legal constexpr array
 
@@ -83,6 +100,8 @@ allowing them to be used to define other constants.
         integer[ELEMENT] my_array = 0;            // Legal: static array of size 30, zero-filled
 
         const integer[2] BAD_TABLE = [10, get_val()]; // Illegal: initializer is not a constexpr
+                                                      //  also illegal because function calls are
+                                                      //  not allowed within declarations
 
         // Spread of a constexpr array is also a constexpr
         const integer[3] A = [1, 2, 3];
@@ -102,6 +121,9 @@ allowing them to be used to define other constants.
 
    ::
 
+        // ----------------------------------
+        // in local/function/non-global scope
+        // ----------------------------------
         var integer x;
         x <- std_input;
         const integer y = x; // Legal: y is immutable, but NOT a constexpr
@@ -120,6 +142,9 @@ allowing them to be used to define other constants.
 
    ::
 
+        // ----------------------------
+        // in global scope
+        // ----------------------------
         const CONFIG = (true, 10 * 2); // Legal constexpr tuple
 
         const IS_ENABLED = CONFIG.1; // Legal: IS_ENABLED is a constexpr with value 'true'
