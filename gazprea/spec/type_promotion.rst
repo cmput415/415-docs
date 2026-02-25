@@ -4,26 +4,73 @@ Type Promotion
 ==============
 
 Type promotion is a sub-problem of casting and refers to casts that happen
-implicitly.
+implicitly. Any conversion that can be done implicitly via promotion can also
+be done explicitly via a typecast expression.
 
-Any conversion that can be done implicitly via promotion can also be done
-explicitly via typecast expression.
-The notable exception is array promotion to a higher dimension, which occurs as
-a consequence of scalar to array promotion.
+.. _ssec:typePromotion_lattice:
+
+Type Lattice
+------------
+
+The diagram below shows every implicit promotion *Gazprea* permits. An arrow
+``A → B`` means a value of type ``A`` can be silently converted to type ``B``
+without an explicit ``as<>`` cast. Paths not shown require an explicit cast or
+are entirely forbidden.
+
+.. graphviz::
+
+   digraph TypeLattice {
+       rankdir=BT;
+       node [shape=box, fontname="Courier", style=filled, fillcolor=white];
+       edge [fontname="Courier", fontsize=10];
+
+       // Scalar types
+       subgraph cluster_scalars {
+           label="Scalar Types";
+           style=dashed;
+           boolean  [label="boolean"];
+           character [label="character"];
+           integer  [label="integer"];
+           real     [label="real"];
+       }
+
+       // The one scalar promotion
+       integer -> real [label="implicit"];
+
+       // Scalar-to-array (parametric — shown as a representative edge)
+       scalar_T [label="T  (any scalar)", shape=ellipse, style=dashed];
+       array_T  [label="T[…]  (array of T)", shape=ellipse, style=dashed];
+       scalar_T -> array_T [label="broadcast\n(any compatible T)", style=dashed];
+
+       // String / character[*] — bidirectional
+       string      [label="string"];
+       char_star   [label="character[*]"];
+       string    -> char_star [label="implicit", dir=both];
+
+       // Anonymous tuple promotion (field-wise)
+       tup_src [label="tuple(A, B, …)\n[anonymous]",  shape=ellipse, style=dashed];
+       tup_dst [label="tuple(A′, B′, …)\n[anonymous, A→A′]", shape=ellipse, style=dashed];
+       tup_src -> tup_dst [label="field-wise\npromotion", style=dashed];
+   }
+
+Solid edges represent concrete implicit promotions between named types. Dashed
+nodes and edges represent parametric promotion rules that apply to any
+conforming type.
+
+There are no other implicit promotions. In particular:
+
+- ``real`` does **not** promote to ``integer`` (truncation requires ``as<>``).
+- ``boolean`` and ``character`` have no implicit promotions to any other type.
+- Array types do not implicitly downcast to scalars.
 
 .. _ssec:typePromotion_scalar:
 
 Scalars
 -------
 
-The only automatic type promotion for scalars is ``integer`` to
-``real``. This promotion is one way - a ``real`` cannot be automatically
-converted to ``integer``.
-
-Automatic type conversion follows this table where N/A means no implicit
-conversion possible, id means no conversion necessary,
-``as<toType>(var)`` means var of type "From type" is converted to type
-"toType" using semantics from .
+The only automatic type promotion for scalars is ``integer`` to ``real``.
+This promotion is one-way — a ``real`` cannot be automatically converted to
+``integer``.
 
 +----------+-----------+---------+-----------+---------+---------------+
 |          |                    **To type**                            |
@@ -42,88 +89,69 @@ conversion possible, id means no conversion necessary,
 .. _ssec:typePromotion_stoa:
 
 Scalar to Array
---------------------------
+---------------
 
-All scalar types can be promoted to arrays that have an internal type that the
-scalar can be :ref:`converted to implicity <ssec:typePromotion_scalar>`.
-This can occur when an array is used in an operation with a scalar value.
-
-The scalar will be implicitly converted to an array of
-equivalent dimensions and equivalent internal type. For example:
+Any scalar type can be promoted to an array whose element type is compatible
+with the scalar (per the scalar lattice above). This occurs when a scalar is
+used in an operation with an array — the scalar is broadcast to match the
+array's shape.
 
 ::
 
      integer i = 1;
-     integer[*] v = [1, 2, 3, 4, 5];
-     integer[*] res = v + i;
+     integer[5] v = [1, 2, 3, 4, 5];
+     integer[5] res = v + i;
 
-     res -> std_output;
+     res -> std_output;   // [2 3 4 5 6]
 
-would print the following:
+Other examples::
 
-::
+  1 == [1, 1]   // true — scalar broadcast into equality check
+  1..2 || 3     // [1, 3] — 3 promoted to integer[1] then concatenated
 
-     [2 3 4 5 6]
+Note that an array can never be downcast to a scalar, even with an explicit
+cast. Matrix multiplication (``**``) also imposes strict dimensionality
+requirements: scalar-to-matrix promotion under ``**`` is only permitted when
+the matrix operand is square (:math:`m \times m`).
 
-Other examples:
-
-::
-
-  1 == [1, 1]  // True
-  1..2 || 3 // [1, 2, 3]
-
-Note that an array can never be downcast to a scalar,
-even if type casting is used. Also note that matrix multiply imposes strict
-requirements on the dimensionality of the the operands. The consequence is
-that scalars can only be promoted to a matrix if the matrix multiply
-operand is a square matrix (:math:`m \times m`).
+.. _ssec:typePromotion_tuple:
 
 Tuple to Tuple
 --------------
 
-Tuples may be promoted to another tuple type if it has an equal number of
-internal types and the original internal types can be implicitly
-converted to the new internal types. For example:
+An anonymous tuple may be implicitly promoted to another anonymous tuple type
+if both tuples have the same number of fields and each source field can be
+implicitly promoted to the corresponding destination field type (per the scalar
+lattice above).
+
+Named fields do **not** participate in implicit promotion. See
+:ref:`sssec:tuple_casting` for the full rules, including the behaviour of
+mixed (partially-named) tuples.
 
 ::
 
      tuple(integer, integer) int_tup = (1, 2);
-     tuple(real, real) real_tup = int_tup;
+     tuple(real, real) real_tup = int_tup;   // Legal: anonymous, integer -> real
 
-     tuple(char, integer, boolean[2]) many_tup = ('a', 1, [true, false]);
-     tuple(char, real, boolean[2]) other_tup = many_tup;
-
-If initializing a variable with a tuple via :ref:`sec:typeInference`, the
-variable is assumed to be the same type.
-Therefore, tuple elements also copied accordingly. For example:
+Two-sided promotion can occur when comparing anonymous tuples whose element
+types differ — each side is promoted to the common type before comparison:
 
 ::
 
-     tuple(real, real) foo = (1, 2);
-     tuple(real, real) bar = (3, 4);
+     boolean b = (1.0, 2) == (2, 3.0);   // (real, real) == (real, real)
 
-     var baz = foo;
-     baz.1 -> std_output; // 1
-     baz.2 -> std_output; // 2
-
-     baz = bar;
-     baz.1 -> std_output; // 3
-     baz.2 -> std_output; // 4
-
-
-It is possible for a two sided promotion to occur with tuples. For example:
-
-::
-
-  boolean b = (1.0, 2) == (2, 3.0);
+.. _ssec:typePromotion_string:
 
 Character Array to/from String
 -------------------------------
 
-A ``string`` can be implicitly converted to a vector of ``character``\ s and vice-versa (two-way type promotion).
+A ``string`` can be implicitly converted to a ``character[*]`` and vice-versa.
+This bidirectional promotion reflects that ``string`` is structurally a
+``character[*]`` wrapper (see :ref:`ssec:string`). The compiler preserves the
+type distinction for output-formatting purposes.
 
 ::
 
-     string str1 = "Hello"; /* str1 == "Hello" */
-     character[*] chars = str1; /* chars == ['H', 'e', 'l', 'l', 'o'] */
-     string str2 = chars || [' ', 'W', 'o', 'r', 'l', 'd']; /* str2 == "Hello World" */
+     string str1 = "Hello";
+     character[5] chars = str1;                        // string -> character[5]
+     string str2 = chars || [' ', 'W', 'o', 'r', 'l', 'd']; // character[*] -> string
