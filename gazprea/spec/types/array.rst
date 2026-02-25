@@ -86,27 +86,24 @@ square brackets (``[]``) to a type.
 #. N-Dimensional Arrays
 
    Multi-dimensional arrays are declared by providing a comma-separated list of
-   dimension specifiers (the shape). Any dimension can be static or dynamic,
-   allowing for
-   the creation of fixed-size matrices, jagged arrays, and more general n-d
-   arrays.
+   dimension specifiers (the shape). There are some restrictions on which 
+   dimension can be static or dynamic: i) There may only be one (1) dynamic
+   dimension per n-d array, ii) the last dimension of an n-d array with n > 1
+   cannot be dynamic. This prevents the creation of jagged arrays, however
+   arrays can hold tuples and vice-versa which provides an avenue for emulating
+   jagged arrays.
 
    ::
 
         // A 3x4 2d-array of real numbers.
         var real[3, 4] matrix;
 
-        // A jagged array: 5 rows, each a dynamic array of characters.
-        //  This particular array will produce shape() = [5], however
-        //  currently there is no way to place elements inside a jagged
-        //  array after declaration due to lvalue/rvalue constraints.
-        //
-        // We may loosen this restriction in future versions of the
-        //  spec
-        var character[5, *] jagged;
-
         // A dynamic list of static 3-element integer vectors.
         var integer[*, 3] vectors;
+
+        // a jagged array definition
+        var integer[3, *] jagged; // illegal, compile time error
+        var tuple(integer[*], integer[*], integer[*]) jagged; //equivalent
 
 
 #. Inferred Type and Size
@@ -124,7 +121,7 @@ square brackets (``[]``) to a type.
       // w is inferred as type real[2, 2].
       var w = [[1.0, 2.0], [3.0, 4.0]];
 
-      // x is inferred as type integer[*].
+      // x is inferred as type integer[5].
       var integer[*] dyn = [1, 2, 3, 4, 5];
       var x = [...dyn];
 
@@ -237,9 +234,8 @@ Operations
    The built-in function ``shape`` returns the shape of an array as a
    dynamically-sized integer array (``integer[*]``).
 
-   For jagged arrays, ``shape`` returns the shape of the longest non-jagged
-   (rectangular) prefix of the array's dimensions. To get the shape of a
-   specific inner array, it must be indexed directly.
+   For n-d arrays, ``shape`` returns the shape of the array using -1
+   as a marker value for dynamic dimensions.
 
    ::
 
@@ -249,14 +245,8 @@ Operations
       var real[3, 4] b;
       shape(b) // returns [3, 4]
 
-      var character[5, *] c;
-      shape(c) // returns [5]
-
-      var integer[2, 3, *] d;
-      shape(d) // returns [2, 3]
-
-      // To get the size of an inner array of c:
-      shape(c[1]) // returns [N] where N is the size of the first inner array
+      var character[5, *, 4] c;
+      shape(c) // returns [5, -1, 4]
 
 #. Concatenation (``||``)
 
@@ -268,11 +258,17 @@ Operations
       var integer[*] a = [1, 2];
       a = a || [3, 4]; // a is now [1, 2, 3, 4]
 
-   Attempting to reassign the result of a concatenation to a static array will
-   result in a ``SizeError`` if the new size does not match the declared size.
+      var integer[*, 4] b; // integer[0, 4], growable
+      b = b || [1, 2, 3, 4]; // integer[1, 4]
+
+      var integer[1, *, 2] c; // integer[1, 0, 2] = [[]];
+      c = c || [[[1, 2]]]; // c = [[[1, 2]]]
+
    The :ref:`spread operator <sssec:array_spread>` is the preferred method for
-   composition. Note that working with a dynamically-sized array implies that
-   the size check must be performed at runtime.
+   composition of arrays. Note that working with a dynamically-sized array 
+   implies that
+   the size check must be performed at runtime, however some arrays will have
+   constant size obtainable at compile time.
 
 #. Element-wise Operations and Broadcasting
 
@@ -304,24 +300,9 @@ Operations
 
    These element-wise operations are fully supported for dynamic arrays where the
    shape is regular (e.g., ``integer[*]``, ``integer[*, 5]``). Compatibility
-   checks are performed at **runtime**, and a ``SizeError`` will be thrown if
+   checks can be performed either at runtime or compile time, and a ``SizeError``
+   will be thrown if
    the shapes are incompatible.
-
-   However, element-wise operations are **disallowed** on any array that has a
-   jagged dimension (e.g., ``integer[5, *]``). This restriction exists because
-   the operation is ambiguous when inner arrays have different lengths. This is
-   a compile-time error. To perform an operation on a jagged array, the
-   programmer must do so explicitly by iterating over its elements.
-
-   ::
-
-      // Legal operation on a dynamic array
-      var integer[*, 5] dyn;
-      var res = dyn + 5;
-
-      // Illegal operation on a jagged array
-      var integer[5, *] jagged;
-      var err = jagged + 5; // Compile-time TypeError or ShapeError
 
 .. _sssec:array_taxonomy:
 
@@ -347,13 +328,4 @@ key restrictions that apply.
 |                        |                   | dimension(s) static. All rows have the       |                                    |
 |                        |                   | same fixed inner length.                     |                                    |
 +------------------------+-------------------+----------------------------------------------+------------------------------------+
-| Jagged                 | ``T[N, *]``       | Final dimension is ``*``: each inner array   | **No**: ambiguous inner lengths.  |
-|                        | ``T[*, *]``       | may have a different length. Applies         | Compile-time error.                |
-|                        |                   | whenever ``*`` appears in the last           |                                    |
-|                        |                   | dimension.                                   |                                    |
-+------------------------+-------------------+----------------------------------------------+------------------------------------+
-
-``shape`` returns only the static prefix of an array's dimensions. For a
-jagged array ``integer[5, *]``, ``shape(a)`` returns ``[5]``; to inspect an
-individual row's length, index into the array first: ``shape(a[1])[1]``.
 
