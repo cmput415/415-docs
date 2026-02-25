@@ -112,9 +112,17 @@ override precedence and create new atoms in an expression.
 +----------------+----------------+
 
 
+Overflow
+~~~~~~~~
+
+``integer`` arithmetic is checked at runtime. If the result of an operation
+exceeds the range of a signed 32-bit integer (i.e. falls outside
+−2,147,483,648 to 2,147,483,647), a runtime ``OverflowError`` is raised.
+Overflow does **not** wrap silently.
+
 Type Casting and Type Promotion
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 To see the types that ``integer`` may be cast and/or promoted to, see
-the sections on :ref:`sec:typeCasting` and :ref:`sec:typePromotion` 
+the sections on :ref:`sec:typeCasting` and :ref:`sec:typePromotion`
 respectively.
