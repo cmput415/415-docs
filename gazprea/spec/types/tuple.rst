@@ -3,130 +3,198 @@
 Tuples
 ------
 
-A ``tuple`` is a way of grouping multiple values with potentially different types into an aggregate data structure. Tuples are similar to :ref:`structs<ssec:struct>`, except that a tuple's fields are indexed instead of named. Tuples are often used to return multiple values from a function or procedure. Any type may be stored within tuples except structs and tuples. Additionally streams can not be stored in tuples.
+A ``tuple`` is an ordered collection of values that groups multiple, potentially
+different, types into a single compound value.
+
+The fields within a tuple can be anonymous or can be given explicit names. This
+allows tuples to be used as simple, lightweight collections or as more descriptive,
+self-documenting data structures.
 
 .. _sssec:tuple_decl:
 
 Declaration
 ~~~~~~~~~~~
 
-A tuple value is declared with the keyword ``tuple`` followed by a
-parentheses-surrounded, comma-separated list of types. The list must
-contain *at least two elements*. Tuples are *mutable*. For example:
+A tuple type is declared using the ``tuple`` keyword followed by a
+parenthesised, comma-separated list of field type specifiers. Each field may
+optionally carry a name:
 
 ::
 
-     tuple(integer, real, integer[10]) t1;
-     tuple(character, real, character[256], real) t2;
+    // Anonymous fields — accessed by index only.
+    tuple(integer, real) a;
 
-Note that while each tuple declaration defines a new type, the tuple type
-is not named explcitly. Rather, it has a type *signature* ``(T1, T2, ...)``,
-where ``T1, T2`` are the types of its members.
-The number of fields in a ``tuple`` must be known at compile time.
-This includes instances of :ref:`type inference<ssec:typeQualifiers_infer>`, where a variable is
-declared without an explicit type signature using ``var`` or ``const``
-.
-In this case, the variable must be initialised immediately with a literal whose
-type is known at compile time.
+    // Named fields — accessed by index or by name.
+    tuple(integer x, real y) b;
 
-.. _sssec:tuple_acc:
+The default qualifier applies: a declaration without ``var`` is ``const``.
 
-Access
-~~~~~~
+**Type Identity**
 
-The elements in a tuple are accessed using dot notation. Dot
-notation can only be applied to tuple variables and *not* tuple literals.
-Dot notation means an identifier followed by a period and then a literal
-integer. Spaces are not allowed between elements in dot notation.
-Field indices *start at one*, not zero. For example:
+Field names are part of the type. The rules are:
 
-::
+- A **named field** contributes both its name and its type to the type identity.
+  Two named fields at the same position are compatible only if they share the
+  same name.
+- An **unnamed field** contributes only its type to the type identity. An
+  unnamed field at position *i* in one tuple is compatible with an unnamed field
+  at position *i* in another tuple based solely on type compatibility.
+- A named field and an unnamed field at the same position are **never**
+  compatible, even if the underlying types match.
 
-     t1.1
-     t2.4
-
-Tuple access can be used either to retrieve the element value for an expression
-or to assign a new value to the element.
+Therefore, two tuples whose fields have the same underlying types but different
+names (or a mix of named and unnamed) are considered different, incompatible types:
 
 ::
 
-     y = x + t1.1;     // Allowed
-     t1.1 = type-expr; // Allowed
+    // These three variables have different, incompatible types.
+    tuple(integer, real) a = (1, 2.0);          // fully anonymous
+    tuple(integer x, real y) b = (x: 1, y: 2.0); // fully named
+    tuple(integer a, real b) c = (a: 1, b: 2.0); // different names from b
 
+    // Mixed: field 1 is named x, field 2 is anonymous, field 3 is named z.
+    tuple(integer x, real, character z) mixed = (x: 1, 2.0, z: 'a');
+
+    // Incompatible with mixed: field 2 has a name (y) where mixed has none.
+    tuple(integer x, real y, character z) named = (x: 1, y: 2.0, z: 'a');
+
+    mixed == named; // ILLEGAL: field 2 is unnamed in mixed, named in named
 
 .. _sssec:tuple_lit:
 
 Literals
 ~~~~~~~~
 
-A tuple literal is constructed by grouping values together between
-parentheses in a comma separated list. For example:
+A tuple literal is constructed by grouping values together between parentheses
+in a comma-separated list.
+
+**Fully named tuples** may use named field syntax, where each value is preceded
+by its field name and a colon (``:``)  Named literals may appear in any order,
+since the names provide unambiguous mapping to fields:
 
 ::
 
-     tuple(integer, character[5], integer[3])  my_tuple = (x, "hello", [1, 2, 3]);
-     var my_tuple = (x, "hello", [1, 2, 3]);
-     const your_tuple = (x, "hello", [1, 2, 3]);
-     tuple(integer, real, integer[10]) tuple_var = (1, 2.1, [i in 1..10 | i]);
+    // A literal of type tuple(integer x, real y) — names in order
+    (x: 10, y: 3.14)
+
+    // Same type, names out of order — legal because all fields are named
+    (y: 3.14, x: 10)
+
+**Anonymous or mixed tuples must be constructed positionally.** When any field
+in a tuple type is unnamed, the entire literal must list values in declaration
+order with no field name labels:
+
+::
+
+    // tuple(integer, character, boolean) — all anonymous, positional only
+    (1, 'a', true)
+
+    // tuple(integer x, real, character z) — mixed: positional only
+    (1, 2.0, 'a')
+
+.. note::
+
+   **Rationale.** Allowing named labels in a mixed-tuple literal would make
+   ordering ambiguous as soon as more than one field is unnamed. For example,
+   given ``tuple(integer x, real, character z)``, the literal
+   ``(z: 'a', 2.0, x: 1)`` looks as though it reorders fields, but the unnamed
+   ``real`` field has no label to anchor it — it could plausibly bind to position
+   1, 2, or 3. Requiring fully positional construction for any tuple that contains
+   an unnamed field eliminates this ambiguity entirely and keeps the rule simple:
+   if you need named literals, name all of your fields.
+
+Duplicate field names within a single tuple literal are not allowed and will
+result in a compile-time error.
+
+.. _sssec:tuple_access:
+
+Access
+~~~~~~
+
+Fields in a tuple are accessed using dot notation (``.``). *Gazprea* supports
+dual access for named fields:
+
+1. **By Index:** All fields can be accessed by their 1-based integer index.
+2. **By Name:** If a field is named, it can also be accessed by its name.
+
+::
+
+    var point = (x: 10, y: 20);
+
+    // Access by index
+    point.1 -> std_output; // Prints 10
+    point.2 = 30;          // Modify the second field
+
+    // Access by name
+    point.x -> std_output; // Prints 10
+    point.y = 40;          // Modify the field named 'y'
 
 .. _sssec:tuple_ops:
 
 Operations
 ~~~~~~~~~~
 
-The following operations are defined on tuple values. In all of the
-usage examples ``tuple-expr`` means some expression yielding tuples with the same type signature,
-while ``int_lit`` is an integer literal as defined in :ref:`Integer Literals <sssec:integer_lit>` and ``tuple-inst`` is the
-name of tuple instance as defined in :ref:`sec:identifiers`.
+**Comparison**
 
-+------------+---------------+------------+------------------------------+-------------------+
-| **Class**  | **Operation** | **Symbol** | **Usage**                    | **Associativity** |
-+------------+---------------+------------+------------------------------+-------------------+
-| Access     | dot           | ``.``      | ``tuple-inst.int_lit``       | left              |
-+------------+---------------+------------+------------------------------+-------------------+
-| Comparison | equals        | ``==``     | ``tuple-expr == tuple-expr`` | left              |
-+            +---------------+------------+------------------------------+-------------------+
-|            | not equals    | ``!=``     | ``tuple-expr != tuple-expr`` | left              |
-+------------+---------------+------------+------------------------------+-------------------+
+The equality (``==``) and inequality (``!=``) operators are defined for tuples.
+Two tuples are considered equal if and only if:
 
-Note that in the above table ``tuple-expr`` may refer to a variable for access.
-Accessing a literal could be replaced immediately with the scalar inside the tuple literal, however, ``tuple-expr`` may
-refer to a literal in comparison operations to enable shorthand like this:
+1. They have a compatible type (see :ref:`sssec:tuple_casting`).
+2. All corresponding fields are pairwise equal.
 
 ::
 
-     if ((a, b) == (c, d)) { }
+    tuple(integer x, integer y) p1 = (x: 1, y: 2);
+    tuple(integer x, integer y) p2 = (x: 1, y: 2);
+    tuple(integer a, integer b) p3 = (a: 1, b: 2);
+    tuple(integer, integer)     p4 = (1, 2);
 
-Comparisons are performed pairwise. Two tuples are equal when for every expression pair, the equality operator returns true.
-Two tuples are unequal when one or more expression pairs are unequal or the types mismatch. This table describes how the
-comparisons are completed, where ``t1`` and ``t2`` are tuple yielding expressions including literals:
+    p1 == p2; // true: same type, same values
+    p1 == p3; // ILLEGAL: incompatible types — field names differ (x/y vs a/b)
+    p1 == p4; // ILLEGAL: incompatible types — p1 has named fields, p4 has none
 
-============= =========================================
-**Operation** **Meaning**
-============= =========================================
-``t1 == t2``  ``t1.1 == t2.1 and ... and t1.n == t2.n``
-``t1 != t2``  ``t1.1 != t2.1 or ... or t1.n != t2.n``
-============= =========================================
+.. _sssec:tuple_casting:
 
+Type Casting and Promotion
+~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. _sssec:tuple_unpack:
+**Implicit Promotion (Anonymous Fields Only)**
 
-Unpacking
-~~~~~~~~~
-
-Any tuple expression may be assigned (unpacked) into multiple lvalues. If the size of
-the tuple being unpacked does not match the number of lvalues being asigned, an ``AssignError``
-may be raised. There is no partial unpacking of tuples.
+Implicit promotion between tuple types is permitted only at positions where
+**both** the source and destination fields are unnamed. At such positions, the
+normal scalar promotion rules apply (e.g. ``integer`` promotes to ``real``).
+Named fields are never implicitly promoted; if either the source or destination
+field carries a name, an explicit ``as<>`` cast is required for that conversion.
 
 ::
 
-    var real a;
-    var real b;
-    a, b = (3.14, 1.5);
+    // Fully anonymous: field-wise promotion applies freely.
+    tuple(integer, integer) int_tup = (1, 2);
+    tuple(real, real) real_tup = int_tup;  // Legal: both fields anonymous, integer -> real
 
+    // Mixed: the unnamed field (position 2) promotes; named fields must match exactly.
+    tuple(integer x, integer, character z) src = (x: 1, 2, z: 'a');
+    tuple(integer x, real,    character z) dst = src;  // Legal: position 2 is unnamed in both
 
-Type Casting and Type Promotion
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // Named fields do NOT implicitly promote.
+    tuple(integer x, integer y) named = (x: 1, y: 2);
+    tuple(real x, real y) named_real = named;  // ILLEGAL: named fields require as<>
 
-To see the types that tuple may be cast and/or promoted to, see the sections on :ref:`sec:typeCasting`
-and :ref:`sec:typePromotion`, respectively.
+    // Must use explicit cast:
+    tuple(real x, real y) named_real = as<tuple(real x, real y)>(named);
+
+**Explicit Casting with ``as<>``**
+
+The ``as<>`` operator can be used to explicitly convert between compatible tuple
+types. The cast is valid if the source and destination have the same number of
+fields and each source field can be cast (per :ref:`sec:typeCasting`) to the
+corresponding destination field type.
+
+::
+
+    // Cast an anonymous tuple to a named type
+    tuple(integer x, integer y) named = as<tuple(integer x, integer y)>((1, 2));
+
+    // Cast between named tuple types with compatible field types
+    tuple(integer a, integer b) ab = (a: 3, b: 4);
+    tuple(real x, real y) xy = as<tuple(real x, real y)>(ab);
