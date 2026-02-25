@@ -21,10 +21,10 @@ optionally carry a name:
 
 ::
 
-    // Anonymous fields — accessed by index only.
+    // Anonymous fields - accessed by index only.
     tuple(integer, real) a;
 
-    // Named fields — accessed by index or by name.
+    // Named fields - accessed by index or by name.
     tuple(integer x, real y) b;
 
 The default qualifier applies: a declaration without ``var`` is ``const``.

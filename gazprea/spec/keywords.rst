@@ -52,6 +52,8 @@ not be used by a programmer.
 
 -  returns
 
+-  reverse
+
 -  shape
 
 -  std_input

@@ -4,7 +4,8 @@ Value Categories
 ================
 
 Every expression in *Gazprea* belongs to exactly one **value category**,
-which determines how the expression may be used — in particular, whether it
+which determines how the expression may be used. In essence, value categories
+describe whether an expression
 can appear on the left-hand side of an assignment and whether it can be passed
 as a mutable (``var``) argument to a procedure.
 
@@ -16,7 +17,7 @@ exposes. The two-category model is sufficient for *Gazprea*'s ownership rules,
 which are entirely copy-based.
 
 The full C++ taxonomy is described at
-`cppreference — Value categories <https://en.cppreference.com/w/cpp/language/value_category.html>`_
+`cppreference: Value categories <https://en.cppreference.com/w/cpp/language/value_category.html>`_
 and is worth understanding as background, even if *Gazprea* does not expose all
 of it.
 
@@ -27,9 +28,9 @@ Background: The Full C++ Taxonomy
 
 C++ characterises expressions along two orthogonal axes:
 
-- **Identity** — does the expression refer to a persistent object that has an
+- **Identity**: does the expression refer to a persistent object that has an
   address and can be named again later?
-- **Moveability** — can the object's resources be transferred (moved) rather
+- **Moveability**: can the object's resources be transferred (moved) rather
   than copied?
 
 This gives rise to five named categories, arranged in the following hierarchy:
@@ -67,7 +68,7 @@ This gives rise to five named categories, arranged in the following hierarchy:
     prvalues.
 
 **rvalue**
-    The union of xvalues and prvalues — anything that is not a glvalue.
+    The union of xvalues and prvalues, anything that is not a glvalue.
     rvalues can generally be moved from (in C++) and cannot be the target of an
     ordinary assignment.
 

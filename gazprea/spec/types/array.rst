@@ -16,20 +16,23 @@ An array's elements can be of any single type, including base types (
 L-values and R-values
 ~~~~~~~~~~~~~~~~~~~~~
 
-Every expression in *Gazprea* has a **value category** — either an *lvalue*
-or an *rvalue* — which governs where the expression may appear. A full
+Every expression in *Gazprea* has a **value category**: either an *lvalue*
+or an *rvalue*, which governs the role the expression may take and
+how the result of the expression is stored. A full
 discussion of value categories, including their relationship to the richer
 C++ taxonomy (glvalue, xvalue, prvalue), is given in
 :ref:`sec:value_categories`.
 
 For arrays the key consequence is that **slice expressions are rvalues**.
-A slice such as ``v[2..5]`` produces a new, independent deep copy of the
+A slice such as ``v[2..5]`` produces, semantically, a new, independent
+deep copy of the
 selected elements. Because it is an rvalue, a slice:
 
 - cannot appear on the left-hand side of an assignment, and
 - cannot be passed as a ``var`` (mutable) parameter to a procedure.
 
-Attempting either is a compile-time error. Because slices produce deep copies
+Attempting either is a compile-time error. Because slices semantically produce
+deep copies
 and carry no persistent address, they do not participate in aliasing analysis
 (see :ref:`ssec:procedure_alias`).
 
@@ -53,9 +56,11 @@ square brackets (``[]``) to a type.
    ::
 
         // A statically-sized array of 10 integers.
+        //  initialized to 0 elementwise
         var integer[10] a;
 
         // A dynamically-sized array of integers.
+        //  initialized to integer[0], with shape() = [0]
         var integer[*] b;
 
    .. note::
@@ -65,7 +70,7 @@ square brackets (``[]``) to a type.
       is dynamic when its size cannot be determined at compile time:
 
       -  ``integer[x]`` is dynamic whenever ``x`` is not a
-         :ref:`constant expression <sec:constexpr>` — no ``*`` is required.
+         :ref:`constant expression <sec:constexpr>`, no ``*`` is required.
       -  ``integer[*] a = [1, 2, 3]`` may be treated as **static** by the
          compiler because the initialiser literal has a known length of 3.
          A conforming implementation is free to allocate ``a`` on the stack
@@ -74,8 +79,8 @@ square brackets (``[]``) to a type.
       The distinction matters for implementations: only arrays whose size is
       genuinely unknown at compile time require dynamic memory management
       (heap allocation, runtime resize, etc.). Arrays whose size is
-      determinable from their initialiser — regardless of whether the
-      declaration uses a literal or ``*`` — may be stack-allocated like any
+      determinable from their initialiser, regardless of whether the
+      declaration uses a literal or ``*``, may be stack-allocated like any
       fixed-size value.
 
 #. N-Dimensional Arrays
@@ -88,10 +93,16 @@ square brackets (``[]``) to a type.
 
    ::
 
-        // A 3x4 matrix of real numbers.
+        // A 3x4 2d-array of real numbers.
         var real[3, 4] matrix;
 
         // A jagged array: 5 rows, each a dynamic array of characters.
+        //  This particular array will produce shape() = [5], however
+        //  currently there is no way to place elements inside a jagged
+        //  array after declaration due to lvalue/rvalue constraints.
+        //
+        // We may loosen this restriction in future versions of the
+        //  spec
         var character[5, *] jagged;
 
         // A dynamic list of static 3-element integer vectors.
@@ -145,14 +156,14 @@ though of limited practical use. Any other static size is a compile-time
 
 Because ``[]`` carries no element type, **type inference cannot be used with
 an empty array literal.** A declaration of the form ``var x = []`` is a
-compile-time ``TypeError`` — the compiler has no information from which to
+compile-time ``TypeError`` since the compiler has no information from which to
 derive the element type of ``x``.
 
 ::
 
     var integer[*] a = []; // Legal: dynamic empty array
     integer[0] b = [];     // Legal: static array of size zero (not very useful)
-    var integer[5] c = []; // Illegal: size mismatch — static array needs 5 elements
+    var integer[5] c = []; // Illegal: size mismatch, static array needs 5 elements
     var d = [];            // Illegal: element type cannot be inferred from []
 
 .. _sssec:array_spread:
@@ -324,19 +335,19 @@ key restrictions that apply.
 +------------------------+-------------------+----------------------------------------------+------------------------------------+
 | **Form**               | **Declaration**   | **Description**                              | **Element-wise ops allowed?**      |
 +========================+===================+==============================================+====================================+
-| Static                 | ``T[N]``          | Size fixed at compile time. ``N`` must be a  | Yes — size known at compile time.  |
+| Static                 | ``T[N]``          | Size fixed at compile time. ``N`` must be a  | Yes: size known at compile time.  |
 |                        |                   | literal or :ref:`constexpr <sec:constexpr>`. |                                    |
 +------------------------+-------------------+----------------------------------------------+------------------------------------+
-| Static N-D             | ``T[N, M]``       | All dimensions fixed at compile time.        | Yes — checked at compile time.     |
+| Static N-D             | ``T[N, M]``       | All dimensions fixed at compile time.        | Yes: checked at compile time.     |
 +------------------------+-------------------+----------------------------------------------+------------------------------------+
-| Dynamic 1-D            | ``T[*]``          | Size unknown at compile time; grows          | Yes — shape checked at runtime.    |
+| Dynamic 1-D            | ``T[*]``          | Size unknown at compile time; grows          | Yes: shape checked at runtime.    |
 |                        |                   | or shrinks at runtime.                       |                                    |
 +------------------------+-------------------+----------------------------------------------+------------------------------------+
-| Regular dynamic N-D    | ``T[*, N]``       | Leading dimension(s) dynamic; final          | Yes — shape checked at runtime.    |
+| Regular dynamic N-D    | ``T[*, N]``       | Leading dimension(s) dynamic; final          | Yes: shape checked at runtime.    |
 |                        |                   | dimension(s) static. All rows have the       |                                    |
 |                        |                   | same fixed inner length.                     |                                    |
 +------------------------+-------------------+----------------------------------------------+------------------------------------+
-| Jagged                 | ``T[N, *]``       | Final dimension is ``*``: each inner array   | **No** — ambiguous inner lengths.  |
+| Jagged                 | ``T[N, *]``       | Final dimension is ``*``: each inner array   | **No**: ambiguous inner lengths.  |
 |                        | ``T[*, *]``       | may have a different length. Applies         | Compile-time error.                |
 |                        |                   | whenever ``*`` appears in the last           |                                    |
 |                        |                   | dimension.                                   |                                    |

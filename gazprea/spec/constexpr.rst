@@ -134,7 +134,7 @@ allowing them to be used to define other constants.
                              // a dynamic-sized array
 
    The compiler propagates the constexpr property through local scopes
-   normally — there is no restriction on where in a block the declaration
+   normally; there is no restriction on where in a block the declaration
    appears, as long as its entire dependency chain satisfies the rules above.
 
 #. Tuples

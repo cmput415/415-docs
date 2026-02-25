@@ -60,15 +60,15 @@ an ``integer[*]`` variable.
 
 ::
 
-    integer[4] v = 1..5;   // [1, 2, 3, 4]  — size known at compile time
-    integer[0] w = 3..3;   // [] — lower equals upper, empty
-    integer[0] x = 5..1;   // [] — lower exceeds upper, empty
+    integer[4] v = 1..5;   // [1, 2, 3, 4] - size known at compile time
+    integer[0] w = 3..3;   // [] - lower equals upper, empty
+    integer[0] x = 5..1;   // [] - lower exceeds upper, empty
 
     var integer n = 10;
     integer[*] y = 1..n;   // size only known at runtime
 
-The result is a deep copy, independent of any variables used to compute
-the bounds.
+The result is semantically a deep copy, independent of any variables used to
+compute the bounds.
 
 **Special case: inside an indexing expression.**
 When ``..`` appears inside square brackets as part of an index operation, it

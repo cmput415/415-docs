@@ -125,11 +125,11 @@ Procedure Declarations
 ----------------------
 
 Procedures can use :ref:`forward declaration <ssec:function_fwd_declr>`
-just like functions. Parameter qualifiers (``var`` or ``const``) are part of
+just like functions. Parameter ``var`` qualifiers are part of
 the procedure's type signature and **must** appear in both the prototype and
 the definition. A prototype that omits ``var`` on a parameter that the
 definition declares ``var`` is a type-signature mismatch and a compile-time
-error.
+error. Otherwise parameters default to being ``const`` qualified.
 
 ::
 
@@ -253,10 +253,12 @@ aliasing.
          /* p is some procedure with a tuple argument and a real argument */
 
 **Slices are not subject to aliasing analysis.** A slice expression (e.g.
-``v[1..4]``) is an *rvalue* that produces a deep copy with no persistent
+``v[1..4]``) is semantically an *rvalue* that produces a deep copy with 
+no persistent
 address (see :ref:`sssec:array_lrvalue` and :ref:`sec:value_categories`).
-Because a slice cannot be a ``var`` argument — passing an rvalue as a mutable
-parameter is a compile-time error — it can never be the source of a mutable
+Because a slice cannot be a ``var`` argument. Passing an rvalue as a mutable
+parameter is a compile-time error. An rvalue it can never be the source of 
+a mutable
 alias. Two slice arguments derived from the same array are therefore always
 safe to pass as ``const`` arguments simultaneously.
 

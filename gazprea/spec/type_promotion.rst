@@ -12,15 +12,11 @@ be done explicitly via a typecast expression.
 Type Lattice
 ------------
 
-The diagram below shows every implicit promotion *Gazprea* permits. An arrow
-``A → B`` means a value of type ``A`` can be silently converted to type ``B``
-without an explicit ``as<>`` cast. Paths not shown require an explicit cast or
-are entirely forbidden.
-
 .. graphviz::
 
    digraph TypeLattice {
        rankdir=BT;
+       compound=true;
        node [shape=box, fontname="Courier", style=filled, fillcolor=white];
        edge [fontname="Courier", fontsize=10];
 
@@ -33,25 +29,76 @@ are entirely forbidden.
            integer  [label="integer"];
            real     [label="real"];
        }
+       
+       subgraph cluster_composite_types {
+           label="Composite Types";
+           style=dashed;
+           //int_arr [label="integer[*]"];
+           //real_arr [label="real[*]"];
+           //bool_arr [label="boolean[*]"];
+           char_arr     [label="char[*]"];
+           string   [label="string"];
+           generic_static_arr [label="U[*]  (static)", shape=ellipse, style=dashed]
+           generic_dynamic_arr [label="U[*]  (dynamic)", shape=ellipse, style=dashed]
+           generic_ragged_arr [label="U[..., *] (ragged)\nmust be explicitly initialized\nonly usable as data", shape=ellipse, style=dashed]
+           //generic_static_arr -> int_arr [dir=none]
+           //generic_static_arr -> real_arr [dir=none]
+           generic_dynamic_arr -> char_arr [dir=none]
+           //generic_static_arr -> bool_arr [dir=none]
 
-       // The one scalar promotion
-       integer -> real [label="implicit"];
+            // String / character[*] - bidirectional
+            string    -> char_arr [label="implicit", dir=both];
+            generic_dynamic_arr -> string [dir=none]
+            
+            // arrays can implicitly promote to dynamic arrays but not vv
+            generic_static_arr -> generic_dynamic_arr [label="implicit"]
+       }
+       
+        subgraph cluster_aggregate_types {
+           label="Aggregate Types";
+           style=dashed;
+           
+            // Anonymous tuple promotion (field-wise)
+            tup_tagged [label="tuple(name: U_1, name: T_2, ...)\ntagged"];
+            tup_untagged [label="tuple(U_1, U_2, ...)\nuntagged"];
+            tup_ptagged [label="tuple(name: U_1, U_2, ...)\npartially tagged"];
+            tup_untagged -> tup_ptagged [label="implicit element-wise\ntype promotion"]
+            tup_ptagged -> tup_tagged [label="implicit promotion if:\n- field names match\n- field types match\n- field orders match"]
+            generic_tup [label="tuple  (generic)", shape=ellipse, style=dashed];
+            tup_tagged -> generic_tup
+            tup_ptagged -> generic_tup
+            tup_untagged -> generic_tup
+        }
 
-       // Scalar-to-array (parametric — shown as a representative edge)
-       scalar_T [label="T  (any scalar)", shape=ellipse, style=dashed];
-       array_T  [label="T[…]  (array of T)", shape=ellipse, style=dashed];
-       scalar_T -> array_T [label="broadcast\n(any compatible T)", style=dashed];
+        // The one scalar promotion
+        integer -> real [label="implicit"];
 
-       // String / character[*] — bidirectional
-       string      [label="string"];
-       char_star   [label="character[*]"];
-       string    -> char_star [label="implicit", dir=both];
+        // Scalar-to-array (parametric - shown as a representative edge)
+         scalar_T [label="T  (any scalar)", shape=ellipse, style=dashed];
+         boolean -> scalar_T [lhead=cluster_scalars]
+         real -> scalar_T [lhead=cluster_scalars]
+         integer -> scalar_T [lhead=cluster_scalars]
+         character -> scalar_T [lhead=cluster_scalars]
+         
+         scalar_T -> generic_static_arr [
+          label="broadcast\n(any compatible T)", 
+          style=dashed,
+          ltail=cluster_composite_types
+        ];
+        
+        union_type [label="U  (union of all types)", shape=ellipse, style=dashed];
+        scalar_T -> union_type
+        generic_static_arr -> union_type
+        generic_dynamic_arr -> union_type
+        generic_ragged_arr -> union_type
+        generic_tup -> union_type
 
-       // Anonymous tuple promotion (field-wise)
-       tup_src [label="tuple(A, B, …)\n[anonymous]",  shape=ellipse, style=dashed];
-       tup_dst [label="tuple(A′, B′, …)\n[anonymous, A→A′]", shape=ellipse, style=dashed];
-       tup_src -> tup_dst [label="field-wise\npromotion", style=dashed];
-   }
+    }
+
+The diagram above shows every implicit promotion *Gazprea* permits. An arrow
+``A -> B`` means a value of type ``A`` can be silently converted to type ``B``
+without an explicit ``as<>`` cast. Paths not shown require an explicit cast or
+are entirely forbidden.
 
 Solid edges represent concrete implicit promotions between named types. Dashed
 nodes and edges represent parametric promotion rules that apply to any
@@ -106,13 +153,11 @@ array's shape.
 
 Other examples::
 
-  1 == [1, 1]   // true — scalar broadcast into equality check
-  1..2 || 3     // [1, 3] — 3 promoted to integer[1] then concatenated
+  1 == [1, 1]   // true - scalar broadcast into equality check
+  1..2 || 3     // [1, 3] - 3 promoted to integer[1] then concatenated
 
 Note that an array can never be downcast to a scalar, even with an explicit
-cast. Matrix multiplication (``**``) also imposes strict dimensionality
-requirements: scalar-to-matrix promotion under ``**`` is only permitted when
-the matrix operand is square (:math:`m \times m`).
+cast. 
 
 .. _ssec:typePromotion_tuple:
 
@@ -124,8 +169,12 @@ if both tuples have the same number of fields and each source field can be
 implicitly promoted to the corresponding destination field type (per the scalar
 lattice above).
 
-Named fields do **not** participate in implicit promotion. See
-:ref:`sssec:tuple_casting` for the full rules, including the behaviour of
+Equivalently named fields are necessary, but not sufficient for implicit 
+promotion. If promoting a named tuple, to another named tuple names, and
+types must both match. If promoting a partially tagged tuple to another
+partially tagged tuple, names, fields
+and orders must all match between the two tuples. See
+:ref:`sssec:tuple_casting` for additional elaboration, including the behaviour of
 mixed (partially-named) tuples.
 
 ::
@@ -134,7 +183,7 @@ mixed (partially-named) tuples.
      tuple(real, real) real_tup = int_tup;   // Legal: anonymous, integer -> real
 
 Two-sided promotion can occur when comparing anonymous tuples whose element
-types differ — each side is promoted to the common type before comparison:
+types differ. Each side is promoted to the common type before comparison:
 
 ::
 

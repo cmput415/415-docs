@@ -182,7 +182,8 @@ The arguments and return value of functions can have both explicit and inferred 
 
 
 Array *slices* (see :ref:`sssec:array_ops`) may be passed as arguments.
-Since slices produce a deep copy, they are treated as ``const`` values and
+Since slices semantically produce a deep copy, they are treated as 
+``const`` values and
 may only be passed to ``const`` (by-value) parameters:
 
 ::
@@ -204,6 +205,11 @@ functions are pure. That means that while it is legal to pass arrays and slices
 *by reference*, the array contents cannot be modified inside the function,
 because the change would be visible outside the function. You must check that
 the ``const`` requirement is honored.
+
+**Note**: There are ways to get aroud the restrictions imposed on passing
+slices like by spreading a slice of an array into a new variable declaration.
+If you feel so inclined see :ref:`sec:value_categories` and 
+:ref:`sssec:array_lvalue`
 
 .. _ssec:function_namespacing:
 

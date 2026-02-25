@@ -3,7 +3,14 @@
 Globals
 =======
 
-In *Gazprea* values can be assigned to a global identifier. All globals
+The legal statements in the global scope are:
+
+*   Function/Procedure Prototypes
+*   Function/Procedure Declarations
+*   Global Constants
+
+In *Gazprea* values can be assigned to a global identifier. This is a Global
+Constant. All globals
 must be immutable (``const``). If a global identifier is declared with
 the ``var`` specifier, then an error should be raised. This restriction is in
 place since mutable global variables would ruin functional purity.
