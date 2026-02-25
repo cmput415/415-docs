@@ -58,6 +58,26 @@ square brackets (``[]``) to a type.
         // A dynamically-sized array of integers.
         var integer[*] b;
 
+   .. note::
+
+      The ``*`` token is a syntactic marker meaning "size not declared here",
+      but it is **not** the sole property that makes an array dynamic. An array
+      is dynamic when its size cannot be determined at compile time:
+
+      -  ``integer[x]`` is dynamic whenever ``x`` is not a
+         :ref:`constant expression <sec:constexpr>` — no ``*`` is required.
+      -  ``integer[*] a = [1, 2, 3]`` may be treated as **static** by the
+         compiler because the initialiser literal has a known length of 3.
+         A conforming implementation is free to allocate ``a`` on the stack
+         just like ``integer[3] a = [1, 2, 3]``.
+
+      The distinction matters for implementations: only arrays whose size is
+      genuinely unknown at compile time require dynamic memory management
+      (heap allocation, runtime resize, etc.). Arrays whose size is
+      determinable from their initialiser — regardless of whether the
+      declaration uses a literal or ``*`` — may be stack-allocated like any
+      fixed-size value.
+
 #. N-Dimensional Arrays
 
    Multi-dimensional arrays are declared by providing a comma-separated list of
