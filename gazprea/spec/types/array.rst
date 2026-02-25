@@ -200,6 +200,14 @@ Operations
       cannot be the target of an assignment. For N-D arrays, slicing is only
       permitted on the last dimension.
 
+      .. note::
+
+         Implementations are **not** required to perform an eager copy when a
+         slice is passed to a function or procedure. A lazy strategy such as
+         Copy-On-Write is permitted because slices are always passed as
+         ``const`` parameters and therefore cannot be mutated by the callee.
+         See :ref:`sec:impl_slice_passing` for guidance.
+
    ::
 
         var integer[5] a = [10, 20, 30, 40, 50];
