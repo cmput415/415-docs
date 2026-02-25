@@ -3,10 +3,9 @@
 Globals
 =======
 
-Valid global scope statements inclulde: 
+Valid global scope statements inclulde:
 
 * Variable Declarations
-* Struct Declarations
 * Function and Procedure Declarations
 * Function and Procedure Prototypes
 * Typealias

@@ -11,7 +11,6 @@ Types
    types/integer
    types/real
    types/tuple
-   types/struct
    types/array
    types/string
    types/matrix
