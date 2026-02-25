@@ -20,8 +20,6 @@ not be used by a programmer.
 
 -  character
 
--  columns
-
 -  const
 
 -  continue
@@ -40,8 +38,6 @@ not be used by a programmer.
 
 -  integer
 
--  length
-
 -  loop
 
 -  not
@@ -56,9 +52,7 @@ not be used by a programmer.
 
 -  returns
 
--  reverse
-
--  rows
+-  shape
 
 -  std_input
 
@@ -68,8 +62,6 @@ not be used by a programmer.
 
 -  string
 
--  struct
-
 -  true
 
 -  tuple
@@ -77,8 +69,6 @@ not be used by a programmer.
 -  typealias
 
 -  var
-
--  vector
 
 -  while
 
