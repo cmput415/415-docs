@@ -43,6 +43,75 @@ associativities of the operators in *Gazprea*.
 | (Lowest) 13    | ``||``                             | right             |
 +----------------+------------------------------------+-------------------+
 
+.. _ssec:expressions_range:
+
+Range Operator (``..``)
+-----------------------
+
+The range operator ``..`` produces an ``integer[upper - lower]`` array
+containing every integer from the lower bound (inclusive) to the upper bound
+(exclusive). Both bounds must be ``integer`` expressions; non-integer bounds
+are a compile-time type error. Omitting either bound is not supported.
+
+When both bounds are literals or :ref:`constexprs <sec:constexpr>`, the
+resulting array type is statically sized. When either bound is a runtime
+value, the size is only known at runtime and the result should be stored in
+an ``integer[*]`` variable.
+
+::
+
+    integer[4] v = 1..5;   // [1, 2, 3, 4]  — size known at compile time
+    integer[0] w = 3..3;   // [] — lower equals upper, empty
+    integer[0] x = 5..1;   // [] — lower exceeds upper, empty
+
+    var integer n = 10;
+    integer[*] y = 1..n;   // size only known at runtime
+
+The result is a deep copy, independent of any variables used to compute
+the bounds.
+
+**Special case: inside an indexing expression.**
+When ``..`` appears inside square brackets as part of an index operation, it
+takes on a different role: it denotes a *slice* of an existing array rather
+than producing a standalone integer array. See :ref:`sssec:array_ops` for the
+full slicing semantics.
+
+.. _ssec:expressions_stride:
+
+Stride Operator (``by``)
+------------------------
+
+The ``by`` operator strides through an array, selecting every *step*-th
+element starting from the first, and returns a new independent array whose
+elements are deep-copied from the source.
+
+Syntax::
+
+    <array-expr> by <integer-expr>
+
+Given a source array of ``N`` elements and a step ``s``, the result contains
+``N / s`` elements (integer division), selecting elements at positions
+1, 1+s, 1+2s, and so on.
+
+The step must be a positive ``integer``. If the step expression is a
+:ref:`constexpr <sec:constexpr>`, a non-positive value is a compile-time
+error; otherwise it is a runtime error.
+
+::
+
+    integer[8] v = 1..9;
+    integer[4] a = v by 2;   // [1, 3, 5, 7]
+    integer[2] b = v by 3;   // [1, 4]
+
+The ``by`` operator is most commonly combined with ``..`` to produce
+arithmetic sequences. When both bounds and the step are literals, all sizes
+are statically known:
+
+::
+
+    integer[4] odds  = 1..9 by 2;    // [1, 3, 5, 7]
+    integer[4] evens = 2..10 by 2;   // [2, 4, 6, 8]
+
 .. _ssec:expressions_generators:
 
 Generators
