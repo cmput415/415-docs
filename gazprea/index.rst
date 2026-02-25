@@ -20,6 +20,7 @@ Hardware Acceleration Laboratory in Markham, ON.
    spec/identifiers
    spec/comments
    spec/declarations
+   spec/constexpr
    spec/type_qualifiers
    spec/types
    spec/type_inference
