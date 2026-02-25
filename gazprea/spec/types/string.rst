@@ -3,53 +3,52 @@
 String
 ------
 
-A ``string`` is another object within *Gazprea*. Fundamentally, a ``string`` is
-a ``vector`` of ``character``.
-This means that, like a vector, a string behaves like a dynamically sized array,
-but because it is an object *Gazprea* can provide type specific features.
+A ``string`` is a distinct type in *Gazprea* that behaves as a wrapper around a
+dynamically-sized ``character`` array. It is structurally equivalent to
+``character[*]`` for all operations, but the type is preserved by the compiler
+because it affects output formatting: a ``string`` written to an output stream
+is printed as a sequence of characters (e.g. ``hello world``), while a
+``character[*]`` is printed with array notation (e.g. ``[h e l l o]``).
 
-String vectors behave a lot like character arrays, but there are several
-differences between the two types:
-an :ref:`extra literal style <sssec:string_lit>`,
-the :ref:`result of a concatenation <sssec:string_ops>`
-and :ref:`behaviour when sent to an output stream <sssec:output_format>`.
+Bi-directional promotion between ``string`` and ``character[*]`` is implicit,
+meaning a ``string`` can be assigned to a ``character[*]`` variable and vice
+versa without an explicit cast.
 
 .. _sssec:string_decl:
 
 Declaration
 ~~~~~~~~~~~
 
-A string may be declared with the keyword ``string``. The same rules of
-:ref:`vector declarations <sssec:vec_decl>` also apply to strings, which means
-that all lenghts are inferred:
+A string may be declared with the keyword ``string``. Because strings are
+always dynamically sized, no length is specified in the declaration:
 
 ::
 
-  string <identifier> = <type-string>;
+  string <identifier> = <string-expr>;
 
 .. _sssec:string_lit:
 
 Literals
 ~~~~~~~~
 
-Strings can be constructed in the same way as arrays using character literals.
-*Gazprea* also provides a special syntax for string literals. A string literal
-is any sequence of character literals (including escape sequences) in between
-double quotes. For instance:
+Strings can be constructed in the same way as character arrays by enclosing a
+comma-separated list of character literals in square brackets. *Gazprea* also
+provides a special string literal syntax: any sequence of characters (including
+escape sequences) enclosed in double quotes.
 
 ::
 
-  string cats_meow = "The cat said \"Meow!\"\nThat was a good day.\n"
+  string cats_meow = "The cat said \"Meow!\"\nThat was a good day.\n";
 
-Although strings and character arrays look similar, they are still treated
-differently by the compiler:
+Although strings and character arrays look similar, they are treated differently
+at output:
 
 ::
 
    character[*] carray = ['h', 'e', 'l', 'l', 'o', ' ', 'w', 'o', 'r', 'l', 'd', '\n'];
-   string vec = carray;
-   carry -> std_output;
-   vec -> std_output;
+   string s = carray;
+   carray -> std_output;
+   s -> std_output;
 
 prints:
 
@@ -65,30 +64,33 @@ prints:
 Operations
 ~~~~~~~~~~
 
-As character vectors, strings have all of the same operations defined on them as
-the other array data types.
-Remember that because a ``string`` and vector of ``character`` are fundamentally
-the same, the concatenation operation may be used to concatenate values of the
-two types. You may also append a slice of characters to a string using the
-append method.
-As well, a scalar character may be concatenated onto a string in the same way
-as it would be concatenated onto an array of characters.
-Note that because a ``string`` is a sub-type of ``vector``, concatenation may also
-be accomplished with ``concat`` and ``push`` methods:
+Because a ``string`` is structurally equivalent to ``character[*]``, all array
+operations apply to strings. Concatenation uses the ``||`` operator:
 
 ::
 
-  var string letters = ['a', 'b'] || "cd";
-  letters.concat("ef");
-  letters.push('g');
-  letters  -> std_output;
+  var string greeting = "hello";
+  var string full = greeting || " world";
+  full -> std_output;  // Prints: hello world
 
-prints the following:
+A ``string`` and a ``character[*]`` may be concatenated directly using ``||``,
+since bi-directional promotion makes them compatible, and the result of
+concatenating two strings can itself be concatenated further:
 
 ::
 
-  abcdefg
+  var string letters = ['h', 'e', 'l'] || "lo ";
+  var string full = letters || "world";
+  full -> std_output;  // Prints: hello world
 
+A scalar ``character`` may also be concatenated onto a ``string`` through
+scalar-to-array promotion:
+
+::
+
+  var string s = "abc";
+  s = s || 'd';
+  s -> std_output;  // Prints: abcd
 
 Type Casting and Type Promotion
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
