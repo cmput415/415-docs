@@ -46,8 +46,11 @@ square brackets (``[]``) to a type.
 
 #. Static vs. Dynamic Sizing
 
-   *Gazprea* distinguishes between arrays whose size is fixed at compile time
-   (static) and arrays that can change size at runtime (dynamic).
+   *Gazprea* does not distinguish between arrays that are statically-sized
+   (static, with static memory footprint) and arrays that can change size at
+   runtime (dynamic) **to the user**. However, there are important differences
+   to note while implementing the language that can provide optimization
+   opportunities if correctly identified:
 
    -  A **static dimension** is declared using an integer literal or a
       :ref:`constant expression <sec:constexpr>`.
@@ -76,22 +79,19 @@ square brackets (``[]``) to a type.
          A conforming implementation is free to allocate ``a`` on the stack
          just like ``integer[3] a = [1, 2, 3]``.
 
-      The distinction matters for implementations: only arrays whose size is
-      genuinely unknown at compile time require dynamic memory management
-      (heap allocation, runtime resize, etc.). Arrays whose size is
-      determinable from their initialiser, regardless of whether the
-      declaration uses a literal or ``*``, may be stack-allocated like any
-      fixed-size value.
+      The distinction is opaque to users, but implementations can make
+      performance gains by identifying arrays that are statically sized
+      and that do not change size (memory footprint) at runtime.
+
+      **HINT**: This will figure as a part of performance testing.
 
 #. N-Dimensional Arrays
 
    Multi-dimensional arrays are declared by providing a comma-separated list of
-   dimension specifiers (the shape). There are some restrictions on which 
+   dimension specifiers (the shape). There are some restrictions on which
    dimension can be static or dynamic: i) There may only be one (1) dynamic
    dimension per n-d array, ii) the last dimension of an n-d array with n > 1
-   cannot be dynamic. This prevents the creation of jagged arrays, however
-   arrays can hold tuples and vice-versa which provides an avenue for emulating
-   jagged arrays.
+   cannot be dynamic.
 
    ::
 
@@ -141,7 +141,6 @@ types will result in a compile-time type error.
    [1, 2, 3]                     // An integer array
    [1, 2.5, 3]                   // A real array (integer 1 is promoted)
    [(1, true), (2, false)]       // An array of tuples
-   [1, [2, 3], [4, 5, 6]]        // A ragged integer array integer[3,*]
 
 *Gazprea* supports empty array literals (``[]``). The literal has no inherent
 type and acquires its element type from the declared variable type.
@@ -265,7 +264,7 @@ Operations
       c = c || [[[1, 2]]]; // c = [[[1, 2]]]
 
    The :ref:`spread operator <sssec:array_spread>` is the preferred method for
-   composition of arrays. Note that working with a dynamically-sized array 
+   composition of arrays. Note that working with a dynamically-sized array
    implies that
    the size check must be performed at runtime, however some arrays will have
    constant size obtainable at compile time.
