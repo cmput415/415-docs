@@ -170,7 +170,7 @@ implicitly promoted to the corresponding destination field type (per the scalar
 lattice above).
 
 Equivalently named fields are necessary, but not sufficient for implicit 
-promotion. If promoting a named tuple, to another named tuple names, and
+promotion. If promoting a named tuple to another named tuple, names and
 types must both match. If promoting a partially tagged tuple to another
 partially tagged tuple, names, fields
 and orders must all match between the two tuples. See
