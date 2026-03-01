@@ -100,8 +100,9 @@ allowing them to be used to define other constants.
         integer[ELEMENT] my_array = 0;            // Legal: static array of size 30, zero-filled
 
         const integer[2] BAD_TABLE = [10, get_val()]; // Illegal: initializer is not a constexpr
-                                                      //  also illegal because function calls are
-                                                      //  not allowed within declarations
+                                                      //  also illegal if a procedure since
+                                                      //  procedures calls are not allowed
+                                                      //  within declarations
 
         // Spread of a constexpr array is also a constexpr
         const integer[3] A = [1, 2, 3];
