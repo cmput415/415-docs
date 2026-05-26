@@ -235,7 +235,8 @@ Array Parameters and Returns
 value of procedures can have both explicit and inferred sizes.
 
 Similarly, slices can be used whereever arrays are declared as parameters, and
-unlike functions, array parameters in procedures can be ``var``.
+unlike functions, array parameters in procedures can be ``var``, allowing arrays
+and slices passed to a procedure to be modified (see :ref:`sssec:array_slices`).
 
 .. _ssec:procedure_namespacing:
 

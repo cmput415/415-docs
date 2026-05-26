@@ -54,29 +54,14 @@ Operations
 
 Operations on vectors are identical syntactically and semantically to
 operations on arrays. In particular, operand lengths must match for binary
-expressions and dot product. Vectors can behave as arrays by using slices:
+expressions and dot product.
+
+Slicing a vector produces an array slice (there are no "vector slices").
 
    ::
 
-      var vector<integer> v1, v2;
-      var integer[3] a;
-      v1.append([1, 2, 3]);
-      a = v1; // slice of v yields array and can be used to initialize 'a'
-      v2 = v1 + a; // slice of vector plus array yields result type array
-      a = v1 + v2; // slice of v1 + slice of v2 still yields array type
-
-
-A vector or vector slice can be passed as a call argument that has been
-declared as an array slice of the same size and type. When indexing a vector of arrays,
-the first index selects the array element within the vector, and the second index selects
-the element within the array:
-
- ::
-
-        vector<real[*]> ragged_right = [[1.0], [2.1]];
-        length(ragged_right[1]) -> std_output; // prints 1
-        ragged_right[2][1] -> std_output; // prints 2.1
-
+        // Slicing a vector produces an array slice
+        vec[2..5].append(x[5..7])      // TypeError; vec[2..5] is an array slice
 
 As a language supported object, *Gazprea* provides several methods for ``vector``:
 
@@ -84,7 +69,7 @@ As a language supported object, *Gazprea* provides several methods for ``vector`
 
 - ``len()`` - number of elements in the vector
 
-- ``append(T[*])`` - append another array slice to the vector where `T` is the type of the original vector or a type that can be implicitly cast to it. The following example tracks the elements inside `vec` through various appends.
+- ``append(T[*])`` - append another array to the vector where `T` is the type of the original vector or a type that can be implicitly cast to it. The following example tracks the elements inside `vec` through various appends.
 
    ::
 
@@ -101,4 +86,5 @@ As a language supported object, *Gazprea* provides several methods for ``vector`
         vec.append(x[5..7]);           // [[1,0, 1.0], [3.0, 0.0], [5.0, 6.0]]
 
         vec[tvec.len()] -> std_output; // prints 3
+
 

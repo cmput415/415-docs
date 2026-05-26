@@ -1,7 +1,7 @@
 .. _ssec:array:
 
 Arrays
--------
+------
 
 Arrays are fixed size collections, where each element of the array has the
 same type. Arrays can contain any of *Gazprea*'s base types (``boolean``,
@@ -48,8 +48,7 @@ array instead of a ``real`` array.
    If the LHS array is initialized using a RHS array that is too small then the LHS array will
    be padded with zeros. However, if the LHS array is initialized with a RHS
    array that is too large then a ``SizeError`` should be thrown at
-   compile-time or run-time. Check the :ref:`ssec:errors_sizeErrors` section to know when you
-   should throw the error.
+   compile-time or run-time. 
 
 #. Inferred Size Declarations
 
@@ -313,6 +312,7 @@ Operations
       +---------+---------------------------------+
       + `i..j`  | i to jth elements               |
       +---------+---------------------------------+
+
       Examples:
 
       ::
@@ -321,6 +321,7 @@ Operations
          integer x = a[..4]; /* x == [0, 2, 4] */
          integer y = a[4..]; /* x == [6, 8, 10] */
          integer z = a[..-1]; /* x == [0, 2, 4, 6, 8] */
+
 
 #. Operations of the Element Type
 
@@ -394,6 +395,57 @@ Operations
    The ``!=`` operation also produces a boolean instead of a boolean array.
    The result is the logical negation of the result of the ``==`` operator.
 
+.. _sssec:array_slices:
+
+Array Slices
+~~~~~~~~~~~~
+
+An array may be indexed by a range to create a new array that is a *slice*
+of the original. An array slice behaves semantically as an array containing
+the array elements captured by the slice, as shown below.
+
+::
+
+    integer[*] a = 0..10 by 2; /* a = [0, 2, 4, 6, 8, 10] */
+    integer[2] x = a[2..4]; /* x == [2, 4] */
+    integer y = a[2..4][1]; /* y == 2 */
+
+    // A slice of the entire array behaves as the array itself
+    integer z1 = a[4];                   /* z1 == 6 */
+    integer z2 = a[1..6][1..6][1..6][4]; /* z2 == 6 */
+
+
+Array slices have special behaviour when they are used in a parameter call,
+where they allow modification of the source array:
+
+
+::
+
+    procedure sum_arrays(const integer[*] in1, const integer[*] in2, var integer[*] out) {
+        /* sum the two inputs and fill the output with the result */
+    }
+
+    procedure main() returns integer {
+        
+        integer[10] a = 0..10 by 2; /* a = [0, 2, 4, 6, 8, 10] */
+        integer[10] b = 0..10 by 3; /* a = [0, 3, 6, 9, 12, 15] */
+        integer[10] c;
+
+        /* procedure works normally with an array */
+        call sum_arrays(a, b, c);
+        c -> std_output; /* [0, 5, 10, 15, 20, 25] */
+
+        /* procedure also can use a slice as the output */
+        call sum_arrays(a[1..3], b[1..3], c[4..6]);
+        c -> std_output; /* [0, 5, 10, 0, 5, 10] */
+    
+        return 0;
+    }
+
+This behaviour is consistent with the slice being thought of as a
+reference to the original array's elements, where in the first
+examples, the assignments perform a deep copy as usual, and in the
+procedure example, the parameters are passed by reference as usual.
 
 Type Casting and Type Promotion
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
