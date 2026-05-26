@@ -13,7 +13,7 @@ new errors. Your compiler is only expected to report the first error it
 encounters.
 
 Syntax Errors
-~~~~~~~~~~~~~
+-------------
 
 ANTLR handles syntax errors automatically, but you are required to override the
 behavior and throw the ``SyntaxError`` exception from
@@ -157,8 +157,7 @@ Here are the compile-time errors your compiler must throw:
 
     May be aised during compilation if the compiler detects an operation or statement
     is applied to or between arrays with invalid or incompatible
-    sizes. Read more about when a ``SizeError`` should be raised at run-time
-    instead of compile-time in the :ref:`ssec:errors_sizeErrors` section.
+    sizes. 
 
 * ``StrideError``
 
