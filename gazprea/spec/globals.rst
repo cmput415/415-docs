@@ -3,7 +3,7 @@
 Globals
 =======
 
-Valid global scope statements inclulde: 
+Valid global scope statements include: 
 
 * Variable Declarations
 * Struct Declarations

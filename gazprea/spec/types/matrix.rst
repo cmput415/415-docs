@@ -97,12 +97,12 @@ matrix respectively. For instance:
            integer[*][*] M = [[1, 1, 1], [1, 1, 1]];
 
            integer r = rows(M);  /* This has a value of 2 */
-           integer c = columns(M);  /* This has a value of 3 \*/
+           integer c = columns(M);  /* This has a value of 3 */
 
 
 Matrix indexing is done similarly to array indexing, however, two
 indices must be used. Because matrices are arrays of arrays the indexing is
-coposite:
+composite:
 
 ::
 

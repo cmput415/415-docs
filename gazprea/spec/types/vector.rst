@@ -45,7 +45,7 @@ Those greater raise a runtime ``SizeError``.
 
         const vector<character> vec = ['a', 'b', 'c'];
         const vector<real[*]> ragged_right = [[1.0], [2.0, 2.0]]; // SizeError
-        const vector<real[*]> paddeded_right = [[1.0, 2.0], [1.0]]; // Padds second element
+        const vector<real[*]> padded_right = [[1.0, 2.0], [1.0]]; // Pads second element
         const vector<character> const_vec = vec;
 
 
@@ -80,10 +80,10 @@ As a language supported object, *Gazprea* provides several methods for ``vector`
         vec.append(1);                 // [[1.0, 1.0]]
 
         // array padding
-        vec.append(3..3);              // [[1,0, 1.0], [3.0, 0.0]]               
+        vec.append(3..3);              // [[1.0, 1.0], [3.0, 0.0]]               
         
         // slices
-        vec.append(x[5..7]);           // [[1,0, 1.0], [3.0, 0.0], [5.0, 6.0]]
+        vec.append(x[5..7]);           // [[1.0, 1.0], [3.0, 0.0], [5.0, 6.0]]
 
         vec[tvec.len()] -> std_output; // prints 3
 

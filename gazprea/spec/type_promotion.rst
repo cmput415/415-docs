@@ -23,7 +23,7 @@ converted to ``integer``.
 Automatic type conversion follows this table where N/A means no implicit
 conversion possible, id means no conversion necessary,
 ``as<toType>(var)`` means var of type "From type" is converted to type
-"toType" using semantics from .
+"toType" using semantics from :ref:`sec:typeCasting`.
 
 +----------+-----------+---------+-----------+---------+---------------+
 |          |                    **To type**                            |

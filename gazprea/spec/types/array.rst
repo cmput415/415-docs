@@ -319,8 +319,8 @@ Operations
 
          integer[*] a = 0..10 by 2; /* a = [0, 2, 4, 6, 8, 10] */
          integer x = a[..4]; /* x == [0, 2, 4] */
-         integer y = a[4..]; /* x == [6, 8, 10] */
-         integer z = a[..-1]; /* x == [0, 2, 4, 6, 8] */
+         integer y = a[4..]; /* y == [6, 8, 10] */
+         integer z = a[..-1]; /* z == [0, 2, 4, 6, 8] */
 
 
 #. Operations of the Element Type
@@ -428,7 +428,7 @@ where they allow modification of the source array:
     procedure main() returns integer {
         
         integer[10] a = 0..10 by 2; /* a = [0, 2, 4, 6, 8, 10] */
-        integer[10] b = 0..10 by 3; /* a = [0, 3, 6, 9, 12, 15] */
+        integer[10] b = 0..10 by 3; /* b = [0, 3, 6, 9, 12, 15] */
         integer[10] c;
 
         /* procedure works normally with an array */

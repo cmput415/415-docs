@@ -198,7 +198,7 @@ Like Rust, array *slices* may be passed as arguments:
 
 Remember that all function parameters are ``const`` in *Gazprea*, so that all
 functions are pure. That means that while it is legal to pass arrays and slices
-*be reference*, the array contents cannot be modified inside the function,
+*by reference*, the array contents cannot be modified inside the function,
 because the change would be visible outside the function. You must check that
 the ``const`` requirement is honored.
 
