@@ -211,10 +211,5 @@ In *Gazprea* function declarations occur in the global scope.
 This means that two functions with the same name cannot coexist in the same
 gazprea program, nor can you forward declare the same function twice.
 
-Additionally, functions share the following namespaces:
-
--  The ``struct`` namespace: you cannot have a struct and function with the same
-   name in the same gazprea program.
-
--  The ``procedure`` namespace: You cannot have a procedure and function with
-   the same name in the same gazprea program.
+Additionally, functions and procedures share the same namespace; you cannot
+declare a function and procedure with the same name
