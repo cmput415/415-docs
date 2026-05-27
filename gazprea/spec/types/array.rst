@@ -402,7 +402,8 @@ Array Slices
 
 An array may be indexed by a range to create a new array that is a *slice*
 of the original. An array slice behaves semantically as an array containing
-the array elements captured by the slice, as shown below.
+the array elements captured by the slice, as shown below. An array can also
+be strided with `by`, which creates a strided slice.
 
 ::
 
@@ -415,7 +416,7 @@ the array elements captured by the slice, as shown below.
     integer z2 = a[1..6][1..6][1..6][4]; /* z2 == 6 */
 
 
-Array slices have special behaviour when they are used in a parameter call,
+Array slices (from slicing or `by`) have special behaviour when they are used in a parameter call,
 where they allow modification of the source array:
 
 
@@ -435,9 +436,13 @@ where they allow modification of the source array:
         call sum_arrays(a, b, c);
         c -> std_output; /* [0, 5, 10, 15, 20, 25] */
 
-        /* procedure also can use a slice as the output */
+        /* procedure can also modify a slice */
         call sum_arrays(a[1..3], b[1..3], c[4..6]);
         c -> std_output; /* [0, 5, 10, 0, 5, 10] */
+    
+        /* procedure can also modify a strided slice */
+        call sum_arrays(a[4..6], b[4..6], c by 2);
+        c -> std_output; /* [15, 5, 20, 0, 25, 10] */
     
         return 0;
     }
@@ -446,6 +451,7 @@ This behaviour is consistent with the slice being thought of as a
 reference to the original array's elements, where in the first
 examples, the assignments perform a deep copy as usual, and in the
 procedure example, the parameters are passed by reference as usual.
+
 
 Type Casting and Type Promotion
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
