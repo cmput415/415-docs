@@ -116,7 +116,7 @@ Unpacking
 
 Any tuple expression may be assigned (unpacked) into multiple lvalues. If the size of
 the tuple being unpacked does not match the number of lvalues being asigned, an ``AssignError``
-may be raised. There is no partial unpacking of tuples.
+is raised. There is no partial unpacking of tuples.
 
 ::
 

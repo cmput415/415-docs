@@ -58,8 +58,8 @@ reversed version of it.
          integer[*] v = 1..5;
          integer[*] w = reverse(v);
 
-         v -> std_output; /* Prints 12345 */
-         w -> std_output; /* Prints 54321 */
+         v -> std_output; /* Prints [1, 2, 3, 4, 5] */
+         w -> std_output; /* Prints [5, 4, 3, 2, 1] */
 
 .. _ssec:builtIn_format:
 
@@ -95,7 +95,7 @@ implicitly defined in every file:
 
   procedure stream_state(var input_stream) returns integer;
 
-This function can only be called with the ``std_input`` as a parameter, but it’s
+This procedure can only be called with the ``std_input`` as a parameter, but it’s
 general enough that it could be used if the language were expanded to include
 multiple input streams.
 

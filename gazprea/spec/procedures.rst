@@ -77,7 +77,7 @@ These procedures can be called as follows:
          call increment(x); /* x == 13 */
          call fibonacci(x,y); /* x == 21 and y == 34 */
 
-It is only possible to call procedures in this way. Functions must
+Only procedures may be called with ``call``. Functions must
 appear in expressions because they can not cause side effects, so using
 a function in a ``call`` statement would not do anything. *Gazprea*
 should raise an error if a function is used in a ``call`` statement.
