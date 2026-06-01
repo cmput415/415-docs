@@ -406,6 +406,7 @@ the array elements captured by the slice, as shown below.
 
 ::
 
+    // 0..10 is a range, not a slice
     integer[*] a = 0..10 by 2; /* a = [0, 2, 4, 6, 8, 10] */
     integer[2] x = a[2..4]; /* x == [2, 4] */
     integer y = a[2..4][1]; /* y == 2 */
@@ -415,8 +416,9 @@ the array elements captured by the slice, as shown below.
     integer z2 = a[1..7][1..7][1..7][4]; /* z2 == 6 */
 
 
-Array slices have special behaviour when they are used in a parameter call,
-where they allow modification of the source array:
+Array slices have special behaviour when they are used in a parameter call 
+or on the left side of an assignment, where they allow modification of the 
+source array:
 
 
 ::
@@ -427,9 +429,9 @@ where they allow modification of the source array:
 
     procedure main() returns integer {
         
-        integer[10] a = 0..10 by 2; /* a = [0, 2, 4, 6, 8, 10] */
-        integer[10] b = 0..15 by 3; /* b = [0, 3, 6, 9, 12, 15] */
-        integer[10] c;
+        integer[6] a = 0..10 by 2; /* a = [0, 2, 4, 6, 8, 10] */
+        integer[6] b = 0..15 by 3; /* b = [0, 3, 6, 9, 12, 15] */
+        var integer[6] c;          /* c must be var */
 
         /* procedure works normally with an array */
         call sum_arrays(a, b, c);
@@ -438,13 +440,17 @@ where they allow modification of the source array:
         /* procedure can also modify a slice */
         call sum_arrays(a[1..4], b[1..4], c[4..7]);
         c -> std_output; /* [0, 5, 10, 0, 5, 10] */
+
+        /* slice can be assigned to, modifying c */
+        c[3..5] = [415, 429];
+        c -> std_output; /* [0, 5, 415, 429, 5, 10] */
     
         return 0;
     }
 
 This behaviour is consistent with the slice being thought of as a
 reference to the original array's elements, where in the first
-examples, the assignments perform a deep copy as usual, and in the
+examples, the assignments perform a deep copy as usual and in the
 procedure example, the parameters are passed by reference as usual.
 
 
