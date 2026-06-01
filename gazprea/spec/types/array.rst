@@ -277,7 +277,7 @@ Operations
    e. Stride
 
       The ``by`` operator is used to specify a step-size greater than 1 when
-      indexing across an array. It produces an array slice with the values
+      indexing across an array. It produces an array with the values
       indexed by the given stride. For instance:
 
       ::
@@ -402,8 +402,7 @@ Array Slices
 
 An array may be indexed by a range to create a new array that is a *slice*
 of the original. An array slice behaves semantically as an array containing
-the array elements captured by the slice, as shown below. An array can also
-be strided with ``by``, which creates a strided slice.
+the array elements captured by the slice, as shown below.
 
 ::
 
@@ -414,10 +413,9 @@ be strided with ``by``, which creates a strided slice.
     // A slice of the entire array behaves as the array itself, this can be repeated
     integer z1 = a[4];                   /* z1 == 6 */
     integer z2 = a[1..7][1..7][1..7][4]; /* z2 == 6 */
-    integer z3 = (a by 1 by 1 by 1)[4];  /* z3 == 6 */
 
 
-Array slices (from slicing or ``by``) have special behaviour when they are used in a parameter call,
+Array slices have special behaviour when they are used in a parameter call,
 where they allow modification of the source array:
 
 
@@ -440,10 +438,6 @@ where they allow modification of the source array:
         /* procedure can also modify a slice */
         call sum_arrays(a[1..4], b[1..4], c[4..7]);
         c -> std_output; /* [0, 5, 10, 0, 5, 10] */
-    
-        /* procedure can also modify a strided slice */
-        call sum_arrays(a[4..7], b[4..7], c by 2);
-        c -> std_output; /* [15, 5, 20, 0, 25, 10] */
     
         return 0;
     }
