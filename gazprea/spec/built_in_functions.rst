@@ -95,7 +95,7 @@ implicitly defined in every file:
 
   procedure stream_state(var input_stream) returns integer;
 
-This function can only be called with the ``std_input`` as a parameter, but it’s
+This procedure can only be called with the ``std_input`` as a parameter, but it’s
 general enough that it could be used if the language were expanded to include
 multiple input streams.
 

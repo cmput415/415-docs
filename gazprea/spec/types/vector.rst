@@ -45,7 +45,7 @@ Those greater raise a runtime ``SizeError``.
 
         const vector<character> vec = ['a', 'b', 'c'];
         const vector<real[*]> ragged_right = [[1.0], [2.0, 2.0]]; // SizeError
-        const vector<real[*]> paddeded_right = [[1.0, 2.0], [1.0]]; // Padds second element
+        const vector<real[*]> padded_right = [[1.0, 2.0], [1.0]]; // Pads second element
         const vector<character> const_vec = vec;
 
 

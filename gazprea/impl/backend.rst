@@ -47,7 +47,7 @@ name mangling that occurs to allow class functions. Thus, we recommend
 that all runtime functions should be written in C and not in C++. There
 is a Makefile in the ``runtime`` folder designed to turn all ``*.c`` and
 ``*.h`` pairs into part of the unified runtime library ``libruntime.a``.
-An example of how to make a runtime function is provided bellow.
+An example of how to make a runtime function is provided below.
 
 ``functions.c``
 

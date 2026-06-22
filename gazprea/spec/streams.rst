@@ -4,7 +4,7 @@ Streams
 =======
 
 *Gazprea* has two streams: ``std_output`` and ``std_input``,
-which are used for writting to `stdout` and reading from `stdin` respectively.
+which are used for writing to `stdout` and reading from `stdin` respectively.
 
 
 .. _ssec:output:
@@ -145,15 +145,15 @@ must be readable.
 
 An ``integer`` from stdin can take any legal format described in the
 :ref:`integer literal <sssec:integer_lit>` section. It may also be preceded by
-a single negative or positive sign. All preceeding whitespace before the number or
+a single negative or positive sign. All preceding whitespace before the number or
 sign character may be skipped up to the limit imposed by the 512 byte read restriction.
 
 A ``real`` input from stdin can take any legal format described in the
 :ref:`real literal <sssec:real_lit>` section with the exception that no
-whitespace may be present. It may also be proceeded by a single negative or
-positive sign. Preceeding whitespace may be skipped in the same way as integers. 
+whitespace may be present. It may also be preceded by a single negative or
+positive sign. Preceding whitespace may be skipped in the same way as integers. 
 
-A ``boolean`` input from stdin is either ``T`` or ``F``. Preceeding whitespace may be
+A ``boolean`` input from stdin is either ``T`` or ``F``. Preceding whitespace may be
 skipped in the same way as integers and reals. 
 
 For the following program:
@@ -203,8 +203,8 @@ Reading a ``character`` can never cause an error. The character will either be
 successfully read or the end of the stream will be reached and ``-1`` will be
 returned on this read.
 
-When an error occurs the the null value is assigned and the input stream
-remains pointing to the same position as before the read occured.
+When an error occurs the null value is assigned and the input stream
+remains pointing to the same position as before the read occurred.
 
 The program below demonstrates 4 reads which set the error
 states 1,0,0,2 respectively.

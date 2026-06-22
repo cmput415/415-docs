@@ -80,7 +80,7 @@ Here are the compile-time errors your compiler must throw:
 * ``TypeError``
 
     Raised during compilation if an operation or statement is applied to or
-    betweeen expressions with invalid or incompatible types.
+    between expressions with invalid or incompatible types.
 
 * ``AliasingError``
 
@@ -102,7 +102,7 @@ Here are the compile-time errors your compiler must throw:
 
     Raised during compilation if the program detects a function or procedure
     with a return value that does not have a return statement reachable by all
-    control flows. Control flow constructs may be assumed to always be undecideable,
+    control flows. Control flow constructs may be assumed to always be undecidable,
     meaning they may branch in either direction.
 
     If the subroutine has a ``return`` statement with a type that does not
@@ -146,7 +146,7 @@ Here are the compile-time errors your compiler must throw:
 * ``MathError``
 
     May be raised during compile time expression evaluation when division by zero occurs.
-    Conditions for raising are eqivalent to a runtime ``MathError``. 
+    Conditions for raising are equivalent to a runtime ``MathError``. 
 
 * ``IndexError``
 
@@ -155,7 +155,7 @@ Here are the compile-time errors your compiler must throw:
 
 * ``SizeError``
 
-    May be aised during compilation if the compiler detects an operation or statement
+    May be raised during compilation if the compiler detects an operation or statement
     is applied to or between arrays with invalid or incompatible
     sizes. Read more about when a ``SizeError`` should be raised at run-time
     instead of compile-time in the :ref:`ssec:errors_sizeErrors` section.
@@ -190,7 +190,7 @@ Run-time errors must be handled by calling the functions defined in
 The runtime errors listed below are a subset of compile time errors. Since it is not only impractical,
 but undecidable to catch the following errors exclusively at compile time, Gazprea leaves the setting
 at which they are raised up to the implementation. To put simply, you can raise runtime errors either
-at compile time or at runtime and the tester will accomodate to different implementations.
+at compile time or at runtime and the tester will accommodate different implementations.
 
 * ``SizeError``
 
@@ -213,7 +213,7 @@ at compile time or at runtime and the tester will accomodate to different implem
     ``<=0``.
 
 Here is an example invalid program. If your compiler is smart, you may raise the later error, if you
-perfer not to implement static analysis, the former error can be emited at runtime.
+prefer not to implement static analysis, the former error can be emitted at runtime.
 
 ::
 
@@ -312,7 +312,7 @@ Additionally, the tester only knows to stop the toolchain prematurely if your pr
 terminates with a non-zero exit code. Once you have caught an error make sure to return
 a non-zero exit code.
 
-Finally, the tester is lenient towards the type given to a particular errror. Specifically
+Finally, the tester is lenient towards the type given to a particular error. Specifically
 the tester simply confirms that the substring "Error" is present and for compile
 time errors that the correct line is provided.
 

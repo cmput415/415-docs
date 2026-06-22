@@ -102,7 +102,7 @@ matrix respectively. For instance:
 
 Matrix indexing is done similarly to array indexing, however, two
 indices must be used. Because matrices are arrays of arrays the indexing is
-coposite:
+composite:
 
 ::
 
