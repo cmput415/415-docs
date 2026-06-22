@@ -157,8 +157,7 @@ Here are the compile-time errors your compiler must throw:
 
     May be raised during compilation if the compiler detects an operation or statement
     is applied to or between arrays with invalid or incompatible
-    sizes. Read more about when a ``SizeError`` should be raised at run-time
-    instead of compile-time in the :ref:`ssec:errors_sizeErrors` section.
+    sizes.
 
 * ``StrideError``
 
