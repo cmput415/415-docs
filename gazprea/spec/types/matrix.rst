@@ -97,7 +97,7 @@ matrix respectively. For instance:
            integer[*][*] M = [[1, 1, 1], [1, 1, 1]];
 
            integer r = rows(M);  /* This has a value of 2 */
-           integer c = columns(M);  /* This has a value of 3 \*/
+           integer c = columns(M);  /* This has a value of 3 */
 
 
 Matrix indexing is done similarly to array indexing, however, two

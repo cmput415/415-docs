@@ -240,12 +240,12 @@ More Examples
    character[3] v = ['a', 'b', 'c']; // Indexing is harder than it looks!
    integer i = 10;
    v(3) = 'X'; // SyntaxError
-   v[i] = '?'; // Run-timeerror
+   v[i] = '?'; // Runtime error
    v['a'] = '!'; // TypeError
    i[1] = 1; // SymbolError
 
    /* Tuples */
-   tuple (integerm integer) a = (9, 5);
+   tuple (integer, integer) a = (9, 5);
    integer b;
    integer c;
    integer d;
