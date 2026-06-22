@@ -13,7 +13,7 @@ new errors. Your compiler is only expected to report the first error it
 encounters.
 
 Syntax Errors
-~~~~~~~~~~~~~
+-------------
 
 ANTLR handles syntax errors automatically, but you are required to override the
 behavior and throw the ``SyntaxError`` exception from
