@@ -117,7 +117,7 @@ and column. Both the row and column indices must be integers.
 
            integer[*][*] M = [[11, 12, 13], [21, 22, 23]];
 
-           /* M[1, 2] == 12 */
+           /* M[1][2] == 12 */
 
 As with arrays, out of bounds indexing is an error on Matrices.
 

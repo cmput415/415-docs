@@ -175,7 +175,7 @@ The arguments and return value of functions can have both explicit and inferred 
              /* Some code here */
          }
 
-         function transpose3x3(real[3,3] x) returns real[3,3] {
+         function transpose3x3(real[3][3] x) returns real[3][3] {
              /* Some code here */
          }
 
