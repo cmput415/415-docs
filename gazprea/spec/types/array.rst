@@ -26,9 +26,11 @@ array instead of a ``real`` array.
 
 #. Explicit Size Declarations
 
-   When an array is declared it may be explicitly given a size. This
-   size can be given as any integer expression, thus the size of the
-   array may not be known until runtime.
+   When an array is declared it may be explicitly given a size. This size
+   must be a :ref:`constant expression <sec:constexpr>`. Every array, whether
+   explicitly or implicitly sized, has a size that is known at compile time; a
+   collection whose size is only known at runtime requires a
+   :ref:`vector <ssec:vector>`.
 
    ::
 
@@ -77,8 +79,9 @@ array instead of a ``real`` array.
 
 
    In this example the compiler can infer both the size and the type of
-   ``w`` from ``v``. The size may not always be known at compile time, so this
-   may need to be handled during runtime.
+   ``w`` from ``v``. As with any array, this inferred size is known at compile
+   time; a collection whose size is only known at runtime must be a
+   :ref:`vector <ssec:vector>`.
 
 .. _sssec:array_constr:
 

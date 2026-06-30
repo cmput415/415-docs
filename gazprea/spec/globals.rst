@@ -32,8 +32,11 @@ functional purity and enables compile-time optimizations. As a consequence:
 
 *   Functions, procedures, and I/O operations may not appear in a global's
     initializer.
-*   A global may not have a dynamically-sized array type (e.g. ``integer[*]``),
-    because its size would not be known at compile time.
+*   A global may not have a ``vector`` type (the dynamically-sized type),
+    because a vector's size is determined at runtime. An inferred-size array
+    such as ``const integer[*] X = [1, 2, 3]`` *is* permitted: ``[*]`` denotes
+    an inferred size that is fixed by its ``constexpr`` initializer at compile
+    time.
 *   All globals are implicitly ``constexpr``.
 
 

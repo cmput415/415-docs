@@ -77,13 +77,16 @@ allowing them to be used to define other constants.
 
 #. Arrays
 
-   A ``const`` statically-sized array is a ``constexpr`` if:
+   A ``const`` array is a ``constexpr`` if:
 
    1. Its size is a valid ``constexpr``.
    2. All of its element initializers are valid ``constexpr``\ s.
 
-   Dynamically-sized arrays (e.g., ``integer[*]``) cannot be ``constexpr``
-   aggregates as their size is not known at compile time.
+   A ``vector`` (the dynamically-sized type) can never be a ``constexpr``
+   aggregate, since its size is determined at runtime. An inferred-size array
+   such as ``integer[*] X = [1, 2, 3]`` *can* be a ``constexpr`` when its
+   initializer is itself a ``constexpr``: ``[*]`` denotes an inferred size, not
+   a dynamic one.
 
    ::
 
@@ -118,10 +121,10 @@ allowing them to be used to define other constants.
         x <- std_input;
         const integer y = x; // Legal: y is immutable, but NOT a constexpr
                              // because its value depends on runtime input.
-        integer[y] arr;      // Legal, but not constexpr: y is not a
-                             // constexpr, so it cannot
-                             // be used as a static array size. arr is
-                             // a dynamic-sized array
+        integer[y] arr;      // Illegal: an explicit array size must be a
+                             // constexpr, and y is not a constexpr.
+        vector<integer> v;   // Legal: a vector is the dynamically-sized type;
+                             // use it when the size is only known at runtime.
 
    The compiler propagates the constexpr property through local scopes
    normally; there is no restriction on where in a block the declaration
