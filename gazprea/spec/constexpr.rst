@@ -20,7 +20,7 @@ Rules for Constant Expressions
 An expression is a valid ``constexpr`` if it is composed exclusively of:
 
 1.  Literals of base types (``boolean``, ``integer``, ``real``, ``character``).
-2.  Operators, including ``+``, ``-``, ``*``, ``/``, ``not``, ``and``, ``or``,
+2.  The operators ``+``, ``-``, ``*``, ``/``, ``not``, ``and``, ``or``,
     between two or more ``constexpr``\ s.
 3.  Constructors for aggregate types, provided that the aggregate is const and
     all members are ``constexpr``\ s.
@@ -84,7 +84,7 @@ allowing them to be used to define other constants.
 
    A ``vector`` (the dynamically-sized type) can never be a ``constexpr``
    aggregate, since its size is determined at runtime. An inferred-size array
-   such as ``integer[*] X = [1, 2, 3]`` *can* be a ``constexpr`` when its
+   such as ``integer[*] X = [1, 2, 3]`` must be a ``constexpr``, meaning its
    initializer is itself a ``constexpr``: ``[*]`` denotes an inferred size, not
    a dynamic one.
 
