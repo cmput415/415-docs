@@ -11,8 +11,13 @@ implement a *MLIR* code generator that outputs *LLVM IR*.
 Representing Values
 -------------------
 
-When you emit MLIR you must decide *how a value lives*: as an SSA value that is
-defined once, or as a slot in memory that you load from and store to. Pick one deliberately.
+When you emit MLIR you must decide *how a value lives*: as a slot in memory that
+you load from and store to, or as an SSA value that is defined once. **Use the
+memory model.** It keeps code generation local and mechanical. The choice is the
+same for scalars and for arrays, matrices, vectors, and aggregates, so this section
+treats them together. This section also describes the value (SSA) model, because
+understanding it explains what the optimizer does for you, but you are not expected
+to implement it.
 
 .. note::
 
@@ -22,146 +27,58 @@ defined once, or as a slot in memory that you load from and store to. Pick one d
    representations are favored at the high level by array- and math-focused
    compilers like Fortran and Tensorflow.
 
-**The memory model.** Give every value a slot: reads are loads, writes are stores.
-The mutable state lives in memory and the optimizer's ``mem2reg`` promotion turns the slots back into SSA
-registers for you. A scalar declaration is an ``alloca``, a read a ``load``, an
-assignment a ``store``:
+The memory model
+~~~~~~~~~~~~~~~~
+**Use this.**
+
+*Scalars.* Give every value a slot: reads are loads, writes are stores. The mutable
+state lives in memory and the optimizer's ``mem2reg`` promotion turns the slots back
+into SSA registers for you. A scalar declaration is an ``alloca``, a read a
+``load``, an assignment a ``store``:
 
 ::
 
    // var integer n = 42;  then  n = n + 1;
-   %n = memref.alloca() : memref<i32>
-   memref.store %c42, %n[] : memref<i32>
-   %0 = memref.load %n[] : memref<i32>
-   %1 = arith.addi %0, %c1 : i32
-   memref.store %1, %n[] : memref<i32>
+   %size = llvm.mlir.constant(1 : i64) : i64
+   %n = llvm.alloca %size x i32 : (i64) -> !llvm.ptr
+   %c42 = llvm.mlir.constant(42 : i32) : i32
+   llvm.store %c42, %n : i32, !llvm.ptr
+   %0 = llvm.load %n : !llvm.ptr -> i32
+   %c1 = llvm.mlir.constant(1 : i32) : i32
+   %1 = llvm.add %0, %c1 : i32
+   llvm.store %1, %n : i32, !llvm.ptr
 
 It pairs naturally with unstructured ``cf``: because the state is in memory,
-``break`` / ``continue`` / ``return`` are ordinary branches — to the loop's exit
-block, its latch, and the function exit — with nothing threaded through them and
-no analysis of which variables cross a construct. 
+``break`` / ``continue`` / ``return`` are ordinary branches with nothing threaded
+through them and no analysis of which variables cross a construct.
 
-**The value (SSA) model.** Map each variable name to its *current* SSA value: a
-read is a lookup, an assignment produces a new value and rebinds the name. There
-are no slots and no loads or stores; bufferization introduces memory later,
-downstream of your emitter. The one hard case is a *merge*: after an ``if``, a
-variable set on only one branch still needs a single value afterward. The
-structured ``scf`` ops hand you this by *yielding* merged values as region results
-(``scf.if`` results, ``scf.for`` / ``scf.while`` ``iter_args``) rather than making
-you place a merge:
-
-::
-
-   // if (c) { x = 1; } else { x = 2; }   -- x lives after the if
-   %x = scf.if %c -> (i32) {
-     scf.yield %c1 : i32
-   } else {
-     scf.yield %c2 : i32
-   }
-
-``scf`` requires you to declare the set of values a region carries (those it
-modifies that are still needed afterward). ``scf`` also has no early exit — a region runs
-to its ``scf.yield`` — so Gazprea's ``break``, ``continue``, and ``return`` need a
-way to be represented *inside* a structured region; work out how before you commit
-to this model.
-
-.. Warning::
-   Avoid emitting unstructured ``cf`` blocks and
-   placing the phi / block-argument merges yourself.
-
-.. Warning::
-   The SSA model is the more difficult of the two to implement, but can allow for more 
-   optimization to occur.
-
-.. _ssec:representing_arrays:
-
-Representing Arrays and Aggregate Types
----------------------------------------
-
-Arrays, matrices, and vectors can live in memory or as values, the same choice as
-for scalars, but their interaction with tuples/structs is a complication.
-
-Vector representation
-~~~~~~~~~~~~~~~~~~~~~
-
-A ``{ptr, len, capacity}`` struct or similar is the standard way to implement growable memory.
+*Arrays, matrices, vectors, and aggregates.* Use a ``{ptr, len, cap}`` struct (or
+``{ptr, len}`` where capacity is not needed) for **every** sequence: arrays,
+vectors, strings, matrices. It is one representation for growable and fixed
+sequences alike, and — because it *is* an LLVM type — it nests freely inside an
+``!llvm.struct``. A tuple or struct is then just an ``!llvm.struct`` of its fields,
+with an array field an ordinary ``{ptr, len}`` member and no special case. Keeping
+this single representation across the whole language is the recommended starting
+point.
 
 .. Note::
    For performance marks, consider how your vector grows.
 
-Array representation
-~~~~~~~~~~~~~~~~~~~~
+The value (SSA) model
+~~~~~~~~~~~~~~~~~~~~~
+Understand the formulation, avoid implementing it.
 
-Three options, differing in ease of implementation and
-optimization potential.
+*Scalars.* Map each variable name to its *current* SSA value: a read is a lookup, an
+assignment produces a new value and rebinds the name. There are no slots and no
+loads or stores; bufferization introduces memory later, downstream of your emitter.
+The one hard case is a *merge*: after an ``if``, a variable set on only one branch
+still needs a single value afterward. 
 
-- **A** ``memref`` **(memory model).** Allows optimization via ``linalg.generic``, but
-  gives up
-  fusion: a chain like ``a * b + a`` is two loops with an intermediate buffer.
-
-- **A** ``tensor`` **(value model).**
-  Element assignment ``v[i] = e`` is a ``tensor.insert`` that *yields a new value*
-  you rebind, threaded exactly like a scalar. Fusion is available — a pure
-  elementwise chain of ``tensor`` values fuses into one loop — but it must happen
-  while the arrays are still ``tensor`` (once bufferized they are memory).
-
-- **A** ``{ptr, len, cap}`` **struct**: The simplest option, uniform with vectors.
-  You give
-  up the standard-dialect machinery — no ``linalg``, no ``memref`` / ``tensor``
-  passes.
-
-Allocation, ownership, and freeing for all three are covered in
-:ref:`ssec:backend_memory`.
-
-Array fields inside structs and tuples
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-A struct or tuple may have an
-array-typed field — ``struct s1 (integer i, real r, integer[10] iv)``,
-``tuple(integer, real, integer[10])``. A standalone array can use any of the three above
-representations; an array within a struct must exist as a valid representation
-inside the aggregate or be lifted out of it. 
-
-.. Warning::
-   ``!llvm.struct<memref>`` and ``!llvm.struct<tensor>`` will not lower, only an 
-   LLVM-typed field may nest inside an ``llvm.struct``. A ``{ptr, len, cap}`` 
-   struct *is* an LLVM type and nests freely.
-
-**Option 1 — one representation everywhere.** Use a ``{ptr, len, cap}`` or ``{ptr, len}`` struct for
-**every** sequence: arrays, vectors, strings, matrices. A struct or tuple is then
-an ``!llvm.struct`` of its fields, and an array field is just a ``{ptr, len}``
-member — nesting is free and has no special case.
-
-**Option 2 — split by mutability.** Represent arrays and matrices as
-``memref`` or ``tensor``. Because a ``memref`` / ``tensor`` cannot nest in an ``!llvm.struct``, an array that
-appears as an aggregate field is handled by **SoA decomposition**: the aggregate is
-split into its leaves, and each array field becomes its own top-level ``memref`` /
-``tensor`` value threaded alongside the others rather than a member of one struct
-object. A ``{i, r, iv}`` struct is carried as the parallel leaves ``i32``,
-``f64``, ``memref<10xi32>``; there is no single aggregate value. Vectors, being
-``{ptr, len, cap}``, still nest normally. The cost is two sequence representations
-plus the decomposition machinery — a 1:N type conversion that splits aggregates
-into leaves and carries them across call, return, and loop boundaries. The payoff
-is greater array and matrix optimization.
-
-.. Warning::
-   This is lots of work to implement.
-
-.. Note::
-   Under Struct of Arrays (SoA) decomposition, the following transformation occurs:
-   ::
-      tuple(integer, real[10], integer[2]) data;
-      data.2[5] = 4;
-
-   becomes
-   ::
-      integer data_1;
-      real[10] data_2;
-      integer[2] data_3;
-      data_2[5] = 4;
-   
-   In the resulting program, there are no arrays in aggregates.
-
+*Arrays and aggregates.* The array analog is ``tensor``: a write yields a new value
+you thread through, exactly as in the scalar model and with the same costs. It also
+cannot nest in an ``!llvm.struct``, so array-typed struct and tuple fields must be
+split out of their aggregate (SROA/aggregate flattening). The payoff is greater array and
+matrix optimization.
 
 .. _ssec:backend_memory:
 
@@ -179,12 +96,12 @@ Below is an example of how to use ``malloc`` and ``free`` within MLIR using the 
 ::
 
   module {
-    llvm.func @malloc(i32) -> !llvm.ptr<i8>
-    llvm.func @free(!llvm.ptr<i8>)
+    llvm.func @malloc(i64) -> !llvm.ptr
+    llvm.func @free(!llvm.ptr)
     llvm.func @main() -> i32 {
-      %0 = llvm.mlir.constant(128 : i32) : i32
-      %1 = llvm.call @malloc(%0) : (i32) -> !llvm.ptr<i8>
-      llvm.call @free(%1) : (!llvm.ptr<i8>) -> ()
+      %0 = llvm.mlir.constant(128 : i64) : i64
+      %1 = llvm.call @malloc(%0) : (i64) -> !llvm.ptr
+      llvm.call @free(%1) : (!llvm.ptr) -> ()
       %c0_i32 = llvm.mlir.constant(0 : i32) : i32
       llvm.return %c0_i32 : i32
     }
