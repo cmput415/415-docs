@@ -74,6 +74,8 @@ expression. Unary plus always produces the same result as the
 ``integer`` expression it is applied to. Remainder mirrors the behaviour
 of remainder in *C99*.
 
+Exponentiation between integers gives an integer result. This is the same behavior as performing exponentiation on reals then truncating to an integer.
+
 This table specifies ``integer`` operator precedence. Operators without
 lines between them have the same level of precedence. Note that
 parentheses are not included in this list because they are used to
