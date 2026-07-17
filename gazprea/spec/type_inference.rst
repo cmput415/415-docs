@@ -3,8 +3,8 @@
 Type Inference
 ==============
 
-In many cases the compiler can figure out what a variable’s type, or a
-function’s return type, should be without an explicit type being
+In many cases the compiler can figure out what a variable’s type
+should be without an explicit type being
 provided. For instance, instead of writing:
 
 ::
