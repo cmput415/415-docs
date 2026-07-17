@@ -93,7 +93,10 @@ As a language supported object, *Gazprea* provides several methods for ``vector`
         v2.append(x[5..7]);            // v2 == [[1.0, 1.0], [3.0, 0.0], [5.0, 6.0]]
 
         v2.len() -> std_output         // 3
+
         v2.len();                      // Does nothing
+
+        (v1 + v2).push(3);             // Effectively does nothing, reference to the sum is dropped after the statement
 
 Slicing a vector produces an array slice (there are no "vector slices").
 
