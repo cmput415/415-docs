@@ -96,19 +96,15 @@ implicitly defined in every file:
 
   procedure stream_state(var input_stream) returns integer;
 
-This procedure can only be called with the ``std_input`` as a parameter, but it’s
-general enough that it could be used if the language were expanded to include
-multiple input streams.
+The signature is notional: ``input_stream`` is not a *Gazprea* type, and
+the only valid argument is ``std_input``. The form is general enough that
+it could be reused if the language were expanded to include multiple input
+streams.
 
-When called, ``stream_state`` will return an integer value. The return value is
-an error code defined as follows:
-
-  - ``0``: Last read from the stream was successful.
-  - ``1``: Last read from the stream encountered an error.
-  - ``2``: Last read from the stream encountered the end of the stream.
-
-``stream_state`` is initialized to ``0``, which is the value return if no
-read has been issued.
+The returned state codes, the initial state, and the per-type behaviour of
+reads are specified in :ref:`sssec:stream_error`. In brief: ``0`` means the
+last read succeeded, ``1`` that it encountered an error, and ``2`` that it
+encountered the end of the stream.
 
 ::
 
