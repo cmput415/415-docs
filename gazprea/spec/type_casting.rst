@@ -117,8 +117,10 @@ Tuple to Tuple
 
 Conversions between ``tuple`` types are also possible. The original type
 and the destination type must have an equal number of internal types and
-each element must be pairwise castable according to the rules
-in :ref:`ssec:typeCasting_stos`. For example:
+each element must be pairwise castable: scalar members follow
+:ref:`ssec:typeCasting_stos`, and array members follow
+:ref:`ssec:typeCasting_vtov` (including padding and truncation). For
+example:
 
 ::
 

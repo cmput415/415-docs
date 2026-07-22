@@ -93,7 +93,9 @@ Tuple to Tuple
 
 Tuples may be promoted to another tuple type if it has an equal number of
 internal types and the original internal types can be implicitly
-converted to the new internal types. For example:
+converted to the new internal types. Each member converts by the rule for
+its own kind: scalar members follow the scalar promotion table above, and
+array members follow the array promotion rules. For example:
 
 ::
 
