@@ -7,10 +7,17 @@ Type Promotion
 It is deliberately distinct from :ref:`type casting <sec:typeCasting>`,
 which is the explicit mechanism invoked via ``as<toType>(value)``.
 
-Any conversion that can be done implicitly via promotion can also be
-done explicitly via a typecast expression.  The notable exception is
-array promotion to a higher dimension, which occurs as a consequence of
-scalar to array promotion.
+Most conversions that can be done implicitly via promotion can also be done
+explicitly via a typecast expression. There are two caveats. First, a
+scalar-to-array *cast* must state the destination size explicitly
+(:ref:`ssec:typeCasting_stovm`), whereas the corresponding *promotion*
+infers the size from the array operand. Second, the
+``string``/``character[*]`` conversion is an implicit two-way promotion
+with no ``as<>`` form (see the final section of this chapter).
+
+Note that there is no implicit promotion from a one-dimensional array to a
+two-dimensional array: only scalars broadcast, to arrays and to matrices
+alike.
 
 .. _ssec:typePromotion_scalar:
 
@@ -75,9 +82,11 @@ Other examples:
 
 Note that an array can never be downcast to a scalar,
 even if type casting is used. Also note that matrix multiply imposes strict
-requirements on the dimensionality of the the operands. The consequence is
-that scalars can only be promoted to a matrix if the matrix multiply
-operand is a square matrix (:math:`m \times m`).
+requirements on the dimensionality of the operands. The consequence is
+that, *as an operand of matrix multiplication* (``**``), a scalar can only
+be promoted to a matrix when the other operand is a square matrix
+(:math:`m \times m`). In element-wise operations and initializations a
+scalar broadcasts to a matrix of any shape.
 
 Tuple to Tuple
 --------------
@@ -121,7 +130,12 @@ It is possible for a two sided promotion to occur with tuples. For example:
 Character Array to/from String
 -------------------------------
 
-A ``string`` can be implicitly converted to a vector of ``character``\ s and vice-versa (two-way type promotion).
+A ``string`` can be implicitly converted to a ``character`` array
+(``character[*]``) and vice-versa (two-way type promotion). Because a
+``string`` is itself a vector of ``character`` (see :ref:`ssec:string`),
+the conversion of note is between ``string`` and character *arrays*; a
+``string`` used where a character array is expected, or vice-versa,
+converts silently.
 
 ::
 
