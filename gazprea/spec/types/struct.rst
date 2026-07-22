@@ -24,7 +24,7 @@ and consist of a ``<type id>`` pair:
 ::
 
      struct s1 (integer i, real r, integer[10] iv) t1;
-     struct Another (character ch, real f, string[256] str, s1 struct_field);
+     struct Another (character ch, real f, string str, s1 struct_field);
      var Another t2;
 
 The examples show two structs declared with types ``s1`` and ``Another``.
