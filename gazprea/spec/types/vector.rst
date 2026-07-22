@@ -4,10 +4,15 @@ Vectors
 -------
 
 Vectors are language supported objects that allow for dynamically sized arrays.
-Once created, ``vectors`` in *Gazprea* behave exactly like arrays: they can be
-intermixed with arrays in expressions; they can be used on the RHS of array
-declarations and initializations; and they can be passed as array arguments to
-subroutines and functions.
+Once created, ``vectors`` in *Gazprea* interoperate freely with arrays: they
+can be intermixed with arrays in expressions; they can be used on the RHS of
+array declarations and initializations; and they can be passed as array
+arguments to functions and procedures. Vectors are nevertheless a distinct
+type, and the differences are normative: vectors have methods where arrays
+have none, binary operations involving a vector produce *array* results,
+and a vector of inferred-size arrays pads to the size of its *first*
+element (see below), whereas a matrix literal pads to its longest row
+(see :ref:`sssec:matrix_constr`).
 
 .. _sssec:vec_decl:
 
@@ -46,7 +51,10 @@ streams are not permitted. Below are some examples of
 
 Vectors of inferred sized arrays assume the size of the *first* array in the vector.
 Subsequent array elements of less than the inferred size are padded.
-Those greater raise a :term:`run time` ``SizeError``.
+Those greater raise a :term:`run time` ``SizeError``. (Contrast with
+:ref:`matrix construction <sssec:matrix_constr>`, where rows pad to the
+*longest* row: the same nested literal can be legal as a matrix and a
+``SizeError`` as a vector of arrays.)
 
    ::
 
