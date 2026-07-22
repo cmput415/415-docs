@@ -45,8 +45,9 @@ For example:
 
      var integer i;
 
-The compiler should raise an error if an attempt is made to modify a variable
-that is not explicitly declared ``var``.
+The compiler must raise an ``AssignError`` (see :ref:`sec:errors`) if an
+attempt is made to modify a variable that is not explicitly declared
+``var``.
 
 .. _ssec:typeQualifiers_infer:
 

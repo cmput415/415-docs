@@ -35,7 +35,8 @@ All rows with fewer elements than the row of maximum row length are padded with
 zeros on the right. Similarly, if the matrix is declared with a row
 length larger than the number of rows provided, the bottom rows of the
 matrix are zero. If the number of rows or columns exceeds the
-amounts given in a declaration an error is to be produced.
+amounts given in a declaration a ``SizeError`` (see :ref:`sec:errors`) is
+to be produced.
 
 ::
 
@@ -119,7 +120,7 @@ and column. Both the row and column indices must be integers.
 
            /* M[1][2] == 12 */
 
-As with arrays, out of bounds indexing is an error on Matrices.
+As with arrays, out of bounds indexing on matrices is an ``IndexError``.
 
 
 Type Casting and Type Promotion

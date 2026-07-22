@@ -20,10 +20,10 @@ Variable Declarations
 
 In *Gazprea* values can be assigned to a global :term:`identifier`. All
 globals must be immutable (``const``). If a global identifier is declared
-with the ``var`` specifier, then an error should be raised. This restriction
-is in place since mutable global variables would ruin
-:term:`functional purity`. If functions have access to mutable global
-state then we can not guarantee their purity.
+with the ``var`` specifier, then a ``GlobalError`` (see :ref:`sec:errors`)
+must be raised. This restriction is in place since mutable global variables
+would ruin :term:`functional purity`. If functions have access to mutable
+global state then we can not guarantee their purity.
 
 Globals must be initialized with a valid
 :ref:`constant expression <sec:constexpr>`. A global :term:`initializer`

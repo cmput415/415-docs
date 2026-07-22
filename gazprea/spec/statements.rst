@@ -101,7 +101,8 @@ The types of the variables must match the types of the tuple’s fields,
 or the tuple’s fields must be able to be automatically promoted to the
 variable’s type. The number of variables in the comma separated list
 must match the number of fields in the tuple, if this is not the case an
-error should be raised. This assignment is performed left-to-right.
+``AssignError`` (see :ref:`sec:errors`) must be raised. This assignment is
+performed left-to-right.
 
 Assignments and initializations must perform a deep copy. It should not
 be possible to cause the aliasing of memory locations with an
@@ -128,7 +129,7 @@ arrays and tuples.
 
 Variables may be declared as const, and in this case a program that
 places them on the left hand side of an assignment expression is
-:term:`ill-formed`.  The compiler should raise an error when this is
+:term:`ill-formed`.  The compiler must raise an ``AssignError`` when this is
 detected, since it does not make sense to change a constant value.
 
 The right hand side of an assignment statement is always evaluated
@@ -432,8 +433,8 @@ actually contains the ``break``.
            "\n" -> std_output;
          }
 
-If a ``break`` statement is not contained within a loop an error must be
-raised.
+If a ``break`` statement is not contained within a loop a
+``StatementError`` must be raised.
 
 .. _ssec:statements_continue:
 

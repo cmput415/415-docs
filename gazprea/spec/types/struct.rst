@@ -131,7 +131,8 @@ This allows struct instances to be compared to struct literals:
      if (c == Complex(r: 0.0, i: i)) { }
 
 Two structs are equal when all fields within each struct have the same value.
-It is an error to compare two structs of different types.
+Comparing two structs of different types is a ``TypeError``
+(see :ref:`sec:errors`).
 
 Type Casting and Type Promotion
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

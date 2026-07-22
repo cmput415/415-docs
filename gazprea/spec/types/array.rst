@@ -280,7 +280,8 @@ Operations
          integer x = v[-2]; /* x == 5 */
          integer y = [4,5,6][-1] /* y == 6 */
 
-      Out of bounds indexing should cause an error.
+      Out of bounds indexing must cause an ``IndexError``
+      (see :ref:`sec:errors`).
 
    e. Stride
 

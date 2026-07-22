@@ -72,7 +72,8 @@ therefore :term:`ill-formed`.
        integer i = i;
        integer[10] v = v[0] * 2;
 
-An error message should be raised about the use of undeclared variables
+A ``SymbolError`` (see :ref:`sec:errors`) must be raised about the use of
+undeclared variables
 in these cases. If a variable of the same name is declared in an
 enclosing :term:`scope`, then it is legal to use that in the initialization
 of a variable with the same name. For instance:
