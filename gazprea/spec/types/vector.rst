@@ -26,8 +26,13 @@ the literals ``<`` and ``>`` are used in the declaration)
 
 
 Unlike the array type, *Gazprea* vectors do not have an explicit size
-specifier, often called *capacity* in other languages. Below are some examples of 
-`vector` declarations.
+specifier, often called *capacity* in other languages.
+
+The element type ``T`` of a ``vector<T>`` may be any base type
+(``boolean``, ``character``, ``integer``, ``real``) or a one-dimensional
+array of a base type. Vectors of vectors, tuples, structs, strings, and
+streams are not permitted. Below are some examples of
+``vector`` declarations.
    
     ::
 
