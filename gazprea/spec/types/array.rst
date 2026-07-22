@@ -284,9 +284,10 @@ Operations
 
    e. Stride
 
-      The ``by`` operator is used to specify a step-size greater than 1 when
-      indexing across an array. It produces an array with the values
-      indexed by the given stride. For instance:
+      The ``by`` operator is used to specify a positive step size
+      (``>= 1``) when indexing across an array. It produces an array with
+      the values indexed by the given stride. A stride ``<= 0`` raises a
+      ``StrideError`` (see :ref:`sec:errors`). For instance:
 
       ::
 

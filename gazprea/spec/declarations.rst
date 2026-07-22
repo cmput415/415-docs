@@ -36,6 +36,9 @@ The default value is ``0`` for ``integer`` and ``real``,
 string ``""`` for ``string``, and the element-wise default for
 :term:`aggregate types <aggregate type>` (arrays, vectors, tuples,
 structs).  *Gazprea* has no ``null`` value.
+This applies to ``const`` declarations as well: a ``const`` variable
+declared without an initializer is legal and holds the default value of
+its type permanently.
 
 For simplicity *Gazprea* assumes that declarations can only appear at
 the beginning of a block. For instance this would not be legal in
