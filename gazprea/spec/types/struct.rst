@@ -35,6 +35,13 @@ and ``struct_field``.
 The instance variables ``t1`` and ``t2`` have types ``s1`` and ``Another``,
 respectively.
 
+A struct declaration may optionally be followed by an identifier, as in
+the first example: ``struct s1 (...) t1;`` declares the type ``s1`` *and*
+a variable ``t1`` of that type in one statement, exactly equivalent to
+``struct s1 (...); s1 t1;``. The combined form takes no qualifier, so the
+variable it declares is ``const`` (the default); to declare a mutable
+instance, use the split form with ``var``, as the ``t2`` example does.
+
 
 .. _sssec:struct_typealias:
 
@@ -59,9 +66,9 @@ A struct can be typealiased and used in any context a regular struct declaration
 Access
 ~~~~~~
 
-  * ``field`` is a field within struct ``T``
+Struct fields are accessed with dot notation, ``instance.field``, where
+``field`` is a field of the instance's struct type. For example:
 
-For example:
 ::
 
      struct s1 (integer i, real r, integer[10] iv);
