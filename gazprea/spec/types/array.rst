@@ -299,41 +299,8 @@ Operations
 
    d. Slices
 
-      A slice is a contiguous subset of array elements. The subset is described
-      by a range
-      The left hand index is inclusive, while the right is exclusive.
-
-      ::
-
-         integer[*] a = 0..10 by 2; /* a = [0, 2, 4, 6, 8, 10] */
-         integer[2] x = a[2..4]; /* subset is a[2] and a[3], x == [2, 4] */
-         integer[*] y = a[..4]; /* slice used as an r-value */
-         a[4..] = 0; /* slice being used as an l-value */
-
-      Note that for slicing the range always has a stride of 1.
-      For indexing purposes three additions are made to range syntax:
-
-      +---------+---------------------------------+
-      |         | Interpretation                  |
-      +---------+---------------------------------+
-      + `..`    | all elements                    |
-      +---------+---------------------------------+
-      + `i..`   | ith to nth elements             |
-      +---------+---------------------------------+
-      + `..-i`  | first to n-i-1th elements       |
-      +---------+---------------------------------+
-      + `i..j`  | i to jth elements               |
-      +---------+---------------------------------+
-
-      Examples:
-
-      ::
-
-         integer[*] a = 0..10 by 2; /* a = [0, 2, 4, 6, 8, 10] */
-         integer x = a[..4]; /* x == [0, 2, 4] */
-         integer y = a[4..]; /* y == [6, 8, 10] */
-         integer z = a[..-1]; /* z == [0, 2, 4, 6, 8] */
-
+      A slice is a contiguous subset of array elements. Slice bounds
+      and shorthand forms are specified in :ref:`sssec:array_slices`.
 
 #. Operations of the Element Type
 
@@ -413,6 +380,30 @@ Array Slices
 ~~~~~~~~~~~~
 
 An array slice is a contiguous subset of elements, described by a range.
+The left hand bound is *inclusive* and the right hand bound is
+*exclusive*. (Note that this differs from a range *value*, whose bounds
+are both inclusive: ``0..10`` written as an expression produces the
+integers 0 through 10, while the same syntax written inside an index
+position selects elements with a right-exclusive bound.) Slicing always
+has a stride of 1; apply ``by`` to the slice result for larger strides.
+
+The following forms are accepted inside an index position, where ``n`` is
+the length of the array being sliced and elements are 1-indexed:
+
++-----------+-----------------------------------------+
+| Form      | Elements selected                       |
++===========+=========================================+
+| ``..``    | all elements, ``1`` through ``n``       |
++-----------+-----------------------------------------+
+| ``i..``   | ``i`` through ``n``                     |
++-----------+-----------------------------------------+
+| ``..j``   | ``1`` through ``j-1``                   |
++-----------+-----------------------------------------+
+| ``..-i``  | ``1`` through ``n-i``                   |
++-----------+-----------------------------------------+
+| ``i..j``  | ``i`` through ``j-1``                   |
++-----------+-----------------------------------------+
+
 An array slice behaves semantically as a new array containing
 the array elements captured by the slice, as shown below.
 
@@ -422,6 +413,10 @@ the array elements captured by the slice, as shown below.
     integer[*] a = 0..10 by 2; /* a = [0, 2, 4, 6, 8, 10] */
     integer[2] x = a[2..4]; /* x == [2, 4] */
     integer y = a[2..4][1]; /* y == 2 */
+
+    integer[*] u = a[..4];  /* u == [0, 2, 4] */
+    integer[*] v = a[4..];  /* v == [6, 8, 10] */
+    integer[*] w = a[..-1]; /* w == [0, 2, 4, 6, 8] */
 
     // A slice of the entire array behaves as the array itself, this can be repeated
     integer z1 = a[4];                   /* z1 == 6 */
