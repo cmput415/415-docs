@@ -84,11 +84,12 @@ The compiler must emit a ``CallError`` (see :ref:`sec:errors`) if a
 function is used in a ``call`` statement.
 
 A procedure may never be called within a function, doing so would allow for
-impure functions. Procedures may only be called within assignment statements
-(procedures may not be used as the control expression in control flow expressions, for instance).
-The return value from a procedure call can only be manipulated with
-unary operators. A program that uses the results from a procedure call
-with binary expressions is :term:`ill-formed`.
+impure functions. As listed at the top of this chapter, procedure calls may
+appear only on the RHS of a declaration, on the RHS of an assignment, or in
+a ``call`` statement; in particular, a procedure call may not be used as
+the control expression of a control-flow statement. The return value of a
+procedure call can only be manipulated with unary operators and casts; using
+the result of a procedure call in a binary expression is :term:`ill-formed`.
 For example:
 
 ::
