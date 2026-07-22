@@ -11,7 +11,7 @@ but because it is an object *Gazprea* can provide type specific features.
 String vectors behave a lot like character arrays, but there are several
 differences between the two types:
 an :ref:`extra literal style <sssec:string_lit>`,
-the :ref:`result of a concatenation <sssec:string_ops>`
+the :ref:`result type of a concatenation <sssec:string_ops>`
 and :ref:`behaviour when sent to an output stream <sssec:output_format>`.
 
 .. _sssec:string_decl:
@@ -69,7 +69,9 @@ As character vectors, strings have all of the same operations defined on them as
 the other array data types.
 Remember that because a ``string`` and vector of ``character`` are fundamentally
 the same, the concatenation operation may be used to concatenate values of the
-two types. You may also append a slice of characters to a string using the
+two types. The result type follows the operands: if at least one operand of
+``||`` is a ``string``, the result is a ``string``; a concatenation of
+character arrays (or characters) alone yields a character array. You may also append a slice of characters to a string using the
 append method.
 As well, a :term:`scalar <scalar type>` character may be concatenated onto
 a string in the same way as it would be concatenated onto an array of
