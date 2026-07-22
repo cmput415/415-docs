@@ -1,0 +1,55 @@
+# Render context for .agents/*.tmpl and desired state for healthcheck.sh.
+# Keep to block style; the fallback parser in render.py supports only that.
+
+project: 415-docs
+
+apt_packages:
+  - name: gnupg
+    version: null
+  - name: python3-yaml
+    version: null
+  - name: graphviz
+    version: null
+  - name: python3-pip
+    version: null
+
+commands:
+  - cmd: gpg
+    package: gnupg
+    version_flag: --version
+  - cmd: dot
+    package: graphviz
+    version_flag: -V
+  - cmd: pip3
+    package: python3-pip
+    version_flag: --version
+
+agent:
+  name: Agent
+  email: ai@blobfish.icu
+  key_expiry: 1w
+
+# skills_dir: on-disk location this session's agent tool loads skills from.
+# Leave unset when 'skills:' is empty. Populate both together when you want
+# the healthcheck to notice a workspace skill copy going missing.
+skills_dir: ""
+
+# user skills not copied in this session (mounted read-only elsewhere);
+# re-run the agents-bootstrap skill's Step 2 to populate
+skills: []
+
+sentinels:
+  - .agents/bootstrap.sh.tmpl
+  - .agents/check.sh.tmpl
+  - .agents/healthcheck.sh.tmpl
+  - .agents/render.py
+
+# sphinx is installed via pip from requirements.txt (pinned versions), not
+# apt; probe importability rather than dpkg state
+extra_checks:
+  - name: inside the 415-docs repo
+    cmd: git rev-parse --is-inside-work-tree
+  - name: sphinx importable at pinned version
+    cmd: pip3 show sphinx 2>/dev/null | grep -q 6.2.1
+  - name: agent-commit wrapper installed
+    cmd: command -v git-agent-commit || test -x "$HOME/.local/bin/git-agent-commit"

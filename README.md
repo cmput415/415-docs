@@ -9,3 +9,14 @@ The site is automatically updated using a Github Action when
 
 For more details on the Github Action workflow, see
 `.github/workflows/deploySite.yml`
+
+## Agent sessions
+
+At the start of every agent session:
+
+    .agents/healthcheck.sh && .agents/bootstrap.sh && source .agents/agent-env.sh
+
+After changing `.agents/manifest.yaml`: re-render from the `.agents/*.tmpl`
+templates (see `render.py`) and re-run bootstrap. A freshly minted agent key
+(bootstrap logs "generating", not "reusing") must be re-registered on the
+forge; the exported public key lives at `.agents/agent-pubkey.asc`.

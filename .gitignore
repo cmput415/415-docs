@@ -22,3 +22,8 @@ tmp/
 # Ignore Python bytecode caches.
 __pycache__/
 *.pyc
+
+# agent session machinery (volatile)
+.agents/gnupg/
+.agents/state/
+.agents/agent-env.sh
