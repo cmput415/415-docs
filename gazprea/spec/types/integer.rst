@@ -78,43 +78,9 @@ of remainder in *C99*.
 
 Exponentiation between integers gives an ``integer`` result. This is the same behavior as performing exponentiation on reals then truncating to an ``integer``.
 
-This table specifies ``integer`` operator precedence. Operators without
-lines between them have the same level of precedence. Note that
-parentheses are not included in this list because they are used to
-override precedence and create new atoms in an expression.
-
-+----------------+----------------+
-| **Precedence** | **Operations** |
-+================+================+
-| HIGHER         | ``unary +``    |
-|                |                |
-|                | ``unary -``    |
-+----------------+----------------+
-|                | ``^``          |
-+----------------+----------------+
-|                | ``*``          |
-|                |                |
-|                | ``/``          |
-|                |                |
-|                | ``%``          |
-+----------------+----------------+
-|                | ``+``          |
-|                |                |
-|                | ``-``          |
-+----------------+----------------+
-|                | ``<``          |
-|                |                |
-|                | ``>``          |
-|                |                |
-|                | ``<=``         |
-|                |                |
-|                | ``>=``         |
-+----------------+----------------+
-|                | ``==``         |
-|                |                |
-| LOWER          | ``!=``         |
-+----------------+----------------+
-
+Operator precedence and associativity are specified once, for all
+types, in the :ref:`table of operator precedence
+<ssec:expressions_toop>`.
 
 Type Casting and Type Promotion
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

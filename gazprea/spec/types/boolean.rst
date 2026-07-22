@@ -52,25 +52,9 @@ evaluation <https://en.wikipedia.org/wiki/Short-circuit_evaluation>`__.
 Therefore, both the left hand side and right hand side of an expression
 must always be evaluated.
 
-This table specifies ``boolean`` operator precedence. Operators without
-lines between them have the same level of precedence.
-
-+----------------+---------------+
-| **Precedence** | **Operation** |
-+================+===============+
-| HIGHER         | ``not``       |
-+----------------+---------------+
-|                | ``==``        |
-|                |               |
-|                | ``!=``        |
-+----------------+---------------+
-|                | ``and``       |
-+----------------+---------------+
-|                | ``or``        |
-|                |               |
-| LOWER          | ``xor``       |
-+----------------+---------------+
-
+Operator precedence and associativity are specified once, for all
+types, in the :ref:`table of operator precedence
+<ssec:expressions_toop>`.
 
 Type Casting and Type Promotion
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
