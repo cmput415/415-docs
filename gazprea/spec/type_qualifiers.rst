@@ -61,7 +61,7 @@ type must be inferred. A variable declared in this manner must be
 ::
 
      var i = 1; // integer
-     const i = 1; // integer
+     const j = 1; // integer
      var r = 1.0; // real
      const c = 'a'; // character
      var t = (1, 2, 'a', [1, 2, 3]); // tuple(integer, integer, character, integer[3])

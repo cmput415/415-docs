@@ -46,8 +46,8 @@ streams are not permitted. Below are some examples of
         const vector<integer[2]> v2 = [4, 5];  // [[4, 5]]
         const vector<integer> v3 = 42;         // [42]
         var vector<integer> v4 = 42;           // [42], mutable
-        vector<integer> v4 = 42;               // [42], implied const
-        const vector<real> v5 = 1;             // [1.0]
+        vector<integer> v5 = 42;               // [42], implied const
+        const vector<real> v6 = 1;             // [1.0]
 
 
 Vectors of inferred sized arrays assume the size of the *first* array in the vector.

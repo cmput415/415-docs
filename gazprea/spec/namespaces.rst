@@ -6,7 +6,8 @@ Namespaces
 There are two namespaces in *Gazprea*:
 
 - Type namespace: user-defined types (structs and typealiases).
-- Variable/Function/procedure namespace: functions and procedures.
+- Variable/Function/procedure namespace: variables, functions, and
+  procedures.
 
 Items in separate namespaces may share an :term:`identifier`. Items within the same namespace cannot share an identifier, this is a ``SymbolError``.
 

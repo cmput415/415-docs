@@ -36,7 +36,7 @@ promoted to the type of the variable. For instance:
          var real real_var = 0.0;
          var boolean bool_var = true;
 
-         /* Since 'x' is an integer it can be promoted to a real number \*/
+         /* Since 'int_var' is an integer it can be promoted to a real number */
          real_var = int_var;  /* Legal */
 
          /* Real numbers can not be turned into boolean values automatically. \*/
@@ -225,7 +225,7 @@ is actually equivalent to the following:
 
 ::
 
-         if (x == 4) {
+         if (x == 3) {
            y = 7;
          }
 
