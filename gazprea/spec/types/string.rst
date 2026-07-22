@@ -76,13 +76,14 @@ append method.
 As well, a :term:`scalar <scalar type>` character may be concatenated onto
 a string in the same way as it would be concatenated onto an array of
 characters.
-Note that because a ``string`` is a sub-type of ``vector``, concatenation may also
-be accomplished with ``concat`` and ``push`` methods:
+Note that because a ``string`` is a sub-type of ``vector``, concatenation may
+also be accomplished with the ``append`` and ``push`` methods (see
+:ref:`sssec:vec_methods`; strings have exactly the vector method set):
 
 ::
 
   var string letters = ['a', 'b'] || "cd";
-  letters.concat("ef");
+  letters.append("ef");
   letters.push('g');
   letters  -> std_output;
 

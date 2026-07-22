@@ -74,13 +74,41 @@ In particular, operand lengths must match for binary expressions and dot
 product. All binary operations between a vector and an array produce
 array results.
 
-As a language supported object, *Gazprea* provides several methods for ``vector``:
+.. _sssec:vec_methods:
+
+Method Calls
+~~~~~~~~~~~~
+
+As a language supported object, *Gazprea* provides methods for ``vector``
+(and its sub-type :ref:`string <ssec:string>`). A method call has the form
+``receiver.method(arguments)`` and is governed by the following rules:
+
+- The receiver must be a variable of a language-supported object type
+  (``vector`` or ``string``). Arrays, array slices, and the (array-valued)
+  results of expressions have no methods; calling a method on them is a
+  compile-time ``TypeError``.
+
+- A method call whose result is used is an expression. A method call may
+  also stand alone as a statement, terminated by a semicolon; this is the
+  only expression form that may be used as a statement.
+
+- Mutating methods (``push``, ``append``) additionally require the
+  receiver to be declared ``var``. Inside a :ref:`function <sec:function>`,
+  mutating methods may be applied only to variables local to the function;
+  this preserves function purity, since no state outside the function can
+  change.
+
+The methods are:
 
 - ``push(T)`` - pushes a new element to the back of the vector, where ``T`` is the element type of the vector
 
 - ``len()`` - number of elements in the vector
 
-- ``append(T[*])`` - append another array to the vector where ``T[*]`` is the type of the original vector or a type that can be implicitly cast to it.
+- ``append(x)`` - append to the vector, where ``T`` is the element type:
+  if ``x`` is promotable to ``T`` it is appended as a single element;
+  otherwise ``x`` must be an array whose elements are each promotable to
+  ``T``, and its elements are appended in order. When both readings apply,
+  the single-element reading is used.
 
    ::
 
@@ -110,9 +138,10 @@ As a language supported object, *Gazprea* provides several methods for ``vector`
 
         v2.len() -> std_output         // 3
 
-        v2.len();                      // Does nothing
+        v2.len();                      // Legal statement; result discarded
 
-        (v1 + v2).push(3);             // Effectively does nothing, reference to the sum is dropped after the statement
+        (v1 + v1).push(3);             // TypeError: the sum is an array
+                                       // value, and arrays have no methods
 
 Slicing a vector produces an array slice (there are no "vector slices").
 
