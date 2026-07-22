@@ -24,8 +24,11 @@ can be an rvalue. For example:
 Because a ``const`` value is not an lvalue, it cannot be passed to a
 ``var`` argument in a ``procedure``.
 
-Note that ``const`` is the default *Gazprea* behaviour and is essentially a
-no-op unless it is entirely replacing the type.
+``const`` is the default in *Gazprea*: a declaration with no qualifier
+declares a ``const`` variable. This section is the normative home of that
+rule; other chapters reference it. Writing ``const`` explicitly is
+therefore redundant, except where the qualifier entirely replaces the
+type (the inference form below).
 
 
 .. _ssec:typeQualifiers_var:

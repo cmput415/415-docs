@@ -16,7 +16,8 @@ A declaration creates a variable with an :ref:`identifier <sec:identifiers>` of
 The two qualifiers are ``var`` and ``const``, which qualify the identifier as
 *mutable* or *immutable*, respectively.
 In *Gazprea* it is important to remember that if the optional qualifier is
-omitted the default is ``const``, i.e. variables are immutable by default.
+omitted the default is ``const``, i.e. variables are immutable by default
+(normative statement in :ref:`sec:typeQualifiers`).
 
 Optionally, a declaration may explicitly initialize the value of the new
 variable with the value of ``<expression>``.
