@@ -151,11 +151,11 @@ call by reference, and are therefore *l-values* (pointers).
 ::
 
 
-         procedure byvalue(String x) returns integer {
-           return len(x);
+         procedure byvalue(string x) returns integer {
+           return length(x);
          }
-         procedure byreference(var String x) returns integer {
-           return len(x);
+         procedure byreference(var string x) returns integer {
+           return length(x);
          }
          procedure main() returns integer {
            const character[3] y = ['y', 'e', 's'];

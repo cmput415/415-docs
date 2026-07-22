@@ -91,8 +91,8 @@ converted to the new internal types. For example:
      tuple(integer, integer) int_tup = (1, 2);
      tuple(real, real) real_tup = int_tup;
 
-     tuple(char, integer, boolean[2]) many_tup = ('a', 1, [true, false]);
-     tuple(char, real, boolean[2]) other_tup = many_tup;
+     tuple(character, integer, boolean[2]) many_tup = ('a', 1, [true, false]);
+     tuple(character, real, boolean[2]) other_tup = many_tup;
 
 If initializing a variable with a tuple via :ref:`sec:typeInference`, the
 variable is assumed to be the same type.
