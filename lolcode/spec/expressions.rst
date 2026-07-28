@@ -21,17 +21,6 @@ Math is performed as integer math in the presence of two ``NUMBR`` s.
 If either of the arguments is a ``YARN``, the ``YARN`` is
 converted to an integer and the operation proceeds if the conversion succeeds.
 
-Precedence
-~~~~~~~~~~
-
-Multiplication, division and modulo have the highest precedence. All three
-operators have equal precedence and are evaluated left to right.
-Addition and subtraction have equal precedence and are also evaluated left to
-right.
-
-Parenthesis ('()') can be used to group operations to override precedence or
-clarify the evaluation order.
-
 Conditions
 ~~~~~~~~~~
 
