@@ -15,13 +15,13 @@ Variable identifiers may be in all uppercase or lowercase letters (or a mixture 
 Types
 ~~~~~
 
-For the purposes of this assignment, LOLCODE only recognizes three types:
+For the purposes of this assignment, LOLCODE recognizes four types, though only three of them can be declared as variables:
 
 - **YARN** or strings. Literals are enclosed in double quotes ('"') at each end. We are not going to try to support escape characters for this assignment.
 
 - **NUMBR** or integers. Integers can be represented using the host's 32-bit implementation. Integer literals are allowed to have a leading hyphen ('-') to signify a negative number.
 
-- **TROOF** or boolean, where true is WIN and false is FAIL. Although full LOLCODE supports both variables and expressions of type TROOF, we only include it here for reference in the the descriptions taken from the spec.
+- **TROOF** or boolean, where true is WIN and false is FAIL. TROOF is a value type produced by comparisons (``BOTH SAEM``, ``DIFFRINT``) and consumed by conditionals (``O RLY?``, ``MEBBE``), but it cannot be declared as a variable or cast to with MAEK in this reduced version of the language.
 
 - **NOOB** or void. This is the type given to uninitialized variables.
 
