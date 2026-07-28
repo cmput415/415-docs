@@ -7,6 +7,8 @@ Scope
 All variable scope is local to the main program block.
 Variables are only accessible after declaration, and there is no global scope.
 
+Blocks introduced by ``O RLY?``/``YA RLY``/``MEBBE``/``NO WAI``, ``WTF?``/``OMG``, and ``IM IN YR``/``IM OUTTA YR`` are their own scope: a variable declared with ``I HAS A`` inside one of these blocks is only visible within that block, and ceases to exist once the block ends.
+
 Naming
 ~~~~~~
 
