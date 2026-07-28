@@ -6,7 +6,7 @@ Type Qualifiers
 *Gazprea* has two type qualifiers: ``const`` and ``var``. These
 qualifers can prefix a type to specify its mutability or entirely
 replace the type to request that it be inferred. Mutability refers to a
-values ability to be an `r-value or
+value's ability to be an `r-value or
 l-value <https://en.wikipedia.org/wiki/Value_(computer_science)#lrvalue>`__.
 The two qualifiers cannot be combined as they are mutually exclusive.
 
