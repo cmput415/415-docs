@@ -31,8 +31,7 @@ LOLCODE supports two conditional operators:
     BIGGR OF <x> AN <y>     BTW max
     SMALLR OF <x> AN <y>    BTW min
 
-These operators apply to both strings and integers. Since both types are
-supported, the types of ``<x>`` and ``<y>`` must match.
+These operators apply to both strings and integers. As with the math operators above, if either argument is a ``YARN``, it is converted to an integer and the operation proceeds if the conversion succeeds.
 
 Concatenation
 ~~~~~~~~~~~~~
