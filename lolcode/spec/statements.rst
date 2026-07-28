@@ -16,6 +16,8 @@ Our version of LOLCODE supports seven types of statements:
 If-then
 ~~~~~~~
 
+A bare expression statement (one not assigned to a variable) stores its result in the implicit variable ``IT``. ``IT`` holds that value until the next bare expression replaces it, and is what ``O RLY?`` and ``WTF?`` test against.
+
 An if statement begins with a comparison:
 
 Comparison is (currently) done with two binary equality operators:
