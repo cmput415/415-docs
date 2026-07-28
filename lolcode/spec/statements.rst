@@ -181,7 +181,7 @@ Iteration loops have the form:
 
 Where ``<operation>`` may be ``UPPIN`` (increment by one) or ``NERFIN`` (decrement by one).
 That operation/function is applied to the ``<variable>``, which is temporary, and local to the loop.
-The ``TIL <expression>`` evaluates the expression as a boolean: if it evaluates as false, the loop continues once more, if not, then loop execution stops, and continues after the matching ``IM OUTTA YR <label>``. The ``WILE <expression>`` is the converse: if the expression is true, execution continues, otherwise the loop exits.
+The TIL/WILE condition, when present, is checked before each iteration of the loop body, including the first — so a loop can execute zero times. The ``TIL <expression>`` evaluates the expression as a boolean: if it evaluates as false, the loop continues once more, if not, then loop execution stops, and continues after the matching ``IM OUTTA YR <label>``. The ``WILE <expression>`` is the converse: if the expression is true, execution continues, otherwise the loop exits.
 
 .. _sssec:cast:
 
