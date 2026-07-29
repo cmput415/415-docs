@@ -6,6 +6,10 @@ Backend
 You don’t need to implement an interpreter for Gazprea. You only need to
 implement a *MLIR* code generator that outputs *LLVM IR*.
 
+.. This uses a direct link because it links to a different sphinx project (info)
+
+See also `MLIR Tips and Hints <../../info/mlir_tips.html>`_ for detailed MLIR and dialect tips, debugging strategies, and dialect selection guidance.
+
 .. _ssec:representing_values:
 
 Representing Values
