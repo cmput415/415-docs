@@ -96,14 +96,14 @@ Below is an example of how to use ``malloc`` and ``free`` within MLIR using the 
 ::
 
   module {
-    llvm.func @malloc(i64) -> !llvm.ptr
-    llvm.func @free(!llvm.ptr)
-    llvm.func @main() -> i32 {
-      %0 = llvm.mlir.constant(128 : i64) : i64
-      %1 = llvm.call @malloc(%0) : (i64) -> !llvm.ptr
-      llvm.call @free(%1) : (!llvm.ptr) -> ()
-      %c0_i32 = llvm.mlir.constant(0 : i32) : i32
-      llvm.return %c0_i32 : i32
+    func.func private @malloc(i64) -> !llvm.ptr
+    func.func private @free(!llvm.ptr)
+    func.func @main() -> i32 {
+      %0 = arith.constant 128 : i64
+      %1 = func.call @malloc(%0) : (i64) -> !llvm.ptr
+      func.call @free(%1) : (!llvm.ptr) -> ()
+      %c0_i32 = arith.constant 0 : i32
+      func.return %c0_i32 : i32
     }
   }
 
