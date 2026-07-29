@@ -91,7 +91,7 @@ but this could be problematic if the arrays are very large.
 It is likely safer to use ``malloc`` and ``free`` for these purposes.
 This may be done in either your runtime or directly within MLIR.
 
-Below is an example of how to use ``malloc`` and ``free`` within MLIR using the LLVM dialect:
+Below is an example of how to use ``malloc`` and ``free`` within MLIR:
 
 ::
 
