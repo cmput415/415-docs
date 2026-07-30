@@ -5,7 +5,7 @@ Arrays
 
 Arrays are fixed size collections, where each element of the array has the
 same type. Arrays can contain any of *Gazprea*'s base types (``boolean``,
-``integer``, ``real``, and ``character``).
+``integer``, ``real``, and ``character``) or compound types (structs and tuples).
 
 .. _sssec:array_decl:
 
@@ -32,9 +32,9 @@ array instead of a ``real`` array.
 
    ::
 
-            <type>[<int-expr>] <identifier>;
-            <type>[<int-expr>] <identifier> = <type-expr>;
-            <type>[<int-expr>] <identifier> = <type-array>;
+            [<qualifier>] <type>[<int-expr>] <identifier>;
+            [<qualifier>] <type>[<int-expr>] <identifier> = <type-expr>;
+            [<qualifier>] <type>[<int-expr>] <identifier> = <type-array>;
 
 
    The size of the array is given by the integer expression between the
@@ -297,6 +297,8 @@ Operations
 
          integer[*] a = 0..10 by 2; /* a = [0, 2, 4, 6, 8, 10] */
          integer[2] x = a[2..4]; /* x == [2, 4] */
+         integer[*] y = a[..4]; /* slice used as an r-value */
+         a[4..] = 0; /* slice being used as an l-value */
 
       Note that for slicing with this syntax always has a stride of 1.
       For indexing purposes three additions are made to range syntax:

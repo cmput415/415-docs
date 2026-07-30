@@ -20,9 +20,9 @@ the literals ``<`` and ``>`` are used in the declaration)
 
    ::
 
-            vector<|type|> |identifier|;
-            vector<|type|> |identifier| = |type-expr|;
-            vector<|type|> |identifier| = |type-array|;
+            [<qualifier>] vector<|type|> |identifier|;
+            [<qualifier>] vector<|type|> |identifier| = |type-expr|;
+            [<qualifier>] vector<|type|> |identifier| = |type-array|;
 
 
 Unlike the array type, *Gazprea* vectors do not have an explicit size
