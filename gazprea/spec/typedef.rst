@@ -14,7 +14,7 @@ new name to refer to the old type. For instance:
   typealias integer int;
   const int a = 0;
 
-Note that hese new type names can *appear* to conflict with symbol names.
+Note that these new type names can *appear* to conflict with symbol names.
 However, the compiler can use context to differentiate a type alias from a
 symbol. The following is therefore legal:
 
@@ -64,7 +64,7 @@ Duplicate alias names should raise a `SymbolError`
 Some type aliases may be parameterized with an expression, such as with arrays,
 such expressions are restricted to be composed exclusively from arithmetic
 operations on scalar literals. Practically speaking, this requires constant
-folding but *not* constant propogation.
+folding but *not* constant propagation.
 
 ::
 

@@ -27,12 +27,12 @@ and consist of a ``<type id>`` pair:
      struct Another (character char, real float, string[256] str, s1 struct_field);
      var Another t2;
 
-The examples show two structs declared with types ``s1`` and ``another``.
+The examples show two structs declared with types ``s1`` and ``Another``.
 Struct type ``s`` has three fields: ``i`` of type ``integer``, ``r`` of type
 ``real``, and ``iv`` of type ``integer[10]``.
-Struct type ``another`` has four fields named ``char``, ``float``, ``str``,
+Struct type ``Another`` has four fields named ``char``, ``float``, ``str``,
 and ``struct_field``.
-The instance variables are ``t1`` and ``t2`` have types ``s1`` and ``another``,
+The instance variables ``t1`` and ``t2`` have types ``s1`` and ``Another``,
 respectively.
 
 
@@ -49,7 +49,7 @@ A struct can be typealiased and used in any context a regular struct declaration
     typealias struct S(integer x, integer y) Pair;
     
     function add(Pair p1, Pair p2) returns Pair {
-        Pair p3 = S(p1.x + p2.x, p1.y + p2.y); // Pair can not be used in place of S
+        Pair p3 = S(x: p1.x + p2.x, y: p1.y + p2.y); // Pair can not be used in place of S
         return p3;
     }
  
@@ -83,22 +83,22 @@ or right hand side of an expression:
 Literals
 ~~~~~~~~
 
-A ``struct`` literal is constructed by listing comma separated values for each
-field in the struct, in the order defined in the struct's definition.
-The value list is surrounded by parenthesis and prefaced by the struct type:
+A ``struct`` literal is constructed by listing comma separated ``field: value``
+pairs for each field in the struct, surrounded by parentheses and prefaced by
+the struct type name:
 
 ::
 
      struct S (integer i, character[5] c, integer[3] a3);
-     const S cs = S(x, "hello", [1, 2, 3]);
-     var S vs = S(0, ' ', 0);
-     struct V (integer i, real r, integer[10] arr) v = V(1, 2.1, [i in 1..10 | i]);
+     const S cs = S(i: x, c: "hello", a3: [1, 2, 3]);
+     var S vs = S(c: ' ', i: 0, a3: 0);
+     struct V (integer i, real r, integer[10] arr) v = V(i: 1, r: 2.1, arr: [i in 1..10 | i]);
 
-The type of each value in the list must match the type of the corresponding
-field definition in the struct. To save having to explicitly specify a value
-for each index in an array, *Gazprea* allows a single scalar to be propagated
-across all elements in the array. Finally, note that the field values may need
-to be evaluated at run-time.
+The fields may be listed in any order, but all fields must be present. The type
+of each value must match the type of the corresponding field definition in the
+struct. To save having to explicitly specify a value for each index in an array,
+*Gazprea* allows a single scalar to be propagated across all elements in the
+array. Finally, note that the field values may need to be evaluated at run-time.
 
 .. _sssec:struct_ops:
 
@@ -126,8 +126,8 @@ This allows struct instances to be compared to struct literals:
 
 ::
 
-     struct Complex (real r, real i) c = Complex(r, 0.0);
-     if (c == Complex(0.0, i)) { }
+     struct Complex (real r, real i) c = Complex(r: r, i: 0.0);
+     if (c == Complex(r: 0.0, i: i)) { }
 
 Two structs are equal when all fields within each struct have the same value.
 It is an error to compare two structs of different types.
@@ -139,19 +139,11 @@ A struct itself cannot be cast or promoted. However, the fields within a struct
 can be individually cast/promoted, as described in
 sections :ref:`sec:typeCasting` and :ref:`sec:typePromotion`.
 
-.. _ssec:function_namespacing:
+.. _ssec:struct_namespacing:
 
 Struct Namespacing
---------------------
+~~~~~~~~~~~~~~~~~~
 
 In *Gazprea*, struct declarations can occur in *any* scope.
 This means that two struct types with the same name *can* coexist in the same
 gazprea program so long as they are not in the same scope
-
-Additionally, ``structs`` share the following namespaces:
-
--  The ``procedure`` namespace: You cannot have a procedure and struct with
-   the same name in the same gazprea program.
-
--  The ``function`` namespace: You cannot have a function and struct with
-   the same name in the same gazprea program.

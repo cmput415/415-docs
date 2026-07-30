@@ -175,7 +175,7 @@ The arguments and return value of functions can have both explicit and inferred 
              /* Some code here */
          }
 
-         function transpose3x3(real[3,3] x) returns real[3,3] {
+         function transpose3x3(real[3][3] x) returns real[3][3] {
              /* Some code here */
          }
 
@@ -198,7 +198,7 @@ Like Rust, array *slices* may be passed as arguments:
 
 Remember that all function parameters are ``const`` in *Gazprea*, so that all
 functions are pure. That means that while it is legal to pass arrays and slices
-*be reference*, the array contents cannot be modified inside the function,
+*by reference*, the array contents cannot be modified inside the function,
 because the change would be visible outside the function. You must check that
 the ``const`` requirement is honored.
 
@@ -211,10 +211,5 @@ In *Gazprea* function declarations occur in the global scope.
 This means that two functions with the same name cannot coexist in the same
 gazprea program, nor can you forward declare the same function twice.
 
-Additionally, functions share the following namespaces:
-
--  The ``struct`` namespace: you cannot have a struct and function with the same
-   name in the same gazprea program.
-
--  The ``procedure`` namespace: You cannot have a procedure and function with
-   the same name in the same gazprea program.
+Additionally, functions and procedures share the same namespace; you cannot
+declare a function and procedure with the same name

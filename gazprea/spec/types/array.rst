@@ -1,11 +1,11 @@
 .. _ssec:array:
 
 Arrays
--------
+------
 
 Arrays are fixed size collections, where each element of the array has the
 same type. Arrays can contain any of *Gazprea*'s base types (``boolean``,
-``integer``, ``real``, and ``character``).
+``integer``, ``real``, and ``character``) or compound types (structs and tuples).
 
 .. _sssec:array_decl:
 
@@ -32,9 +32,9 @@ array instead of a ``real`` array.
 
    ::
 
-            <type>[<int-expr>] <identifier>;
-            <type>[<int-expr>] <identifier> = <type-expr>;
-            <type>[<int-expr>] <identifier> = <type-array>;
+            [<qualifier>] <type>[<int-expr>] <identifier>;
+            [<qualifier>] <type>[<int-expr>] <identifier> = <type-expr>;
+            [<qualifier>] <type>[<int-expr>] <identifier> = <type-array>;
 
 
    The size of the array is given by the integer expression between the
@@ -48,8 +48,7 @@ array instead of a ``real`` array.
    If the LHS array is initialized using a RHS array that is too small then the LHS array will
    be padded with zeros. However, if the LHS array is initialized with a RHS
    array that is too large then a ``SizeError`` should be thrown at
-   compile-time or run-time. Check the :ref:`ssec:errors_sizeErrors` section to know when you
-   should throw the error.
+   compile-time or run-time. 
 
 #. Inferred Size Declarations
 
@@ -278,7 +277,7 @@ Operations
    e. Stride
 
       The ``by`` operator is used to specify a step-size greater than 1 when
-      indexing across an array. It produces a new array with the values
+      indexing across an array. It produces an array with the values
       indexed by the given stride. For instance:
 
       ::
@@ -291,15 +290,18 @@ Operations
 
    d. Slices
 
-      An array may be indexed by a range to create a new array that is a *slice*
-      of the original. The left hand index is inclusive, while the right is exclusive.
+      A slice is a contiguous subset of array elements. The subset is described
+      by a range
+      The left hand index is inclusive, while the right is exclusive.
 
       ::
 
          integer[*] a = 0..10 by 2; /* a = [0, 2, 4, 6, 8, 10] */
-         integer[2] x = a[2..4]; /* x == [2, 4] */
+         integer[2] x = a[2..4]; /* subset is a[2] and a[3], x == [2, 4] */
+         integer[*] y = a[..4]; /* slice used as an r-value */
+         a[4..] = 0; /* slice being used as an l-value */
 
-      Note that for slices only a stride of 1 is allowed.
+      Note that for slicing the range always has a stride of 1.
       For indexing purposes three additions are made to range syntax:
 
       +---------+---------------------------------+
@@ -313,14 +315,16 @@ Operations
       +---------+---------------------------------+
       + `i..j`  | i to jth elements               |
       +---------+---------------------------------+
+
       Examples:
 
       ::
 
          integer[*] a = 0..10 by 2; /* a = [0, 2, 4, 6, 8, 10] */
          integer x = a[..4]; /* x == [0, 2, 4] */
-         integer y = a[4..]; /* x == [6, 8, 10] */
-         integer z = a[..-1]; /* x == [0, 2, 4, 6, 8] */
+         integer y = a[4..]; /* y == [6, 8, 10] */
+         integer z = a[..-1]; /* z == [0, 2, 4, 6, 8] */
+
 
 #. Operations of the Element Type
 
@@ -393,6 +397,64 @@ Operations
 
    The ``!=`` operation also produces a boolean instead of a boolean array.
    The result is the logical negation of the result of the ``==`` operator.
+
+.. _sssec:array_slices:
+
+Array Slices
+~~~~~~~~~~~~
+
+An array slice is a contiguous subset of elements, described by a range.
+An array slice behaves semantically as a new array containing
+the array elements captured by the slice, as shown below.
+
+::
+
+    // 0..10 is a range, not a slice
+    integer[*] a = 0..10 by 2; /* a = [0, 2, 4, 6, 8, 10] */
+    integer[2] x = a[2..4]; /* x == [2, 4] */
+    integer y = a[2..4][1]; /* y == 2 */
+
+    // A slice of the entire array behaves as the array itself, this can be repeated
+    integer z1 = a[4];                   /* z1 == 6 */
+    integer z2 = a[1..7][1..7][1..7][4]; /* z2 == 6 */
+
+
+Array slices are always l-values, although they can be used as r-values.
+When they are used in a parameter call or on the left side of an assignment,
+i.e. as an l-value they allow modification of the source array:
+
+
+::
+
+    procedure sum_arrays(const integer[*] in1, const integer[*] in2, var integer[*] out) {
+        /* sum the two inputs and fill the output with the result */
+    }
+
+    procedure main() returns integer {
+        
+        integer[6] a = 0..10 by 2; /* a = [0, 2, 4, 6, 8, 10] */
+        integer[6] b = 0..15 by 3; /* b = [0, 3, 6, 9, 12, 15] */
+        var integer[6] c;          /* c must be var */
+
+        /* procedure works normally with an array */
+        call sum_arrays(a, b, c);
+        c -> std_output; /* [0, 5, 10, 15, 20, 25] */
+
+        /* procedure can also modify a slice */
+        call sum_arrays(a[1..4], b[1..4], c[4..7]);
+        c -> std_output; /* [0, 5, 10, 0, 5, 10] */
+
+        /* slice can be assigned to, modifying c */
+        c[3..5] = [415, 429];
+        c -> std_output; /* [0, 5, 415, 429, 5, 10] */
+    
+        return 0;
+    }
+
+This behaviour is consistent with the slice being thought of as a
+reference to the original array's elements, where in the first
+examples, the assignments perform a deep copy as usual and in the
+procedure example, the parameters are passed by reference as usual.
 
 
 Type Casting and Type Promotion

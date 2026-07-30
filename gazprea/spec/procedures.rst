@@ -77,7 +77,7 @@ These procedures can be called as follows:
          call increment(x); /* x == 13 */
          call fibonacci(x,y); /* x == 21 and y == 34 */
 
-It is only possible to call procedures in this way. Functions must
+Only procedures may be called with ``call``. Functions must
 appear in expressions because they can not cause side effects, so using
 a function in a ``call`` statement would not do anything. *Gazprea*
 should raise an error if a function is used in a ``call`` statement.
@@ -235,21 +235,17 @@ Array Parameters and Returns
 value of procedures can have both explicit and inferred sizes.
 
 Similarly, slices can be used whereever arrays are declared as parameters, and
-unlike functions, array parameters in procedures can be ``var``.
+unlike functions, array parameters in procedures can be ``var``, allowing arrays
+and slices passed to a procedure to be modified (see :ref:`sssec:array_slices`).
 
-.. _ssec:function_namespacing:
+.. _ssec:procedure_namespacing:
 
 Procedure Namespacing
---------------------
+---------------------
 
 In *Gazprea* procedure declarations occur in the global scope.
 This means that two procedures with the same name cannot coexist in the same
 gazprea program, nor can you forward declare the same procedure twice.
 
-Additionally, procedures share the following namespaces:
-
--  The ``struct`` namespace: you cannot have a struct and function with the same
-   name in the same gazprea program.
-
--  The ``function`` namespace: You cannot have a procedure and function with
-   the same name in the same gazprea program.
+Additionally, functions and procedures share the same namespace; you cannot
+declare a function and procedure with the same name

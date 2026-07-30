@@ -3,7 +3,7 @@
 Globals
 =======
 
-Valid global scope statements inclulde: 
+Valid global scope statements include: 
 
 * Variable Declarations
 * Struct Declarations
@@ -15,7 +15,7 @@ All global statements are considered declarations. Global statements may occur
 in any order, given respective symbols are defined before being referenced.
 
 Variable Declarations
-=====================
+---------------------
 
 In *Gazprea* values can be assigned to a global identifier. All globals
 must be immutable (``const``). If a global identifier is declared with

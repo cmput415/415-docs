@@ -21,7 +21,7 @@ Declaration
 
 A string may be declared with the keyword ``string``. The same rules of
 :ref:`vector declarations <sssec:vec_decl>` also apply to strings, which means
-that all lenghts are inferred:
+that all lengths are inferred:
 
 ::
 
@@ -48,7 +48,7 @@ differently by the compiler:
 
    character[*] carray = ['h', 'e', 'l', 'l', 'o', ' ', 'w', 'o', 'r', 'l', 'd', '\n'];
    string vec = carray;
-   carry -> std_output;
+   carray -> std_output;
    vec -> std_output;
 
 prints:
