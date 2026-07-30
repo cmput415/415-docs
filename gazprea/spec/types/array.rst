@@ -290,17 +290,18 @@ Operations
 
    d. Slices
 
-      An array may be indexed by a range to create a new array that is a *slice*
-      of the original. The left hand index is inclusive, while the right is exclusive.
+      A slice is a contiguous subset of array elements. The subset is described
+      by a range
+      The left hand index is inclusive, while the right is exclusive.
 
       ::
 
          integer[*] a = 0..10 by 2; /* a = [0, 2, 4, 6, 8, 10] */
-         integer[2] x = a[2..4]; /* x == [2, 4] */
+         integer[2] x = a[2..4]; /* subset is a[2] and a[3], x == [2, 4] */
          integer[*] y = a[..4]; /* slice used as an r-value */
          a[4..] = 0; /* slice being used as an l-value */
 
-      Note that for slicing with this syntax always has a stride of 1.
+      Note that for slicing the range always has a stride of 1.
       For indexing purposes three additions are made to range syntax:
 
       +---------+---------------------------------+
@@ -402,8 +403,8 @@ Operations
 Array Slices
 ~~~~~~~~~~~~
 
-An array may be indexed by a range to create a new array that is a *slice*
-of the original. An array slice behaves semantically as an array containing
+An array slice is a contiguous subset of elements, described by a range.
+An array slice behaves semantically as a new array containing
 the array elements captured by the slice, as shown below.
 
 ::
@@ -418,9 +419,9 @@ the array elements captured by the slice, as shown below.
     integer z2 = a[1..7][1..7][1..7][4]; /* z2 == 6 */
 
 
-Array slices have special behaviour when they are used in a parameter call 
-or on the left side of an assignment, where they allow modification of the 
-source array:
+Array slices are always l-values, although they can be used as r-values.
+When they are used in a parameter call or on the left side of an assignment,
+i.e. as an l-value they allow modification of the source array:
 
 
 ::
