@@ -12,11 +12,13 @@ Declaration
 
 A tuple value is declared with the keyword ``tuple`` followed by a
 parentheses-surrounded, comma-separated list of types. The list must
-contain *at least two elements*. Tuples are *mutable*. For example:
+contain *at least two elements*. As with any other type, a tuple variable
+is mutable only when declared ``var`` (see :ref:`sec:typeQualifiers`).
+For example:
 
 ::
 
-     tuple(integer, real, integer[10]) t1;
+     var tuple(integer, real, integer[10]) t1;
      tuple(character, real, character[256], real) t2;
 
 Note that while each tuple declaration defines a new type, the tuple type

@@ -64,7 +64,8 @@ Access
 For example:
 ::
 
-     struct s1 (integer i, real r, integer[10] iv) t1;
+     struct s1 (integer i, real r, integer[10] iv);
+     var s1 t1;
      t1.i
      t1.iv[2]
      t1.r

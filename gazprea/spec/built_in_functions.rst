@@ -111,8 +111,8 @@ read has been issued.
 
 ::
 
-    boolean b;
-    integer i;
+    var boolean b;
+    var integer i;
 
     // Input stream: 9
     b <- std_input;              // b = false (error reading boolean)
