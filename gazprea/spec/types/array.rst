@@ -4,8 +4,41 @@ Arrays
 -------
 
 Arrays are fixed size collections, where each element of the array has the
-same type. Arrays can contain any of *Gazprea*'s base types (``boolean``,
-``integer``, ``real``, and ``character``).
+same type. The element type of an array may be any of *Gazprea*'s base types
+(``boolean``, ``integer``, ``real``, and ``character``), or another array of a
+base type, which yields a :ref:`matrix <ssec:matrix>`.
+
+.. _sssec:array_sizing:
+
+Sizing
+~~~~~~
+
+Arrays are **elaboration-time sized**. The length of an array variable is
+determined exactly *once*, when its declaration is elaborated — that is, on the
+first runtime effect of that array's accessor or assignment — and from that
+point on the length is frozen for the entire lifetime of the variable.
+
+Elaboration-time is not the same as compile-time. The size of an array may be
+given by an arbitrary integer expression, so a length is not required to be a
+compile-time constant; it is only required to be *settled* by the time the
+array is first accessed or assigned, and to never change afterwards. Concretely:
+
+-  A declaration such as ``integer[n] v;`` evaluates ``n`` once, at
+   elaboration. Later changes to ``n`` have no effect on the length of ``v``.
+
+-  A declaration such as ``integer[*] v = <expr>;`` takes its length from the
+   value of ``<expr>`` at elaboration. The ``*`` means "infer this length once,
+   here"; it does **not** mean the array is resizable.
+
+-  No subsequent operation can change the length of an array variable.
+   Assignment, concatenation, and casting all produce array *values*; storing
+   such a value into an array variable never resizes that variable. If the
+   value's length does not match, it is zero padded or a ``SizeError`` is
+   raised, as described in the sections below.
+
+If you need a collection whose length changes as the program runs, use a
+:ref:`vector <ssec:vector>`, which is runtime sized. See
+:ref:`sssec:array_vs_vector`.
 
 .. _sssec:array_decl:
 
@@ -38,7 +71,15 @@ array instead of a ``real`` array.
 
 
    The size of the array is given by the integer expression between the
-   square brackets.
+   square brackets. That expression is evaluated exactly once, when the
+   declaration is elaborated, and its value becomes the permanent length of
+   the array:
+
+   ::
+
+      var integer n = 3;
+      var integer[n] v = 0;  /* 'v' has length 3, now and forever */
+      n = 100;               /* 'v' still has length 3 */
 
    If the array is given a scalar value (``type-expr``) of the same element type then the
    scalar value is duplicated for every single element of the array.
@@ -51,6 +92,11 @@ array instead of a ``real`` array.
    compile-time or run-time. Check the :ref:`ssec:errors_sizeErrors` section to know when you
    should throw the error.
 
+   Note that the LHS length wins in both directions: the array is *not*
+   shortened to the RHS length when the RHS is smaller, and it is *not* grown
+   to the RHS length when the RHS is larger. This is what it means for the
+   length to be fixed at elaboration.
+
 #. Inferred Size Declarations
 
    If an array is assigned an initial value when it is declared, then
@@ -62,6 +108,17 @@ array instead of a ``real`` array.
 
             <type>[*] <identifier> = <type-array>;
 
+
+   The inferred length is still an elaboration-time length. ``[*]`` only moves
+   the choice of length from the declaration to the initializing expression;
+   once elaboration has happened the array is as fixed in length as one
+   declared with an explicit size:
+
+   ::
+
+      var integer[*] v = [1, 2, 3];  /* 'v' has length 3, now and forever */
+      v = [4, 5];                    /* 'v' == [4, 5, 0] -- padded, not shrunk */
+      v = [4, 5, 6, 7];              /* SizeError -- 'v' cannot grow */
 
 #. Inferred Type and Size
 
@@ -79,7 +136,9 @@ array instead of a ``real`` array.
 
    In this example the compiler can infer both the size and the type of
    ``w`` from ``v``. The size may not always be known at compile time, so this
-   may need to be handled during runtime.
+   may need to be handled during runtime; what matters is that the size is
+   resolved when the declaration of ``w`` is elaborated and does not change
+   thereafter.
 
 .. _sssec:array_constr:
 
@@ -118,6 +177,47 @@ method of construction.
 
    real[*] v = []; /* Should create an empty array */
 
+Because the length of an array is fixed at elaboration, such an array has a
+length of zero permanently; it is not an "empty, growable" array. A
+:ref:`vector <ssec:vector>` declared without an initializer also starts empty,
+but *can* subsequently grow.
+
+.. _sssec:array_vs_vector:
+
+Arrays Versus Vectors
+~~~~~~~~~~~~~~~~~~~~~
+
+*Gazprea* has two collection types that share the same element-wise operations
+but differ in exactly one respect — when their length is decided:
+
++--------------------------+-------------------------------+-------------------------------+
+|                          | **Array** (``T[N]``,          | **Vector** (``vector<T>``,    |
+|                          | ``T[*]``)                     | ``string``)                   |
++==========================+===============================+===============================+
+| When is the length set?  | Once, at elaboration          | Continuously, at runtime      |
++--------------------------+-------------------------------+-------------------------------+
+| Can the length change    | No                            | Yes                           |
+| after that?              |                               |                               |
++--------------------------+-------------------------------+-------------------------------+
+| Written in the type?     | Yes (``[N]``), or inferred    | No                            |
+|                          | once (``[*]``)                |                               |
++--------------------------+-------------------------------+-------------------------------+
+| Grows via ``push`` /     | No — ``SizeError``            | Yes                           |
+| ``append``?              |                               |                               |
++--------------------------+-------------------------------+-------------------------------+
+| Too-short value assigned | Zero padded to the array's    | Vector takes the value's      |
+| into it                  | fixed length                  | length                        |
++--------------------------+-------------------------------+-------------------------------+
+| Too-long value assigned  | ``SizeError``                 | Vector takes the value's      |
+| into it                  |                               | length                        |
++--------------------------+-------------------------------+-------------------------------+
+
+The two types interoperate, but only through *values*: a vector used in an
+array context yields an array value of the vector's current length, and an
+array value assigned into a vector sets that vector's length. Neither direction
+ever makes an array variable resizable. See :ref:`ssec:vector` for the details
+of that interoperation.
+
 .. _sssec:array_ops:
 
 Operations
@@ -137,7 +237,10 @@ Operations
 
 
       In this case ``numElements`` would be 3, since the array ``v``
-      contains 3 elements.
+      contains 3 elements. For an array, ``length`` is invariant after
+      elaboration: it will report the same value for every call on the same
+      variable. For a :ref:`vector <ssec:vector>` it reports the current
+      length, which may differ between calls.
 
    b. Concatenation
 
@@ -183,15 +286,28 @@ Operations
          integer[3] v = 1 || 2 || 3; // produces [1, 2, 3]
 
 
+      Concatenation produces a new array *value* whose length is the sum of
+      the lengths of its operands. It does not extend either operand.
       Remember that arrays have a fixed length, which means you cannot grow an
       array by concatenating elements to the end:
 
       ::
 
-         var integer[*] growme = [0]; // length is now 1
+         var integer[*] growme = [0]; // elaborated with length 1; fixed at 1
          var integer i = 1;
          loop while (i < 10) {
-             growme = growme || i; // illegal: SizeError
+             growme = growme || i; // SizeError: a length-2 value into a length-1 array
+             i = i + 1;
+         }
+
+      Use a :ref:`vector <ssec:vector>` when the collection has to grow:
+
+      ::
+
+         var vector<integer> growme = 0; // [0]
+         var integer i = 1;
+         loop while (i < 10) {
+             growme.push(i); // fine: vectors are runtime sized
              i = i + 1;
          }
 
@@ -251,6 +367,18 @@ Operations
       Therefore, it is *valid* to have bounds that will produce an empty
       array because the difference between them is negative.
 
+      A range yields an array *value*, whose length is settled when the range
+      expression is evaluated. Using a range to initialize an array variable
+      with an inferred size is therefore one of the ways an array's length
+      gets fixed at elaboration:
+
+      ::
+
+         var integer i = 3;
+         var integer[*] v = 1..i;  /* 'v' is elaborated with length 3 */
+         i = 10;
+         v = 1..i;                 /* SizeError: 'v' is still length 3 */
+
    d. Indexing
 
       An array may be indexed in order to retrieve the values stored in
@@ -303,24 +431,30 @@ Operations
       For indexing purposes three additions are made to range syntax:
 
       +---------+---------------------------------+
-      |         | Interpretation                  |
+      | Syntax  | Interpretation                  |
+      +=========+=================================+
+      | `..`    | all elements                    |
       +---------+---------------------------------+
-      + `..`    | all elements                    |
+      | `i..`   | ith to nth elements             |
       +---------+---------------------------------+
-      + `i..`   | ith to nth elements             |
+      | `..-i`  | first to n-i-1th elements       |
       +---------+---------------------------------+
-      + `..-i`  | first to n-i-1th elements       |
+      | `i..j`  | i to jth elements               |
       +---------+---------------------------------+
-      + `i..j`  | i to jth elements               |
-      +---------+---------------------------------+
+
       Examples:
 
       ::
 
          integer[*] a = 0..10 by 2; /* a = [0, 2, 4, 6, 8, 10] */
-         integer x = a[..4]; /* x == [0, 2, 4] */
-         integer y = a[4..]; /* x == [6, 8, 10] */
-         integer z = a[..-1]; /* x == [0, 2, 4, 6, 8] */
+         integer[*] x = a[..4]; /* x == [0, 2, 4] */
+         integer[*] y = a[4..]; /* y == [6, 8, 10] */
+         integer[*] z = a[..-1]; /* z == [0, 2, 4, 6, 8] */
+
+      A slice is an array *value*, not a view that tracks the sliced array.
+      Its length is determined when the slice expression is evaluated. Slicing
+      a :ref:`vector <ssec:vector>` is the standard way to obtain an array
+      value from a runtime-sized collection.
 
 #. Operations of the Element Type
 

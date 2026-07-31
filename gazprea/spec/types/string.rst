@@ -5,8 +5,12 @@ String
 
 A ``string`` is another object within *Gazprea*. Fundamentally, a ``string`` is
 a ``vector`` of ``character``.
-This means that, like a vector, a string behaves like a dynamically sized array,
-but because it is an object *Gazprea* can provide type specific features.
+This means a string is **runtime sized** in exactly the way a
+:ref:`vector <ssec:vector>` is — its length is never part of its type and
+changes as it is assigned to, pushed to, or appended to — but because it is an
+object *Gazprea* can provide type specific features.
+A ``character[N]`` array is the fixed-length counterpart: its length is settled
+at elaboration and stays there.
 
 String vectors behave a lot like character arrays, but there are several
 differences between the two types:
@@ -21,7 +25,8 @@ Declaration
 
 A string may be declared with the keyword ``string``. The same rules of
 :ref:`vector declarations <sssec:vec_decl>` also apply to strings, which means
-that all lenghts are inferred:
+that no length may be written in the type and the length is always whatever the
+string currently holds:
 
 ::
 
@@ -48,7 +53,7 @@ differently by the compiler:
 
    character[*] carray = ['h', 'e', 'l', 'l', 'o', ' ', 'w', 'o', 'r', 'l', 'd', '\n'];
    string vec = carray;
-   carry -> std_output;
+   carray -> std_output;
    vec -> std_output;
 
 prints:
@@ -73,13 +78,15 @@ two types. You may also append a slice of characters to a string using the
 append method.
 As well, a scalar character may be concatenated onto a string in the same way
 as it would be concatenated onto an array of characters.
-Note that because a ``string`` is a sub-type of ``vector``, concatenation may also
-be accomplished with ``concat`` and ``push`` methods:
+Note the difference between the two spellings. ``||`` is an operator: it
+produces a new value and leaves its operands alone, which is why it is the only
+option for arrays. Because a ``string`` is a sub-type of ``vector``, a string
+can instead be *grown in place* with the ``append`` and ``push`` methods:
 
 ::
 
   var string letters = ['a', 'b'] || "cd";
-  letters.concat("ef");
+  letters.append("ef");
   letters.push('g');
   letters  -> std_output;
 

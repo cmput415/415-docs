@@ -14,7 +14,11 @@ If a declaration or a definition with the same name as a built-in function is
 encountered in a *Gazprea* program, then the compiler should issue an error.
 
 Note that although the examples below all use arrays, all the built-ins work
-on Vectors and Strings, since they are always compatible with arrays.
+on vectors and strings as well, since a vector may be used as an array value of
+its current length. When a built-in is applied to a vector it therefore reports
+on, or operates over, the length that vector has *at the moment of the call* —
+unlike an array, whose length has been fixed since
+:ref:`elaboration <sssec:array_sizing>`.
 
 .. _ssec:builtIn_length:
 
@@ -29,6 +33,19 @@ representing the number of elements in the array.
          integer[*] v = 1..5;
 
          length(v) -> std_output; /* Prints 5 */
+
+Applied to an array, ``length`` is constant for the lifetime of that variable.
+Applied to a :ref:`vector <ssec:vector>` or :ref:`string <ssec:string>` it
+returns the current length and may return different values at different points
+in the program; it is equivalent to that vector's ``len`` method.
+
+::
+
+         var vector<integer> u = 1..5;
+
+         length(u) -> std_output; /* Prints 5 */
+         u.push(6);
+         length(u) -> std_output; /* Prints 6 */
 
 
 .. _ssec:builtIn_rows_cols:

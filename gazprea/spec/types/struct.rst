@@ -139,7 +139,7 @@ A struct itself cannot be cast or promoted. However, the fields within a struct
 can be individually cast/promoted, as described in
 sections :ref:`sec:typeCasting` and :ref:`sec:typePromotion`.
 
-.. _ssec:function_namespacing:
+.. _ssec:struct_namespacing:
 
 Struct Namespacing
 --------------------

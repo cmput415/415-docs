@@ -26,7 +26,14 @@ In *Gazprea* all variables must be initialized in a well defined manner in order
 to ensure functional purity. If the variables are not initialized to a known
 value their initial value might change depending on when the program is run.
 Therefore, the second declaration style is equivalent to setting the value to
-zero.
+zero. For an :ref:`array <ssec:array>` this means every element of its
+(already determined) length is set to the element type's zero; for a
+:ref:`vector <ssec:vector>` or :ref:`string <ssec:string>`, which carries no
+length in its type, it means the empty collection.
+
+Elaborating a declaration is also the moment at which an array's length is
+fixed, permanently. See :ref:`sssec:array_sizing` for what that means, and
+:ref:`sssec:array_vs_vector` for how it differs from a vector.
 
 For simplicity *Gazprea* assumes that declarations can only appear at
 the beginning of a block. For instance this would not be legal in
@@ -60,7 +67,7 @@ illegal to refer to a variable within its own initialization statement.
 
        /* All of these declarations are illegal, they would result in garbage values. */
        integer i = i;
-       integer[10] v = v[0] * 2;
+       integer[10] v = v[1] * 2;
 
 An error message should be raised about the use of undeclared variables
 in these cases. If a variable of the same name is declared in an

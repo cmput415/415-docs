@@ -51,6 +51,10 @@ prints the following:
 
      [1 2 3]
 
+:ref:`Vectors <ssec:vector>` print exactly as arrays do, using whatever length
+they hold at the time of the output statement. ``string`` is the sole
+exception, described next.
+
 :ref:`strings <ssec:string>` print their contents as a contiguous sequence of characters.
 For example:
 

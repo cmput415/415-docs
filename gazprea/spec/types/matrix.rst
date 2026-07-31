@@ -13,8 +13,11 @@ Declaration
 ~~~~~~~~~~~
 
 Matrix declarations are similar to array declarations, the difference
-being that matrices have two dimensions instead of one. The following are
-valid matrix declarations:
+being that matrices have two dimensions instead of one. Both dimensions are
+:ref:`sized at elaboration <sssec:array_sizing>` and fixed thereafter, and
+``[*]`` in either position means "infer this dimension once, here" — a matrix
+is no more resizable than a one dimensional array. There is no two dimensional
+counterpart to ``vector``. The following are valid matrix declarations:
 
 ::
 
@@ -102,7 +105,7 @@ matrix respectively. For instance:
 
 Matrix indexing is done similarly to array indexing, however, two
 indices must be used. Because matrices are arrays of arrays the indexing is
-coposite:
+composite:
 
 ::
 
@@ -117,7 +120,7 @@ and column. Both the row and column indices must be integers.
 
            integer[*][*] M = [[11, 12, 13], [21, 22, 23]];
 
-           /* M[1, 2] == 12 */
+           /* M[1][2] == 12 */
 
 As with arrays, out of bounds indexing is an error on Matrices.
 

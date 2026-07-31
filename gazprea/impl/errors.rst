@@ -177,6 +177,8 @@ Here is an example invalid program and a corresponding compile-time error:
 
     ReturnError on line 1: procedure "main" does not have a return statement reachable by all control flows
 
+.. _ssec:errors_sizeErrors:
+
 Run-time Errors
 ---------------
 

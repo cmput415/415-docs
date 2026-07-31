@@ -56,6 +56,31 @@ For instance, with single dimensional arrays:
          /* Change 'v' to [1, 0, 3] */
          v[2] = 0;
 
+Assigning a whole array value changes the array's *contents*, never its
+*length*. An array is :ref:`elaboration-time sized <sssec:array_sizing>`, so by
+the time any assignment to it executes its length is already fixed. The RHS is
+therefore fitted to the LHS using the same rules as initialization: a shorter
+value is padded with the element type's zero, and a longer value raises a
+``SizeError``.
+
+::
+
+         var integer[*] v = [0, 0, 0]; /* length fixed at 3 */
+
+         v = [1, 2];       /* v == [1, 2, 0] -- padded */
+         v = [1, 2, 3, 4]; /* SizeError -- v cannot grow */
+
+Assignment to a :ref:`vector <ssec:vector>` behaves differently, because a
+vector is runtime sized: the assignment replaces the vector's contents and its
+length together, so neither padding nor a ``SizeError`` arises.
+
+::
+
+         var vector<integer> u = [0, 0, 0];
+
+         u = [1, 2];       /* u == [1, 2] -- length is now 2 */
+         u = [1, 2, 3, 4]; /* u == [1, 2, 3, 4] -- length is now 4 */
+
 This applies to arrays of any dimension.
 
 ::
@@ -332,7 +357,8 @@ semicolon.
 Iterator Loop
 ~~~~~~~~~~~~~
 
-Loops can be used to iterate over the elements of an array of any type.
+Loops can be used to iterate over the elements of an array of any type, and
+equally over a :ref:`vector <ssec:vector>` or :ref:`string <ssec:string>`.
 This is done by using domain expressions (for instance ``i in v``) in
 conjunction with a loop statement.
 
@@ -371,6 +397,22 @@ defines a constant domain variable from it's respective index. For instance:
               array. */
            loop i in v {
              v = 0;
+             i -> std_output; "\n" -> std_output;
+           }
+
+The same holds for a :ref:`vector <ssec:vector>` or
+:ref:`string <ssec:string>` domain: the domain is evaluated once, so the
+iteration count is the vector's length at that moment. Growing the vector in
+the loop body does not lengthen the loop.
+
+::
+
+           var vector<integer> v = [1, 2, 3];
+
+           /* Prints 1, 2, 3 -- three iterations, fixed when the domain was
+              evaluated, even though 'v' ends up with six elements. */
+           loop i in v {
+             v.push(i);
              i -> std_output; "\n" -> std_output;
            }
 

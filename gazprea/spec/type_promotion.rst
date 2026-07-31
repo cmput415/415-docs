@@ -117,10 +117,50 @@ It is possible for a two sided promotion to occur with tuples. For example:
 
   boolean b = (1.0, 2) == (2, 3.0);
 
+.. _ssec:typePromotion_avv:
+
+Array to/from Vector
+--------------------
+
+An array value may be implicitly converted to a ``vector`` of a compatible
+element type, and a vector may be implicitly converted to an array value
+(two-way type promotion). Element types are promoted according to
+:ref:`ssec:typePromotion_scalar`.
+
+This promotion converts *values*; it never changes how either side is sized.
+The two directions are consequently not symmetric:
+
+-  **Vector to array.** The vector's *current* length is used to produce the
+   array value. Whether that value then fits depends on the array on the
+   receiving side, which was already :ref:`sized at elaboration
+   <sssec:array_sizing>`: a shorter value is zero padded, a longer one raises
+   a ``SizeError``. When the receiving array's size is inferred (``[*]``) and
+   this promotion *is* its elaboration, the vector's current length becomes the
+   array's permanent length.
+
+-  **Array to vector.** The array's fixed length is used to produce the vector
+   value, and the receiving vector simply takes that length on. No padding or
+   ``SizeError`` occurs, and the vector remains free to grow afterwards.
+
+::
+
+     var vector<integer> v;
+     v.append([1, 2, 3]);
+
+     integer[*] a = v;   /* elaborates 'a' to length 3, permanently */
+     integer[5] b = v;   /* b == [1, 2, 3, 0, 0] -- padded */
+     integer[2] c = v;   /* SizeError */
+
+     var vector<real> u = a;  /* u has length 3, and may still grow */
+     u.push(4.0);             /* u has length 4; 'a' is unaffected */
+
 Character Array to/from String
 -------------------------------
 
-A ``string`` can be implicitly converted to a vector of ``character``\ s and vice-versa (two-way type promotion).
+Because a ``string`` is a ``vector`` of ``character``, this is the
+:ref:`array/vector promotion <ssec:typePromotion_avv>` above specialised to
+``character``.
+A ``string`` can be implicitly converted to an array of ``character``\ s and vice-versa (two-way type promotion).
 
 ::
 

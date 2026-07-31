@@ -69,9 +69,9 @@ These procedures can be called as follows:
 
 ::
 
-         integer x = 12;
-         integer y = 21;
-         integer[5] v = 13;
+         var integer x = 12;
+         var integer y = 21;
+         var integer[5] v = 13;
 
          call change_first(v); /* v == [7, 13, 13, 13, 13] */
          call increment(x); /* x == 13 */
@@ -151,11 +151,11 @@ call by reference, and are therefore *l-values* (pointers).
 ::
 
 
-         procedure byvalue(String x) returns integer {
-           return len(x);
+         procedure byvalue(string x) returns integer {
+           return length(x);
          }
-         procedure byreference(var String x) returns integer {
-           return len(x);
+         procedure byreference(var string x) returns integer {
+           return length(x);
          }
          procedure main() returns integer {
            const character[3] y = ['y', 'e', 's'];
@@ -165,6 +165,13 @@ call by reference, and are therefore *l-values* (pointers).
 
            return 0;
          }
+
+The call to ``byvalue`` promotes the ``character[3]`` array to a ``string``,
+which is a :ref:`vector <ssec:vector>` of ``character``. This is a conversion
+of the argument's *value*: the parameter ``x`` is a runtime-sized string, while
+``y`` remains a length-3 array in the caller. The call to ``byreference`` is
+illegal because a ``var`` parameter is call by reference and so admits no
+promotion — and separately because ``y`` is ``const``.
 
 
 Aliasing
@@ -228,19 +235,39 @@ aliasing.
 
 .. _ssec:procedure_vec_mat:
 
-Array Parameters and Returns
-----------------------------------------
+Array and Vector Parameters and Returns
+---------------------------------------
 
 :ref:`As with functions <ssec:function_vec_mat>`, the arguments and return
-value of procedures can have both explicit and inferred sizes.
+value of procedures can have both explicit and inferred sizes, with the same
+rule: an explicit size must be matched by the argument, and an inferred size
+(``[*]``) is elaborated at the call from the argument that is passed.
 
 Similarly, slices can be used whereever arrays are declared as parameters, and
 unlike functions, array parameters in procedures can be ``var``.
 
-.. _ssec:function_namespacing:
+A ``var`` array parameter is mutable in its *contents* only. Because an array
+is :ref:`elaboration-time sized <sssec:array_sizing>`, a procedure cannot
+change the length of an array it was passed, no matter how the parameter is
+qualified — assigning a longer value to it raises a ``SizeError`` just as it
+would at the call site. A ``var vector<T>`` parameter, by contrast, may be
+grown with ``push`` and ``append``, and the caller observes the new length.
+
+::
+
+         procedure fill(var integer[*] a) {
+             a = 1;             /* legal: every element becomes 1 */
+             a = a || a;        /* SizeError: 'a' cannot double in length */
+         }
+
+         procedure extend(var vector<integer> v) {
+             v.push(1);         /* legal: caller's vector is now one longer */
+         }
+
+.. _ssec:procedure_namespacing:
 
 Procedure Namespacing
---------------------
+---------------------
 
 In *Gazprea* procedure declarations occur in the global scope.
 This means that two procedures with the same name cannot coexist in the same

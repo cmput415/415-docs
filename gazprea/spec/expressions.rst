@@ -68,10 +68,18 @@ This additional expression is used to create the generated values. For example:
 The expression to the right of the bar (``|``), is used to generate the
 value at the given index.
 Let ``T`` be the type of the expression to the right of the bar (``|``). Then,
-if the domain of the generator is an array of size ``N``, the result will be a
-array of size ``N`` with element type ``T``. Otherwise, if the domain of the
-generator is a matrix of size ``N`` x ``M``, the result will be a matrix of size
-``N`` x ``M`` with element type ``T``.
+if the generator has a single domain expression whose array has size ``N``, the
+result is an array of size ``N`` with element type ``T``. If it has two domain
+expressions whose arrays have sizes ``N`` and ``M``, the result is a matrix of
+size ``N`` x ``M`` with element type ``T``.
+
+A generator always yields an *array* value, never a
+:ref:`vector <ssec:vector>`, and the size of that value is settled when the
+generator is evaluated — from the sizes of the domain arrays at that moment.
+Using a generator to initialize an array with an inferred size is therefore one
+of the ways an array's length is fixed at
+:ref:`elaboration <sssec:array_sizing>`.
+
 Generators may be nested, and
 may be used within domain expressions. For instance, the generator below
 is perfectly legal:
@@ -91,7 +99,11 @@ Domain Expressions
 ------------------
 
 Domain expressions consist of an identifier denoting an iterator variable and
-an expression that evaluates to **any** array type.
+an expression that evaluates to **any** array type. A
+:ref:`vector <ssec:vector>` or :ref:`string <ssec:string>` may be used as the
+domain expression, in which case its length at the moment the domain is
+evaluated determines the number of iterations; growing the vector inside the
+body does not add iterations, for the same reason given below.
 Domain expressions can only appear within iterator loops and generators.
 A domain expression is a way of declaring a variable that
 is local to the loop or generator, that takes on values from
@@ -127,7 +139,7 @@ commas, such as in matrix generators.
          /* The "i"s both domain expressions are at the same scope, which is
           * the one enclosing the loop. Therefore the matrix is: [[0 0 0] [0 1 2] [0 2 4]]
           */
-         integer[3,3] mat = [ i in 0..i, j in 0..i | i*j ];
+         integer[3][3] mat = [ i in 0..i, j in 0..i | i*j ];
 
 The domain for the domain expression is only evaluated once. For
 instance:

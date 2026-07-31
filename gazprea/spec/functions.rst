@@ -164,41 +164,60 @@ do not have to match the argument names in the function definition.
 
 .. _ssec:function_vec_mat:
 
-Array and Matrix Parameters and Returns
-----------------------------------------
+Array, Vector and Matrix Parameters and Returns
+-----------------------------------------------
 
 The arguments and return value of functions can have both explicit and inferred sizes. For example:
 
 ::
 
-         function to_real_vec(integer[*] x) returns real[*] {
+         function to_real_vec(integer[*] x) returns vector<real> {
              /* Some code here */
          }
 
-         function transpose3x3(real[3,3] x) returns real[3,3] {
+         function transpose3x3(real[3][3] x) returns real[3][3] {
              /* Some code here */
          }
 
+An array parameter written with an explicit size, such as ``real[3][3]``, is
+part of the signature: the argument's length must match at the call, or a
+``SizeError`` is raised. An array parameter written with an inferred size, such
+as ``integer[*]``, is elaborated at the call — it takes the length of the
+argument that is actually passed, and that length is then fixed for the
+duration of the call. An inferred-size *return* type works the same way and is
+elaborated at the ``return``, from the length of the value being returned.
+
+A ``vector<T>`` parameter or return type carries no length at all, so no length
+check applies to it in either direction.
 
 Like Rust, array *slices* may be passed as arguments:
 
 ::
 
-         function to_real_vec(integer[*] x) returns real[*] {
-            real[*] rvec = x;
-            return rvec;
+         function to_real_vec(integer[*] x) returns vector<real> {
+            real[*] rvec = x;  /* elaborated to the length of 'x' */
+            return rvec;       /* array value becomes the returned vector */
          }
 
          function slicer() returns real[*] {
              integer[10] a = 1..10;
-             var vector<real> two_halves = to_real_vec(a[1..5]);
+             var vector<real> two_halves = to_real_vec(a[1..6]);
              two_halves.append(to_real_vec(a[6..]));
+
+             /* 'two_halves' is a length-10 vector here, so the inferred-size
+                return type is elaborated to a length-10 array. */
              return two_halves;
          }
 
+Both directions of the array/vector conversion appear above, and neither one
+changes the sizing discipline of the variables involved. ``rvec`` is an array
+and its length is fixed the moment it is declared; ``two_halves`` is a vector
+and its length grows with ``append``. Converting between them copies a value —
+it does not make ``rvec`` growable or pin ``two_halves`` to a length.
+
 Remember that all function parameters are ``const`` in *Gazprea*, so that all
 functions are pure. That means that while it is legal to pass arrays and slices
-*be reference*, the array contents cannot be modified inside the function,
+*by reference*, the array contents cannot be modified inside the function,
 because the change would be visible outside the function. You must check that
 the ``const`` requirement is honored.
 

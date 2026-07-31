@@ -84,8 +84,43 @@ size is assumed to be the old size. For example:
      // Truncate the array.
      real[2] y = as<real[2]>(v);
 
+Note that a cast is the one place where a *shortening* is silent. Assigning a
+too-long array value into an array raises a ``SizeError``; casting it to a
+shorter array type truncates instead. The size named in the cast belongs to
+the cast expression's result, and says nothing about the variable it is
+eventually stored into — that variable's own length was already fixed at
+:ref:`elaboration <sssec:array_sizing>`, and the cast result still has to fit
+it.
+
+::
+
+     real[3] v = [1.0, 2.0, 3.0];
+     var real[3] w = 0.0;
+
+     w = as<real[2]>(v);  /* cast truncates to [1.0, 2.0], then pads back to
+                             [1.0, 2.0, 0.0] to fit 'w' */
+
 Casting non-variable empty arrays ``[]`` is not allowed, because a literal
 empty array does not have a type.
+
+.. _ssec:typeCasting_vec:
+
+Array and Vector
+----------------
+
+A ``vector`` may appear as the operand of an array cast and as the destination
+type of a cast. When a vector is the operand, its current length is used. When
+``vector<T>`` is the destination type, no size may be given — vectors are
+runtime sized and take the length of the value being cast, so there is nothing
+to pad or truncate against.
+
+::
+
+     var vector<integer> v;
+     v.append([1, 2, 3]);
+
+     real[2] a = as<real[2]>(v);          // truncates to [1.0, 2.0]
+     var vector<real> u = as<vector<real>>(v);  // [1.0, 2.0, 3.0]
 
 .. _ssec:typeCasting_mtom:
 
