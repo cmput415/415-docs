@@ -144,8 +144,11 @@ instance:
 
 This is true for domain expressions within generators as well.
 
-Iterator variables can be assigned to and re-declared within the enclosed iterator loop.
-The variable is re-initialized according to the expression each iteration.
+An iterator variable is a fresh *constant* binding in each iteration:
+assigning to it is an error, but a declaration inside the loop body may
+shadow it, exactly as in any other nested scope. The shadowing declaration
+does not affect the iteration; the iterator is re-bound from the domain at
+the start of each iteration.
 
 ::
 

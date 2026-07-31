@@ -359,8 +359,10 @@ Array ranges can also be used instead:
              i -> std_output;
            }
 
-The domain is evaluated once during the first iteration of the loop. Each iteration
-defines a constant domain variable from it's respective index. For instance:
+The domain is evaluated once during the first iteration of the loop. Each
+iteration defines a constant domain variable from its respective index;
+the variable cannot be assigned to, though it may be shadowed by an inner
+declaration (see :ref:`ssec:expressions_dom_expr`). For instance:
 
 ::
 
