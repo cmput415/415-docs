@@ -26,9 +26,10 @@ array instead of a ``real`` array.
 
 #. Explicit Size Declarations
 
-   When an array is declared it may be explicitly given a size. This size
-   must be a :ref:`constant expression <sec:constexpr>`. Every array, whether
-   explicitly or implicitly sized, has a size that is known at compile time; a
+   When an array is declared it may be explicitly given a size. Every array,
+   whether explicitly or implicitly sized, has a size that is known at
+   [elaboration](https://aada.m2osw.com/alexis-ada-reference-manual/annex-n-glossary-informative#elaboration)
+   time, that is to say, upon its first evaluation; a
    collection whose size is only known at runtime requires a
    :ref:`vector <ssec:vector>`.
 
@@ -50,7 +51,7 @@ array instead of a ``real`` array.
    If the LHS array is initialized using a RHS array that is too small then the LHS array will
    be padded with zeros. However, if the LHS array is initialized with a RHS
    array that is too large then a ``SizeError`` should be thrown at
-   compile-time or run-time. 
+   compile-time or run-time.
 
 #. Inferred Size Declarations
 
@@ -419,8 +420,8 @@ the array elements captured by the slice, as shown below.
     integer z2 = a[1..7][1..7][1..7][4]; /* z2 == 6 */
 
 
-Array slices have special behaviour when they are used in a parameter call 
-or on the left side of an assignment, where they allow modification of the 
+Array slices have special behaviour when they are used in a parameter call
+or on the left side of an assignment, where they allow modification of the
 source array:
 
 
@@ -431,7 +432,7 @@ source array:
     }
 
     procedure main() returns integer {
-        
+
         integer[6] a = 0..10 by 2; /* a = [0, 2, 4, 6, 8, 10] */
         integer[6] b = 0..15 by 3; /* b = [0, 3, 6, 9, 12, 15] */
         var integer[6] c;          /* c must be var */
@@ -447,7 +448,7 @@ source array:
         /* slice can be assigned to, modifying c */
         c[3..5] = [415, 429];
         c -> std_output; /* [0, 5, 415, 429, 5, 10] */
-    
+
         return 0;
     }
 
