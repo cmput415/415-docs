@@ -61,18 +61,27 @@ Duplicate alias names should raise a `SymbolError`
   typealias integer ty;
   typealias character ty;
 
-Some type aliases may be parameterized with an expression, such as with arrays,
-such expressions are restricted to be composed exclusively from arithmetic
-operations on scalar literals. Practically speaking, this requires constant
-folding but *not* constant propagation.
+Some type aliases may be parameterized with an expression, such as the size of
+an array. Such size expressions must be valid
+:ref:`constant expressions <sec:constexpr>`. This permits not only constant
+folding of scalar literals but also constant propagation through other
+``constexpr`` values, such as global constants.
 
 ::
 
   typealias integer[1 + 3 - 2] vec_of_two;
   procedure main() returns integer {
-    vec_of_two v = 1..3;   
+    vec_of_two v = 1..3;
   }
 
 Should raise a ``SizeError`` on line 3 since the ``vec_of_two`` type has a size
 of 2 and an array of size 3 is being assigned.
+
+Because the size may be any ``constexpr``, it can reference other constant
+expressions rather than being limited to literals:
+
+::
+
+  const WIDTH = 4;
+  typealias integer[WIDTH] row;   // legal: WIDTH is a constexpr
 
