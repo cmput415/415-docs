@@ -69,9 +69,9 @@ These procedures can be called as follows:
 
 ::
 
-         integer x = 12;
-         integer y = 21;
-         integer[5] v = 13;
+         var integer x = 12;
+         var integer y = 21;
+         var integer[5] v = 13;
 
          call change_first(v); /* v == [7, 13, 13, 13, 13] */
          call increment(x); /* x == 13 */

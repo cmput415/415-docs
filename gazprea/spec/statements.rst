@@ -496,5 +496,5 @@ Input example:
 
 ::
 
-         integer x;
+         var integer x;
          x <- std_input; /* Read an integer into x */
