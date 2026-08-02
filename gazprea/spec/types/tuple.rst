@@ -20,7 +20,7 @@ contain *at least two elements*. Tuples are *mutable*. For example:
      tuple(character, real, character[256], real) t2;
 
 Note that while each tuple declaration defines a new type, the tuple type
-is not named explcitly. Rather, it has a type *signature* ``(T1, T2, ...)``,
+is not named explicitly. Rather, it has a type *signature* ``(T1, T2, ...)``,
 where ``T1, T2`` are the types of its members.
 The number of fields in a ``tuple`` must be known at compile time.
 This includes instances of :ref:`type inference<ssec:typeQualifiers_infer>`, where a variable is

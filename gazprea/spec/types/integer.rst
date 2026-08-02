@@ -26,6 +26,8 @@ An ``integer`` literal is specified in base 10. For example:
      2
      0
 
+An ``integer`` literal must be a representable ``i32`` value.
+
 .. _sssec:integer_ops:
 
 Operations
@@ -73,6 +75,8 @@ Unary negation produces the additive inverse of the ``integer``
 expression. Unary plus always produces the same result as the
 ``integer`` expression it is applied to. Remainder mirrors the behaviour
 of remainder in *C99*.
+
+Exponentiation between integers gives an ``integer`` result. This is the same behavior as performing exponentiation on reals then truncating to an ``integer``.
 
 This table specifies ``integer`` operator precedence. Operators without
 lines between them have the same level of precedence. Note that
