@@ -71,8 +71,9 @@ Remember that because a ``string`` and vector of ``character`` are fundamentally
 the same, the concatenation operation may be used to concatenate values of the
 two types. You may also append a slice of characters to a string using the
 append method.
-As well, a scalar character may be concatenated onto a string in the same way
-as it would be concatenated onto an array of characters.
+As well, a :term:`scalar <scalar type>` character may be concatenated onto
+a string in the same way as it would be concatenated onto an array of
+characters.
 Note that because a ``string`` is a sub-type of ``vector``, concatenation may also
 be accomplished with ``concat`` and ``push`` methods:
 
