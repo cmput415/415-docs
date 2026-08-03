@@ -25,14 +25,8 @@ jobs:
       - name: Install Sphinx
         run: pip install -r requirements.txt
 
-      # Sphinx's built-in linkcheck builder honours the per-project
-      # linkcheck_ignore / linkcheck_anchors / linkcheck_timeout /
-      # linkcheck_retries entries in each conf.py, and treats redirects
-      # and rate-limited hosts more gracefully than lychee.  Run it
-      # against every Sphinx project in the tree; the builder itself
-      # exits non-zero when it finds a broken link, so we do not pass
-      # -W (which would also fail on pre-existing unrelated warnings
-      # like missing TODO entries).
+      # Per-project linkcheck settings live in each conf.py; the
+      # builder itself exits non-zero on any broken link.
       - name: Run sphinx-build -b linkcheck for every project
         run: |
           status=0
