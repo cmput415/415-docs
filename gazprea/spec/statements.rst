@@ -334,12 +334,14 @@ Iterator Loop
 ~~~~~~~~~~~~~
 
 Loops can be used to iterate over the elements of an array of any type.
-This is done by using domain expressions (for instance ``i in v``) in
-conjunction with a loop statement.
+This is done by using :term:`domain expressions <domain expression>`
+(for instance ``i in v``) in conjunction with a loop statement.  In a
+domain expression ``x in E``, ``x`` is the :term:`iterator variable`
+and ``E`` is the :term:`domain`.
 
-When the domain is given by an array, each time the loop is executed the
-next element of the array is assigned to the domain variable. The
-elements of the domain array are assigned to the domain variable
+When the domain is given by an array, each time the loop is executed
+the next element of the array is assigned to the iterator variable.
+The elements of the domain array are assigned to the iterator variable
 starting from index 1, and going up to the final element of the array.
 When all of the elements of the domain array have been used the loop
 automatically exits. For instance:
@@ -360,16 +362,20 @@ Array ranges can also be used instead:
              i -> std_output;
            }
 
-The domain is evaluated once during the first iteration of the loop. Each iteration
-defines a constant domain variable from it's respective index. For instance:
+The domain is evaluated once, when control first reaches the loop, and
+the resulting value is captured for the lifetime of the loop.  Each
+iteration then performs :term:`re-initialization`: a fresh binding of
+the iterator variable to the next element of the captured domain.
+Subsequent modifications to any variable that appeared in the domain
+expression do not affect the captured domain.  For instance:
 
 ::
 
            var integer[*] v = [i in 1..3 | i];
 
-           /* Since the domain 'v' is only evaluated once this loop prints 1, 2,
-              and then 3 even though after the first iteration 'v' is the zero
-              array. */
+           /* Since 'v' is captured on loop entry this loop prints 1,
+              2, and then 3 even though after the first iteration 'v'
+              is the zero array. */
            loop i in v {
              v = 0;
              i -> std_output; "\n" -> std_output;

@@ -50,12 +50,14 @@ Generators
 ----------
 
 A generator may be used to construct either a one or two dimensional array.
-A generator creates a value of a 1D array type when one domain variable is
-used, and a 2D array type when two domain variables are used.
-Any other number of domain variables will yield an error.
+A generator creates a value of a 1D array type when one
+:term:`iterator variable` is used, and a 2D array type when two
+iterator variables are used.
+Any other number of iterator variables will yield an error.
 
-A generator consists of either one or two domain expressions,
-and an additional  expression on the right hand side of the bar (``|``).
+A generator consists of either one or two
+:term:`domain expressions <domain expression>`, and an additional
+expression on the right hand side of the bar (``|``).
 This additional expression is used to create the generated values. For example:
 
 ::
@@ -91,19 +93,20 @@ is perfectly legal:
 Domain Expressions
 ------------------
 
-Domain expressions consist of an identifier denoting an iterator variable and
-an expression that evaluates to **any** array type.
-Domain expressions can only appear within iterator loops and generators.
-A domain expression is a way of declaring a variable that
-is local to the loop or generator, that takes on values from
-the domain expression array in order.
-Domain expressions must evaluate to a type, which means empty literal arrays
+A :term:`domain expression` consists of an :term:`identifier`
+denoting an :term:`iterator variable` and an expression -- the
+:term:`domain` -- that evaluates to **any** array type.
+Domain expressions can only appear within
+:ref:`iterator loops <sssec:statements_iter_loop>` and generators.
+A domain expression is a way of declaring a variable that is local to
+the loop or generator, that takes on values from the domain in order.
+The domain must evaluate to a type, which means empty literal arrays
 yield a ``TypeError``.
-The scope of the domain variables (the left hand side of the declaration) is
-within the body of the generator or loop.
-The domain expressions (the right hand side) are all evaluated before any of the
-domain variables are initialized, and therefore the domain expression scope is
-the one enclosing the iterator loop or generator.
+The :term:`scope` of the iterator variable (the left hand side of the
+declaration) is within the body of the generator or loop.
+The domain (the right hand side) is evaluated before any of the
+iterator variables are initialized, and therefore the scope of the
+domain is the one enclosing the iterator loop or generator.
 
 For instance:
 
@@ -116,10 +119,10 @@ For instance:
            i -> std_output;
          }
 
-Domain variables are not initialized when they are declared. For
-instance, in loops they are initialized at the start of each execution of
-the loop’s body statement. However, we may chain domain variables using
-commas, such as in matrix generators.
+Iterator variables are not initialized when they are declared. In
+loops, :term:`re-initialization` happens at the start of each
+execution of the loop's body statement. We may chain iterator
+variables using commas, such as in matrix generators.
 
 ::
 
@@ -130,7 +133,7 @@ commas, such as in matrix generators.
           */
          integer[3][3] mat = [ i in 0..i, j in 0..i | i*j ];
 
-The domain for the domain expression is only evaluated once. For
+The domain of a domain expression is only evaluated once. For
 instance:
 
 ::
@@ -145,8 +148,12 @@ instance:
 
 This is true for domain expressions within generators as well.
 
-Iterator variables can be assigned to and re-declared within the enclosed iterator loop.
-The variable is re-initialized according to the expression each iteration.
+Iterator variables can be assigned to and :term:`re-declared
+<re-declaration>` within the enclosed iterator loop.  Neither carries
+information into the next iteration: the next iteration performs
+:term:`re-initialization` from the captured domain, so any shadowing
+binding introduced by :term:`re-declaration` is torn down and the
+iterator variable is bound fresh.
 
 ::
 
