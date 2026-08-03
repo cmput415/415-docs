@@ -183,6 +183,69 @@ Terms
       side effects" [#cpp-draft-expr]_.  The syntactic shape of
       expressions in *Gazprea* is defined in :ref:`sec:expressions`.
 
+   domain
+      In a *Gazprea* :ref:`iterator loop <sssec:statements_iter_loop>`
+      or :term:`domain expression`, the array-typed operand to the
+      right of ``in``.  The domain is evaluated exactly once, when
+      control first reaches the loop; the resulting value is captured
+      for the lifetime of the loop, and subsequent modifications to
+      any variable that appeared in the domain expression do not
+      affect it.  In general PL usage the analogous notion is the
+      *range* of a range-based loop (C++ ``for (x : R)``
+      [#cpp-draft-stmt-ranged]_) or the *iteration scheme* of an Ada
+      ``for`` loop [#ada-rm-5-5]_.
+
+   domain expression
+      The whole *Gazprea* construct ``x in E`` used inside an
+      :ref:`iterator loop <sssec:statements_iter_loop>` or generator:
+      the :term:`iterator variable` ``x`` bound over the :term:`domain`
+      ``E``.  Domain expressions can only appear inside iterator loops
+      and generators.
+
+   iterator
+      A cursor that yields the elements of a collection one at a time,
+      in a defined order.  The concept is standard across modern
+      language families: Python defines it operationally through the
+      iterator protocol (``__iter__`` / ``__next__``) [#pep-234]_;
+      C++ defines *iterators* as generalised pointers into a range,
+      with the requirements collected in [iterator.requirements]
+      [#cpp-draft-iterator]_.  In *Gazprea* the word is used
+      informally for the mechanism that a
+      :ref:`iterator loop <sssec:statements_iter_loop>` uses to walk
+      its :term:`domain`; the visible binding is the
+      :term:`iterator variable`.
+
+   iterator variable
+      In a *Gazprea* :ref:`iterator loop <sssec:statements_iter_loop>`
+      or :term:`domain expression`, the identifier to the left of
+      ``in``.  A fresh binding is introduced at the start of every
+      iteration (see :term:`re-initialization`) and destroyed at the
+      end of that iteration.  Some *Gazprea* prose calls this the
+      *domain variable*; the two names denote the same entity.  In
+      other languages the equivalent binding is Ada's *loop parameter*
+      [#ada-rm-5-5]_ and C++'s *for-range-declaration*
+      [#cpp-draft-stmt-ranged]_.
+
+   re-declaration
+      In a *Gazprea*
+      :ref:`iterator loop <sssec:statements_iter_loop>` body, the
+      introduction of a new binding whose name shadows the
+      :term:`iterator variable`.  The shadowing binding is scoped to
+      the current iteration only; it is torn down at the end of the
+      iteration, and the next iteration performs
+      :term:`re-initialization` normally.  The general PL concept is
+      *scope shadowing* [#pierce-tapl]_.
+
+   re-initialization
+      In a *Gazprea*
+      :ref:`iterator loop <sssec:statements_iter_loop>`, the binding,
+      performed at the start of every iteration, of the
+      :term:`iterator variable` to the next element of the captured
+      :term:`domain`.  Because re-initialization introduces a fresh
+      binding from the captured domain, neither reassignment of the
+      loop domain expression nor mutation of the iterator variable
+      inside the body carries information into the next iteration.
+
    functional purity
       An informal property of a language, expression, or function: the
       absence of observable :term:`side effects <side effect>`.  There
@@ -521,6 +584,12 @@ were captured for later ``archive.org`` snapshotting.
    Static Subtypes), paragraph 1.
    http://www.ada-auth.org/standards/12rm/html/RM-4-9.html.  Year: 2012.
 
+.. [#ada-rm-5-5] ISO/IEC 8652:2012, clause 5.5 (Loop Statements),
+   paragraphs 6-9.  Defines the *loop parameter* of a ``for`` loop and
+   its iteration scheme.
+   http://www.ada-auth.org/standards/12rm/html/RM-5-5.html.  Year:
+   2012.
+
 .. [#ada-rm-annex-n] ISO/IEC 8652:2012, Annex N (Glossary of Terms),
    entries "Elaboration" and "Execution".
    http://www.ada-auth.org/standards/12rm/html/RM-N.html.  Year: 2012.
@@ -597,6 +666,22 @@ were captured for later ``archive.org`` snapshotting.
    https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2023/n4950.pdf.
    Live-tracked mirror: https://eel.is/c++draft/stmt.pre.  Year: 2023.
 
+.. [#cpp-draft-stmt-ranged] ISO/IEC 14882 working draft N4950,
+   [stmt.ranged] §8.6.5.  Defines the range-based ``for`` statement,
+   including the *for-range-declaration* (the loop variable) and the
+   *for-range-initializer* (the range expression).
+   https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2023/n4950.pdf.
+   Live-tracked mirror: https://eel.is/c++draft/stmt.ranged.  Year:
+   2023.
+
+.. [#cpp-draft-iterator] ISO/IEC 14882 working draft N4950,
+   [iterator.requirements] §25.3.  Defines iterators as generalised
+   pointers into a range and enumerates the iterator category
+   requirements.
+   https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2023/n4950.pdf.
+   Live-tracked mirror: https://eel.is/c++draft/iterator.requirements.
+   Year: 2023.
+
 .. [#cpp-defns-well] ISO/IEC 14882:2020, definition
    [defns.well.formed]: "C++ program constructed according to the
    syntax rules, diagnosable semantic rules, and the one-definition
@@ -666,6 +751,11 @@ were captured for later ``archive.org`` snapshotting.
    ISBN 0-262-67001-1.  Chapter 4, "Vagaries of Reference", §30-31
    ("Referential Opacity"), for the origin of *referential
    transparency*.
+
+.. [#pep-234] van Rossum, G. and Yee, K.-P. (2001).  *PEP 234 --
+   Iterators*.  Python Enhancement Proposal defining the Python
+   iterator protocol (``__iter__``, ``__next__``).
+   https://peps.python.org/pep-0234/.  Year: 2001.
 
 .. [#meza-transpilers-2023] Meza Hormaza, J. (2023).  "Transpilers: A
    Systematic Mapping Review of Their Usage in Research and Industry."
