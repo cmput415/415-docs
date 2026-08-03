@@ -851,9 +851,13 @@ including terminology sections [#iso-26514]_.
    Technical Documentation Authoring*.  https://diataxis.fr/reference/.
    Accessed 2026-08-01.
 
-.. [#wtd-reference] Write the Docs community, *Documentation Guide*,
-   "Reference".  https://www.writethedocs.org/guide/writing/reference-docs/.
-   Accessed 2026-08-01.
+.. [#wtd-reference] Write the Docs community, *Software documentation
+   principles*.  https://www.writethedocs.org/guide/writing/docs-principles/.
+   Accessed 2026-08-03.  Their "Meet users where they are" and
+   "consistent" principles imply the same lookup-first constraint on
+   reference material; the community's Diataxis-derived
+   reference-docs page cited in earlier drafts of this glossary is no
+   longer live.
 
 .. [#wordfactory-glossary] Lester, M. "How to make a good glossary",
    The Word Factory.
@@ -864,8 +868,9 @@ including terminology sections [#iso-26514]_.
 
 .. [#iso-26514] ISO/IEC/IEEE 26514:2022, *Systems and software
    engineering -- Design and development of information for users*.
-   https://www.iso.org/standard/81352.html.  Year: 2022.  The current
-   revision of the standard covering the design and development of
-   user documentation, including guidance on terminology and glossary
-   sections; the front matter is available free, the full text is
-   paywalled.
+   https://www.iso.org/standard/77451.html (also
+   https://standards.ieee.org/ieee/26514/7467/).  Year: 2022.  The
+   current revision of the standard covering the design and
+   development of user documentation, including guidance on
+   terminology and glossary sections; the front matter is available
+   free, the full text is paywalled.
