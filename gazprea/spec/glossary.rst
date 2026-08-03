@@ -143,37 +143,39 @@ Terms
       execution [#iso-c11]_.
 
    elaboration
-      The process by which a declaration achieves its effect --
+      A specialised sub-case of :term:`dynamic` (run-time) evaluation:
+      the first-time processing of a declaration whose effect --
       allocating storage, computing size expressions, resolving
-      instantiations, or otherwise binding the declaration to a
-      concrete entity -- during a phase separate from ordinary
-      expression evaluation.  The term is standard across several
-      language families:
+      instantiations -- has to happen *when the declaration is
+      reached*, not at :term:`compile time`.
+
+      *Gazprea meaning.*  When the size of a *Gazprea* array is fixed
+      at the first evaluation of its declaration rather than at
+      compile time, the *Gazprea* spec says the size is fixed at
+      *elaboration time* -- meaning specifically "the moment the
+      declaration is first evaluated".
+
+      *Prior art.*  The word is Ada/VHDL terminology; the vast
+      majority of production languages either fold this idea into
+      "run time" outright (C, Rust, most scripting languages) or use
+      an unrelated word for something adjacent (e.g. SML uses
+      *elaboration* for the *static* type-checking phase, which is the
+      opposite sense; Java and Python use *class loading* /
+      *initialisation* for the analogous run-time step).  The two
+      languages whose glossaries use *elaboration* in the sense
+      Gazprea does are Ada and VHDL:
 
       *  Ada RM Annex N: "The process by which a declaration achieves
-         its run-time effect is called elaboration.  Elaboration is one
-         of the forms of execution" [#ada-rm]_.
+         its run-time effect is called elaboration.  Elaboration is
+         one of the forms of execution" [#ada-rm]_.
       *  IEEE 1076 (VHDL) §14.1: "The process by which a declaration
          achieves its effect is called the elaboration of the
          declaration.  After its elaboration, a declaration is said to
          be elaborated." [#ieee-1076]_
-      *  IEEE 1800 (SystemVerilog) §3.12: "Elaboration is the process
-         of binding together the components that make up a design ...
-         Elaboration occurs after parsing the source code and before
-         simulation" [#ieee-1800]_.
-      *  Milner, Tofte, Harper and MacQueen, *The Definition of
-         Standard ML (Revised)*, §1: "In the execution of a declaration
-         there are three phases: parsing, elaboration, and evaluation
-         ... Elaboration, the static phase, determines whether it is
-         well-typed and well-formed in other ways, and records relevant
-         type or form information in the basis" [#sml-defn]_.
 
-      When the size of a *Gazprea* array is fixed at the first
-      evaluation of its declaration rather than at :term:`compile time`,
-      we say the size is fixed at *elaboration time*, in the same sense
-      as Ada and VHDL.  Note that SML uses "elaboration" for a static
-      (compile-time) phase; *Gazprea*'s usage follows the Ada/VHDL
-      dynamic sense.
+      (IEEE 1800 SystemVerilog uses the word for a compile-time
+      binding-together step and is *not* what *Gazprea* means
+      [#ieee-1800]_.)
 
    expression
       "A sequence of operators and operands that specifies a
@@ -225,14 +227,20 @@ Terms
       [#cpp-draft]_.
 
    re-declaration
-      In a *Gazprea*
-      :ref:`iterator loop <sssec:statements_iter_loop>` body, the
-      introduction of a new binding whose name shadows the
-      :term:`iterator variable`.  The shadowing binding is scoped to
-      the current iteration only; it is torn down at the end of the
-      iteration, and the next iteration performs
-      :term:`re-initialization` normally.  The general PL concept is
+      A second (or nth) :term:`declaration` of the same
+      :term:`identifier` within a given :term:`scope`.  In *Gazprea*
+      a re-declaration always introduces a fresh binding that
+      *shadows* the enclosing binding for the remainder of the scope;
+      it does not modify the original.  The general PL concept is
       *scope shadowing* [#pierce-tapl]_.
+
+      Re-declarations arise in every scope, not only iterator loops.
+      The specific case where a re-declaration inside an
+      :ref:`iterator loop <sssec:statements_iter_loop>` body shadows
+      the :term:`iterator variable` is called out under
+      :term:`re-initialization`: the shadow lives for one iteration
+      only, and the next iteration re-initializes the iterator
+      variable normally.
 
    re-initialization
       In a *Gazprea*
@@ -278,6 +286,16 @@ Terms
       choice is made" [#iso-c11]_.  Distinct from
       :term:`unspecified behavior` (no documentation obligation) and
       :term:`undefined behavior` (no requirements at all).
+
+      *Gazprea policy.*  A conforming *Gazprea* implementation must
+      not have any user-distinguishable implementation-defined
+      behavior, unspecified behavior, or undefined behavior: every
+      program is either :term:`well-formed` and produces the output
+      required by this specification, or it is :term:`ill-formed` and
+      the implementation emits an error.  The reason these
+      C/C++ terms appear in this glossary is definitional -- the
+      *Gazprea* prose uses them to say what the language does *not*
+      allow, not to reserve latitude for implementers.
 
    implicit conversion
       An automatic conversion inserted by the language, without a cast,
@@ -365,8 +383,19 @@ Terms
    object
       "A region of data storage in the execution environment, the
       contents of which can represent values" [#iso-c11]_.  In this
-      glossary the word always refers to the *run-time* entity, never
-      to an object in the sense of object-oriented programming.
+      glossary the word always refers to the *run-time* storage-region
+      entity, in the ISO C sense.
+
+      *Gazprea note.*  *Gazprea* is not an object-oriented language --
+      it has no user-defined classes, no inheritance, and no virtual
+      dispatch.  The one place the *Gazprea* prose reaches for
+      OO-flavoured wording is the :term:`aggregate <aggregate type>`
+      :ref:`vector <ssec:vector>` type, which exposes methods
+      (``push``, ``len``, ``append``) via dot syntax.  Those are
+      built-in operations on the vector's storage-region object, not
+      a user-facing object-model feature; when a *Gazprea* sentence
+      says "object" it always means the storage region, never a
+      vector-as-instance-of-a-class.
 
    primitive type
       A type provided directly by the language and not composed of
@@ -626,13 +655,6 @@ The primary citations for the entries above are listed here.
    (Elaboration).  https://ieeexplore.ieee.org/document/8299595/.
    Year: 2017.  The 2012 revision (IEEE Std 1800-2012) uses the same
    clause numbering.
-
-.. [#sml-defn] Milner, R., Tofte, M., Harper, R., and MacQueen, D.
-   (1997).  *The Definition of Standard ML (Revised)*.  MIT Press.
-   ISBN 0-262-63181-4.  §1 (Introduction).  Publicly-available copy at
-   https://smlfamily.github.io/sml97-defn.pdf.  Notes that "elaboration"
-   in SML is the static (compile-time) type-checking phase, distinct
-   from the dynamic sense used by Ada and VHDL.
 
 .. [#iso-c11] ISO/IEC 9899:2011 (C11), WG14 Committee Draft N1570.
    https://www.open-std.org/jtc1/sc22/wg14/www/docs/n1570.pdf.  Year:
