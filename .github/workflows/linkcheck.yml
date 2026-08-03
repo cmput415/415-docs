@@ -18,5 +18,8 @@ jobs:
       - name: Check links with lychee
         uses: lycheeverse/lychee-action@v1
         with:
+          # .lycheeignore in the repo root (auto-detected by lychee)
+          # lists hosts that block or rate-limit bots but serve humans
+          # (iso.org, cppreference, MDPI DOIs, Stack Exchange, ...).
           args: --verbose --no-progress --exclude-path base/index.html --exclude-all-private '**/*.md' '**/*.rst' '**/*.html' '**/*.tex'
           fail: true
