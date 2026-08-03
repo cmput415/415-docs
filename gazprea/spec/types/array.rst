@@ -3,9 +3,10 @@
 Arrays
 ------
 
-Arrays are fixed size collections, where each element of the array has the
-same type. Arrays can contain any of *Gazprea*'s base types (``boolean``,
-``integer``, ``real``, and ``character``) or compound types (structs and tuples).
+Arrays are fixed size collections, where each element of the array has
+the same type. Arrays can contain any of *Gazprea*'s
+:term:`primitive types <primitive type>` (``boolean``, ``integer``,
+``real``, and ``character``) or compound types (structs and tuples).
 
 .. _sssec:array_decl:
 
@@ -28,9 +29,8 @@ array instead of a ``real`` array.
 
    When an array is declared it may be explicitly given a size. Every array,
    whether explicitly or implicitly sized, has a size that is known at
-   [elaboration](https://aada.m2osw.com/alexis-ada-reference-manual/annex-n-glossary-informative#elaboration)
-   time, that is to say, upon its first evaluation; a
-   collection whose size is only known at runtime requires a
+   :term:`elaboration` time, that is to say, upon its first evaluation; a
+   collection whose size is only known at :term:`run time` requires a
    :ref:`vector <ssec:vector>`.
 
    ::
@@ -51,7 +51,7 @@ array instead of a ``real`` array.
    If the LHS array is initialized using a RHS array that is too small then the LHS array will
    be padded with zeros. However, if the LHS array is initialized with a RHS
    array that is too large then a ``SizeError`` should be thrown at
-   compile-time or run-time.
+   :term:`compile time` or :term:`run time`.
 
 #. Inferred Size Declarations
 
@@ -80,9 +80,9 @@ array instead of a ``real`` array.
 
 
    In this example the compiler can infer both the size and the type of
-   ``w`` from ``v``. As with any array, this inferred size is known at compile
-   time; a collection whose size is only known at runtime must be a
-   :ref:`vector <ssec:vector>`.
+   ``w`` from ``v``. As with any array, this inferred size is known at
+   :term:`compile time`; a collection whose size is only known at
+   :term:`run time` must be a :ref:`vector <ssec:vector>`.
 
 .. _sssec:array_constr:
 
@@ -237,9 +237,9 @@ Operations
          [1 2 3 4 5 6 7 8 9 10]
          [2 3 4 5 6 7 8 9 10 11]
 
-      The number of integers in a range may not be known at compile time when
-      the integer expressions use variables. In another example, assuming at
-      runtime that ``i`` is computed as -4:
+      The number of integers in a range may not be known at :term:`compile time`
+      when the integer expressions use variables. In another example, assuming
+      at :term:`run time` that ``i`` is computed as -4:
 
       ::
 

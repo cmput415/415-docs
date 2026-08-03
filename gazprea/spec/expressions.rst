@@ -3,7 +3,8 @@
 Expressions
 ===========
 
-Expressions can only exist within a statement or another expression.
+:term:`Expressions <expression>` can only exist within a :term:`statement`
+or another expression.
 
 .. _ssec:expressions_toop:
 

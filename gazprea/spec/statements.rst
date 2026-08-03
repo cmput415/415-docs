@@ -9,10 +9,11 @@ Assignment Statements
 ---------------------
 
 In *Gazprea* a mutable variable may have different values throughout the
-execution of the program. Mutable variables may have their values changed with
-an assignment statement. In the simplest case an assignment statement
-contains an identifier on the left hand side of an equals sign, and an
-expression with a compatible type on the right hand side.
+execution of the program. Mutable variables may have their values changed
+with an assignment :term:`statement`. In the simplest case an assignment
+statement contains an :term:`identifier` on the left hand side of an equals
+sign, and an :term:`expression` with a compatible type on the right hand
+side.
 
 ::
 
@@ -120,10 +121,10 @@ The above is a simple example using arrays. You must ensure that values
 can not be aliased with an assignment between any types, including
 arrays and tuples.
 
-Variables may be declared as const, and in this case it is illegal for
-them to appear on the left hand side of an assignment expression. The
-compiler should raise on error when this is detected, since it does not
-make sense to change a constant value.
+Variables may be declared as const, and in this case a program that
+places them on the left hand side of an assignment expression is
+:term:`ill-formed`.  The compiler should raise an error when this is
+detected, since it does not make sense to change a constant value.
 
 The right hand side of an assignment statement is always evaluated
 before the left hand side. This is important for cases where procedures

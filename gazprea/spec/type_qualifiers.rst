@@ -3,11 +3,10 @@
 Type Qualifiers
 ===============
 
-*Gazprea* has two type qualifiers: ``const`` and ``var``. These
-qualifers can prefix a type to specify its mutability or entirely
-replace the type to request that it be inferred. Mutability refers to a
-value's ability to be an `r-value or
-l-value <https://en.wikipedia.org/wiki/Value_(computer_science)#lrvalue>`__.
+*Gazprea* has two :term:`type qualifiers <type qualifier>`: ``const`` and
+``var``. These qualifers can prefix a type to specify its mutability or
+entirely replace the type to request that it be inferred. Mutability
+refers to a value's ability to be an :term:`rvalue` or :term:`lvalue`.
 The two qualifiers cannot be combined as they are mutually exclusive.
 
 .. _ssec:typeQualifiers_const:
@@ -15,14 +14,14 @@ The two qualifiers cannot be combined as they are mutually exclusive.
 Const
 -----
 
-A ``const`` value is immutable and therefore cannot be an l-value but
-can be an r-value. For example:
+A ``const`` value is immutable and therefore cannot be an lvalue but
+can be an rvalue. For example:
 
 ::
 
      const integer i;
 
-Because a ``const`` value is not an l-value, it cannot be passed to a
+Because a ``const`` value is not an lvalue, it cannot be passed to a
 ``var`` argument in a ``procedure``.
 
 Note that ``const`` is the default *Gazprea* behaviour and is essentially a
@@ -34,7 +33,7 @@ no-op unless it is entirely replacing the type.
 Var
 ---
 
-A ``var`` value is mutable and therefore can be an l-value or r-value.
+A ``var`` value is mutable and therefore can be an lvalue or rvalue.
 For example:
 
 ::

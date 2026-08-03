@@ -3,8 +3,9 @@
 Constant Expressions
 ====================
 
-A constant expression (sometimes called a constexpr) is an expression that can
-be fully evaluated by the compiler at compile time. This feature is primarily
+A :term:`constant expression` (sometimes called a constexpr) is an
+:term:`expression` that can be fully evaluated by the :term:`compiler` at
+:term:`compile time`. This feature is primarily
 for specifying the size of
 :ref:`statically-sized arrays <ssec:array>`.
 
@@ -19,11 +20,12 @@ Rules for Constant Expressions
 
 An expression is a valid ``constexpr`` if it is composed exclusively of:
 
-1.  Literals of base types (``boolean``, ``integer``, ``real``, ``character``).
+1.  :term:`Literals <literal>` of :term:`primitive types <primitive type>`
+    (``boolean``, ``integer``, ``real``, ``character``).
 2.  The operators ``+``, ``-``, ``*``, ``/``, ``not``, ``and``, ``or``,
     between two or more ``constexpr``\ s.
-3.  Constructors for aggregate types, provided that the aggregate is const and
-    all members are ``constexpr``\ s.
+3.  Constructors for :term:`aggregate types <aggregate type>`, provided
+    that the aggregate is const and all members are ``constexpr``\ s.
 4.  Index or field access on ``constexpr`` aggregate types.
 5.  Other variables that are themselves valid ``constexpr``\ s.
 
@@ -35,10 +37,12 @@ An expression is **not** a ``constexpr`` if it contains:
 
 The compiler must perform this validation recursively. When checking if a
 variable is a ``constexpr``, the compiler must trace its entire dependency
-chain. If the chain ever depends on a runtime value, the check fails.
+chain. If the chain ever depends on a :term:`run time` value, the check
+fails.
 
 The only expressions that *must* be ``constexpr`` are global constants. Other
-constexprs arising from constants inside function scope may also be constexprs
+constexprs arising from constants inside function :term:`scope` may also be
+constexprs
 but the implementation does not need to enforce or necessarily identify this.
 Students should also note that MLIR has a constant propagation pass built in,
 so doing constant folding yourself may not be necessary depending on your
@@ -83,7 +87,8 @@ allowing them to be used to define other constants.
    2. All of its element initializers are valid ``constexpr``\ s.
 
    A ``vector`` (the dynamically-sized type) can never be a ``constexpr``
-   aggregate, since its size is determined at runtime. An inferred-size array
+   aggregate, since its size is determined at run time. An inferred-size
+   array
    such as ``integer[*] X = [1, 2, 3]`` must be a ``constexpr``, meaning its
    initializer is itself a ``constexpr``: ``[*]`` denotes an inferred size, not
    a dynamic one.
@@ -109,8 +114,8 @@ allowing them to be used to define other constants.
    including inside functions, procedures, and control-flow blocks. However,
    **not every** ``const`` variable is a ``constexpr``. ``const`` means only
    that the variable is immutable within its scope; ``constexpr`` is the
-   stronger property that the value is fully known at compile time. For
-   example:
+   stronger property that the value is fully known at :term:`compile time`.
+   For example:
 
    ::
 
