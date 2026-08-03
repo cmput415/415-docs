@@ -54,6 +54,16 @@ A generator creates a value of a 1D array type when one
 :term:`iterator variable` is used, and a 2D array type when two
 iterator variables are used.
 Any other number of iterator variables will yield an error.
+In particular, *Gazprea* does not currently support generators over
+three or more iterator variables (no direct construction of arrays
+with three or more dimensions).
+
+The :term:`domain` in a domain expression is any array-typed value:
+static arrays, dynamically-sized :ref:`vectors <ssec:vector>`, and
+:ref:`ranges <ssec:expressions_toop>` all count.  The generator
+dimension is determined solely by how many iterator variables the
+generator introduces (one or two), not by the shape of the domain
+value.
 
 A generator consists of either one or two
 :term:`domain expressions <domain expression>`, and an additional

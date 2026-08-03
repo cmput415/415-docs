@@ -103,7 +103,10 @@ function is encountered.
 
 ``f`` is :term:`ill-formed` since if ``b == false``, then we reach the
 end of the function without a return statement, so we do not know what
-value ``f(false)`` should take on.
+value ``f(false)`` should take on.  A conforming implementation must
+reject this program with a ``ReturnError`` such as::
+
+     ReturnError on line 1: function "f" does not have a return statement reachable by all control flows
 
 ::
 
