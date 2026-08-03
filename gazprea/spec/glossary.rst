@@ -313,6 +313,16 @@ Terms
       exists, has a constant address, and retains its last-stored value
       throughout its lifetime" [#iso-c11]_.
 
+      Rust makes *lifetime* a first-class object of the type system
+      -- every reference carries a compile-time lifetime parameter
+      that the borrow-checker uses to prove memory safety without a
+      garbage collector.  The Rust Reference chapter on lifetimes
+      [#rust-ref-lifetimes]_ and the Rustonomicon chapter on
+      references [#rustonomicon-lifetimes]_ together give the most
+      operationally-precise treatment of the concept in a
+      production language; students designing safe systems languages
+      typically start there.
+
    linker
       A program that combines separately-translated
       :term:`translation units <translation unit>` into a single
@@ -370,7 +380,9 @@ Terms
       A "pure r-value": "an expression whose evaluation initializes an
       object or computes the value of an operand of an operator ... or
       an expression that has type cv void" [#cpp-draft]_.  One of
-      the three C++11 :term:`value categories <value category>`.
+      the three C++11 :term:`value categories <value category>`.  See
+      the non-normative summary at [#cppref-value-cat]_ for an
+      accessible introduction.
 
    pure function
       See :term:`functional purity`.
@@ -406,7 +418,8 @@ Terms
       C++ defines an rvalue as "a :term:`prvalue` or an :term:`xvalue`"
       [#cpp-draft]_.  In C the term is used informally as the
       complement of :term:`lvalue`.  Historical origin: Strachey
-      [#strachey-2000]_.
+      [#strachey-2000]_.  See the non-normative summary at
+      [#cppref-value-cat]_ for the modern C++ taxonomy.
 
    scalar type
       A type whose values are atomic in the sense that they are not
@@ -524,6 +537,18 @@ Terms
       *dynamic* systems (checking performed during execution); see
       Pierce, Chapter 1 [#pierce-tapl]_.
 
+      *Further reading (for the curious student).*  The deep
+      connection between type systems and formal logic -- types
+      correspond to propositions, programs to proofs, program
+      reduction to proof normalisation -- is the *Curry-Howard
+      correspondence*.  Wadler's ACM lecture "Propositions as Types"
+      [#wadler-2015]_ is a short, entry-level survey; Sørensen and
+      Urzyczyn's book-length *Lectures on the Curry-Howard
+      Isomorphism* [#sorensen-urzyczyn-2006]_ is the standard
+      textbook.  These are not required reading for *Gazprea*, but
+      students designing their own type systems in future courses
+      typically encounter them.
+
    undefined behavior
       "Behavior ... for which this document imposes no requirements"
       [#iso-c11]_.  A program exhibiting undefined behavior at run time
@@ -555,7 +580,8 @@ Terms
       An "expiring" value: "a :term:`glvalue` that denotes an object
       whose resources can be reused (usually because it is near the end
       of its lifetime)" [#cpp-draft]_.  One of the three C++11
-      :term:`value categories <value category>`.
+      :term:`value categories <value category>`.  See the non-normative
+      summary at [#cppref-value-cat]_ for an accessible introduction.
 
 
 .. _ssec:glossary_authoritative:
@@ -688,6 +714,21 @@ The primary citations for the entries above are listed here.
    cross-assembler and cross-linker are described operationally here;
    the same model is retained in current GCC releases.
 
+.. [#rust-ref-lifetimes] *The Rust Reference*, chapter "Lifetime
+   elision" (types.html#r-type.lifetime.elision) and section
+   "Generic parameters and where clauses" (items/generics.html).
+   https://doc.rust-lang.org/reference/types.html and
+   https://doc.rust-lang.org/reference/items/generics.html.
+   Accessed 2026-08-03.  Normative reference for how the Rust
+   type system encodes lifetimes.
+
+.. [#rustonomicon-lifetimes] *The Rustonomicon*, chapter "References
+   and Borrowing" (subsections on lifetimes and lifetime elision).
+   https://doc.rust-lang.org/nomicon/lifetimes.html.  Accessed
+   2026-08-03.  Effective (non-normative) tutorial-depth companion
+   to the Rust Reference for readers new to borrow-checker
+   reasoning.
+
 .. rubric:: Peer-reviewed and textbook literature
 
 .. [#dragon] Aho, A. V., Lam, M. S., Sethi, R., and Ullman, J. D.
@@ -729,6 +770,17 @@ The primary citations for the entries above are listed here.
    (Copenhagen lecture notes, originally delivered 1967.)  Historical
    origin of the L-value / R-value terminology and of the notion of
    referential transparency as applied to programming languages.
+
+.. [#wadler-2015] Wadler, P. (2015).  "Propositions as Types."
+   *Communications of the ACM*, 58(12), 75-84.  DOI:
+   https://doi.org/10.1145/2699407.  Accessible entry-level survey of
+   the Curry-Howard correspondence between logic and computation.
+
+.. [#sorensen-urzyczyn-2006] Sørensen, M. H. and Urzyczyn, P. (2006).
+   *Lectures on the Curry-Howard Isomorphism* (Studies in Logic and
+   the Foundations of Mathematics, Vol. 149).  Elsevier.  ISBN
+   0-444-52077-5.  Standard textbook treatment of the correspondence
+   between typed lambda-calculi and natural deduction.
 
 .. rubric:: Effective (non-normative) references
 
