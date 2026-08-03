@@ -52,7 +52,7 @@ Terms
       tuples, strings, and structs; see :ref:`sec:types`.
 
       *Terminology note.*  Ada calls this umbrella category *composite
-      type* rather than *aggregate type* [#ada-rm-3-2-composite]_.  ISO C
+      type* rather than *aggregate type* [#ada-rm]_.  ISO C
       also defines *composite type* but with an unrelated meaning -- it
       is the merged type produced from two compatible declarations of
       the same entity, not a category of types [#iso-c11]_.  Because
@@ -70,7 +70,7 @@ Terms
       by the :term:`compiler`, before program execution begins.  Ada
       states the contrast explicitly: "At compile time, the declaration
       of an entity declares the entity.  At run time, the elaboration of
-      the declaration creates the entity" [#ada-rm-3-1]_.  The C
+      the declaration creates the entity" [#ada-rm]_.  The C
       standard specifies the phases of translation in ISO/IEC 9899
       §5.1.1.2 [#iso-c11]_.
 
@@ -118,7 +118,7 @@ Terms
       An expression that a conforming implementation is required to be
       able to evaluate during translation.  In C++, "expressions that
       satisfy these requirements ... are called constant expressions"
-      [#cpp-draft-const]_.  See :ref:`sec:constexpr` for *Gazprea*'s
+      [#cpp-draft]_.  See :ref:`sec:constexpr` for *Gazprea*'s
       specific rules; note that in *Gazprea* the noun is often
       abbreviated ``constexpr``, which is *not* a keyword.
 
@@ -131,7 +131,7 @@ Terms
       A declaration that additionally causes storage to be reserved for
       an object, or that supplies the body of a function or procedure
       [#iso-c11]_.  The C++ grammar production and definitional
-      requirements are given in [basic.def] [#cpp-draft-odr]_; *Gazprea*
+      requirements are given in [basic.def] [#cpp-draft]_; *Gazprea*
       does not adopt C++'s one-definition rule, so the citation is
       informational only.
 
@@ -152,7 +152,7 @@ Terms
 
       *  Ada RM Annex N: "The process by which a declaration achieves
          its run-time effect is called elaboration.  Elaboration is one
-         of the forms of execution" [#ada-rm-annex-n]_.
+         of the forms of execution" [#ada-rm]_.
       *  IEEE 1076 (VHDL) §14.1: "The process by which a declaration
          achieves its effect is called the elaboration of the
          declaration.  After its elaboration, a declaration is said to
@@ -178,7 +178,7 @@ Terms
    expression
       "A sequence of operators and operands that specifies a
       computation.  An expression can result in a value and can cause
-      side effects" [#cpp-draft-expr]_.  The syntactic shape of
+      side effects" [#cpp-draft]_.  The syntactic shape of
       expressions in *Gazprea* is defined in :ref:`sec:expressions`.
 
    domain
@@ -190,8 +190,8 @@ Terms
       any variable that appeared in the domain expression do not
       affect it.  In general PL usage the analogous notion is the
       *range* of a range-based loop (C++ ``for (x : R)``
-      [#cpp-draft-stmt-ranged]_) or the *iteration scheme* of an Ada
-      ``for`` loop [#ada-rm-5-5]_.
+      [#cpp-draft]_) or the *iteration scheme* of an Ada
+      ``for`` loop [#ada-rm]_.
 
    domain expression
       The whole *Gazprea* construct ``x in E`` used inside an
@@ -207,7 +207,7 @@ Terms
       iterator protocol (``__iter__`` / ``__next__``) [#pep-234]_;
       C++ defines *iterators* as generalised pointers into a range,
       with the requirements collected in [iterator.requirements]
-      [#cpp-draft-iterator]_.  In *Gazprea* the word is used
+      [#cpp-draft]_.  In *Gazprea* the word is used
       informally for the mechanism that a
       :ref:`iterator loop <sssec:statements_iter_loop>` uses to walk
       its :term:`domain`; the visible binding is the
@@ -221,8 +221,8 @@ Terms
       end of that iteration.  Some *Gazprea* prose calls this the
       *domain variable*; the two names denote the same entity.  In
       other languages the equivalent binding is Ada's *loop parameter*
-      [#ada-rm-5-5]_ and C++'s *for-range-declaration*
-      [#cpp-draft-stmt-ranged]_.
+      [#ada-rm]_ and C++'s *for-range-declaration*
+      [#cpp-draft]_.
 
    re-declaration
       In a *Gazprea*
@@ -256,7 +256,7 @@ Terms
    glvalue
       A "generalized" lvalue: "an expression whose evaluation
       determines the identity of an object, function, non-static data
-      member, or a direct base class relationship" [#cpp-draft-lval]_.
+      member, or a direct base class relationship" [#cpp-draft]_.
       One of the three C++11 :term:`value categories <value category>`
       (together with :term:`prvalue` and :term:`xvalue`).  See the
       non-normative summary at [#cppref-value-cat]_ for an accessible
@@ -269,7 +269,7 @@ Terms
 
    ill-formed
       A program is *ill-formed* if it is not :term:`well-formed`
-      [#cpp-defns-ill]_.  A conforming implementation is required to
+      [#cpp-defns]_.  A conforming implementation is required to
       issue a diagnostic for at least one violation of a diagnosable
       rule in an ill-formed program.
 
@@ -297,7 +297,7 @@ Terms
    initializer
       The syntactic element that supplies an initial value to a newly
       declared object.  In C++ the grammar is given in
-      ``[dcl.init.general]`` [#cpp-draft-init]_.  *Gazprea*'s
+      ``[dcl.init.general]`` [#cpp-draft]_.  *Gazprea*'s
       initializer positions and rules are covered in
       :ref:`sec:declaration`.
 
@@ -330,7 +330,7 @@ Terms
    literal
       A token whose value is the token itself: integer, floating-point,
       character, string, boolean, and (in C++) pointer literals
-      [#cpp-draft-literal]_.  Contrast a literal with a
+      [#cpp-draft]_.  Contrast a literal with a
       :term:`constant expression`, which may be composed of literals
       and other operators.
 
@@ -338,7 +338,7 @@ Terms
       "An expression (with an object type other than void) that
       potentially designates an object" [#iso-c11]_.  C++ defines an
       lvalue as "a :term:`glvalue` that is not an :term:`xvalue`"
-      [#cpp-draft-lval]_.  The historical origin of the "l-value" and
+      [#cpp-draft]_.  The historical origin of the "l-value" and
       "r-value" terminology is Strachey's 1967 lectures, published as
       [#strachey-2000]_.  See the non-normative summary
       [#cppref-value-cat]_ for a modern taxonomy.
@@ -369,7 +369,7 @@ Terms
    prvalue
       A "pure r-value": "an expression whose evaluation initializes an
       object or computes the value of an operand of an operator ... or
-      an expression that has type cv void" [#cpp-draft-lval]_.  One of
+      an expression that has type cv void" [#cpp-draft]_.  One of
       the three C++11 :term:`value categories <value category>`.
 
    pure function
@@ -400,11 +400,11 @@ Terms
       :term:`translation` and :term:`link time` are complete.  Ada
       defines the corresponding process, *execution*, as "the process
       by which a construct achieves its run-time effect"
-      [#ada-rm-annex-n]_.
+      [#ada-rm]_.
 
    rvalue
       C++ defines an rvalue as "a :term:`prvalue` or an :term:`xvalue`"
-      [#cpp-draft-lval]_.  In C the term is used informally as the
+      [#cpp-draft]_.  In C the term is used informally as the
       complement of :term:`lvalue`.  Historical origin: Strachey
       [#strachey-2000]_.
 
@@ -413,7 +413,7 @@ Terms
       composed of sub-elements.  ISO C: "Arithmetic types and pointer
       types are collectively called scalar types" [#iso-c11]_.  Ada
       groups enumeration, integer, and real types as scalar
-      [#ada-rm-3-5]_.  In *Gazprea* the scalar types are ``boolean``,
+      [#ada-rm]_.  In *Gazprea* the scalar types are ``boolean``,
       ``integer``, ``real``, and ``character``.
 
    scope
@@ -428,7 +428,7 @@ Terms
       evaluations executed by a single thread ...  if A is sequenced
       before B (or, equivalently, B is sequenced after A), then the
       execution of A shall precede the execution of B"
-      [#cpp-draft-exec]_.  The relation supplants the older ISO C
+      [#cpp-draft]_.  The relation supplants the older ISO C
       *sequence point* model for describing the ordering of
       :term:`side effects <side effect>`.
 
@@ -436,21 +436,21 @@ Terms
       "Reading an object designated by a volatile glvalue, modifying an
       object, ... calling a library I/O function, or calling a function
       that does any of those operations" -- any "change in the state of
-      the execution or translation environment" [#cpp-draft-exec]_.
+      the execution or translation environment" [#cpp-draft]_.
       ISO C gives an equivalent enumeration [#iso-c11]_.
 
    statement
       A syntactic construct whose primary role is to be executed for
       its effect rather than to compute a value.  The C++ grammar
       enumerates the kinds of statement in ``[stmt.pre]``
-      [#cpp-draft-stmt]_.  *Gazprea*'s statements are covered in
+      [#cpp-draft]_.  *Gazprea*'s statements are covered in
       :ref:`sec:statements`.
 
    static
       Determined or known at :term:`compile time`.  Ada gives the
       cleanest formal definition: "Static means determinable at compile
       time, using the declared properties or values of the program
-      entities" [#ada-rm-4-9]_.  Contrast with :term:`dynamic`.
+      entities" [#ada-rm]_.  Contrast with :term:`dynamic`.
 
    storage duration
       The property of an :term:`object` that determines its
@@ -477,7 +477,7 @@ Terms
 
    type
       A characterisation of a set of values together with a set of
-      operations on those values [#ada-rm-3-2]_ [#pierce-tapl]_.
+      operations on those values [#ada-rm]_ [#pierce-tapl]_.
       *Gazprea*'s types are enumerated in :ref:`sec:types`.
 
    type casting
@@ -541,20 +541,20 @@ Terms
       "Every expression belongs to exactly one of the fundamental
       categories in [the C++] taxonomy: lvalue, xvalue, or prvalue.
       This property of an expression is called its value category"
-      [#cpp-draft-lval]_.  A non-normative overview lives at
+      [#cpp-draft]_.  A non-normative overview lives at
       [#cppref-value-cat]_.
 
    well-formed
       "C++ program constructed according to the syntax rules,
       diagnosable semantic rules, and the one-definition rule"
-      [#cpp-defns-well]_.  *Gazprea* uses "well-formed" throughout in
+      [#cpp-defns]_.  *Gazprea* uses "well-formed" throughout in
       this generalised sense: a *Gazprea* program is well-formed if it
       satisfies every diagnosable rule stated in this specification.
 
    xvalue
       An "expiring" value: "a :term:`glvalue` that denotes an object
       whose resources can be reused (usually because it is near the end
-      of its lifetime)" [#cpp-draft-lval]_.  One of the three C++11
+      of its lifetime)" [#cpp-draft]_.  One of the three C++11
       :term:`value categories <value category>`.
 
 
@@ -567,41 +567,26 @@ The primary citations for the entries above are listed here.
 
 .. rubric:: Standards
 
-.. [#ada-rm-3-1] ISO/IEC 8652:2012, *Information technology --
-   Programming languages -- Ada*, clause 3.1 (Declarations), paragraph
-   11-12.  Ada-Auth reference manual mirror:
-   http://www.ada-auth.org/standards/12rm/html/RM-3-1.html.  Year:
-   2012.
+.. [#ada-rm] ISO/IEC 8652:2012, *Information technology -- Programming
+   languages -- Ada* (the Ada 2012 Reference Manual).  Ada-Auth
+   reference manual mirror, one page per clause under
+   http://www.ada-auth.org/standards/12rm/html/.  Year: 2012.  Clauses
+   cited from this glossary and where each is used:
 
-.. [#ada-rm-3-2] ISO/IEC 8652:2012, clause 3.2 (Types and Subtypes),
-   paragraph 1.  http://www.ada-auth.org/standards/12rm/html/RM-3-2.html.
-   Year: 2012.
-
-.. [#ada-rm-3-2-composite] ISO/IEC 8652:2012, clause 3.2 (Types and
-   Subtypes), paragraph 2/2: "Elementary types are those whose values
-   are logically indivisible; composite types are those whose values are
-   composed of component values", and paragraph 4/2: "The composite
-   types are the record types, record extensions, array types, interface
-   types, task types, and protected types."
-   http://www.ada-auth.org/standards/12rm/html/RM-3-2.html.  Year: 2012.
-
-.. [#ada-rm-3-5] ISO/IEC 8652:2012, clause 3.5 (Scalar Types), paragraph
-   1.  http://www.ada-auth.org/standards/12rm/html/RM-3-5.html.  Year:
-   2012.
-
-.. [#ada-rm-4-9] ISO/IEC 8652:2012, clause 4.9 (Static Expressions and
-   Static Subtypes), paragraph 1.
-   http://www.ada-auth.org/standards/12rm/html/RM-4-9.html.  Year: 2012.
-
-.. [#ada-rm-5-5] ISO/IEC 8652:2012, clause 5.5 (Loop Statements),
-   paragraphs 6-9.  Defines the *loop parameter* of a ``for`` loop and
-   its iteration scheme.
-   http://www.ada-auth.org/standards/12rm/html/RM-5-5.html.  Year:
-   2012.
-
-.. [#ada-rm-annex-n] ISO/IEC 8652:2012, Annex N (Glossary of Terms),
-   entries "Elaboration" and "Execution".
-   http://www.ada-auth.org/standards/12rm/html/RM-N.html.  Year: 2012.
+   *  3.1 (Declarations), paragraphs 11-12 -- entries
+      :term:`compile time`, :term:`declaration`.
+   *  3.2 (Types and Subtypes), paragraph 1 -- entries :term:`type`,
+      :term:`aggregate type`.
+   *  3.2 (Types and Subtypes), paragraphs 2/2 and 4/2 -- entry
+      :term:`aggregate type` (terminology note about "composite type").
+   *  3.5 (Scalar Types), paragraph 1 -- entry :term:`scalar type`.
+   *  4.9 (Static Expressions and Static Subtypes), paragraph 1 --
+      entry :term:`static`.
+   *  5.5 (Loop Statements), paragraphs 6-9 -- entries
+      :term:`iterator variable`, :term:`domain`; defines the *loop
+      parameter* of a ``for`` loop and its iteration scheme.
+   *  Annex N (Glossary of Terms), entries "Elaboration" and
+      "Execution" -- entries :term:`elaboration`, :term:`run time`.
 
 .. [#ieee-1076] IEEE Std 1076-2008, *IEEE Standard VHDL Language
    Reference Manual*, clause 14 (Elaboration and execution), §14.1
@@ -632,76 +617,39 @@ The primary citations for the entries above are listed here.
    (WG14 N3220) renumbers some clauses -- when a *Gazprea* rule depends
    on a specific revision, cite the revision year explicitly.
 
-.. [#cpp-draft-const] ISO/IEC 14882 (C++23) working draft N4950,
-   [expr.const.general] §7.7.1, paragraph 1.
+.. [#cpp-draft] ISO/IEC 14882 (C++23) working draft N4950, live-tracked
+   mirror at https://eel.is/c++draft/, PDF at
    https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2023/n4950.pdf.
-   Year: 2023.  Live-tracked draft mirror: https://eel.is/c++draft/expr.const.
+   Year: 2023.  Clauses cited from this glossary and where each is
+   used:
 
-.. [#cpp-draft-exec] ISO/IEC 14882 working draft N4950,
-   [intro.execution] §6.10.1, paragraphs 7-10.
-   https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2023/n4950.pdf.
-   Live-tracked mirror: https://eel.is/c++draft/intro.execution.  Year: 2023.
+   *  [expr.const.general] §7.7.1 -- entry :term:`constant expression`.
+   *  [intro.execution] §6.10.1 -- entries :term:`sequenced before`,
+      :term:`side effect`.
+   *  [expr.pre] §7.1 -- entry :term:`expression`.
+   *  [dcl.init.general] §9.5.1 -- entry :term:`initializer`.
+   *  [lex.literal.kinds] §5.13.1 -- entry :term:`literal`.
+   *  [basic.lval] §7.2.1 -- entries :term:`glvalue`, :term:`lvalue`,
+      :term:`prvalue`, :term:`rvalue`, :term:`value category`,
+      :term:`xvalue`.
+   *  [basic.def.odr] §6.3 -- entry :term:`definition`.
+   *  [stmt.pre] §8.1 -- entry :term:`statement`.
+   *  [stmt.ranged] §8.6.5 -- entry :term:`iterator variable`;
+      defines the range-based ``for`` statement's
+      *for-range-declaration* and *for-range-initializer*.
+   *  [iterator.requirements] §25.3 -- entry :term:`iterator`; defines
+      iterators as generalised pointers into a range and enumerates
+      the iterator category requirements.
 
-.. [#cpp-draft-expr] ISO/IEC 14882 working draft N4950, [expr.pre]
-   §7.1, paragraph 1.
-   https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2023/n4950.pdf.
-   Live-tracked mirror: https://eel.is/c++draft/expr.pre.  Year: 2023.
+.. [#cpp-defns] ISO/IEC 14882:2020 (C++20), the "defns" definitions
+   section.  Draft mirror: https://timsong-cpp.github.io/cppwp/n4868/.
+   Year: 2020.  Definitions cited from this glossary:
 
-.. [#cpp-draft-init] ISO/IEC 14882 working draft N4950,
-   [dcl.init.general] §9.5.1, paragraph 1.
-   https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2023/n4950.pdf.
-   Live-tracked mirror: https://eel.is/c++draft/dcl.init.general.  Year:
-   2023.
-
-.. [#cpp-draft-literal] ISO/IEC 14882 working draft N4950,
-   [lex.literal.kinds] §5.13.1.
-   https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2023/n4950.pdf.
-   Live-tracked mirror: https://eel.is/c++draft/lex.literal.kinds.  Year:
-   2023.
-
-.. [#cpp-draft-lval] ISO/IEC 14882 working draft N4950, [basic.lval]
-   §7.2.1, paragraphs 1-2.
-   https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2023/n4950.pdf.
-   Live-tracked mirror: https://eel.is/c++draft/basic.lval.  Year: 2023.
-
-.. [#cpp-draft-odr] ISO/IEC 14882 working draft N4950, [basic.def.odr]
-   §6.3, paragraph 2.
-   https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2023/n4950.pdf.
-   Live-tracked mirror: https://eel.is/c++draft/basic.def.odr.  Year:
-   2023.
-
-.. [#cpp-draft-stmt] ISO/IEC 14882 working draft N4950, [stmt.pre]
-   §8.1.
-   https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2023/n4950.pdf.
-   Live-tracked mirror: https://eel.is/c++draft/stmt.pre.  Year: 2023.
-
-.. [#cpp-draft-stmt-ranged] ISO/IEC 14882 working draft N4950,
-   [stmt.ranged] §8.6.5.  Defines the range-based ``for`` statement,
-   including the *for-range-declaration* (the loop variable) and the
-   *for-range-initializer* (the range expression).
-   https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2023/n4950.pdf.
-   Live-tracked mirror: https://eel.is/c++draft/stmt.ranged.  Year:
-   2023.
-
-.. [#cpp-draft-iterator] ISO/IEC 14882 working draft N4950,
-   [iterator.requirements] §25.3.  Defines iterators as generalised
-   pointers into a range and enumerates the iterator category
-   requirements.
-   https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2023/n4950.pdf.
-   Live-tracked mirror: https://eel.is/c++draft/iterator.requirements.
-   Year: 2023.
-
-.. [#cpp-defns-well] ISO/IEC 14882:2020, definition
-   [defns.well.formed]: "C++ program constructed according to the
-   syntax rules, diagnosable semantic rules, and the one-definition
-   rule".  Draft mirror:
-   https://timsong-cpp.github.io/cppwp/n4868/defns.well.formed.  Year:
-   2020.
-
-.. [#cpp-defns-ill] ISO/IEC 14882:2020, definition [defns.ill.formed]:
-   "program that is not well-formed".  Draft mirror:
-   https://timsong-cpp.github.io/cppwp/n4868/defns.ill.formed.  Year:
-   2020.
+   *  [defns.well.formed] -- entry :term:`well-formed` (canonical
+      wording: "C++ program constructed according to the syntax rules,
+      diagnosable semantic rules, and the one-definition rule").
+   *  [defns.ill.formed] -- entry :term:`ill-formed` ("program that is
+      not well-formed").
 
 .. rubric:: Industrial and open-source documentation
 
@@ -788,7 +736,7 @@ The primary citations for the entries above are listed here.
    https://en.cppreference.com/w/cpp/language/value_category.  This is
    an accessible community-maintained summary of the C++ value-category
    taxonomy.  It is included here as an *effective* companion to the
-   normative [#cpp-draft-lval]_ citation, not as an authoritative
+   normative [#cpp-draft]_ citation, not as an authoritative
    source in its own right.
 
 .. _ssec:glossary_doc_quality:
