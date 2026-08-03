@@ -3,7 +3,7 @@
 Errors
 ======
 
-Your implementation is required to report both compile-time and run-time errors.
+Your implementation is required to report both :term:`compile-time <compile time>` and :term:`run-time <run time>` errors.
 You must use the exceptions defined in ``include/CompileTimeExceptions.h`` and
 the functions defined in ``runtime/include/run_time_errors.h``. Do not modify
 these files, you can pass a string to a constructor/function to provide more
@@ -57,7 +57,7 @@ chapter 9 of
 Compile-time Errors
 -------------------
 
-Compile-time errors must be handled by throwing the exceptions defined in
+:term:`Compile-time <compile time>` errors must be handled by throwing the exceptions defined in
 ``include/CompileTimeExceptions.h``. To throw an exception, use the ``throw``
 keyword.
 
@@ -75,7 +75,7 @@ Here are the compile-time errors your compiler must throw:
 * ``SymbolError``
 
     Raised during compilation if an undefined symbol is referenced or a defined
-    symbol is re-defined in the same scope.
+    symbol is re-defined in the same :term:`scope`.
 
 * ``TypeError``
 
@@ -90,13 +90,13 @@ Here are the compile-time errors your compiler must throw:
 * ``AssignError``
 
     Raised during compilation if the compiler detects an assignment to a const
-    value or a tuple unpacking assignment with the number of lvalues different
-    than the number of fields in the tuple rvalue.
+    value or a tuple unpacking assignment with the number of :term:`lvalues <lvalue>` different
+    than the number of fields in the tuple :term:`rvalue`.
 
 * ``MainError``
 
     Raised during compilation if the program does not have a procedure named
-    ``main`` or when the signature of ``main`` is invalid.
+    ``main`` or when the signature of ``main`` is :term:`ill-formed`.
 
 * ``ReturnError``
 
@@ -146,7 +146,7 @@ Here are the compile-time errors your compiler must throw:
 * ``MathError``
 
     May be raised during compile time expression evaluation when division by zero occurs.
-    Conditions for raising are equivalent to a runtime ``MathError``. 
+    Conditions for raising are equivalent to a :term:`runtime <run time>` ``MathError``.
 
 * ``IndexError``
 
@@ -179,14 +179,14 @@ Here is an example invalid program and a corresponding compile-time error:
 Run-time Errors
 ---------------
 
-Run-time errors must be handled by calling the functions defined in
+:term:`Run-time <run time>` errors must be handled by calling the functions defined in
 ``runtime/include/run_time_errors.h``.
 
 ::
 
     MathError("cannot divide by zero")
 
-The runtime errors listed below are a subset of compile time errors. Since it is not only impractical,
+The runtime errors listed below are a subset of :term:`compile time` errors. Since it is not only impractical,
 but undecidable to catch the following errors exclusively at compile time, Gazprea leaves the setting
 at which they are raised up to the implementation. To put simply, you can raise runtime errors either
 at compile time or at runtime and the tester will accommodate different implementations.
@@ -211,7 +211,7 @@ at compile time or at runtime and the tester will accommodate different implemen
     Raised at runtime if the ``by`` operation is used with a stride value
     ``<=0``.
 
-Here is an example invalid program. If your compiler is smart, you may raise the later error, if you
+Here is an example :term:`ill-formed` program. If your compiler is smart, you may raise the later error, if you
 prefer not to implement static analysis, the former error can be emitted at runtime.
 
 ::
@@ -256,7 +256,7 @@ How to Write an Error Test Case
 -------------------------------
 
 Your compiler test suite can include error test cases. An error test case can include
-a compile-time or run-time error. In either case, the expected output should include
+a :term:`compile-time <compile time>` or :term:`run-time <run time>` error. In either case, the expected output should include
 exactly one line of text. In order to simplify marking, **only one error should be present in the test case**
 and exactly one line of expected output should catch it. Below is an example:
 
@@ -312,8 +312,8 @@ terminates with a non-zero exit code. Once you have caught an error make sure to
 a non-zero exit code.
 
 Finally, the tester is lenient towards the type given to a particular error. Specifically
-the tester simply confirms that the substring "Error" is present and for compile
-time errors that the correct line is provided.
+the tester simply confirms that the substring "Error" is present and for
+:term:`compile time` errors that the correct line is provided.
 
 This leniency is motivated by the fact that sometimes determining which type to call an error is
 difficult. For example, it may be arguable that a ``ReturnError`` should be interpreted as a 
