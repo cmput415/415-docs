@@ -16,9 +16,7 @@ open-source project (LLVM, GCC, GNU Binutils), or a peer-reviewed
 publication in a respected venue.  Where a term has a widely-used *effective*
 reference (e.g. cppreference for the C++ value categories), that reference
 appears alongside the authoritative citation and is explicitly labelled as
-non-normative.  Rejected sources -- those we considered and did not adopt
--- are listed in the :ref:`ssec:glossary_rejected` appendix so that a
-reviewer can audit our choices.
+non-normative.
 
 Every glossary entry is a Sphinx ``:term:`` target and can be
 cross-referenced from anywhere in the specification.  For example, a
@@ -565,8 +563,7 @@ Terms
 Authoritative sources
 ---------------------
 
-The primary citations for the entries above are listed here.  All URLs
-were captured for later ``archive.org`` snapshotting.
+The primary citations for the entries above are listed here.
 
 .. rubric:: Standards
 
@@ -793,40 +790,6 @@ were captured for later ``archive.org`` snapshotting.
    taxonomy.  It is included here as an *effective* companion to the
    normative [#cpp-draft-lval]_ citation, not as an authoritative
    source in its own right.
-
-.. _ssec:glossary_rejected:
-
-Rejected sources
-----------------
-
-The following sources were considered during the drafting of this
-glossary and rejected.  They are recorded here so that a reviewer can
-audit our source-selection decisions.
-
-*Community-maintained encyclopedias and tutorials.*  Wikipedia articles
-on "Value categories", "Sequence point", "Name binding", the various
-ISO C revisions, GeeksforGeeks, W3Schools, TutorialsPoint,
-learncpp.com, and Microsoft Learn "previous-versions" pages were not
-adopted as primary citations.  They are useful for triage and
-navigation but are tertiary summaries rather than normative sources.
-
-*Vendor product pages.*  Microsoft Learn's own "Lvalues and Rvalues
-(C++)" page is vendor documentation of a specific implementation, not
-a standard, and was rejected in favour of the ISO/IEC 14882 draft.
-
-*Community coding-standard wikis.*  The SEI CERT C Coding Standard
-wiki was consulted to cross-check clause numbering but is a coding
-standard atop the language standard rather than a language standard
-itself.
-
-*Q&A and forum threads.*  Stack Overflow, Reddit, and mailing-list
-threads were not cited as primary sources for any term, in accordance
-with the source-preference policy given at the top of this page.
-
-*Paywalled front-matter.*  ISO/IEC 2382:2015 (*Information technology
--- Vocabulary*) would in principle be authoritative but is paywalled
-with only its scope and foreword available for public inspection; no
-clause text could be verified, so it was not cited.
 
 .. _ssec:glossary_doc_quality:
 
