@@ -90,6 +90,9 @@ linkcheck_ignore = [
     r'^https?://(www\.)?iso\.org/',
     # MDPI journals: 403 to bots.
     r'^https?://(dx\.)?doi\.org/10\.3390/',
+    # ACM Digital Library (dl.acm.org, and DOI redirects to it): 403 to bots.
+    r'^https?://(dx\.)?doi\.org/10\.1145/',
+    r'^https?://dl\.acm\.org/',
     # cppreference.com: 403 to bots.
     r'^https?://en\.cppreference\.com/',
     # The Word Factory: connection times out to bots.
