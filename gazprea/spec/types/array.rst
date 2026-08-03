@@ -28,9 +28,9 @@ array instead of a ``real`` array.
 #. Explicit Size Declarations
 
    When an array is declared it may be explicitly given a size. Every array,
-   whether explicitly or implicitly sized, has a size that is known at
-   :term:`elaboration` time, that is to say, upon its first evaluation; a
-   collection whose size is only known at :term:`run time` requires a
+   whether explicitly or implicitly sized, has a size that is fixed on the
+   first execution of its declaration at :term:`run time` and is
+   immutable thereafter; a collection whose size can grow requires a
    :ref:`vector <ssec:vector>`.
 
    ::

@@ -21,7 +21,7 @@ non-normative.
 Every glossary entry is a Sphinx ``:term:`` target and can be
 cross-referenced from anywhere in the specification.  For example, a
 sentence in another chapter can read
-"``the size is fixed at`` :term:`elaboration <elaboration>` ``time``\ ".
+"the value must be a :term:`constant expression`\ ".
 
 .. note::
 
@@ -141,41 +141,6 @@ Terms
       contrasting *static* storage duration with *automatic* and
       *allocated* storage durations whose extents are established during
       execution [#iso-c11]_.
-
-   elaboration
-      A specialised sub-case of :term:`dynamic` (run-time) evaluation:
-      the first-time processing of a declaration whose effect --
-      allocating storage, computing size expressions, resolving
-      instantiations -- has to happen *when the declaration is
-      reached*, not at :term:`compile time`.
-
-      *Gazprea meaning.*  When the size of a *Gazprea* array is fixed
-      at the first evaluation of its declaration rather than at
-      compile time, the *Gazprea* spec says the size is fixed at
-      *elaboration time* -- meaning specifically "the moment the
-      declaration is first evaluated".
-
-      *Prior art.*  The word is Ada/VHDL terminology; the vast
-      majority of production languages either fold this idea into
-      "run time" outright (C, Rust, most scripting languages) or use
-      an unrelated word for something adjacent (e.g. SML uses
-      *elaboration* for the *static* type-checking phase, which is the
-      opposite sense; Java and Python use *class loading* /
-      *initialisation* for the analogous run-time step).  The two
-      languages whose glossaries use *elaboration* in the sense
-      Gazprea does are Ada and VHDL:
-
-      *  Ada RM Annex N: "The process by which a declaration achieves
-         its run-time effect is called elaboration.  Elaboration is
-         one of the forms of execution" [#ada-rm]_.
-      *  IEEE 1076 (VHDL) §14.1: "The process by which a declaration
-         achieves its effect is called the elaboration of the
-         declaration.  After its elaboration, a declaration is said to
-         be elaborated." [#ieee-1076]_
-
-      (IEEE 1800 SystemVerilog uses the word for a compile-time
-      binding-together step and is *not* what *Gazprea* means
-      [#ieee-1800]_.)
 
    expression
       "A sequence of operators and operands that specifies a
@@ -646,21 +611,8 @@ The primary citations for the entries above are listed here.
    *  5.5 (Loop Statements), paragraphs 6-9 -- entries
       :term:`iterator variable`, :term:`domain`; defines the *loop
       parameter* of a ``for`` loop and its iteration scheme.
-   *  Annex N (Glossary of Terms), entries "Elaboration" and
-      "Execution" -- entries :term:`elaboration`, :term:`run time`.
-
-.. [#ieee-1076] IEEE Std 1076-2008, *IEEE Standard VHDL Language
-   Reference Manual*, clause 14 (Elaboration and execution), §14.1
-   (General).  https://ieeexplore.ieee.org/document/4772740/.  Year:
-   2009.  The 2019 revision (IEEE Std 1076-2019) retains the same
-   clause structure.
-
-.. [#ieee-1800] IEEE Std 1800-2017, *IEEE Standard for SystemVerilog --
-   Unified Hardware Design, Specification, and Verification Language*,
-   clause 3.12 (Compilation and elaboration) and clause 23.10.4
-   (Elaboration).  https://ieeexplore.ieee.org/document/8299595/.
-   Year: 2017.  The 2012 revision (IEEE Std 1800-2012) uses the same
-   clause numbering.
+   *  Annex N (Glossary of Terms), entry "Execution" -- entry
+      :term:`run time`.
 
 .. [#iso-c11] ISO/IEC 9899:2011 (C11), WG14 Committee Draft N1570.
    https://www.open-std.org/jtc1/sc22/wg14/www/docs/n1570.pdf.  Year:
