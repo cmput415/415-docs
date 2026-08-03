@@ -382,8 +382,20 @@ Terms
       values of its subexpressions, so that any subexpression may be
       replaced by an equal-valued subexpression without changing the
       whole [#strachey-2000]_.  The term is due to Quine
-      [#quine-1960]_.  *Gazprea* invokes referential transparency
-      implicitly through its ban on mutable globals in function bodies.
+      [#quine-1960]_.
+
+      *Gazprea* guarantees referential transparency only for
+      :term:`pure functions <functional purity>` (see
+      :ref:`sec:function`) and for :term:`expressions <expression>`
+      built exclusively out of them.  It is *not* guaranteed for
+      :ref:`procedures <sec:procedure>`, which may have
+      :term:`side effects <side effect>` and whose return value can
+      therefore change between calls with the same arguments; nor for
+      any expression that transitively depends on a procedure call.
+      This is why *Gazprea* forbids calling procedures inside
+      functions, forbids mutable globals, and restricts the operators
+      that may combine a procedure call's return value (see
+      :ref:`sec:procedure`).
 
    run time
       The interval during which the program is executing, after
