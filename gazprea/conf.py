@@ -77,3 +77,26 @@ html_css_files = [
 
 # Disable syntax highlighting in code blocks
 highlight_language ='none'
+
+
+# -- Options for linkcheck ---------------------------------------------------
+#
+# URLs that a human can visit but a CI linkchecker cannot.  The pages exist;
+# their servers block automated clients with 403 (or, for thewordfactory.com,
+# quietly time them out).  Verified in-browser on 2026-08-03; if the ignore
+# list ever hides a legitimate breakage, remove the entry and let CI fail.
+linkcheck_ignore = [
+    # ISO standards catalogue: every page 403s to non-browser user-agents.
+    r'^https?://(www\.)?iso\.org/',
+    # MDPI journals: 403 to bots.
+    r'^https?://(dx\.)?doi\.org/10\.3390/',
+    # cppreference.com: 403 to bots.
+    r'^https?://en\.cppreference\.com/',
+    # The Word Factory: connection times out to bots.
+    r'^https?://(www\.)?thewordfactory\.com/',
+]
+
+# Give slow-responding but legitimate hosts more time before treating a
+# response as a failure.
+linkcheck_timeout = 30
+linkcheck_retries = 2

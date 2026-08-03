@@ -77,3 +77,15 @@ html_css_files = [
 
 # Disable syntax highlighting in code blocks
 highlight_language ='none'
+
+
+# -- Options for linkcheck ---------------------------------------------------
+#
+# Stack Exchange sites 403 unauthenticated linkcheckers even though the
+# pages are visible in a browser.  Verified in-browser on 2026-08-03.
+linkcheck_ignore = [
+    r'^https?://([a-z]+\.)?stackexchange\.com/',
+    r'^https?://([a-z]+\.)?stackoverflow\.com/',
+]
+linkcheck_timeout = 30
+linkcheck_retries = 2
