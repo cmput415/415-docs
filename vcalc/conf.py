@@ -77,3 +77,9 @@ html_css_files = [
 
 # Disable syntax highlighting in code blocks
 highlight_language ='none'
+
+
+# -- Options for linkcheck ---------------------------------------------------
+linkcheck_anchors = False
+linkcheck_timeout = 30
+linkcheck_retries = 2

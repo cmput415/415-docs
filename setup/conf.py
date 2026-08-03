@@ -77,3 +77,17 @@ html_css_files = [
 
 # Disable syntax highlighting in code blocks
 highlight_language ='none'
+
+
+# -- Options for linkcheck ---------------------------------------------------
+#
+# Sphinx's linkcheck builder verifies URL anchors by parsing the fetched
+# HTML.  Sites like github.com and jetbrains.com render anchors client-side
+# via JavaScript, so the anchor is present in the browser but absent from
+# the fetched HTML and linkcheck reports it as broken.  Disable anchor
+# validation project-wide -- lychee (the previous checker) did not check
+# anchors either, so this preserves prior behaviour without hiding
+# genuinely-dead URLs.
+linkcheck_anchors = False
+linkcheck_timeout = 30
+linkcheck_retries = 2

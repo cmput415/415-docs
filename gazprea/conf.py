@@ -98,5 +98,6 @@ linkcheck_ignore = [
 
 # Give slow-responding but legitimate hosts more time before treating a
 # response as a failure.
+linkcheck_anchors = False
 linkcheck_timeout = 30
 linkcheck_retries = 2

@@ -87,5 +87,6 @@ linkcheck_ignore = [
     r'^https?://([a-z]+\.)?stackexchange\.com/',
     r'^https?://([a-z]+\.)?stackoverflow\.com/',
 ]
+linkcheck_anchors = False
 linkcheck_timeout = 30
 linkcheck_retries = 2

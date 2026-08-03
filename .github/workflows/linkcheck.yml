@@ -15,11 +15,32 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Check links with lychee
-        uses: lycheeverse/lychee-action@v1
+      - name: Set up Python
+        uses: actions/setup-python@v5
         with:
-          # .lycheeignore in the repo root (auto-detected by lychee)
-          # lists hosts that block or rate-limit bots but serve humans
-          # (iso.org, cppreference, MDPI DOIs, Stack Exchange, ...).
-          args: --verbose --no-progress --exclude-path base/index.html --exclude-all-private '**/*.md' '**/*.rst' '**/*.html' '**/*.tex'
-          fail: true
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: requirements.txt
+
+      - name: Install Sphinx
+        run: pip install -r requirements.txt
+
+      # Sphinx's built-in linkcheck builder honours the per-project
+      # linkcheck_ignore / linkcheck_anchors / linkcheck_timeout /
+      # linkcheck_retries entries in each conf.py, and treats redirects
+      # and rate-limited hosts more gracefully than lychee.  Run it
+      # against every Sphinx project in the tree; the builder itself
+      # exits non-zero when it finds a broken link, so we do not pass
+      # -W (which would also fail on pre-existing unrelated warnings
+      # like missing TODO entries).
+      - name: Run sphinx-build -b linkcheck for every project
+        run: |
+          status=0
+          for dir in setup generator scalc vcalc gazprea info; do
+            echo "::group::linkcheck $dir"
+            if ! sphinx-build -b linkcheck "$dir" "$dir/_build/linkcheck"; then
+              status=1
+            fi
+            echo "::endgroup::"
+          done
+          exit $status
