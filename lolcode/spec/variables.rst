@@ -6,24 +6,27 @@ Scope
 
 All variable scope is local to the main program block.
 Variables are only accessible after declaration, and there is no global scope.
+Since this simplified version of LOLCODE does not include functions, the entire
+program is the only scope.
 
 Naming
 ~~~~~~
 
-Variable identifiers may be in all uppercase or lowercase letters (or a mixture of the two). They must begin with a letter and may be followed only by other letters, numbers, and underscores. No spaces, dashes, or other symbols are allowed. Variable identifiers are CASE SENSITIVE – "cheezburger", "CheezBurger" and "CHEEZBURGER" would all be different variables.
+Variable identifiers may be in all uppercase or lowercase letters (or a mixture of the two). They must begin with a letter and may be followed only by other letters, numbers, and underscores. No spaces, dashes, or other symbols are allowed.
+Variable identifiers are CASE SENSITIVE – "cheezburger", "CheezBurger" and "CHEEZBURGER" would all be different variables.
 
 Types
 ~~~~~
 
-For the purposes of this assignment, LOLCODE only recognizes three types:
+For the purposes of this assignment, LOLCODE recognizes four types, though only three of them can be declared as variables:
 
-- **YARN** or strings. Literals are enclosed in double quotes ('"') at each end. We are not going to try to support escape characters for this assignment.
+- **YARN** or strings. Literals are enclosed in double quotes (``"``) at each end. We are not going to try to support escape characters for this assignment.
 
-- **NUMBR** or integers. Integers can be represented using the host's 32-bit implementation. Integer literals are allowed to have a leading hyphen ('-') to signify a negative number.
+- **NUMBR** or integers. Integers can be represented using the host's 32-bit implementation. Integer literals are allowed to have a leading hyphen (``-``) to signify a negative number.
 
-- **TROOF** or boolean, where true is WIN and false is FAIL. Although full LOLCODE supports both variables and expressions of type TROOF, we only include it here for reference in the the descriptions taken from the spec.
+- **TROOF** or boolean, where true is ``WIN`` and false is ``FAIL``. ``TROOF`` is a value type produced by comparisons (``BOTH SAEM``, ``DIFFRINT``) and consumed by conditionals (``O RLY?``, ``MEBBE``), but it cannot be declared as a variable or cast to with ``MAEK`` in this reduced version of the language.
 
-- **NOOB** or void. This is the type given to uninitialized variables.
+- **NOOB** or void. This is the type given to uninitialized variables. It is usually implicit, but we may refer to it in the spec.
 
 .. _sssec:declaration:
 
@@ -41,6 +44,7 @@ To declare a variable, the keyword is ``I HAS A`` followed by the variable name.
 
 Assignment
 ~~~~~~~~~~
+
 Assignment of a variable is accomplished with an assignment statement, ``<variable> R <expression>``
 
 ::
@@ -49,3 +53,24 @@ Assignment of a variable is accomplished with an assignment statement, ``<variab
     VAR R "THREE"          BTW VAR is now a YARN and equals "THREE"
     VAR R 3                BTW VAR is now a NUMBR and equals 3
 
+
+.. _sssec:cast:
+
+Casting
+~~~~~~~
+
+Operators that work on specific types implicitly cast parameter values of other types. If the value cannot be safely cast, then it results in an error.
+
+An expression's value may be explicitly cast with the binary ``MAEK`` operator:
+
+::
+
+    MAEK <variable> [A] <type>
+
+Where ``<type>`` is one of ``YARN`` or ``NUMBR``.
+
+To explicitly re-cast a variable, you may create a normal assignment statement with the ``MAEK`` operator, or use a casting assignment statement as follows:
+
+::
+
+    <variable> R MAEK <variable> [A] <type>
