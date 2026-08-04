@@ -26,6 +26,7 @@ all:
 	$(foreach dir, $(DIRS), rm -rf $(dir)/_build/html/_static/fonts;)
 	$(foreach dir, $(DIRS), rm -rf $(dir)/_build/html/_sources/;)
 	$(foreach dir, $(DIRS), $(MAKE) latexpdf -C $(dir);)
+	$(MAKE) canvas -C gazprea
 
 github: all
 	rm -rf _site
@@ -38,6 +39,7 @@ github: all
 	$(foreach dir, $(DIRS), cp -r $(dir)/_build/html/* _site/$(dir);)
 	$(foreach dir, $(DIRS), cp -r $(dir)/_build/latex/$(dir).pdf _site/$(dir).pdf;)
 	$(foreach file, $(FILES), cp base/$(file) _site/$(file);)
+	cp gazprea/_build/canvas/gazprea-glossary.html _site/gazprea/gazprea-glossary-canvas.html
 	touch _site/.nojekyll
 
 clean:
