@@ -71,13 +71,14 @@ specification without cluttering it.
 
       **no-decl-cond**:
 
-   Declarations in conditionals can lead to undefined values due to
-   global scoping. Because of the potentially conditional nature of the
-   execution, it is possible to violate the property of variables
-   stating that :ref:`variables must be defined before being used <variable-props>`
+   :term:`Declarations <declaration>` in conditionals can lead to
+   undefined values due to global scoping. Because of the
+   potentially conditional nature of the execution, it is possible
+   to violate the property of variables stating that
+   :ref:`variables must be defined before being used <variable-props>`
    (not just declared) by never executing the
-   definition. For example, the following test would break this property
-   and is therefore invalid:
+   :term:`definition`. For example, the following test would break
+   this property and is therefore invalid:
 
    ::
 

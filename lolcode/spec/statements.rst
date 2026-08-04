@@ -1,7 +1,7 @@
 Statements
 ----------
 
-Our version of LOLCODE supports seven types of statements:
+Our version of LOLCODE supports seven types of :term:`statements <statement>`:
 
 -  :ref:`sssec:declaration`
 -  :ref:`sssec:assignment`
@@ -27,8 +27,8 @@ Comparison is (currently) done with two binary equality operators:
 
 
 Comparisons are performed as integer math in the presence of two NUMBRs,
-or string comparisons if both expressions are YARNs.
-Otherwise, there is no automatic casting in the equality, so ``BOTH SAEM "3" AN 3`` is FAIL.
+or string comparisons if both :term:`expressions <expression>` are YARNs.
+Otherwise, there is no :term:`implicit conversion` in the equality, so ``BOTH SAEM "3" AN 3`` is FAIL.
 
 There are no special numerical comparison operators. Greater-than and similar comparisons are done idiomatically using the minimum and maximum operators.
 
@@ -98,7 +98,7 @@ Case
 ~~~~
 
 
-The LOLCODE keyword for switches is ``WTF?``. The ``WTF?`` operates on ``IT`` as being the expression value for comparison. A comparison block is opened by ``OMG`` and must be a literal, not an expression. (A literal, in this case, excludes any YARN containing variable interpolation (``:{var}``).) Each literal must be unique. The ``OMG`` block can be followed by any number of statements and may be terminated by a ``GTFO``, which breaks to the end of the the ``WTF`` statement. If an ``OMG`` block is not terminated by a ``GTFO``, then the next ``OMG`` block is executed as is the next until a ``GTFO`` or the end of the ``WTF`` block is reached. The optional default case, if none of the literals evaluate as true, is signified by ``OMGWTF``.
+The LOLCODE keyword for switches is ``WTF?``. The ``WTF?`` operates on ``IT`` as being the :term:`expression` value for comparison. A comparison block is opened by ``OMG`` and must be a :term:`literal`, not an expression. (A literal, in this case, excludes any YARN containing variable interpolation (``:{var}``).) Each literal must be unique. The ``OMG`` block can be followed by any number of statements and may be terminated by a ``GTFO``, which breaks to the end of the the ``WTF`` statement. If an ``OMG`` block is not terminated by a ``GTFO``, then the next ``OMG`` block is executed as is the next until a ``GTFO`` or the end of the ``WTF`` block is reached. The optional default case, if none of the literals evaluate as true, is signified by ``OMGWTF``.
 
 ::
 
@@ -179,16 +179,16 @@ Iteration loops have the form:
 
 Where ``<operation>`` may be ``UPPIN`` (increment by one) or ``NERFIN`` (decrement by one).
 That operation/function is applied to the ``<variable>``, which is temporary, and local to the loop.
-The ``TIL <expression>`` evaluates the expression as a boolean: if it evaluates as false, the loop continues once more, if not, then loop execution stops, and continues after the matching ``IM OUTTA YR <label>``. The ``WILE <expression>`` is the converse: if the expression is true, execution continues, otherwise the loop exits.
+The ``TIL <expression>`` evaluates the :term:`expression` as a boolean: if it evaluates as false, the loop continues once more, if not, then loop execution stops, and continues after the matching ``IM OUTTA YR <label>``. The ``WILE <expression>`` is the converse: if the expression is true, execution continues, otherwise the loop exits.
 
 .. _sssec:cast:
 
 Casting
 ~~~~~~~
 
-Operators that work on specific types implicitly cast parameter values of other types. If the value cannot be safely cast, then it results in an error.
+Operators that work on specific types apply an :term:`implicit conversion` to parameter values of other types. If the value cannot be safely converted, then it results in an error.
 
-An expression's value may be explicitly cast with the binary ``MAEK`` operator:
+An :term:`expression`'s value may undergo :term:`type casting` with the binary ``MAEK`` operator:
 
 ::
 
@@ -208,7 +208,7 @@ To explicitly re-cast a variable, you may create a normal assignment statement w
 Input/Output
 ~~~~~~~~~~~~
 
-The print (to STDOUT or the terminal) operator is ``VISIBLE``. It has infinite arity and implicitly concatenates all of its arguments after casting them to YARNs. It is terminated by the statement delimiter (line end, comma, or single line comment). The output is automatically terminated with a carriage return (:)), unless the final token is terminated with an exclamation point (!), in which case the carriage return is suppressed.
+The print (to STDOUT or the terminal) operator is ``VISIBLE``. It has infinite arity and implicitly concatenates all of its arguments after an :term:`implicit conversion` to YARNs. It is terminated by the statement delimiter (line end, comma, or single line comment). The output is automatically terminated with a carriage return (:)), unless the final token is terminated with an exclamation point (!), in which case the carriage return is suppressed.
 
 ::
 

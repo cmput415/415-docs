@@ -11,7 +11,7 @@ Tips and Hints
    can reduce output in the testing tool by passing the ``-q`` flag.
 
 -  As with the generator assignment, the ANTLR visitor pattern is best
-   for implementing the interpreter.
+   for implementing the :term:`interpreter`.
 
 
 
