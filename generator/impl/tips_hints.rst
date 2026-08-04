@@ -29,9 +29,10 @@ Tips and Hints
       on the *ANTLR4* documentation pages. What ever you choose make
       sure it is easy to read and consistent.
 
-   -  Keep your source organised. That means separating declarations
-      (classes, class member functions, file scope functions) into
-      headers and their definitions into source files. A good rule of
+   -  Keep your source organised. That means separating
+      :term:`declarations <declaration>` (classes, class member
+      functions, file scope functions) into headers and their
+      :term:`definitions <definition>` into source files. A good rule of
       thumb: if you’re writing three or more lines of function code in a
       header, it’s probably better in a source file. There are of course
       exceptions (template classes/functions, etc.) but their

@@ -1,8 +1,8 @@
 Generator
 =========
 
-A generator creates a series of numbers by applying an expression to the
-value of an index. A generator is similar to a *C* style ``for`` loop.
+A generator creates a series of numbers by applying an :term:`expression`
+to the value of an index. A generator is similar to a *C* style ``for`` loop.
 For this assignment, the index variable will always start at the lower
 bound and continue until it is equal to the upper bound (*the last value
 of the index will be the upper bound*). The index will always be
@@ -21,16 +21,16 @@ A generator statement will always follow the same format:
 
      [<id> in <int_1>..<int_2> | <expr>];
 
--  ``id`` is the identifier of the generator’s index.
+-  ``id`` is the :term:`identifier` of the generator’s index.
 
 -  ``int_1`` is an integer representing the lower bound of the generator
 
 -  ``int_2`` is an integer representing the upper bound of the generator
 
--  ``expr`` is an expression
+-  ``expr`` is an :term:`expression`
 
 | **Assertion:** ``int_1`` and ``int_2`` will never be expressions, only
-  integer literals. (:ref:`simple-bounds <assert:simple-bounds>`)
+  integer :term:`literals <literal>`. (:ref:`simple-bounds <assert:simple-bounds>`)
 | **Assertion:** ``int_1`` will be never be greater than ``int_2``.
   (:ref:`sane-bounds <assert:sane-bounds>`)
 | **Assertion:** If an identifier is used in ``expr`` then it will match
@@ -74,7 +74,7 @@ valid:
 return, or a new line. (:ref:`simple-whitespace <assert:simple-whitespace>`)
 
 Because identifiers need white space to separate each other the
-following is invalid:
+following is :term:`ill-formed`:
 
 ::
 

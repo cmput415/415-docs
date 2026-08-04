@@ -1,8 +1,8 @@
 Expression
 ==========
 
-An expression is composed of integers, identifiers, and integer
-mathematical operations.
+An expression is composed of integers, :term:`identifiers <identifier>`, and
+integer mathematical operations.
 
 Operators
 ---------
@@ -41,7 +41,7 @@ Valid formats for expressions are
 
 -  ``int`` is an integer.
 
--  ``id`` is the identifier of a variable.
+-  ``id`` is the :term:`identifier` of a variable.
 
 | **Assertion:** All expressions will result in a value that fits in a
   32 bit signed integer. (:ref:`expression-size <assert:expression-size>`)
