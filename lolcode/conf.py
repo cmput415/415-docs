@@ -29,8 +29,26 @@ author = 'cmput415'
 # ones.
 extensions = [
     'sphinx_rtd_theme',
-    'sphinx.ext.todo'
+    'sphinx.ext.todo',
+    'sphinx.ext.intersphinx',
 ]
+
+# Cross-reference the Gazprea glossary.  The tuple's first element is the
+# canonical URL used to rewrite resolved refs; the second element is a list
+# of inventory-source fallbacks.  ``../gazprea/_build/html/objects.inv``
+# resolves against this file's directory.  Lolcode is not built by the
+# top-level ``make github`` target today (it is not in DIRS), but the
+# wiring is in place so any manual or future build picks up the glossary.
+intersphinx_mapping = {
+    'gazprea': (
+        'https://cmput415.github.io/415-docs/gazprea',
+        ('../gazprea/_build/html/objects.inv', None),
+    ),
+}
+
+# Never let a bare :doc:`foo` silently resolve to a sibling project's page;
+# force ``:external+gazprea:doc:`` when that is actually what is meant.
+intersphinx_disabled_reftypes = ['std:doc']
 
 # Toggles the display of "Todo" message boxes in the output
 todo_include_todos = True
