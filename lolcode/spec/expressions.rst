@@ -21,30 +21,6 @@ Math is performed as integer math in the presence of two ``NUMBR`` s.
 If either of the arguments is a ``YARN``, the ``YARN`` is
 converted to an integer and the operation proceeds if the conversion succeeds.
 
-Precedence
-~~~~~~~~~~
-
-Multiplication, division and modulo have the highest precedence. All three
-operators have equal precedence and are evaluated left to right.
-Addition and subtraction have equal precedence and are also evaluated left to
-right.
-
-Parenthesis ('()') can be used to group operations to override precedence or
-clarify the evaluation order.
-
-Conditions
-~~~~~~~~~~
-
-LOLCODE supports two conditional operators:
-
-::
-
-    BIGGR OF <x> AN <y>     BTW max
-    SMALLR OF <x> AN <y>    BTW min
-
-These operators apply to both strings and integers. Since both types are
-supported, the types of ``<x>`` and ``<y>`` must match.
-
 Concatenation
 ~~~~~~~~~~~~~
 
@@ -52,4 +28,3 @@ An indefinite number of YARNs may be explicitly concatenated with the ``SMOOSH..
 Arguments may optionally be separated with ``AN``.
 As the ``SMOOSH`` expects strings as its input arguments, it will apply an :term:`implicit conversion <implicit conversion>` to all input values of other types, producing ``YARN`` s.
 The line ending may safely implicitly close the ``SMOOSH`` operator without needing an ``MKAY``.
-

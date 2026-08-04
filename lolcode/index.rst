@@ -2,7 +2,7 @@ LOLCODE
 =======
 
 The goal of this assignment is to implement a **LL1** Parser for a subset of the
-esoteric language called ``LOLCODE <https://lolcode.org>_``.
+esoteric language called `LOLCODE <https://lolcode.org>`_.
 This language is simple enough that you will not need advanced lookahead.
 Your parser will use the ANTLR4 lexer to generate a token stream, which can then
 be used to generate an AST.
@@ -64,8 +64,8 @@ Our simplified version of LOLCODE has integer and string variables,
 conditionals, loops, I/O, and various integer
 :term:`expressions <expression>`. The full version of
 LOLCODE has file I/O, functions, and more advanced expressions and operations.
-We provide the simplified spec in this document, however, since it is derived
-from the full spec at <https://lolcode.org>, you may find it adds additional
+We provide the simplified spec in this document, however, it is derived from
+the full spec at <https://lolcode.org>, which you may find adds additional
 context.
   
 .. toctree::

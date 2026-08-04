@@ -6,136 +6,39 @@ specification without cluttering it.
 
 #. 
 
-   .. _clarify:no-rem:
+   .. _clarify:no-continuation:
 
    .. container::
       :name: no-rem
 
-      **no-rem**:
+      **no-continuation**:
 
-   There is no remainder operator in SCalc. For example, the following
-   tests would be considered invalid:
-
-   ::
-
-            int i = 5 % 2;
+   There is no continuation token (``...``) in this assignment, although it is
+   mentioned in the LOLCODE spec.
 
 #. 
 
-   .. _clarify:no-pow:
+   .. _clarify:gt-and-lt:
+
+   .. container::
+      :name: gt-and-lt
+
+      **gt-and-lt**:
+
+   The less-than (``DIFFRINT <x> AN SMALLR OF <x> AN <y>``) and
+   greater-than (``DIFFRINT <x> AN BIGGR OF <x> AN <y>``) are opposite in
+   this spec compared to the official LOLCODE spec *on purpose*.
+   Use the definitions in this spec.
+
+#. 
+
+   .. _clarify:no-it:
 
    .. container::
       :name: no-pow
 
-      **no-pow**:
+      **no-it**:
 
-   There is no exponentiation operator in SCalc. For example, the
-   following tests would be considered invalid:
-
-   ::
-
-            int i = 2 ^ 2;
-
-#. 
-
-   .. _clarify:int-div:
-
-   .. container::
-      :name: int-div
-
-      **int-div**:
-
-   Division is integer division. This means that any decimal portion of
-   a division operation result is truncated (not rounded). No extra work
-   is required: this is the default in C++, RISC-V, ARM, and X86. For
-   example:
-
-   ::
-
-            print(5 / 3);
-            print((0 - 5) / 3);
-
-   produces the following output:
-
-   ::
-
-            1
-            -1
-
-#. 
-
-   .. _clarify:no-decl-cond:
-
-   .. container::
-      :name: no-decl-cond
-
-      **no-decl-cond**:
-
-   :term:`Declarations <declaration>` in conditionals can lead to
-   undefined values due to global scoping. Because of the
-   potentially conditional nature of the execution, it is possible
-   to violate the property of variables stating that
-   :ref:`variables must be defined before being used <variable-props>`
-   (not just declared) by never executing the
-   :term:`definition`. For example, the following test would break
-   this property and is therefore invalid:
-
-   ::
-
-            if (1 < 0)
-              int i = 0;
-            fi
-            int j = i;
-
-#. 
-
-   .. _clarify:no-decl-loop:
-
-   .. container::
-      :name: no-decl-loop
-
-      **no-decl-loop**:
-
-   Declarations in loops can lead to undefined or repeatedly defined
-   values due to global scoping. Because of the potentially conditional
-   nature of the execution, it is possible to violate the property of
-   variables stating that :ref:`variables must be defined before being used <variable-props>` (not just declared) by never executing the
-   definition. For example, the following test would break this property
-   and is therefore invalid:
-
-   ::
-
-            loop (1 < 0)
-              int i = 0;
-            pool
-            int j = i;
-
-   As well, because of the potentially repeated nature of the execution,
-   it is possible to violate the property of variables stating that
-   :ref:`variables can only be defined once <variable-props>` by repeating
-   the declaration. For example, the following test would break this
-   property and is therefore invalid:
-
-   ::
-
-            int i = 0;
-            loop (i < 2)
-              int j = 0;
-              i = i + 1;
-            pool;
-
-#. 
-
-   .. _clarify:empty-input:
-
-   .. container::
-      :name: empty-input
-
-      **empty-input**:
-
-   Empty input should result in empty output. This is in keeping with
-   all of the output rules defined. There are no ``print`` statements so
-   there would be no numbers, newlines or output of any kind. All that
-   you are left with is a single empty line, which matches "*should* be
-   an empty line at the end of your output".
-
+   The automatically created ``IT`` variable is not used for this assignment.
+   ``IT`` is used in several places in the LOLCODE spec, most notably for
+   *if-then* and *switch* statements.
