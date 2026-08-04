@@ -12,17 +12,17 @@ Whitespace
 
 - A command starts at the beginning of a line and a newline indicates the end of a command, except in special cases.
 
-- A newline will be Carriage Return (/13), a Line Feed (/10) or both (/13/10) depending on the implementing system. This is only in regards to LOLCODE code itself, and does not indicate how these should be treated in strings or files during execution.
+- A newline will be Carriage Return (``'\r'`` or 0xd), a Line Feed (``'\n'`` or 0xa) or both (``'\r\n'``) depending on the implementing system. This is only in regards to LOLCODE code itself, and does not indicate how these should be treated in strings or files during execution.
 
-- Multiple commands can be put on a single line if they are separated by a comma (,). In this case, the comma acts as a virtual newline or a soft-command-break.
+- Multiple commands can be put on a single line if they are separated by a comma (``','``). In this case, the comma acts as a virtual newline or a soft-command-break.
 
-- A single-line comment is always terminated by a newline. Line continuation (...) and soft-command-breaks (,) after the comment (`BTW`) are ignored.
+- A single-line comment is always terminated by a newline. Soft-command-breaks (``','``) after the comment (``BTW``) are ignored.
 
 
 Comments
 ~~~~~~~~
 
-Single line comments are begun by `BTW`, and may occur either after a line of code, on a separate line:
+Single line comments are begun by ``BTW``, and may occur either after a line of code, on a separate line:
 
 ::
 
@@ -31,7 +31,8 @@ Single line comments are begun by `BTW`, and may occur either after a line of co
                 BTW Also a single line comment
    KTHXBYE
 
-Multi-line comments are begun by `OBTW` and ended with `TLDR`, and should be started on their own lines, or following a line of code after a line separator.
+Multi-line comments are begun by ``OBTW`` and ended with ``TLDR``, and should be
+started on their own lines, or following a line of code after a line separator.
 
 These are valid multi-line comments:
 
