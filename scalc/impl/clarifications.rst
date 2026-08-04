@@ -14,7 +14,7 @@ specification without cluttering it.
       **no-rem**:
 
    There is no remainder operator in SCalc. For example, the following
-   tests would be considered invalid:
+   tests would be considered :term:`ill-formed`:
 
    ::
 
@@ -71,12 +71,12 @@ specification without cluttering it.
 
       **no-decl-cond**:
 
-   Declarations in conditionals can lead to undefined values due to
+   :term:`Declarations <declaration>` in conditionals can lead to undefined values due to
    global scoping. Because of the potentially conditional nature of the
    execution, it is possible to violate the property of variables
    stating that :ref:`variables must be defined before being used <variable-props>`
    (not just declared) by never executing the
-   definition. For example, the following test would break this property
+   :term:`definition`. For example, the following test would break this property
    and is therefore invalid:
 
    ::
@@ -133,8 +133,9 @@ specification without cluttering it.
       **empty-input**:
 
    Empty input should result in empty output. This is in keeping with
-   all of the output rules defined. There are no ``print`` statements so
-   there would be no numbers, newlines or output of any kind. All that
+   all of the output rules defined. There are no ``print``
+   :term:`statements <statement>` so there would be no numbers, newlines
+   or output of any kind. All that
    you are left with is a single empty line, which matches "*should* be
    an empty line at the end of your output".
 

@@ -11,11 +11,11 @@ Tips and Hints
    can reduce output in the testing tool by passing the ``-q`` flag.
 
 -  As with the generator assignment, the ANTLR visitor pattern is best
-   for implementing the interpreter.
+   for implementing the :term:`interpreter`.
 
--  The RISC-V, ARM, and x86 compilers can be built using either the
-   visitor or the listener pattern. The listener may be more appropriate
-   so it is the suggested method.
+-  The RISC-V, ARM, and x86 :term:`compilers <compiler>` can be built
+   using either the visitor or the listener pattern. The listener may
+   be more appropriate so it is the suggested method.
 
 -  A single listener or visitor should be able to handle the x86, RISC-V,
    and ARM code generation. All that should change is the templated
