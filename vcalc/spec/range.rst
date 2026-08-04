@@ -2,7 +2,7 @@ Range
 -----
 
 In *VCalc* the operator ``..`` is used to generate a vector holding a
-range of integers. This operator must have an expression resulting in an
+range of integers. This operator must have an :term:`expression` resulting in an
 integer on both sides of it. These integers mark the *inclusive* upper
 and lower bounds of the range.
 
@@ -20,9 +20,9 @@ prints the following:
      [1 2 3 4 5 6 7 8 9 10]
      [2 3 4 5 6 7 8 9 10 11]
 
-The number of integers in a range may not be known at compile time when
-the integer expressions use variables. In another example, assuming at
-runtime that ``i`` is computed as -4:
+The number of integers in a range may not be known at :term:`compile time`
+when the integer expressions use variables. In another example, assuming
+at :term:`run time` that ``i`` is computed as -4:
 
 ::
 

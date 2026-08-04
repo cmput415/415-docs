@@ -2,10 +2,10 @@ Scoping
 -------
 
 Loops and conditionals are scoped in *VCalc*, unlike *SCalc*. As well,
-generators and filters both have internal scopes for their domain
-variable.
+generators and filters both have internal :term:`scopes <scope>` for
+their :term:`iterator variable`.
 
-A reference to a variable will resolve to the *definition* in the
+A reference to a variable will resolve to the :term:`definition` in the
 innermost possible scope. This matches the scoping rules found in *C*.
 For example:
 
@@ -44,8 +44,8 @@ prints the following:
      21
 
 Generator and filter scopes only exist during the evaluation of the
-expression or predicate. The scope will only contain the domain
-variable.
+:term:`expression` or predicate. The scope will only contain the
+iterator variable.
 
 Be careful in what order you evaluate things. For example:
 
@@ -75,6 +75,6 @@ prints the following:
 
 If you define a variable in a scope before evaluating the expression,
 you may mis-resolve a value. If you enter the new scope in your filter
-or generator before resolving the domain, you may mis-resolve the
-domain.
+or generator before resolving the :term:`domain`, you may mis-resolve
+the domain.
 

@@ -19,7 +19,7 @@ asked or useful things are found. You will be notified as appropriate.
    #. Make your code generator figure it out.
 
    #. Attach type information to your AST at this node denoting each
-      operand's type during a type inference pass on your tree. Still
+      operand's type during a :term:`type inference` pass on your tree. Still
       need to check for extension.
 
    #. Do a type inference pass and replace the integer operand with an
@@ -48,5 +48,5 @@ asked or useful things are found. You will be notified as appropriate.
    manipulating the tree, type checking, or final code generation.
 
 -  An AST is not a “scope tree”. You can maintain a stack of tables that
-   tell you what is currently in scope as you *traverse the tree* but
+   tell you what is currently in :term:`scope` as you *traverse the tree* but
    scoping is not inherently part of the AST.

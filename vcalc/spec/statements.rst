@@ -4,10 +4,11 @@ Statements
 Declaration
 ~~~~~~~~~~~
 
-*VCalc* adds vectors as an assignable type. To declare a vector
+*VCalc* adds vectors as an assignable :term:`type`. To declare a vector
 variable, you declare a variable as you would an integer, but replace
-``int`` with ``vector``. Vectors may be initialized with any expression
-that returns a vector. For example, assigning a range to a vector ``v``:
+``int`` with ``vector``. Vectors may be initialized with any
+:term:`expression` that returns a vector. For example, assigning a
+range to a vector ``v``:
 
 ::
 
@@ -27,7 +28,7 @@ There are a few new important points when dealing with assignments.
 
 #. The size of a vector may change while the program is executing if a
    vector variable is assigned another value. For instance, the
-   following sequence of statements *is* valid:
+   following sequence of :term:`statements <statement>` *is* valid:
 
    ::
 
@@ -37,12 +38,12 @@ There are a few new important points when dealing with assignments.
    You will have to allocate more memory to store the result of the
    assignment.
 
-#. The type of the expression of the assignment must match the
-   destination variable’s type. This is apparent for trying to assign
-   vectors to a scalar. In the case of scalars being assigned to
-   vectors, one might expect that we can use our extension policy to
-   copy our scalar to every index of a newly created vector but the
-   question is, how large is the new vector. Because that is
+#. The :term:`type` of the :term:`expression` of the assignment must
+   match the destination variable’s type. This is apparent for trying
+   to assign vectors to a scalar. In the case of scalars being
+   assigned to vectors, one might expect that we can use our extension
+   policy to copy our scalar to every index of a newly created vector
+   but the question is, how large is the new vector. Because that is
    indeterminable, this is not allowed. For example, the following
    sequence of statements *is not* valid:
 
@@ -64,22 +65,23 @@ Conditional
 ~~~~~~~~~~~
 
 Conditional conditions must evaluate to booleans, which means that
-vectors are not a valid condition. Remember, however, that integers can
-be implicitly downcast to booleans.
+vectors are not a valid condition. Remember, however, that integers
+undergo an :term:`implicit conversion` to booleans.
 
 Loops
 ~~~~~
 
 Loop conditions must evaluate to booleans, which means that vectors are
-not a valid condition. Remember, however, that integers can be
-implicitly downcast to booleans.
+not a valid condition. Remember, however, that integers undergo an
+:term:`implicit conversion` to booleans.
 
 Print
 ~~~~~
 
-The ``print`` statement in *VCalc* behaves the same as *SCalc* for integers,
-but must be extended to print vectors. All the elements of the vector are
-printed on a single line between the opening anc closing brackets.
+The ``print`` :term:`statement` in *VCalc* behaves the same as *SCalc*
+for integers, but must be extended to print vectors. All the elements
+of the vector are printed on a single line between the opening anc
+closing brackets.
 
 For example:
 
