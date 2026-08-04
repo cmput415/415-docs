@@ -13,9 +13,14 @@ HFILES:=htaccess
 HFILESDOT:=$(foreach file, $(HFILES), .$(file))
 PDFS:=$(foreach file, $(DIRS), $(file).pdf)
 
-.PHONY: all github clean 
+.PHONY: all github clean
 
 all:
+	# Gazprea publishes the glossary that all siblings pull from via
+	# intersphinx.  Build it first so ``../gazprea/_build/html/objects.inv``
+	# exists when the sibling foreach runs.  The subsequent per-dir
+	# ``make html`` on gazprea is an incremental no-op.
+	$(MAKE) html -C gazprea
 	$(foreach dir, $(DIRS), $(MAKE) html -C $(dir);)
 	$(foreach dir, $(DIRS), rm -rf $(dir)/_build/html/_static/css/fonts;)
 	$(foreach dir, $(DIRS), rm -rf $(dir)/_build/html/_static/fonts;)

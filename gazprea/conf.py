@@ -29,8 +29,32 @@ author = 'cmput415'
 # ones.
 extensions = [
     'sphinx_rtd_theme',
-    'sphinx.ext.todo'
+    'sphinx.ext.todo',
+    'sphinx.ext.intersphinx',
 ]
+
+# Reserved for future back-references from Gazprea into sibling specs.
+# The gazprea spec currently defines no :ref:/:term: targets pointing at
+# a sibling, but wiring this symmetrically now means the first back-ref
+# in a future edit will just work.  Same fallback pattern as the siblings:
+# canonical URL plus local ``_build/html/objects.inv``.  When the top-level
+# ``make all`` runs, siblings are built after gazprea, so a first ``make
+# all`` from clean will fall back to the URL for these; a second run
+# picks up the local files.
+intersphinx_mapping = {
+    'vcalc':     ('https://cmput415.github.io/415-docs/vcalc',
+                  ('../vcalc/_build/html/objects.inv', None)),
+    'scalc':     ('https://cmput415.github.io/415-docs/scalc',
+                  ('../scalc/_build/html/objects.inv', None)),
+    'setup':     ('https://cmput415.github.io/415-docs/setup',
+                  ('../setup/_build/html/objects.inv', None)),
+    'generator': ('https://cmput415.github.io/415-docs/generator',
+                  ('../generator/_build/html/objects.inv', None)),
+    'info':      ('https://cmput415.github.io/415-docs/info',
+                  ('../info/_build/html/objects.inv', None)),
+}
+
+intersphinx_disabled_reftypes = ['std:doc']
 
 # Toggles the display of "Todo" message boxes in the output
 todo_include_todos = True
