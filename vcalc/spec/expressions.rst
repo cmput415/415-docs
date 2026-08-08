@@ -89,9 +89,9 @@ Binary oprations between vectors require extra specification.
             [6 3 2 9 10]
             [6 3 2 0 0]
 
-#. Boolean operators between vectors are still applied element-wise, but
-   the result will be converted to an integer as decribed in *SCalc*
-   before being saved into the result. For example:
+#. Boolean operators between vectors are still applied element-wise, but the
+   result will be converted to an integer before being saved into the result.
+   For example:
 
    ::
 

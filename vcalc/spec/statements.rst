@@ -77,9 +77,38 @@ implicitly downcast to booleans.
 Print
 ~~~~~
 
-The ``print`` statement in *VCalc* behaves the same as *SCalc* for integers,
-but must be extended to print vectors. All the elements of the vector are
-printed on a single line between the opening anc closing brackets.
+Print statements print the value of an expression followed by a newline.
+A print statement in *VCalc* has the following form:
+
+::
+
+     print(<expr>);
+
+-  ``expr`` is an expression.
+
+For example, the input:
+
+::
+
+     int i = 0;
+     loop (i < 5)
+       print(i);
+       i = i + 1;
+     pool;
+
+should print:
+
+::
+
+     0
+     1
+     2
+     3
+     4
+
+
+The ``print`` statement must also be able to output vectors. All the elements of
+the vector are printed on a single line between the opening and closing brackets.
 
 For example:
 

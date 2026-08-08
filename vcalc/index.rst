@@ -1,8 +1,7 @@
 VCalc
 =====
 
-This assignment expands the simple calculator, *SCalc*, to build a vector
-calculator called *VCalc*.
+In this assignment you will build a vector calculator called *VCalc*.
 For *VCalc* you will build a compiler that generates `MLIR <https://mlir.llvm.org>`__. As *MLIR* is an IR infrastructure it supports many special purpose
 intermediate representations called `dialects`.
 You will target the `LLVM Dialect <https://mlir.llvm.org/docs/Dialects/LLVM/>`__

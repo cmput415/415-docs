@@ -1,9 +1,8 @@
 Scoping
 -------
 
-Loops and conditionals are scoped in *VCalc*, unlike *SCalc*. As well,
-generators and filters both have internal scopes for their domain
-variable.
+Loops and conditionals are scoped in *VCalc*. As well, generators and filters
+both have internal scopes for their domain variable.
 
 A reference to a variable will resolve to the *definition* in the
 innermost possible scope. This matches the scoping rules found in *C*.
