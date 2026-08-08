@@ -2,22 +2,16 @@ VCalc
 =====
 
 In this assignment you will build a vector calculator called *VCalc*.
-For *VCalc* you will build a compiler that generates `MLIR <https://mlir.llvm.org>`__. As *MLIR* is an IR infrastructure it supports many special purpose
+For *VCalc* you will build a compiler that generates `MLIR <https://mlir.llvm.org>`__.
+As *MLIR* is an IR infrastructure it supports many special purpose
 intermediate representations called `dialects`.
 You will target the `LLVM Dialect <https://mlir.llvm.org/docs/Dialects/LLVM/>`__
 in this assignment.
 All *MLIR* dialects must evenually be lowered to *LLVM IR*, which is the
 common IR that the LLVM back-end uses to generate machine specific object code.
-None of the assembly back ends that you built for *SCalc* need to be supported
-for *VCalc*, because the LLVM back-end can support them all.
 An interpreter is not necessary but can be a good way to ensure that your
 grammar works as expected.
 
-*VCalc* is a superset of *SCalc*. **All operations supported by SCalc
-must be fully also supported by VCalc. All valid SCalc programs must run
-in VCalc without modification.** (The only exceptions are variable names
-in *SCalc* that are now reserved Keywords.) *VCalc* has the additional
-features discussed in subsequent section.
 
 .. toctree::
    :hidden:
@@ -28,15 +22,18 @@ features discussed in subsequent section.
    :numbered:
 
    spec/keywords
+   spec/comments
+   spec/identifiers
+   spec/booleans
+   spec/integers
    spec/vectors
    spec/range
    spec/generators
    spec/filters
    spec/expressions
    spec/statements
-   spec/comments
-   spec/type_checking
    spec/scoping
+   spec/type_checking
 
 .. toctree::
    :maxdepth: 2

@@ -1,7 +1,7 @@
 Type Checking
 -------------
 
-With the addition of another type that can be mixed in, type checking
+Because there are multiple types (``int`` and ``vector``), type checking
 becomes a necessity in *Vcalc*. This means ensuring that vectors and
 scalars are where they belong. Most expressions allow the interchange of
 vectors and scalars, but there are a few cases where it is necessary to

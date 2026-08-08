@@ -4,7 +4,7 @@ Clarifications
 These clarifications are meant to add more information to the
 specification without cluttering it.
 
-#. 
+#.
 
    .. _clarify:empty-input:
 
@@ -19,7 +19,68 @@ specification without cluttering it.
    you are left with is a single empty line, which matches "*should* be
    an empty line at the end of your output".
 
-#. 
+#.
+
+   .. _clarify:no-decl-cond:
+
+   .. container::
+      :name: no-decl-cond
+
+      **no-decl-cond**:
+
+   Declarations in conditionals can lead to undefined values due to
+   global scoping. Because of the potentially conditional nature of the
+   execution, it is possible to violate the property of variables
+   stating that :ref:`variables must be defined before being used <variable-props>`
+   (not just declared) by never executing the
+   definition. For example, the following test would break this property
+   and is therefore invalid:
+
+   ::
+
+            if (1 < 0)
+              int i = 0;
+            fi
+            int j = i;
+
+#.
+
+   .. _clarify:no-decl-loop:
+
+   .. container::
+      :name: no-decl-loop
+
+      **no-decl-loop**:
+
+   Declarations in loops can lead to undefined or repeatedly defined
+   values due to global scoping. Because of the potentially conditional
+   nature of the execution, it is possible to violate the property of
+   variables stating that :ref:`variables must be defined before being used <variable-props>` (not just declared) by never executing the
+   definition. For example, the following test would break this property
+   and is therefore invalid:
+
+   ::
+
+            loop (1 < 0)
+              int i = 0;
+            pool
+            int j = i;
+
+   As well, because of the potentially repeated nature of the execution,
+   it is possible to violate the property of variables stating that
+   :ref:`variables can only be defined once <variable-props>` by repeating
+   the declaration. For example, the following test would break this
+   property and is therefore invalid:
+
+   ::
+
+            int i = 0;
+            loop (i < 2)
+              int j = 0;
+              i = i + 1;
+            pool;
+
+#.
 
    .. _clarify:empty-vector:
 
@@ -36,7 +97,7 @@ specification without cluttering it.
 
             []
 
-#. 
+#.
 
    .. _clarify:single-value-vector:
 
