@@ -50,7 +50,7 @@ Code Style and Consistency
 * You are expected to separate class definitions from implementations using header (.h) and source (.cpp)
   files.
 * Your code should be clean and readable.
-* There is no minimum expectation for commenting or documentation.
+* There is no minimum expectation for commenting or documentation, except where the implementation guidelines require a design decision to be recorded.
 
 Software Engineering Process (Gazprea only)
 ---------------------------------------------------
@@ -59,8 +59,7 @@ Software Engineering Process (Gazprea only)
 
 * Each team should be ready to present evidence that they adhered to their plan. It is suggested to create a `PLAN.md` (or similarly named) file in the base of your repo. Updating your plan throughout the project is fine so long as it represents an improvement to the process.
 
-* Failure to specify a thorough plan or to adhere to it may result in mark deductions from this category.
-Otherwise, this should be an easy 5%. The most successful teams will establish a clear software engineering process even without being explicitly required.
+* Failure to specify a thorough plan or to adhere to it may result in mark deductions from this category. Otherwise, this should be an easy 5%. The most successful teams will establish a clear software engineering process even without being explicitly required.
 
 Grammar
 ---------------------------------------------------
@@ -83,16 +82,18 @@ Implementation Guidelines Compliance
   * **VCalc:**
 
     * You should write your compiler as a series of passes each with simple functionality. Do not implement
-      your compiler as a single pass. As a minimum, your compiler should individual passes that perform
+      your compiler as a single pass. As a minimum, your compiler should have individual passes that perform
       each of the following actions:
 
       * Create an abstract syntax tree.
       * Emit LLVM, SCF, Memref and Arith Dialects that can be lowered into LLVM IR.
 
+    * Some VCalc designs do not carry over to Gazprea. Gazprea has multiple scalar types with promotion between them, nested tuple types, matrices and strings alongside vectors, assignable expressions other than plain identifiers, and routines callable before they are defined. A VCalc compiler can reasonably assume a single scalar type, a flat type tag, a one-dimensional vector representation, and one value per expression; none of these assumptions hold in Gazprea. Consider this when choosing how to represent types and values.
+
   * **Gazprea:**
 
     * You should write your compiler as a series of passes each with simple functionality. Do not implement
-      your compiler as a single pass. As a minimum, your compiler should individual passes that perform
+      your compiler as a single pass. As a minimum, your compiler should have individual passes that perform
       each of the following actions:
 
       * Create an abstract syntax tree.
@@ -103,6 +104,20 @@ Implementation Guidelines Compliance
       * Emit LLVM, SCF, Memref and Arith Dialects that can be lowered into LLVM IR.
 
     * Your compiler should use a symbol table to track symbol definitions and scopes.
+
+    * Your passes must satisfy the following properties. These are assessed by inspection, and carry more weight than the presence of the passes themselves.
+
+      * **Types are decided once.** Your emission pass must not compute or infer the type of an expression. It reads type information recorded by an earlier pass.
+
+      * **One source of truth for conversions.** The rules deciding whether a conversion is legal and the code emitting that conversion must not be two lists kept in agreement by hand. If they are separate, something in your build must check that they agree.
+
+      * **Pass dependencies are written down.** Each pass must state what it requires to already be true when it runs. If reordering two of your passes breaks your compiler, that dependency must appear somewhere a reader can find it.
+
+      * **Element-wise operations share their emission.** Adding a new operator over vectors or matrices must not require writing new index arithmetic.
+
+      * **Names are resolved once.** Your emission pass must not look a name up by string. Symbol resolution happens in an earlier pass, and later passes use the resolved symbol.
+
+      * **Locations are recorded at construction.** Every node carries the source location it came from, assigned when the node is built.
 
 TA Specification Tests
 ---------------------------------------------------
