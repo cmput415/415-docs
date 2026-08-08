@@ -12,7 +12,7 @@ Grading Matrix
 The following table shows the weight distribution for each grading category across different assignments in *CMPUT 415*.
 
 +------------------------+-----------+---------+---------+--------------+--------------+
-| **Grading Category**   | Generator | SCalc   | VCalc   |  Gazprea P1  |  Gazprea P2  |
+| **Grading Category**   | Generator | LolCode  | VCalc   |  Gazprea P1  |  Gazprea P2  |
 +========================+===========+=========+=========+==============+==============+
 | Code Style             | 15%       | 15%     | 15%     | 10%          | 10%          |
 +------------------------+-----------+---------+---------+--------------+--------------+
@@ -75,10 +75,10 @@ Implementation Guidelines Compliance
   * **Generator:**
     N/A
 
-  * **SCalc:**
+  * **LOLCODE:**
 
     * You should comply with the guidelines described
-      `here <https://cmput415.github.io/415-docs/scalc/index.html>`_.
+      `here <https://cmput415.github.io/415-docs/lolcode/index.html>`_.
 
   * **VCalc:**
 
