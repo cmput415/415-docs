@@ -55,7 +55,7 @@ Because a ``typealias`` is an aliased name for a type, you can use
   typealias integer int;
   typealias int also_int;
 
-Duplicate alias names should raise a `SymbolError`
+Duplicate alias names must raise a ``SymbolError`` (see :ref:`sec:errors`).
 
 ::
 

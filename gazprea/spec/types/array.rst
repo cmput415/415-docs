@@ -50,8 +50,8 @@ array instead of a ``real`` array.
    with the RHS element type's initialization semantics applying from left to right.
    If the LHS array is initialized using a RHS array that is too small then the LHS array will
    be padded with zeros. However, if the LHS array is initialized with a RHS
-   array that is too large then a ``SizeError`` should be thrown at
-   :term:`compile time` or :term:`run time`.
+   array that is too large then a ``SizeError`` (see :ref:`sec:errors`) must
+   be thrown at :term:`compile time` or :term:`run time`.
 
 #. Inferred Size Declarations
 
