@@ -26,7 +26,9 @@ else
 fi
 {% endfor %}
 
-# Agent identity produced by bootstrap.sh and required by git agent-commit
+# Signing identity is optional. Only enforce agent-env.sh when the manifest
+# named an agent identity for this repo.
+{% if agent.name and agent.email %}
 if [[ -r "${AGENTS_DIR}/agent-env.sh" ]]; then
   # shellcheck source=/dev/null
   source "${AGENTS_DIR}/agent-env.sh"
@@ -39,6 +41,9 @@ if [[ -r "${AGENTS_DIR}/agent-env.sh" ]]; then
 else
   flag "agent-env.sh missing; run .agents/bootstrap.sh"
 fi
+{% else %}
+ok "no agent identity configured; signing check skipped"
+{% endif %}
 
 if ((failures)); then
   printf '[check] %d failure(s); run .agents/bootstrap.sh or fix the manifest\n' "${failures}" >&2
