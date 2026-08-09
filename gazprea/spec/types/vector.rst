@@ -4,11 +4,12 @@ Vectors
 -------
 
 Vectors are language supported objects that allow for dynamically sized arrays.
-Once created, ``vectors`` in *Gazprea* interoperate freely with arrays: they
-can be intermixed with arrays in expressions; they can be used on the RHS of
-array declarations and initializations; and they can be passed as array
-arguments to functions and procedures. Vectors are nevertheless a distinct
-type, and the differences are normative: vectors have methods where arrays
+Once created, ``vectors`` in *Gazprea* interoperate with arrays for the
+element types they both support: they can be intermixed with arrays in
+expressions; they can be used on the RHS of array declarations and
+initializations; and they can be passed as array arguments to functions
+and procedures. Vectors are nevertheless a distinct type, and the
+differences include (non-exhaustively): vectors have methods where arrays
 have none, a mixed binary operation between a vector and an array produces
 an *array* result, and a vector of inferred-size arrays pads to the size
 of its *first* element (see below), whereas a matrix literal pads to its
