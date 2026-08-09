@@ -13,7 +13,7 @@ scalar-to-array *cast* must state the destination size explicitly
 (:ref:`ssec:typeCasting_stovm`), whereas the corresponding *promotion*
 infers the size from the array operand. Second, the
 ``string``/``character[*]`` conversion is an implicit two-way promotion
-with no ``as<>`` form (see the final section of this chapter).
+with no ``as<>`` form (see :ref:`ssec:typePromotion_string`).
 
 Note that there is no implicit promotion from a one-dimensional array to a
 two-dimensional array: only scalars broadcast, to arrays and to matrices
@@ -126,6 +126,8 @@ It is possible for a two sided promotion to occur with tuples. For example:
 ::
 
   boolean b = (1.0, 2) == (2, 3.0);
+
+.. _ssec:typePromotion_string:
 
 Character Array to/from String
 -------------------------------
