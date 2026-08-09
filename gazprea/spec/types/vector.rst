@@ -9,10 +9,10 @@ can be intermixed with arrays in expressions; they can be used on the RHS of
 array declarations and initializations; and they can be passed as array
 arguments to functions and procedures. Vectors are nevertheless a distinct
 type, and the differences are normative: vectors have methods where arrays
-have none, binary operations involving a vector produce *array* results,
-and a vector of inferred-size arrays pads to the size of its *first*
-element (see below), whereas a matrix literal pads to its longest row
-(see :ref:`sssec:matrix_constr`).
+have none, a mixed binary operation between a vector and an array produces
+an *array* result, and a vector of inferred-size arrays pads to the size
+of its *first* element (see below), whereas a matrix literal pads to its
+longest row (see :ref:`sssec:matrix_constr`).
 
 .. _sssec:vec_decl:
 
@@ -67,9 +67,11 @@ Those greater raise a :term:`run time` ``SizeError``. (Contrast with
 Operations
 ~~~~~~~~~~~
 
-Operations on vectors are identical syntactically and semantically to
-operations on arrays. In particular, operand lengths must match for binary
-expressions and dot product. All binary operations between vector and arrays produce array results.
+Operations on vectors use the same syntax as operations on arrays and,
+except for the differences enumerated above, share their semantics.
+In particular, operand lengths must match for binary expressions and dot
+product. All binary operations between a vector and an array produce
+array results.
 
 As a language supported object, *Gazprea* provides several methods for ``vector``:
 
