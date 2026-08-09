@@ -7,7 +7,7 @@ A procedure in *Gazprea* is like a function, except that it does not
 have to be :term:`pure <functional purity>` and as a result it may:
 
 -  Have arguments marked with ``var`` that can be mutated. By default
-   arguments are ``const`` just like functions.
+   arguments are ``const`` just like functions (see :ref:`sec:typeQualifiers`).
 
 -  A procedure may only accept a literal or expression as an argument if
    and only if the procedure declares that argument as ``const``.

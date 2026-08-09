@@ -25,10 +25,12 @@ Because a ``const`` value is not an lvalue, it cannot be passed to a
 ``var`` argument in a ``procedure``.
 
 ``const`` is the default in *Gazprea*: a declaration with no qualifier
-declares a ``const`` variable. This section is the normative home of that
-rule; other chapters reference it. Writing ``const`` explicitly is
-therefore redundant, except where the qualifier entirely replaces the
-type (the inference form below).
+declares a ``const`` variable. Both ``T x`` (qualifier elided) and
+``const T x`` (qualifier written explicitly) are legal spellings of the
+same declaration. Writing ``const`` is therefore redundant, except where
+the qualifier entirely replaces the type (the inference form below).
+This section is the normative home of that rule; other chapters reference
+it.
 
 
 .. _ssec:typeQualifiers_var:
