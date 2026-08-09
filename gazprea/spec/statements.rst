@@ -45,9 +45,10 @@ promoted to the type of the variable. For instance:
 Assignments can also be more complicated than this with arrays and tuples.
 With arrays indices may be provided in order to change the value of an array
 element. In *Gazprea*, an array cannot be indexed with an array *value*:
-``v[w]`` is illegal when ``w`` is an array variable, even one holding a
-range. Range syntax written directly inside an index position is not an
-array-valued index; it forms a slice
+``v[w]`` is illegal whenever ``w`` evaluates to an array value, even one
+holding a range (this covers array variables, expressions, and function
+calls that return an array alike). Range syntax written directly inside
+an index position is not an array-valued index; it forms a slice
 (see :ref:`sssec:array_slices`).
 For instance, with single dimensional arrays:
 
