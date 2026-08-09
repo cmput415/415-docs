@@ -1,11 +1,20 @@
 # Render context for .agents/*.tmpl and desired state for healthcheck.sh.
-# This file is committed; identity is intentionally left blank. Each user
-# fills in an `agent:` block locally (or leaves it empty to skip signing).
+# Committed with a blank agent identity; users fill it in locally (or leave
+# it blank to skip signing entirely). Identity is not prescribed by this
+# repo.
 
 project: 415-docs
 
-# System packages the bootstrap installs via apt. Python packages are managed
-# separately by uv (see `pyproject.toml`), not apt.
+# Preferred way to run a review session: pull the DocsDev image maintained
+# in cmput415/ci-utils. It bundles sphinx, latexmk, texlive, lychee, act,
+# uv, graphviz, and gnupg, so the apt_packages/commands blocks below are
+# only exercised when running natively without the image.
+docker:
+  image: ghcr.io/cmput415/docs-dev:latest
+  source: https://github.com/cmput415/ci-utils/tree/main/DocsDev
+
+# apt packages the bootstrap installs when running natively. Python
+# packages are managed separately by uv (see `pyproject.toml`).
 apt_packages:
   - name: gnupg
     version: null
@@ -14,9 +23,8 @@ apt_packages:
   - name: curl
     version: null
 
-# Runnable-on-PATH checks. `uv` is bootstrapped by the install script itself
-# when missing (curl-piped from astral.sh), so it belongs in commands rather
-# than apt_packages.
+# Runnable-on-PATH checks. `uv` is bootstrapped by the install script when
+# missing, so it belongs in commands rather than apt_packages.
 commands:
   - cmd: gpg
     package: gnupg
@@ -28,11 +36,8 @@ commands:
     package: uv
     version_flag: --version
 
-# Signing identity for `git agent-commit`. Leave every field null/empty to
-# opt out of GPG entirely -- bootstrap will skip key generation, and check /
-# healthcheck will not require an agent key. To opt in, fill in name/email
-# (and optionally key_expiry, default `1w`); the identity you put here is
-# yours to choose. Not prescribed by this repo.
+# Signing identity for `git agent-commit`. Blank by default -- fill in
+# locally to opt in; leave blank to skip GPG entirely. Not prescribed.
 agent:
   name: null
   email: null

@@ -1,117 +1,143 @@
 ---
 name: grammar-consistency
-description: Cross-file consistency check over Gazprea grammar fragments in the spec. Use this skill whenever a change touches syntactic surface -- EBNF rules, token definitions, precedence tables, keyword lists, punctuation shapes, or example programs that exercise disputed syntax. It compares the same grammar element as it appears in different spec files (and, when present, against the reference grammar in `gazc`) and reports the divergences a human editor would catch: a rule redefined with a different RHS, a keyword listed in one chapter but treated as an identifier in another, an operator whose precedence disagrees across the precedence table and its per-operator chapter. Do NOT use this for editorial review of a single chapter (that is [[spec-review]]) or for glossary consistency (that is `spec-glossary-audit` in the memory `gazprea-glossary-source-audit`).
+description: English-prose consistency check over the spec. Use whenever a change touches Sphinx RST under `gazprea/spec/` (or a sibling doc directory) and you want to catch the writing-quality issues a careful copy-editor would: spelling and typos, unjustified passive voice, subject/tense drift within a paragraph, inconsistent terminology, agreement errors, and technical-writing anti-patterns (weasel words, wandering pronouns, unmotivated jargon). This skill audits English usage only -- it does NOT critique the Gazprea language grammar or its EBNF surface. Deriving the Gazprea grammar from the informal spec examples is part of the assignment for CMPUT 415 students, so keep grammar-of-Gazprea observations out of the report. Pair with [[spec-review]] for structural/build/reference review of the same files.
 ---
 
-# Grammar consistency
+# Grammar consistency (English prose)
 
-Gazprea's syntax is currently described informally, spread across
-`gazprea/spec/*.rst` and `gazprea/spec/types/*.rst`, without a single
-Sphinx `.. productionlist::` directive to point at. That is precisely why
-divergence is easy: a rule described in `expressions.rst` can quietly
-disagree with the same rule as it appears in `types/array.rst`, and no
-build step catches it.
+The Gazprea spec is written for students who then implement a compiler
+from it. Ambiguity in the English prose costs student time and produces
+divergent implementations; this skill catches that ambiguity before it
+ships. Scope is strictly English usage in the RST sources. The Gazprea
+language's own grammar is intentionally out of scope -- the exercise for
+students is to derive it from the examples and clarify with the reference
+compiler where needed.
 
-This skill's job is to find those disagreements. It does NOT harmonize
-them -- picking the correct definition is the maintainer's call.
+## 1. What to look for
 
-## 1. What counts as a "grammar element"
+Apply the checks below to every paragraph of prose the change touches
+(chapter body, admonition body, list items, table cells). Skip fenced
+code samples (``.. code-block::``) and directive arguments.
 
-Any syntactic surface an author might restate in more than one chapter:
+### 1.1 Spelling and typography
 
-- **Keywords**: reserved words listed in `keywords.rst`. Each occurrence
-  of the word elsewhere in the spec should either be the keyword's own
-  chapter's usage or a `` `keyword` `` literal, never an identifier in a
-  code sample.
-- **Operators and punctuation**: symbols with a precedence, associativity,
-  or fixity claim. Cross-reference the precedence table (in
-  `expressions.rst` or `type_promotion.rst`) with the per-operator
-  chapters and example code.
-- **Named grammar rules**: informal RHS descriptions like "an array
-  literal is `[` expression-list `]`" that appear in more than one file.
-  A rule with the same name but a different RHS across files is the
-  primary finding this skill produces.
-- **Type-form syntax**: how a type is spelled at the source level
-  (`vector[N] of T`, `matrix[N,M] of T`, `T[N]`, tuple `(T, T)`,
-  identifier chains). Divergent forms across `types/*.rst` and their
-  users elsewhere in the spec are a common failure mode -- see PR #116
-  (vector-vs-array) for a concrete instance.
-- **Reserved punctuation shapes**: string/character delimiters, comment
-  syntax, statement terminators.
+- Real typos and misspellings (`recieve`, `seperate`, `occured`).
+- Locale drift within a single file: pick either US (`initialize`,
+  `behavior`) or UK (`initialise`, `behaviour`) and hold it. The spec's
+  established convention is US spelling; flag UK spellings as changes to
+  align, not stylistic preferences.
+- Straight vs. curly quotes: RST source uses straight quotes; a curly
+  quote copied in from a word processor is a build-time hazard.
+- Doubled words (`the the`, `to to`) and stray whitespace inside
+  sentences.
+- Product/library/tool names spelled inconsistently (`Sphinx` vs.
+  `sphinx`, `GitHub` vs. `Github`, `Gazprea` vs. `gazprea` when used as a
+  proper noun in prose rather than a code identifier).
+
+### 1.2 Passive voice
+
+Passive voice is not forbidden, but it should be justified. Flag a
+passive construction when:
+
+- The agent is important and the sentence hides it ("the value is
+  promoted" -- by what?), especially in normative statements.
+- The passive is being used to duck a shall/must claim ("errors are
+  raised" instead of "the implementation shall raise an error").
+- Two consecutive sentences are both passive and could be flipped to
+  active without loss.
+
+Leave passives alone when the agent is genuinely irrelevant, when the
+patient is the topic of the paragraph, or when the active form would
+require inventing a subject the spec does not otherwise name.
+
+### 1.3 Subject and tense consistency
+
+- Subject drift inside a paragraph: `you` -> `the programmer` -> `one` ->
+  `we` across three sentences forces the reader to re-resolve reference.
+  Pick one and hold it for the paragraph (the spec's default is `the
+  program` / `the implementation` for normative claims and `you` for
+  tutorial-style prose).
+- Tense drift: normative statements should stay in the present indicative
+  (`the type is`, `the operator returns`), not slip into future
+  (`the type will be`) or subjunctive (`the type would be`) except when
+  the surrounding logic genuinely requires it.
+- Number agreement: `each of the operators return` -> `returns`;
+  `a list of expressions are` -> `is`.
+
+### 1.4 Terminology consistency
+
+- The same concept named two ways in the same file: `element type` vs.
+  `component type`, `bounds check` vs. `range check`, `identity value`
+  vs. `zero value`. Pick one per file (ideally per chapter) and note the
+  divergence.
+- Glossary terms used without `:term:` on first mention within a section.
+  Cross-check against `gazprea/spec/glossary.rst`.
+- Editorial synonyms creeping in ("a.k.a.", "or, equivalently", "in
+  other words") that redefine a term already introduced elsewhere.
+
+### 1.5 Technical-writing anti-patterns
+
+- Weasel words in normative prose: `may`, `might`, `could`, `probably`,
+  `should` (when the RFC 2119 meaning is intended, use `MUST`/`SHALL`
+  explicitly in a `.. note::`).
+- Ambiguous pronouns: `this`, `that`, `it` without an unambiguous
+  antecedent in the previous sentence.
+- Unmotivated jargon: a term introduced without definition on first use.
+- Overloaded phrasing: `the type of the type` type constructions where a
+  rewrite would flatten the sentence.
+- Long sentences (>~40 words) that could be split without losing the
+  logical connective; especially in normative claims.
 
 ## 2. Method
 
-Do NOT try to rebuild a full parser from the prose. The method is
-pattern-based and cross-file, not lexical:
-
-1. **Enumerate the change surface.** From the diff (or a full-file scan
-   when no diff is given), extract each grammar element the file touches.
-   Store `(element, kind, file:line, RHS-or-claim-text)` rows.
-2. **Find sibling occurrences.** For each element, grep the whole spec
-   for other files that name the same element (case-insensitive, with
-   simple morphology: singular/plural, hyphenation). Record the same
-   tuple for each hit.
-3. **Compare RHS/claim text.** Two occurrences agree if a human reader
-   would produce the same parse from each. They diverge when: the RHS
-   uses a different set of nonterminals, the operator's precedence
-   number differs, the type-form's element order or delimiters differ,
-   or one occurrence names a keyword the other treats as an identifier.
-4. **Consult the reference implementation when present.** If
-   `../gazc/` (or wherever the reference compiler lives on this
-   machine) contains a grammar file (`*.g4`, `*.lark`, hand-written
-   parser), compare each divergent element against it. The compiler's
-   accepted form is a strong hint but is not authoritative for the
-   spec -- report it as evidence, not verdict.
+1. **Extract the prose surface** from the diff (or full-file scan). RST
+   sources contain both prose and directives; strip directive bodies
+   before running text checks.
+2. **Run mechanical checks first** (spelling, doubled words, quote style,
+   locale). These are cheap and their output frames what a human editor
+   would then look at.
+3. **Read the prose sequentially** to catch subject/tense/terminology
+   drift; these require paragraph-level context and are not reliably
+   caught by tooling.
+4. **Cross-reference terminology** against `glossary.rst` and the file's
+   own first-use conventions.
+5. **Compose with [[spec-review]]** for anything that is structural
+   rather than prose (cross-references, heading hierarchy, code-block
+   correctness). Do not duplicate its findings.
 
 ## 3. Report structure
 
-Group findings by element, then by severity. For each element list every
-site (`file:line`) with the RHS-or-claim excerpt, mark which pair(s)
-diverge, and give a one-sentence characterization of the divergence.
-Close with the machine-readable verdict:
+Group findings by category (spelling, passive voice, subject/tense,
+terminology, anti-patterns). Within each category list `file:line`,
+a one-sentence claim, and a concrete rewrite where the fix is
+mechanical. Do not list what passed. Close with the machine-readable
+verdict:
 
-    GRAMMAR-CONSISTENCY: agree | diverge
+    GRAMMAR-CONSISTENCY: clean | advisory | blocking
 
-`diverge` when any element has two occurrences whose claims disagree;
-`agree` only when every element the change surface named checked out.
+`blocking` when a defect changes the meaning of a normative statement or
+would confuse a student implementing from the spec; `advisory` for
+readability improvements that do not change meaning; `clean` when the
+prose surface the change touched has no findings.
 
-## 4. Severity rubric
+## 4. What this skill does NOT do
 
-- **blocking**: same element, contradictory RHS/precedence/keyword-status
-  across chapters -- either would be a valid parse but not both. A
-  reader following the spec would produce a program the other chapter
-  rejects.
-- **advisory**: same element, same substance, different phrasing (e.g.
-  one chapter says "comma-separated list of expressions", the other
-  says "expression sequence separated by `,`"). Not wrong, but a
-  liability once someone tries to edit one without the other.
-- **informational**: element appears in one file only. Log so a future
-  invocation can spot when a second occurrence appears.
+- It does not comment on the Gazprea language's own grammar, EBNF, or
+  syntax rules. That is the students' exercise; the spec's informal
+  examples are the intended interface.
+- It does not rewrite prose beyond mechanical fixes; the author decides
+  substantive rewrites.
+- It does not lint the code inside `.. code-block::` blocks -- that is
+  [[spec-review]] 2.5 (parse/typecheck via the reference compiler).
+- It does not enforce a house style guide that is not documented in this
+  file. If the repo adds a `STYLE.md`, port the checks here rather than
+  inventing them ad hoc.
 
-## 5. What this skill does NOT do
+## 5. Composition
 
-- It does not propose the correct definition. Consistency is orthogonal
-  to correctness; the maintainer picks which occurrence to canonicalize
-  around.
-- It does not lint prose. If the RHS is spelled correctly but the
-  surrounding paragraph is ungrammatical, that is [[spec-review]]'s
-  problem.
-- It does not add `.. productionlist::` directives even when doing so
-  would trivially resolve a divergence. Migrating the spec to Sphinx
-  grammar directives is a separate initiative; this skill audits the
-  current state.
-- It does not verify grammar rules against sample programs. Extracting
-  code blocks and running them through `gazc` is [[spec-review]] 2.5
-  or the (unbundled) `spec-example-check` skill.
-
-## 6. Precedent
-
-- PR #116 (`spec(gazprea): scope the vector-array equivalence claim`)
-  is the archetypal finding this skill exists to catch: two chapters
-  making incompatible claims about whether a vector is (or is not) an
-  array. Rerun against it as a sanity check when adjusting the
-  skill's method.
-- PR #118 (`refactor/precedence-single-home`) exists because the
-  precedence table was previously restated in multiple chapters --
-  exactly the divergence pattern this skill is designed to prevent
-  from recurring.
+- Run [[spec-review]] first for structural/build issues, then this skill
+  for prose quality. A file that is structurally broken (build fails, refs
+  unresolved) is not worth a prose pass yet.
+- If the change touches only prose, this skill runs first and
+  [[spec-review]] runs as a lighter follow-up (skip the parse-block
+  step).

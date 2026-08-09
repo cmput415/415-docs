@@ -6,13 +6,12 @@ set -euo pipefail
 AGENTS_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 STATE_DIR="${AGENTS_DIR}/state"
 mkdir -p "${STATE_DIR}"
-cd "${AGENTS_DIR}/.."   # sentinel paths in the manifest are workspace-relative
+cd "${AGENTS_DIR}/.."
 
 log() { printf '[bootstrap] %s\n' "$*"; }
 fail() { printf '[bootstrap] ERROR: %s\n' "$*" >&2; exit 1; }
 
 # ---------------------------------------------------------------- apt packages
-# Non-interactive frontend for unattended installs [nixcraft-debianfrontend].
 export DEBIAN_FRONTEND=noninteractive
 
 APT_PACKAGES=(
@@ -30,7 +29,6 @@ fi
 missing=()
 for spec in "${APT_PACKAGES[@]}"; do
   name="${spec%%=*}"
-  # dpkg-query, not command -v, is the authoritative install test [arslan2019]
   if ! dpkg-query -W -f='${Status}' "${name}" 2>/dev/null | grep -q 'install ok installed'; then
     missing+=("${spec}")
   fi
@@ -38,36 +36,26 @@ done
 
 if ((${#missing[@]})); then
   log "installing: ${missing[*]}"
-  # a single unreachable third-party source must not block bootstrap;
-  # the install below is the real gate
-  ${SUDO} apt-get update -q || log "warning: apt-get update failed for some sources; attempting install anyway"
+  ${SUDO} apt-get update -q || log "apt-get update warning; attempting install anyway"
   ${SUDO} apt-get install -q -y --no-install-recommends "${missing[@]}"
 else
   log "apt dependencies already satisfied"
 fi
 
 # ------------------------------------------------------------------------ uv
-# Astral's uv is our Python package manager; installed here rather than via
-# apt so the pinned version is reproducible across distros [uv-install].
 if ! command -v uv >/dev/null; then
-  log "installing uv from astral.sh"
+  log "installing uv"
   curl -LsSf https://astral.sh/uv/install.sh | sh
-  # The installer drops uv into ~/.local/bin; make it discoverable for the
-  # rest of this shell without requiring the user to re-source their profile.
   export PATH="${HOME}/.local/bin:${PATH}"
   command -v uv >/dev/null || fail "uv install completed but binary not on PATH"
 fi
 log "uv $(uv --version | awk '{print $2}')"
 
-# Sync the project venv from pyproject.toml. --frozen would require a
-# checked-in uv.lock; we allow a soft sync so contributors don't have to
-# regenerate the lock on every dependency bump [uv-sync].
 (cd "${AGENTS_DIR}/.." && uv sync)
 
-# ------------------------------------------------------- ephemeral signing key
-# Identity is optional. Bootstrap only mints a GPG key when the manifest's
-# `agent:` block names an identity; otherwise signing is left to the user's
-# own git configuration.
+# ------------------------------------------------------- optional signing key
+# Only mints a key when the manifest names an identity. Otherwise signing is
+# left to whatever the user has configured in git.
 AGENT_GIT_NAME="{{ agent.name or '' }}"
 AGENT_GIT_EMAIL="{{ agent.email or '' }}"
 
@@ -76,7 +64,6 @@ if [[ -n "${AGENT_GIT_NAME}" && -n "${AGENT_GIT_EMAIL}" ]]; then
   AGENT_UID="${AGENT_GIT_NAME} <${AGENT_GIT_EMAIL}>"
 
   live_fpr() {
-    # sec validity 'e' = expired, 'r' = revoked: treat both as absent
     gpg --homedir "${AGENT_GNUPGHOME}" --list-secret-keys --with-colons "${AGENT_GIT_EMAIL}" 2>/dev/null \
       | awk -F: '$1=="sec" && $2!="e" && $2!="r" {take=1; next}
                  take && $1=="fpr" {print $10; exit}'
@@ -84,23 +71,16 @@ if [[ -n "${AGENT_GIT_NAME}" && -n "${AGENT_GIT_EMAIL}" ]]; then
 
   fpr="$(live_fpr || true)"
   if [[ -z "${fpr}" ]]; then
-    log "generating ephemeral agent key for ${AGENT_UID}"
+    log "generating agent key for ${AGENT_UID}"
     rm -rf "${AGENT_GNUPGHOME}"
     mkdir -p "${AGENT_GNUPGHOME}" && chmod 700 "${AGENT_GNUPGHOME}"
-    # Unattended, passphrase-less by design: the key is short-lived and local,
-    # a bookkeeping marker rather than a long-term credential [gnupg-keymgmt]
     gpg --homedir "${AGENT_GNUPGHOME}" --batch --pinentry-mode loopback --passphrase '' \
         --quick-generate-key "${AGENT_UID}" ed25519 sign "{{ agent.key_expiry or '1w' }}"
     fpr="$(live_fpr)"
     [[ -n "${fpr}" ]] || fail "key generation produced no usable secret key"
   else
-    log "reusing live agent key ${fpr}"
+    log "reusing agent key ${fpr}"
   fi
-
-  expiry_epoch="$(gpg --homedir "${AGENT_GNUPGHOME}" --list-keys --with-colons "${fpr}" \
-    | awk -F: '$1=="pub" {print $7; exit}')"
-  log "key ${fpr} expires $(date -u -d "@${expiry_epoch}" '+%Y-%m-%d' 2>/dev/null || echo 'never')"
-  log "export the public key with: gpg --homedir '${AGENT_GNUPGHOME}' --armor --export ${fpr}"
 
   cat > "${AGENTS_DIR}/agent-env.sh" <<EOF
 export AGENT_GIT_NAME="${AGENT_GIT_NAME}"
@@ -112,13 +92,10 @@ EOF
   log "agent identity ready; source ${AGENTS_DIR}/agent-env.sh"
 else
   log "no agent.name/email in manifest; skipping GPG key generation"
-  # Ensure any stale env from a previous identity-enabled bootstrap is gone
   rm -f "${AGENTS_DIR}/agent-env.sh"
 fi
 
 # ------------------------------------------------------------------ baselines
-# Recorded desired-vs-actual reference points for healthcheck.sh; drift is a
-# divergence from a recorded baseline, not from guesswork [ibm-drift]
 sha256sum "${AGENTS_DIR}/manifest.yaml" | awk '{print $1}' > "${STATE_DIR}/manifest.sha256"
 
 : > "${STATE_DIR}/dpkg-versions.txt"

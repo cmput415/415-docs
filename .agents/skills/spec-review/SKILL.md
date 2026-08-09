@@ -1,6 +1,6 @@
 ---
 name: spec-review
-description: Systematic editorial and structural review of one or more Sphinx source files in `gazprea/spec/`. Use this skill whenever you are asked to review, audit, sanity-check, or "read through" spec content in this repository -- including PR review over spec changes, pre-merge checks on a feature branch, or a fresh pass over an existing chapter. It defines the checklist a careful maintainer applies: heading hierarchy, cross-reference (`:ref:`, `:term:`, `:doc:`) integrity, glossary term coverage, admonition usage, RST directive correctness, unresolved TODO/FIXME/XXX markers, and a `gazc`-backed sanity check on inline Gazprea code blocks. Do NOT use this skill for grammar-fragment cross-consistency (that is [[grammar-consistency]]) or for glossary entry sourcing (that is the workflow in the memory `gazprea-glossary-source-audit`).
+description: Systematic editorial and structural review of one or more Sphinx source files in `gazprea/spec/`. Use this skill whenever you are asked to review, audit, sanity-check, or "read through" spec content in this repository -- including PR review over spec changes, pre-merge checks on a feature branch, or a fresh pass over an existing chapter. It defines the checklist a careful maintainer applies: heading hierarchy, cross-reference (`:ref:`, `:term:`, `:doc:`) integrity, glossary term coverage, admonition usage, RST directive correctness, unresolved TODO/FIXME/XXX markers, and a `gazc`-backed sanity check on inline Gazprea code blocks. Compose with [[grammar-consistency]] for English-prose quality on the same files (spelling, passive voice, subject/tense drift, terminology); this skill deliberately does not cover those. Glossary entry sourcing lives in the memory `gazprea-glossary-source-audit`.
 ---
 
 # Spec review
@@ -35,31 +35,32 @@ code blocks in the file), and say so in the report.
 
 ### 2.1 Build integrity + CI parity
 
-Run the bundled `check-ci.sh` from this skill's directory:
+Replay the real CI workflows locally with [`act`](https://github.com/nektos/act)
+rather than a hand-rolled shell harness. `act` is preinstalled in the
+DocsDev image (`ghcr.io/cmput415/docs-dev`); if you are running natively,
+install it once and re-use across sessions.
 
-    .agents/skills/spec-review/check-ci.sh
+    act -j build       # replays .github/workflows/deploySite.yml
+    act -j linkcheck   # replays .github/workflows/linkcheck.yml (if present)
 
-It mirrors the two CI workflows on the repo:
+The two workflows cover:
 
-- `.github/workflows/deploySite.yml` -- Sphinx build over every doc
-  subdirectory listed in the top-level Makefile
-  (`setup generator lolcode vcalc gazprea info`). Run with
-  `-W -n` locally so warnings become errors and unresolved
-  `:ref:`/`:term:`/`:doc:` references surface; CI's own Sphinx step
-  is less strict, so passing locally is a stronger guarantee.
-- `.github/workflows/linkcheck.yml` -- `lychee` over the same file
-  globs and args CI uses (`--exclude-path base/index.html
-  --exclude-all-private '**/*.md' '**/*.rst' '**/*.html' '**/*.tex'`).
-  The script installs lychee via `cargo install` or the upstream
-  installer if the binary is missing; if it cannot, the check hard-fails
-  rather than skipping silently.
+- `deploySite.yml` -- Sphinx html + latexpdf over every doc subdirectory
+  listed in the top-level Makefile (`setup generator lolcode vcalc
+  gazprea info`).
+- `linkcheck.yml` -- `lychee` over the file globs and args CI uses.
 
-Any Sphinx warning that becomes an error, any RST parse failure,
-any unresolved cross-reference, and any lychee-reported broken link
-is `blocking`.
+Any Sphinx warning that becomes an error, any RST parse failure, any
+unresolved cross-reference, and any `lychee`-reported broken link is
+`blocking`.
 
-Sub-modes: pass `sphinx` or `links` to run just one workflow's
-worth of checks (`.agents/skills/spec-review/check-ci.sh sphinx`).
+For a stricter local pass than CI's own Sphinx step, invoke the build
+directly with warnings-as-errors and nit-picky mode after (or instead of)
+the workflow replay:
+
+    uv run sphinx-build -W -n -q -b html gazprea gazprea/_build/html
+
+Passing this stricter form is a stronger guarantee than passing CI alone.
 
 ### 2.2 Heading hierarchy
 
@@ -123,9 +124,12 @@ worth of checks (`.agents/skills/spec-review/check-ci.sh sphinx`).
   rules), spot-check that the two do not contradict. This is a
   targeted check, not an exhaustive cross-file diff; that is
   [[spec-lattice-consistency]] territory.
-- If the file names a grammar fragment, delegate the fragment's
-  consistency to [[grammar-consistency]] and note in the report that
-  the delegation happened.
+- Prose-quality review (spelling, passive voice, subject/tense drift,
+  terminology consistency) is out of scope for this skill; run
+  [[grammar-consistency]] over the same files and note that the
+  delegation happened. The two skills are designed to compose: run this
+  one first for structural/build issues, then grammar-consistency for
+  the English pass.
 
 ## 3. Invocation contract
 
