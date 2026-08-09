@@ -6,6 +6,84 @@ Backend
 You don’t need to implement an interpreter for Gazprea. You only need to
 implement a *MLIR* code generator that outputs *LLVM IR*.
 
+.. This uses a direct link because it links to a different sphinx project (info)
+
+See also `MLIR Tips and Hints <../../info/mlir_tips.html>`_ for detailed MLIR and dialect tips, debugging strategies, and dialect selection guidance.
+
+.. _ssec:representing_values:
+
+Representing Values
+-------------------
+
+When you emit MLIR you must decide *how a value lives*: as a slot in memory that
+you load from and store to, or as an SSA value that is defined once. **Use the
+memory model.** It keeps code generation local and mechanical. The choice is the
+same for scalars and for arrays, matrices, vectors, and aggregates, so this section
+treats them together. This section also describes the value (SSA) model, because
+understanding it explains what the optimizer does for you, but you are not expected
+to implement it.
+
+.. note::
+
+   **In practice.** The memory model (``alloca`` / ``load`` / ``store`` +
+   ``mem2reg``) is standard for imperative, systems-style languages with an
+   explicit, language-defined memory layout, like C. Value-semantic ``tensor``
+   representations are favored at the high level by array- and math-focused
+   compilers like Fortran and Tensorflow.
+
+The memory model
+~~~~~~~~~~~~~~~~
+**Use this.**
+
+*Scalars.* Give every value a slot: reads are loads, writes are stores. The mutable
+state lives in memory and the optimizer's ``mem2reg`` promotion turns the slots back
+into SSA registers for you. A scalar declaration is an ``alloca``, a read a
+``load``, an assignment a ``store``:
+
+::
+
+   // var integer n = 42;  then  n = n + 1;
+   %size = llvm.mlir.constant(1 : i64) : i64
+   %n = llvm.alloca %size x i32 : (i64) -> !llvm.ptr
+   %c42 = llvm.mlir.constant(42 : i32) : i32
+   llvm.store %c42, %n : i32, !llvm.ptr
+   %0 = llvm.load %n : !llvm.ptr -> i32
+   %c1 = llvm.mlir.constant(1 : i32) : i32
+   %1 = llvm.add %0, %c1 : i32
+   llvm.store %1, %n : i32, !llvm.ptr
+
+It pairs naturally with unstructured ``cf``: because the state is in memory,
+``break`` / ``continue`` / ``return`` are ordinary branches with nothing threaded
+through them and no analysis of which variables cross a construct.
+
+*Arrays, matrices, vectors, and aggregates.* Use a ``{ptr, len, cap}`` struct (or
+``{ptr, len}`` where capacity is not needed) for **every** sequence: arrays,
+vectors, strings, matrices. It is one representation for growable and fixed
+sequences alike, and — because it *is* an LLVM type — it nests freely inside an
+``!llvm.struct``. A tuple or struct is then just an ``!llvm.struct`` of its fields,
+with an array field an ordinary ``{ptr, len}`` member and no special case. Keeping
+this single representation across the whole language is the recommended starting
+point.
+
+.. Note::
+   For performance marks, consider how your vector grows.
+
+The value (SSA) model
+~~~~~~~~~~~~~~~~~~~~~
+Understand the formulation, avoid implementing it.
+
+*Scalars.* Map each variable name to its *current* SSA value: a read is a lookup, an
+assignment produces a new value and rebinds the name. There are no slots and no
+loads or stores; bufferization introduces memory later, downstream of your emitter.
+The one hard case is a *merge*: after an ``if``, a variable set on only one branch
+still needs a single value afterward. 
+
+*Arrays and aggregates.* The array analog is ``tensor``: a write yields a new value
+you thread through, exactly as in the scalar model and with the same costs. It also
+cannot nest in an ``!llvm.struct``, so array-typed struct and tuple fields must be
+split out of their aggregate (SROA/aggregate flattening). The payoff is greater array and
+matrix optimization.
+
 .. _ssec:backend_memory:
 
 Memory Management
@@ -17,19 +95,19 @@ but this could be problematic if the arrays are very large.
 It is likely safer to use ``malloc`` and ``free`` for these purposes.
 This may be done in either your runtime or directly within MLIR.
 
-Below is an example of how to use ``malloc`` and ``free`` within MLIR using the LLVM dialect:
+Below is an example of how to use ``malloc`` and ``free`` within MLIR:
 
 ::
 
   module {
-    llvm.func @malloc(i32) -> !llvm.ptr<i8>
-    llvm.func @free(!llvm.ptr<i8>)
-    llvm.func @main() -> i32 {
-      %0 = llvm.mlir.constant(128 : i32) : i32
-      %1 = llvm.call @malloc(%0) : (i32) -> !llvm.ptr<i8>
-      llvm.call @free(%1) : (!llvm.ptr<i8>) -> ()
-      %c0_i32 = llvm.mlir.constant(0 : i32) : i32
-      llvm.return %c0_i32 : i32
+    func.func private @malloc(i64) -> !llvm.ptr
+    func.func private @free(!llvm.ptr)
+    func.func @main() -> i32 {
+      %0 = arith.constant 128 : i64
+      %1 = func.call @malloc(%0) : (i64) -> !llvm.ptr
+      func.call @free(%1) : (!llvm.ptr) -> ()
+      %c0_i32 = arith.constant 0 : i32
+      func.return %c0_i32 : i32
     }
   }
 
