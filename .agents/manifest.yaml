@@ -41,7 +41,9 @@ agent:
 # Skills bundled with this repo for review/consistency work over the spec.
 # Each entry names a directory under `.agents/skills/` that contains a
 # SKILL.md file. The healthcheck asserts these directories still exist.
-skills: []
+skills:
+  - spec-review
+  - grammar-consistency
 
 sentinels:
   - .agents/bootstrap.sh.tmpl
