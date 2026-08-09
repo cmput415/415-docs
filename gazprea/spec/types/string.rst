@@ -25,7 +25,7 @@ that all lengths are inferred:
 
 ::
 
-  string <identifier> = <type-string>;
+  [<qualifier>] string <identifier> = <type-string>;
 
 .. _sssec:string_lit:
 

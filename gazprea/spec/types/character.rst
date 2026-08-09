@@ -52,6 +52,7 @@ Carriage Return ``\r``               ``0x0D``
 Quotation Mark  ``\"``               ``0x22``
 Apostrophe      ``\'``               ``0x27``
 Backslash       ``\\``               ``0x5C``
+UTF-8           ``\xH[H]``          e.g. ``x61 ('a')``
 =============== =================== ===============
 
 .. _sssec:character_ops:
