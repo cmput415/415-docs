@@ -86,7 +86,7 @@ requirements on the dimensionality of the operands. The consequence is
 that, *as an operand of matrix multiplication* (``**``), a scalar can only
 be promoted to a matrix when the other operand is a square matrix
 (:math:`m \times m`). In element-wise operations and initializations a
-scalar broadcasts to a matrix of any shape.
+scalar broadcasts to a matrix of any dimensions.
 
 Tuple to Tuple
 --------------
@@ -133,9 +133,7 @@ Character Array to/from String
 A ``string`` can be implicitly converted to a ``character`` array
 (``character[*]``) and vice-versa (two-way type promotion). Because a
 ``string`` is itself a vector of ``character`` (see :ref:`ssec:string`),
-the conversion of note is between ``string`` and character *arrays*; a
-``string`` used where a character array is expected, or vice-versa,
-converts silently.
+the conversion of note is between ``string`` and character *arrays*.
 
 ::
 
