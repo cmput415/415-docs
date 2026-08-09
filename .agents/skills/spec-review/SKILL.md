@@ -33,14 +33,33 @@ below ran end-to-end with no findings.
 Apply these in order. Skip a section only when it does not apply (e.g. no
 code blocks in the file), and say so in the report.
 
-### 2.1 Build integrity
+### 2.1 Build integrity + CI parity
 
-- `uv run sphinx-build -W -n -b html gazprea _build/spec-review` must
-  succeed. `-W` promotes warnings to errors, `-n` catches nitpicky
-  cross-reference misses. If it fails, that failure is the top finding
-  and the rest of the review runs against whatever survived.
-- Any RST parse error, unknown directive, or unresolved `:ref:` /
-  `:term:` / `:doc:` reference is `blocking`.
+Run the bundled `check-ci.sh` from this skill's directory:
+
+    .agents/skills/spec-review/check-ci.sh
+
+It mirrors the two CI workflows on the repo:
+
+- `.github/workflows/deploySite.yml` -- Sphinx build over every doc
+  subdirectory listed in the top-level Makefile
+  (`setup generator lolcode vcalc gazprea info`). Run with
+  `-W -n` locally so warnings become errors and unresolved
+  `:ref:`/`:term:`/`:doc:` references surface; CI's own Sphinx step
+  is less strict, so passing locally is a stronger guarantee.
+- `.github/workflows/linkcheck.yml` -- `lychee` over the same file
+  globs and args CI uses (`--exclude-path base/index.html
+  --exclude-all-private '**/*.md' '**/*.rst' '**/*.html' '**/*.tex'`).
+  The script installs lychee via `cargo install` or the upstream
+  installer if the binary is missing; if it cannot, the check hard-fails
+  rather than skipping silently.
+
+Any Sphinx warning that becomes an error, any RST parse failure,
+any unresolved cross-reference, and any lychee-reported broken link
+is `blocking`.
+
+Sub-modes: pass `sphinx` or `links` to run just one workflow's
+worth of checks (`.agents/skills/spec-review/check-ci.sh sphinx`).
 
 ### 2.2 Heading hierarchy
 
