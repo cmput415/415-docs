@@ -12,7 +12,7 @@ The name of built in functions are reserved and a user program cannot
 define a function or a procedure with the same name as a built-in function.
 If a :term:`declaration` or a :term:`definition` with the same name as a
 built-in function is encountered in a *Gazprea* program, then the compiler
-must issue a ``SymbolError`` (see :ref:`sec:errors`).
+must emit a ``SymbolError`` (see :ref:`sec:errors`).
 
 Note that although the examples below all use arrays, all the built-ins work
 on Vectors and Strings, since they are always compatible with arrays.

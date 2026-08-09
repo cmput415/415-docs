@@ -55,7 +55,7 @@ A generator may be used to construct either a one or two dimensional array.
 A generator creates a value of a 1D array type when one
 :term:`iterator variable` is used, and a 2D array type when two
 iterator variables are used.
-Any other number of iterator variables will yield a ``SyntaxError``
+Any other number of iterator variables must emit a ``SyntaxError``
 (see :ref:`sec:errors`).
 In particular, *Gazprea* does not currently support generators over
 three or more iterator variables (no direct construction of arrays

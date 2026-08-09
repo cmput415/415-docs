@@ -100,9 +100,9 @@ variable. For instance:
 The types of the variables must match the types of the tuple’s fields,
 or the tuple’s fields must be able to be automatically promoted to the
 variable’s type. The number of variables in the comma separated list
-must match the number of fields in the tuple, if this is not the case an
-``AssignError`` (see :ref:`sec:errors`) must be raised. This assignment is
-performed left-to-right.
+must match the number of fields in the tuple, if this is not the case the
+compiler must emit an ``AssignError`` (see :ref:`sec:errors`). This
+assignment is performed left-to-right.
 
 Assignments and initializations must perform a deep copy. It should not
 be possible to cause the aliasing of memory locations with an
@@ -129,7 +129,7 @@ arrays and tuples.
 
 Variables may be declared as const, and in this case a program that
 places them on the left hand side of an assignment expression is
-:term:`ill-formed`.  The compiler must raise an ``AssignError`` when this is
+:term:`ill-formed`.  The compiler must emit an ``AssignError`` when this is
 detected, since it does not make sense to change a constant value.
 
 The right hand side of an assignment statement is always evaluated
@@ -387,7 +387,8 @@ expression do not affect the captured domain.  For instance:
              i -> std_output; "\n" -> std_output;
            }
 
-Note that multiple domain expressions are *not* allowed:
+Note that multiple domain expressions are *not* allowed; an iterator
+loop with more than one domain expression must emit a ``SyntaxError``.
 
 ::
 
@@ -433,8 +434,8 @@ actually contains the ``break``.
            "\n" -> std_output;
          }
 
-If a ``break`` statement is not contained within a loop a
-``StatementError`` must be raised.
+If a ``break`` statement is not contained within a loop the compiler must
+emit a ``StatementError``.
 
 .. _ssec:statements_continue:
 
@@ -446,7 +447,8 @@ a loop. When a ``continue`` statement is executed the innermost loop
 that contains the ``continue`` statements starts its next iteration.
 ``continue`` stops the execution of the loop’s body statement, the loop
 then continues as though the body statement finished its execution
-normally.
+normally. If a ``continue`` statement is not contained within a loop the
+compiler must emit a ``StatementError``.
 
 ::
 

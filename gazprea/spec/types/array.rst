@@ -50,8 +50,8 @@ array instead of a ``real`` array.
    with the RHS element type's initialization semantics applying from left to right.
    If the LHS array is initialized using a RHS array that is too small then the LHS array will
    be padded with zeros. However, if the LHS array is initialized with a RHS
-   array that is too large then a ``SizeError`` (see :ref:`sec:errors`) must
-   be thrown at :term:`compile time` or :term:`run time`.
+   array that is too large then the compiler must emit a ``SizeError``
+   (see :ref:`sec:errors`) at :term:`compile time` or :term:`run time`.
 
 #. Inferred Size Declarations
 
@@ -280,8 +280,7 @@ Operations
          integer x = v[-2]; /* x == 5 */
          integer y = [4,5,6][-1] /* y == 6 */
 
-      Out of bounds indexing must cause an ``IndexError``
-      (see :ref:`sec:errors`).
+      Out of bounds indexing must emit an ``IndexError``.
 
    e. Stride
 
@@ -363,7 +362,7 @@ Operations
 
 
    Attempting to perform a binary operation between two arrays of
-   different sizes should result in a ``SizeError``.
+   different sizes must emit a ``SizeError``.
 
    When one of the operands of a binary operation is an array and the
    other operand is a scalar, the scalar value must first

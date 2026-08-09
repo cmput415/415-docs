@@ -50,7 +50,9 @@ the beginning of a block. For instance this would not be legal in
        }
 
 because the declaration of the real version of ``i`` does not occur at
-the start of the block.
+the start of the block. A declaration that appears after the leading
+declaration block of an enclosing block statement must emit a
+``StatementError``.
 
 The following declaration placement is legal:
 
@@ -72,11 +74,10 @@ therefore :term:`ill-formed`.
        integer i = i;
        integer[10] v = v[0] * 2;
 
-A ``SymbolError`` (see :ref:`sec:errors`) must be raised about the use of
-undeclared variables
-in these cases. If a variable of the same name is declared in an
-enclosing :term:`scope`, then it is legal to use that in the initialization
-of a variable with the same name. For instance:
+The compiler must emit a ``SymbolError`` (see :ref:`sec:errors`) for the
+use of undeclared variables in these cases. If a variable of the same name
+is declared in an enclosing :term:`scope`, then it is legal to use that in
+the initialization of a variable with the same name. For instance:
 
 ::
 

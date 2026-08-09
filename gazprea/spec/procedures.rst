@@ -80,7 +80,7 @@ These procedures can be called as follows:
 Only procedures may be called with ``call``. Functions must
 appear in expressions because they can not cause side effects, so using
 a function in a ``call`` statement would not do anything. *Gazprea*
-must raise a ``CallError`` (see :ref:`sec:errors`) if a function is used in
+must emit a ``CallError`` (see :ref:`sec:errors`) if a function is used in
 a ``call`` statement.
 
 A procedure may never be called within a function, doing so would allow for
@@ -103,7 +103,7 @@ These restrictions are made by *Gazprea* in order to allow for more
 optimizations.
 
 Procedures without a return clause may not be used in an expression.
-*Gazprea* must raise a ``CallError`` in such a case.
+*Gazprea* must emit a ``CallError`` in such a case.
 ::
 
          /* p is some procedure with no return clause */
@@ -177,8 +177,8 @@ In *Gazprea* a program that aliases mutable variables is
 :term:`ill-formed`.  The only case
 where aliasing of arguments is allowed is through disjoint tuple or struct field access. This
 helps *Gazprea* compilers perform more optimizations. However, the compiler must be able
-to catch cases where mutable memory locations are aliased, and an
-``AliasingError`` must be raised when this is detected. For instance:
+to catch cases where mutable memory locations are aliased, and must emit
+an ``AliasingError`` when this is detected. For instance:
 
 ::
 

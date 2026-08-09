@@ -45,7 +45,7 @@ For example:
 
      var integer i;
 
-The compiler must raise an ``AssignError`` (see :ref:`sec:errors`) if an
+The compiler must emit an ``AssignError`` (see :ref:`sec:errors`) if an
 attempt is made to modify a variable that is not explicitly declared
 ``var``.
 

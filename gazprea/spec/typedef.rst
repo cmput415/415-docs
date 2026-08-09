@@ -55,7 +55,7 @@ Because a ``typealias`` is an aliased name for a type, you can use
   typealias integer int;
   typealias int also_int;
 
-Duplicate alias names must raise a ``SymbolError`` (see :ref:`sec:errors`).
+Duplicate alias names must emit a ``SymbolError`` (see :ref:`sec:errors`).
 
 ::
 
@@ -75,8 +75,8 @@ folding of scalar literals but also constant propagation through other
     vec_of_two v = 1..3;
   }
 
-Should raise a ``SizeError`` on line 3 since the ``vec_of_two`` type has a size
-of 2 and an array of size 3 is being assigned.
+The compiler must emit a ``SizeError`` on line 3 since the ``vec_of_two``
+type has a size of 2 and an array of size 3 is being assigned.
 
 Because the size may be any ``constexpr``, it can reference other constant
 expressions rather than being limited to literals:

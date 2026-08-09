@@ -7,7 +7,7 @@ A function in *Gazprea* has several requirements:
 
 1.  All of the arguments are implicitly ``const``, and can not be mutable.
 
-2.  Function arguments cannot contain type qualifiers. Including a type qualifier with a function argument should result in a ``SyntaxError``.
+2.  Function arguments cannot contain type qualifiers. Including a type qualifier with a function argument must emit a ``SyntaxError`` (see :ref:`sec:errors`).
 
 3.  Argument types must be explicit. Inferred size arrays are allowed
 
@@ -80,7 +80,10 @@ A function’s body can also be given by a block statement instead of a
 single expression. In this case the return value of the function is
 given with the return statement. A return statement must be reached by
 all possible control flows in the function before the end of the
-function is encountered.
+function is encountered; if this cannot be established the compiler must
+emit a ``ReturnError``. Control-flow constructs are assumed to be
+undecidable, so both branches of every conditional are considered
+reachable.
 
 ::
 

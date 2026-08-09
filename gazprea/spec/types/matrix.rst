@@ -35,8 +35,8 @@ All rows with fewer elements than the row of maximum row length are padded with
 zeros on the right. Similarly, if the matrix is declared with a row
 length larger than the number of rows provided, the bottom rows of the
 matrix are zero. If the number of rows or columns exceeds the
-amounts given in a declaration a ``SizeError`` (see :ref:`sec:errors`) is
-to be produced.
+amounts given in a declaration the compiler must emit a ``SizeError``
+(see :ref:`sec:errors`).
 
 ::
 
@@ -87,7 +87,7 @@ multiplication.
 Specifically, the number of columns of the first operand must equal the number
 of rows of the second operand, e.g. an :math:`m \times n` matrix multiplied by
 an :math:`n \times p` matrix will produce an :math:`m \times p` matrix.
-If the dimensions are not correct a ``SizeError`` should be raised.
+If the dimensions are not correct the compiler must emit a ``SizeError``.
 
 Arrays of any dimension support the built in functions ``rows`` and ``columns``,
 which when passed a 2D array yields the number of rows and columns in the
@@ -120,7 +120,8 @@ and column. Both the row and column indices must be integers.
 
            /* M[1][2] == 12 */
 
-As with arrays, out of bounds indexing on matrices is an ``IndexError``.
+As with arrays, out of bounds indexing on matrices must emit an
+``IndexError``.
 
 
 Type Casting and Type Promotion
