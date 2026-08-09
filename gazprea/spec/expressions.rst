@@ -12,7 +12,9 @@ Table of Operator precedence
 ----------------------------
 
 The following is a table containing all of the precedences and
-associativities of the operators in *Gazprea*.
+associativities of the operators in *Gazprea*. Parentheses are not
+listed: they do not participate in the precedence relation and instead
+override it by grouping their contents into a new atom.
 
 +----------------+------------------------------------+-------------------+
 | **Precedence** | **Operators**                      | **Associativity** |

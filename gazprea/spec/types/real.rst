@@ -53,7 +53,10 @@ multiplies the first literal by :math:`{10}^{x}`. For example,
 Operations
 ~~~~~~~~~~
 
-Floating point operations and precedence are equivalent to :ref:`integer operation and precedence <sssec:integer_ops>`.
+Floating point operations are equivalent to :ref:`integer operations
+<sssec:integer_ops>`. Operator precedence and associativity, as for all
+types, are specified once in the :ref:`table of operator precedence
+<ssec:expressions_toop>`.
 
 Operations on real numbers should adhere to the IEEE 754 spec with
 regards to the representation of not-a-number(NaNs), infinity(infs), and
