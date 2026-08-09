@@ -257,7 +257,11 @@ Operations
    d. Indexing
 
       An array may be indexed in order to retrieve the values stored in
-      the array. An array may be indexed using integers.
+      the array. An array may be indexed using an integer, in which case
+      the index yields a single element, or using range syntax written
+      directly at the index position, in which case the index yields a
+      slice (see :ref:`sssec:array_slices`). An array *value* — including
+      a range bound to a variable — is not a legal index.
       *Gazprea* is 1-indexed, so the first element of an array is at index 1
       (as opposed to index 0 in languages like *C*). For instance:
 
