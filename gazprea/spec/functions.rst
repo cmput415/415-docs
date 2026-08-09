@@ -81,9 +81,7 @@ single expression. In this case the return value of the function is
 given with the return statement. A return statement must be reached by
 all possible control flows in the function before the end of the
 function is encountered; if this cannot be established the compiler must
-emit a ``ReturnError``. Control-flow constructs are assumed to be
-undecidable, so both branches of every conditional are considered
-reachable.
+emit a ``ReturnError`` (see :ref:`sec:errors`).
 
 ::
 

@@ -50,9 +50,9 @@ the beginning of a block. For instance this would not be legal in
        }
 
 because the declaration of the real version of ``i`` does not occur at
-the start of the block. A declaration that appears after the leading
-declaration block of an enclosing block statement must emit a
-``StatementError``.
+the start of the block. The compiler must emit a ``StatementError`` for
+any declaration that appears after the declaration prefix at the start of
+its enclosing block statement.
 
 The following declaration placement is legal:
 

@@ -41,9 +41,7 @@ program runs. This preserves functional purity and enables
     ``constexpr`` initializer at compile time.
 *   All globals are implicitly ``constexpr``.
 
-The compiler must emit a ``GlobalError`` if any of these restrictions are
-violated, including a global that is not initialized, a global with an
-initializer that is not a valid constant expression, and a global whose
-type is ``vector``.
+Violations of any of the above must be reported as a ``GlobalError``
+(see :ref:`sec:errors`).
 
 

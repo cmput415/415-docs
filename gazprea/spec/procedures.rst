@@ -80,8 +80,8 @@ These procedures can be called as follows:
 Only procedures may be called with ``call``. Functions must
 appear in expressions because they can not cause side effects, so using
 a function in a ``call`` statement would not do anything. *Gazprea*
-must emit a ``CallError`` (see :ref:`sec:errors`) if a function is used in
-a ``call`` statement.
+The compiler must emit a ``CallError`` (see :ref:`sec:errors`) if a
+function is used in a ``call`` statement.
 
 A procedure may never be called within a function, doing so would allow for
 impure functions. Procedures may only be called within assignment statements
@@ -103,7 +103,7 @@ These restrictions are made by *Gazprea* in order to allow for more
 optimizations.
 
 Procedures without a return clause may not be used in an expression.
-*Gazprea* must emit a ``CallError`` in such a case.
+The compiler must emit a ``CallError`` in such a case.
 ::
 
          /* p is some procedure with no return clause */
