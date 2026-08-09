@@ -24,13 +24,13 @@ and consist of a ``<type id>`` pair:
 ::
 
      struct s1 (integer i, real r, integer[10] iv) t1;
-     struct Another (character char, real float, string[256] str, s1 struct_field);
+     struct Another (character c, real r, string[256] str, s1 struct_field);
      var Another t2;
 
 The examples show two structs declared with types ``s1`` and ``Another``.
-Struct type ``s`` has three fields: ``i`` of type ``integer``, ``r`` of type
+Struct type ``s1`` has three fields: ``i`` of type ``integer``, ``r`` of type
 ``real``, and ``iv`` of type ``integer[10]``.
-Struct type ``Another`` has four fields named ``char``, ``float``, ``str``,
+Struct type ``Another`` has four fields named ``c``, ``r``, ``str``,
 and ``struct_field``.
 The instance variables ``t1`` and ``t2`` have types ``s1`` and ``Another``,
 respectively.
