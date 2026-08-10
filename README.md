@@ -17,7 +17,7 @@ sessions over the spec.
 
 ### Docker (preferred)
 
-The [`ghcr.io/cmput415/docs-dev`](https://github.com/cmput415/ci-utils/tree/main/DocsDev)
+The [`ghcr.io/cmput415/docs-dev`](https://github.com/cmput415/ci-utils)
 image bundles the toolchain the review session needs (Sphinx + latexmk +
 texlive, `lychee`, `uv`, [`act`](https://github.com/nektos/act) for
 replaying the repo's GitHub Actions locally, and `gnupg` + `graphviz`).
