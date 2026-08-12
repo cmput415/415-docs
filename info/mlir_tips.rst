@@ -73,7 +73,7 @@ LLVM
 
 * Functions that are declared can find definitions at runtime from the dynamically
   linked C library included in your projects. In general, the llvm dialect types are easier
-  to pass through to runtime funtions. 
+  to pass through to runtime functions.
 
 * LLVM Struct types allow you to create aggregate data structures from other llvm dialect types.
   A custom struct type can be constructed:
