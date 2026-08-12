@@ -21,7 +21,7 @@ Test Submission Guidelines
 
 * Procedurally generated tests, including fuzzer tests, are not allowed for submission. Competitive tests should be hand written.
 
-*  The structure shuold look like the following. Anything below the ``<TEAM-ID/SID>`` directory will be included. ::
+*  The structure should look like the following. Anything below the ``<TEAM-ID/SID>`` directory will be included. ::
 
     └── tests
         └── testfiles
@@ -41,7 +41,7 @@ Test Submission Guidelines
   
 * Other tests which break these guidelines don't need to be thrown away! Simply keep them in another test package adjacent to your
   submitted package. There they can be used as local regression tests. For example, it's common to keep a corpus of difficult fuzzer tests
-  and simpler tests that are not expected to yield high competative scores.
+  and simpler tests that are not expected to yield high competitive scores.
 
 Competitive Testing
 ------------------------------
@@ -92,9 +92,9 @@ Performance Testing
 
 * Your total timing score is the mean of scores for each timing program.
 
-* If your compiler fails to produce the expected output, you recieve the max-timeout for the tournament which
+* If your compiler fails to produce the expected output, you receive the max-timeout for the tournament which
   is set by the grader. (May be 5s to 10s depending on the machine.)
 
-* Compilers that emit well thought out, clean IR should be ammenible to the greatest optimization speedup.
+* Compilers that emit well thought out, clean IR should be amenable to the greatest optimization speedup.
   Those which rely heavily on the runtime may find their executables slower due to a reduced optimization surface
   and the high overhead of runtime function calls. 
