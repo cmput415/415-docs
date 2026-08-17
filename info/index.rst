@@ -9,5 +9,6 @@ More Information
    peer_eval
    rubric_chart
    lab_exam
-   testing 
+   lab_exam_vehicles
+   testing
    mlir_tips

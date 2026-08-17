@@ -40,7 +40,7 @@ The exam is distributed through Classroom 50, the same way project repositories 
 
 Clone that repository onto the lab machine and work in it. You practise these exact steps at the dry run.
 
-The codebase is a **small, complete, working program in a language you have not seen before** — but one built out of the same parts as the project it follows. The Generator exam, for example, uses *Sweep*, a tiny ``sweep``/``yield`` interpreter written with ANTLR 4 and C++. It is not your own submission and not your teammates'.
+The codebase is a **small, complete, working program in a language you have not seen before** — but one built out of the same parts as the project it follows. `Exam Vehicles <lab_exam_vehicles.html>`_ names each exam's vehicle and what it exercises. It is not your own submission and not your teammates'.
 
 This is deliberate. You cannot fall back on code you happen to remember writing, and a team whose work was unevenly divided does not get to hide that. Everything you need in order to work out what the program *should* do is in the repository:
 
