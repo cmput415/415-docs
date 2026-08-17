@@ -2,101 +2,112 @@
 
 Points the student-facing lab exam page cannot answer as written. Each one is a decision, not a wording problem. Ordered by how much it blocks publishing the page.
 
-## 1. The internet policy has no mechanism behind it
+## 1. The exam is one hour in three places and eighty minutes in the one that students read
 
-The page tells students the exam is closed-internet. Nothing enforces that.
+`exam-monitoring/CLAUDE.md` and `exam-integrity-options.md` both state a **1-hour** exam, and the 2.5× accommodation is sized against it (2.5 hours inside a 170-minute lab block). The Jul 13 meeting summary says 1.5 hours. `GeneratorExamSolution/EXAM.md` — the text a student opens during the exam — says **80 minutes**, and its tasks are pointed 3/2/5 against that.
 
-IST has ruled out network-level control. On Jun 15 Alex Schwarzer (IST Learning Spaces) relayed that "IST Security has indicated that they are extremely reluctant to implement time based firewall rules," alongside the Director-mandated line that "The University has not implemented and is currently not planning to implement any central solution(s) to block or detect Chat GTP or other generative AI systems." On Jun 16 Nelson concluded: "It seems that they have created a policy of not providing temporary firewalls for exam purposes. This is something that we may have to discuss with the department, dean, provost, etc, but not something that we will solve for Fall 2026." The only alternative IST offered was paid AWS virtual sessions.
+The page says one hour, on the strength of the two documents that agree and that the accommodation arithmetic depends on. Whichever number is right, `EXAM.md` has to be changed to match it, and the task load has to be checked against it: three coding tasks plus a written explanation in sixty minutes is a different exam from the same work in eighty.
 
-Jul 13 settled the direction — provide documentation locally, block only obvious cheating — but the specifics were never fixed, and on Jul 10 Ron was still describing the problem as open.
+## 2. Is general web browsing permitted, or only AI prohibited?
 
-- Is the policy a rule students are told and trusted with, backed by invigilation and the auto-fail deterrent, and nothing more?
-- If there is an allowed-sites list, what is on it? The page currently allows no sites at all, which is the strictest reading and the easiest to invigilate.
-- Does anything technical exist at exam time, or does the page describe a rule enforced entirely socially?
+Network blocking is settled — there is none, in any form, and the strategy does not depend on any. What was never decided is what the *rule* says.
 
-The page is publishable under the strict reading. It is not publishable under a reading nobody has written down.
+The page prohibits AI assistants and tells students to work from the local documentation, without prohibiting the open web outright. That is the narrowest defensible reading of what has been decided, and it is deliberately narrower than the Jul 13 "closed-internet" framing, which does not match a lab with unrestricted network access.
 
-## 2. The monitoring script — two incompatible designs, neither built
+- Is browsing cppreference or the ANTLR docs allowed, or is anything off-machine a violation?
+- If browsing is allowed, the monitor's outbound-connection record stops being evidence of anything by itself — every student will have traffic. Does that change what the dashboard flags?
+- A rule of "local documentation only" is easier to invigilate and easier to grade an allegation against. A rule of "no AI" is easier to justify. They are different rules and the page can only state one.
 
-The page says activity is monitored and defers the details to the dry run, because the two records of it describe different things.
+## 3. `exammon` has not been validated at exam scale
 
-Ayrton, Jun 16, describes staff-side monitoring: "set up a script on the cmput415 account that ssh-es into each of the machines in the lab and monitors running applications and have it flag to us when a machine runs firefox." Students do nothing.
+`monitor/README.md` lists two validations as outstanding: cross-machine liveness (collector on one machine, dashboard on another, events visible within the NFS attribute-cache window) and scale (one collector on each of ~25 lab machines, driven by `scaletest/`). The README is explicit that the client count is the variable that matters and that co-locating collectors hides the problem.
 
-The Jul 13 summary describes student-side monitoring: a script students run in a terminal for the duration of the exam, which clones the exam repo and logs activity including DNS lookups.
+The page now instructs every student to run `exammon <exam>` and states that an unmonitored session cannot be graded with confidence. That instruction should not ship before the scale test has run against real lab machines.
 
-These are different systems with different failure modes, and no email after Jun 17 says either was built.
+- Who runs the scale test, and by when? The first exam is the Friday after the Generator deadline.
+- What is the fallback if the dashboard cannot keep up with 25 collectors — proctoring alone, or postpone the monitor to a later exam?
 
-- Which one is it?
-- If students run it, what happens when someone does not start it, or kills it mid-exam?
-- What exactly does it log, and what are students told about that? Logging a student's activity needs a disclosure they have actually seen.
+## 4. What is the set of exams, and what is each one worth?
 
-## 3. What is the set of exams?
+The page names no count and no weight, because neither is settled.
 
-The page deliberately does not say how many exams there are.
-
-The Jun 11 tentative calendar has four, each in the Friday lab slot the day after the matching Thursday deadline: Generator (Sep 18), SCalc (Sep 25), VCalc (Oct 16), Gazprea (Nov 20). That calendar predates the Jul 27 pivot replacing SCalc with an LLM/parser assignment, and the Jul 27 summary carries an open action item for Nelson: "Decide on whether to hold a lab exam for the parsing assignment and add it to the to-do list, including determining the grade split between collected assignment and lab exam."
+The Jun 11 tentative calendar has four, each in the Friday lab slot after the matching Thursday deadline: Generator (Sep 18), SCalc (Sep 25), VCalc (Oct 16), Gazprea (Nov 20). That predates the Jul 27 pivot replacing SCalc with an LLM/parser assignment, and Jul 27 leaves Nelson an open item: "Decide on whether to hold a lab exam for the parsing assignment and add it to the to-do list, including determining the grade split between collected assignment and lab exam."
 
 - Does the parsing assignment get an exam?
-- Are the remaining dates confirmed? The Jun 11 email calls them "my suggested schedule," and no later email confirms them.
-- The page says an exam falls in the Friday lab following the project deadline. Confirm that holds for Gazprea, where the Jun 11 calendar puts the exam two weeks after the Part 1 deadline rather than one.
+- Are the dates confirmed? The Jun 11 email calls them "my suggested schedule."
+- The page says an exam falls in the Friday lab following the project deadline. The Jun 11 calendar puts the Gazprea exam two weeks after the Part 1 deadline, not one.
+- `info/grading.rst` has no lab exam row, so a student following the page's pointer to the course outline currently finds nothing.
 
-## 4. Grade weight
+## 5. What counts as the process record?
 
-Not settled anywhere. The Aug 16 thread proposes 10% for the peer evaluation and does not touch the exams; Ron's reply notes that Chloe and Ayrton wanted a quarter to a third for peer evaluation, which moves the exam number too.
+The page tells students their process is graded, which follows from `exam-integrity-options.md` §5.3: "the exam environment records the debugging process — shell history, edit/compile/test timeline — and partial credit is awarded for the process, not only the final diff."
 
-The page says the weight is announced with the course outline. `info/grading.rst` has no lab exam row, so there is currently nowhere for a student to look.
+`exammon` does not record that. It records running processes and outbound TCP connections, into a spool students cannot read, designed as a monitoring and deterrence channel. It is a reasonable proxy for a compile/test timeline and no proxy at all for shell history or edit history.
 
-## 5. How students get and submit the exam repository
+- Is git history the process record students are actually graded on? If so the page is right for the wrong reason, and the grading criteria should say so plainly.
+- If shell history is meant to be captured, nothing captures it yet.
+- `gh student submit` snapshots the worktree into a single commit. A student who submits only that way leaves one flat commit and no process to grade — while following the page's own instructions. Either the page should push students toward ordinary `git push`, or process grading has to tolerate a single snapshot.
 
-The page describes taking a copy of a repository on GitHub and pushing to it, and points at the dry run for the steps, because the steps are not written down anywhere.
+## 6. Per-student variation does not exist yet
 
-Classroom 50 is being set up in the `cmput415-fa26` org, with assignments "configured similarly to GitHub Classroom" (Jul 27). Nothing states the student-facing flow.
+`exam-integrity-options.md` adopts it (§5.2, "seed the bug in the student's own group's project code, or hand out randomized variants"), and the page now tells students that exams are varied and that a shared answer is worth nothing.
 
-- How does a student accept the exam assignment — a link, a roster, a sign-in?
-- Repo naming: student ID, CCID, or Classroom's own convention?
-- How are repositories collected at the deadline, and is push access revoked at that moment or is the last commit before the timestamp taken?
-- Does the `415-exams` template-cut flow still apply, or does Classroom 50 distribute the starting point itself?
+`GeneratorExamSolution` has one `exam` branch with one injected bug. There are no variants.
 
-The page's promise that "you are graded on your last pushed commit" depends on the answer to the third one.
+- Are variants per-student, per-lab-room, or per-sitting? Two rooms writing simultaneously is the minimum useful split.
+- Every variant needs the task-independence check from the `exam-writing` skill run against it separately — an injected bug that is well isolated in one variant is not automatically well isolated in another.
+- Variants multiply the cutting work: each one is its own `exam` branch and its own template cut.
 
-## 6. What students may bring
+## 7. Deadline enforcement in Classroom 50
 
-Never discussed in any record. The page does not mention it, which means the first student to ask gets an improvised answer.
+The page promises that what has reached GitHub by the end of the exam is what counts. Nothing enforces the end.
+
+Classroom 50's org rulesets protect default-branch history against force-push and deletion, which stops a student rewriting earlier work, but there is no deadline mechanism in what the skill documents — no automatic revocation of push access at a time.
+
+- Is push access revoked at the end of the exam, or is the last commit before a timestamp taken?
+- If it is a timestamp, note that commit dates are not protected and backdating a push is a legal fast-forward. The trustworthy signals are server-side: commit statuses, `submit/*` tags, releases, and run timestamps. Grading should read those, not commit metadata.
+- `gh teacher init` sets an org Actions budget of zero with `prevent_further_usage: true`. If any part of exam collection or grading runs in Actions, it stops org-wide once included minutes are gone — and the Gazprea project's builds are not small. Set a real budget before init, or the exam infrastructure fails silently in November.
+
+## 8. What may students bring?
+
+Phones are now covered — they are put away under proctor direction, which the page states. The rest was never discussed.
 
 - Notes, printed or handwritten?
-- Their own laptop, for anything at all?
-- Their own project repository, or any code they wrote earlier?
-- Their own dotfiles or editor configuration, pulled from a personal repo — which requires network access and so collides with item 1.
+- Their own project repository, or any code they wrote earlier? Pre-staged content is named as a distinct AI-access channel in `exam-integrity-options.md`, and nothing currently addresses it.
+- Dotfiles or editor configuration pulled from a personal repo, which needs network access and interacts with item 2.
 
-## 7. Accommodations
+## 9. Accommodated sittings
 
-Nothing course-specific exists. The exam is a fixed 80 minutes in a fixed room on machines with a specific environment, which makes extra time and alternate sittings harder than they are for a paper exam.
+The 2.5× multiplier and the requirement to finish inside the lab block are settled, and the page states both.
 
-- Where does a student with extra time write — the same room past the end of the lab section, or an alternate sitting?
-- An alternate sitting needs a machine with the same environment and, if the exam is not to leak, a different exam. Is there a second version of each exam?
+- Where does an accommodated student sit — the same room, or elsewhere? The same room means they are still writing after the standard sitting has finished and left, which needs a proctor to stay.
+- Two staff per room, one of whom must remain for the accommodated tail. Does that work against the other room's needs?
+- Does an accommodated student need a different variant? If they sit in the same room over the same period, no. If they sit separately at a different time, yes.
 
-## 8. The dry run
+## 10. Mid-exam machine failure
+
+The page tells students to report a failure to a proctor immediately, which is advice rather than a procedure.
+
+- Does a student who loses fifteen minutes get fifteen minutes back, and against a lab block that already has to hold a 2.5-hour accommodated sitting?
+- Is there a spare machine in the room? Work survives the move if it has been pushed, which is the page's argument for pushing often — but `exammon`'s log is per-student and per-exam, so a machine change is a gap in the record that needs to be reconcilable.
+- The paper backup covers the room being unusable. It does not cover one machine failing at minute forty.
+
+## 11. Academic integrity wording
+
+The page states that AI use is an integrity violation and is treated as such. That sentence has to match the course outline, and no policy text has been drafted.
+
+The only recorded position is Ayrton's informal "the deterrent of an auto-fail paired with this would make most (if not all) of the students behave." If auto-fail is the penalty, the page should say so plainly — a deterrent that students have not read does not deter.
+
+Related: `exammon` records student activity into a spool students cannot read. That needs a disclosure students have actually seen, and the page's monitoring section is currently the only place it is written down.
+
+## 12. Local reference documentation
+
+Jul 13 has an action item to prepare local copies of the C++, ANTLR, and LLVM/MLIR documentation. Nothing since.
+
+The page tells students the documentation is on the machines and that they should work from it, which under item 2 may be the only thing they are permitted to consult. Confirm it exists, and give the page a path to name.
+
+## 13. The dry run
 
 Jul 13 lists it as an action item. No date, no procedure, no owner.
 
-The page leans on it heavily — it is where students confirm their setup, learn the repository steps, and are shown the monitoring. If it does not happen, three sections of the page are pointing at nothing.
-
-## 9. Mid-exam failure procedure
-
-The page tells students to report a machine or network failure to an invigilator immediately, which is generic advice rather than a procedure.
-
-- Does a student who loses fifteen minutes get fifteen minutes back?
-- Is there a spare machine in the room, and does the student's work survive the move? (It does if everything is pushed, which is another reason the push discipline matters.)
-- The paper backup covers the room being unavailable. It does not cover one machine failing at minute forty.
-
-## 10. Academic integrity wording
-
-The page states that using the internet or an AI assistant is an integrity violation. That sentence needs to match whatever is in the course outline, and no drafted policy text exists.
-
-The only recorded position is Ayrton's informal "the deterrent of an auto-fail paired with this would make most (if not all) of the students behave." If auto-fail is the actual penalty, the page should say so plainly — the deterrent only works if students have read it.
-
-## 11. Offline reference documentation
-
-Jul 13 has an action item to prepare local copies of the C++, ANTLR, and LLVM/MLIR documentation. No email since.
-
-The page tells students the documentation is there and that they are expected to use it. Confirm it exists, and confirm where on the machine students find it — the page should name a path.
+The page leans on it for four things: environment check, `gh student accept`/`submit`, `exammon`, and the repository steps. If it does not happen, those sections point at nothing.

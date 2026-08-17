@@ -14,12 +14,16 @@ Schedule
 
 Exams are written during the Friday lab section, in the week following the deadline of the project they cover. The material is fresh, and nothing in an exam gives away a project you have not yet submitted.
 
-The exam is synchronous — everyone writes at the same time — and you are given 80 minutes at the keyboard. The lab section is longer than that, which leaves room to get everyone signed in and set up before the clock starts.
+The exam is synchronous — everyone writes at the same time — and you are given one hour at the keyboard. The lab block runs 2:00 to 4:50 PM, so there is room around the hour to get everyone signed in and set up before the clock starts.
+
+Students with an exam accommodation for extra time receive **2.5× the standard duration**, which is two and a half hours. That has to fit inside the lab block, so if this applies to you, arrange your start time in advance — starting late enough to run past the end of the block is not something that can be fixed on the day.
 
 Where the exam runs
 -------------------
 
-Exams are written **in person, in the CMPUT 415 lab rooms** — UCOMM 2-086 and 2-070. Sign in at any machine in your assigned room with your CCID.
+Exams are written **in person, in the CMPUT 415 lab rooms** — UCOMM 2-086 and 2-070, with the class split across the two. Sign in at any machine in your assigned room with your CCID.
+
+You must be physically at the lab machine. SSH access is how you work on the projects; it is not how you write the exam.
 
 The environment is the one you already use for the projects. If you have followed the `CS computers setup <../setup/cs_computers.html>`_, the toolchain — a compiler, CMake, Java, ANTLR, and ``dragon-runner`` — is already on the path, and your ``/cshome`` directory is the same one you see from any other CS machine. You do not need to install anything on exam day.
 
@@ -28,7 +32,13 @@ You may use whichever editor and tools you normally develop with, as long as the
 What you are given
 ------------------
 
-At the start of the exam you are given access to the exam repository on GitHub. You take your own copy of it, clone that onto the lab machine, and work there. The exact steps are the same ones you practise at the dry run.
+The exam is distributed through Classroom 50, the same way project repositories are. Accepting the assignment creates a private repository of your own from the exam template:
+
+.. code-block:: console
+
+   $ gh student accept <assignment>
+
+Clone that repository onto the lab machine and work in it. You practise these exact steps at the dry run.
 
 The codebase is a **small, complete, working program in a language you have not seen before** — but one built out of the same parts as the project it follows. The Generator exam, for example, uses *Sweep*, a tiny ``sweep``/``yield`` interpreter written with ANTLR 4 and C++. It is not your own submission and not your teammates'.
 
@@ -43,7 +53,7 @@ Read ``README.md`` first. The tasks are all stated relative to it.
 What you will be asked to do
 ----------------------------
 
-The tasks fall into three kinds, and one exam contains all three:
+The tasks fall into four kinds, and one exam contains all of them:
 
 **1. Fix a bug.** The implementation does not match the behaviour ``README.md`` specifies somewhere. You are not told where. Find it — writing tests is how — and fix it.
 
@@ -51,34 +61,61 @@ The tasks fall into three kinds, and one exam contains all three:
 
 **3. Add a feature.** A language feature described in ``README.md`` is missing from the implementation. Implement it so that it behaves as specified, including where it interacts with features that are already there.
 
-The three tasks are independent. Each can be done and verified without any of the others being finished, so a task you cannot get working does not cost you the ones you can.
+**4. Explain your work in writing.** A few sentences, in your own words, typed into the repository: what was broken, why your fix works, and which test exposes it. This carries marks of its own. A correct patch with no account of why it is correct does not earn them.
 
-You do not have to do them in order.
+The coding tasks are independent. Each can be done and verified without any of the others being finished, so a task you cannot get working does not cost you the ones you can. You do not have to do them in order.
+
+Exams are varied between students. Your neighbour's bug is not necessarily your bug, so an answer that travels across the room is worth nothing to either of you.
+
+How it is graded
+----------------
 
 Grading weighs **understanding over syntax**. Code that clearly demonstrates the right idea but does not compile is worth more than nothing, and a fix that happens to pass while showing no grasp of the problem is worth less than full marks. Working, tested code is still the target — this is a statement about partial credit, not permission to hand in something that does not build.
+
+**Your process is part of the grade, not only the final diff.** The commits you make, the tests you run, and the order you do things in are all visible after the fact, and partial credit is awarded for a debugging process that went somewhere even when the result is incomplete.
+
+The practical consequence is that working the way you normally work — commit when something builds, run the tests, iterate — is worth marks. Arriving at a finished answer with nothing behind it is worth fewer.
 
 What you may use
 ----------------
 
-**The exam is closed-internet.** General web browsing, search engines, and AI assistants of any kind are not permitted, and reaching for one is an academic integrity violation.
+**AI assistants of any kind are prohibited during a lab exam.** That covers chat interfaces, editor completions backed by a hosted model, and command-line tools that call one. Using one is an academic integrity violation and is treated as such.
 
-Reference documentation is provided **locally on the lab machines** instead — the C++ standard library, ANTLR, and the LLVM and MLIR headers, depending on the project. You are expected to use it: the exam does not test whether you have memorised an API.
+Reference documentation is provided **locally on the lab machines** — the C++ standard library, ANTLR, and the LLVM and MLIR headers, depending on the project. Work from it. The exam does not test whether you have memorised an API, and the local copies are there so that looking something up costs you nothing.
 
-So the list is the local documentation, the exam repository, and the editor and command-line tools already on the machine. Nothing else.
+The machines are not network-restricted during the exam. That is a statement about how the lab works, not permission: outbound connections from your session are recorded, and reaching an AI service is as much a violation for being technically possible.
+
+**Personal devices are put away** for the duration, under the proctors' direction. A phone in your pocket is the one channel nothing on the lab machine can see, so it is handled in the room.
 
 Monitoring
 ----------
 
-Exams are invigilated in person, and activity on the lab machines is monitored for the duration of the exam. What is monitored, and anything you need to do to enable it, is explained at the dry run and again before the exam starts.
+Exams are invigilated in person, and your session is recorded while you write.
+
+At the start of the exam you run the session monitor in a terminal and leave it running until you are finished:
+
+.. code-block:: console
+
+   $ exammon <exam>
+
+It is already on your ``PATH`` if you have sourced ``415env.sh``. Once a second it records the programs running under your account and the outbound network connections they open, and appends that to a log the teaching team reads. It does not read your files, your keystrokes, or your editor buffer.
+
+Starting it is part of writing the exam. If it is not running, your session is unmonitored, and an unmonitored session is not one that can be graded with any confidence about how the work was produced.
 
 Submitting your work
 --------------------
 
-**You are graded on your last pushed commit before the deadline.** Not your working tree, not your local commits.
+**You are graded on what has reached GitHub by the end of the exam.** Not your working tree, not your local commits.
 
-Push early and push often. A commit sitting unpushed on a lab machine at the end of the exam is not a submission, and "it was finished locally" is not something anyone can verify afterwards.
+Push early and push often. A commit sitting unpushed on a lab machine when time is called is not a submission, and "it was finished locally" is not something anyone can verify afterwards. Since your process counts, a series of pushes across the hour is worth more to you than one at the end — and it is the cheapest insurance against the machine failing at minute fifty.
 
-Committing each task as you finish it is recommended but not required — you will not lose marks for one commit at the end, only for one commit that never left the machine.
+Ordinary ``git push`` to your repository's default branch is a submission. So is:
+
+.. code-block:: console
+
+   $ gh student submit
+
+which snapshots your working tree into a single commit and pushes it. The two are graded the same way, so use whichever you are comfortable with.
 
 Before the exam: the dry run
 ----------------------------
@@ -88,10 +125,11 @@ A dry run is held ahead of the first exam so you can confirm your setup works on
 Use it to check that:
 
 * You can sign in at a lab machine and reach your GitHub account from it.
+* ``gh student accept`` and ``gh student submit`` work for you.
 * Your editor of choice starts and works there.
 * You can clone, configure, build, and run a project from scratch on that machine.
 * You can run ``dragon-runner`` against a test file.
-* The monitoring script runs on your session.
+* ``exammon`` starts and stays running on your session.
 
 An environment problem discovered at the dry run is a minor inconvenience. The same problem discovered at the start of the exam costs you exam time, and the clock does not stop for it.
 
