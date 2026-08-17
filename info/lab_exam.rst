@@ -79,11 +79,13 @@ The practical consequence is that working the way you normally work — commit w
 What you may use
 ----------------
 
-**AI assistants of any kind are prohibited during a lab exam.** That covers chat interfaces, editor completions backed by a hosted model, and command-line tools that call one. Using one is an academic integrity violation and is treated as such.
+**The exam is closed-internet.** The one thing you may use the network for is git traffic to your own exam repository on GitHub — cloning it at the start and pushing to it as you work. Nothing else: no web browsing, no search engines, and no AI assistants of any kind, whether a chat interface, an editor completion backed by a hosted model, or a command-line tool that calls one. Any other network use is an academic integrity violation and is treated as such.
 
-Reference documentation is provided **locally on the lab machines** — the C++ standard library, ANTLR, and the LLVM and MLIR headers, depending on the project. Work from it. The exam does not test whether you have memorised an API, and the local copies are there so that looking something up costs you nothing.
+Nothing blocks the network at the machine or the firewall. The restriction is a rule, and it is enforced by the session monitor described below, which records every outbound connection your session opens. Reaching the internet during the exam is not prevented; it is recorded.
 
-The machines are not network-restricted during the exam. That is a statement about how the lab works, not permission: outbound connections from your session are recorded, and reaching an AI service is as much a violation for being technically possible.
+Because of that, **turn off anything that reaches the network on its own before the exam starts**. Editor telemetry, update checks, plugin sync, and language servers that fetch as you type all produce connections under your name, and a connection you did not intend still has to be explained. If you are not sure what your editor does at startup, find out at the dry run — that is one of the things the dry run is for.
+
+Reference documentation is provided **locally on the lab machines** — the C++ standard library, ANTLR, and the LLVM and MLIR headers, depending on the project. Work from it. The exam does not test whether you have memorised an API, and the local copies are there so that looking something up costs you nothing and costs you no network.
 
 **Personal devices are put away** for the duration, under the proctors' direction. A phone in your pocket is the one channel nothing on the lab machine can see, so it is handled in the room.
 
@@ -100,7 +102,9 @@ At the start of the exam you run the session monitor in a terminal and leave it 
 
 It is already on your ``PATH`` if you have sourced ``415env.sh``. Once a second it records the programs running under your account and the outbound network connections they open, and appends that to a log the teaching team reads. It does not read your files, your keystrokes, or your editor buffer.
 
-Starting it is part of writing the exam. If it is not running, your session is unmonitored, and an unmonitored session is not one that can be graded with any confidence about how the work was produced.
+Starting it is part of writing the exam, and it is what the closed-internet rule rests on. Leave it running for the whole session. A session with no monitor record, or one whose record stops partway through, cannot be distinguished from a session that had something to hide, and it will be treated accordingly.
+
+If it will not start, or you think it has stopped, tell a proctor rather than carrying on without it.
 
 Submitting your work
 --------------------

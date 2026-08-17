@@ -8,15 +8,20 @@ Points the student-facing lab exam page cannot answer as written. Each one is a 
 
 The page says one hour, on the strength of the two documents that agree and that the accommodation arithmetic depends on. Whichever number is right, `EXAM.md` has to be changed to match it, and the task load has to be checked against it: three coding tasks plus a written explanation in sixty minutes is a different exam from the same work in eighty.
 
-## 2. Is general web browsing permitted, or only AI prohibited?
+## 2. The closed-internet rule needs an allowlist, not just a prohibition
 
-Network blocking is settled — there is none, in any form, and the strategy does not depend on any. What was never decided is what the *rule* says.
+The policy is settled: students get no internet, enforced by `exammon` rather than by any network block. The page states it that way.
 
-The page prohibits AI assistants and tells students to work from the local documentation, without prohibiting the open web outright. That is the narrowest defensible reading of what has been decided, and it is deliberately narrower than the Jul 13 "closed-internet" framing, which does not match a lab with unrestricted network access.
+A blanket prohibition cannot be literal, because the exam requires network access. Cloning the exam repository and pushing to it are git traffic to GitHub, and the page's own submission instructions depend on them. The page therefore states one exception — git traffic to the student's own exam repository — and prohibits everything else.
 
-- Is browsing cppreference or the ANTLR docs allowed, or is anything off-machine a violation?
-- If browsing is allowed, the monitor's outbound-connection record stops being evidence of anything by itself — every student will have traffic. Does that change what the dashboard flags?
-- A rule of "local documentation only" is easier to invigilate and easier to grade an allegation against. A rule of "no AI" is easier to justify. They are different rules and the page can only state one.
+That makes the rule an allowlist, and the allowlist has to be agreed and matched by whatever the dashboard flags:
+
+- Is GitHub the only permitted destination? `gh student accept` and `gh student submit` also hit the GitHub API, not only the git endpoints.
+- Where does that leave benign background traffic — NTP, DNS for names the student never typed, the machine's own package or update daemons, Ubuntu telemetry? These appear under the student's session or alongside it and are not the student's doing.
+- Editor traffic is the practical problem. A modern editor opens connections at startup for telemetry, update checks, and plugin sync, and a language server may fetch as it types. The page tells students to turn these off in advance, which is the right instruction and will not be followed universally. The dashboard needs a position on an editor that phones home: flag it, ignore it, or resolve it after the fact against the student.
+- What is the evidentiary standard? A recorded connection to an AI service is close to conclusive. A recorded connection to an unrecognised CDN is not, and the difference should be decided before an exam produces one rather than during the appeal.
+
+Deciding this is also what turns item 12 from a convenience into a requirement: if the open web is closed, the local documentation is the only reference students have.
 
 ## 3. `exammon` has not been validated at exam scale
 
