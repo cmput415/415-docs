@@ -16,7 +16,7 @@ A blanket prohibition cannot be literal, because the exam requires network acces
 
 That makes the rule an allowlist, and the allowlist has to be agreed and matched by whatever the dashboard flags:
 
-- Is GitHub the only permitted destination? `gh student accept` and `gh student submit` also hit the GitHub API, not only the git endpoints.
+- Is GitHub the only permitted destination? `gh student accept` hits the GitHub API, not only the git endpoints.
 - Where does that leave benign background traffic — NTP, DNS for names the student never typed, the machine's own package or update daemons, Ubuntu telemetry? These appear under the student's session or alongside it and are not the student's doing.
 - Editor traffic is the practical problem. A modern editor opens connections at startup for telemetry, update checks, and plugin sync, and a language server may fetch as it types. The page tells students to turn these off in advance, which is the right instruction and will not be followed universally. The dashboard needs a position on an editor that phones home: flag it, ignore it, or resolve it after the fact against the student.
 - What is the evidentiary standard? A recorded connection to an AI service is close to conclusive. A recorded connection to an unrecognised CDN is not, and the difference should be decided before an exam produces one rather than during the appeal.
@@ -51,13 +51,13 @@ The page tells students their process is graded, which follows from `exam-integr
 
 - Is git history the process record students are actually graded on? If so the page is right for the wrong reason, and the grading criteria should say so plainly.
 - If shell history is meant to be captured, nothing captures it yet.
-- `gh student submit` snapshots the worktree into a single commit. A student who submits only that way leaves one flat commit and no process to grade — while following the page's own instructions. Either the page should push students toward ordinary `git push`, or process grading has to tolerate a single snapshot.
+- The page tells students to commit and `git push`, and deliberately does not mention `gh student submit`, which snapshots the worktree into one flat commit and would leave nothing to grade a process from. If submit is later presented to students as an option, process grading has to tolerate a single snapshot.
 
 ## 6. Per-student variation does not exist yet
 
-`exam-integrity-options.md` adopts it (§5.2, "seed the bug in the student's own group's project code, or hand out randomized variants"), and the page now tells students that exams are varied and that a shared answer is worth nothing.
+`exam-integrity-options.md` adopts it (§5.2, "seed the bug in the student's own group's project code, or hand out randomized variants"). `GeneratorExamSolution` has one `exam` branch with one injected bug, and there are no variants.
 
-`GeneratorExamSolution` has one `exam` branch with one injected bug. There are no variants.
+The page says nothing about variation, because saying so would not be true. That is the right call for now and it has a cost: two rooms of students write the same exam simultaneously, and an answer that crosses the room is worth as much to the recipient as to the author. Proctoring is the only thing standing against that.
 
 - Are variants per-student, per-lab-room, or per-sitting? Two rooms writing simultaneously is the minimum useful split.
 - Every variant needs the task-independence check from the `exam-writing` skill run against it separately — an injected bug that is well isolated in one variant is not automatically well isolated in another.

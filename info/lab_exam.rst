@@ -65,8 +65,6 @@ The tasks fall into four kinds, and one exam contains all of them:
 
 The coding tasks are independent. Each can be done and verified without any of the others being finished, so a task you cannot get working does not cost you the ones you can. You do not have to do them in order.
 
-Exams are varied between students. Your neighbour's bug is not necessarily your bug, so an answer that travels across the room is worth nothing to either of you.
-
 How it is graded
 ----------------
 
@@ -87,7 +85,9 @@ Because of that, **turn off anything that reaches the network on its own before 
 
 Reference documentation is provided **locally on the lab machines** — the C++ standard library, ANTLR, and the LLVM and MLIR headers, depending on the project. Work from it. The exam does not test whether you have memorised an API, and the local copies are there so that looking something up costs you nothing and costs you no network.
 
-**Personal devices are put away** for the duration, under the proctors' direction. A phone in your pocket is the one channel nothing on the lab machine can see, so it is handled in the room.
+**The exam is open-computer.** Everything on the lab machine is yours to use, including your own home directory and everything you have put in it. Notes, a cheat sheet, and your own project repository open in a split pane for reference are all legitimate — prepare them in advance, because the exam is not the time to go looking.
+
+**Phones and other personal devices are put away** for the duration of the exam, under the proctors' direction.
 
 Monitoring
 ----------
@@ -100,7 +100,7 @@ At the start of the exam you run the session monitor in a terminal and leave it 
 
    $ exammon <exam>
 
-It is already on your ``PATH`` if you have sourced ``415env.sh``. Once a second it records the programs running under your account and the outbound network connections they open, and appends that to a log the teaching team reads. It does not read your files, your keystrokes, or your editor buffer.
+It is already on your ``PATH`` if you have sourced ``415env.sh``. It records what runs on your session and what your session connects to, and reports it to the teaching team as you write.
 
 Starting it is part of writing the exam, and it is what the closed-internet rule rests on. Leave it running for the whole session. A session with no monitor record, or one whose record stops partway through, cannot be distinguished from a session that had something to hide, and it will be treated accordingly.
 
@@ -113,13 +113,7 @@ Submitting your work
 
 Push early and push often. A commit sitting unpushed on a lab machine when time is called is not a submission, and "it was finished locally" is not something anyone can verify afterwards. Since your process counts, a series of pushes across the hour is worth more to you than one at the end — and it is the cheapest insurance against the machine failing at minute fifty.
 
-Ordinary ``git push`` to your repository's default branch is a submission. So is:
-
-.. code-block:: console
-
-   $ gh student submit
-
-which snapshots your working tree into a single commit and pushes it. The two are graded the same way, so use whichever you are comfortable with.
+Commit and ``git push`` to your repository's default branch, the same way you would on a project.
 
 Before the exam: the dry run
 ----------------------------
@@ -129,7 +123,7 @@ A dry run is held ahead of the first exam so you can confirm your setup works on
 Use it to check that:
 
 * You can sign in at a lab machine and reach your GitHub account from it.
-* ``gh student accept`` and ``gh student submit`` work for you.
+* ``gh student accept`` works for you, and you can push to the repository it creates.
 * Your editor of choice starts and works there.
 * You can clone, configure, build, and run a project from scratch on that machine.
 * You can run ``dragon-runner`` against a test file.
@@ -152,8 +146,8 @@ Nothing about the exam rewards memorisation, and there is no set of notes that s
 * **Do your share of the project.** The exam asks for the same skills the project asks for, on a codebase you have never seen. There is no shortcut around having practised them.
 * **Practise reading unfamiliar code.** Getting oriented in a codebase you did not write — finding where a construct is handled and following it through — is the first thing you do in the exam and the thing time pressure punishes most.
 * **Practise debugging from a failing test.** Given wrong output, be able to work backwards to which part of the implementation produced it.
-* **Be fluent with the tools.** Configuring a build, rebuilding after an edit, and running the test suite should be automatic. Fumbling the build costs exam time that is not coming back.
-* **Know your language specification.** A precise account of precedence, associativity, and evaluation order is what lets you tell a bug from intended behaviour.
+* **Know the commands.** Configuring a build, rebuilding after an edit, running ``dragon-runner``, committing and pushing — you should be typing these without stopping to think. Fumbling the build costs exam time that is not coming back.
+* **Write yourself a cheat sheet.** The exam is open-computer, so anything you prepare beforehand is available during it. The commands you always end up looking up, a worked example of a test file, the shape of a visitor method: put them somewhere on the lab filesystem you can open in seconds.
 
 .. note::
    © 2024-2026 University of Alberta. All rights reserved.
