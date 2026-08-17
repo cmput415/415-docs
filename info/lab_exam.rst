@@ -68,11 +68,15 @@ The coding tasks are independent. Each can be done and verified without any of t
 How it is graded
 ----------------
 
-Grading weighs **understanding over syntax**. Code that clearly demonstrates the right idea but does not compile is worth more than nothing, and a fix that happens to pass while showing no grasp of the problem is worth less than full marks. Working, tested code is still the target — this is a statement about partial credit, not permission to hand in something that does not build.
+**Code is graded by building it on a lab machine and running it against a test suite you never see.** The suite is written to catch the mistakes each question is designed to expose. Pass all of it and the question is full marks, decided and done.
 
-**Your process is part of the grade, not only the final diff.** The commits you make, the tests you run, and the order you do things in are all visible after the fact, and partial credit is awarded for a debugging process that went somewhere even when the result is incomplete.
+Fall short and your code is read by hand for partial credit. Marks there come from what the code shows: a fix that has the right idea and misses a case earns something, and one that passes by accident without addressing the problem earns less than a clean pass would.
 
-The practical consequence is that working the way you normally work — commit when something builds, run the tests, iterate — is worth marks. Arriving at a finished answer with nothing behind it is worth fewer.
+**Code that does not build scores badly.** Nothing in the suite can run against it, so every mark has to be recovered by reading a diff, and a diff is thinner evidence than a passing test. Push something that builds, even when it is incomplete — a partial feature that compiles is worth more than a complete one that does not.
+
+**Test-writing questions are graded by running your test twice**, against a correct build of the language and against a broken one. Your test earns its marks by reporting the intended result both times: passing on the correct build and failing on the broken one. A test that passes both times has caught nothing. A test that fails both times is not testing what it claims. Neither earns marks, so check your expected output against the specification before you settle on it.
+
+**Written answers are graded as written answers**, and they are where marks are recovered when the code did not get there. An accurate account of what was broken and why your fix addresses it is worth marks even when the fix itself is unfinished. Do not skip them to buy coding time — they are the cheapest marks on the exam.
 
 What you may use
 ----------------
@@ -102,6 +106,8 @@ At the start of the exam you run the session monitor in a terminal and leave it 
 
 It is already on your ``PATH`` if you have sourced ``415env.sh``. It records what runs on your session and what your session connects to, and reports it to the teaching team as you write.
 
+Activity it flags brings a proctor to your desk while you are writing. After the exam, the record of your session is reviewed against what you submitted — how the work was produced, next to what was produced. The two are expected to resemble each other.
+
 Starting it is part of writing the exam, and it is what the closed-internet rule rests on. Leave it running for the whole session. A session with no monitor record, or one whose record stops partway through, cannot be distinguished from a session that had something to hide, and it will be treated accordingly.
 
 If it will not start, or you think it has stopped, tell a proctor rather than carrying on without it.
@@ -111,7 +117,7 @@ Submitting your work
 
 **You are graded on what has reached GitHub by the end of the exam.** Not your working tree, not your local commits.
 
-Push early and push often. A commit sitting unpushed on a lab machine when time is called is not a submission, and "it was finished locally" is not something anyone can verify afterwards. Since your process counts, a series of pushes across the hour is worth more to you than one at the end — and it is the cheapest insurance against the machine failing at minute fifty.
+Push early and push often. A commit sitting unpushed on a lab machine when time is called is not a submission, and "it was finished locally" is not something anyone can verify afterwards. A series of pushes across the hour is also the cheapest insurance you have against the machine failing at minute fifty.
 
 Commit and ``git push`` to your repository's default branch, the same way you would on a project.
 

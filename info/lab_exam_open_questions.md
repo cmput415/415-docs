@@ -21,18 +21,28 @@ That makes the rule an allowlist, and the allowlist has to be agreed and matched
 - Editor traffic is the practical problem. A modern editor opens connections at startup for telemetry, update checks, and plugin sync, and a language server may fetch as it types. The page tells students to turn these off in advance, which is the right instruction and will not be followed universally. The dashboard needs a position on an editor that phones home: flag it, ignore it, or resolve it after the fact against the student.
 - What is the evidentiary standard? A recorded connection to an AI service is close to conclusive. A recorded connection to an unrecognised CDN is not, and the difference should be decided before an exam produces one rather than during the appeal.
 
-Deciding this is also what turns item 12 from a convenience into a requirement: if the open web is closed, the local documentation is the only reference students have.
+Deciding this is also what turns item 14 from a convenience into a requirement: if the open web is closed, the local documentation is the only reference students have.
 
 ## 3. `exammon` has not been validated at exam scale
 
 `monitor/README.md` lists two validations as outstanding: cross-machine liveness (collector on one machine, dashboard on another, events visible within the NFS attribute-cache window) and scale (one collector on each of ~25 lab machines, driven by `scaletest/`). The README is explicit that the client count is the variable that matters and that co-locating collectors hides the problem.
 
-The page now instructs every student to run `exammon <exam>` and states that an unmonitored session cannot be graded with confidence. That instruction should not ship before the scale test has run against real lab machines.
+The page instructs every student to run `exammon <exam>` and states that an unmonitored session cannot be graded with confidence. That instruction should not ship before the scale test has run against real lab machines.
 
 - Who runs the scale test, and by when? The first exam is the Friday after the Generator deadline.
 - What is the fallback if the dashboard cannot keep up with 25 collectors — proctoring alone, or postpone the monitor to a later exam?
 
-## 4. What is the set of exams, and what is each one worth?
+## 4. Is the exam a gate on the project grade, or a component beside it?
+
+This is the decision the rest of the instrument hangs off, and the two answers are different instruments.
+
+The purpose of the lab exam is to restore the project's validity as a signal: a student with AI can produce a complete project without understanding it, so a separate check is needed before the project grade can be trusted. That argument only lands if the exam **gates** the project grade — pass and the project mark stands, fail and it is discounted. As a **weighted component** worth some percentage alongside everything else, it restores nothing; a student can fail it outright and still ride a project they did not write to a good grade.
+
+The Aug 16 weights thread treats it as a component. The reasoning behind the exams treats it as a gate. Both cannot be published.
+
+If it is a gate, the strength of the claim also needs settling, because a student will eventually contest it. What one hour on a small unfamiliar language establishes is a floor — this student can read a spec, navigate a codebase, write a discriminating test, and debug. It does not establish that they did their share of Gazprea or understand the parts they never touched. The peer evaluation is the instrument that covers that half; the two together make the case that neither makes alone.
+
+## 5. What is the set of exams, and what is each one worth?
 
 The page names no count and no weight, because neither is settled.
 
@@ -43,27 +53,38 @@ The Jun 11 tentative calendar has four, each in the Friday lab slot after the ma
 - The page says an exam falls in the Friday lab following the project deadline. The Jun 11 calendar puts the Gazprea exam two weeks after the Part 1 deadline, not one.
 - `info/grading.rst` has no lab exam row, so a student following the page's pointer to the course outline currently finds nothing.
 
-## 5. What counts as the process record?
+## 6. What the grading scheme still needs built
 
-The page tells students their process is graded, which follows from `exam-integrity-options.md` §5.3: "the exam environment records the debugging process — shell history, edit/compile/test timeline — and partial credit is awarded for the process, not only the final diff."
+Grading is settled in shape: code is built on a lab machine and run against a hidden suite, all-pass is full marks, shortfalls are read by hand; test questions are graded by running the student's test against a correct build and a broken one, requiring the intended result from each; written answers are graded as written answers. Process is **not** a grading input; `exammon` serves monitoring and deterrence only, and the page describes it that way. `exam-integrity-options.md` §5.3 describes process capture as a graded component, and disagrees with both.
 
-`exammon` does not record that. It records running processes and outbound TCP connections, into a spool students cannot read, designed as a monitoring and deterrence channel. It is a reasonable proxy for a compile/test timeline and no proxy at all for shell history or edit history.
+Outstanding:
 
-- Is git history the process record students are actually graded on? If so the page is right for the wrong reason, and the grading criteria should say so plainly.
-- If shell history is meant to be captured, nothing captures it yet.
-- The page tells students to commit and `git push`, and deliberately does not mention `gh student submit`, which snapshots the worktree into one flat commit and would leave nothing to grade a process from. If submit is later presented to students as an option, process grading has to tolerate a single snapshot.
+- **A hidden suite per exam.** Four of them, none written. This is the up-front cost that buys down the per-student cost, and it is worth paying at 50 students, but it has to be paid before September 18.
+- **Tiering.** All-pass-or-investigate makes manual review the default outcome for everyone short of perfect, and those are the slowest submissions to read. A suite split into core-behaviour tests carrying most of the marks and edge cases carrying the rest lets the runner compute a score and reserves reading for genuinely ambiguous work. Otherwise the TA-time saving leaks away exactly where it was supposed to accrue.
+- **The mutant build must implement the specific behaviour the test question names.** Under this scheme that stops being question-writing style and becomes a correctness requirement: a student who writes a well-targeted test of a slightly different property scores zero through no fault of their own.
+- **The two builds have to be pinned artifacts** — a reference build and a mutant build, prebuilt and stored on the lab filesystem, not rebuilt per student.
+- **Non-building submissions.** The page warns that they score badly and promises partial credit from reading the diff. That promise is the manual path, and how much a diff can be worth should be fixed in advance rather than per student.
 
-## 6. Per-student variation does not exist yet
+## 7. Post-exam log triage
+
+The intended workflow is real-time flagging during the exam (a proctor is sent over) followed by an after-the-fact pass over each student's log, cheap model first, escalating to a stronger one on a hit. Signals include the shape of the session against the submission — a student who never ran a build and scored full marks.
+
+- Feeding student activity logs to a model is a disclosure question before it is a technical one. Students are told their session is recorded and reviewed; they are not told it is processed by a third-party model, and the difference is the kind of thing a student appeal turns on. Whether the model is hosted or local changes the answer.
+- A model's "this looks suspicious" is not evidence. It is a triage filter whose output a human must confirm against the raw log before anything is alleged. Worth writing down as policy before the first hit, not after.
+- False positives have a cost paid by the student. The "never ran a build" signal fires on a student who used their editor's build integration instead of the shell, which is legitimate and common.
+- Retention: how long are logs kept, and who can read them?
+
+## 8. Per-student variation does not exist yet
 
 `exam-integrity-options.md` adopts it (§5.2, "seed the bug in the student's own group's project code, or hand out randomized variants"). `GeneratorExamSolution` has one `exam` branch with one injected bug, and there are no variants.
 
-The page says nothing about variation, because saying so would not be true. That is the right call for now and it has a cost: two rooms of students write the same exam simultaneously, and an answer that crosses the room is worth as much to the recipient as to the author. Proctoring is the only thing standing against that.
+The page claims no variation, because there is none to claim. The cost of that is borne in the room: two rooms of students write the same exam simultaneously, an answer that crosses the room is worth as much to the recipient as to the author, and proctoring is the only thing standing against it.
 
 - Are variants per-student, per-lab-room, or per-sitting? Two rooms writing simultaneously is the minimum useful split.
 - Every variant needs the task-independence check from the `exam-writing` skill run against it separately — an injected bug that is well isolated in one variant is not automatically well isolated in another.
 - Variants multiply the cutting work: each one is its own `exam` branch and its own template cut.
 
-## 7. Deadline enforcement in Classroom 50
+## 9. Deadline enforcement in Classroom 50
 
 The page promises that what has reached GitHub by the end of the exam is what counts. Nothing enforces the end.
 
@@ -73,15 +94,15 @@ Classroom 50's org rulesets protect default-branch history against force-push an
 - If it is a timestamp, note that commit dates are not protected and backdating a push is a legal fast-forward. The trustworthy signals are server-side: commit statuses, `submit/*` tags, releases, and run timestamps. Grading should read those, not commit metadata.
 - `gh teacher init` sets an org Actions budget of zero with `prevent_further_usage: true`. If any part of exam collection or grading runs in Actions, it stops org-wide once included minutes are gone — and the Gazprea project's builds are not small. Set a real budget before init, or the exam infrastructure fails silently in November.
 
-## 8. What may students bring?
+## 10. What may students bring?
 
-Phones are now covered — they are put away under proctor direction, which the page states. The rest was never discussed.
+Phones are covered: the page states that they are put away under proctor direction. Nothing else a student might bring has been discussed.
 
 - Notes, printed or handwritten?
 - Their own project repository, or any code they wrote earlier? Pre-staged content is named as a distinct AI-access channel in `exam-integrity-options.md`, and nothing currently addresses it.
 - Dotfiles or editor configuration pulled from a personal repo, which needs network access and interacts with item 2.
 
-## 9. Accommodated sittings
+## 11. Accommodated sittings
 
 The 2.5× multiplier and the requirement to finish inside the lab block are settled, and the page states both.
 
@@ -89,7 +110,7 @@ The 2.5× multiplier and the requirement to finish inside the lab block are sett
 - Two staff per room, one of whom must remain for the accommodated tail. Does that work against the other room's needs?
 - Does an accommodated student need a different variant? If they sit in the same room over the same period, no. If they sit separately at a different time, yes.
 
-## 10. Mid-exam machine failure
+## 12. Mid-exam machine failure
 
 The page tells students to report a failure to a proctor immediately, which is advice rather than a procedure.
 
@@ -97,7 +118,7 @@ The page tells students to report a failure to a proctor immediately, which is a
 - Is there a spare machine in the room? Work survives the move if it has been pushed, which is the page's argument for pushing often — but `exammon`'s log is per-student and per-exam, so a machine change is a gap in the record that needs to be reconcilable.
 - The paper backup covers the room being unusable. It does not cover one machine failing at minute forty.
 
-## 11. Academic integrity wording
+## 13. Academic integrity wording
 
 The page states that AI use is an integrity violation and is treated as such. That sentence has to match the course outline, and no policy text has been drafted.
 
@@ -105,13 +126,13 @@ The only recorded position is Ayrton's informal "the deterrent of an auto-fail p
 
 Related: `exammon` records student activity into a spool students cannot read. That needs a disclosure students have actually seen, and the page's monitoring section is currently the only place it is written down.
 
-## 12. Local reference documentation
+## 14. Local reference documentation
 
 Jul 13 has an action item to prepare local copies of the C++, ANTLR, and LLVM/MLIR documentation. Nothing since.
 
 The page tells students the documentation is on the machines and that they should work from it, which under item 2 may be the only thing they are permitted to consult. Confirm it exists, and give the page a path to name.
 
-## 13. The dry run
+## 15. The dry run
 
 Jul 13 lists it as an action item. No date, no procedure, no owner.
 
