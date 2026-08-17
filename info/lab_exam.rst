@@ -3,7 +3,7 @@
 Lab Exams
 =========
 
-Each project is followed by a lab exam: an individual, written-in-person assessment of whether you can work in a compiler codebase yourself. There are four, one per project — Generator, LOLCODE, VCalc, and Gazprea.
+Each project is followed by a lab exam: an individual, written-in-person assessment of whether you can work in a compiler codebase yourself. The exact set of exams and the weight each carries in your grade are announced with the course outline.
 
 The exam is a programming exercise, not a written test. You are given a small codebase, and you fix a bug in it, write a test for it, and add a feature to it, on a lab machine, in the same development environment you use for the projects.
 
@@ -12,23 +12,23 @@ The projects are graded on a working compiler; nobody can tell from a repository
 Schedule
 --------
 
-Each exam runs in a lab section, held synchronously — everyone writes at the same time. You are given 80 minutes at the keyboard.
+Exams are written during the Friday lab section, in the week following the deadline of the project they cover. The material is fresh, and nothing in an exam gives away a project you have not yet submitted.
 
-An exam takes place after its project's deadline, so the material is fresh and nothing in the exam gives away a project you have not submitted.
+The exam is synchronous — everyone writes at the same time — and you are given 80 minutes at the keyboard. The lab section is longer than that, which leaves room to get everyone signed in and set up before the clock starts.
 
 Where the exam runs
 -------------------
 
-Exams are written **in person, on the lab machines**. Sign in at any machine in the room with your CCID.
+Exams are written **in person, in the CMPUT 415 lab rooms** — UCOMM 2-086 and 2-070. Sign in at any machine in your assigned room with your CCID.
 
-The environment is the one you already use for the projects. If you have followed the `CS computers setup <../setup/cs_computers.html>`_, the toolchain — a compiler, CMake, Java, ANTLR, and ``dragon-runner`` — is already on the path. You do not need to install anything on exam day.
+The environment is the one you already use for the projects. If you have followed the `CS computers setup <../setup/cs_computers.html>`_, the toolchain — a compiler, CMake, Java, ANTLR, and ``dragon-runner`` — is already on the path, and your ``/cshome`` directory is the same one you see from any other CS machine. You do not need to install anything on exam day.
 
 You may use whichever editor and tools you normally develop with, as long as they are already on the lab machines. Set up and test that choice before exam day, not during the exam.
 
 What you are given
 ------------------
 
-At the start of the exam you are given a link to a GitHub template repository. You instantiate it into your own repository, clone it, and work there.
+At the start of the exam you are given access to the exam repository on GitHub. You take your own copy of it, clone that onto the lab machine, and work there. The exact steps are the same ones you practise at the dry run.
 
 The codebase is a **small, complete, working program in a language you have not seen before** — but one built out of the same parts as the project it follows. The Generator exam, for example, uses *Sweep*, a tiny ``sweep``/``yield`` interpreter written with ANTLR 4 and C++. It is not your own submission and not your teammates'.
 
@@ -57,21 +57,19 @@ You do not have to do them in order.
 
 Grading weighs **understanding over syntax**. Code that clearly demonstrates the right idea but does not compile is worth more than nothing, and a fix that happens to pass while showing no grasp of the problem is worth less than full marks. Working, tested code is still the target — this is a statement about partial credit, not permission to hand in something that does not build.
 
-Internet access and reference material
---------------------------------------
+What you may use
+----------------
 
-**The exam is closed-internet.** General web browsing, search engines, and AI assistants of any kind are not permitted.
+**The exam is closed-internet.** General web browsing, search engines, and AI assistants of any kind are not permitted, and reaching for one is an academic integrity violation.
 
-Reference documentation is provided **locally on the lab machines** instead — the C++ standard library, ANTLR, and the LLVM and MLIR headers, depending on the project. You are expected to use it. The exam does not test whether you have memorised an API.
+Reference documentation is provided **locally on the lab machines** instead — the C++ standard library, ANTLR, and the LLVM and MLIR headers, depending on the project. You are expected to use it: the exam does not test whether you have memorised an API.
 
-You may consult the local documentation and anything in the exam repository. That is the whole list.
+So the list is the local documentation, the exam repository, and the editor and command-line tools already on the machine. Nothing else.
 
 Monitoring
 ----------
 
-At the start of the exam you run a monitoring script in a terminal and leave it running until you are finished. It clones the exam repository for you and records activity on the machine for the duration of the exam, including network lookups.
-
-You will be shown the script and told exactly what it records at the dry run, before the exam. Leaving it running is a requirement of writing the exam.
+Exams are invigilated in person, and activity on the lab machines is monitored for the duration of the exam. What is monitored, and anything you need to do to enable it, is explained at the dry run and again before the exam starts.
 
 Submitting your work
 --------------------
