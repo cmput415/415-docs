@@ -62,9 +62,9 @@ Assignment of a variable is accomplished with an assignment :term:`statement`, `
 Casting
 ~~~~~~~
 
-Operators that work on specific types implicitly cast parameter values of other types. If the value cannot be safely cast, then it results in an error.
+Operators that work on specific types apply an :term:`implicit conversion` to parameter values of other types. If the value cannot be safely converted, then it results in an error.
 
-An expression's value may be explicitly cast with the binary ``MAEK`` operator:
+An :term:`expression`'s value may undergo :term:`type casting` with the binary ``MAEK`` operator:
 
 ::
 

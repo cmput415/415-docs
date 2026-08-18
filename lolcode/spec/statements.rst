@@ -16,7 +16,7 @@ Our version of LOLCODE supports seven types of :term:`statements <statement>`:
 Input/Output
 ~~~~~~~~~~~~
 
-The print (to STDOUT or the terminal) operator is ``VISIBLE``. It has infinite arity and implicitly concatenates all of its arguments after casting them to YARNs. It is terminated by the statement delimiter (line end, comma, or single line comment). The output is automatically terminated with a carriage return, unless the final token is terminated with an exclamation point (``!``), in which case the carriage return is suppressed.
+The print (to STDOUT or the terminal) operator is ``VISIBLE``. It has infinite arity and implicitly concatenates all of its arguments after an :term:`implicit conversion` to YARNs. It is terminated by the statement delimiter (line end, comma, or single line comment). The output is automatically terminated with a carriage return, unless the final token is terminated with an exclamation point (``!``), in which case the carriage return is suppressed.
 
 ::
 
@@ -221,46 +221,4 @@ Iteration loops have the form:
 Where ``<operation>`` may be ``UPPIN`` (increment by one) or ``NERFIN`` (decrement by one).
 That operation/function is applied to the ``<variable>``, which is temporary, and local to the loop.
 The ``TIL <expression>`` evaluates the :term:`expression` as a boolean: if it evaluates as false, the loop continues once more, if not, then loop execution stops, and continues after the matching ``IM OUTTA YR <label>``. The ``WILE <expression>`` is the converse: if the expression is true, execution continues, otherwise the loop exits.
-
-.. _sssec:cast:
-
-Casting
-~~~~~~~
-
-Operators that work on specific types apply an :term:`implicit conversion` to parameter values of other types. If the value cannot be safely converted, then it results in an error.
-
-An :term:`expression`'s value may undergo :term:`type casting` with the binary ``MAEK`` operator:
-
-::
-
-    MAEK <variable> [A] <type>
-
-Where ``<type>`` is one of ``YARN`` or ``NUMBR``.
-
-To explicitly re-cast a variable, you may create a normal assignment statement with the ``MAEK`` operator, or use a casting assignment statement as follows:
-
-::
-
-    <variable> R MAEK <variable> [A] <type>
-
-
-.. _sssec:io:
-
-Input/Output
-~~~~~~~~~~~~
-
-The print (to STDOUT or the terminal) operator is ``VISIBLE``. It has infinite arity and implicitly concatenates all of its arguments after an :term:`implicit conversion` to YARNs. It is terminated by the statement delimiter (line end, comma, or single line comment). The output is automatically terminated with a carriage return (:)), unless the final token is terminated with an exclamation point (!), in which case the carriage return is suppressed.
-
-::
-
-VISIBLE <expression> [<expression> ...][!]
-
-To accept input from the user, the keyword is
-
-::
-
-GIMMEH <variable>
-
-
-which takes ``YARN`` for input and stores the value in the given variable.
 
