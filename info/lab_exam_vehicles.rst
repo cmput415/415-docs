@@ -3,7 +3,7 @@
 Exam Vehicles
 =============
 
-`Lab Exams <lab_exam.html>`_ describes the format every lab exam shares. This page describes the codebases the exams are written in — what a "vehicle" is, why each one is an unfamiliar language rather than your own project, and what carries over from one exam to the next.
+:doc:`Lab Exams <lab_exam>` describes the format every lab exam shares. This page describes the codebases the exams are written in — what a "vehicle" is, why each one is an unfamiliar language rather than your own project, and what carries over from one exam to the next.
 
 What a vehicle is
 ------------------

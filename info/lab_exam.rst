@@ -25,7 +25,7 @@ Exams are written **in person, in the CMPUT 415 lab rooms** — UCOMM 2-086 and 
 
 You must be physically at the lab machine. SSH access is how you work on the projects; it is not how you write the exam.
 
-The environment is the one you already use for the projects. If you have followed the `CS computers setup <../setup/cs_computers.html>`_, the toolchain — a compiler, CMake, Java, ANTLR, and ``dragon-runner`` — is already on the path, and your ``/cshome`` directory is the same one you see from any other CS machine. You do not need to install anything on exam day.
+The environment is the one you already use for the projects. If you have followed the :external+setup:doc:`CS computers setup <cs_computers>`, the toolchain — a compiler, CMake, Java, ANTLR, and ``dragon-runner`` — is already on the path, and your ``/cshome`` directory is the same one you see from any other CS machine. You do not need to install anything on exam day.
 
 You may use whichever editor and tools you normally develop with, as long as they are already on the lab machines. Set up and test that choice before exam day, not during the exam.
 
@@ -40,7 +40,7 @@ The exam is distributed through Classroom 50, the same way project repositories 
 
 Clone that repository onto the lab machine and work in it. You practise these exact steps at the dry run.
 
-The codebase is a **small, complete, working program in a language you have not seen before** — but one built out of the same parts as the project it follows. `Exam Vehicles <lab_exam_vehicles.html>`_ names each exam's vehicle and what it exercises. It is not your own submission and not your teammates'.
+The codebase is a **small, complete, working program in a language you have not seen before** — but one built out of the same parts as the project it follows. :doc:`Exam Vehicles <lab_exam_vehicles>` names each exam's vehicle and what it exercises. It is not your own submission and not your teammates'.
 
 This is deliberate. You cannot fall back on code you happen to remember writing, and a team whose work was unevenly divided does not get to hide that. Everything you need in order to work out what the program *should* do is in the repository:
 
