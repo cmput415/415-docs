@@ -73,6 +73,7 @@ html_static_path = ['_static']
 # or fully qualified paths (eg. https://...)
 html_css_files = [
     'css/googleFonts.css',
+    'css/tables.css',
 ]
 
 # Disable syntax highlighting in code blocks
