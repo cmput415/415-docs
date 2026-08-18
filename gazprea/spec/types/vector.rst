@@ -41,7 +41,7 @@ specifier, often called *capacity* in other languages. Below are some examples o
 
 Vectors of inferred sized arrays assume the size of the *first* array in the vector.
 Subsequent array elements of less than the inferred size are padded.
-Those greater raise a runtime ``SizeError``.
+Those greater raise a :term:`run time` ``SizeError``.
 
    ::
 

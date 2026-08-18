@@ -1,7 +1,7 @@
 Statements
 ----------
 
-In *SCalc* there are five types of statements:
+In *SCalc* there are five types of :term:`statements <statement>`:
 
 -  :ref:`sssec:declaration`
 -  :ref:`sssec:assignment`
@@ -26,9 +26,9 @@ A variable declaration in *SCalc* has the following form:
 
      int <id> = <expr>;
 
--  ``id`` is the identifier of a variable.
+-  ``id`` is the :term:`identifier` of a variable.
 
--  ``expr`` is an expression.
+-  ``expr`` is an :term:`expression`.
 
 .. _variable-props:
 
@@ -48,7 +48,7 @@ Examples of valid declarations are:
      int j = 9 * 4 + 10;
      int k = i * j;
 
-Examples of invalid declarations are:
+Examples of :term:`ill-formed` declarations are:
 
 ::
 
@@ -60,17 +60,17 @@ Examples of invalid declarations are:
 Assignment
 ~~~~~~~~~~
 
-Variable assignment is similar to variable declaration but it allows
-variables to be assigned new values. An assignment in *SCalc* has the
-following form:
+Variable assignment is similar to variable :term:`declaration` but it
+allows variables to be assigned new values. An assignment in *SCalc*
+has the following form:
 
 ::
 
      <id> = <expr>;
 
--  ``id`` is the identifier of an already declared variable.
+-  ``id`` is the :term:`identifier` of an already declared variable.
 
--  ``expr`` is an expression.
+-  ``expr`` is an :term:`expression`.
 
 .. _sssec:conditional:
 
@@ -88,14 +88,14 @@ A conditional in *SCalc* has the following form:
        <statement-n>
      fi;
 
--  ``expr`` is an expression. The body of the ``if`` statement is
-   executed if and only if this expression evaluates to a non-zero
-   value.
+-  ``expr`` is an :term:`expression`. The body of the ``if``
+   :term:`statement` is executed if and only if this expression
+   evaluates to a non-zero value.
 
--  ``statement-*`` is any type of statement *except* a declaration. This
-   means there can be assignments, nested loops, nested conditionals,
-   and prints. There does not have to be any statements in the
-   conditional.
+-  ``statement-*`` is any type of statement *except* a
+   :term:`declaration`. This means there can be assignments, nested
+   loops, nested conditionals, and prints. There does not have to be
+   any statements in the conditional.
 
 **Clarification:** Declarations in conditionals can lead to undefined
 values due to global scoping. (:ref:`no-decl-cond <clarify:no-decl-cond>`)
@@ -116,16 +116,17 @@ A loop in *SCalc* has the following form:
        <statement-n>
      pool;
 
--  ``expr`` is an expression. The body of the ``loop`` statement is
-   repeatedly evaluated as long as this expression is non-zero. The
-   expression is evaluated prior to running the body similar to a *C*
-   ``while`` loop.
+-  ``expr`` is an :term:`expression`. The body of the ``loop``
+   :term:`statement` is repeatedly evaluated as long as this
+   expression is non-zero. The expression is evaluated prior to
+   running the body similar to a *C* ``while`` loop.
 
--  ``statement-*`` is any type of statement *except* a declaration. This
-   means there can be assignments, nested loops, nested conditionals,
-   and prints. There does not have to be any statements in the loop, but
-   without side effects a loop will be infinite (unless it is never
-   entered).
+-  ``statement-*`` is any type of statement *except* a
+   :term:`declaration`. This means there can be assignments, nested
+   loops, nested conditionals, and prints. There does not have to
+   be any statements in the loop, but without
+   :term:`side effects <side effect>` a loop will be infinite
+   (unless it is never entered).
 
 **Clarification:** Declarations in loops can lead to undefined or
 repeatedly defined values due to global scoping.
@@ -136,8 +137,9 @@ repeatedly defined values due to global scoping.
 Print
 ~~~~~
 
-Print statements print the integer value of an expression followed by a
-newline. A print statement in *SCalc* has the following form:
+Print :term:`statements <statement>` print the integer value of an
+:term:`expression` followed by a newline. A print statement in
+*SCalc* has the following form:
 
 ::
 

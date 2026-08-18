@@ -13,14 +13,20 @@ HFILES:=htaccess
 HFILESDOT:=$(foreach file, $(HFILES), .$(file))
 PDFS:=$(foreach file, $(DIRS), $(file).pdf)
 
-.PHONY: all github clean 
+.PHONY: all github clean
 
 all:
+	# Gazprea publishes the glossary that all siblings pull from via
+	# intersphinx.  Build it first so ``../gazprea/_build/html/objects.inv``
+	# exists when the sibling foreach runs.  The subsequent per-dir
+	# ``make html`` on gazprea is an incremental no-op.
+	$(MAKE) html -C gazprea
 	$(foreach dir, $(DIRS), $(MAKE) html -C $(dir);)
 	$(foreach dir, $(DIRS), rm -rf $(dir)/_build/html/_static/css/fonts;)
 	$(foreach dir, $(DIRS), rm -rf $(dir)/_build/html/_static/fonts;)
 	$(foreach dir, $(DIRS), rm -rf $(dir)/_build/html/_sources/;)
 	$(foreach dir, $(DIRS), $(MAKE) latexpdf -C $(dir);)
+	$(MAKE) canvas -C gazprea
 
 github: all
 	rm -rf _site
@@ -33,6 +39,7 @@ github: all
 	$(foreach dir, $(DIRS), cp -r $(dir)/_build/html/* _site/$(dir);)
 	$(foreach dir, $(DIRS), cp -r $(dir)/_build/latex/$(dir).pdf _site/$(dir).pdf;)
 	$(foreach file, $(FILES), cp base/$(file) _site/$(file);)
+	cp gazprea/_build/canvas/gazprea-glossary.html _site/gazprea/gazprea-glossary-canvas.html
 	touch _site/.nojekyll
 
 clean:

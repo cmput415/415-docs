@@ -29,8 +29,32 @@ author = 'cmput415'
 # ones.
 extensions = [
     'sphinx_rtd_theme',
-    'sphinx.ext.todo'
+    'sphinx.ext.todo',
+    'sphinx.ext.intersphinx',
 ]
+
+# Reserved for future back-references from Gazprea into sibling specs.
+# The gazprea spec currently defines no :ref:/:term: targets pointing at
+# a sibling, but wiring this symmetrically now means the first back-ref
+# in a future edit will just work.  Same fallback pattern as the siblings:
+# canonical URL plus local ``_build/html/objects.inv``.  When the top-level
+# ``make all`` runs, siblings are built after gazprea, so a first ``make
+# all`` from clean will fall back to the URL for these; a second run
+# picks up the local files.
+intersphinx_mapping = {
+    'vcalc':     ('https://cmput415.github.io/415-docs/vcalc',
+                  ('../vcalc/_build/html/objects.inv', None)),
+    'scalc':     ('https://cmput415.github.io/415-docs/scalc',
+                  ('../scalc/_build/html/objects.inv', None)),
+    'setup':     ('https://cmput415.github.io/415-docs/setup',
+                  ('../setup/_build/html/objects.inv', None)),
+    'generator': ('https://cmput415.github.io/415-docs/generator',
+                  ('../generator/_build/html/objects.inv', None)),
+    'info':      ('https://cmput415.github.io/415-docs/info',
+                  ('../info/_build/html/objects.inv', None)),
+}
+
+intersphinx_disabled_reftypes = ['std:doc']
 
 # Toggles the display of "Todo" message boxes in the output
 todo_include_todos = True
@@ -77,3 +101,30 @@ html_css_files = [
 
 # Disable syntax highlighting in code blocks
 highlight_language ='none'
+
+
+# -- Options for linkcheck ---------------------------------------------------
+#
+# URLs that a human can visit but a CI linkchecker cannot.  The pages exist;
+# their servers block automated clients with 403 (or, for thewordfactory.com,
+# quietly time them out).  Verified in-browser on 2026-08-03; if the ignore
+# list ever hides a legitimate breakage, remove the entry and let CI fail.
+linkcheck_ignore = [
+    # ISO standards catalogue: every page 403s to non-browser user-agents.
+    r'^https?://(www\.)?iso\.org/',
+    # MDPI journals: 403 to bots.
+    r'^https?://(dx\.)?doi\.org/10\.3390/',
+    # ACM Digital Library (dl.acm.org, and DOI redirects to it): 403 to bots.
+    r'^https?://(dx\.)?doi\.org/10\.1145/',
+    r'^https?://dl\.acm\.org/',
+    # cppreference.com: 403 to bots.
+    r'^https?://en\.cppreference\.com/',
+    # The Word Factory: connection times out to bots.
+    r'^https?://(www\.)?thewordfactory\.com/',
+]
+
+# Give slow-responding but legitimate hosts more time before treating a
+# response as a failure.
+linkcheck_anchors = False
+linkcheck_timeout = 30
+linkcheck_retries = 2

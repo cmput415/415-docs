@@ -2,7 +2,7 @@ Output
 ======
 
 Output is to be written to a file specified on the command line. Your
-compiler will be invoked with the following command:
+:term:`compiler` will be invoked with the following command:
 
 ::
 

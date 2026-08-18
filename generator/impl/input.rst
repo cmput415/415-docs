@@ -1,7 +1,7 @@
 Input
 =====
 
-The input processed by your interpreter will be in a file specified on
+The input processed by your :term:`interpreter` will be in a file specified on
 the command line. Your interpreter will be invoked with the following
 command:
 

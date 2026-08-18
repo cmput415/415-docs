@@ -25,7 +25,8 @@ comment is the **first** occurrence of the sequence of characters
     integer x = 2 * 3;  /* Block comments can also be on a single line */
 
 Block comments cannot be nested because the comment finishes when it
-reaches the first closing sequence. For example, this is invalid:
+reaches the first closing sequence.  For example, the following is
+:term:`ill-formed` (the second ``*/`` has no matching ``/*``):
 
 ::
 

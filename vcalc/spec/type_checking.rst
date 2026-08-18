@@ -14,14 +14,14 @@ important.
 -  Ranges: lower and upper bounds must be integers.
 
 -  Conditional Statements: must be booleans (remember that integers can
-   be implicitly downcast to booleans).
+   be :term:`implicitly converted <implicit conversion>` to booleans).
 
--  Domains: in a domain expression (generator, filter, index) the domain
-   must be a vector.
+-  Domains: in a :term:`domain expression` (generator, filter, index)
+   the :term:`domain` must be a vector.
 
 -  Generators: the expression must be an integer (remember that booleans
-   can be implicitly upcast to integers).
+   can be implicitly converted to integers).
 
 -  Filters: the predicate must be a boolean (remember that integers can
-   be implicitly downcast to booleans).
+   be implicitly converted to booleans).
 

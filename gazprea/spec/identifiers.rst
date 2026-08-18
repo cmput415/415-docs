@@ -3,11 +3,11 @@
 Identifiers
 ===========
 
-Identifiers in *Gazprea* must start with either an underscore or a
-letter (upper or lower cased). Subsequent characters can be an
-underscore, letter (upper or lower case), or number. An identifier may
-not be any of *Gazprea*\ ’s keywords. Here are some valid identifiers in
-*Gazprea*:
+:term:`Identifiers <identifier>` in *Gazprea* must start with either an
+underscore or a letter (upper or lower cased). Subsequent characters can
+be an underscore, letter (upper or lower case), or number. An identifier
+may not be any of *Gazprea*\ 's keywords. Here are some valid identifiers
+in *Gazprea*:
 
 ::
 
@@ -18,8 +18,8 @@ not be any of *Gazprea*\ ’s keywords. Here are some valid identifiers in
    	Hi
    	_3
 
-The following are some examples of invalid identifiers. They begin with
-a number, contain invalid characters, or are a keyword:
+The following are some examples of :term:`ill-formed` identifiers.
+They begin with a number, contain invalid characters, or are a keyword:
 
 ::
 

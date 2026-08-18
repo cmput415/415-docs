@@ -3,7 +3,7 @@ Assertions
 
 **ALL** input test cases will be valid. It can be a good idea to do
 error checking for your own testing and debugging, but it is *not
-necessary*. If you encounter what you think is undefined behaviour or
+necessary*. If you encounter what you think is undefined behavior or
 think something is ambiguous then *do* make a forum post about it to
 clarify.
 
@@ -20,9 +20,7 @@ specification particulars.
 
       **undef-behaviour**:
 
-   A test case *will not* take advantage of undefined behaviour.
-   Undefined behaviour is functionality that does not have an outcome
-   described explicitly by this specification.
+   A test case *will not* take advantage of :term:`undefined behavior`.
 
 #. 
 
@@ -33,8 +31,8 @@ specification particulars.
 
       **nonnegative-literals**:
 
-   All integer literals will be :math:`\geq 0`. For example, the
-   following tests would be considered invalid:
+   All integer :term:`literals <literal>` will be :math:`\geq 0`. For
+   example, the following tests would be considered invalid:
 
    ::
 
@@ -67,9 +65,10 @@ specification particulars.
 
       **expression-size**:
 
-   All expressions will result in a value that will fit in 32 signed
-   bits. This means the result of an expression can be anywhere in the
-   range :math:`[-2^{31}, 2^{31} - 1]` or :math:`[-2147483648, 2147483647]`.
+   All :term:`expressions <expression>` will result in a value that will
+   fit in 32 signed bits. This means the result of an expression can be
+   anywhere in the range :math:`[-2^{31}, 2^{31} - 1]` or
+   :math:`[-2147483648, 2147483647]`.
    Any operation that results in underflow or overflow
    will render the input invalid. For example, the following tests would
    be considered invalid:

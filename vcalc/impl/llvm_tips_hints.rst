@@ -26,7 +26,7 @@ asked or useful things are found. You will be notified as appropriate.
    same name in the IR builder.
 
 -  It can be a little harder to find programs that can emit MLIR.
-   ``Tensorflow`` and ``flang`` (Fortran compiler) are two or the more well-known
+   ``Tensorflow`` and ``flang`` (Fortran :term:`compiler`) are two or the more well-known
    compilers that use MLIR, but both are admittedly niche. As an alternative,
    you can use the ``mlir::dump()`` method, which works on all MLIR operations
    including modules and functions. The MLIR framework provides several tools
@@ -122,7 +122,7 @@ asked or useful things are found. You will be notified as appropriate.
    particular you want ``printf`` to do your printing. To get
    ``printf``, you need to add it to your module similarly to adding
    your ``main``, but you do *not* define it. This corresponds to your
-   *C*-style forward declaration and will make sure that llvm links
+   *C*-style forward :term:`declaration` and will make sure that llvm links
    ``printf`` into you executable. Here’s your boilerplate code where
    ``builder`` is type ``mlir::OpBuilder``:
 

@@ -23,8 +23,8 @@ Output streams use the following syntax:
 Output Format
 ~~~~~~~~~~~~~
 
-Values of the following base types are treated as follows when sent to
-an output stream:
+Values of the following :term:`primitive types <primitive type>` are
+treated as follows when sent to an output stream:
 
 -  :ref:`ssec:character`: The character is printed.
 
@@ -102,11 +102,10 @@ Input streams use the following syntax:
 
      <l-value> <- std_input;
 
-An l-value may be anything that can appear on the left hand side of an
-assignment statement. Consider reading the discussion of an l-value
-`here <https://en.wikipedia.org/wiki/Value_(computer_science)#Assignment:_l-values_and_r-values>`__.
+An :term:`lvalue` may be anything that can appear on the left hand side
+of an assignment statement.
 
-Input streams may only work on the following base types:
+Input streams may only work on the following primitive types:
 
 -  ``character``: Reads a single character from stdin. Note that there
    can be no :ref:`error state <sssec:stream_error>` for reading characters.
