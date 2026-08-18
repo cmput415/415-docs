@@ -11,7 +11,17 @@ Usage::
 
     python3 _ext/build_canvas_glossary.py \
         --input spec/glossary.rst \
-        --output _build/canvas/gazprea-glossary.html
+        --output _build/canvas/gazprea-glossary.html \
+        --baseurl-file ../.baseurl \
+        --inventory _build/html/objects.inv
+
+``:term:`` roles become in-page ``#term-<slug>`` anchors.  ``:ref:`` roles
+point at other spec chapters, which do not exist inside a standalone Canvas
+page; they are resolved to absolute links on the published site by joining
+the base URL from ``.baseurl`` with the target's page and anchor taken from
+the Sphinx ``objects.inv`` inventory.  When either input is missing the
+cross-reference degrades to non-linked italic text rather than leaking a raw
+``sec:foo`` label.
 
 The output validates as HTML5, is WCAG 2.1 AA in the UAlberta palette,
 supports light/dark/print, and includes an inline vanilla-JS term
@@ -23,6 +33,7 @@ import argparse
 import html
 import re
 import sys
+import zlib
 from collections import OrderedDict
 from pathlib import Path
 
@@ -31,6 +42,16 @@ HERE = Path(__file__).resolve().parent
 REPO_ROOT = HERE.parent  # gazprea/
 DEFAULT_INPUT = REPO_ROOT / "spec" / "glossary.rst"
 DEFAULT_OUTPUT = REPO_ROOT / "_build" / "canvas" / "gazprea-glossary.html"
+# Sphinx cross-reference inventory produced by ``make html``.  The top-level
+# Makefile builds the HTML (and thus this file) before ``make canvas`` runs,
+# so it is present in the normal build flow.
+DEFAULT_INVENTORY = REPO_ROOT / "_build" / "html" / "objects.inv"
+# ``.baseurl`` lives at the 415-docs repo root, one level above ``gazprea/``.
+SPEC_ROOT = REPO_ROOT.parent
+DEFAULT_BASEURL_FILE = SPEC_ROOT / ".baseurl"
+# Sub-path this project publishes under on the site (``gazprea``); every
+# ``:ref:`` target in the glossary resolves to a page inside it.
+PROJECT_SEGMENT = REPO_ROOT.name
 
 
 # ---------------------------------------------------------------------------
@@ -165,6 +186,55 @@ def parse_footnote_groups(text: str) -> list[tuple[str, "OrderedDict[str, list[s
 
 
 # ---------------------------------------------------------------------------
+# Sphinx inventory (objects.inv) -> :ref: label resolution
+# ---------------------------------------------------------------------------
+
+_INV_ROW_RE = re.compile(r"^(.+?)\s+(\S+)\s+(-?\d+)\s+(\S+)\s+(.*)$")
+
+
+def load_inventory(path: Path) -> "dict[str, tuple[str, str]]":
+    """Parse a Sphinx v2 ``objects.inv`` into ``{label: (uri, dispname)}``.
+
+    Only ``std:label`` rows are kept -- those are the targets a ``:ref:``
+    role resolves against.  Sphinx stores label names already lowercased
+    (``:ref:`` is case-insensitive), so the keys here are lowercase and a
+    lookup must lowercase its label too.  ``dispname`` is the section title
+    ("Declarations"), used as the link text for a bare ``:ref:`` with no
+    explicit caption.
+
+    Returns an empty dict when the file is absent or unreadable, so a build
+    without a prior HTML pass degrades gracefully to non-linked
+    cross-references instead of failing.
+    """
+    try:
+        raw = path.read_bytes()
+    except OSError:
+        return {}
+    parts = raw.split(b"\n", 4)
+    if len(parts) < 5 or not parts[0].startswith(b"# Sphinx inventory version 2"):
+        return {}
+    try:
+        body = zlib.decompress(parts[4]).decode("utf-8")
+    except (zlib.error, UnicodeDecodeError):
+        return {}
+
+    inv: "dict[str, tuple[str, str]]" = {}
+    for line in body.splitlines():
+        m = _INV_ROW_RE.match(line)
+        if not m:
+            continue
+        name, role, _prio, uri, disp = m.groups()
+        if role != "std:label":
+            continue
+        if uri.endswith("$"):  # ``page.html#$`` shorthand: anchor == name
+            uri = uri[:-1] + name
+        disp = disp.strip()
+        dispname = name if disp == "-" else disp
+        inv[name.lower()] = (uri, dispname)
+    return inv
+
+
+# ---------------------------------------------------------------------------
 # Inline + block RST -> HTML rendering
 # ---------------------------------------------------------------------------
 
@@ -177,10 +247,19 @@ class Renderer:
       block:  paragraphs, bullet lists (``*``), ``.. note::`` admonitions.
     """
 
-    def __init__(self, footnote_number_map: "OrderedDict[str, int]"):
+    def __init__(self, footnote_number_map: "OrderedDict[str, int]",
+                 ref_base: "str | None" = None,
+                 inventory: "dict[str, tuple[str, str]] | None" = None):
         self.fn_num = footnote_number_map
         # name -> list of DOM ids used at each :footref: site (for backlinks).
         self.fn_refs: "OrderedDict[str, list[str]]" = OrderedDict()
+        # Absolute prefix for :ref: targets, e.g.
+        # ``https://cmput415.github.io/415-docs/gazprea`` (None disables
+        # linking).  ``inventory`` maps a lowercased label to (uri, title).
+        self.ref_base = ref_base
+        self.inventory = inventory or {}
+        self.refs_resolved = 0
+        self.refs_unresolved = 0
 
     # ---- inline ----------------------------------------------------------
 
@@ -211,8 +290,26 @@ class Renderer:
     def _ref_repl(self, m: re.Match) -> str:
         content = m.group(1)
         mt = self._DISPLAY_TARGET_RE.match(content)
-        display = mt.group(1) if mt else content
-        return f'<em class="specref">{display}</em>'
+        if mt:
+            display, target = mt.group(1).strip(), mt.group(2).strip()
+        else:
+            display, target = "", content.strip()
+        entry = self.inventory.get(target.lower())
+        # Prefer an explicit caption; otherwise fall back to the section
+        # title from the inventory, never the raw ``sec:foo`` label.
+        dispname = entry[1] if entry else ""
+        text = display or html.escape(dispname or target)
+        if entry and self.ref_base:
+            href = html.escape(f"{self.ref_base}/{entry[0]}", quote=True)
+            self.refs_resolved += 1
+            return (
+                f'<a class="specref" href="{href}" '
+                f'rel="noopener noreferrer" target="_blank">{text}</a>'
+            )
+        # No base URL or no matching label: keep the reference readable but
+        # un-linked rather than emit a dead sphinx-internal path.
+        self.refs_unresolved += 1
+        return f'<em class="specref">{text}</em>'
 
     def _fn_repl(self, m: re.Match) -> str:
         name = m.group(1)
@@ -245,10 +342,13 @@ class Renderer:
     def render_inline(self, text: str) -> str:
         text = html.escape(text, quote=False)
         text = self._CODE_RE.sub(lambda m: f"<code>{m.group(1)}</code>", text)
+        # Auto-link bare URLs *before* the role substitutions below: a
+        # resolved :ref: emits an absolute ``https://`` href, and running the
+        # URL matcher afterwards would re-scan it and nest a second <a>.
+        text = self._URL_RE.sub(self._url_repl, text)
         text = self._TERM_RE.sub(self._term_repl, text)
         text = self._REF_RE.sub(self._ref_repl, text)
         text = self._FNREF_RE.sub(self._fn_repl, text)
-        text = self._URL_RE.sub(self._url_repl, text)
         text = self._ESCWS_RE.sub(" ", text)
         text = self._BOLD_RE.sub(r"<strong>\1</strong>", text)
         text = self._ITALIC_RE.sub(r"<em>\1</em>", text)
@@ -796,7 +896,10 @@ JS = r"""
 # ---------------------------------------------------------------------------
 
 def build_html(entries: list[tuple[str, list[str]]],
-               footnote_groups: list[tuple[str, "OrderedDict[str, list[str]]"]]) -> str:
+               footnote_groups: list[tuple[str, "OrderedDict[str, list[str]]"]],
+               ref_base: "str | None" = None,
+               inventory: "dict[str, tuple[str, str]] | None" = None,
+               ) -> "tuple[str, dict[str, int]]":
     # Flatten to a single name->body map in source order for numbering.
     flat: "OrderedDict[str, list[str]]" = OrderedDict()
     for _title, group in footnote_groups:
@@ -805,7 +908,7 @@ def build_html(entries: list[tuple[str, list[str]]],
     fn_number_map: "OrderedDict[str, int]" = OrderedDict(
         (name, i + 1) for i, name in enumerate(flat.keys())
     )
-    renderer = Renderer(fn_number_map)
+    renderer = Renderer(fn_number_map, ref_base=ref_base, inventory=inventory)
 
     # Sphinx :sorted: -- alphabetical, case-insensitive.
     entries_sorted = sorted(entries, key=lambda e: e[0].lower())
@@ -874,7 +977,7 @@ def build_html(entries: list[tuple[str, list[str]]],
     total_terms = len(entries_sorted)
     total_fns = len(fn_number_map)
 
-    return f"""<!DOCTYPE html>
+    doc = f"""<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -922,18 +1025,35 @@ def build_html(entries: list[tuple[str, list[str]]],
 <footer class="colophon">
   <p>Generated from <code>spec/glossary.rst</code> by
      <code>_ext/build_canvas_glossary.py</code>.
-     Colour palette follows the University of Alberta visual identity.
      Content is available under the same terms as the surrounding specification.</p>
 </footer>
 <script>{JS}</script>
 </body>
 </html>
 """
+    stats = {
+        "refs_resolved": renderer.refs_resolved,
+        "refs_unresolved": renderer.refs_unresolved,
+    }
+    return doc, stats
 
 
 # ---------------------------------------------------------------------------
 # CLI
 # ---------------------------------------------------------------------------
+
+def read_baseurl(path: Path) -> str:
+    """First non-blank, non-comment line of ``.baseurl`` (or "" if absent)."""
+    try:
+        raw = path.read_text(encoding="utf-8")
+    except OSError:
+        return ""
+    for line in raw.splitlines():
+        line = line.strip()
+        if line and not line.startswith("#"):
+            return line.rstrip("/")
+    return ""
+
 
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description=__doc__.strip().splitlines()[0])
@@ -941,6 +1061,13 @@ def main(argv: list[str] | None = None) -> int:
                     help=f"input RST file (default: {DEFAULT_INPUT})")
     ap.add_argument("--output", type=Path, default=DEFAULT_OUTPUT,
                     help=f"output HTML file (default: {DEFAULT_OUTPUT})")
+    ap.add_argument("--baseurl-file", type=Path, default=DEFAULT_BASEURL_FILE,
+                    help="file holding the published site's base URL, used to "
+                         "turn :ref: targets into absolute links "
+                         f"(default: {DEFAULT_BASEURL_FILE})")
+    ap.add_argument("--inventory", type=Path, default=DEFAULT_INVENTORY,
+                    help="Sphinx objects.inv mapping :ref: labels to pages "
+                         f"(default: {DEFAULT_INVENTORY})")
     args = ap.parse_args(argv)
 
     if not args.input.is_file():
@@ -957,15 +1084,32 @@ def main(argv: list[str] | None = None) -> int:
         print("error: no footnote definitions parsed", file=sys.stderr)
         return 4
 
-    doc = build_html(entries, fn_groups)
+    baseurl = read_baseurl(args.baseurl_file)
+    ref_base = f"{baseurl}/{PROJECT_SEGMENT}" if baseurl else None
+    inventory = load_inventory(args.inventory)
+    if ref_base is None:
+        print(f"warning: no base URL ({args.baseurl_file} missing or empty); "
+              ":ref: cross-references will not be linked", file=sys.stderr)
+    elif not inventory:
+        print(f"warning: no inventory ({args.inventory} missing); build "
+              "`make html` first so :ref: cross-references can be linked",
+              file=sys.stderr)
+
+    doc, stats = build_html(entries, fn_groups,
+                            ref_base=ref_base, inventory=inventory)
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(doc, encoding="utf-8")
     total_fns = sum(len(g) for _, g in fn_groups)
+    resolved, unresolved = stats["refs_resolved"], stats["refs_unresolved"]
     print(
         f"wrote {args.output} "
         f"({len(entries)} terms, {total_fns} footnotes, "
-        f"{len(doc):,} bytes)"
+        f"{len(doc):,} bytes, "
+        f"{resolved}/{resolved + unresolved} spec refs linked)"
     )
+    if unresolved and ref_base is not None:
+        print(f"warning: {unresolved} :ref: target(s) had no inventory match",
+              file=sys.stderr)
     return 0
 
 

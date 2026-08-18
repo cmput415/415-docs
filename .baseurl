@@ -1,0 +1,11 @@
+# Base URL of the published 415-docs site (no trailing slash).
+#
+# The Canvas glossary builder (gazprea/_ext/build_canvas_glossary.py) joins
+# this with "/<project>/<page>.html#<anchor>" to turn the Sphinx :ref:
+# cross-references in the glossary into live links on the deployed site,
+# because a standalone Canvas page cannot resolve sphinx-internal targets.
+# The per-target page and anchor come from the Sphinx objects.inv inventory.
+#
+# Keep this in sync with README.md and the intersphinx_mapping in
+# gazprea/conf.py.
+https://cmput415.github.io/415-docs

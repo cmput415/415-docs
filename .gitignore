@@ -18,3 +18,7 @@ _site/
 venv/
 env/
 tmp/
+
+# Ignore Python bytecode caches.
+__pycache__/
+*.pyc

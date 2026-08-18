@@ -15,6 +15,11 @@ BUILDDIR      = _build
 CANVAS_GLOSSARY_SRC   := spec/glossary.rst
 CANVAS_GLOSSARY_OUT   := $(BUILDDIR)/canvas/gazprea-glossary.html
 CANVAS_GLOSSARY_TOOL  := _ext/build_canvas_glossary.py
+# Base URL (repo root) + Sphinx inventory ($(BUILDDIR)/html/objects.inv,
+# produced by ``make html``) let the converter resolve :ref: cross-references
+# to live links on the published site.
+CANVAS_GLOSSARY_BASEURL := ../.baseurl
+CANVAS_GLOSSARY_INV     := $(BUILDDIR)/html/objects.inv
 PYTHON                ?= python3
 
 # Put it first so that "make" without argument is like "make help".
@@ -30,7 +35,9 @@ canvas:
 	@mkdir -p $(dir $(CANVAS_GLOSSARY_OUT))
 	$(PYTHON) $(CANVAS_GLOSSARY_TOOL) \
 	    --input $(CANVAS_GLOSSARY_SRC) \
-	    --output $(CANVAS_GLOSSARY_OUT)
+	    --output $(CANVAS_GLOSSARY_OUT) \
+	    --baseurl-file $(CANVAS_GLOSSARY_BASEURL) \
+	    --inventory $(CANVAS_GLOSSARY_INV)
 
 # Catch-all target: route all unknown targets to Sphinx using the new
 # "make mode" option.  $(O) is meant as a shortcut for $(SPHINXOPTS).
