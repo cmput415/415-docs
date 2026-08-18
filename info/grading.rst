@@ -29,13 +29,13 @@ product: scalability, flexibility, and maintainability.
     You need to design an AST and Symbol table, and use them to implement
     multiple passes including: symbol definitions, symbol resolutions and
     semantic checking, type checking, and code generation.
-    The passes your compiler must have are listed under `Architecture <https://cmput415.github.io/415-docs/vcalc/impl/architecture.html>`__.
+    The passes your compiler must have are listed under `Architecture <../vcalc/impl/architecture.html>`__.
 
   * **Gazprea** While the top-level architecture is almost identical to
     *VCalc*, the rich type system within can increase complexity
     substantially unless it is managed. It is also important to understand
     and select dialects that make sense for your design.
-    The passes your compiler must have are listed under `Architecture <https://cmput415.github.io/415-docs/gazprea/impl/architecture.html>`__.
+    The passes your compiler must have are listed under `Architecture <../gazprea/impl/architecture.html>`__.
 
 
 Architecture Properties
