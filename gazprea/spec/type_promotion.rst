@@ -3,13 +3,14 @@
 Type Promotion
 ==============
 
-Type promotion is a sub-problem of casting and refers to casts that happen
-implicitly.
+:term:`Type promotion` is *Gazprea*'s implicit type-conversion mechanism.
+It is deliberately distinct from :ref:`type casting <sec:typeCasting>`,
+which is the explicit mechanism invoked via ``as<toType>(value)``.
 
-Any conversion that can be done implicitly via promotion can also be done
-explicitly via typecast expression.
-The notable exception is array promotion to a higher dimension, which occurs as
-a consequence of scalar to array promotion.
+Any conversion that can be done implicitly via promotion can also be
+done explicitly via a typecast expression.  The notable exception is
+array promotion to a higher dimension, which occurs as a consequence of
+scalar to array promotion.
 
 .. _ssec:typePromotion_scalar:
 

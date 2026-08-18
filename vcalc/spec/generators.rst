@@ -9,17 +9,17 @@ following form:
 
      [<domain variable> in <domain> | <expression>]
 
-The identifier is referred to as the domain variable, the vector is the
-domain or domain vector, and the expression is the right-hand-side
-expression. The domain variable is an integer typed variable defined
-only in the scope of the generator.
+The identifier is referred to as the :term:`iterator variable`, the
+vector is the :term:`domain` or domain vector, and the expression is the
+right-hand-side expression. The iterator variable is an integer typed
+variable defined only in the scope of the generator.
 
 The domain may be any vector-valued expression which includes
 identifiers (that are vector typed), ranges, generators, filters, and
 index expressions with a vector index. The expression must evaluate to
 an integer. This means that if the result of the expression is a boolean
-it will be implicitly promoted to an integer, but a vector result is an
-*error*.
+it will undergo :term:`type promotion` to an integer, but a vector
+result is an *error*.
 
 Generators are identical to list comprehensions from other languages.
 For instance, to generate a vector of the first 100 perfect squares, one

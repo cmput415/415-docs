@@ -14,7 +14,8 @@ specification without cluttering it.
       **empty-input**:
 
    Empty input should result in empty output. This is in keeping with
-   all of the output rules defined. There are no ``print`` statements so
+   all of the output rules defined. There are no ``print``
+   :term:`statements <statement>` so
    there would be no numbers, newlines or output of any kind. All that
    you are left with is a single empty line, which matches "*should* be
    an empty line at the end of your output".

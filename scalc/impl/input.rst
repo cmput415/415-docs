@@ -1,8 +1,8 @@
 Input
 =====
 
-The input processed by your compiler will be in a file specified on the
-command line. You will also receive a value signifying which mode your
+The input processed by your :term:`compiler` will be in a file specified on
+the command line. You will also receive a value signifying which mode your
 compiler should be run in. The command to run your compiler will take
 this form:
 

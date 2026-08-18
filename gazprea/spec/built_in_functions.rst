@@ -10,8 +10,9 @@ Normally a function must specify the element type of an array argument.
 
 The name of built in functions are reserved and a user program cannot
 define a function or a procedure with the same name as a built-in function.
-If a declaration or a definition with the same name as a built-in function is
-encountered in a *Gazprea* program, then the compiler should issue an error.
+If a :term:`declaration` or a :term:`definition` with the same name as a
+built-in function is encountered in a *Gazprea* program, then the compiler
+should issue an error.
 
 Note that although the examples below all use arrays, all the built-ins work
 on Vectors and Strings, since they are always compatible with arrays.
@@ -66,8 +67,8 @@ reversed version of it.
 Format
 -------
 
-The ``format`` built-in takes any scalar as input and returns a ``string``
-containing the formatted value of the scalar.
+The ``format`` built-in takes any :term:`scalar <scalar type>` as input and
+returns a ``string`` containing the formatted value of the scalar.
 
 ::
 

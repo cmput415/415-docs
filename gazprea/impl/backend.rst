@@ -3,7 +3,7 @@
 Backend
 =======
 
-You don’t need to implement an interpreter for Gazprea. You only need to
+You don’t need to implement an :term:`interpreter` for Gazprea. You only need to
 implement a *MLIR* code generator that outputs *LLVM IR*.
 
 .. _ssec:backend_memory:
@@ -12,7 +12,7 @@ Memory Management
 -----------------
 
 It is important that you are able to automatically free and allocate memory for
-arrays when they enter and exit scope. You could allocate them on the stack,
+arrays when they enter and exit :term:`scope`. You could allocate them on the stack,
 but this could be problematic if the arrays are very large.
 It is likely safer to use ``malloc`` and ``free`` for these purposes.
 This may be done in either your runtime or directly within MLIR.

@@ -21,11 +21,20 @@ omitted the default is ``const``, i.e. variables are immutable by default.
 Optionally, a declaration may explicitly initialize the value of the new
 variable with the value of ``<expression>``.
 
-In *Gazprea* all variables must be initialized in a well defined manner in order
-to ensure functional purity. If the variables are not initialized to a known
-value their initial value might change depending on when the program is run.
-Therefore, if the explicit inialization is omitted it is equivalent to setting
-the value to zero.
+In *Gazprea* all variables must be initialized in a well defined manner in
+order to ensure :term:`functional purity`. If the variables are not
+initialized to a known value their initial value might change depending on
+when the program is run.
+*Gazprea* therefore follows a strict RAII-style discipline: every
+declaration is also an :term:`initialization <initializer>`, and no
+variable is ever observable in an uninitialized state.  When the
+programmer omits the explicit initializer, the compiler implicitly
+initializes the variable to the *default value* of its type.
+The default value is ``0`` for ``integer`` and ``real``,
+``false`` for ``boolean``, ``' '`` for ``character``, the empty
+string ``""`` for ``string``, and the element-wise default for
+:term:`aggregate types <aggregate type>` (arrays, vectors, tuples,
+structs).  *Gazprea* has no ``null`` value.
 
 For simplicity *Gazprea* assumes that declarations can only appear at
 the beginning of a block. For instance this would not be legal in
@@ -52,8 +61,9 @@ The following declaration placement is legal:
          i = i + 1;
        }
 
-The declaration of a variable happens after initialization. Thus it is
-illegal to refer to a variable within its own initialization statement.
+The declaration of a variable happens after initialization. A program
+that refers to a variable within its own initialization statement is
+therefore :term:`ill-formed`.
 
 ::
 
@@ -63,8 +73,8 @@ illegal to refer to a variable within its own initialization statement.
 
 An error message should be raised about the use of undeclared variables
 in these cases. If a variable of the same name is declared in an
-enclosing scope, then it is legal to use that in the initialization of a
-variable with the same name. For instance:
+enclosing :term:`scope`, then it is legal to use that in the initialization
+of a variable with the same name. For instance:
 
 ::
 

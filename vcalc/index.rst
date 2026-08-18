@@ -2,14 +2,14 @@ VCalc
 =====
 
 In this assignment you will build a vector calculator called *VCalc*.
-For *VCalc* you will build a compiler that generates `MLIR <https://mlir.llvm.org>`__.
+For *VCalc* you will build a :term:`compiler` that generates `MLIR <https://mlir.llvm.org>`__.
 As *MLIR* is an IR infrastructure it supports many special purpose
 intermediate representations called `dialects`.
 You will target the `LLVM Dialect <https://mlir.llvm.org/docs/Dialects/LLVM/>`__
 in this assignment.
 All *MLIR* dialects must evenually be lowered to *LLVM IR*, which is the
 common IR that the LLVM back-end uses to generate machine specific object code.
-An interpreter is not necessary but can be a good way to ensure that your
+An :term:`interpreter` is not necessary but can be a good way to ensure that your
 grammar works as expected.
 
 

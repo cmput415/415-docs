@@ -31,8 +31,27 @@ author = 'cmput415'
 extensions = [
     'sphinx_rtd_theme',
     'sphinx.ext.todo',
-    'rubric'
+    'sphinx.ext.intersphinx',
+    'rubric',
 ]
+
+# Cross-reference the Gazprea glossary.  The tuple's first element is the
+# canonical URL used to rewrite resolved refs; the second element is a list
+# of inventory-source fallbacks.  ``../gazprea/_build/html/objects.inv``
+# resolves against this file's directory, so ``make all`` (which builds
+# gazprea first per the top-level Makefile) always finds the inventory
+# locally.  If the local file is missing, intersphinx falls back to the
+# published URL and the build still succeeds.
+intersphinx_mapping = {
+    'gazprea': (
+        'https://cmput415.github.io/415-docs/gazprea',
+        ('../gazprea/_build/html/objects.inv', None),
+    ),
+}
+
+# Never let a bare :doc:`foo` silently resolve to a sibling project's page;
+# force ``:external+gazprea:doc:`` when that is actually what is meant.
+intersphinx_disabled_reftypes = ['std:doc']
 
 # Toggles the display of "Todo" message boxes in the output
 todo_include_todos = True
@@ -55,6 +74,16 @@ exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 # a list of builtin themes.
 #
 html_theme = 'sphinx_rtd_theme'
+
+# Point the per-page source link at the file on GitHub rather than a local
+# ``_sources/<page>.rst.txt`` copy (the deploy step strips ``_sources/``).
+html_context = {
+    'display_github': True,
+    'github_user': 'cmput415',
+    'github_repo': '415-docs',
+    'github_version': 'master',
+    'conf_py_path': '/info/',
+}
 
 html_theme_options = {
     'logo_only': False,
@@ -79,3 +108,9 @@ html_css_files = [
 
 # Disable syntax highlighting in code blocks
 highlight_language ='none'
+
+
+# -- Options for linkcheck ---------------------------------------------------
+linkcheck_anchors = False
+linkcheck_timeout = 30
+linkcheck_retries = 2

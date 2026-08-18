@@ -20,7 +20,8 @@ A function in *Gazprea* has several requirements:
 7.  Functions must be declared in the global scope.
 
 The reason for this is to ensure that functions in *Gazprea* behave as
-pure functions. Every time you call a function with the same arguments
+:term:`pure functions <functional purity>`. Every time you call a function
+with the same arguments
 it will perform the exact same operations. This has a lot of benefits.
 It makes code easier to understand if functions only depend upon their
 inputs and not some hidden state, and it also allows the compiler to
@@ -100,9 +101,12 @@ function is encountered.
            }
          }
 
-``f`` is invalid since if ``b == false``, then we reach the end of the
-function without a return statement, so we don’t know what value
-``f(false)`` should take on.
+``f`` is :term:`ill-formed` since if ``b == false``, then we reach the
+end of the function without a return statement, so we do not know what
+value ``f(false)`` should take on.  A conforming implementation must
+reject this program with a ``ReturnError`` such as::
+
+     ReturnError on line 1: function "f" does not have a return statement reachable by all control flows
 
 ::
 

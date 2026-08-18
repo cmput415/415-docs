@@ -4,7 +4,7 @@ Procedures
 ==========
 
 A procedure in *Gazprea* is like a function, except that it does not
-have to be pure and as a result it may:
+have to be :term:`pure <functional purity>` and as a result it may:
 
 -  Have arguments marked with ``var`` that can be mutated. By default
    arguments are ``const`` just like functions.
@@ -37,7 +37,7 @@ Syntax
 Procedures are almost exactly the same as functions. However, because
 procedures can cause side effects, the returns clause is optional. Due to
 this, the ``= <stmt>;`` declaration format is not available for
-procedures. For example, the following code is illegal:
+procedures. For example, the following code is :term:`ill-formed`:
 
 ::
 
@@ -85,9 +85,9 @@ should raise an error if a function is used in a ``call`` statement.
 A procedure may never be called within a function, doing so would allow for
 impure functions. Procedures may only be called within assignment statements
 (procedures may not be used as the control expression in control flow expressions, for instance).
-The return value from a procedure call can only be manipulated with unary
-operators. It is illegal to use the results from a procedure call with
-binary expressions.
+The return value from a procedure call can only be manipulated with
+unary operators. A program that uses the results from a procedure call
+with binary expressions is :term:`ill-formed`.
 For example:
 
 ::
@@ -172,7 +172,8 @@ Aliasing
 
 Since procedures can have mutable arguments, it would be possible to
 cause `aliasing <http://en.wikipedia.org/wiki/Aliasing_(computing)>`__.
-In *Gazprea* aliasing of mutable variables is illegal. The only case
+In *Gazprea* a program that aliases mutable variables is
+:term:`ill-formed`.  The only case
 where aliasing of arguments is allowed is through disjoint tuple or struct field access. This
 helps *Gazprea* compilers perform more optimizations. However, the compiler must be able
 to catch cases where mutable memory locations are aliased, and an error
@@ -211,7 +212,7 @@ passed to procedures. For instance:
          call p(v[x], v[y]);
          /* p is some procedure with two variable array arguments */
 
-It is impossible to tell whether or not these overlap at compile time
+It is impossible to tell whether or not these overlap at :term:`compile time`
 due to the halting problem. Thus for simplicity, whenever an array is passed
 to a procedure *Gazprea* detects aliasing whenever the same array is used,
 regardless of whether or not the access would overlap.

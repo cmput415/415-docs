@@ -2,7 +2,7 @@ Booleans
 --------
 
 In this assignment, booleans can only be produced using comparison
-operators, there is no literal to express them. As well, they are
+operators, there is no :term:`literal` to express them. As well, they are
 ephemeral: there is no way to store them. They can only exist when
 created using one of the comparison operators.
 
@@ -21,9 +21,10 @@ produces the following output:
      1
      0
 
-As well booleans *are* usable in expressions and must be *upcast* to an
-integer. This means if a boolean is used in an arithmetic expression it
-takes on the integer value described above. For example:
+As well booleans *are* usable in :term:`expressions <expression>` and must
+undergo :term:`type promotion` to an integer. This means if a boolean is
+used in an arithmetic expression it takes on the integer value described
+above. For example:
 
 ::
 

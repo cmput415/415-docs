@@ -1,7 +1,7 @@
 SCalc
 =====
 
-The goal of this assignment is to implement a compiler for a simple
+The goal of this assignment is to implement a :term:`compiler` for a simple
 imperative language called *SCalc*. This compiler will directly generate
 code for the following three backends:
 
@@ -11,7 +11,7 @@ code for the following three backends:
 
 -  *ARM* assembly
 
-You must also create an *interpreter* for *SCalc*
+You must also create an :term:`interpreter` for *SCalc*
 
 For the interpreter you will be computing the value of the expressions
 as you traverse the tree. However, when generating assembly code for
@@ -48,7 +48,7 @@ long as the output is correct.
 
 
 *SCalc* has integer variables, conditionals, loops, prints, and various
-integer expressions.
+integer :term:`expressions <expression>`.
 
 .. toctree::
    :hidden:

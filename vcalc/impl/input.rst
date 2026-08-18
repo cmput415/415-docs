@@ -1,7 +1,7 @@
 Input
 =====
 
-The input processed by your compiler will be in a file specified on the
+The input processed by your :term:`compiler` will be in a file specified on the
 command line. Your compiler will be invoked with the following command:
 
 ::

@@ -40,7 +40,7 @@ addition and subtraction have an equal level of precedence.
 Valid Expressions
 ~~~~~~~~~~~~~~~~~
 
-Valid formats for expressions are
+Valid formats for :term:`expressions <expression>` are
 
 ::
 
@@ -53,7 +53,7 @@ Valid formats for expressions are
 
 -  ``int`` is an integer.
 
--  ``id`` is the identifier of a variable.
+-  ``id`` is the :term:`identifier` of a variable.
 
 | **Assertion:** All expressions will result in a value that fits in a
   32 bit signed integer. (:ref:`expression-size <assert:expression-size>`)

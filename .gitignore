@@ -19,5 +19,6 @@ venv/
 env/
 tmp/
 
-# Ignore bytecode cached from the Sphinx extensions in _ext/.
+# Ignore Python bytecode caches.
 __pycache__/
+*.pyc

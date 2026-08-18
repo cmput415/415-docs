@@ -3,8 +3,8 @@
 Type Inference
 ==============
 
-In many cases the compiler can figure out what a variable’s type
-should be without an explicit type being
+*Gazprea* provides :term:`type inference`: in many cases the compiler can
+figure out what a variable's type should be without an explicit type being
 provided. For instance, instead of writing:
 
 ::
@@ -26,8 +26,9 @@ automatically give x an integer type. A *Gazprea* programmer can use
 expression, as long as the compiler can guess the type for the
 expression.
 
-Note that although the qualifier may be elided (default is ``const``) and the
-type may be elided (inferred from the RHS), it is not legal to imply both:
+Note that although the qualifier may be elided (default is ``const``) and
+the type may be elided (inferred from the RHS), a declaration that
+elides both is :term:`ill-formed`:
 
 ::
 
