@@ -189,14 +189,6 @@ Terms
       binding is Ada's *loop parameter* [#ada-rm]_ and C++'s
       *for-range-declaration* [#cpp-draft]_.
 
-      .. note::
-
-         Older *Gazprea* prose sometimes called this the *domain
-         variable*.  *Iterator variable* is the canonical name; every
-         chapter of the spec should use it.  Fixing a lingering
-         "domain variable" in prose is a mechanical rename, not a
-         semantic change.
-
    re-declaration
       A second (or nth) :term:`declaration` of the same
       :term:`identifier` within a given :term:`scope`.  In *Gazprea*
