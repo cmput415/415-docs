@@ -86,6 +86,19 @@ html_theme_options = {
     'sticky_navigation': False,
 }
 
+# Point the per-page source link at the file on GitHub rather than a local
+# ``_sources/<page>.rst.txt`` copy: the deploy step strips ``_sources/``, so
+# the default link 404s on the published site.  With these set, sphinx_rtd_theme
+# renders a GitHub link built from
+# ``<github_version><conf_py_path><pagename><suffix>``.
+html_context = {
+    'display_github': True,
+    'github_user': 'cmput415',
+    'github_repo': '415-docs',
+    'github_version': 'master',
+    'conf_py_path': '/gazprea/',
+}
+
 html_logo = 'assets/images/logo-reverse.png'
 
 # Add any paths that contain custom static files (such as style sheets) here,

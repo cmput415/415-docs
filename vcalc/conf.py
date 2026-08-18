@@ -73,6 +73,16 @@ exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 #
 html_theme = 'sphinx_rtd_theme'
 
+# Point the per-page source link at the file on GitHub rather than a local
+# ``_sources/<page>.rst.txt`` copy (the deploy step strips ``_sources/``).
+html_context = {
+    'display_github': True,
+    'github_user': 'cmput415',
+    'github_repo': '415-docs',
+    'github_version': 'master',
+    'conf_py_path': '/vcalc/',
+}
+
 html_theme_options = {
     'logo_only': False,
     'style_nav_header_background': '#007C41',
