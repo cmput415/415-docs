@@ -105,6 +105,9 @@ highlight_language ='none'
 linkcheck_ignore = [
     r'^https?://([a-z]+\.)?stackexchange\.com/',
     r'^https?://([a-z]+\.)?stackoverflow\.com/',
+    # gitlab.kitware.com is gated by Anubis (anti-bot proof-of-work), which
+    # 403s the CI IP range; the CMake wiki link itself is fine in a browser.
+    r'^https?://gitlab\.kitware\.com/',
 ]
 linkcheck_anchors = False
 linkcheck_timeout = 30
