@@ -33,22 +33,22 @@ extensions = [
     'sphinx.ext.intersphinx',
 ]
 
-# Cross-reference the Gazprea glossary.  The tuple's first element is the
+# Cross-reference sibling projects.  The tuple's first element is the
 # canonical URL used to rewrite resolved refs; the second element is a list
-# of inventory-source fallbacks.  ``../gazprea/_build/html/objects.inv``
-# resolves against this file's directory, so ``make all`` (which builds
-# gazprea first per the top-level Makefile) always finds the inventory
-# locally.  If the local file is missing, intersphinx falls back to the
-# published URL and the build still succeeds.
+# of inventory-source fallbacks.  Each ``../<project>/_build/html/objects.inv``
+# resolves against this file's directory, so ``make all`` finds the inventory
+# locally for any project the top-level Makefile builds earlier.  If the local
+# file is missing, intersphinx falls back to the published URL and the build
+# still succeeds.
 intersphinx_mapping = {
-    'gazprea': (
-        'https://cmput415.github.io/415-docs/gazprea',
-        ('../gazprea/_build/html/objects.inv', None),
-    ),
+    'gazprea':   ('https://cmput415.github.io/415-docs/gazprea',
+                  ('../gazprea/_build/html/objects.inv', None)),
+    'vcalc':     ('https://cmput415.github.io/415-docs/vcalc',
+                  ('../vcalc/_build/html/objects.inv', None)),
 }
 
 # Never let a bare :doc:`foo` silently resolve to a sibling project's page;
-# force ``:external+gazprea:doc:`` when that is actually what is meant.
+# force ``:external+<project>:doc:`` when that is actually what is meant.
 intersphinx_disabled_reftypes = ['std:doc']
 
 # Toggles the display of "Todo" message boxes in the output
