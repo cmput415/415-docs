@@ -53,30 +53,26 @@ Read ``README.md`` first. The tasks are all stated relative to it.
 What you will be asked to do
 ----------------------------
 
-The tasks fall into four kinds, and one exam contains all of them:
+The tasks fall into four kinds:
 
-**1. Fix a bug.** The implementation does not match the behaviour ``README.md`` specifies somewhere. You are not told where. Find it — writing tests is how — and fix it.
+**1. Fix a bug.** The implementation does not match the behaviour ``README.md`` specifies somewhere. You are not told where. Find it by writing tests and fix it.
 
-**2. Write a test.** You are asked for a test that distinguishes one specific behaviour from a plausible wrong one: it must pass when the implementation is correct and fail when it is not. Naming a behaviour is not enough; the test has to separate the two cases.
+**2. Write a test.** You are asked for a test that distinguishes one specific behaviour from a plausible wrong one: it must pass when the implementation is correct and fail when it is not. 
 
 **3. Add a feature.** A language feature described in ``README.md`` is missing from the implementation. Implement it so that it behaves as specified, including where it interacts with features that are already there.
 
-**4. Explain your work in writing.** A few sentences, in your own words, typed into the repository: what was broken, why your fix works, and which test exposes it. This carries marks of its own. A correct patch with no account of why it is correct does not earn them.
+**4. Explain your work in writing.** A few sentences, in your own words, typed into ``ANSWERS.md``: what was broken, why your fix works, and which test exposes it. 
 
 The coding tasks are independent. Each can be done and verified without any of the others being finished, so a task you cannot get working does not cost you the ones you can. You do not have to do them in order.
 
 How it is graded
 ----------------
 
-**Code is graded by building it on a lab machine and running it against a test suite you never see.** The suite is written to catch the mistakes each question is designed to expose. Pass all of it and the question is full marks, decided and done.
-
-Fall short and your code is read by hand for partial credit. Marks there come from what the code shows: a fix that has the right idea and misses a case earns something, and one that passes by accident without addressing the problem earns less than a clean pass would.
+**Code is graded by building it on a lab machine and running it against a test suite you never see.** The suite is written to catch the mistakes each question is designed to expose. Pass all of it and the question is full marks.
 
 **Code that does not build scores badly.** Nothing in the suite can run against it, so every mark has to be recovered by reading a diff, and a diff is thinner evidence than a passing test. Push something that builds, even when it is incomplete — a partial feature that compiles is worth more than a complete one that does not.
 
-**Test-writing questions are graded by running your test twice**, against a correct build of the language and against a broken one. Your test earns its marks by reporting the intended result both times: passing on the correct build and failing on the broken one. A test that passes both times has caught nothing. A test that fails both times is not testing what it claims. Neither earns marks, so check your expected output against the specification before you settle on it.
-
-**Written answers are graded as written answers**, and they are where marks are recovered when the code did not get there. An accurate account of what was broken and why your fix addresses it is worth marks even when the fix itself is unfinished. Do not skip them to buy coding time — they are the cheapest marks on the exam.
+**Test-writing questions are graded by running your test twice**, against a correct build of the language and against a broken one. Your test earns its marks by reporting the intended result both times: passing on the correct build and failing on the broken one. A test that passes both times has caught nothing. A test that fails both times is not testing what it claims. 
 
 What you may use
 ----------------
@@ -108,7 +104,7 @@ It is already on your ``PATH`` if you have sourced ``415env.sh``. It records wha
 
 Activity it flags brings a proctor to your desk while you are writing. After the exam, the record of your session is reviewed against what you submitted — how the work was produced, next to what was produced. The two are expected to resemble each other.
 
-Starting it is part of writing the exam, and it is what the closed-internet rule rests on. Leave it running for the whole session. A session with no monitor record, or one whose record stops partway through, cannot be distinguished from a session that had something to hide, and it will be treated accordingly.
+Starting it is part of writing the exam. Leave it running for the whole session. 
 
 If it will not start, or you think it has stopped, tell a proctor rather than carrying on without it.
 
