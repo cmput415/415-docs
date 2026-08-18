@@ -72,8 +72,9 @@ The following operations are defined between ``character`` values.
 |            | not equals               | ``!=``     | ``character != character``| left              |
 +------------+--------------------------+------------+---------------------------+-------------------+
 
-Scalar values with type ``character`` may be concatenated onto
-variables with type ``string`` or arrays with type ``character``.
+:term:`Scalar <scalar type>` values with type ``character`` may be
+concatenated onto variables with type ``string`` or arrays with type
+``character``.
 
 Type Casting and Type Promotion
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

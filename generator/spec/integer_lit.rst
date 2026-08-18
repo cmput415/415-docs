@@ -1,8 +1,8 @@
 Integer Literals
 ================
 
-In this assignment integer literals are defined as being a string that
-contains only the number characters 0-9 with no spaces.
+In this assignment integer :term:`literals <literal>` are defined as being a
+string that contains only the number characters 0-9 with no spaces.
 
 | **Assertion:** All integer literals will be :math:`\geq 0`.
   (:ref:`nonnegative-literals <assert:nonnegative-literals>`)

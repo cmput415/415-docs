@@ -116,7 +116,8 @@ Binary operations between vectors require extra specification.
             [6 3 2 0 0]
 
 #. Boolean operators between vectors are still applied element-wise, but the
-   result will be converted to an integer before being saved into the result.
+   result will be :term:`converted <implicit conversion>` to an integer before
+   being saved into the result.
    For example:
 
    ::
@@ -138,7 +139,8 @@ Binary operations between vectors require extra specification.
 Integer to Vector Promotion
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Integers used in expressions with vectors will be promoted to vectors.
+Integers used in :term:`expressions <expression>` with vectors will be
+:term:`promoted <type promotion>` to vectors.
 The scalar value will be copied into *each index* of a new vector the
 same size as the other operand before applying the operator in the
 regular vector fashion. For example:
@@ -199,12 +201,12 @@ error*. An index out of bounds *always returns zero*.
 
 Index domains must be vectors:
 
--  Domain can be an identifier for a vector.
+-  Domain can be an :term:`identifier` for a vector.
 
 -  Domain can be the result of a range, generator, filter, or another
    index expression with a vector index (see below).
 
--  Domain cannot be an integer. For example, this is invalid:
+-  Domain cannot be an integer. For example, this is :term:`ill-formed`:
 
    ::
 

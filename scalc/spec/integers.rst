@@ -1,12 +1,12 @@
 Integers
 --------
 
-In this assignment, integers are the *only* numerical type (there is no
-floating point type). As well, they are the only type that you can
+In this assignment, integers are the *only* numerical :term:`type` (there
+is no floating point type). As well, they are the only type that you can
 store.
 
-In this assignment integer literals are defined as being a string that
-contains only the numerals 0-9 with no spaces.
+In this assignment integer :term:`literals <literal>` are defined as
+being a string that contains only the numerals 0-9 with no spaces.
 
 | **Assertion:** All integer literals will be :math:`\geq 0`.
   (:ref:`nonnegative-literals <assert:nonnegative-literals>`)
@@ -29,10 +29,10 @@ Examples of invalid integers:
      1_1
      1o
 
-As well, integers *are* usable in conditions and must be *downcast* to
-booleans. This means in a condtional, an integer that *is not* zero will
-be considered true and an integer that *is* zero will be considered
-false. For example:
+As well, integers *are* usable in conditions and must undergo
+:term:`implicit conversion` to booleans. This means in a condtional, an
+integer that *is not* zero will be considered true and an integer that
+*is* zero will be considered false. For example:
 
 ::
 

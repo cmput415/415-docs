@@ -24,12 +24,12 @@ For example:
 Note that while each tuple declaration defines a new type, the tuple type
 is not named explicitly. Rather, it has a type *signature* ``(T1, T2, ...)``,
 where ``T1, T2`` are the types of its members.
-The number of fields in a ``tuple`` must be known at compile time.
-This includes instances of :ref:`type inference<ssec:typeQualifiers_infer>`, where a variable is
-declared without an explicit type signature using ``var`` or ``const``
-.
-In this case, the variable must be initialised immediately with a literal whose
-type is known at compile time.
+The number of fields in a ``tuple`` must be known at :term:`compile time`.
+This includes instances of :ref:`type inference<ssec:typeQualifiers_infer>`,
+where a variable is declared without an explicit type signature using
+``var`` or ``const``.
+In this case, the variable must be initialised immediately with a
+:term:`literal` whose type is known at compile time.
 
 .. _sssec:tuple_acc:
 

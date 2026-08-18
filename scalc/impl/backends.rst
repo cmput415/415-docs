@@ -1,7 +1,7 @@
 Backends
 ========
 
-*SCalc*. This compiler will directly generate code for the following
+*SCalc*. This :term:`compiler` will directly generate code for the following
 three backends:
 
 -  :ref:`ssec:backend_x86` assembly
@@ -62,7 +62,7 @@ which opens a graphical IDE that you can load your assembler code into.
 x86
 ---
 
-You should use the Intel syntax for *x86*, and your compiler’s output
+You should use the Intel syntax for *x86*, and your :term:`compiler`\ ’s output
 must work with the nasm assembler. Your *x86* output should look
 something like this:
 
@@ -229,6 +229,6 @@ Interpreter
 -----------
 
 You should be able to execute a program without compiling by
-implementing an interpreter. This should work similarly to the generator
+implementing an :term:`interpreter`. This should work similarly to the generator
 assignment.
 

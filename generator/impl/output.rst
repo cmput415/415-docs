@@ -2,7 +2,7 @@ Output
 ======
 
 Output is to be written to a file specified on the command line. Your
-interpreter will be invoked with the following command:
+:term:`interpreter` will be invoked with the following command:
 
 ::
 

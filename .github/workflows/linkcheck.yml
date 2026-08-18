@@ -15,8 +15,26 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Check links with lychee
-        uses: lycheeverse/lychee-action@v1
+      - name: Set up Python
+        uses: actions/setup-python@v5
         with:
-          args: --verbose --no-progress --exclude-path base/index.html --exclude-all-private '**/*.md' '**/*.rst' '**/*.html' '**/*.tex'
-          fail: true
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: requirements.txt
+
+      - name: Install Sphinx
+        run: pip install -r requirements.txt
+
+      # Per-project linkcheck settings live in each conf.py; the
+      # builder itself exits non-zero on any broken link.
+      - name: Run sphinx-build -b linkcheck for every project
+        run: |
+          status=0
+          for dir in setup generator scalc vcalc gazprea info; do
+            echo "::group::linkcheck $dir"
+            if ! sphinx-build -b linkcheck "$dir" "$dir/_build/linkcheck"; then
+              status=1
+            fi
+            echo "::endgroup::"
+          done
+          exit $status

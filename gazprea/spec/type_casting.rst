@@ -3,10 +3,10 @@
 Type Casting
 ============
 
-*Gazprea* provides explicit type casting. Type casting is an expression. 
-A value may be converted to a
-different type using the following syntax where ``value`` is an
-expression and ``toType`` is our destination type:
+*Gazprea* provides explicit :term:`type casting`. Type casting is an
+:term:`expression`. A value may be converted to a different type using the
+following syntax where ``value`` is an expression and ``toType`` is our
+destination type:
 
 ::
 
@@ -84,8 +84,8 @@ size is assumed to be the old size. For example:
      // Truncate the array.
      real[2] y = as<real[2]>(v);
 
-Casting non-variable empty arrays ``[]`` is not allowed, because a literal
-empty array does not have a type.
+A cast of a non-variable empty array literal ``[]`` is :term:`ill-formed`,
+because a literal empty array does not have a type.
 
 .. _ssec:typeCasting_mtom:
 

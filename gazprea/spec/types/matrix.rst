@@ -53,7 +53,7 @@ Similarly, we can have:
            /* A == [[1, 2, 3], [1, 2, 0], [0, 0, 0]] */
 
 
-Also matrices can be initialized with a scalar value.
+Also matrices can be initialized with a :term:`scalar <scalar type>` value.
 Initializing with a scalar value makes every element of the matrix equal
 to the scalar.
 

@@ -30,8 +30,9 @@ symbol. The following is therefore legal:
     return i;
   }
 
-In addition to base types, ``typealias`` can be used with compound types
-(arrays, vectors, and strings) and aggregate types (structs and tuples).
+In addition to :term:`primitive types <primitive type>`, ``typealias`` can be used
+with compound types (arrays, vectors, and strings) and
+:term:`aggregate types <aggregate type>` (structs and tuples).
 Using ``typealias`` on tuples, or on arrays with sizes helps reusability and
 consistency:
 

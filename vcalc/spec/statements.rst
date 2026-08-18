@@ -10,7 +10,7 @@ A variable declaration in *VCalc* has the following form:
 
      <type> <id> = <expr>;
 
--  ``<type>`` is the type of the variable: ``int`` or ``vector``.
+-  ``<type>`` is the :term:`type` of the variable: ``int`` or ``vector``.
 
 -  ``<id>`` is the identifier of a variable.
 
@@ -41,7 +41,7 @@ Examples of invalid declarations are:
      int i;
      vector j =;
 
-Vectors may be initialized with any expression
+Vectors may be initialized with any :term:`expression`
 that returns a vector. For example, assigning a range to a vector ``v``:
 
 ::
@@ -76,7 +76,7 @@ There are a few new important points when dealing with assignments.
 
 #. The size of a vector may change while the program is executing if a
    vector variable is assigned another value. For instance, the
-   following sequence of statements *is* valid:
+   following sequence of :term:`statements <statement>` *is* valid:
 
    ::
 
@@ -86,7 +86,7 @@ There are a few new important points when dealing with assignments.
    You will have to allocate more memory to store the result of the
    assignment.
 
-#. The type of the expression of the assignment must match the
+#. The :term:`type` of the :term:`expression` of the assignment must match the
    destination variable’s type. This is apparent for trying to assign
    vectors to a scalar. In the case of scalars being assigned to
    vectors, one might expect that we can use our extension policy to
@@ -128,8 +128,8 @@ A conditional in *VCalc* has the following form:
    value.
 
 - conditional conditions must evaluate to booleans, which means that vectors
-  are not a valid condition. Remember, however, that integers can
-  be implicitly downcast to booleans.
+  are not a valid condition. Remember, however, that integers undergo an
+  :term:`implicit conversion` to booleans.
 
 -  ``statement-*`` is any type of statement *except* a declaration. This
    means there can be assignments, nested loops, nested conditionals,
@@ -160,8 +160,8 @@ A loop in *VCalc* has the following form:
    ``while`` loop.
 
 - Loop conditions must evaluate to booleans, which means that vectors are not a
-  valid condition. Remember, however, that integers can be implicitly downcast
-  to booleans.
+  valid condition. Remember, however, that integers undergo an
+  :term:`implicit conversion` to booleans.
 
 -  ``statement-*`` is any type of statement *except* a declaration. This
    means there can be assignments, nested loops, nested conditionals,
@@ -206,7 +206,7 @@ should print:
      4
 
 
-The ``print`` statement must also be able to output vectors. All the elements of
+The ``print`` :term:`statement` must also be able to output vectors. All the elements of
 the vector are printed on a single line between the opening and closing brackets.
 
 For example:
