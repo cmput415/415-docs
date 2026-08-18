@@ -39,6 +39,7 @@ grammar works as expected.
    :maxdepth: 2
    :caption: Implementation
 
+   impl/architecture
    impl/input
    impl/output
    impl/assertions
