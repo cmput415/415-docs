@@ -12,4 +12,4 @@ You should write your compiler as a series of passes each with simple functional
 
 Your compiler should use a symbol table to track symbol definitions and scopes.
 
-These passes are also assessed against the architecture properties listed under Design in the `grading criteria <../../info/grading.html>`_. All six properties apply to *Gazprea*.
+These passes are also assessed against the architecture properties listed under Design in the :external+info:doc:`grading criteria <grading>`. All six properties apply to *Gazprea*.
