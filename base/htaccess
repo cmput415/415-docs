@@ -2,6 +2,6 @@ IndexOptions +FancyIndexing +SuppressSize +SuppressLastModified +DescriptionWidt
 IndexIgnore ..
 AddDescription "Instructions for setting up your environment for CMPUT415 2023" setup
 AddDescription "Assignment specification for the Generator assignment." generator
-AddDescription "Assignment specification for the SCalc assignment." scalc
+AddDescription "Assignment specification for the LOLCODE assignment." lolcode
 AddDescription "Assignment specification for the VCalc assignment." vcalc
 AddDescription "Assignment specification for the Gazprea project." gazprea

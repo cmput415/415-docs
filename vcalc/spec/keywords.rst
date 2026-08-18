@@ -1,9 +1,21 @@
 Keywords
 --------
 
-The following keywords are now also reserved in *VCalc*:
+The following keywords are reserved in *VCalc*:
+
+-  ``if``
+
+-  ``fi``
+
+-  ``loop``
+
+-  ``pool``
+
+-  ``int``
+
+-  ``vector``
 
 -  ``in``
 
--  ``vector``
+-  ``print``
 

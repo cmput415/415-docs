@@ -1,13 +1,39 @@
 Expressions
 -----------
 
-Operators
-~~~~~~~~~
+Valid formats for expressions are
 
-Because we’ve added a new binary operator, we need to update our
-precedence table. Operators without a horizontal line dividing them have
-equal precedence. For example, addition and subtraction have an equal
-level of precedence.
+::
+
+     (<expr>)
+     <expr> <op> <expr>
+     <int>
+     <id>
+
+-  ``expr`` is an expression.
+
+-  ``int`` is an integer.
+
+-  ``id`` is the identifier of a variable.
+
+| **Assertion:** All expressions will result in a value that fits in a
+  32 bit signed integer. (:ref:`expression-size <assert:expression-size>`)
+| **Assertion:** No expression will contain a division by 0.
+  (:ref:`zero-divide <assert:zero-divide>`)
+
+Examples of valid expressions are
+
+::
+
+     i * 2 * 10 + 4
+     2 - 4 * 5
+
+Operator Precedence
+~~~~~~~~~~~~~~~~~~~
+
+The precedence table for *VCalc* is shown below. Operators without a horizontal line dividing
+them have equal precedence.
+For example, addition and subtraction have an equal level of precedence.
 
 +------------+----------------+------------+------------------+-------------------+
 | **Class**  | **Operation**  | **Symbol** | **Usage**        | **Associativity** |
@@ -38,7 +64,7 @@ level of precedence.
 Binary Operations on Vectors
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Binary oprations between vectors require extra specification.
+Binary operations between vectors require extra specification.
 
 #. All binary operations are performed element-wise. This means that the
    specified operation is applied to elements at the same index in both
@@ -89,9 +115,9 @@ Binary oprations between vectors require extra specification.
             [6 3 2 9 10]
             [6 3 2 0 0]
 
-#. Boolean operators between vectors are still applied element-wise, but
-   the result will be :term:`converted <implicit conversion>` to an
-   integer as decribed in *SCalc* before being saved into the result.
+#. Boolean operators between vectors are still applied element-wise, but the
+   result will be :term:`converted <implicit conversion>` to an integer before
+   being saved into the result.
    For example:
 
    ::

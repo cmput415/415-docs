@@ -18,8 +18,6 @@ Tips and Hints
 
 #. Write tests **BEFORE** you implement the things they will test.
 
-#. Reuse your tests from *SCalc*.
-
 #. There are times when you do not want to visit the tree in order (e.g.
    filters/generators), this makes using a listener difficult. We
    suggest using a visitor.

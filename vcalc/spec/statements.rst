@@ -4,11 +4,45 @@ Statements
 Declaration
 ~~~~~~~~~~~
 
-*VCalc* adds vectors as an assignable :term:`type`. To declare a vector
-variable, you declare a variable as you would an integer, but replace
-``int`` with ``vector``. Vectors may be initialized with any
-:term:`expression` that returns a vector. For example, assigning a
-range to a vector ``v``:
+A variable declaration in *VCalc* has the following form:
+
+::
+
+     <type> <id> = <expr>;
+
+-  ``<type>`` is the :term:`type` of the variable: ``int`` or ``vector``.
+
+-  ``<id>`` is the identifier of a variable.
+
+-  ``<expr>`` is an expression.
+
+.. _variable-props:
+
+Variables have a few properties:
+
+-  cannot be used before being declared.
+
+-  cannot be declared without initialisation.
+
+-  cannot be declared more than once in a *VCalc* program.
+
+Examples of valid declarations are:
+
+::
+
+     int i = 9;
+     int j = 9 * 4 + 10;
+     vector k = i..j;
+
+Examples of invalid declarations are:
+
+::
+
+     int i;
+     vector j =;
+
+Vectors may be initialized with any :term:`expression`
+that returns a vector. For example, assigning a range to a vector ``v``:
 
 ::
 
@@ -21,8 +55,22 @@ prints the following:
 
      [1 2 3 4 5 6 7 8 9 10]
 
+.. _sssec:assignment:
+
 Assignment
 ~~~~~~~~~~
+
+Variable assignment is similar to variable declaration but it allows
+variables to be assigned new values. An assignment in *VCalc* has the
+following form:
+
+::
+
+     <id> = <expr>;
+
+-  ``id`` is the identifier of an already declared variable.
+
+-  ``expr`` is an expression.
 
 There are a few new important points when dealing with assignments.
 
@@ -38,12 +86,12 @@ There are a few new important points when dealing with assignments.
    You will have to allocate more memory to store the result of the
    assignment.
 
-#. The :term:`type` of the :term:`expression` of the assignment must
-   match the destination variable’s type. This is apparent for trying
-   to assign vectors to a scalar. In the case of scalars being
-   assigned to vectors, one might expect that we can use our extension
-   policy to copy our scalar to every index of a newly created vector
-   but the question is, how large is the new vector. Because that is
+#. The :term:`type` of the :term:`expression` of the assignment must match the
+   destination variable’s type. This is apparent for trying to assign
+   vectors to a scalar. In the case of scalars being assigned to
+   vectors, one might expect that we can use our extension policy to
+   copy our scalar to every index of a newly created vector but the
+   question is, how large is the new vector. Because that is
    indeterminable, this is not allowed. For example, the following
    sequence of statements *is not* valid:
 
@@ -53,7 +101,7 @@ There are a few new important points when dealing with assignments.
             vector v = 1;
 
 #. Many languages allow you to assign to vector indices, *VCalc does
-   not*. For example, the following sequence of statments *is not*
+   not*. For example, the following sequence of statements *is not*
    valid:
 
    ::
@@ -64,24 +112,102 @@ There are a few new important points when dealing with assignments.
 Conditional
 ~~~~~~~~~~~
 
-Conditional conditions must evaluate to booleans, which means that
-vectors are not a valid condition. Remember, however, that integers
-undergo an :term:`implicit conversion` to booleans.
+A conditional in *VCalc* has the following form:
+
+::
+
+     if (<expr>)
+       <statement-1>
+       <statement-2>
+       ...
+       <statement-n>
+     fi;
+
+-  ``expr`` is an expression. The body of the ``if`` statement is
+   executed if and only if this expression evaluates to a non-zero
+   value.
+
+- conditional conditions must evaluate to booleans, which means that vectors
+  are not a valid condition. Remember, however, that integers undergo an
+  :term:`implicit conversion` to booleans.
+
+-  ``statement-*`` is any type of statement *except* a declaration. This
+   means there can be assignments, nested loops, nested conditionals,
+   and prints. There does not have to be any statements in the
+   conditional.
+
+**Clarification:** Declarations in conditionals can lead to undefined
+values due to global scoping. (:ref:`no-decl-cond <clarify:no-decl-cond>`)
+
 
 Loops
 ~~~~~
 
-Loop conditions must evaluate to booleans, which means that vectors are
-not a valid condition. Remember, however, that integers undergo an
-:term:`implicit conversion` to booleans.
+A loop in *VCalc* has the following form:
+
+::
+
+     loop (expr)
+       <statement-1>
+       <statement-2>
+       ...
+       <statement-n>
+     pool;
+
+-  ``expr`` is an expression. The body of the ``loop`` statement is
+   repeatedly evaluated as long as this expression is non-zero. The
+   expression is evaluated prior to running the body similar to a *C*
+   ``while`` loop.
+
+- Loop conditions must evaluate to booleans, which means that vectors are not a
+  valid condition. Remember, however, that integers undergo an
+  :term:`implicit conversion` to booleans.
+
+-  ``statement-*`` is any type of statement *except* a declaration. This
+   means there can be assignments, nested loops, nested conditionals,
+   and prints. There does not have to be any statements in the loop, but
+   without side effects a loop will be infinite (unless it is never
+   entered).
+
+**Clarification:** Declarations in loops can lead to undefined or
+repeatedly defined values due to global scoping.
+(:ref:`no-decl-loop <clarify:no-decl-loop>`)
 
 Print
 ~~~~~
 
-The ``print`` :term:`statement` in *VCalc* behaves the same as *SCalc*
-for integers, but must be extended to print vectors. All the elements
-of the vector are printed on a single line between the opening anc
-closing brackets.
+Print statements print the value of an expression followed by a newline.
+A print statement in *VCalc* has the following form:
+
+::
+
+     print(<expr>);
+
+-  ``expr`` is an expression.
+
+For example, the input:
+
+::
+
+     int i = 0;
+     loop (i < 5)
+       print(i);
+       i = i + 1;
+     pool;
+
+should print:
+
+::
+
+     0
+     1
+     2
+     3
+     4
+
+
+The ``print`` :term:`statement` must also be able to output vectors. All the elements of
+the vector are printed on a single line between the opening and closing brackets.
 
 For example:
 

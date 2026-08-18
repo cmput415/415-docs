@@ -1,9 +1,8 @@
 Scoping
 -------
 
-Loops and conditionals are scoped in *VCalc*, unlike *SCalc*. As well,
-generators and filters both have internal :term:`scopes <scope>` for
-their :term:`iterator variable`.
+Loops and conditionals are scoped in *VCalc*. As well, generators and filters
+both have internal :term:`scopes <scope>` for their :term:`iterator variable`.
 
 A reference to a variable will resolve to the :term:`definition` in the
 innermost possible scope. This matches the scoping rules found in *C*.

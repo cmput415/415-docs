@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 playersImage.src = playersImage.src.replace(/[^\/]+(?=\.png$)/, "players-4");
             } else if (sectionId === "vcalc") {
                 playersImage.src = playersImage.src.replace(/[^\/]+(?=\.png$)/, "players-2");
-            } else if (sectionId == "scalc" || sectionId == "generator") {
+            } else if (sectionId == "lolcode" || sectionId == "generator") {
                 playersImage.src = playersImage.src.replace(/[^\/]+(?=\.png$)/, "players-1");
             } else {
                 playersImage.src = playersImage.src.replace(/[^\/]+(?=\.png$)/, "empty");;

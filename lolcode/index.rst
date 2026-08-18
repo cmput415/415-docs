@@ -97,4 +97,3 @@ context.
    :maxdepth: 2
    :caption: Getting Started
 
-.. |expectedForm| image:: assets/images/scalc-class.png
