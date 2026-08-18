@@ -29,11 +29,53 @@ product: scalability, flexibility, and maintainability.
     You need to design an AST and Symbol table, and use them to implement
     multiple passes including: symbol definitions, symbol resolutions and
     semantic checking, type checking, and code generation.
+    The passes your compiler must have are listed under `Architecture <https://cmput415.github.io/415-docs/vcalc/impl/architecture.html>`__.
 
   * **Gazprea** While the top-level architecture is almost identical to
     *VCalc*, the rich type system within can increase complexity
     substantially unless it is managed. It is also important to understand
     and select dialects that make sense for your design.
+    The passes your compiler must have are listed under `Architecture <https://cmput415.github.io/415-docs/gazprea/impl/architecture.html>`__.
+
+
+Architecture Properties
+^^^^^^^^^^^^^^^^^^^^^^^
+
+Part of the design mark is the following properties of your implementation, assessed by inspection of your code. Each is marked separately, and only on the projects marked below. None of them apply to *Generator*.
+
+.. list-table::
+   :header-rows: 1
+   :widths: 76 8 8 8
+   :class: wrap-table
+
+   * - **Property**
+     - LOLCODE
+     - VCalc
+     - Gazprea
+   * - **Types are decided once.** Your emission pass must not compute or infer the type of an expression. It reads type information recorded by an earlier pass.
+     -
+     - ✓
+     - ✓
+   * - **One source of truth for conversions.** The rules deciding whether a conversion is legal and the code performing that conversion must not be two lists kept in agreement by hand. If they are separate, something in your build must check that they agree.
+     - ✓
+     - ✓
+     - ✓
+   * - **Pass dependencies are written down.** Each pass must state what it requires to already be true when it runs. If reordering two of your passes breaks your compiler, that dependency must appear somewhere a reader can find it.
+     -
+     - ✓
+     - ✓
+   * - **Element-wise operations share their emission.** Adding a new operator over vectors or matrices must not require writing new index arithmetic.
+     -
+     - ✓
+     - ✓
+   * - **Names are resolved once.** Your emission pass must not look a name up by string. Symbol resolution happens in an earlier pass, and later passes use the resolved symbol.
+     -
+     - ✓
+     - ✓
+   * - **Locations are recorded at construction.** Every node carries the source location it came from, assigned when the node is built.
+     -
+     -
+     - ✓
 
 Software Engineering Processes
 ------------------------------
@@ -92,7 +134,7 @@ Code Style and Consistency
 * You are expected to separate class definitions from implementations using header (.h) and source (.cpp)
   files.
 * Your code should be clean and readable.
-* There is no minimum expectation for commenting or documentation.
+* There is no minimum expectation for commenting or documentation, except where the design requirements require a design decision to be recorded.
 
 TA Specification Tests
 ----------------------
