@@ -40,6 +40,8 @@ The evaluators ask questions guided by the rubric and take notes as they go.
 
 Evaluators do not see your source code before the session. You are expected to **navigate your codebase live on your own machine**, pointing at specific code to support your answers. Have your development environment open and ready — a build of the compiler, your tests, and an editor you can search in quickly. Evaluators may ask follow-up questions based on what you show them.
 
+Four evaluators reading code over your shoulder can be cramped. Consider joining a muted Discord (or similar) call for the session instead, with every member sharing their screen for its whole duration and one member's laptop connected to the room's TV. That member switches the TV to whichever share belongs to whoever is answering. This is a suggestion rather than a requirement — any arrangement that lets the evaluators see the code you are pointing at will do.
+
 Answers are not judged on first-attempt fluency. Evaluators are instructed to ask clarifying questions rather than record a hesitant first explanation as a failure, so if you know the material you will get room to show it.
 
 Multiple members may contribute to a single answer. Questions put to a specific member still count towards that member's own mark, though, and that mark suffers if you consistently need a teammate to answer for you.
@@ -53,7 +55,7 @@ Three kinds of questions appear in the Q&A.
 
 * How does your compiler deal with type aliases that give a type the same name as a variable?
 * How does your compiler distinguish l-values from r-values at each stage?
-* How do you create the basic blocks for control flow (``if``, ``loop``, and so on)?
+* Open the code that creates the basic blocks for control flow (``if``, ``loop``, and so on), and walk through what it emits.
 * How are types represented in the MLIR backend?
 * Do you have separate AST nodes for a global versus a local variable declaration?
 * How do you handle implicit type promotion?
@@ -70,7 +72,7 @@ Three kinds of questions appear in the Q&A.
 * How was Part 1 designed to accommodate Part 2?
 * How does the AST design support the language's features?
 * How is the distinction between functions and procedures enforced end-to-end?
-* How is error reporting threaded through the passes that can produce one?
+* Take an error your compiler can report, and show us every place it passes through, from where it is detected to what the user sees.
 * Where does the type system meet the AST representation, and what does each one assume about the other?
 
 Coverage
