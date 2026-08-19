@@ -10,16 +10,16 @@ Most of your result is your own: three quarters of it comes from how you persona
 Schedule
 --------
 
-One evaluation is held per project part, so two in total: one for Part 1 and one for Part 2. Part 1 is evaluated across a single lab section; Part 2 is evaluated across two lab sections on different days.
+Three evaluations are held: one for Part 1 and two for Part 2. All three follow the format described below.
 
-In each round, your team plays two roles:
+In each evaluation, your team plays two roles:
 
 * You are **evaluated** by one team.
 * You **evaluate** a different team.
 
-No team evaluates the team that evaluates them.
+No team evaluates the team that evaluates them. The pairings are redrawn for every evaluation, so the team you are evaluated by and the team you evaluate are both different each time.
 
-Evaluations run in person. Several rooms in the same building are booked for each session and teams rotate between them, so check which room you are in for each of your two roles before the session starts.
+Evaluations run in person. Several rooms in the same building are booked for each session and teams rotate between them. The schedule for each evaluation is posted on Canvas ahead of the session: it names the team you are evaluated by, the team you evaluate, and the room for each of those two roles. Check it before the session starts.
 
 Format
 ------
