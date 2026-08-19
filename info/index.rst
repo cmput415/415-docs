@@ -6,5 +6,9 @@ More Information
 
    self
    grading
-   testing 
+   peer_eval
+   rubric_chart
+   lab_exam
+   lab_exam_vehicles
+   testing
    mlir_tips
