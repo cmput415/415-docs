@@ -5,6 +5,10 @@ This section details how to setup your
 Ubuntu
 development environment.
 
+.. warning::
+
+   A local install is an addition to the lab machines, not a replacement for them. Your submissions are built and graded on a lab machine, and lab exams are written on one, in a fixed hour, with nothing to install and nothing to configure. Before you rely on this environment, confirm that your work also builds on a lab machine and that the editor and shell configuration you depend on are available there — see :doc:`CS Lab Machines <cs_computers>`. If you would rather not maintain two environments, log in to a lab machine over SSH or X2Go and work there instead.
+
 Installing build-essential
 --------------------------
 
