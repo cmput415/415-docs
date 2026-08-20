@@ -3,9 +3,7 @@ CS Lab Machines
 
 The lab machines in UCOMM 2-070 and 2-086 are the reference environment for this course. Every toolchain the projects need is already installed and maintained there, and it is the environment the lab exams are written in. **Working on a lab machine is the recommended way to do the projects**, whether you sit down at one in the lab or log in to one remotely.
 
-.. todo::
-
-   Confirm the fully-qualified domain for the lab machines before publishing. The names below assume ``<host>.cs.ualberta.ca``.
+They run Ubuntu 20.04 LTS with the Xfce desktop. ``vim``, ``emacs``, ``nano``, ``gedit``, and Visual Studio Code (``code``) are installed; CLion you install into your own home directory, once, as described below.
 
 Why the lab machines
 --------------------
@@ -43,29 +41,39 @@ Logging in over SSH
 
 A terminal session is enough for the whole build-test-debug cycle: ``cmake``, ``ninja``, ``dragon-runner``, ``git``, and a terminal editor.
 
-.. code-block:: console
-
- $ ssh <ccid>@ucomm-2070-w07.cs.ualberta.ca
-
-The first connection asks you to confirm the host key. After that you are at a shell on the lab machine.
-
-Two things make this much more pleasant, and both are worth setting up now rather than during an exam week:
-
-**Key-based login.** Generate a key on your own machine and copy the public half to the lab machine, and you stop typing your password on every connection:
+The lab machines do not accept connections from outside the department network, so you reach them through the CS SSH gateway, ``innisfree.cs.ualberta.ca``. Connecting straight to a lab machine times out; ``-J`` makes the jump for you in one command:
 
 .. code-block:: console
 
- $ ssh-keygen -t ed25519
- $ ssh-copy-id <ccid>@ucomm-2070-w07.cs.ualberta.ca
+ $ ssh -J <ccid>@innisfree.cs.ualberta.ca <ccid>@ucomm-2070-w07.cs.ualberta.ca
 
-**A host alias.** Put an entry in ``~/.ssh/config`` on your own machine so that ``ssh lab`` is the whole command:
+The first connection asks you to confirm the host key of each host in turn. After that you are at a shell on the lab machine.
+
+Three things make this much more pleasant, and all are worth setting up now rather than during an exam week:
+
+**A host alias.** Put these entries in ``~/.ssh/config`` on your own machine and the whole command becomes ``ssh lab``:
 
 .. code-block:: none
+
+ Host innis
+     HostName innisfree.cs.ualberta.ca
+     User <ccid>
 
  Host lab
      HostName ucomm-2070-w07.cs.ualberta.ca
      User <ccid>
+     ProxyJump innis
      ServerAliveInterval 60
+
+``ServerAliveInterval`` keeps the connection from being dropped while you are reading rather than typing.
+
+**Key-based login.** Generate a key on your own machine and copy the public half to the gateway and the lab machine, and you stop typing your password twice on every connection:
+
+.. code-block:: console
+
+ $ ssh-keygen -t ed25519
+ $ ssh-copy-id innis
+ $ ssh-copy-id lab
 
 **Sessions that survive a dropped connection.** A build or a test run dies with your SSH session if the network hiccups. Start your work inside ``tmux`` and it keeps running:
 
@@ -81,17 +89,19 @@ If you want a graphical desktop on the lab machine — CLion, a file manager, a 
 
 #. Install the X2Go client on your own machine. On Ubuntu, ``sudo apt-get install x2goclient``; on macOS and Windows, download it from the `X2Go client page <https://wiki.x2go.org/doku.php/doc:installation:x2goclient>`__.
 
-#. Create a session with these settings:
+#. Create a session. Under **Session**:
 
    * **Host:** your lab machine, e.g. ``ucomm-2070-w07.cs.ualberta.ca``
    * **Login:** your CCID
-   * **Session type:** the desktop environment the lab machines run
+   * **Session type:** ``XFCE``
 
-#. Connect. You get the same desktop you would get sitting at the machine.
+#. The gateway applies here too. Still under **Session**, tick **Use Proxy server for SSH connection**, set the proxy type to ``SSH``, and give it ``innisfree.cs.ualberta.ca`` on port 22 with your CCID.
+
+#. Connect. You get an Xfce desktop on the lab machine.
 
 X2Go sessions can be suspended and resumed, so you can disconnect, move, and pick up the same desktop with your editor and terminals where you left them.
 
-X11 forwarding (``ssh -X``) also works for a single graphical program, but it is slow over anything other than a campus connection.
+X11 forwarding (``ssh -X``, adding ``-X`` to the jump command above) also works for a single graphical program, but it is slow over anything other than a campus connection.
 
 Setting up your environment
 ---------------------------
@@ -167,7 +177,7 @@ Checking that you are ready
 
 You are ready for an exam week when all of the following are true on a lab machine you have not used before:
 
-* You can log in, at the machine and over SSH.
+* You can log in, at the machine and remotely — through the gateway, from off campus.
 * ``which cmake ninja java`` and ``dragon-runner --help`` all work in a fresh shell.
 * Your editor of choice starts and has the configuration you expect.
 * You can clone one of your project repositories from GitHub and build it.
