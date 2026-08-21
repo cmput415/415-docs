@@ -45,7 +45,7 @@ new type:
 Scalar to Array
 -----------------------
 
-A scalar may be promoted to an array of any dimension with an element type that
+A scalar may be cast to an array of any dimension with an element type that
 the original scalar can be cast to according to the rules in :ref:`ssec:typeCasting_stos`.
 A scalar to array cast *must* include a size with the type to cast to as this
 cannot be inferred from the scalar value. For example:
@@ -110,17 +110,47 @@ truncation can occur in all dimensions. For example:
      real[1][3] d = as<real[1][3]>(a);
      real[3][1] e = as<real[3][1]>(a);
 
+.. _ssec:typeCasting_vec:
+
+Array and Vector
+----------------
+
+A :ref:`vector <ssec:vector>` participates in ``as<>`` casts on both sides.
+
+- As the **operand** of an array cast, a vector supplies its *current*
+  length as the source size; the cast then pads with the element type's
+  zero value or truncates to the destination array's stated size, exactly
+  as in :ref:`ssec:typeCasting_vtov`.
+
+- As the **destination** type, a ``vector<T>`` takes no size specifier: the
+  result simply has the length of the value being cast, so there is nothing
+  to pad or truncate. Only the element type is converted, per
+  :ref:`ssec:typeCasting_stos`.
+
+::
+
+     vector<real> v = [1.5, 2.5, 3.5];
+
+     // Vector as operand: its current length (3) is the source size.
+     integer[2] a = as<integer[2]>(v);             // [1, 2]  (truncated)
+     integer[5] b = as<integer[5]>(v);             // [1, 2, 3, 0, 0]  (padded)
+
+     // Vector as destination: no size; takes the value's length.
+     integer[3] w = [4, 5, 6];
+     vector<integer> u = as<vector<integer> >(w);  // [4, 5, 6]
+
 .. _ssec:typeCasting_ttot:
 
 Tuple to Tuple
 --------------
 
-Conversions between ``tuple`` types are also possible. The original type
-and the destination type must have an equal number of internal types and
-each element must be pairwise castable: scalar members follow
-:ref:`ssec:typeCasting_stos`, and array members follow
-:ref:`ssec:typeCasting_vtov` (including padding and truncation). For
-example:
+Conversions between ``tuple`` types are also possible. The source type and
+the destination type must have an equal number of members, and each member
+must be pairwise castable. Every member is cast by the rule for its own
+kind: scalar members follow :ref:`ssec:typeCasting_stos`, array members
+follow :ref:`ssec:typeCasting_vtov` (including padding and truncation), and
+a nested ``tuple``, ``struct``, ``vector``, or array member follows the same
+cast rules as a standalone value of that type. For example:
 
 ::
 

@@ -1,37 +1,38 @@
 .. _sec:typePromotion:
 
-Type Promotion
+Implicit Casts
 ==============
 
-:term:`Type promotion` is *Gazprea*'s implicit type-conversion mechanism.
-It is deliberately distinct from :ref:`type casting <sec:typeCasting>`,
-which is the explicit mechanism invoked via ``as<toType>(value)``.
+An *implicit cast* is a conversion the compiler performs automatically,
+with no syntax in the program text. Implicit casts are the counterpart of
+the *explicit casts* written ``as<toType>(value)`` in
+:ref:`sec:typeCasting`; "cast" is the umbrella term for both.
 
-Most conversions that can be done implicitly via promotion can also be done
-explicitly via a typecast expression. There are two caveats. First, a
-scalar-to-array *cast* must state the destination size explicitly
-(:ref:`ssec:typeCasting_stovm`), whereas the corresponding *promotion*
-infers the size from the array operand. Second, the
-``string``/``character[*]`` conversion is an implicit two-way promotion
-with no ``as<>`` form (see :ref:`ssec:typePromotion_string`).
+Most conversions that can be performed implicitly can also be written
+explicitly as an ``as<>`` cast. There are two caveats. First, a
+scalar-to-array *explicit cast* must state the destination size explicitly
+(:ref:`ssec:typeCasting_stovm`), whereas the corresponding *implicit cast*
+takes its size from the array operand. Second, the ``string`` /
+``character[*]`` conversion is an implicit, two-way cast with no ``as<>``
+form (see :ref:`ssec:typePromotion_string`).
 
-Note that there is no implicit promotion from a one-dimensional array to a
-two-dimensional array: only scalars broadcast, to arrays and to matrices
-alike.
+A scalar may be implicitly cast to an array or matrix of any rank (see
+:ref:`ssec:typePromotion_stoa`). An array is never implicitly cast to a
+different rank; only a scalar expands to fill an array or matrix.
 
 .. _ssec:typePromotion_scalar:
 
 Scalars
 -------
 
-The only automatic type promotion for scalars is ``integer`` to
-``real``. This promotion is one way - a ``real`` cannot be automatically
-converted to ``integer``.
+The only automatic implicit cast between scalars is ``integer`` to
+``real``. This cast is one way - a ``real`` is never implicitly cast to
+``integer``.
 
-Automatic type conversion follows this table where N/A means no implicit
-conversion possible, id means no conversion necessary,
-``as<toType>(var)`` means var of type "From type" is converted to type
-"toType" using semantics from :ref:`sec:typeCasting`.
+Automatic conversion follows this table where N/A means no implicit cast is
+possible, id means no conversion necessary, ``as<toType>(var)`` means var of
+type "From type" is converted to type "toType" using semantics from
+:ref:`sec:typeCasting`.
 
 +----------+-----------+---------+-----------+---------+---------------+
 |          |                    **To type**                            |
@@ -52,12 +53,12 @@ conversion possible, id means no conversion necessary,
 Scalar to Array
 --------------------------
 
-All scalar types can be promoted to arrays that have an internal type that the
-scalar can be :ref:`converted to implicity <ssec:typePromotion_scalar>`.
+All scalar types can be implicitly cast to arrays whose element type the
+scalar can be :ref:`implicitly cast to <ssec:typePromotion_scalar>`.
 This can occur when an array is used in an operation with a scalar value.
 
-The scalar will be implicitly converted to an array of
-equivalent dimensions and equivalent internal type. For example:
+The scalar is implicitly cast to an array of equivalent dimensions and
+element type. For example:
 
 ::
 
@@ -80,22 +81,24 @@ Other examples:
   1 == [1, 1]  // True
   1..2 || 3 // [1, 2, 3]
 
-Note that an array can never be downcast to a scalar,
-even if type casting is used. Also note that matrix multiply imposes strict
-requirements on the dimensionality of the operands. The consequence is
-that, *as an operand of matrix multiplication* (``**``), a scalar can only
-be promoted to a matrix when the other operand is a square matrix
-(:math:`m \times m`). In element-wise operations and initializations a
-scalar broadcasts to a matrix of any dimensions.
+Note that an array can never be cast down to a scalar, even explicitly.
+Also note that matrix multiply imposes strict requirements on the
+dimensionality of the operands. The consequence is that, *as an operand of
+matrix multiplication* (``**``), a scalar can only be implicitly cast to a
+matrix when the other operand is a square matrix (:math:`m \times m`). In
+element-wise operations and initializations a scalar is implicitly cast to
+a matrix of any dimensions.
 
 Tuple to Tuple
 --------------
 
-Tuples may be promoted to another tuple type if it has an equal number of
-internal types and the original internal types can be implicitly
-converted to the new internal types. Each member converts by the rule for
-its own kind: scalar members follow the scalar promotion table above, and
-array members follow the array promotion rules. For example:
+A tuple may be implicitly cast to another tuple type when the two have an
+equal number of members and each member of the source can be implicitly
+cast to the corresponding member of the destination. Each member is cast by
+the rule for its own kind: scalar members follow the scalar table above,
+array members follow the array rules, and a nested ``tuple``, ``struct``,
+``vector``, or array member follows the same implicit-cast rules as a
+standalone value of that type. For example:
 
 ::
 
@@ -123,20 +126,56 @@ Therefore, tuple elements also copied accordingly. For example:
      baz.2 -> std_output; // 4
 
 
-It is possible for a two sided promotion to occur with tuples. For example:
+It is possible for a two-sided implicit cast to occur with tuples. For
+example:
 
 ::
 
   boolean b = (1.0, 2) == (2, 3.0);
+
+.. _ssec:implicitCast_avv:
+
+Array to/from Vector
+--------------------
+
+An array value and a :ref:`vector <ssec:vector>` are implicitly cast to one
+another in both directions. Like every implicit cast this converts a
+*value*; it never changes how either side is sized. Element types convert
+per the scalar implicit-cast table in :ref:`ssec:typePromotion_scalar`.
+
+- **Vector to array.** The vector's *current* length produces the array
+  value. Storing that value into an array obeys the array's own
+  :ref:`fixed length <sssec:array_sizing>`: a shorter value is padded with
+  the element type's :term:`zero value` and a longer value raises a
+  ``SizeError`` (see :ref:`sec:errors`). If the destination is an inferred
+  ``[*]`` array and this is its :term:`initialization`, the vector's current
+  length becomes that array's permanent length.
+
+- **Array to vector.** The array's fixed length produces the vector value.
+  The receiving vector takes that length and may still grow afterwards via
+  ``push``/``append``.
+
+::
+
+     vector<integer> vec = [1, 2, 3];       // current length 3
+     integer[3] a = vec;                    // [1, 2, 3]
+     integer[5] b = vec;                    // [1, 2, 3, 0, 0]  (padded)
+     integer[*] c = vec;                    // length inferred as 3, then fixed
+
+     integer[2] d = [7, 8];
+     var vector<integer> w = d;             // [7, 8]; w may still grow
+     w.push(9);                             // [7, 8, 9]
 
 .. _ssec:typePromotion_string:
 
 Character Array to/from String
 -------------------------------
 
-A ``string`` can be implicitly converted to a ``character`` array
-(``character[*]``) and vice-versa (two-way type promotion). Because a
-``string`` is itself a vector of ``character`` (see :ref:`ssec:string`),
+A ``string`` value can be implicitly cast to a ``character`` array
+(``character[*]``) and vice versa (a two-way implicit cast). Because a
+``string`` is a language-supplied typealias for ``vector<character>`` (see
+:ref:`ssec:string`), this is simply the array/vector implicit cast of
+:ref:`ssec:implicitCast_avv` specialised to the ``character`` element type;
 the conversion of note is between ``string`` and character *arrays*.
 
 ::
