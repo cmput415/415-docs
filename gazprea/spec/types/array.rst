@@ -4,9 +4,12 @@ Arrays
 ------
 
 Arrays are fixed size collections, where each element of the array has
-the same type. Arrays can contain any of *Gazprea*'s
-:term:`primitive types <primitive type>` (``boolean``, ``integer``,
-``real``, and ``character``) or compound types (structs and tuples).
+the same type. An array element may be of any
+:ref:`storable type <ssec:storable_types>`: a
+:term:`primitive type <primitive type>` (``boolean``, ``integer``,
+``real``, ``character``), or a compound type such as a ``struct``,
+``tuple``, ``vector``, ``string``, or another array (which yields a
+higher-rank array; see :ref:`ssec:matrix`).
 
 .. _sssec:array_decl:
 

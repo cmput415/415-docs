@@ -7,8 +7,12 @@ Like ``tuples``, a ``struct`` is a way of grouping multiple values with
 different types into an :term:`aggregate <aggregate type>` data structure.
 The main differences between tuples and structs are that the fields of a struct
 are named, and the type signature of a struct is named as a user defined type.
-Any type except ``tuple``, another ``struct`` and :ref:`streams<sec:streams>`
-may be stored within a struct. Also like tuples, structs must contain *at least two fields*.
+Any :ref:`storable type <ssec:storable_types>` may be stored within a
+struct, including arrays and matrices of any rank, ``vector``, ``string``,
+``tuple``, and other ``struct`` types, nested to any depth (subject to the
+:ref:`acyclicity rule <ssec:storable_types>`). Only
+:ref:`streams<sec:streams>` may not be stored within a struct. Also like
+tuples, structs must contain *at least two fields*.
 
 .. _sssec:struct_decl:
 

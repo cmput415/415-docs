@@ -3,9 +3,15 @@
 Matrices
 --------
 
-*Gazprea* supports two dimensional matrices as arrays of arrays.
-Although the syntax and concepts are easily generalizable to many dimensions,
-we are restricting the language to two dimensions for now.
+*Gazprea* arrays generalize to arbitrary rank: a type of the form
+``T[n1][n2]...[nk]`` is a rank-``k`` array whose element type ``T`` may be
+any :ref:`storable type <ssec:storable_types>`. A *matrix* is the rank-2
+case, and this section describes it in full; higher-rank arrays follow the
+same construction, indexing, and element-wise operation rules, generalized
+to ``k`` index positions. The rank-2 operators discussed below (matrix
+multiplication, ``rows``, and ``columns``) are defined on matrices
+specifically; their generalization to a rank-agnostic ``shape`` interface
+is left to a future revision of this specification.
 
 .. _sssec:matrix_decl:
 
