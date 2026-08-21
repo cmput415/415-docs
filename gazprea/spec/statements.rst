@@ -39,7 +39,7 @@ to the type of the variable. For instance:
          /* Since 'int_var' is an integer it can be implicitly cast to a real number */
          real_var = int_var;  /* Legal */
 
-         /* Real numbers can not be turned into boolean values automatically. \*/
+         /* Real numbers can not be turned into boolean values automatically. */
          bool_var = real_var; /* Illegal */
 
 Assignments can also be more complicated than this with arrays and tuples.
@@ -71,7 +71,7 @@ This applies to arrays of any dimension.
          /* Change the entire matrix M to [[1, 2], [3, 4]] */
          M = [[1, 2], [3, 4]];
 
-         /* Change a single position of M \*/
+         /* Change a single position of M */
          M[1][2] = 7;  /* M is now [[1, 7], [3, 4]] */
 
 Assigning a whole array value changes an array's *contents*, never its
@@ -103,7 +103,7 @@ and no ``SizeError``.
             becomes [4, 5] with length 2 -- no padding, no SizeError. */
          vec = [4, 5];
 
-Tuples also have a special unpacking syntax in *Gazprea*. A tuple’s
+Tuples also have a special unpacking syntax in *Gazprea*. A tuple's
 field may be assigned to comma separated variables instead of a tuple
 variable. For instance:
 
@@ -126,9 +126,9 @@ variable. For instance:
          /* Can swap: z == 2.0, y == 1.0 */
          z, y = (y, z);
 
-The types of the variables must match the types of the tuple’s fields,
-or the tuple’s fields must be able to be implicitly cast to the
-variable’s type. The number of variables in the comma separated list
+The types of the variables must match the types of the tuple's fields,
+or the tuple's fields must be able to be implicitly cast to the
+variable's type. The number of variables in the comma separated list
 must match the number of fields in the tuple, if this is not the case the
 compiler must emit an ``AssignError`` (see :ref:`sec:errors`). This
 assignment is performed left-to-right.
@@ -336,7 +336,7 @@ when it is checked.
 
 The loop can be pre-predicated, which means that the control expression
 is tested before the body statement is executed. This is the same
-behaviour as while loops in most languages, and is written using the
+behavior as while loops in most languages, and is written using the
 ``while`` token after the ``loop``, followed by a boolean expression for the
 predicate. For example:
 
@@ -474,7 +474,7 @@ Continue
 Similarly to ``break``, ``continue`` may only appear within the body of
 a loop. When a ``continue`` statement is executed the innermost loop
 that contains the ``continue`` statements starts its next iteration.
-``continue`` stops the execution of the loop’s body statement, the loop
+``continue`` stops the execution of the loop's body statement, the loop
 then continues as though the body statement finished its execution
 normally. If a ``continue`` statement is not contained within a loop the
 compiler must emit a ``StatementError``.

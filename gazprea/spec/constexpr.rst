@@ -23,7 +23,7 @@ An expression is a valid ``constexpr`` if it is composed exclusively of:
 1.  :term:`Literals <literal>` of :term:`primitive types <primitive type>`
     (``boolean``, ``integer``, ``real``, ``character``).
 2.  The operators ``+``, ``-``, ``*``, ``/``, ``not``, ``and``, ``or``,
-    between two or more ``constexpr``\ s.
+    ``xor``, between two or more ``constexpr``\ s.
 3.  Constructors for :term:`aggregate types <aggregate type>`, provided
     that the aggregate is const and all members are ``constexpr``\ s.
 4.  Index or field access on ``constexpr`` aggregate types.

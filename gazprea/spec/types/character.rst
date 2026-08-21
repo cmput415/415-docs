@@ -52,7 +52,7 @@ Carriage Return ``\r``               ``0x0D``
 Quotation Mark  ``\"``               ``0x22``
 Apostrophe      ``\'``               ``0x27``
 Backslash       ``\\``               ``0x5C``
-UTF-8           ``\xH[H]``          e.g. ``x61 ('a')``
+Hex escape      ``\xH[H]``          ``0x00`` to ``0xFF``
 =============== =================== ===============
 
 .. _sssec:character_ops:
@@ -76,9 +76,9 @@ The following operations are defined between ``character`` values.
 concatenated onto variables with type ``string`` or arrays with type
 ``character``.
 
-Type Casting and Type Promotion
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Type Casting and Implicit Casts
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-To see the types that ``character`` may be cast and/or promoted to, see
+To see the types that ``character`` may be cast and/or implicitly cast to, see
 the sections on :ref:`sec:typeCasting` and :ref:`sec:typePromotion`
 respectively.

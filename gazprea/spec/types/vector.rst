@@ -42,7 +42,8 @@ Unlike the array type, *Gazprea* vectors do not have an explicit size
 specifier, often called *capacity* in other languages.
 
 The element type ``T`` of a ``vector<T>`` may be any
-:ref:`storable type <ssec:storable_types>`: a base type (``boolean``,
+:ref:`storable type <ssec:storable_types>`: a
+:term:`primitive type <primitive type>` (``boolean``,
 ``integer``, ``real``, ``character``), an array or matrix of any rank, a
 ``string``, a ``tuple``, a ``struct``, or another ``vector`` — nested to
 any depth. Only a :ref:`stream <sec:streams>` may not be stored. Below

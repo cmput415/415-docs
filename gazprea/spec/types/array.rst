@@ -56,10 +56,10 @@ immediately after the element type.
 
 If possible, initialization expressions may go through an implicit type
 conversion. For instance, when declaring a real array that is
-initialized with an integer value the integer will be promoted to a real
-value, and then used as a scalar initialization of the array.
+initialized with an integer value the integer will be implicitly cast to a
+real value, and then used as a scalar initialization of the array.
 Be careful about type inference! If the type of the array is being inferred
-from the right had side, the previous example would create an ``integer``
+from the right hand side, the previous example would create an ``integer``
 array instead of a ``real`` array.
 
 #. Explicit Size Declarations
@@ -136,7 +136,7 @@ notation:
 
 Each ``expK`` is an expression with a compatible type. In the simplest
 cases each expression is of the same type, but it is possible to mix the
-types as long as all of the types can be promoted to a common type. For
+types as long as all of the types can be implicitly cast to a common type. For
 instance it is possible to mix integers and real numbers.
 
 ::
@@ -188,14 +188,14 @@ operations but differ in exactly one respect -- when their length is decided:
      - Yes (``[N]``), or inferred once (``[*]``)
      - No
    * - Grows via ``push`` / ``append``?
-     - No -- ``SizeError``
+     - No -- ``TypeError`` (arrays have no methods)
      - Yes
    * - Too-short value stored into it
      - Padded with the element type's :term:`zero value`
-     - Vector takes the value's length
+     - The vector takes the value's length
    * - Too-long value stored into it
      - ``SizeError``
-     - Vector takes the value's length
+     - The vector takes the value's length
 
 The two types interoperate, but only through *values*: a vector used in an
 array context yields an array value of the vector's current length, and an
@@ -213,7 +213,7 @@ Operations
    a. length
 
       The number of elements in an array is given by the built-in
-      functions ``length``. For instance:
+      function ``length``. For instance:
 
       ::
 
@@ -247,8 +247,8 @@ Operations
          real[6] j = v || u;
 
 
-      would be permitted, and the integer array ``v`` would be promoted to
-      a real array before the concatenation.
+      would be permitted, and the integer array ``v`` would be implicitly
+      cast to a real array before the concatenation.
 
       Concatenation may also be used with scalar values. In this case
       the scalar values are treated as though they were single element
@@ -262,7 +262,7 @@ Operations
 
       At least one operand of ``||`` must be a composite value (an array,
       :ref:`vector <ssec:vector>`, or ``string``). Concatenating two scalars
-      is a ``TypeError``; promote one operand to a one-element array first:
+      is a ``TypeError``; wrap one operand in a one-element array first:
 
       ::
 
@@ -285,8 +285,8 @@ Operations
 
    c. Dot Product
 
-      Two arrays with the same size and a numeric element type(types with
-      the ``+``, and ``\*`` operator) may be used in a dot product operation.
+      Two arrays with the same size and a numeric element type (types with
+      the ``+`` and ``*`` operators) may be used in a dot product operation.
       For instance:
 
       ::
@@ -295,7 +295,7 @@ Operations
          integer[3] u = [4, 5, 6];
 
          /* v[1] * u[1] + v[2] * u[2] + v[3] * u[3] */
-         /* 1 * 4 + 2 * 5 + 3 * 6 &=&  32 */
+         /* 1 * 4 + 2 * 5 + 3 * 6 = 32 */
          integer dot = v ** u;  /* Perform a dot product */
 
 
@@ -338,7 +338,7 @@ Operations
       Therefore, it is *valid* to have bounds that will produce an empty
       array because the difference between them is negative.
 
-   d. Indexing
+   e. Indexing
 
       An array may be indexed in order to retrieve the values stored in
       the array. An array may be indexed using an integer, in which case
@@ -366,7 +366,7 @@ Operations
 
       Out of bounds indexing must emit an ``IndexError``.
 
-   e. Slices
+   f. Slices
 
       A slice is a contiguous subset of array elements. Slice bounds
       and shorthand forms are specified in :ref:`sssec:array_slices`.
@@ -403,7 +403,7 @@ Operations
 
    When one of the operands of a binary operation is an array and the
    other operand is a scalar, the scalar value must first
-   be promoted to an array of the same size as the array operand and
+   be implicitly cast to an array of the same size as the array operand and
    with the value of each element equal to the scalar value. For example:
 
    ::
@@ -411,9 +411,9 @@ Operations
       [1, 2, 3, 4] + 2 // results in [3, 4, 5, 6]
 
 
-   Additionally the element types of arrays may be promoted, for instance
-   in this case the integer array must be promoted to a real array in
-   order to perform the operation:
+   Additionally the element types of arrays may be implicitly cast, for
+   instance in this case the integer array must be implicitly cast to a real
+   array in order to perform the operation:
 
    ::
 
@@ -492,9 +492,10 @@ the array elements captured by the slice, as shown below.
     integer z2 = a[1..7][1..7][1..7][4]; /* z2 == 6 */
 
 
-Array slices are always l-values, although they can be used as r-values.
-When they are used in a parameter call or on the left side of an assignment,
-i.e. as an l-value they allow modification of the source array:
+Array slices are always :term:`lvalues <lvalue>`, although they can be used
+as :term:`rvalues <rvalue>`. When they are used in a parameter call or on the
+left side of an assignment, i.e. as an :term:`lvalue` they allow modification
+of the source array:
 
 
 ::
@@ -530,9 +531,9 @@ examples, the assignments perform a deep copy as usual and in the
 procedure example, the parameters are passed by reference as usual.
 
 
-Type Casting and Type Promotion
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Type Casting and Implicit Casts
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-To see the types that an array may be cast and/or promoted to, see
+To see the types that an array may be cast and/or implicitly cast to, see
 the sections on :ref:`sec:typeCasting` and :ref:`sec:typePromotion`
 respectively.

@@ -31,9 +31,9 @@ new type:
 +----------+-----------+--------------------------------+--------------------------------+--------------------------+----------------------------+
 |          |           | boolean                        | character                      | integer                  | real                       |
 |          +-----------+--------------------------------+--------------------------------+--------------------------+----------------------------+
-|          | boolean   | id                             | ‘\\0’ if false, 0x01 otherwise | 1 if true, 0 otherwise   | 1.0 if true, 0.0 otherwise |
+|          | boolean   | id                             | '\\0' if false, 0x01 otherwise | 1 if true, 0 otherwise   | 1.0 if true, 0.0 otherwise |
 |          +-----------+--------------------------------+--------------------------------+--------------------------+----------------------------+
-| **From** | character | false if ‘\\0’, true otherwise | id                             | *ASCII* value as integer | *ASCII* value as real      |
+| **From** | character | false if '\\0', true otherwise | id                             | *ASCII* value as integer | *ASCII* value as real      |
 |          +-----------+--------------------------------+--------------------------------+--------------------------+----------------------------+
 | **type** | integer   | false if 0, true otherwise     | unsigned integer value mod 256 | id                       |  real version of integer   |
 |          +-----------+--------------------------------+--------------------------------+--------------------------+----------------------------+
@@ -64,12 +64,13 @@ Array to Array
 ----------------
 
 Conversions between array types are also possible. First, the
-values of the original are cast to the destination type’s element type
+values of the original are cast to the destination type's element type
 according to the rules in :ref:`ssec:typeCasting_stos` and then the destination
-is padded with destination element type’s zero or truncated to match the
-destination type size. Note that the size is not required for array to
-array casting; if the size is not included in the cast type, the new
-size is assumed to be the old size. For example:
+is padded with destination element type's zero or truncated to match the
+destination type size. Note that a concrete size is not required for array to
+array casting: writing the destination element type with an unspecified
+length (``[*]``) keeps the old size, so no padding or truncation occurs.
+Padding or truncation happens only when a concrete size is given. For example:
 
 ::
 
@@ -149,8 +150,10 @@ the destination type must have an equal number of members, and each member
 must be pairwise castable. Every member is cast by the rule for its own
 kind: scalar members follow :ref:`ssec:typeCasting_stos`, array members
 follow :ref:`ssec:typeCasting_vtov` (including padding and truncation), and
-a nested ``tuple``, ``struct``, ``vector``, or array member follows the same
-cast rules as a standalone value of that type. For example:
+a nested ``tuple``, ``vector``, or array member follows the same
+cast rules as a standalone value of that type. A ``struct`` member is the
+exception: a ``struct`` cannot be cast (see :ref:`ssec:struct`), so the two
+struct types must be identical and the member is copied unchanged. For example:
 
 ::
 

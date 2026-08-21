@@ -44,7 +44,7 @@ double quotes. For instance:
 
 ::
 
-  string cats_meow = "The cat said \"Meow!\"\nThat was a good day.\n"
+  string cats_meow = "The cat said \"Meow!\"\nThat was a good day.\n";
 
 Although strings and character arrays look similar, they are still treated
 differently by the compiler:

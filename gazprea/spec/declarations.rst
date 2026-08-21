@@ -72,9 +72,9 @@ The following declaration placement is legal:
          i = i + 1;
        }
 
-The declaration of a variable happens after initialization. A program
-that refers to a variable within its own initialization statement is
-therefore :term:`ill-formed`.
+A variable's name enters :term:`scope` only after its initializer has
+been evaluated. A program that refers to a variable within its own
+initialization statement is therefore :term:`ill-formed`.
 
 ::
 

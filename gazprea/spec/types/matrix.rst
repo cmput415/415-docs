@@ -44,9 +44,9 @@ Construction
 A 2D matrix can be viewed as an array of arrays.
 The elements in each array form a single row of the matrix.
 All rows with fewer elements than the row of maximum row length are padded with
-zeros on the right. Similarly, if the matrix is declared with a row
-length larger than the number of rows provided, the bottom rows of the
-matrix are zero. If the number of rows or columns exceeds the
+zeros on the right. Similarly, if the matrix is declared with more rows
+than are provided, the bottom rows of the matrix are zero. If the number
+of rows or columns exceeds the
 amounts given in a declaration the compiler must emit a ``SizeError``
 (see :ref:`sec:errors`).
 
@@ -101,9 +101,10 @@ of rows of the second operand, e.g. an :math:`m \times n` matrix multiplied by
 an :math:`n \times p` matrix will produce an :math:`m \times p` matrix.
 If the dimensions are not correct the compiler must emit a ``SizeError``.
 
-Arrays of any dimension support the built in functions ``rows`` and ``columns``,
-which when passed a 2D array yields the number of rows and columns in the
-matrix respectively. For instance:
+Matrices support the built in functions ``rows`` and ``columns``,
+which yield the number of rows and columns in the matrix respectively.
+Their generalization to higher-rank arrays is left to a future revision
+(see the introduction to this section). For instance:
 
 ::
 

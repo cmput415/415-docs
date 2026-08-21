@@ -56,9 +56,9 @@ Operator precedence and associativity are specified once, for all
 types, in the :ref:`table of operator precedence
 <ssec:expressions_toop>`.
 
-Type Casting and Type Promotion
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Type Casting and Implicit Casts
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-To see the types that ``boolean`` may be cast and/or promoted to, see
-the sections on :ref:`sec:typeCasting` and :ref:`sec:typePromotion` 
+To see the types that ``boolean`` may be cast and/or implicitly cast to, see
+the sections on :ref:`sec:typeCasting` and :ref:`sec:typePromotion`
 respectively.

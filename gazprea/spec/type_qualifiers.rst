@@ -4,9 +4,10 @@ Type Qualifiers
 ===============
 
 *Gazprea* has two :term:`type qualifiers <type qualifier>`: ``const`` and
-``var``. These qualifers can prefix a type to specify its mutability or
+``var``. These qualifiers can prefix a type to specify its mutability or
 entirely replace the type to request that it be inferred. Mutability
-refers to a value's ability to be an :term:`rvalue` or :term:`lvalue`.
+refers to a value's ability to be an :term:`lvalue`: every value can be an
+:term:`rvalue`, but only a mutable one can also be an lvalue.
 The two qualifiers cannot be combined as they are mutually exclusive.
 
 .. _ssec:typeQualifiers_const:
@@ -56,7 +57,7 @@ Type Inference Using Qualifiers
 
 Type qualifiers may be used in place of a type, in which case the real
 type must be inferred. A variable declared in this manner must be
-**immediately initialised** to enable inference. For example:
+**immediately initialized** to enable inference. For example:
 
 ::
 

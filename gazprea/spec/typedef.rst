@@ -4,7 +4,7 @@ Typealias
 =========
 
 Custom names for types can be defined using ``typealias``. Type aliases may only
-appear at global scope, they may not appear within functions or procedures. A
+appear at global scope; they may not appear within functions or procedures. A
 type alias may use any valid identifier for the name of the type. After the type
 alias has been defined any global declaration or function defined may use the
 new name to refer to the old type. For instance:
@@ -26,7 +26,7 @@ symbol. The following is therefore legal:
   const main A = 'A';
 
   procedure main() returns i {
-    i i = 0; // <type> <id> = <type-expr>;
+    i i = 0; // <type> <id> = <expr>;
     return i;
   }
 

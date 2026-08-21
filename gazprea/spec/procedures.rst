@@ -95,8 +95,8 @@ These procedures can be called as follows:
 
 Only procedures may be called with ``call``. Functions must
 appear in expressions because they can not cause side effects, so using
-a function in a ``call`` statement would not do anything. *Gazprea*
-The compiler must emit a ``CallError`` (see :ref:`sec:errors`) if a
+a function in a ``call`` statement would not do anything. *Gazprea*'s
+compiler must emit a ``CallError`` (see :ref:`sec:errors`) if a
 function is used in a ``call`` statement.
 
 A procedure may never be called within a function, doing so would allow for
@@ -148,7 +148,7 @@ one and only one compilation unit must define ``main``.
 
 ::
 
-         /* must be writen like this */
+         /* must be written like this */
          procedure main() returns integer {
            var integer x = 1;
            x = x + x;

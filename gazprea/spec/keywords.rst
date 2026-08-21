@@ -14,8 +14,6 @@ not be used by a programmer.
 
 -  break
 
--  by
-
 -  call
 
 -  character

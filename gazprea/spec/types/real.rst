@@ -62,9 +62,9 @@ Operations on real numbers should adhere to the IEEE 754 spec with
 regards to the representation of not-a-number(NaNs), infinity(infs), and
 zeros.
 
-Type Casting and Type Promotion
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Type Casting and Implicit Casts
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-To see the types that ``real`` may be cast and/or promoted to, see
+To see the types that ``real`` may be cast and/or implicitly cast to, see
 the sections on :ref:`sec:typeCasting` and :ref:`sec:typePromotion`
 respectively.

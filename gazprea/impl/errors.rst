@@ -208,7 +208,7 @@ prefer not to implement static analysis, the former error can be emitted at runt
 
     1 procedure main() returns integer {
     2     integer[3] x = [2, 4, 6];
-    3     return integer[4];
+    3     return x[4];
     4 }
 
 ::
@@ -231,7 +231,7 @@ More Examples
    v(3) = 'X'; // SyntaxError
    v[i] = '?'; // Runtime error
    v['a'] = '!'; // TypeError
-   i[1] = 1; // SymbolError
+   i[1] = 1; // TypeError
 
    /* Tuples */
    tuple (integer, integer) a = (9, 5);

@@ -89,11 +89,12 @@ This additional expression is used to create the generated values. For example:
 
 The expression to the right of the bar (``|``), is used to generate the
 value at the given index.
-Let ``T`` be the type of the expression to the right of the bar (``|``). Then,
-if the domain of the generator is an array of size ``N``, the result will be a
-array of size ``N`` with element type ``T``. Otherwise, if the domain of the
-generator is a matrix of size ``N`` x ``M``, the result will be a matrix of size
-``N`` x ``M`` with element type ``T``.
+Let ``T`` be the type of the expression to the right of the bar (``|``). The
+rank of the result is fixed by the number of iterator variables, not by the
+shape of any domain. With one iterator variable ranging over a domain of size
+``N``, the result is a 1D array of size ``N`` with element type ``T``. With two
+iterator variables ranging over domains of size ``N`` and ``M`` respectively,
+the result is a 2D array of size ``N`` x ``M`` with element type ``T``.
 Generators may be nested, and
 may be used within domain expressions. For instance, the generator below
 is perfectly legal:
@@ -102,7 +103,7 @@ is perfectly legal:
 
          integer i = 7;
 
-         /* The domain expression should use the previously defined i \*/
+         /* The domain expression should use the previously defined i */
          integer[*] v = [i in [i in 1..i | i] | [i in 1..10 | i * i][i]];
 
          /* v should contain the first 7 squares. */
@@ -119,8 +120,8 @@ Domain expressions can only appear within
 :ref:`iterator loops <sssec:statements_iter_loop>` and generators.
 A domain expression is a way of declaring a variable that is local to
 the loop or generator, that takes on values from the domain in order.
-The domain must evaluate to a type, which means empty literal arrays
-yield a ``TypeError``.
+The domain's element type must be inferable, so an empty array literal --
+which has no inferable element type -- yields a ``TypeError``.
 The :term:`scope` of the iterator variable (the left hand side of the
 declaration) is within the body of the generator or loop.
 The domain (the right hand side) is evaluated before any of the

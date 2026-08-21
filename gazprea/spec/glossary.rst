@@ -283,6 +283,18 @@ Terms
       *Gazprea* prose uses them to say what the language does *not*
       allow, not to reserve latitude for implementers.
 
+   implicit cast
+      A conversion the compiler performs automatically, with no syntax
+      in the program text.  In *Gazprea*, "cast" is the umbrella term
+      for both implicit casts and the *explicit casts* written
+      ``as<toType>(value)``; an implicit cast is simply the automatic
+      counterpart (e.g. ``integer`` -> ``real`` when arithmetic mixes
+      them).  The mechanism is specified in
+      :ref:`sec:typePromotion`.  Most implicit casts can also be written
+      explicitly as an ``as<>`` cast, but a few cannot -- notably the
+      ``string`` / ``character[*]`` conversion, which has no ``as<>``
+      form.
+
    implicit conversion
       An automatic conversion inserted by the language, without a cast,
       to make an operand's type match a required target type.  ISO C
@@ -290,13 +302,8 @@ Terms
 
       *Gazprea* uses this general term only in the glossary.  In the
       *Gazprea* specification proper the analogous mechanism is called
-      :ref:`type promotion <sec:typePromotion>`, and it is
-      deliberately distinct from :term:`type casting`: type promotion
-      is the *implicit* mechanism (e.g. ``integer`` -> ``real`` when
-      arithmetic mixes them), while type casting is the *explicit*
-      mechanism invoked via ``as<toType>(value)``.  The two are not
-      interchangeable in *Gazprea*: some casts have no corresponding
-      implicit promotion.
+      an :term:`implicit cast`, described in
+      :ref:`sec:typePromotion`.
 
    initializer
       The syntactic element that supplies an initial value to a newly
@@ -520,21 +527,6 @@ Terms
       W), and the accompanying soundness result, is the foundational
       academic reference [#milner-1978]_.  *Gazprea*'s type inference
       is described in :ref:`sec:typeInference`.
-
-   type promotion
-      In general PL usage, an :term:`implicit conversion` in which an
-      operand of one type is converted to a "wider" or "richer" type
-      before an operation; ISO C specifies *integer promotions*
-      (§6.3.1.1) and the *usual arithmetic conversions* (§6.3.1.8)
-      [#iso-c11]_.
-
-      In *Gazprea*, *type promotion* is the specific implicit-conversion
-      mechanism defined in :ref:`sec:typePromotion` (integer to real,
-      scalar to array, tuple to tuple, string to character-vector and
-      back).  It is deliberately separate from :term:`type casting`,
-      which is the explicit mechanism invoked via ``as<toType>(value)``.
-      Every promotion is available as an explicit cast, but not every
-      cast is available as an implicit promotion.
 
    type qualifier
       In ISO C the term refers to the *cv*-qualifiers ``const``,

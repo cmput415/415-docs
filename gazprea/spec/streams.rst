@@ -85,7 +85,7 @@ prints the following:
 
 No other type may be sent to a stream. For instance,
 procedures with no return type and tuples cannot be sent to streams.
-Also, empty arrays and matrices can be send to streams, but not empty
+Also, empty arrays and matrices can be sent to streams, but not empty
 literals (e.g. ``[]``), because they have no type.
 
 Note that there is **no automatic new line or spaces printed.** To print

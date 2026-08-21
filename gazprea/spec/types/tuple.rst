@@ -3,7 +3,7 @@
 Tuples
 ------
 
-A ``tuple`` is a way of grouping multiple values with potentially different types into an aggregate data structure. Tuples are similar to :ref:`structs<ssec:struct>`, except that a tuple's fields are indexed instead of named. Tuples are often used to return multiple values from a function or procedure. Any :ref:`storable type <ssec:storable_types>` may be stored within a tuple, including arrays and matrices of any rank, ``vector``, ``string``, ``struct``, and other ``tuple`` types, nested to any depth (subject to the :ref:`acyclicity rule <ssec:storable_types>`). Only streams may not be stored in a tuple.
+A ``tuple`` is a way of grouping multiple values with potentially different types into an aggregate data structure. Tuples are similar to :ref:`structs<ssec:struct>`, except that a tuple's fields are indexed instead of named. Tuples are often used to return multiple values from a function or procedure. Any :ref:`storable type <ssec:storable_types>` may be stored within a tuple, including arrays and matrices of any rank, ``vector``, ``string``, ``struct``, and other ``tuple`` types, nested to any depth (subject to the :ref:`acyclicity rule <ssec:storable_types>`). Only :ref:`streams <sec:streams>` may not be stored in a tuple.
 
 .. _sssec:tuple_decl:
 
@@ -28,7 +28,7 @@ The number of fields in a ``tuple`` must be known at :term:`compile time`.
 This includes instances of :ref:`type inference<ssec:typeQualifiers_infer>`,
 where a variable is declared without an explicit type signature using
 ``var`` or ``const``.
-In this case, the variable must be initialised immediately with a
+In this case, the variable must be initialized immediately with a
 :term:`literal` whose type is known at compile time.
 
 .. _sssec:tuple_acc:
@@ -117,7 +117,7 @@ Unpacking
 ~~~~~~~~~
 
 Any tuple expression may be assigned (unpacked) into multiple lvalues. If the size of
-the tuple being unpacked does not match the number of lvalues being asigned, an ``AssignError``
+the tuple being unpacked does not match the number of lvalues being assigned, an ``AssignError``
 is raised. There is no partial unpacking of tuples.
 
 ::
@@ -127,8 +127,8 @@ is raised. There is no partial unpacking of tuples.
     a, b = (3.14, 1.5);
 
 
-Type Casting and Type Promotion
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Type Casting and Implicit Casts
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-To see the types that tuple may be cast and/or promoted to, see the sections on :ref:`sec:typeCasting`
+To see the types that tuple may be cast and/or implicitly cast to, see the sections on :ref:`sec:typeCasting`
 and :ref:`sec:typePromotion`, respectively.

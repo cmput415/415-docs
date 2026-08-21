@@ -59,7 +59,15 @@ A mutable struct instance such as ``var struct s1 (...) t1;`` (or the split
 Type Aliasing
 ~~~~~~~~~~~~~
 
-A struct can be typealiased and used in any context a regular struct declaration may occur. Notably, the alias can only be used in a type positions, not literal constructors. 
+A struct type can be given a :ref:`type alias <sec:typealias>`. As with any
+type alias, the ``typealias`` declaration itself may only appear at global
+scope (see :ref:`sec:typealias`); it may not appear inside a function or
+procedure body, even though a plain struct *definition* may. The combined form
+below both defines the struct type ``S`` and introduces ``Pair`` as an alias
+for it: the struct's own name ``S`` remains usable, for example as a literal
+constructor. Once declared, the alias may be used anywhere the struct's type
+name may be used. Notably, the alias can only be used in type positions, not as
+a literal constructor.
 
 ::
     
@@ -87,8 +95,9 @@ Struct fields are accessed with dot notation, ``instance.field``, where
      t1.iv[2]
      t1.r
 
-Struct fields can be used as both LVALs and RVALs, i.e. on either the left
-or right hand side of an expression:
+Struct fields can be used as both :term:`lvalues <lvalue>` and
+:term:`rvalues <rvalue>`, i.e. on either the left or right hand side of an
+expression:
 
 ::
 

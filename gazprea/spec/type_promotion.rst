@@ -96,9 +96,11 @@ A tuple may be implicitly cast to another tuple type when the two have an
 equal number of members and each member of the source can be implicitly
 cast to the corresponding member of the destination. Each member is cast by
 the rule for its own kind: scalar members follow the scalar table above,
-array members follow the array rules, and a nested ``tuple``, ``struct``,
+array members follow the array rules, and a nested ``tuple``,
 ``vector``, or array member follows the same implicit-cast rules as a
-standalone value of that type. For example:
+standalone value of that type. A ``struct`` member is the exception: a
+``struct`` is never implicitly cast (see :ref:`ssec:struct`), so the two
+struct types must be identical and the member is copied unchanged. For example:
 
 ::
 
@@ -110,7 +112,7 @@ standalone value of that type. For example:
 
 If initializing a variable with a tuple via :ref:`sec:typeInference`, the
 variable is assumed to be the same type.
-Therefore, tuple elements also copied accordingly. For example:
+Therefore, tuple elements are also copied accordingly. For example:
 
 ::
 
@@ -118,12 +120,12 @@ Therefore, tuple elements also copied accordingly. For example:
      tuple(real, real) bar = (3, 4);
 
      var baz = foo;
-     baz.1 -> std_output; // 1
-     baz.2 -> std_output; // 2
+     baz.1 -> std_output; // 1.0
+     baz.2 -> std_output; // 2.0
 
      baz = bar;
-     baz.1 -> std_output; // 3
-     baz.2 -> std_output; // 4
+     baz.1 -> std_output; // 3.0
+     baz.2 -> std_output; // 4.0
 
 
 It is possible for a two-sided implicit cast to occur with tuples. For
@@ -175,7 +177,7 @@ A ``string`` value can be implicitly cast to a ``character`` array
 (``character[*]``) and vice versa (a two-way implicit cast). Because a
 ``string`` is a language-supplied typealias for ``vector<character>`` (see
 :ref:`ssec:string`), this is simply the array/vector implicit cast of
-:ref:`ssec:implicitCast_avv` specialised to the ``character`` element type;
+:ref:`ssec:implicitCast_avv` specialized to the ``character`` element type;
 the conversion of note is between ``string`` and character *arrays*.
 
 ::
