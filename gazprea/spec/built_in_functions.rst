@@ -14,8 +14,10 @@ If a :term:`declaration` or a :term:`definition` with the same name as a
 built-in function is encountered in a *Gazprea* program, then the compiler
 must emit a ``SymbolError`` (see :ref:`sec:errors`).
 
-Note that although the examples below all use arrays, all the built-ins work
-on Vectors and Strings, since they are always compatible with arrays.
+Note that although the examples below all use arrays, all the built-ins also
+work on :ref:`vectors <ssec:vector>` and :ref:`strings <ssec:string>`, since
+these are always compatible with arrays. When a built-in operates on a
+vector or string, it uses whatever length that value currently holds.
 
 .. _ssec:builtIn_length:
 
@@ -31,27 +33,48 @@ representing the number of elements in the array.
 
          length(v) -> std_output; /* Prints 5 */
 
+Because an array is :term:`initialization`-time sized, ``length`` applied to
+an array is invariant after :term:`initialization`: every call returns the
+same number. Applied to a :ref:`vector <ssec:vector>` (or a
+:ref:`string <ssec:string>`), ``length`` returns the value's *current*
+length instead, so two calls may return different numbers if the vector grew
+in between. In this role ``length`` is simply the built-in spelling of the
+vector's :ref:`len <sssec:vec_methods>` method.
+
+::
+
+         var vector<integer> v = [1, 2, 3];
+
+         length(v) -> std_output; /* Prints 3 */
+
+         v.push(4);               /* 'v' is now [1, 2, 3, 4] */
+
+         length(v) -> std_output; /* Prints 4 */
+
 
 .. _ssec:builtIn_rows_cols:
 
-Shape
------
+Rows and Columns
+----------------
 
-The built-in ``shape`` operates on arrays of any dimension, and returns an
-array listing the size of each dimension.
+The built-ins ``rows`` and ``columns`` report the dimensions of a
+two-dimensional array (a :ref:`matrix <ssec:matrix>`): ``rows`` returns the
+number of rows and ``columns`` the number of columns. (There is no
+rank-agnostic ``shape`` built-in in this version of the language.)
 
 ::
 
          integer[*][*] M = [[1, 2, 3], [4, 5, 6]];
 
-         shape(M) -> std_output; /* Prints [2, 3] */
+         rows(M) -> std_output;    /* Prints 2 */
+         columns(M) -> std_output; /* Prints 3 */
 
 .. _ssec:builtIn_reverse:
 
 Reverse
 -------
 
-The reverse built-in takes any single dimensional array, Vector, or String, and returns a
+The reverse built-in takes any single dimensional array, vector, or string, and returns a
 reversed version of it.
 
 ::

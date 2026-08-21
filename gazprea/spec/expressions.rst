@@ -50,11 +50,19 @@ Generators
 ----------
 
 A generator may be used to construct either a one or two dimensional array.
+A generator always yields an :ref:`array <ssec:array>` value -- never a
+:ref:`vector <ssec:vector>` -- whose size is settled at the moment the
+generator is evaluated and is fixed thereafter. Using a generator (or a
+range) to initialize an inferred-size array such as an ``integer[*]`` is
+therefore one of the ways an array's length becomes fixed at
+:term:`initialization` (see :ref:`sssec:array_sizing`).
 A generator creates a value of a 1D array type when one
 :term:`iterator variable` is used, and a 2D array type when two
 iterator variables are used.
-Any other number of iterator variables must emit a ``SyntaxError``
-(see :ref:`sec:errors`).
+Supplying any other number of iterator variables is ill-formed and is
+reported through *Gazprea*'s standard error taxonomy rather than as a
+generator-specific error: the compiler must emit a ``SyntaxError`` (see
+:ref:`sec:errors`).
 In particular, *Gazprea* does not currently support generators over
 three or more iterator variables (no direct construction of arrays
 with three or more dimensions).
@@ -158,6 +166,13 @@ instance:
          }
 
 This is true for domain expressions within generators as well.
+
+Because the domain is captured by evaluating it once, a runtime-sized
+domain fixes its iteration count at that moment. A :ref:`vector
+<ssec:vector>` or :ref:`string <ssec:string>` may serve as the domain,
+and the length it holds when the domain is evaluated sets the number of
+iterations; growing the vector or string inside the loop body does not
+add iterations.
 
 Iterator variables can be assigned to and :term:`re-declared
 <re-declaration>` within the enclosed iterator loop.  Neither carries

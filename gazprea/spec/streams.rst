@@ -51,6 +51,12 @@ prints the following:
 
      [1 2 3]
 
+:ref:`vectors <ssec:vector>` print exactly as :ref:`arrays <ssec:array>`
+do, using whatever length the vector holds at the time of the output
+statement. A :ref:`string <ssec:string>` is the sole exception: although
+a string is a vector of characters, it prints its characters contiguously
+rather than in bracketed array form, as shown next.
+
 :ref:`strings <ssec:string>` print their contents as a contiguous sequence of characters.
 For example:
 
@@ -120,7 +126,7 @@ Input streams may only work on the following primitive types:
 -  ``boolean``: Reads a boolean from stdin. If a boolean value could not
    be read, an :ref:`error state <sssec:stream_error>` is set on this stream.
 
-Type promotion is not performed for stream input over any type.
+Implicit casting is not performed for stream input over any type.
 
    .. _sssec:input_format:
 

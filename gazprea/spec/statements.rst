@@ -27,8 +27,8 @@ side.
          x -> std_output;  /* Prints 6 */
 
 Type checking must be performed on assignment statements. The expression
-on the right hand side must have a type that can be automatically
-promoted to the type of the variable. For instance:
+on the right hand side must have a type that can be implicitly cast
+to the type of the variable. For instance:
 
 ::
 
@@ -36,7 +36,7 @@ promoted to the type of the variable. For instance:
          var real real_var = 0.0;
          var boolean bool_var = true;
 
-         /* Since 'int_var' is an integer it can be promoted to a real number */
+         /* Since 'int_var' is an integer it can be implicitly cast to a real number */
          real_var = int_var;  /* Legal */
 
          /* Real numbers can not be turned into boolean values automatically. \*/
@@ -74,6 +74,35 @@ This applies to arrays of any dimension.
          /* Change a single position of M \*/
          M[1][2] = 7;  /* M is now [[1, 7], [3, 4]] */
 
+Assigning a whole array value changes an array's *contents*, never its
+*length*. Because an array is :term:`initialization`-time sized, its
+length is fixed once at :term:`initialization`; the right hand side is
+fitted to that fixed length, with a shorter value padded using the
+element type's :term:`zero value` and a longer value raising a
+``SizeError`` (see :ref:`sec:errors` and :ref:`sssec:array_sizing`).
+Assigning to a :ref:`vector <ssec:vector>` behaves differently: it
+replaces the contents *and* the length together, so there is no padding
+and no ``SizeError``.
+
+::
+
+         var integer[*] a = [1, 2, 3];
+
+         /* 'a' keeps its fixed length 3; the shorter value is padded with
+            the integer zero value, so 'a' becomes [4, 5, 0]. */
+         a = [4, 5];
+
+         /* A longer value cannot fit the fixed length -- SizeError. */
+         a = [4, 5, 6, 7];  /* SizeError */
+
+::
+
+         var vector<integer> vec = [1, 2, 3];
+
+         /* A vector replaces contents and length together, so 'vec'
+            becomes [4, 5] with length 2 -- no padding, no SizeError. */
+         vec = [4, 5];
+
 Tuples also have a special unpacking syntax in *Gazprea*. A tuple’s
 field may be assigned to comma separated variables instead of a tuple
 variable. For instance:
@@ -89,7 +118,7 @@ variable. For instance:
          /* x == 1, and y == 2.0 now */
          x, y = tup;
 
-         /* Types can be promoted */
+         /* Types can be implicitly cast */
 
          /* z == 1.0, y == 2.0 */
          z, y = tup;
@@ -98,7 +127,7 @@ variable. For instance:
          z, y = (y, z);
 
 The types of the variables must match the types of the tuple’s fields,
-or the tuple’s fields must be able to be automatically promoted to the
+or the tuple’s fields must be able to be implicitly cast to the
 variable’s type. The number of variables in the comma separated list
 must match the number of fields in the tuple, if this is not the case the
 compiler must emit an ``AssignError`` (see :ref:`sec:errors`). This
@@ -473,7 +502,7 @@ procedure. When a function/procedure returns then execution continues where the
 function/procedure was called.
 
 If the function/procedure has a return type then the ``return`` statement must
-be given a value that is the same as or able to be promoted to (see
+be given a value that is the same as or able to be implicitly cast to (see
 :ref:`sec:typePromotion`) the return type; this will be the result of the
 function/procedure call. Here is an example:
 
