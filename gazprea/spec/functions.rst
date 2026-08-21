@@ -73,7 +73,7 @@ These can be called as follows:
 ::
 
          integer x = f(); /* x == 1 */
-         real c = pythag(3, 4); /* Type promotion to real arguments. c == 5.0 */
+         real c = pythag(3, 4); /* 3 and 4 are implicitly cast to real. c == 5.0 */
          real value = get([i in 1..10 | i], 3); /* value == 3 */
 
 A function’s body can also be given by a block statement instead of a
@@ -185,6 +185,29 @@ The arguments and return value of functions can have both explicit and inferred 
          }
 
 
+The size written in a parameter or return type is part of how each call is
+checked:
+
+-  An **explicitly sized** array parameter such as ``real[3][3]`` makes that
+   size part of the function's signature. The corresponding argument must have
+   exactly that length in every dimension, or the compiler must emit a
+   ``SizeError`` (see :ref:`sec:errors`).
+
+-  An **inferred-size** array parameter such as ``integer[*]`` imposes no size
+   requirement of its own. It is :term:`initialized <initialization>` at the
+   call from the argument that is passed, taking on that argument's length,
+   which is then fixed for the duration of the call (see
+   :ref:`sssec:array_sizing`).
+
+-  An **inferred-size return type** such as ``real[*]`` is likewise
+   :term:`initialized <initialization>` at the ``return`` statement, from the
+   value being returned.
+
+-  A :ref:`vector <ssec:vector>` parameter or return type (for example
+   ``vector<real>``, or the :ref:`string <ssec:string>` alias) carries no
+   length in its type, so no length check applies in either direction; the
+   parameter simply takes on the length of the value passed or returned.
+
 Like Rust, array *slices* may be passed as arguments:
 
 ::
@@ -203,9 +226,9 @@ Like Rust, array *slices* may be passed as arguments:
 
 Remember that all function parameters are ``const`` in *Gazprea*, so that all
 functions are pure. That means that while it is legal to pass arrays and slices
-*by reference*, the array contents cannot be modified inside the function,
-because the change would be visible outside the function. You must check that
-the ``const`` requirement is honored.
+*by reference*, a function can change neither the contents nor the length of an
+array, vector, or string it receives, because such a change would be visible
+outside the function. You must check that the ``const`` requirement is honored.
 
 .. _ssec:function_namespacing:
 
