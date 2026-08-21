@@ -3,17 +3,24 @@
 Vectors
 -------
 
-Vectors are language supported objects that allow for dynamically sized arrays.
+Vectors are language-supported objects that provide runtime-sized arrays.
+Unlike an array, whose length is fixed once at its :term:`initialization`
+(see :ref:`sssec:array_vs_vector`), a vector is *runtime sized*: it begins
+at some length and may grow over its lifetime through its mutating methods
+(``push`` and ``append``).
+
 Once created, ``vectors`` in *Gazprea* interoperate with arrays for the
 element types they both support: they can be intermixed with arrays in
 expressions; they can be used on the RHS of array declarations and
 initializations; and they can be passed as array arguments to functions
-and procedures. Vectors are nevertheless a distinct type, and the
-differences include (non-exhaustively): vectors have methods where arrays
-have none, a mixed binary operation between a vector and an array produces
-an *array* result, and a vector of inferred-size arrays pads to the size
-of its *first* element (see below), whereas a matrix literal pads to its
-longest row (see :ref:`sssec:matrix_constr`).
+and procedures. When a vector appears in an expression it is used as an
+array value of its *current* length. Vectors are nevertheless a distinct
+type, and the differences include (non-exhaustively): vectors have methods
+where arrays have none; a mixed binary operation between a vector and an
+array produces an *array* result (vector-ness is not propagated through
+operators); and a vector of inferred-size arrays pads to the size of its
+*first* element (see below), whereas a matrix literal pads to its longest
+row (see :ref:`sssec:matrix_constr`).
 
 .. _sssec:vec_decl:
 
@@ -51,12 +58,19 @@ are some examples of ``vector`` declarations.
         const vector<real> v6 = 1;             // [1.0]
 
 
-Vectors of inferred sized arrays assume the size of the *first* array in the vector.
-Subsequent array elements of less than the inferred size are padded.
-Those greater raise a :term:`run time` ``SizeError``. (Contrast with
+Vectors of inferred-size arrays (``vector<T[*]>``) assume the shape of the
+*first* array in the vector. Subsequent array elements shorter than the
+inferred size are padded with the element type's :term:`zero value`; those
+longer raise a :term:`run time` ``SizeError``. (Contrast with
 :ref:`matrix construction <sssec:matrix_constr>`, where rows pad to the
 *longest* row: the same nested literal can be legal as a matrix and a
 ``SizeError`` as a vector of arrays.)
+
+A vector of arrays is therefore never ragged: every array element has the
+same shape as the first element. A ``vector<vector<T>>``, by contrast,
+*may* be ragged, because each inner vector carries its own runtime length
+and no element imposes its shape on the others. This version of the
+language has no broadcasting and no ``shape()`` operation.
 
    ::
 
@@ -70,19 +84,30 @@ Operations
 ~~~~~~~~~~~
 
 Operations on vectors use the same syntax as operations on arrays and,
-except for the differences enumerated above, share their semantics.
+except for the differences enumerated above, share their semantics: in an
+expression a vector is treated as an array value of its current length.
 In particular, operand lengths must match for binary expressions and dot
 product. All binary operations between a vector and an array produce
-array results.
+*array* results -- vector-ness is not propagated through operators.
 
 .. _sssec:vec_methods:
 
 Method Calls
 ~~~~~~~~~~~~
 
-As a language supported object, *Gazprea* provides methods for ``vector``
-(and its sub-type :ref:`string <ssec:string>`). A method call has the form
+As a language-supported object, *Gazprea* provides methods for ``vector``
+(and therefore for the typealias :ref:`string <ssec:string>`, which is just
+``vector<character>``). A method call has the form
 ``receiver.method(arguments)`` and is governed by the following rules:
+
+- A method call is defined as a procedure whose first parameter is the
+  receiver. A method ``m(args)`` invoked on a ``vector<T>`` receiver
+  behaves exactly as a call to
+  ``procedure m(vector<T> self, args...) returns U``: the receiver is bound
+  to ``self`` and the call has ordinary procedure-call semantics. Only
+  ``vector`` (and thus ``string``, its typealias) has methods in this
+  version of the language; user-defined methods on ``struct`` types are a
+  future extension.
 
 - The receiver must be a variable of a language-supported object type
   (``vector`` or ``string``). Arrays, array slices, and the (array-valued)
@@ -91,7 +116,11 @@ As a language supported object, *Gazprea* provides methods for ``vector``
 
 - A method call whose result is used is an expression. A method call may
   also stand alone as a statement, terminated by a semicolon; this is the
-  only expression form that may be used as a statement.
+  only expression form that may be used as a statement. An explicit
+  ``call`` statement may also be applied to a method call, but because the
+  builtin methods act through the receiver, ``call m(...)`` is effectively
+  a no-op form -- it behaves like calling a procedure and discarding its
+  result.
 
 - Mutating methods (``push``, ``append``) additionally require the
   receiver to be declared ``var``. Inside a :ref:`function <sec:function>`,
@@ -106,10 +135,11 @@ The methods are:
 - ``len()`` - number of elements in the vector
 
 - ``append(x)`` - append to the vector, where ``T`` is the element type:
-  if ``x`` is promotable to ``T`` it is appended as a single element;
-  otherwise ``x`` must be an array whose elements are each promotable to
-  ``T``, and its elements are appended in order. When both readings apply,
-  the single-element reading is used.
+  if ``x`` is a single value implicitly castable to ``T`` it is cast to
+  ``T`` and appended as a single element; otherwise ``x`` must be an array
+  whose elements are each implicitly castable to ``T``, and its elements
+  are appended in order. When both readings apply, the single-element
+  reading is used.
 
    ::
 
@@ -128,7 +158,7 @@ The methods are:
         var vector<real[2]> v2;        // v2 == []
         const x = 1..10; 
         
-        // `1` is promoted to `[1.0, 1.0]` before appending
+        // `1` is implicitly cast to `[1.0, 1.0]` before appending
         v2.append(1);                  // v2 == [[1.0, 1.0]]
 
         // length 1 array padded to length 2
