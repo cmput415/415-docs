@@ -45,6 +45,29 @@ Terms
 .. glossary::
    :sorted:
 
+   initialization
+      The :term:`run time` moment at which a variable declaration first
+      takes effect: the first time, in program order, that execution
+      reaches the point immediately before the declaration.  A variable's
+      array and matrix lengths are settled at initialization and are then
+      fixed for the remainder of that variable's lifetime.  Initialization
+      is distinct from :term:`compile time` -- a length need not be a
+      compile-time constant, only settled by the time the variable is
+      first used -- and from any later assignment, which never resizes a
+      variable.
+
+   zero value
+      The value a variable of a given type holds when it is declared
+      without an :term:`initializer`.  It is ``0`` for ``integer``,
+      ``0.0`` for ``real``, ``false`` for ``boolean``, and the null
+      character ``'\0'`` for ``character``.  For a fixed-size array or
+      matrix it is that shape filled with the element type's zero value;
+      for a ``tuple`` or ``struct``, each member set to its own zero
+      value; for a ``vector`` or ``string``, the empty collection.  A
+      ``const`` variable declared without an initializer keeps its zero
+      value for its entire lifetime; a shorter array value stored into a
+      longer array is padded with the element type's zero value.
+
    aggregate type
       A type composed of subordinate members of possibly-different types.
       In ISO C the term denotes array and structure types collectively

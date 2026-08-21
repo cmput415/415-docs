@@ -11,6 +11,40 @@ the same type. An array element may be of any
 ``tuple``, ``vector``, ``string``, or another array (which yields a
 higher-rank array; see :ref:`ssec:matrix`).
 
+.. _sssec:array_sizing:
+
+Sizing
+~~~~~~
+
+Arrays are **initialization-time sized**. The length of an array variable --
+and, for a :ref:`matrix or higher-rank array <ssec:matrix>`, each of its
+dimensions -- is settled exactly *once*, at the variable's
+:term:`initialization`, and from that point on is fixed for the entire
+lifetime of the variable.
+
+Initialization is not the same as :term:`compile time`. A size may be given
+by an arbitrary integer expression, so a length need not be a compile-time
+constant; it need only be settled by the time the array is first accessed or
+assigned, and never change afterwards. Concretely:
+
+-  A declaration such as ``integer[n] v;`` evaluates ``n`` once, at
+   initialization. Later changes to ``n`` have no effect on the length of
+   ``v``.
+
+-  A declaration such as ``integer[*] v = <expr>;`` takes its length from the
+   value of ``<expr>`` at initialization. The ``*`` means "infer this length
+   once, here"; it does **not** mean the array is resizable.
+
+-  No subsequent operation can change the length of an array variable.
+   Assignment, concatenation, and casting all produce array *values*; storing
+   such a value into an array variable never resizes that variable. If the
+   value's length does not match, it is padded with the element type's
+   :term:`zero value` or a ``SizeError`` is raised, as described below.
+
+If you need a collection whose length changes as the program runs, use a
+:ref:`vector <ssec:vector>`, which is runtime sized. See
+:ref:`sssec:array_vs_vector`.
+
 .. _sssec:array_decl:
 
 Declaration
@@ -124,6 +158,51 @@ method of construction.
 
    real[*] v = []; /* Should create an empty array */
 
+Because the length of an array is fixed at :term:`initialization`, such an
+array has a length of zero permanently; it is not an "empty, growable"
+array. A :ref:`vector <ssec:vector>` declared without an initializer also
+starts empty, but *can* subsequently grow.
+
+.. _sssec:array_vs_vector:
+
+Arrays Versus Vectors
+~~~~~~~~~~~~~~~~~~~~~~~
+
+*Gazprea* has two collection types that share the same element-wise
+operations but differ in exactly one respect -- when their length is decided:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 34 33 33
+
+   * -
+     - **Array** (``T[N]``, ``T[*]``, matrices of any rank)
+     - **Vector** (``vector<T>``, ``string``)
+   * - When is the length set?
+     - Once, at initialization
+     - Continuously, at run time
+   * - Can it change afterwards?
+     - No
+     - Yes
+   * - Written in the type?
+     - Yes (``[N]``), or inferred once (``[*]``)
+     - No
+   * - Grows via ``push`` / ``append``?
+     - No -- ``SizeError``
+     - Yes
+   * - Too-short value stored into it
+     - Padded with the element type's :term:`zero value`
+     - Vector takes the value's length
+   * - Too-long value stored into it
+     - ``SizeError``
+     - Vector takes the value's length
+
+The two types interoperate, but only through *values*: a vector used in an
+array context yields an array value of the vector's current length, and an
+array value stored into a vector sets that vector's length. Neither direction
+ever makes an array variable resizable. See :ref:`ssec:vector` for the
+details of that interoperation.
+
 .. _sssec:array_ops:
 
 Operations
@@ -181,12 +260,14 @@ Operations
          1 || [2, 3, 4] // produces [1, 2, 3, 4]
 
 
-      An interesting corollary to array-scalar concatenation is that
-      two scalars can be concatenated to produce an array:
+      At least one operand of ``||`` must be a composite value (an array,
+      :ref:`vector <ssec:vector>`, or ``string``). Concatenating two scalars
+      is a ``TypeError``; promote one operand to a one-element array first:
 
       ::
 
-         integer[3] v = 1 || 2 || 3; // produces [1, 2, 3]
+         integer[3] v = 1 || 2 || 3;   // TypeError: both operands are scalars
+         integer[3] w = [1] || 2 || 3; // [1, 2, 3]: left operand is an array
 
 
       Remember that arrays have a fixed length, which means you cannot grow an
@@ -285,22 +366,7 @@ Operations
 
       Out of bounds indexing must emit an ``IndexError``.
 
-   e. Stride
-
-      The ``by`` operator is used to specify a positive step size
-      (``>= 1``) when indexing across an array. It produces an array with
-      the values indexed by the given stride. A stride ``<= 0`` raises a
-      ``StrideError`` (see :ref:`sec:errors`). For instance:
-
-      ::
-
-         integer[*] v = 1..5 by 1; /* [1, 2, 3, 4, 5] */
-         integer[*] u = v by 1; /* [1, 2, 3, 4, 5] */
-         integer[*] w = v by 2; /* [1, 3, 5] */
-         integer[*] l = v by 3; /* [1, 4] */
-         integer[*] s = v by 4; /* [1, 5] */
-
-   d. Slices
+   e. Slices
 
       A slice is a contiguous subset of array elements. Slice bounds
       and shorthand forms are specified in :ref:`sssec:array_slices`.
@@ -387,8 +453,8 @@ The left hand bound is *inclusive* and the right hand bound is
 *exclusive*. (Note that this differs from a range *value*, whose bounds
 are both inclusive: ``0..10`` written as an expression produces the
 integers 0 through 10, while the same syntax written inside an index
-position selects elements with a right-exclusive bound.) Slicing always
-has a stride of 1; apply ``by`` to the slice result for larger strides.
+position selects elements with a right-exclusive bound.) A slice always
+selects a contiguous run of elements.
 
 The following forms are accepted inside an index position, where ``n`` is
 the length of the array being sliced and elements are 1-indexed:
@@ -413,7 +479,7 @@ the array elements captured by the slice, as shown below.
 ::
 
     // 0..10 is a range, not a slice
-    integer[*] a = 0..10 by 2; /* a = [0, 2, 4, 6, 8, 10] */
+    integer[*] a = [0, 2, 4, 6, 8, 10];
     integer[2] x = a[2..4]; /* x == [2, 4] */
     integer y = a[2..4][1]; /* y == 2 */
 
@@ -439,8 +505,8 @@ i.e. as an l-value they allow modification of the source array:
 
     procedure main() returns integer {
 
-        integer[6] a = 0..10 by 2; /* a = [0, 2, 4, 6, 8, 10] */
-        integer[6] b = 0..15 by 3; /* b = [0, 3, 6, 9, 12, 15] */
+        integer[6] a = [0, 2, 4, 6, 8, 10];
+        integer[6] b = [0, 3, 6, 9, 12, 15];
         var integer[6] c;          /* c must be var */
 
         /* procedure works normally with an array */
