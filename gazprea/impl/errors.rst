@@ -159,11 +159,6 @@ Here are the compile-time errors your compiler must throw:
     is applied to or between arrays with invalid or incompatible
     sizes. 
 
-* ``StrideError``
-
-    May be raised during compilation if the ``by`` operation is used with a stride value
-    ``<=0``.
-
 Here is an example invalid program and a corresponding compile-time error:
 
 ::
@@ -205,11 +200,6 @@ at compile time or at runtime and the tester will accommodate different implemen
 
     Raised at runtime if either zero to the power of N, where N is <= 0, or a
     division by zero is evaluated.
-
-* ``StrideError``
-
-    Raised at runtime if the ``by`` operation is used with a stride value
-    ``<=0``.
 
 Here is an example :term:`ill-formed` program. If your compiler is smart, you may raise the later error, if you
 prefer not to implement static analysis, the former error can be emitted at runtime.
@@ -293,13 +283,14 @@ example of a run-time error test case and the corresponding expected output file
 ::
 
   procedure main() returns integer {
-    1..1 by 0 -> std_output;
+    integer x = 0;
+    5 / x -> std_output;
     return 0;
   }
 
 ::
 
-  StrideError
+  MathError
 
 How to make the Tester Happy
 ------------------------------------------

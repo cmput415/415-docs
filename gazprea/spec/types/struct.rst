@@ -42,9 +42,15 @@ respectively.
 A struct declaration may optionally be followed by an identifier, as in
 the first example: ``struct s1 (...) t1;`` declares the type ``s1`` *and*
 a variable ``t1`` of that type in one statement, exactly equivalent to
-``struct s1 (...); s1 t1;``. The combined form takes no qualifier, so the
-variable it declares is ``const`` (the default); to declare a mutable
-instance, use the split form with ``var``, as the ``t2`` example does.
+``struct s1 (...); s1 t1;``. The combined form takes an optional qualifier
+(``var`` or ``const``), exactly like any other
+:ref:`declaration <sec:declaration>`: the bare ``struct s1 (...) t1;`` and
+the explicit ``const struct s1 (...) t1;`` both declare an immutable ``t1``
+(``const`` is the default), while ``var struct s1 (...) t1;`` declares a
+mutable one. The split form, as the ``t2`` example shows, is equivalent.
+A mutable struct instance such as ``var struct s1 (...) t1;`` (or the split
+``var s1 t1;``) is legal in exactly the same positions as a mutable ``var``
+:ref:`tuple <ssec:tuple>`.
 
 
 .. _sssec:struct_typealias:
@@ -145,11 +151,11 @@ Two structs are equal when all fields within each struct have the same value.
 Comparing two structs of different types must emit a ``TypeError``
 (see :ref:`sec:errors`).
 
-Type Casting and Type Promotion
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Type Casting and Implicit Casts
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-A struct itself cannot be cast or promoted. However, the fields within a struct
-can be individually cast/promoted, as described in
+A struct itself cannot be cast or implicitly cast. However, the fields within a
+struct can be individually cast or implicitly cast, as described in
 sections :ref:`sec:typeCasting` and :ref:`sec:typePromotion`.
 
 .. _ssec:struct_namespacing:
@@ -157,6 +163,7 @@ sections :ref:`sec:typeCasting` and :ref:`sec:typePromotion`.
 Struct Namespacing
 ~~~~~~~~~~~~~~~~~~
 
-In *Gazprea*, struct declarations can occur in *any* scope.
+In *Gazprea*, struct *definitions* may occur in *any* scope, including
+inside function and procedure bodies as well as at global scope.
 This means that two struct types with the same name *can* coexist in the same
-gazprea program so long as they are not in the same scope
+gazprea program so long as they are not in the same scope.

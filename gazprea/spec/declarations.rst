@@ -30,14 +30,19 @@ when the program is run.
 declaration is also an :term:`initialization <initializer>`, and no
 variable is ever observable in an uninitialized state.  When the
 programmer omits the explicit initializer, the compiler implicitly
-initializes the variable to the *default value* of its type.
-The default value is ``0`` for ``integer`` and ``real``,
-``false`` for ``boolean``, ``' '`` for ``character``, the empty
-string ``""`` for ``string``, and the element-wise default for
+initializes the variable to the :term:`zero value` of its type.
+The zero value is ``0`` for ``integer``, ``0.0`` for ``real``,
+``false`` for ``boolean``, ``' '`` (a space) for ``character``,
+the empty string ``""`` for ``string``, and, for
 :term:`aggregate types <aggregate type>` (arrays, vectors, tuples,
-structs).  *Gazprea* has no ``null`` value.
+structs), each element or field set to its own zero value.
+*Gazprea* has no ``null`` value.
+An array's length is likewise settled at :term:`initialization` and is
+then fixed for the remainder of the variable's lifetime (see
+:ref:`sssec:array_sizing`): an uninitialized array holds its declared
+number of elements, each set to the element type's zero value.
 This applies to ``const`` declarations as well: a ``const`` variable
-declared without an initializer is legal and holds the default value of
+declared without an initializer is legal and holds the zero value of
 its type permanently.
 
 For simplicity *Gazprea* assumes that declarations can only appear at

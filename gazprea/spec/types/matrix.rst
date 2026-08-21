@@ -10,8 +10,8 @@ case, and this section describes it in full; higher-rank arrays follow the
 same construction, indexing, and element-wise operation rules, generalized
 to ``k`` index positions. The rank-2 operators discussed below (matrix
 multiplication, ``rows``, and ``columns``) are defined on matrices
-specifically; their generalization to a rank-agnostic ``shape`` interface
-is left to a future revision of this specification.
+specifically; their generalization to higher-rank arrays is left to a
+future revision of this specification.
 
 .. _sssec:matrix_decl:
 
@@ -29,6 +29,12 @@ valid matrix declarations:
            integer[3][*] C = [[1, 2], [4, 5], [7, 8]];
            integer[*][2] D = [[1, 2], [4, 5], [7, 8]];
            integer[*][*] E = [[1, 2], [4, 5], [7, 8]];
+
+Both matrix dimensions are :term:`initialization`-time sized: each length is
+fixed once when the matrix is :term:`initialized <initialization>` and never
+changes thereafter. A ``[*]`` in either position infers that dimension once
+from the initializer — exactly as ``[*]`` infers the length of a 1-D array —
+after which it too is fixed.
 
 .. _sssec:matrix_constr:
 
@@ -130,9 +136,9 @@ As with arrays, out of bounds indexing on matrices must emit an
 ``IndexError``.
 
 
-Type Casting and Type Promotion
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Type Casting and Implicit Casts
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-To see the types that matrix may be cast and/or promoted to, see
+To see the types that a matrix may be cast and/or implicitly cast to, see
 the sections on :ref:`sec:typeCasting` and :ref:`sec:typePromotion`
 respectively.
