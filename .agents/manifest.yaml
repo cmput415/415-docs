@@ -1,0 +1,66 @@
+# Render context for .agents/*.tmpl and desired state for healthcheck.sh.
+# Committed with a blank agent identity; users fill it in locally (or leave
+# it blank to skip signing entirely). Identity is not prescribed by this
+# repo.
+
+project: 415-docs
+
+# Preferred way to run a review session: pull the DocsDev image maintained
+# in cmput415/ci-utils. It bundles sphinx, latexmk, texlive, lychee, act,
+# uv, graphviz, and gnupg, so the apt_packages/commands blocks below are
+# only exercised when running natively without the image.
+docker:
+  image: ghcr.io/cmput415/docs-dev:latest
+  source: https://github.com/cmput415/ci-utils/tree/main/DocsDev
+
+# apt packages the bootstrap installs when running natively. Python
+# packages are managed separately by uv (see `pyproject.toml`).
+apt_packages:
+  - name: gnupg
+    version: null
+  - name: graphviz
+    version: null
+  - name: curl
+    version: null
+
+# Runnable-on-PATH checks. `uv` is bootstrapped by the install script when
+# missing, so it belongs in commands rather than apt_packages.
+commands:
+  - cmd: gpg
+    package: gnupg
+    version_flag: --version
+  - cmd: dot
+    package: graphviz
+    version_flag: -V
+  - cmd: uv
+    package: uv
+    version_flag: --version
+
+# Signing identity for `git agent-commit`. Blank by default -- fill in
+# locally to opt in; leave blank to skip GPG entirely. Not prescribed.
+agent:
+  name: null
+  email: null
+  key_expiry: 1w
+
+# Skills bundled with this repo for review/consistency work over the spec.
+# Each entry names a directory under `.agents/skills/` that contains a
+# SKILL.md file. The healthcheck asserts these directories still exist.
+skills:
+  - spec-review
+  - grammar-consistency
+
+sentinels:
+  - .agents/bootstrap.sh.tmpl
+  - .agents/check.sh.tmpl
+  - .agents/healthcheck.sh.tmpl
+  - .agents/render.py
+  - .agents/manifest.yaml
+  - pyproject.toml
+
+# Project-specific readiness probes evaluated by healthcheck.
+extra_checks:
+  - name: inside the 415-docs repo
+    cmd: git rev-parse --is-inside-work-tree
+  - name: sphinx importable from the uv-managed venv
+    cmd: uv run python -c "import sphinx, sys; sys.exit(0 if sphinx.__version__.startswith(\"6.2\") else 1)"

@@ -12,18 +12,21 @@ Valid global :term:`scope` :term:`statements <statement>` include:
 * Typealias
 
 All global statements are considered :term:`declarations <declaration>`.
-Global statements may occur in any order, given respective symbols are
-defined before being referenced.
+Global statements need not be written in dependency order, subject to one
+rule: any symbol a global statement references must already be defined
+earlier in the file. Function and procedure prototypes lift this rule for
+calls, since a prototype lets a later definition be referenced before it
+textually appears.
 
 Variable Declarations
 ---------------------
 
 In *Gazprea* values can be assigned to a global :term:`identifier`. All
 globals must be immutable (``const``). If a global identifier is declared
-with the ``var`` specifier, then an error should be raised. This restriction
-is in place since mutable global variables would ruin
-:term:`functional purity`. If functions have access to mutable global
-state then we can not guarantee their purity.
+with the ``var`` specifier, then the compiler must emit a ``GlobalError``
+(see :ref:`sec:errors`). This restriction is in place since mutable global
+variables would ruin :term:`functional purity`. If functions have access to
+mutable global state then we can not guarantee their purity.
 
 Globals must be initialized with a valid
 :ref:`constant expression <sec:constexpr>`. A global :term:`initializer`
@@ -35,10 +38,16 @@ program runs. This preserves functional purity and enables
 *   Functions, procedures, and I/O operations may not appear in a global's
     initializer.
 *   A global may not have a ``vector`` type (the dynamically-sized type),
-    because a vector's size is determined at :term:`run time`. An
-    inferred-size array such as ``const integer[*] X = [1, 2, 3]`` *is*
-    permitted: ``[*]`` denotes an inferred size that is fixed by its
-    ``constexpr`` initializer at compile time.
+    because a vector's size is determined at :term:`run time`. Because
+    :ref:`string <ssec:string>` is an alias for ``vector<character>``, a
+    global may not have a ``string`` type either (so
+    ``const string s = "hi";`` at global scope is a ``GlobalError``). An inferred-size array such as
+    ``const integer[*] X = [1, 2, 3]`` *is* permitted: ``[*]`` denotes an
+    inferred size that is fixed by its ``constexpr`` initializer at compile
+    time.
 *   All globals are implicitly ``constexpr``.
+
+Violations of any of the above must be reported as a ``GlobalError``
+(see :ref:`sec:errors`).
 
 

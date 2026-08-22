@@ -4,9 +4,10 @@ Type Qualifiers
 ===============
 
 *Gazprea* has two :term:`type qualifiers <type qualifier>`: ``const`` and
-``var``. These qualifers can prefix a type to specify its mutability or
+``var``. These qualifiers can prefix a type to specify its mutability or
 entirely replace the type to request that it be inferred. Mutability
-refers to a value's ability to be an :term:`rvalue` or :term:`lvalue`.
+refers to a value's ability to be an :term:`lvalue`: every value can be an
+:term:`rvalue`, but only a mutable one can also be an lvalue.
 The two qualifiers cannot be combined as they are mutually exclusive.
 
 .. _ssec:typeQualifiers_const:
@@ -24,8 +25,13 @@ can be an rvalue. For example:
 Because a ``const`` value is not an lvalue, it cannot be passed to a
 ``var`` argument in a ``procedure``.
 
-Note that ``const`` is the default *Gazprea* behaviour and is essentially a
-no-op unless it is entirely replacing the type.
+``const`` is the default in *Gazprea*: a declaration with no qualifier
+declares a ``const`` variable. Both ``T x`` (qualifier elided) and
+``const T x`` (qualifier written explicitly) are legal spellings of the
+same declaration. Writing ``const`` is therefore redundant, except where
+the qualifier entirely replaces the type (the inference form below).
+This section is the normative home of that rule; other chapters reference
+it.
 
 
 .. _ssec:typeQualifiers_var:
@@ -40,8 +46,9 @@ For example:
 
      var integer i;
 
-The compiler should raise an error if an attempt is made to modify a variable
-that is not explicitly declared ``var``.
+The compiler must emit an ``AssignError`` (see :ref:`sec:errors`) if an
+attempt is made to modify a variable that is not explicitly declared
+``var``.
 
 .. _ssec:typeQualifiers_infer:
 
@@ -50,12 +57,12 @@ Type Inference Using Qualifiers
 
 Type qualifiers may be used in place of a type, in which case the real
 type must be inferred. A variable declared in this manner must be
-**immediately initialised** to enable inference. For example:
+**immediately initialized** to enable inference. For example:
 
 ::
 
      var i = 1; // integer
-     const i = 1; // integer
+     const j = 1; // integer
      var r = 1.0; // real
      const c = 'a'; // character
      var t = (1, 2, 'a', [1, 2, 3]); // tuple(integer, integer, character, integer[3])

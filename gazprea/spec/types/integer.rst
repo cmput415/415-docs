@@ -37,39 +37,39 @@ The following operations are defined between ``integer`` values. In all
 of the usage examples ``int-expr`` means some ``integer`` yielding
 expression.
 
-+------------+--------------------------+------------+--------------------------+-------------------+
-| **Class**  | **Operation**            | **Symbol** | **Usage**                | **Associativity** |
-+============+==========================+============+==========================+===================+
-| Grouping   | parentheses              | ``()``     | ``(int-expr)``           | N/A               |
-+------------+--------------------------+------------+--------------------------+-------------------+
-| Arithmetic | addition                 | ``+``      | ``int-expr + int-expr``  | left              |
-|            +--------------------------+------------+--------------------------+-------------------+
-|            | subtraction              | ``-``      | ``int-expr - int-expr``  | left              |
-|            +--------------------------+------------+--------------------------+-------------------+
-|            | multiplication           | ``*``      | ``int-expr * int-expr``  | left              |
-|            +--------------------------+------------+--------------------------+-------------------+
-|            | division                 | ``/``      | ``int-expr / int-expr``  | left              |
-|            +--------------------------+------------+--------------------------+-------------------+
-|            | remainder                | ``%``      | ``int-expr % int-expr``  | left              |
-|            +--------------------------+------------+--------------------------+-------------------+
-|            | exponentiation           | ``^``      | ``int-expr ^ int-expr``  | right             |
-|            +--------------------------+------------+--------------------------+-------------------+
-|            | unary negation           | ``-``      | ``- int-expr``           | right             |
-|            +--------------------------+------------+--------------------------+-------------------+
-|            | unary plus (no-op)       | ``+``      | ``+ int-expr``           | right             |
-+------------+--------------------------+------------+--------------------------+-------------------+
-| Comparison | less than                | ``<``      | ``int-expr < int-expr``  | left              |
-|            +--------------------------+------------+--------------------------+-------------------+
-|            | greater than             | ``>``      | ``int-expr > int-expr``  | left              |
-|            +--------------------------+------------+--------------------------+-------------------+
-|            | less than or equal to    | ``<=``     | ``int-expr <= int-expr`` | left              |
-|            +--------------------------+------------+--------------------------+-------------------+
-|            | greater than or equal to | ``>=``     | ``int-expr >= int-expr`` | left              |
-|            +--------------------------+------------+--------------------------+-------------------+
-|            | equals                   | ``==``     | ``int-expr == int-expr`` | left              |
-|            +--------------------------+------------+--------------------------+-------------------+
-|            | not equals               | ``!=``     | ``int-expr != int-expr`` | left              |
-+------------+--------------------------+------------+--------------------------+-------------------+
++------------+--------------------------+------------+--------------------------+
+| **Class**  | **Operation**            | **Symbol** | **Usage**                |
++============+==========================+============+==========================+
+| Grouping   | parentheses              | ``()``     | ``(int-expr)``           |
++------------+--------------------------+------------+--------------------------+
+| Arithmetic | addition                 | ``+``      | ``int-expr + int-expr``  |
+|            +--------------------------+------------+--------------------------+
+|            | subtraction              | ``-``      | ``int-expr - int-expr``  |
+|            +--------------------------+------------+--------------------------+
+|            | multiplication           | ``*``      | ``int-expr * int-expr``  |
+|            +--------------------------+------------+--------------------------+
+|            | division                 | ``/``      | ``int-expr / int-expr``  |
+|            +--------------------------+------------+--------------------------+
+|            | remainder                | ``%``      | ``int-expr % int-expr``  |
+|            +--------------------------+------------+--------------------------+
+|            | exponentiation           | ``^``      | ``int-expr ^ int-expr``  |
+|            +--------------------------+------------+--------------------------+
+|            | unary negation           | ``-``      | ``- int-expr``           |
+|            +--------------------------+------------+--------------------------+
+|            | unary plus (no-op)       | ``+``      | ``+ int-expr``           |
++------------+--------------------------+------------+--------------------------+
+| Comparison | less than                | ``<``      | ``int-expr < int-expr``  |
+|            +--------------------------+------------+--------------------------+
+|            | greater than             | ``>``      | ``int-expr > int-expr``  |
+|            +--------------------------+------------+--------------------------+
+|            | less than or equal to    | ``<=``     | ``int-expr <= int-expr`` |
+|            +--------------------------+------------+--------------------------+
+|            | greater than or equal to | ``>=``     | ``int-expr >= int-expr`` |
+|            +--------------------------+------------+--------------------------+
+|            | equals                   | ``==``     | ``int-expr == int-expr`` |
+|            +--------------------------+------------+--------------------------+
+|            | not equals               | ``!=``     | ``int-expr != int-expr`` |
++------------+--------------------------+------------+--------------------------+
 
 Unary negation produces the additive inverse of the ``integer``
 expression. Unary plus always produces the same result as the
@@ -78,47 +78,13 @@ of remainder in *C99*.
 
 Exponentiation between integers gives an ``integer`` result. This is the same behavior as performing exponentiation on reals then truncating to an ``integer``.
 
-This table specifies ``integer`` operator precedence. Operators without
-lines between them have the same level of precedence. Note that
-parentheses are not included in this list because they are used to
-override precedence and create new atoms in an expression.
+Operator precedence and associativity are specified once, for all
+types, in the :ref:`table of operator precedence
+<ssec:expressions_toop>`.
 
-+----------------+----------------+
-| **Precedence** | **Operations** |
-+================+================+
-| HIGHER         | ``unary +``    |
-|                |                |
-|                | ``unary -``    |
-+----------------+----------------+
-|                | ``^``          |
-+----------------+----------------+
-|                | ``*``          |
-|                |                |
-|                | ``/``          |
-|                |                |
-|                | ``%``          |
-+----------------+----------------+
-|                | ``+``          |
-|                |                |
-|                | ``-``          |
-+----------------+----------------+
-|                | ``<``          |
-|                |                |
-|                | ``>``          |
-|                |                |
-|                | ``<=``         |
-|                |                |
-|                | ``>=``         |
-+----------------+----------------+
-|                | ``==``         |
-|                |                |
-| LOWER          | ``!=``         |
-+----------------+----------------+
+Type Casting and Implicit Casts
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-
-Type Casting and Type Promotion
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-To see the types that ``integer`` may be cast and/or promoted to, see
-the sections on :ref:`sec:typeCasting` and :ref:`sec:typePromotion` 
+To see the types that ``integer`` may be cast and/or implicitly cast to, see
+the sections on :ref:`sec:typeCasting` and :ref:`sec:typePromotion`
 respectively.

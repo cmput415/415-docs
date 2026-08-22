@@ -31,9 +31,9 @@ new type:
 +----------+-----------+--------------------------------+--------------------------------+--------------------------+----------------------------+
 |          |           | boolean                        | character                      | integer                  | real                       |
 |          +-----------+--------------------------------+--------------------------------+--------------------------+----------------------------+
-|          | boolean   | id                             | ‘\\0’ if false, 0x01 otherwise | 1 if true, 0 otherwise   | 1.0 if true, 0.0 otherwise |
+|          | boolean   | id                             | '\\0' if false, 0x01 otherwise | 1 if true, 0 otherwise   | 1.0 if true, 0.0 otherwise |
 |          +-----------+--------------------------------+--------------------------------+--------------------------+----------------------------+
-| **From** | character | false if ‘\\0’, true otherwise | id                             | *ASCII* value as integer | *ASCII* value as real      |
+| **From** | character | false if '\\0', true otherwise | id                             | *ASCII* value as integer | *ASCII* value as real      |
 |          +-----------+--------------------------------+--------------------------------+--------------------------+----------------------------+
 | **type** | integer   | false if 0, true otherwise     | unsigned integer value mod 256 | id                       |  real version of integer   |
 |          +-----------+--------------------------------+--------------------------------+--------------------------+----------------------------+
@@ -45,7 +45,7 @@ new type:
 Scalar to Array
 -----------------------
 
-A scalar may be promoted to an array of any dimension with an element type that
+A scalar may be cast to an array of any dimension with an element type that
 the original scalar can be cast to according to the rules in :ref:`ssec:typeCasting_stos`.
 A scalar to array cast *must* include a size with the type to cast to as this
 cannot be inferred from the scalar value. For example:
@@ -64,12 +64,13 @@ Array to Array
 ----------------
 
 Conversions between array types are also possible. First, the
-values of the original are cast to the destination type’s element type
+values of the original are cast to the destination type's element type
 according to the rules in :ref:`ssec:typeCasting_stos` and then the destination
-is padded with destination element type’s zero or truncated to match the
-destination type size. Note that the size is not required for array to
-array casting; if the size is not included in the cast type, the new
-size is assumed to be the old size. For example:
+is padded with destination element type's zero or truncated to match the
+destination type size. Note that a concrete size is not required for array to
+array casting: writing the destination element type with an unspecified
+length (``[*]``) keeps the old size, so no padding or truncation occurs.
+Padding or truncation happens only when a concrete size is given. For example:
 
 ::
 
@@ -110,15 +111,49 @@ truncation can occur in all dimensions. For example:
      real[1][3] d = as<real[1][3]>(a);
      real[3][1] e = as<real[3][1]>(a);
 
+.. _ssec:typeCasting_vec:
+
+Array and Vector
+----------------
+
+A :ref:`vector <ssec:vector>` participates in ``as<>`` casts on both sides.
+
+- As the **operand** of an array cast, a vector supplies its *current*
+  length as the source size; the cast then pads with the element type's
+  zero value or truncates to the destination array's stated size, exactly
+  as in :ref:`ssec:typeCasting_vtov`.
+
+- As the **destination** type, a ``vector<T>`` takes no size specifier: the
+  result simply has the length of the value being cast, so there is nothing
+  to pad or truncate. Only the element type is converted, per
+  :ref:`ssec:typeCasting_stos`.
+
+::
+
+     vector<real> v = [1.5, 2.5, 3.5];
+
+     // Vector as operand: its current length (3) is the source size.
+     integer[2] a = as<integer[2]>(v);             // [1, 2]  (truncated)
+     integer[5] b = as<integer[5]>(v);             // [1, 2, 3, 0, 0]  (padded)
+
+     // Vector as destination: no size; takes the value's length.
+     integer[3] w = [4, 5, 6];
+     vector<integer> u = as<vector<integer> >(w);  // [4, 5, 6]
+
 .. _ssec:typeCasting_ttot:
 
 Tuple to Tuple
 --------------
 
-Conversions between ``tuple`` types are also possible. The original type
-and the destination type must have an equal number of internal types and
-each element must be pairwise castable according to the rules
-in :ref:`ssec:typeCasting_stos`. For example:
+Conversions between ``tuple`` types are also possible. The source type and
+the destination type must have an equal number of members, and each member
+must be pairwise castable. Every member is cast by the rule for its own
+kind: scalar members follow :ref:`ssec:typeCasting_stos`, array members
+follow :ref:`ssec:typeCasting_vtov` (including padding and truncation), and
+a nested ``tuple``, ``vector``, or array member follows the same
+cast rules as a standalone value of that type. A ``struct`` member is the
+exception: a ``struct`` cannot be cast (see :ref:`ssec:struct`), so the two
+struct types must be identical and the member is copied unchanged. For example:
 
 ::
 

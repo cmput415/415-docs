@@ -23,7 +23,7 @@ An expression is a valid ``constexpr`` if it is composed exclusively of:
 1.  :term:`Literals <literal>` of :term:`primitive types <primitive type>`
     (``boolean``, ``integer``, ``real``, ``character``).
 2.  The operators ``+``, ``-``, ``*``, ``/``, ``not``, ``and``, ``or``,
-    between two or more ``constexpr``\ s.
+    ``xor``, between two or more ``constexpr``\ s.
 3.  Constructors for :term:`aggregate types <aggregate type>`, provided
     that the aggregate is const and all members are ``constexpr``\ s.
 4.  Index or field access on ``constexpr`` aggregate types.
@@ -86,12 +86,15 @@ allowing them to be used to define other constants.
    1. Its size is a valid ``constexpr``.
    2. All of its element initializers are valid ``constexpr``\ s.
 
-   A ``vector`` (the dynamically-sized type) can never be a ``constexpr``
-   aggregate, since its size is determined at run time. An inferred-size
-   array
-   such as ``integer[*] X = [1, 2, 3]`` must be a ``constexpr``, meaning its
-   initializer is itself a ``constexpr``: ``[*]`` denotes an inferred size, not
-   a dynamic one.
+   A ``vector`` (the resizable type) can never be a ``constexpr``
+   aggregate, since its length can change at run time. An array *is* a
+   ``constexpr`` aggregate when its size and every element initializer are
+   themselves ``constexpr``\ s. An inferred-size array such as
+   ``integer[*] X = [1, 2, 3]`` is a ``constexpr`` when its initializer is;
+   ``[*]`` denotes a size inferred once, at :term:`initialization`, not a
+   resizable one. An array whose size or initializer is only known at run
+   time is still a perfectly legal array -- it is simply not a
+   ``constexpr``.
 
    ::
 
@@ -126,10 +129,12 @@ allowing them to be used to define other constants.
         x <- std_input;
         const integer y = x; // Legal: y is immutable, but NOT a constexpr
                              // because its value depends on runtime input.
-        integer[y] arr;      // Illegal: an explicit array size must be a
-                             // constexpr, and y is not a constexpr.
-        vector<integer> v;   // Legal: a vector is the dynamically-sized type;
-                             // use it when the size is only known at runtime.
+        integer[y] arr;      // Legal: the runtime size y is evaluated once,
+                             // at initialization, and fixes arr's length for
+                             // good; arr is an ordinary (non-constexpr) array
+                             // and can never be resized.
+        vector<integer> v;   // Legal: use a vector when the collection must
+                             // grow or shrink after it is created.
 
    The compiler propagates the constexpr property through local scopes
    normally; there is no restriction on where in a block the declaration

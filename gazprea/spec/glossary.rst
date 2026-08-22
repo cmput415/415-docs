@@ -45,6 +45,31 @@ Terms
 .. glossary::
    :sorted:
 
+   initialization
+      The :term:`run time` instant immediately before the first execution
+      of a variable's declaration.  A variable's array and matrix
+      dimensions are settled *exactly once*, at initialization, and are
+      then fixed for the remainder of that variable's lifetime: an array
+      is sized once and can never be resized.  A size may be any integer
+      expression -- it need not be a :term:`compile time` constant -- but
+      it is evaluated a single time, at this instant, and later changes to
+      that expression's inputs do not affect the array.  (Ada draws the
+      same once-only distinction with a separate *elaboration* step;
+      *Gazprea* keeps a single definition of a variable's size and calls
+      the instant it happens *initialization*.)
+
+   zero value
+      The value a variable of a given type holds when it is declared
+      without an :term:`initializer`.  It is ``0`` for ``integer``,
+      ``0.0`` for ``real``, ``false`` for ``boolean``, and ``' '`` (a
+      space) for ``character``.  For a fixed-size array or
+      matrix it is that shape filled with the element type's zero value;
+      for a ``tuple`` or ``struct``, each member set to its own zero
+      value; for a ``vector`` or ``string``, the empty collection.  A
+      ``const`` variable declared without an initializer keeps its zero
+      value for its entire lifetime; a shorter array value stored into a
+      longer array is padded with the element type's zero value.
+
    aggregate type
       A type composed of subordinate members of possibly-different types.
       In ISO C the term denotes array and structure types collectively
@@ -67,10 +92,10 @@ Terms
 
    compile time
       The interval during which the source program is being translated
-      by the :term:`compiler`, before program execution begins.  Ada
-      states the contrast explicitly: "At compile time, the declaration
-      of an entity declares the entity.  At run time, the elaboration of
-      the declaration creates the entity" [#ada-rm]_.  The C
+      by the :term:`compiler`, before program execution begins.  The
+      contrast with :term:`run time` matters for sizing in *Gazprea*: an
+      array's size need not be fixed at compile time, only at
+      :term:`initialization`, which is a run-time instant.  The C
       standard specifies the phases of translation in ISO/IEC 9899
       §5.1.1.2 [#iso-c11]_.
 
@@ -260,6 +285,17 @@ Terms
       *Gazprea* prose uses them to say what the language does *not*
       allow, not to reserve latitude for implementers.
 
+   implicit cast
+      A conversion the compiler performs automatically, with no syntax
+      in the program text.  In *Gazprea*, "cast" is the umbrella term
+      for both implicit casts and the *explicit casts* written
+      ``as<toType>(value)``; an implicit cast is simply the automatic
+      counterpart (e.g. ``integer`` -> ``real`` when arithmetic mixes
+      them).  The mechanism is specified in
+      :ref:`sec:typePromotion`.  Most implicit casts can also be written
+      explicitly as an ``as<>`` cast; a scalar-to-array explicit cast must
+      then state the destination size (see :ref:`ssec:typeCasting_stovm`).
+
    implicit conversion
       An automatic conversion inserted by the language, without a cast,
       to make an operand's type match a required target type.  ISO C
@@ -267,13 +303,8 @@ Terms
 
       *Gazprea* uses this general term only in the glossary.  In the
       *Gazprea* specification proper the analogous mechanism is called
-      :ref:`type promotion <sec:typePromotion>`, and it is
-      deliberately distinct from :term:`type casting`: type promotion
-      is the *implicit* mechanism (e.g. ``integer`` -> ``real`` when
-      arithmetic mixes them), while type casting is the *explicit*
-      mechanism invoked via ``as<toType>(value)``.  The two are not
-      interchangeable in *Gazprea*: some casts have no corresponding
-      implicit promotion.
+      an :term:`implicit cast`, described in
+      :ref:`sec:typePromotion`.
 
    initializer
       The syntactic element that supplies an initial value to a newly
@@ -497,21 +528,6 @@ Terms
       W), and the accompanying soundness result, is the foundational
       academic reference [#milner-1978]_.  *Gazprea*'s type inference
       is described in :ref:`sec:typeInference`.
-
-   type promotion
-      In general PL usage, an :term:`implicit conversion` in which an
-      operand of one type is converted to a "wider" or "richer" type
-      before an operation; ISO C specifies *integer promotions*
-      (§6.3.1.1) and the *usual arithmetic conversions* (§6.3.1.8)
-      [#iso-c11]_.
-
-      In *Gazprea*, *type promotion* is the specific implicit-conversion
-      mechanism defined in :ref:`sec:typePromotion` (integer to real,
-      scalar to array, tuple to tuple, string to character-vector and
-      back).  It is deliberately separate from :term:`type casting`,
-      which is the explicit mechanism invoked via ``as<toType>(value)``.
-      Every promotion is available as an explicit cast, but not every
-      cast is available as an implicit promotion.
 
    type qualifier
       In ISO C the term refers to the *cv*-qualifiers ``const``,

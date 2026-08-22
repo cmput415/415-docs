@@ -26,9 +26,9 @@ automatically give x an integer type. A *Gazprea* programmer can use
 expression, as long as the compiler can guess the type for the
 expression.
 
-Note that although the qualifier may be elided (default is ``const``) and
-the type may be elided (inferred from the RHS), a declaration that
-elides both is :term:`ill-formed`:
+Note that although the qualifier may be elided (default is ``const``; see
+:ref:`sec:typeQualifiers`) and the type may be elided (inferred from the
+RHS), a declaration that elides both is :term:`ill-formed`:
 
 ::
 

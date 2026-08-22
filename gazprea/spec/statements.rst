@@ -27,8 +27,8 @@ side.
          x -> std_output;  /* Prints 6 */
 
 Type checking must be performed on assignment statements. The expression
-on the right hand side must have a type that can be automatically
-promoted to the type of the variable. For instance:
+on the right hand side must have a type that can be implicitly cast
+to the type of the variable. For instance:
 
 ::
 
@@ -36,15 +36,21 @@ promoted to the type of the variable. For instance:
          var real real_var = 0.0;
          var boolean bool_var = true;
 
-         /* Since 'x' is an integer it can be promoted to a real number \*/
+         /* Since 'int_var' is an integer it can be implicitly cast to a real number */
          real_var = int_var;  /* Legal */
 
-         /* Real numbers can not be turned into boolean values automatically. \*/
+         /* Real numbers can not be turned into boolean values automatically. */
          bool_var = real_var; /* Illegal */
 
 Assignments can also be more complicated than this with arrays and tuples.
 With arrays indices may be provided in order to change the value of an array
-element. In Gazprea, arrays cannot be indexed with array expressions.
+element. In *Gazprea*, an array cannot be indexed with an array *value*:
+``v[w]`` is illegal whenever ``w`` evaluates to an array value, even one
+holding a range (this covers array variables, expressions, and function
+calls that return an array alike); the compiler must emit a ``TypeError``
+(see :ref:`sec:errors`). Range syntax written directly inside
+an index position is not an array-valued index; it forms a slice
+(see :ref:`sssec:array_slices`).
 For instance, with single dimensional arrays:
 
 ::
@@ -66,10 +72,39 @@ This applies to arrays of any dimension.
          /* Change the entire matrix M to [[1, 2], [3, 4]] */
          M = [[1, 2], [3, 4]];
 
-         /* Change a single position of M \*/
+         /* Change a single position of M */
          M[1][2] = 7;  /* M is now [[1, 7], [3, 4]] */
 
-Tuples also have a special unpacking syntax in *Gazprea*. A tuple’s
+Assigning a whole array value changes an array's *contents*, never its
+*length*. Because an array is :term:`initialization`-time sized, its
+length is fixed once at :term:`initialization`; the right hand side is
+fitted to that fixed length, with a shorter value padded using the
+element type's :term:`zero value` and a longer value raising a
+``SizeError`` (see :ref:`sec:errors` and :ref:`sssec:array_sizing`).
+Assigning to a :ref:`vector <ssec:vector>` behaves differently: it
+replaces the contents *and* the length together, so there is no padding
+and no ``SizeError``.
+
+::
+
+         var integer[*] a = [1, 2, 3];
+
+         /* 'a' keeps its fixed length 3; the shorter value is padded with
+            the integer zero value, so 'a' becomes [4, 5, 0]. */
+         a = [4, 5];
+
+         /* A longer value cannot fit the fixed length -- SizeError. */
+         a = [4, 5, 6, 7];  /* SizeError */
+
+::
+
+         var vector<integer> vec = [1, 2, 3];
+
+         /* A vector replaces contents and length together, so 'vec'
+            becomes [4, 5] with length 2 -- no padding, no SizeError. */
+         vec = [4, 5];
+
+Tuples also have a special unpacking syntax in *Gazprea*. A tuple's
 field may be assigned to comma separated variables instead of a tuple
 variable. For instance:
 
@@ -84,7 +119,7 @@ variable. For instance:
          /* x == 1, and y == 2.0 now */
          x, y = tup;
 
-         /* Types can be promoted */
+         /* Types can be implicitly cast */
 
          /* z == 1.0, y == 2.0 */
          z, y = tup;
@@ -92,11 +127,12 @@ variable. For instance:
          /* Can swap: z == 2.0, y == 1.0 */
          z, y = (y, z);
 
-The types of the variables must match the types of the tuple’s fields,
-or the tuple’s fields must be able to be automatically promoted to the
-variable’s type. The number of variables in the comma separated list
-must match the number of fields in the tuple, if this is not the case an
-error should be raised. This assignment is performed left-to-right.
+The types of the variables must match the types of the tuple's fields,
+or the tuple's fields must be able to be implicitly cast to the
+variable's type. The number of variables in the comma separated list
+must match the number of fields in the tuple, if this is not the case the
+compiler must emit an ``AssignError`` (see :ref:`sec:errors`). This
+assignment is performed left-to-right.
 
 Assignments and initializations must perform a deep copy. It should not
 be possible to cause the aliasing of memory locations with an
@@ -123,7 +159,7 @@ arrays and tuples.
 
 Variables may be declared as const, and in this case a program that
 places them on the left hand side of an assignment expression is
-:term:`ill-formed`.  The compiler should raise an error when this is
+:term:`ill-formed`.  The compiler must emit an ``AssignError`` when this is
 detected, since it does not make sense to change a constant value.
 
 The right hand side of an assignment statement is always evaluated
@@ -219,7 +255,7 @@ is actually equivalent to the following:
 
 ::
 
-         if (x == 4) {
+         if (x == 3) {
            y = 7;
          }
 
@@ -301,7 +337,7 @@ when it is checked.
 
 The loop can be pre-predicated, which means that the control expression
 is tested before the body statement is executed. This is the same
-behaviour as while loops in most languages, and is written using the
+behavior as while loops in most languages, and is written using the
 ``while`` token after the ``loop``, followed by a boolean expression for the
 predicate. For example:
 
@@ -333,7 +369,8 @@ semicolon.
 Iterator Loop
 ~~~~~~~~~~~~~
 
-Loops can be used to iterate over the elements of an array of any type.
+Loops can be used to iterate over the elements of an array of any type, or
+over a :ref:`vector <ssec:vector>` or :ref:`string <ssec:string>`.
 This is done by using :term:`domain expressions <domain expression>`
 (for instance ``i in v``) in conjunction with a loop statement.  In a
 domain expression ``x in E``, ``x`` is the :term:`iterator variable`
@@ -381,7 +418,8 @@ expression do not affect the captured domain.  For instance:
              i -> std_output; "\n" -> std_output;
            }
 
-Note that multiple domain expressions are *not* allowed:
+Note that multiple domain expressions are *not* allowed; an iterator
+loop with more than one domain expression must emit a ``SyntaxError``.
 
 ::
 
@@ -427,8 +465,8 @@ actually contains the ``break``.
            "\n" -> std_output;
          }
 
-If a ``break`` statement is not contained within a loop an error must be
-raised.
+If a ``break`` statement is not contained within a loop the compiler must
+emit a ``StatementError``.
 
 .. _ssec:statements_continue:
 
@@ -438,9 +476,10 @@ Continue
 Similarly to ``break``, ``continue`` may only appear within the body of
 a loop. When a ``continue`` statement is executed the innermost loop
 that contains the ``continue`` statements starts its next iteration.
-``continue`` stops the execution of the loop’s body statement, the loop
+``continue`` stops the execution of the loop's body statement, the loop
 then continues as though the body statement finished its execution
-normally.
+normally. If a ``continue`` statement is not contained within a loop the
+compiler must emit a ``StatementError``.
 
 ::
 
@@ -465,7 +504,7 @@ procedure. When a function/procedure returns then execution continues where the
 function/procedure was called.
 
 If the function/procedure has a return type then the ``return`` statement must
-be given a value that is the same as or able to be promoted to (see
+be given a value that is the same as or able to be implicitly cast to (see
 :ref:`sec:typePromotion`) the return type; this will be the result of the
 function/procedure call. Here is an example:
 

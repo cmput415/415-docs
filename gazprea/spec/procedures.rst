@@ -7,7 +7,7 @@ A procedure in *Gazprea* is like a function, except that it does not
 have to be :term:`pure <functional purity>` and as a result it may:
 
 -  Have arguments marked with ``var`` that can be mutated. By default
-   arguments are ``const`` just like functions.
+   arguments are ``const`` just like functions (see :ref:`sec:typeQualifiers`).
 
 -  A procedure may only accept a literal or expression as an argument if
    and only if the procedure declares that argument as ``const``.
@@ -16,13 +16,29 @@ have to be :term:`pure <functional purity>` and as a result it may:
 
 -  A procedure can call other procedures.
 
--  Procedures can only be called in the RHS of declaration statements, RHS
-   of assignment statements or as the procedure being called in a call statement.
+In exchange for these capabilities, the ways in which a procedure *call* may be
+used are restricted.
 
--  When used within a valid statement, the only legal operators which can
-   be applied to a procedure call are unary operators and casts.
-   Additionally, the result of the call may not be used in the direct construction
-   of a type that does not match the return type of the procedure.
+.. _ssec:procedure_call_positions:
+
+A procedure call may appear only in one of three positions:
+
+-  on the right-hand side of a declaration statement,
+
+-  on the right-hand side of an assignment statement, or
+
+-  as the procedure being called in a ``call`` statement.
+
+This is the single authoritative list of those positions: wherever else this
+specification refers to where a procedure call may appear, it points back to
+this list rather than restating it. In particular, a procedure call may not be
+used as the control expression of a control-flow statement.
+
+When a procedure call appears in one of these positions, the only operations
+that may be applied to its result are unary operators and
+:ref:`casts <sec:typeCasting>`. The result may additionally not be used in the
+direct construction of a type that does not match the return type of the
+procedure.
 
 Aside from this (and the different syntax necessary to declare/define
 them), procedures are very similar to functions. The extra capabilities
@@ -79,15 +95,18 @@ These procedures can be called as follows:
 
 Only procedures may be called with ``call``. Functions must
 appear in expressions because they can not cause side effects, so using
-a function in a ``call`` statement would not do anything. *Gazprea*
-should raise an error if a function is used in a ``call`` statement.
+a function in a ``call`` statement would not do anything. *Gazprea*'s
+compiler must emit a ``CallError`` (see :ref:`sec:errors`) if a
+function is used in a ``call`` statement.
 
 A procedure may never be called within a function, doing so would allow for
-impure functions. Procedures may only be called within assignment statements
-(procedures may not be used as the control expression in control flow expressions, for instance).
-The return value from a procedure call can only be manipulated with
-unary operators. A program that uses the results from a procedure call
-with binary expressions is :term:`ill-formed`.
+impure functions. The positions in which a procedure call may appear are
+exactly :ref:`those listed at the start of this chapter
+<ssec:procedure_call_positions>`; in particular, a procedure call may not be
+used as the control expression of a control-flow statement. As noted there, the
+only operations permitted on the result of a procedure call are unary operators
+and :ref:`casts <sec:typeCasting>`; using the result of a procedure call in a
+binary expression is :term:`ill-formed`.
 For example:
 
 ::
@@ -102,7 +121,7 @@ These restrictions are made by *Gazprea* in order to allow for more
 optimizations.
 
 Procedures without a return clause may not be used in an expression.
-*Gazprea* should raise an error in such a case.
+The compiler must emit a ``CallError`` in such a case.
 ::
 
          /* p is some procedure with no return clause */
@@ -129,7 +148,7 @@ one and only one compilation unit must define ``main``.
 
 ::
 
-         /* must be writen like this */
+         /* must be written like this */
          procedure main() returns integer {
            var integer x = 1;
            x = x + x;
@@ -139,23 +158,26 @@ one and only one compilation unit must define ``main``.
            return 0;
          }
 
-.. _ssec:procedure_alias:
+.. _ssec:procedure_implicit_casts:
 
-Type Promotion of Arguments
+Implicit Casts of Arguments
 ---------------------------
 
-Argument types can be promoted at call time, but only if the argument is
-call by value (``const``). The reason is that mutable arguments are effectively
-call by reference, and are therefore *l-values* (pointers).
+An argument may be :ref:`implicitly cast <sec:typePromotion>` to the parameter
+type at call time, but only if the argument is passed by value (that is, the
+parameter is ``const``). A mutable (``var``) parameter is effectively call by
+reference, so the parameter and the argument denote the same *l-value* (a
+pointer); there is no separate value to convert, and so no implicit cast can be
+inserted.
 
 ::
 
 
-         procedure byvalue(String x) returns integer {
-           return len(x);
+         procedure byvalue(string x) returns integer {
+           return length(x);
          }
-         procedure byreference(var String x) returns integer {
-           return len(x);
+         procedure byreference(var string x) returns integer {
+           return length(x);
          }
          procedure main() returns integer {
            const character[3] y = ['y', 'e', 's'];
@@ -165,6 +187,18 @@ call by reference, and are therefore *l-values* (pointers).
 
            return 0;
          }
+
+In ``byvalue(y)`` the argument ``y`` is a ``character[3]`` and the parameter is
+a :ref:`string <ssec:string>` -- a runtime-sized :ref:`vector <ssec:vector>` of
+``character``. Because the parameter is passed by value, the *value* of ``y`` is
+implicitly cast to a ``string``, and that ``string`` is what ``byvalue``
+receives; the caller's array ``y`` is left unchanged.
+
+The call ``byreference(y)`` is illegal for two independent reasons. First, the
+parameter ``var string x`` is call by reference, which admits no implicit cast:
+there is no distinct value to convert, only the caller's storage. Second, even
+setting that aside, the argument ``y`` is ``const``, and a ``var`` parameter
+cannot bind a ``const`` argument.
 
 
 Aliasing
@@ -176,8 +210,8 @@ In *Gazprea* a program that aliases mutable variables is
 :term:`ill-formed`.  The only case
 where aliasing of arguments is allowed is through disjoint tuple or struct field access. This
 helps *Gazprea* compilers perform more optimizations. However, the compiler must be able
-to catch cases where mutable memory locations are aliased, and an error
-should be raised when this is detected. For instance:
+to catch cases where mutable memory locations are aliased, and must emit
+an ``AliasingError`` when this is detected. For instance:
 
 ::
 
@@ -232,12 +266,75 @@ aliasing.
 Array Parameters and Returns
 ----------------------------------------
 
-:ref:`As with functions <ssec:function_vec_mat>`, the arguments and return
-value of procedures can have both explicit and inferred sizes.
+:ref:`As with functions <ssec:function_vec_mat>`, the parameters and return
+value of a procedure can have both explicit and inferred sizes, and the same
+checking rules apply:
 
-Similarly, slices can be used whereever arrays are declared as parameters, and
-unlike functions, array parameters in procedures can be ``var``, allowing arrays
-and slices passed to a procedure to be modified (see :ref:`sssec:array_slices`).
+-  An explicitly sized array parameter such as ``real[3][3]`` makes that size
+   part of the procedure's signature; the corresponding argument must match it
+   in every dimension, or the compiler must emit a ``SizeError`` (see
+   :ref:`sec:errors`).
+
+-  An inferred-size array parameter such as ``integer[*]`` is
+   :term:`initialized <initialization>` at the call from the argument that is
+   passed, taking on that argument's length for the duration of the call. An
+   inferred-size return type is likewise initialized at the ``return``, from the
+   value being returned.
+
+-  A :ref:`vector <ssec:vector>` parameter or return type carries no length in
+   its type, so no length check applies in either direction.
+
+Slices can be used wherever arrays are declared as parameters (see
+:ref:`sssec:array_slices`). Unlike functions, an array parameter of a procedure
+may be ``var``, allowing the array or slice passed to it to be modified.
+
+.. _ssec:procedure_mutation:
+
+Mutating Array and Vector Parameters
+----------------------------------------
+
+A ``var`` parameter is call by reference, so a procedure may change what the
+caller sees through it. What may change depends on whether the parameter is an
+array or a vector:
+
+-  A ``var`` array parameter is mutable in its **contents only**. Because an
+   array is :ref:`initialization-time sized <sssec:array_sizing>`, a procedure
+   cannot change the length of an array it was passed. Assigning a value of the
+   same length replaces the contents; a shorter value is padded with the
+   element type's :term:`zero value`; a longer value raises a ``SizeError``
+   (see :ref:`sec:errors`).
+
+-  A ``var`` :ref:`vector <ssec:vector>` parameter is runtime sized and so
+   **may be grown**: ``push`` and ``append`` (see :ref:`sssec:vec_methods`)
+   add elements, and because the parameter is call by reference the caller
+   observes the new length once the call returns.
+
+For instance, ``fill`` overwrites the contents of an array without changing its
+length, while ``extend`` lengthens a vector that its caller then observes:
+
+::
+
+         procedure fill(var integer[*] a, integer x) {
+           a = x; /* every element of a becomes x; a's length is unchanged */
+         }
+
+         procedure extend(var vector<integer> v, integer x) {
+           v.push(x); /* v grows by one element */
+         }
+
+         procedure main() returns integer {
+           var integer[3] a = 0;
+           var vector<integer> v = [1, 2];
+
+           call fill(a, 7);   /* a == [7, 7, 7]; still length 3 */
+           call extend(v, 3); /* v == [1, 2, 3]; caller now sees length 3 */
+
+           return 0;
+         }
+
+Functions, by contrast, cannot mutate their parameters at all: every function
+parameter is ``const``, so a function can change neither the contents nor the
+length of an array, vector, or string it receives.
 
 .. _ssec:procedure_namespacing:
 

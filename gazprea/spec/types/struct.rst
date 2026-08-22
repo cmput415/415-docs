@@ -7,8 +7,12 @@ Like ``tuples``, a ``struct`` is a way of grouping multiple values with
 different types into an :term:`aggregate <aggregate type>` data structure.
 The main differences between tuples and structs are that the fields of a struct
 are named, and the type signature of a struct is named as a user defined type.
-Any type except ``tuple``, another ``struct`` and :ref:`streams<sec:streams>`
-may be stored within a struct. Also like tuples, structs must contain *at least two fields*.
+Any :ref:`storable type <ssec:storable_types>` may be stored within a
+struct, including arrays and matrices of any rank, ``vector``, ``string``,
+``tuple``, and other ``struct`` types, nested to any depth (subject to the
+:ref:`acyclicity rule <ssec:storable_types>`). Only
+:ref:`streams<sec:streams>` may not be stored within a struct. Also like
+tuples, structs must contain *at least two fields*.
 
 .. _sssec:struct_decl:
 
@@ -24,16 +28,29 @@ and consist of a ``<type id>`` pair:
 ::
 
      struct s1 (integer i, real r, integer[10] iv) t1;
-     struct Another (character char, real float, string[256] str, s1 struct_field);
+     struct Another (character ch, real f, string str, s1 struct_field);
      var Another t2;
 
 The examples show two structs declared with types ``s1`` and ``Another``.
-Struct type ``s`` has three fields: ``i`` of type ``integer``, ``r`` of type
+Struct type ``s1`` has three fields: ``i`` of type ``integer``, ``r`` of type
 ``real``, and ``iv`` of type ``integer[10]``.
-Struct type ``Another`` has four fields named ``char``, ``float``, ``str``,
+Struct type ``Another`` has four fields named ``ch``, ``f``, ``str``,
 and ``struct_field``.
 The instance variables ``t1`` and ``t2`` have types ``s1`` and ``Another``,
 respectively.
+
+A struct declaration may optionally be followed by an identifier, as in
+the first example: ``struct s1 (...) t1;`` declares the type ``s1`` *and*
+a variable ``t1`` of that type in one statement, exactly equivalent to
+``struct s1 (...); s1 t1;``. The combined form takes an optional qualifier
+(``var`` or ``const``), exactly like any other
+:ref:`declaration <sec:declaration>`: the bare ``struct s1 (...) t1;`` and
+the explicit ``const struct s1 (...) t1;`` both declare an immutable ``t1``
+(``const`` is the default), while ``var struct s1 (...) t1;`` declares a
+mutable one. The split form, as the ``t2`` example shows, is equivalent.
+A mutable struct instance such as ``var struct s1 (...) t1;`` (or the split
+``var s1 t1;``) is legal in exactly the same positions as a mutable ``var``
+:ref:`tuple <ssec:tuple>`.
 
 
 .. _sssec:struct_typealias:
@@ -42,7 +59,15 @@ respectively.
 Type Aliasing
 ~~~~~~~~~~~~~
 
-A struct can be typealiased and used in any context a regular struct declaration may occur. Notably, the alias can only be used in a type positions, not literal constructors. 
+A struct type can be given a :ref:`type alias <sec:typealias>`. As with any
+type alias, the ``typealias`` declaration itself may only appear at global
+scope (see :ref:`sec:typealias`); it may not appear inside a function or
+procedure body, even though a plain struct *definition* may. The combined form
+below both defines the struct type ``S`` and introduces ``Pair`` as an alias
+for it: the struct's own name ``S`` remains usable, for example as a literal
+constructor. Once declared, the alias may be used anywhere the struct's type
+name may be used. Notably, the alias can only be used in type positions, not as
+a literal constructor.
 
 ::
     
@@ -59,9 +84,9 @@ A struct can be typealiased and used in any context a regular struct declaration
 Access
 ~~~~~~
 
-  * ``field`` is a field within struct ``T``
+Struct fields are accessed with dot notation, ``instance.field``, where
+``field`` is a field of the instance's struct type. For example:
 
-For example:
 ::
 
      struct s1 (integer i, real r, integer[10] iv);
@@ -70,8 +95,9 @@ For example:
      t1.iv[2]
      t1.r
 
-Struct fields can be used as both LVALs and RVALs, i.e. on either the left
-or right hand side of an expression:
+Struct fields can be used as both :term:`lvalues <lvalue>` and
+:term:`rvalues <rvalue>`, i.e. on either the left or right hand side of an
+expression:
 
 ::
 
@@ -131,13 +157,14 @@ This allows struct instances to be compared to struct literals:
      if (c == Complex(r: 0.0, i: i)) { }
 
 Two structs are equal when all fields within each struct have the same value.
-It is an error to compare two structs of different types.
+Comparing two structs of different types must emit a ``TypeError``
+(see :ref:`sec:errors`).
 
-Type Casting and Type Promotion
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Type Casting and Implicit Casts
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-A struct itself cannot be cast or promoted. However, the fields within a struct
-can be individually cast/promoted, as described in
+A struct itself cannot be cast or implicitly cast. However, the fields within a
+struct can be individually cast or implicitly cast, as described in
 sections :ref:`sec:typeCasting` and :ref:`sec:typePromotion`.
 
 .. _ssec:struct_namespacing:
@@ -145,6 +172,7 @@ sections :ref:`sec:typeCasting` and :ref:`sec:typePromotion`.
 Struct Namespacing
 ~~~~~~~~~~~~~~~~~~
 
-In *Gazprea*, struct declarations can occur in *any* scope.
+In *Gazprea*, struct *definitions* may occur in *any* scope, including
+inside function and procedure bodies as well as at global scope.
 This means that two struct types with the same name *can* coexist in the same
-gazprea program so long as they are not in the same scope
+gazprea program so long as they are not in the same scope.

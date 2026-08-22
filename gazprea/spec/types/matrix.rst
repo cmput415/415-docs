@@ -3,9 +3,15 @@
 Matrices
 --------
 
-*Gazprea* supports two dimensional matrices as arrays of arrays.
-Although the syntax and concepts are easily generalizable to many dimensions,
-we are restricting the language to two dimensions for now.
+*Gazprea* arrays generalize to arbitrary rank: a type of the form
+``T[n1][n2]...[nk]`` is a rank-``k`` array whose element type ``T`` may be
+any :ref:`storable type <ssec:storable_types>`. A *matrix* is the rank-2
+case, and this section describes it in full; higher-rank arrays follow the
+same construction, indexing, and element-wise operation rules, generalized
+to ``k`` index positions. The rank-2 operators discussed below (matrix
+multiplication, ``rows``, and ``columns``) are defined on matrices
+specifically; their generalization to higher-rank arrays is left to a
+future revision of this specification.
 
 .. _sssec:matrix_decl:
 
@@ -24,6 +30,12 @@ valid matrix declarations:
            integer[*][2] D = [[1, 2], [4, 5], [7, 8]];
            integer[*][*] E = [[1, 2], [4, 5], [7, 8]];
 
+Both matrix dimensions are :term:`initialization`-time sized: each length is
+fixed once when the matrix is :term:`initialized <initialization>` and never
+changes thereafter. A ``[*]`` in either position infers that dimension once
+from the initializer — exactly as ``[*]`` infers the length of a 1-D array —
+after which it too is fixed.
+
 .. _sssec:matrix_constr:
 
 Construction
@@ -32,10 +44,12 @@ Construction
 A 2D matrix can be viewed as an array of arrays.
 The elements in each array form a single row of the matrix.
 All rows with fewer elements than the row of maximum row length are padded with
-zeros on the right. Similarly, if the matrix is declared with a row
-length larger than the number of rows provided, the bottom rows of the
-matrix are zero. If the number of rows or columns exceeds the
-amounts given in a declaration an error is to be produced.
+the element type's :term:`zero value` on the right. Similarly, if the matrix is
+declared with more rows than are provided, the bottom rows hold the element
+type's zero value. If the number
+of rows or columns exceeds the
+amounts given in a declaration the compiler must emit a ``SizeError``
+(see :ref:`sec:errors`).
 
 ::
 
@@ -86,11 +100,12 @@ multiplication.
 Specifically, the number of columns of the first operand must equal the number
 of rows of the second operand, e.g. an :math:`m \times n` matrix multiplied by
 an :math:`n \times p` matrix will produce an :math:`m \times p` matrix.
-If the dimensions are not correct a ``SizeError`` should be raised.
+If the dimensions are not correct the compiler must emit a ``SizeError``.
 
-Arrays of any dimension support the built in functions ``rows`` and ``columns``,
-which when passed a 2D array yields the number of rows and columns in the
-matrix respectively. For instance:
+Matrices support the built in functions ``rows`` and ``columns``,
+which yield the number of rows and columns in the matrix respectively.
+Their generalization to higher-rank arrays is left to a future revision
+(see the introduction to this section). For instance:
 
 ::
 
@@ -117,14 +132,15 @@ and column. Both the row and column indices must be integers.
 
            integer[*][*] M = [[11, 12, 13], [21, 22, 23]];
 
-           /* M[1, 2] == 12 */
+           /* M[1][2] == 12 */
 
-As with arrays, out of bounds indexing is an error on Matrices.
+As with arrays, out of bounds indexing on matrices must emit an
+``IndexError``.
 
 
-Type Casting and Type Promotion
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Type Casting and Implicit Casts
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-To see the types that matrix may be cast and/or promoted to, see
+To see the types that a matrix may be cast and/or implicitly cast to, see
 the sections on :ref:`sec:typeCasting` and :ref:`sec:typePromotion`
 respectively.

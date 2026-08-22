@@ -4,18 +4,23 @@ Built-In Functions
 ==================
 
 *Gazprea* has some built-in functions. These built in functions may have
-some special behaviour that normal functions can not have, for instance
+some special behavior that normal functions can not have, for instance
 many of them will work on arrays of any element type.
 Normally a function must specify the element type of an array argument.
 
-The name of built in functions are reserved and a user program cannot
-define a function or a procedure with the same name as a built-in function.
-If a :term:`declaration` or a :term:`definition` with the same name as a
-built-in function is encountered in a *Gazprea* program, then the compiler
-should issue an error.
+The names of the built-in functions are reserved. A user program may not
+declare *any* identifier -- a variable, function, procedure, ``struct``, or
+otherwise -- with the same name as a built-in function; doing so would shadow
+the built-in, and the compiler must emit a ``SymbolError`` (see
+:ref:`sec:errors`). These names are reserved semantically rather than being
+syntactic :ref:`keywords <sec:keywords>`.
 
-Note that although the examples below all use arrays, all the built-ins work
-on Vectors and Strings, since they are always compatible with arrays.
+Note that although the examples below all use arrays, the array-shaped
+built-ins (``length``, ``reverse``) also work on
+:ref:`vectors <ssec:vector>` and :ref:`strings <ssec:string>`, using
+whatever length that value currently holds. The shape-specific built-ins
+keep the domains their own sections describe: ``rows`` and ``columns``
+require a two-dimensional matrix, and ``format`` takes a scalar.
 
 .. _ssec:builtIn_length:
 
@@ -31,27 +36,48 @@ representing the number of elements in the array.
 
          length(v) -> std_output; /* Prints 5 */
 
+Because an array is :term:`initialization`-time sized, ``length`` applied to
+an array is invariant after :term:`initialization`: every call returns the
+same number. Applied to a :ref:`vector <ssec:vector>` (or a
+:ref:`string <ssec:string>`), ``length`` returns the value's *current*
+length instead, so two calls may return different numbers if the vector grew
+in between. In this role ``length`` is simply the built-in spelling of the
+vector's :ref:`len <sssec:vec_methods>` method.
+
+::
+
+         var vector<integer> v = [1, 2, 3];
+
+         length(v) -> std_output; /* Prints 3 */
+
+         v.push(4);               /* 'v' is now [1, 2, 3, 4] */
+
+         length(v) -> std_output; /* Prints 4 */
+
 
 .. _ssec:builtIn_rows_cols:
 
-Shape
------
+Rows and Columns
+----------------
 
-The built-in ``shape`` operates on arrays of any dimension, and returns an
-array listing the size of each dimension.
+The built-ins ``rows`` and ``columns`` report the dimensions of a
+two-dimensional array (a :ref:`matrix <ssec:matrix>`): ``rows`` returns the
+number of rows and ``columns`` the number of columns. (There is no
+rank-agnostic ``shape`` built-in in this version of the language.)
 
 ::
 
          integer[*][*] M = [[1, 2, 3], [4, 5, 6]];
 
-         shape(M) -> std_output; /* Prints [2, 3] */
+         rows(M) -> std_output;    /* Prints 2 */
+         columns(M) -> std_output; /* Prints 3 */
 
 .. _ssec:builtIn_reverse:
 
 Reverse
 -------
 
-The reverse built-in takes any single dimensional array, Vector, or String, and returns a
+The reverse built-in takes any single dimensional array, vector, or string, and returns a
 reversed version of it.
 
 ::
@@ -96,19 +122,15 @@ implicitly defined in every file:
 
   procedure stream_state(var input_stream) returns integer;
 
-This procedure can only be called with the ``std_input`` as a parameter, but it’s
-general enough that it could be used if the language were expanded to include
-multiple input streams.
+The signature is notional: ``input_stream`` is not a *Gazprea* type, and
+the only valid argument is ``std_input``. The form is general enough that
+it could be reused if the language were expanded to include multiple input
+streams.
 
-When called, ``stream_state`` will return an integer value. The return value is
-an error code defined as follows:
-
-  - ``0``: Last read from the stream was successful.
-  - ``1``: Last read from the stream encountered an error.
-  - ``2``: Last read from the stream encountered the end of the stream.
-
-``stream_state`` is initialized to ``0``, which is the value return if no
-read has been issued.
+The returned state codes, the initial state, and the per-type behavior of
+reads are specified in :ref:`sssec:stream_error`. In brief: ``0`` means the
+last read succeeded, ``1`` that it encountered an error, and ``2`` that it
+encountered the end of the stream.
 
 ::
 

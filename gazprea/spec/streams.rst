@@ -31,7 +31,7 @@ treated as follows when sent to an output stream:
 -  :ref:`ssec:integer`: Converted to a string representation, and then printed.
 
 -  :ref:`ssec:real`: Converted to a string representation, and then printed.
-   This is the same behaviour as the `%g specifier in
+   This is the same behavior as the `%g specifier in
    printf <http://www.cplusplus.com/reference/cstdio/printf/>`__.
 
 -  :ref:`ssec:boolean`: Prints T for true, and F for false.
@@ -50,6 +50,12 @@ prints the following:
 ::
 
      [1 2 3]
+
+:ref:`vectors <ssec:vector>` print exactly as :ref:`arrays <ssec:array>`
+do, using whatever length the vector holds at the time of the output
+statement. A :ref:`string <ssec:string>` is the sole exception: although
+a string is a vector of characters, it prints its characters contiguously
+rather than in bracketed array form, as shown next.
 
 :ref:`strings <ssec:string>` print their contents as a contiguous sequence of characters.
 For example:
@@ -79,7 +85,7 @@ prints the following:
 
 No other type may be sent to a stream. For instance,
 procedures with no return type and tuples cannot be sent to streams.
-Also, empty arrays and matrices can be send to streams, but not empty
+Also, empty arrays and matrices can be sent to streams, but not empty
 literals (e.g. ``[]``), because they have no type.
 
 Note that there is **no automatic new line or spaces printed.** To print
@@ -107,8 +113,9 @@ of an assignment statement.
 
 Input streams may only work on the following primitive types:
 
--  ``character``: Reads a single character from stdin. Note that there
-   can be no :ref:`error state <sssec:stream_error>` for reading characters.
+-  ``character``: Reads a single character from stdin. Note that a
+   character read never sets :ref:`error state <sssec:stream_error>` 1;
+   reaching the end of the stream still sets state 2.
 
 -  ``integer``: Reads an integer from stdin. If an integer could not be
    read, an :ref:`error state <sssec:stream_error>` is set on this stream.
@@ -119,7 +126,7 @@ Input streams may only work on the following primitive types:
 -  ``boolean``: Reads a boolean from stdin. If a boolean value could not
    be read, an :ref:`error state <sssec:stream_error>` is set on this stream.
 
-Type promotion is not performed for stream input over any type.
+Implicit casting is not performed for stream input over any type.
 
    .. _sssec:input_format:
 
@@ -182,9 +189,11 @@ The output would be:
 
 ::
 
-   F 1.0
+   F 1
 
-because the white space is consumed for characters and skipped for other types.
+(``1.`` reads as the real 1.0, which prints as ``1`` under the ``%g``
+format rule above) because the white space is consumed for characters and
+skipped for other types.
 
 
 .. _sssec:stream_error:
@@ -196,13 +205,18 @@ When reading ``boolean``, ``integer``, and ``real`` from stdin, it is
 possible that the end of the stream or an error is encountered. In order to
 handle these situations *Gazprea* provides a built in procedure that is
 implicitly defined in every file: ``stream_state`` (see
-:ref:`ssec:builtIn_stream_state`).
+:ref:`ssec:builtIn_stream_state` for its signature). ``stream_state``
+returns ``0`` if the last read succeeded, ``1`` if it encountered an
+error, and ``2`` if it encountered the end of the stream. Before any read
+has been issued it returns ``0``.
 
-Reading a ``character`` can never cause an error. The character will either be
-successfully read or the end of the stream will be reached and ``-1`` will be
-returned on this read.
+Reading a ``character`` can never set error state 1. The character will
+either be successfully read, or the end of the stream will be reached: the
+read then yields the ``character`` whose 8-bit value is ``-1`` (i.e.
+``as<character>(-1)``) and sets state 2.
 
-When an error occurs the null value is assigned and the input stream
+When an error occurs, the zero value for the type being read (see the
+Return column of the table below) is assigned and the input stream
 remains pointing to the same position as before the read occurred.
 
 The program below demonstrates 4 reads which set the error

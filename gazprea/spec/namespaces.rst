@@ -6,7 +6,8 @@ Namespaces
 There are two namespaces in *Gazprea*:
 
 - Type namespace: user-defined types (structs and typealiases).
-- Variable/Function/procedure namespace: functions and procedures.
+- Variable/Function/procedure namespace: variables, functions, and
+  procedures.
 
 Items in separate namespaces may share an :term:`identifier`. Items within the same namespace cannot share an identifier, this is a ``SymbolError``.
 
@@ -15,7 +16,7 @@ Items in separate namespaces may share an :term:`identifier`. Items within the s
     // Does not conflict with the other statements
     struct x (integer a, integer b);
 
-    // These three statements all confict with each other
+    // These three statements all conflict with each other
     // Any two of them in the same program produces a SymbolError
     integer x = 3;                   
     function x() returns integer;    
@@ -36,7 +37,7 @@ Items in separate namespaces may share an :term:`identifier`. Items within the s
         b b = b(b: a, a: 2, main: 3);
 
         if (true) { // New scope
-            a a = b.b // New `a` shadows the old `a`
+            a a = b.b; // New `a` shadows the old `a`
         }
         return 0;
     }
