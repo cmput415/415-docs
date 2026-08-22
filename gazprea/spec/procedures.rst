@@ -158,7 +158,7 @@ one and only one compilation unit must define ``main``.
            return 0;
          }
 
-.. _ssec:procedure_alias:
+.. _ssec:procedure_implicit_casts:
 
 Implicit Casts of Arguments
 ---------------------------

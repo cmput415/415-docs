@@ -31,7 +31,7 @@ treated as follows when sent to an output stream:
 -  :ref:`ssec:integer`: Converted to a string representation, and then printed.
 
 -  :ref:`ssec:real`: Converted to a string representation, and then printed.
-   This is the same behaviour as the `%g specifier in
+   This is the same behavior as the `%g specifier in
    printf <http://www.cplusplus.com/reference/cstdio/printf/>`__.
 
 -  :ref:`ssec:boolean`: Prints T for true, and F for false.

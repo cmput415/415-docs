@@ -4,7 +4,7 @@ Built-In Functions
 ==================
 
 *Gazprea* has some built-in functions. These built in functions may have
-some special behaviour that normal functions can not have, for instance
+some special behavior that normal functions can not have, for instance
 many of them will work on arrays of any element type.
 Normally a function must specify the element type of an array argument.
 
@@ -15,10 +15,12 @@ the built-in, and the compiler must emit a ``SymbolError`` (see
 :ref:`sec:errors`). These names are reserved semantically rather than being
 syntactic :ref:`keywords <sec:keywords>`.
 
-Note that although the examples below all use arrays, all the built-ins also
-work on :ref:`vectors <ssec:vector>` and :ref:`strings <ssec:string>`, since
-these are always compatible with arrays. When a built-in operates on a
-vector or string, it uses whatever length that value currently holds.
+Note that although the examples below all use arrays, the array-shaped
+built-ins (``length``, ``reverse``) also work on
+:ref:`vectors <ssec:vector>` and :ref:`strings <ssec:string>`, using
+whatever length that value currently holds. The shape-specific built-ins
+keep the domains their own sections describe: ``rows`` and ``columns``
+require a two-dimensional matrix, and ``format`` takes a scalar.
 
 .. _ssec:builtIn_length:
 
@@ -125,7 +127,7 @@ the only valid argument is ``std_input``. The form is general enough that
 it could be reused if the language were expanded to include multiple input
 streams.
 
-The returned state codes, the initial state, and the per-type behaviour of
+The returned state codes, the initial state, and the per-type behavior of
 reads are specified in :ref:`sssec:stream_error`. In brief: ``0`` means the
 last read succeeded, ``1`` that it encountered an error, and ``2`` that it
 encountered the end of the stream.
