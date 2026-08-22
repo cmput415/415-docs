@@ -44,8 +44,9 @@ Construction
 A 2D matrix can be viewed as an array of arrays.
 The elements in each array form a single row of the matrix.
 All rows with fewer elements than the row of maximum row length are padded with
-zeros on the right. Similarly, if the matrix is declared with more rows
-than are provided, the bottom rows of the matrix are zero. If the number
+the element type's :term:`zero value` on the right. Similarly, if the matrix is
+declared with more rows than are provided, the bottom rows hold the element
+type's zero value. If the number
 of rows or columns exceeds the
 amounts given in a declaration the compiler must emit a ``SizeError``
 (see :ref:`sec:errors`).

@@ -9,12 +9,13 @@ the *explicit casts* written ``as<toType>(value)`` in
 :ref:`sec:typeCasting`; "cast" is the umbrella term for both.
 
 Most conversions that can be performed implicitly can also be written
-explicitly as an ``as<>`` cast. There are two caveats. First, a
-scalar-to-array *explicit cast* must state the destination size explicitly
+explicitly as an ``as<>`` cast. The one caveat is that a scalar-to-array
+*explicit cast* must state the destination size explicitly
 (:ref:`ssec:typeCasting_stovm`), whereas the corresponding *implicit cast*
-takes its size from the array operand. Second, the ``string`` /
-``character[*]`` conversion is an implicit, two-way cast with no ``as<>``
-form (see :ref:`ssec:typePromotion_string`).
+takes its size from the array operand. (The ``string`` / ``character[*]``
+conversion, being the array/vector cast specialized to ``character``, has
+both an implicit and an explicit ``as<>`` form like any other array/vector
+cast; see :ref:`ssec:typePromotion_string`.)
 
 A scalar may be implicitly cast to an array or matrix of any rank (see
 :ref:`ssec:typePromotion_stoa`). An array is never implicitly cast to a
@@ -57,8 +58,10 @@ All scalar types can be implicitly cast to arrays whose element type the
 scalar can be :ref:`implicitly cast to <ssec:typePromotion_scalar>`.
 This can occur when an array is used in an operation with a scalar value.
 
-The scalar is implicitly cast to an array of equivalent dimensions and
-element type. For example:
+The scalar is implicitly cast to an array of the same dimensions as the
+array operand; the result's element type is whichever type the operation
+requires, and the scalar is first implicitly cast to that element type. For
+example:
 
 ::
 

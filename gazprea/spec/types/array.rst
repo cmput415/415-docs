@@ -86,7 +86,7 @@ array instead of a ``real`` array.
    An array may also be initialized with another array. Initialization occurs element-wise,
    with the RHS element type's initialization semantics applying from left to right.
    If the LHS array is initialized using a RHS array that is too small then the LHS array will
-   be padded with zeros. However, if the LHS array is initialized with a RHS
+   be padded with the element type's :term:`zero value`. However, if the LHS array is initialized with a RHS
    array that is too large then the compiler must emit a ``SizeError``
    (see :ref:`sec:errors`) at :term:`compile time` or :term:`run time`.
 
@@ -117,9 +117,10 @@ array instead of a ``real`` array.
 
 
    In this example the compiler can infer both the size and the type of
-   ``w`` from ``v``. As with any array, this inferred size is known at
-   :term:`compile time`; a collection whose size is only known at
-   :term:`run time` must be a :ref:`vector <ssec:vector>`.
+   ``w`` from ``v``. As with any array, this inferred size is fixed once,
+   at :term:`initialization`, and never changes afterwards; a collection
+   whose length must *change* after it is created requires a
+   :ref:`vector <ssec:vector>`.
 
 .. _sssec:array_constr:
 

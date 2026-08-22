@@ -68,8 +68,9 @@ three or more iterator variables (no direct construction of arrays
 with three or more dimensions).
 
 The :term:`domain` in a domain expression is any array-typed value:
-static arrays, dynamically-sized :ref:`vectors <ssec:vector>`, and
-:ref:`ranges <ssec:expressions_toop>` all count.  The generator
+static arrays, dynamically-sized :ref:`vectors <ssec:vector>`,
+:ref:`strings <ssec:string>`, and :ref:`ranges <ssec:expressions_toop>`
+all count.  The generator
 dimension is determined solely by how many iterator variables the
 generator introduces (one or two), not by the shape of the domain
 value.

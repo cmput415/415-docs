@@ -118,10 +118,10 @@ As a language-supported object, *Gazprea* provides methods for ``vector``
 - A method call whose result is used is an expression. A method call may
   also stand alone as a statement, terminated by a semicolon; this is the
   only expression form that may be used as a statement. An explicit
-  ``call`` statement may also be applied to a method call, but because the
-  builtin methods act through the receiver, ``call m(...)`` is effectively
-  a no-op form -- it behaves like calling a procedure and discarding its
-  result.
+  ``call`` statement may also be applied to a method call; the method still
+  runs and still acts on its receiver exactly as in the bare statement form.
+  The ``call`` keyword adds nothing here -- any result is discarded either
+  way -- so it is never required for a method call.
 
 - Mutating methods (``push``, ``append``) additionally require the
   receiver to be declared ``var``. Inside a :ref:`function <sec:function>`,
@@ -153,7 +153,7 @@ The methods are:
         v1.push(2);                    // v1 == [1, 2]
         v1.len() -> std_output;        // 2
 
-        v1.append([3, 4, 5])           // v1 == [1, 2, 3, 4, 5]
+        v1.append([3, 4, 5]);          // v1 == [1, 2, 3, 4, 5]
         v1.len() -> std_output;        // 5
 
         var vector<real[2]> v2;        // v2 == []
@@ -168,7 +168,7 @@ The methods are:
         // slices
         v2.append(x[5..7]);            // v2 == [[1.0, 1.0], [3.0, 0.0], [5.0, 6.0]]
 
-        v2.len() -> std_output         // 3
+        v2.len() -> std_output;        // 3
 
         v2.len();                      // Legal statement; result discarded
 

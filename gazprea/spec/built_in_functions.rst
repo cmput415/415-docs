@@ -8,11 +8,12 @@ some special behaviour that normal functions can not have, for instance
 many of them will work on arrays of any element type.
 Normally a function must specify the element type of an array argument.
 
-The name of built in functions are reserved and a user program cannot
-define a function or a procedure with the same name as a built-in function.
-If a :term:`declaration` or a :term:`definition` with the same name as a
-built-in function is encountered in a *Gazprea* program, then the compiler
-must emit a ``SymbolError`` (see :ref:`sec:errors`).
+The names of the built-in functions are reserved. A user program may not
+declare *any* identifier -- a variable, function, procedure, ``struct``, or
+otherwise -- with the same name as a built-in function; doing so would shadow
+the built-in, and the compiler must emit a ``SymbolError`` (see
+:ref:`sec:errors`). These names are reserved semantically rather than being
+syntactic :ref:`keywords <sec:keywords>`.
 
 Note that although the examples below all use arrays, all the built-ins also
 work on :ref:`vectors <ssec:vector>` and :ref:`strings <ssec:string>`, since

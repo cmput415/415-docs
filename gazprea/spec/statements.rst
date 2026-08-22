@@ -47,7 +47,8 @@ With arrays indices may be provided in order to change the value of an array
 element. In *Gazprea*, an array cannot be indexed with an array *value*:
 ``v[w]`` is illegal whenever ``w`` evaluates to an array value, even one
 holding a range (this covers array variables, expressions, and function
-calls that return an array alike). Range syntax written directly inside
+calls that return an array alike); the compiler must emit a ``TypeError``
+(see :ref:`sec:errors`). Range syntax written directly inside
 an index position is not an array-valued index; it forms a slice
 (see :ref:`sssec:array_slices`).
 For instance, with single dimensional arrays:
@@ -368,7 +369,8 @@ semicolon.
 Iterator Loop
 ~~~~~~~~~~~~~
 
-Loops can be used to iterate over the elements of an array of any type.
+Loops can be used to iterate over the elements of an array of any type, or
+over a :ref:`vector <ssec:vector>` or :ref:`string <ssec:string>`.
 This is done by using :term:`domain expressions <domain expression>`
 (for instance ``i in v``) in conjunction with a loop statement.  In a
 domain expression ``x in E``, ``x`` is the :term:`iterator variable`

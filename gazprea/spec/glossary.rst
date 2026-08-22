@@ -46,15 +46,17 @@ Terms
    :sorted:
 
    initialization
-      The :term:`run time` moment at which a variable declaration first
-      takes effect: the first time, in program order, that execution
-      reaches the point immediately before the declaration.  A variable's
-      array and matrix lengths are settled at initialization and are then
-      fixed for the remainder of that variable's lifetime.  Initialization
-      is distinct from :term:`compile time` -- a length need not be a
-      compile-time constant, only settled by the time the variable is
-      first used -- and from any later assignment, which never resizes a
-      variable.
+      The :term:`run time` instant immediately before the first execution
+      of a variable's declaration.  A variable's array and matrix
+      dimensions are settled *exactly once*, at initialization, and are
+      then fixed for the remainder of that variable's lifetime: an array
+      is sized once and can never be resized.  A size may be any integer
+      expression -- it need not be a :term:`compile time` constant -- but
+      it is evaluated a single time, at this instant, and later changes to
+      that expression's inputs do not affect the array.  (Ada draws the
+      same once-only distinction with a separate *elaboration* step;
+      *Gazprea* keeps a single definition of a variable's size and calls
+      the instant it happens *initialization*.)
 
    zero value
       The value a variable of a given type holds when it is declared
@@ -90,10 +92,10 @@ Terms
 
    compile time
       The interval during which the source program is being translated
-      by the :term:`compiler`, before program execution begins.  Ada
-      states the contrast explicitly: "At compile time, the declaration
-      of an entity declares the entity.  At run time, the elaboration of
-      the declaration creates the entity" [#ada-rm]_.  The C
+      by the :term:`compiler`, before program execution begins.  The
+      contrast with :term:`run time` matters for sizing in *Gazprea*: an
+      array's size need not be fixed at compile time, only at
+      :term:`initialization`, which is a run-time instant.  The C
       standard specifies the phases of translation in ISO/IEC 9899
       §5.1.1.2 [#iso-c11]_.
 
@@ -291,9 +293,8 @@ Terms
       counterpart (e.g. ``integer`` -> ``real`` when arithmetic mixes
       them).  The mechanism is specified in
       :ref:`sec:typePromotion`.  Most implicit casts can also be written
-      explicitly as an ``as<>`` cast, but a few cannot -- notably the
-      ``string`` / ``character[*]`` conversion, which has no ``as<>``
-      form.
+      explicitly as an ``as<>`` cast; a scalar-to-array explicit cast must
+      then state the destination size (see :ref:`ssec:typeCasting_stovm`).
 
    implicit conversion
       An automatic conversion inserted by the language, without a cast,

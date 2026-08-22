@@ -6,6 +6,11 @@ Keywords
 *Gazprea* has a number of built in keywords that are reserved and should
 not be used by a programmer.
 
+The names of the built-in functions (``length``, ``rows``, ``columns``,
+``reverse``, ``format``, ``stream_state``) are *not* keywords; they are
+reserved semantically, and shadowing one with a user identifier is a
+``SymbolError`` (see :ref:`sec:builtIn`), not a syntax error.
+
 -  and
 
 -  as
@@ -18,8 +23,6 @@ not be used by a programmer.
 
 -  character
 
--  columns
-
 -  const
 
 -  continue
@@ -28,8 +31,6 @@ not be used by a programmer.
 
 -  false
 
--  format
-
 -  function
 
 -  if
@@ -37,8 +38,6 @@ not be used by a programmer.
 -  in
 
 -  integer
-
--  length
 
 -  loop
 
@@ -54,15 +53,9 @@ not be used by a programmer.
 
 -  returns
 
--  reverse
-
--  rows
-
 -  std_input
 
 -  std_output
-
--  stream_state
 
 -  string
 
