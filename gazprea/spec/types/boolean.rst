@@ -52,8 +52,8 @@ Therefore, both the left hand side and right hand side of an expression
 must always be evaluated.
 
 Operator precedence and associativity are specified once, for all
-types, in the :ref:`table of operator precedence
-<ssec:expressions_toop>`.
+types, in the
+:ref:`table of operator precedence <ssec:expressions_toop>`.
 
 Type Casting and Implicit Casts
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
