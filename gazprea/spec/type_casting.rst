@@ -5,7 +5,7 @@ Type Casting
 
 *Gazprea* provides explicit :term:`type casting`. Type casting is an
 :term:`expression`. A value may be converted to a different type using the
-following syntax where ``value`` is an expression and ``toType`` is our
+following syntax where ``value`` is an expression and ``toType`` is the
 destination type:
 
 ::
@@ -14,7 +14,11 @@ destination type:
 
 Conversion from one type to another is not always legal. For instance
 converting from an ``integer`` array to an ``integer`` has no
-reasonable conversion.
+reasonable conversion. Attempting such a conversion is a compile-time
+error; the compiler must emit a ``TypeError`` (see :ref:`sec:errors`). More
+generally, any ``as<>`` conversion this chapter does not describe as legal is
+a compile-time error, and the compiler must emit a ``TypeError`` (see
+:ref:`sec:errors`).
 
 .. _ssec:typeCasting_stos:
 
@@ -24,7 +28,8 @@ Scalar to Scalar
 This table summarizes all of the conversion rules between scalar types
 where N/A means no conversion is possible, id means no change is
 necessary, and anything else describes how to convert the value to the
-new type:
+new type. Attempting a conversion marked N/A is a compile-time error;
+the compiler must emit a ``TypeError`` (see :ref:`sec:errors`):
 
 +----------+-------------------------------------------------------------------------------------------------------------------------------------+
 |          |                                                          **To type**                                                                |
@@ -45,8 +50,8 @@ new type:
 Scalar to Array
 -----------------------
 
-A scalar may be cast to an array of any dimension with an element type that
-the original scalar can be cast to according to the rules in :ref:`ssec:typeCasting_stos`.
+A scalar may be explicitly cast to an array of any dimension with an element type that
+the original scalar can be explicitly cast to according to the rules in :ref:`ssec:typeCasting_stos`.
 A scalar to array cast *must* include a size with the type to cast to as this
 cannot be inferred from the scalar value. For example:
 
@@ -66,7 +71,7 @@ Array to Array
 Conversions between array types are also possible. First, the
 values of the original are cast to the destination type's element type
 according to the rules in :ref:`ssec:typeCasting_stos` and then the destination
-is padded with destination element type's zero or truncated to match the
+is padded with destination element type's :term:`zero value` or truncated to match the
 destination type size. Note that a concrete size is not required for array to
 array casting: writing the destination element type with an unspecified
 length (``[*]``) keeps the old size, so no padding or truncation occurs.
@@ -120,13 +125,18 @@ A :ref:`vector <ssec:vector>` participates in ``as<>`` casts on both sides.
 
 - As the **operand** of an array cast, a vector supplies its *current*
   length as the source size; the cast then pads with the element type's
-  zero value or truncates to the destination array's stated size, exactly
+  :term:`zero value` or truncates to the destination array's stated size, exactly
   as in :ref:`ssec:typeCasting_vtov`.
 
 - As the **destination** type, a ``vector<T>`` takes no size specifier: the
   result simply has the length of the value being cast, so there is nothing
   to pad or truncate. Only the element type is converted, per
   :ref:`ssec:typeCasting_stos`.
+
+- A :term:`scalar <scalar type>` may be cast directly to a ``vector<T>``
+  destination, producing a single-element vector. Because a vector carries no
+  size specifier, the element type ``T`` must be written explicitly -- there
+  is no size or element-type inference for this cast.
 
 ::
 
@@ -140,6 +150,9 @@ A :ref:`vector <ssec:vector>` participates in ``as<>`` casts on both sides.
      integer[3] w = [4, 5, 6];
      vector<integer> u = as<vector<integer> >(w);  // [4, 5, 6]
 
+     // Scalar to vector: single-element vector; T must be explicit.
+     vector<integer> s = as<vector<integer> >(5);  // [5]
+
 .. _ssec:typeCasting_ttot:
 
 Tuple to Tuple
@@ -147,8 +160,11 @@ Tuple to Tuple
 
 Conversions between ``tuple`` types are also possible. The source type and
 the destination type must have an equal number of members, and each member
-must be pairwise castable. Every member is cast by the rule for its own
-kind: scalar members follow :ref:`ssec:typeCasting_stos`, array members
+must be pairwise castable; a mismatch in the number of members, or a member
+that cannot be cast under its own kind's rule, is a compile-time error and
+the compiler must emit a ``TypeError`` (see :ref:`sec:errors`). Every
+member is cast by the rule for its own kind: scalar members follow
+:ref:`ssec:typeCasting_stos`, array members
 follow :ref:`ssec:typeCasting_vtov` (including padding and truncation), and
 a nested ``tuple``, ``vector``, or array member follows the same
 cast rules as a standalone value of that type. A ``struct`` member is the

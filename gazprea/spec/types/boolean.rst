@@ -12,7 +12,7 @@ Declaration
 ~~~~~~~~~~~
 
 A ``boolean`` value is declared with the keyword ``boolean``.
-If the variable is not initialized explicitly, it is set to ``false`` (zero).
+If the variable is not initialized explicitly, it is set to ``false`` (its :term:`zero value`).
 
 .. _sssec:boolean_lit:
 
@@ -34,20 +34,19 @@ The following operations are defined on ``boolean`` values. In all
 of the usage examples ``bool-expr`` means some ``boolean`` yielding
 expression.
 
-============= ========== =========================== =================
-**Operation** **Symbol** **Usage**                   **Associativity**
-============= ========== =========================== =================
-parenthesis   ``()``     ``(bool-expr)``             N/A
-negation      ``not``    ``not bool-expr``           right
-logical or    ``or``     ``bool-expr or bool-expr``  left
-logical xor   ``xor``    ``bool-expr xor bool-expr`` left
-logical and   ``and``    ``bool-expr and bool-expr`` left
-equals        ``==``     ``bool-expr == bool-expr``  left
-not equals    ``!=``     ``bool-expr != bool-expr``  left
-============= ========== =========================== =================
+============= ========== ===========================
+**Operation** **Symbol** **Usage**
+============= ========== ===========================
+parenthesis   ``()``     ``(bool-expr)``
+negation      ``not``    ``not bool-expr``
+logical or    ``or``     ``bool-expr or bool-expr``
+logical xor   ``xor``    ``bool-expr xor bool-expr``
+logical and   ``and``    ``bool-expr and bool-expr``
+equals        ``==``     ``bool-expr == bool-expr``
+not equals    ``!=``     ``bool-expr != bool-expr``
+============= ========== ===========================
 
-Unlike many languages the ``and`` and ``or`` operators do not `short
-circuit
+Unlike many languages, the ``and`` and ``or`` operators do not `short-circuit
 evaluation <https://en.wikipedia.org/wiki/Short-circuit_evaluation>`__.
 Therefore, both the left hand side and right hand side of an expression
 must always be evaluated.
@@ -60,5 +59,5 @@ Type Casting and Implicit Casts
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 To see the types that ``boolean`` may be cast and/or implicitly cast to, see
-the sections on :ref:`sec:typeCasting` and :ref:`sec:typePromotion`
+the sections on :ref:`sec:typeCasting` and :ref:`sec:implicitCasts`
 respectively.

@@ -11,7 +11,7 @@ represented by an ``i32`` in *MLIR*.
 Declaration
 ~~~~~~~~~~~
 
-A ``integer`` value is declared with the keyword ``integer``.
+An ``integer`` value is declared with the keyword ``integer``.
 
 .. _sssec:integer_lit:
 
@@ -26,7 +26,8 @@ An ``integer`` literal is specified in base 10. For example:
      2
      0
 
-An ``integer`` literal must be a representable ``i32`` value.
+An ``integer`` literal must be a representable ``i32`` value; the compiler
+must emit a ``LiteralError`` (see :ref:`sec:errors`) otherwise.
 
 .. _sssec:integer_ops:
 
@@ -73,10 +74,22 @@ expression.
 
 Unary negation produces the additive inverse of the ``integer``
 expression. Unary plus always produces the same result as the
-``integer`` expression it is applied to. Remainder mirrors the behaviour
+``integer`` expression it is applied to. Remainder mirrors the behavior
 of remainder in *C99*.
 
 Exponentiation between integers gives an ``integer`` result. This is the same behavior as performing exponentiation on reals then truncating to an ``integer``.
+
+Signed 32-bit arithmetic that overflows the ``i32`` range (``+``,
+``-``, ``*``, ``^``) causes the implementation to raise a
+``MathError`` (see :ref:`sec:errors`). The sole exception is the
+``-ffast-math`` compiler flag, under which integer overflow is
+undefined behavior -- the only construct whose behavior *Gazprea*
+leaves undefined, provided solely for performance testing.
+
+Division and remainder (``%``) where the right operand is ``0``, and
+exponentiation where the base is ``0`` and the exponent is ``<= 0``,
+cause the implementation to raise a ``MathError`` (see
+:ref:`sec:errors`) at :term:`compile time` or :term:`run time`.
 
 Operator precedence and associativity are specified once, for all
 types, in the :ref:`table of operator precedence
@@ -86,5 +99,5 @@ Type Casting and Implicit Casts
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 To see the types that ``integer`` may be cast and/or implicitly cast to, see
-the sections on :ref:`sec:typeCasting` and :ref:`sec:typePromotion`
+the sections on :ref:`sec:typeCasting` and :ref:`sec:implicitCasts`
 respectively.

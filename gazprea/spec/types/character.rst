@@ -60,25 +60,30 @@ Hex escape      ``\xH[H]``          ``0x00`` to ``0xFF``
 Operations
 ~~~~~~~~~~
 
-The following operations are defined between ``character`` values. 
+The following operations are defined between ``character`` values.
 
-+------------+--------------------------+------------+---------------------------+-------------------+
-| **Class**  | **Operation**            | **Symbol** | **Usage**                 | **Associativity** |
-+============+==========================+============+===========================+===================+
-| Grouping   | parentheses              | ``()``     | ``(character)``           | N/A               |
-+------------+--------------------------+------------+---------------------------+-------------------+
-| Comparison | equals                   | ``==``     | ``character == character``| left              |
-|            +--------------------------+------------+---------------------------+-------------------+
-|            | not equals               | ``!=``     | ``character != character``| left              |
-+------------+--------------------------+------------+---------------------------+-------------------+
++------------+---------------+------------+----------------------------+
+| **Class**  | **Operation** | **Symbol** | **Usage**                  |
++============+===============+============+============================+
+| Grouping   | parentheses   | ``()``     | ``(character)``            |
++------------+---------------+------------+----------------------------+
+| Comparison | equals        | ``==``     | ``character == character`` |
+|            +---------------+------------+----------------------------+
+|            | not equals    | ``!=``     | ``character != character`` |
++------------+---------------+------------+----------------------------+
 
 :term:`Scalar <scalar type>` values with type ``character`` may be
-concatenated onto variables with type ``string`` or arrays with type
-``character``.
+concatenated onto values of type ``string`` or arrays with type
+``character``. See :ref:`sssec:string_ops` for the full concatenation
+rules, including the ``TypeError`` (see :ref:`sec:errors`) raised when
+both operands of ``||`` are scalar, e.g. ``character || character``.
+
+Operator precedence and associativity are specified once, for all types, in
+the :ref:`table of operator precedence <ssec:expressions_toop>`.
 
 Type Casting and Implicit Casts
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 To see the types that ``character`` may be cast and/or implicitly cast to, see
-the sections on :ref:`sec:typeCasting` and :ref:`sec:typePromotion`
+the sections on :ref:`sec:typeCasting` and :ref:`sec:implicitCasts`
 respectively.
