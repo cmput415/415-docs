@@ -3,8 +3,8 @@
 Built-In Functions
 ==================
 
-*Gazprea* has some built-in functions. These built in functions may have
-some special behavior that normal functions can not have, for instance
+*Gazprea* has some built-in functions. These built-in functions may have
+some special behavior that normal functions cannot have, for instance
 many of them will work on arrays of any element type.
 Normally a function must specify the element type of an array argument.
 
@@ -22,13 +22,21 @@ whatever length that value currently holds. The shape-specific built-ins
 keep the domains their own sections describe: ``rows`` and ``columns``
 require a two-dimensional matrix, and ``format`` takes a scalar.
 
+Applying a built-in outside its defined domain -- ``reverse``/``length`` on
+a non-1-D value, ``rows``/``columns`` on a non-2-D value, or ``format`` on a
+non-scalar -- is a compile-time error; the compiler must emit a
+``TypeError`` (see :ref:`sec:errors`).
+
 .. _ssec:builtIn_length:
 
 Length
 ------
 
-``length`` takes an array of any element type, and returns an integer
-representing the number of elements in the array.
+``length`` takes a single-dimensional array of any element type, and
+returns an integer representing the number of elements in the array.
+``length`` is not defined for an array of rank greater than 1; use ``rows``
+and ``columns`` (see :ref:`ssec:builtIn_rows_cols`) for a two-dimensional
+matrix instead.
 
 ::
 
@@ -50,7 +58,7 @@ vector's :ref:`len <sssec:vec_methods>` method.
 
          length(v) -> std_output; /* Prints 3 */
 
-         v.push(4);               /* 'v' is now [1, 2, 3, 4] */
+         call v.push(4);          /* 'v' is now [1, 2, 3, 4] */
 
          length(v) -> std_output; /* Prints 4 */
 
@@ -77,7 +85,7 @@ rank-agnostic ``shape`` built-in in this version of the language.)
 Reverse
 -------
 
-The reverse built-in takes any single dimensional array, vector, or string, and returns a
+The reverse built-in takes any single-dimensional array, vector, or string, and returns a
 reversed version of it.
 
 ::
@@ -94,7 +102,10 @@ Format
 -------
 
 The ``format`` built-in takes any :term:`scalar <scalar type>` as input and
-returns a ``string`` containing the formatted value of the scalar.
+returns a ``string`` containing the formatted value of the scalar. The result
+uses the same representation the scalar's type has when sent to an output
+stream (see :ref:`sssec:output_format`); a type with no defined output format
+(a ``tuple`` or ``struct``) cannot be formatted.
 
 ::
 
@@ -104,9 +115,8 @@ returns a ``string`` containing the formatted value of the scalar.
          "i = " || format(i) || ", r = " || format(r) || '\n' -> std_output;
          // Prints: "i = 24, r = 2.4\n"
 
-Note that ``format`` will have to allocate space to hold the return string.
-You will have to figure out how to manage the memory so it is reclaimed
-eventually.
+Note that ``format`` allocates space to hold the return string; the
+implementation is responsible for reclaiming it.
 
 .. _ssec:builtIn_stream_state:
 
@@ -115,7 +125,7 @@ Stream State
 
 When reading values of certain types from ``std_input`` it is possible that an
 error is encountered, or that the end of the stream has been encountered. In
-order to handle these situations *Gazprea* provides a built in procedure that is
+order to handle these situations *Gazprea* provides a built-in procedure that is
 implicitly defined in every file:
 
 ::
@@ -147,4 +157,4 @@ encountered the end of the stream.
 
 
 The input stream is described in more detail in the
-:ref:`input stream <ssec:input>` section. 
+:ref:`input stream <ssec:input>` section.

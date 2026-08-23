@@ -15,7 +15,7 @@ an ISO/IEC or IEEE standard, the documentation of an ongoing industrial
 open-source project (LLVM, GCC, GNU Binutils), or a peer-reviewed
 publication in a respected venue.  Where a term has a widely-used *effective*
 reference (e.g. cppreference for the C++ value categories), that reference
-appears alongside the authoritative citation and is explicitly labelled as
+appears alongside the authoritative citation and is explicitly labeled as
 non-normative.
 
 Every glossary entry is a Sphinx ``:term:`` target and can be
@@ -46,17 +46,24 @@ Terms
    :sorted:
 
    initialization
-      The :term:`run time` instant immediately before the first execution
-      of a variable's declaration.  A variable's array and matrix
-      dimensions are settled *exactly once*, at initialization, and are
-      then fixed for the remainder of that variable's lifetime: an array
-      is sized once and can never be resized.  A size may be any integer
-      expression -- it need not be a :term:`compile time` constant -- but
-      it is evaluated a single time, at this instant, and later changes to
-      that expression's inputs do not affect the array.  (Ada draws the
-      same once-only distinction with a separate *elaboration* step;
-      *Gazprea* keeps a single definition of a variable's size and calls
-      the instant it happens *initialization*.)
+      The :term:`run time` instant at which a variable's declaration first
+      executes.  A declaration is a single *program point*; at run time
+      control reaches that point along some *control-flow path*, and may reach
+      it more than once -- a declaration in a loop body, or one on a branch of
+      a conditional, is reached once per time control flows through it.  A
+      variable is *initialized* on the first execution of its declaration
+      point along the path taken; each subsequent execution of the same
+      declaration begins a fresh :term:`lifetime` rather than mutating the
+      previous one (see :term:`re-initialization`).  A variable's array and
+      matrix dimensions are settled *exactly once*, at initialization, and are
+      then fixed for the remainder of that variable's lifetime: an array is
+      sized once and can never be resized.  A size may be any integer
+      expression -- it need not be a :term:`compile time` constant -- but it is
+      evaluated a single time, at this instant, and later changes to that
+      expression's inputs do not affect the array.  (Ada draws the same
+      once-only distinction with a separate *elaboration* step; *Gazprea*
+      keeps a single definition of a variable's size and calls the instant it
+      happens *initialization*.)
 
    zero value
       The value a variable of a given type holds when it is declared
@@ -73,8 +80,8 @@ Terms
    aggregate type
       A type composed of subordinate members of possibly-different types.
       In ISO C the term denotes array and structure types collectively
-      [#iso-c11]_.  In *Gazprea* the aggregate types are arrays, vectors,
-      tuples, strings, and structs; see :ref:`sec:types`.
+      [#iso-c11]_.  In *Gazprea* the aggregate types are arrays, matrices,
+      vectors, tuples, and structs; see :ref:`sec:types`.
 
       *Terminology note.*  Ada calls this umbrella category *composite
       type* rather than *aggregate type* [#ada-rm]_.  ISO C
@@ -109,7 +116,7 @@ Terms
       *Compiler subtypes.*  The unmarked base case -- a compiler whose
       target is machine code executable by a CPU -- has no distinct
       term of art; it is simply *compiler*.  Two marked variants are
-      recognised:
+      recognized:
 
       *  A :term:`source-to-source translator` compiles from one
          high-level language to another high-level language [#dragon]_.
@@ -197,7 +204,7 @@ Terms
       in a defined order.  The concept is standard across modern
       language families: Python defines it operationally through the
       iterator protocol (``__iter__`` / ``__next__``) [#pep-234]_;
-      C++ defines *iterators* as generalised pointers into a range,
+      C++ defines *iterators* as generalized pointers into a range,
       with the requirements collected in [iterator.requirements]
       [#cpp-draft]_.  In *Gazprea* the word is used
       informally for the mechanism that a
@@ -244,7 +251,7 @@ Terms
       An informal property of a language, expression, or function: the
       absence of observable :term:`side effects <side effect>`.  There
       is no ISO definition; the standard academic reference is
-      Strachey's characterisation of :term:`referential transparency`
+      Strachey's characterization of :term:`referential transparency`
       [#strachey-2000]_.  *Gazprea* invokes functional purity as the
       motivation for forbidding mutable :ref:`globals <sec:global>` and
       for the input-only nature of function arguments.
@@ -277,10 +284,13 @@ Terms
 
       *Gazprea policy.*  A conforming *Gazprea* implementation must
       not have any user-distinguishable implementation-defined
-      behavior, unspecified behavior, or undefined behavior: every
-      program is either :term:`well-formed` and produces the output
-      required by this specification, or it is :term:`ill-formed` and
-      the implementation emits an error.  The reason these
+      behavior or unspecified behavior, and has no undefined behavior
+      beyond the single deliberate exception of integer overflow under
+      the ``-ffast-math`` compiler flag (see :ref:`ssec:integer`),
+      provided solely for performance testing.  Outside that one case,
+      every program is either :term:`well-formed` and produces the
+      output required by this specification, or it is :term:`ill-formed`
+      and the implementation emits an error.  The reason these
       C/C++ terms appear in this glossary is definitional -- the
       *Gazprea* prose uses them to say what the language does *not*
       allow, not to reserve latitude for implementers.
@@ -292,9 +302,23 @@ Terms
       ``as<toType>(value)``; an implicit cast is simply the automatic
       counterpart (e.g. ``integer`` -> ``real`` when arithmetic mixes
       them).  The mechanism is specified in
-      :ref:`sec:typePromotion`.  Most implicit casts can also be written
+      :ref:`sec:implicitCasts`.  Most implicit casts can also be written
       explicitly as an ``as<>`` cast; a scalar-to-array explicit cast must
       then state the destination size (see :ref:`ssec:typeCasting_stovm`).
+
+   explicit cast
+      A conversion the programmer writes out explicitly in the program
+      text with the ``as<toType>(value)`` syntax, as opposed to an
+      :term:`implicit cast`, which the compiler inserts automatically.
+      Both are *casts*; the explicit form is specified in
+      :ref:`sec:typeCasting`.
+
+   value type
+      A type whose values are stored inline, by value, rather than
+      through indirection.  In *Gazprea* every :term:`aggregate type`
+      except ``vector`` is a value type; nesting must be acyclic through
+      value types, so a ``struct`` or ``tuple`` may refer to its own type
+      only through a ``vector`` (see :ref:`ssec:storable_types`).
 
    implicit conversion
       An automatic conversion inserted by the language, without a cast,
@@ -304,7 +328,7 @@ Terms
       *Gazprea* uses this general term only in the glossary.  In the
       *Gazprea* specification proper the analogous mechanism is called
       an :term:`implicit cast`, described in
-      :ref:`sec:typePromotion`.
+      :ref:`sec:implicitCasts`.
 
    initializer
       The syntactic element that supplies an initial value to a newly
@@ -346,7 +370,7 @@ Terms
       The interval during which the :term:`linker` runs, after
       :term:`translation` of each translation unit and before program
       execution.  ISO C describes this as translation phase 8
-      [#iso-c11]_.  Link-time optimisation (LTO), performed at this
+      [#iso-c11]_.  Link-time optimization (LTO), performed at this
       point, is documented for the LLVM toolchain in [#llvm-lto]_.
 
    literal
@@ -383,7 +407,7 @@ Terms
       *Gazprea note.*  *Gazprea* is not an object-oriented language --
       it has no user-defined classes, no inheritance, and no virtual
       dispatch.  The one place the *Gazprea* prose reaches for
-      OO-flavoured wording is the :term:`aggregate <aggregate type>`
+      OO-flavored wording is the :term:`aggregate <aggregate type>`
       :ref:`vector <ssec:vector>` type, which exposes methods
       (``push``, ``len``, ``append``) via dot syntax.  Those are
       built-in operations on the vector's storage-region object, not
@@ -397,7 +421,8 @@ Terms
       *primitive* types (``i32``, floating-point types, ``void``, etc.)
       from *derived* and *aggregate* types [#llvm-langref]_.  In
       *Gazprea* the primitive types are ``boolean``, ``integer``,
-      ``real``, and ``character``.
+      ``real``, and ``character``.  See also :term:`scalar type`,
+      ISO C's term for the same four *Gazprea* types.
 
    prvalue
       A "pure r-value": "an expression whose evaluation initializes an
@@ -426,7 +451,9 @@ Terms
       therefore change between calls with the same arguments; nor for
       any expression that transitively depends on a procedure call.
       This is why *Gazprea* forbids calling procedures inside
-      functions, forbids mutable globals, and restricts the operators
+      functions (aside from a mutating ``vector``/``string`` method such as
+      ``push``/``append`` on a function-local variable; see
+      :ref:`sec:function`), forbids mutable globals, and restricts the operators
       that may combine a procedure call's return value (see
       :ref:`sec:procedure`).
 
@@ -450,7 +477,9 @@ Terms
       types are collectively called scalar types" [#iso-c11]_.  Ada
       groups enumeration, integer, and real types as scalar
       [#ada-rm]_.  In *Gazprea* the scalar types are ``boolean``,
-      ``integer``, ``real``, and ``character``.
+      ``integer``, ``real``, and ``character``.  See also
+      :term:`primitive type`, the LLVM-derived term for the same four
+      *Gazprea* types.
 
    scope
       "The region of program text within which [an] identifier is
@@ -512,7 +541,7 @@ Terms
       converter are all translators [#dragon]_.
 
    type
-      A characterisation of a set of values together with a set of
+      A characterization of a set of values together with a set of
       operations on those values [#ada-rm]_ [#pierce-tapl]_.
       *Gazprea*'s types are enumerated in :ref:`sec:types`.
 
@@ -548,7 +577,7 @@ Terms
       *Further reading (for the curious student).*  The deep
       connection between type systems and formal logic -- types
       correspond to propositions, programs to proofs, program
-      reduction to proof normalisation -- is the *Curry-Howard
+      reduction to proof normalization -- is the *Curry-Howard
       correspondence*.  Wadler's ACM lecture "Propositions as Types"
       [#wadler-2015]_ is a short, entry-level survey; Sørensen and
       Urzyczyn's book-length *Lectures on the Curry-Howard
@@ -581,7 +610,7 @@ Terms
       "C++ program constructed according to the syntax rules,
       diagnosable semantic rules, and the one-definition rule"
       [#cpp-defns]_.  *Gazprea* uses "well-formed" throughout in
-      this generalised sense: a *Gazprea* program is well-formed if it
+      this generalized sense: a *Gazprea* program is well-formed if it
       satisfies every diagnosable rule stated in this specification.
 
    xvalue
@@ -652,7 +681,7 @@ The primary citations for the entries above are listed here.
       defines the range-based ``for`` statement's
       *for-range-declaration* and *for-range-initializer*.
    *  [iterator.requirements] §25.3 -- entry :term:`iterator`; defines
-      iterators as generalised pointers into a range and enumerates
+      iterators as generalized pointers into a range and enumerates
       the iterator category requirements.
 
 .. [#cpp-defns] ISO/IEC 14882:2020 (C++20), the "defns" definitions
@@ -789,11 +818,11 @@ The Diataxis framework classifies a glossary as *reference*
 documentation, whose job is to describe -- accurately, austerely, and
 without narrative -- the technical vocabulary of a system
 [#diataxis]_.  The Write the Docs community guide reiterates the
-constraint that reference material should be optimised for lookup
+constraint that reference material should be optimized for lookup
 rather than for narrative reading [#wtd-reference]_.  Guidance on the
 craft of glossary-writing itself -- one entry per concept, plain
 language, definitions that do not re-use the word being defined, and
-concrete examples where possible -- is summarised by Lester at The
+concrete examples where possible -- is summarized by Lester at The
 Word Factory [#wordfactory-glossary]_.  ISO/IEC/IEEE 26514:2022
 gives the formal standards-track requirements for user documentation,
 including terminology sections [#iso-26514]_.

@@ -26,18 +26,18 @@ Output Format
 Values of the following :term:`primitive types <primitive type>` are
 treated as follows when sent to an output stream:
 
--  :ref:`ssec:character`: The character is printed.
+-  :ref:`ssec:character`: Prints the character.
 
--  :ref:`ssec:integer`: Converted to a string representation, and then printed.
+-  :ref:`ssec:integer`: Converts it to a string representation, and then prints it.
 
--  :ref:`ssec:real`: Converted to a string representation, and then printed.
+-  :ref:`ssec:real`: Converts it to a string representation, and then prints it.
    This is the same behavior as the `%g specifier in
    printf <http://www.cplusplus.com/reference/cstdio/printf/>`__.
 
 -  :ref:`ssec:boolean`: Prints T for true, and F for false.
 
 :ref:`Arrays <ssec:array>` print their contents according to the rules above, with square
-braces surrounding its elements and with spaces only *between* values.
+braces surrounding their elements and with spaces only *between* values.
 For example:
 
 ::
@@ -51,13 +51,13 @@ prints the following:
 
      [1 2 3]
 
-:ref:`vectors <ssec:vector>` print exactly as :ref:`arrays <ssec:array>`
+:ref:`Vectors <ssec:vector>` print exactly as :ref:`arrays <ssec:array>`
 do, using whatever length the vector holds at the time of the output
 statement. A :ref:`string <ssec:string>` is the sole exception: although
 a string is a vector of characters, it prints its characters contiguously
 rather than in bracketed array form, as shown next.
 
-:ref:`strings <ssec:string>` print their contents as a contiguous sequence of characters.
+:ref:`Strings <ssec:string>` print their contents as a contiguous sequence of characters.
 For example:
 
 ::
@@ -83,10 +83,15 @@ prints the following:
 
      [[1 2 3] [4 5 6] [7 8 9]]
 
-No other type may be sent to a stream. For instance,
-procedures with no return type and tuples cannot be sent to streams.
+No other type may be sent to a stream; the compiler must emit a
+``TypeError`` (see :ref:`sec:errors`). For instance, a tuple or a struct
+cannot be sent to a stream. A procedure call may not appear as a stream operand at all,
+since that is not one of the :ref:`positions in which a procedure call may
+appear <ssec:procedure_call_positions>`; the compiler must emit a
+``CallError`` (see :ref:`sec:errors`).
 Also, empty arrays and matrices can be sent to streams, but not empty
-literals (e.g. ``[]``), because they have no type.
+literals (e.g. ``[]``), because they have no type; sending one must emit
+a ``TypeError`` (see :ref:`sec:errors`).
 
 Note that there is **no automatic new line or spaces printed.** To print
 a new line, a user must explicitly print the new line or space
@@ -106,7 +111,7 @@ Input streams use the following syntax:
 
 ::
 
-     <l-value> <- std_input;
+     <lvalue> <- std_input;
 
 An :term:`lvalue` may be anything that can appear on the left hand side
 of an assignment statement.
@@ -128,21 +133,21 @@ Input streams may only work on the following primitive types:
 
 Implicit casting is not performed for stream input over any type.
 
-   .. _sssec:input_format:
+.. _sssec:input_format:
 
 Input Semantics
 ~~~~~~~~~~~~~~~
 
 ``std_input`` expects an input stream of values which do not need to be
 whitespace separated. A read will consume the stream until a character or
-EOF occurs that breaks the pattern match for the given types specifier. The longest 
+EOF occurs that breaks the pattern match for the given type's specifier. The longest
 successful match is returned.
 
 In general input stream semantics are designed for parity with ``scanf``.
 The only differences are the :ref:`ssec:builtIn_stream_state`, a boolean specifier
 and a restriction on the maximum number of bytes that can be consumed in a single read to 512.
 
-For each of the allowed types the semantics are given below. 
+For each of the allowed types the semantics are given below.
 
 Reading a ``character`` from stdin consumes the first byte that can be read from the
 stream. If the end of the stream is encountered, then a value of ``-1`` is set. There
@@ -157,10 +162,10 @@ sign character may be skipped up to the limit imposed by the 512 byte read restr
 A ``real`` input from stdin can take any legal format described in the
 :ref:`real literal <sssec:real_lit>` section with the exception that no
 whitespace may be present. It may also be preceded by a single negative or
-positive sign. Preceding whitespace may be skipped in the same way as integers. 
+positive sign. Preceding whitespace may be skipped in the same way as integers.
 
 A ``boolean`` input from stdin is either ``T`` or ``F``. Preceding whitespace may be
-skipped in the same way as integers and reals. 
+skipped in the same way as integers and reals.
 
 For the following program:
 
@@ -203,7 +208,7 @@ Error Handling
 
 When reading ``boolean``, ``integer``, and ``real`` from stdin, it is
 possible that the end of the stream or an error is encountered. In order to
-handle these situations *Gazprea* provides a built in procedure that is
+handle these situations *Gazprea* provides a built-in procedure that is
 implicitly defined in every file: ``stream_state`` (see
 :ref:`ssec:builtIn_stream_state` for its signature). ``stream_state``
 returns ``0`` if the last read succeeded, ``1`` if it encountered an
@@ -215,7 +220,7 @@ either be successfully read, or the end of the stream will be reached: the
 read then yields the ``character`` whose 8-bit value is ``-1`` (i.e.
 ``as<character>(-1)``) and sets state 2.
 
-When an error occurs, the zero value for the type being read (see the
+When an error occurs, the :term:`zero value` for the type being read (see the
 Return column of the table below) is assigned and the input stream
 remains pointing to the same position as before the read occurred.
 
@@ -235,15 +240,15 @@ states 1,0,0,2 respectively.
     ss -> std_output;
 
     c <- std_input; //eat the .
-   
+
     i <- std_input;
     i -> std_output;
-  
+
     c <- std_input;
     ss = stream_state(std_input);
     ss -> std_output;
-    
-With the input stream: 
+
+With the input stream:
 
 ::
 
@@ -255,7 +260,7 @@ And the expected output:
 
   0172
 
-This table summarizes an input stream’s possible error states after a read of a
+This table summarizes an input stream's possible error states after a read of a
 particular data type.
 
 ========= ============= ========= =================
