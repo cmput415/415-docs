@@ -3,13 +3,16 @@
 Namespaces
 ==========
 
-There are two namespaces in *Gazprea*:
+There are three namespaces in *Gazprea*:
 
 - Type namespace: user-defined types (structs and typealiases).
 - Variable/Function/procedure namespace: variables, functions, and
   procedures.
+- Struct field namespace: each ``struct`` type has its own field
+  namespace, distinct from the type and variable/function/procedure
+  namespaces and from every other struct's field namespace.
 
-Items in separate namespaces may share an :term:`identifier`. Items within the same namespace cannot share an identifier, this is a ``SymbolError``.
+Items in separate namespaces may share an :term:`identifier`. Items within the same namespace cannot share an identifier; the compiler must emit a ``SymbolError`` (see :ref:`sec:errors`).
 
 ::
 
@@ -18,12 +21,12 @@ Items in separate namespaces may share an :term:`identifier`. Items within the s
 
     // These three statements all conflict with each other
     // Any two of them in the same program produces a SymbolError
-    integer x = 3;                   
-    function x() returns integer;    
-    procedure x() returns integer;            
+    integer x = 3;
+    function x() returns integer;
+    procedure x() returns integer;
 
 ::
-    
+
     // Pro tip: write code that looks like this, employers love it
 
     typealias integer a;
@@ -31,7 +34,7 @@ Items in separate namespaces may share an :term:`identifier`. Items within the s
     struct b (a b, a a, main main); // Struct field identifiers do not conflict with anything
 
     procedure main() returns integer {
-        
+
         a a = 1; // type and variable do not conflict
 
         b b = b(b: a, a: 2, main: 3);

@@ -3,6 +3,9 @@
 Types
 =====
 
+Type names appear in lower case as code (``string``, ``vector``,
+``integer``); section titles use ordinary title capitalization.
+
 .. toctree::
    :maxdepth: 2
 
@@ -28,23 +31,24 @@ passed as an argument, returned, or held as a member of an
 except :ref:`streams <sec:streams>`, which name I/O endpoints rather than
 values.
 
-Aggregates may be nested to any depth. An :ref:`array <ssec:array>` or
-:ref:`matrix <ssec:matrix>` of any rank, a :ref:`vector <ssec:vector>`, a
+Aggregates may be nested to any depth. An :ref:`array <ssec:array>` of any
+rank (a :ref:`matrix <ssec:matrix>` is the rank-2 case), a
+:ref:`vector <ssec:vector>`, a
 :ref:`tuple <ssec:tuple>`, and a :ref:`struct <ssec:struct>` may each hold
 any storable element or field type, including one another. For example a
 ``vector<S>`` (for a struct type ``S``), a struct with a ``tuple`` field,
-and a ``tuple(S, integer[3][3])`` are all well formed.
+and a ``tuple(S, integer[3][3])`` are all :term:`well-formed`.
 
-Nesting must be **acyclic through value types**. A ``struct`` or ``tuple``
+Nesting must be **acyclic** through :term:`value types <value type>`. A ``struct`` or ``tuple``
 whose fields, directly or transitively, contain a value of its own type
-has no finite size and is ill formed; the compiler must emit a
+has no finite size and is :term:`ill-formed`; the compiler must emit a
 ``TypeError`` (see :ref:`sec:errors`). A type may, however, refer to
 itself *through a* :ref:`vector <ssec:vector>`, because a vector is
 dynamically sized and stored by indirection:
 
 ::
 
-     struct Tree (integer value, vector<Tree> children);  // well formed
+     struct Tree (integer value, vector<Tree> children);  // well-formed
      struct Bad  (integer value, Bad next);               // TypeError: infinite size
 
 .. note::

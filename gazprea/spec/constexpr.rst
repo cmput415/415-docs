@@ -22,12 +22,19 @@ An expression is a valid ``constexpr`` if it is composed exclusively of:
 
 1.  :term:`Literals <literal>` of :term:`primitive types <primitive type>`
     (``boolean``, ``integer``, ``real``, ``character``).
-2.  The operators ``+``, ``-``, ``*``, ``/``, ``not``, ``and``, ``or``,
-    ``xor``, between two or more ``constexpr``\ s.
+2.  The unary operators ``+``, ``-``, ``not`` applied to a single
+    ``constexpr``, and the binary operators ``+``, ``-``, ``*``, ``/``,
+    ``%``, ``^``, ``<``, ``>``, ``<=``, ``>=``, ``==``, ``!=``, ``and``,
+    ``or``, ``xor`` applied between two ``constexpr``\ s.
 3.  Constructors for :term:`aggregate types <aggregate type>`, provided
     that the aggregate is const and all members are ``constexpr``\ s.
 4.  Index or field access on ``constexpr`` aggregate types.
 5.  Other variables that are themselves valid ``constexpr``\ s.
+6.  The implicit :term:`zero value` of a ``const`` declared with no
+    initializer (e.g. ``const integer i;`` is the constexpr ``0``).
+7.  An aggregate-level operator (element-wise arithmetic, ``**``, ``||``)
+    applied between ``constexpr`` aggregates, or a slice of a ``constexpr``
+    array; each is itself a ``constexpr`` under these same rules.
 
 An expression is **not** a ``constexpr`` if it contains:
 
@@ -40,11 +47,16 @@ variable is a ``constexpr``, the compiler must trace its entire dependency
 chain. If the chain ever depends on a :term:`run time` value, the check
 fails.
 
-The only expressions that *must* be ``constexpr`` are global constants. Other
-constexprs arising from constants inside function :term:`scope` may also be
-constexprs
+A context that requires a ``constexpr`` (a global initializer, see
+:ref:`sec:global`, or a typealias size, see :ref:`sec:typealias`) reports
+that context's own error when this check fails.
+
+The only expressions that *must* be ``constexpr`` are global constants and
+the size expressions used to parameterize a ``typealias`` (see
+:ref:`sec:typealias`). Other constexprs arising from constants inside
+function :term:`scope` may also be constexprs
 but the implementation does not need to enforce or necessarily identify this.
-Students should also note that MLIR has a constant propagation pass built in,
+Students should also note that MLIR has a constant propagation pass built-in,
 so doing constant folding yourself may not be necessary depending on your
 implementation.
 
@@ -65,9 +77,6 @@ implementation.
     const C = B + 5; // C is 25
 
     // Illegal Global Constant Expressions
-    var x = 10;
-    const Y = x + 5; // Not a constexpr: depends on a 'var'
-
     function get_val() returns integer { return 100; }
     const Z = get_val(); // Not a constexpr: depends on a function call
 
@@ -87,14 +96,15 @@ allowing them to be used to define other constants.
    2. All of its element initializers are valid ``constexpr``\ s.
 
    A ``vector`` (the resizable type) can never be a ``constexpr``
-   aggregate, since its length can change at run time. An array *is* a
-   ``constexpr`` aggregate when its size and every element initializer are
-   themselves ``constexpr``\ s. An inferred-size array such as
-   ``integer[*] X = [1, 2, 3]`` is a ``constexpr`` when its initializer is;
-   ``[*]`` denotes a size inferred once, at :term:`initialization`, not a
-   resizable one. An array whose size or initializer is only known at run
-   time is still a perfectly legal array -- it is simply not a
-   ``constexpr``.
+   aggregate, since its length can change at run time; because ``string``
+   is a strong-equivalence alias for ``vector<character>`` (see
+   :ref:`ssec:string`), the same exclusion applies to ``string``. An
+   inferred-size array such
+   as ``integer[*] X = [1, 2, 3]`` is a ``constexpr`` when its initializer
+   is; ``[*]`` denotes a size inferred once, at :term:`initialization`, not
+   a resizable one (see :ref:`sssec:array_sizing`). An array whose size or
+   initializer is only known at run time is still a perfectly legal array
+   -- it is simply not a ``constexpr``.
 
    ::
 
@@ -109,9 +119,14 @@ allowing them to be used to define other constants.
         integer[ELEMENT] my_array = 0;            // Legal: static array of size 30, zero-filled
 
         const integer[2] BAD_TABLE = [10, get_val()]; // Illegal: initializer is not a constexpr
-                                                      //  also illegal if a procedure since
-                                                      //  procedure calls are not allowed
-                                                      //  within declarations
+
+   This would remain illegal even if ``get_val()`` were a procedure: a call
+   may appear only as the direct right-hand side of a declaration or
+   assignment, or as the callee of a ``call`` statement, and its result may
+   not be used in the direct construction of a differently-typed aggregate
+   (see :ref:`procedure call positions <ssec:procedure_call_positions>`);
+   here the call is nested inside the array literal, not the declaration's
+   direct right-hand side.
 
    A ``constexpr`` can appear anywhere a ``const`` declaration is legal,
    including inside functions, procedures, and control-flow blocks. However,

@@ -4,7 +4,7 @@ Declarations
 ============
 
 Variables must be declared before they are used. Aside from
-a few :ref:`special cases <ssec:declaration_special>`, declarations have the 
+a few :ref:`special cases <ssec:declaration_special>`, declarations have the
 following formats:
 
 ::
@@ -22,20 +22,21 @@ omitted the default is ``const``, i.e. variables are immutable by default
 Optionally, a declaration may explicitly initialize the value of the new
 variable with the value of ``<expression>``.
 
-In *Gazprea* all variables must be initialized in a well defined manner in
+In *Gazprea* all variables must be initialized in a well-defined manner in
 order to ensure :term:`functional purity`. If the variables are not
 initialized to a known value their initial value might change depending on
 when the program is run.
 *Gazprea* therefore follows a strict RAII-style discipline: every
-declaration is also an :term:`initialization <initializer>`, and no
+declaration is also an :term:`initialization`, and no
 variable is ever observable in an uninitialized state.  When the
 programmer omits the explicit initializer, the compiler implicitly
 initializes the variable to the :term:`zero value` of its type.
 The zero value is ``0`` for ``integer``, ``0.0`` for ``real``,
-``false`` for ``boolean``, ``' '`` (a space) for ``character``,
-the empty string ``""`` for ``string``, and, for
-:term:`aggregate types <aggregate type>` (arrays, vectors, tuples,
-structs), each element or field set to its own zero value.
+``false`` for ``boolean``, ``' '`` (a space) for ``character``, the
+empty collection (e.g. the empty string ``""``) for a ``vector`` or
+``string``, and, for a fixed-size :term:`aggregate type <aggregate type>`
+(array, matrix, tuple, or struct), each element or field set to its own
+zero value.
 *Gazprea* has no ``null`` value.
 An array's length is likewise settled at :term:`initialization` and is
 then fixed for the remainder of the variable's lifetime (see
@@ -58,9 +59,9 @@ the beginning of a block. For instance this would not be legal in
        }
 
 because the declaration of the real version of ``i`` does not occur at
-the start of the block. The compiler must emit a ``StatementError`` for
-any declaration that appears after the declaration prefix at the start of
-its enclosing block statement.
+the start of the block. The compiler must emit a ``StatementError`` (see
+:ref:`sec:errors`) for any declaration that appears after the declaration
+prefix at the start of its enclosing block statement.
 
 The following declaration placement is legal:
 
@@ -78,9 +79,10 @@ initialization statement is therefore :term:`ill-formed`.
 
 ::
 
-       /* All of these declarations are illegal, they would result in garbage values. */
+       /* All of these declarations are illegal: the right-hand-side identifier
+          is not yet in scope during its own initializer. */
        integer i = i;
-       integer[10] v = v[0] * 2;
+       integer[10] v = v[1] * 2;
 
 The compiler must emit a ``SymbolError`` (see :ref:`sec:errors`) for the
 use of undeclared variables in these cases. If a variable of the same name

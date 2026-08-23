@@ -7,7 +7,9 @@ Type Qualifiers
 ``var``. These qualifiers can prefix a type to specify its mutability or
 entirely replace the type to request that it be inferred. Mutability
 refers to a value's ability to be an :term:`lvalue`: every value can be an
-:term:`rvalue`, but only a mutable one can also be an lvalue.
+:term:`rvalue`, but only a mutable one can also be an lvalue (an array
+slice's lvalue-ness follows the mutability of its backing array; see
+:ref:`sssec:array_slices`).
 The two qualifiers cannot be combined as they are mutually exclusive.
 
 .. _ssec:typeQualifiers_const:
@@ -23,15 +25,18 @@ can be an rvalue. For example:
      const integer i;
 
 Because a ``const`` value is not an lvalue, it cannot be passed to a
-``var`` argument in a ``procedure``.
+``var`` parameter in a ``procedure``; the compiler must emit a
+``TypeError`` (see :ref:`sec:errors`).
 
 ``const`` is the default in *Gazprea*: a declaration with no qualifier
 declares a ``const`` variable. Both ``T x`` (qualifier elided) and
 ``const T x`` (qualifier written explicitly) are legal spellings of the
 same declaration. Writing ``const`` is therefore redundant, except where
-the qualifier entirely replaces the type (the inference form below).
-This section is the normative home of that rule; other chapters reference
-it.
+the qualifier entirely replaces the type (see
+:ref:`ssec:typeQualifiers_infer`).
+
+.. This section is the normative home of the const-by-default rule; other
+   chapters reference it.
 
 
 .. _ssec:typeQualifiers_var:
@@ -55,8 +60,8 @@ attempt is made to modify a variable that is not explicitly declared
 Type Inference Using Qualifiers
 -------------------------------
 
-Type qualifiers may be used in place of a type, in which case the real
-type must be inferred. A variable declared in this manner must be
+Type qualifiers may be used in place of a type, in which case the
+compiler must infer the real type. A variable declared in this manner must be
 **immediately initialized** to enable inference. For example:
 
 ::
@@ -68,5 +73,5 @@ type must be inferred. A variable declared in this manner must be
      var t = (1, 2, 'a', [1, 2, 3]); // tuple(integer, integer, character, integer[3])
      const v = ['a', 'b', 'c', 'd']; // character[4]
 
-See :ref:`sec:typeInference` for a larger description of type inference, this section only
+See :ref:`sec:typeInference` for a larger description of type inference; this section only
 provides the syntax for inference using ``const`` and ``var``.

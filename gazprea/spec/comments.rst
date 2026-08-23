@@ -10,7 +10,7 @@ the two adjacent forward slashes is ignored. For example:
 
 ::
 
-   	integer x = 2 * 3;  // This is ignored
+    integer x = 2 * 3;  // This is ignored
 
 Multi-line block comments are made using **/\*** and **\*/**. The start
 of a block comment is marked using **/\***, and the end of the block
