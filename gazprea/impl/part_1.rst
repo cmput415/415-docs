@@ -27,7 +27,7 @@ recommended strategy.
       * :ref:`ssec:typeQualifiers_var`
       * :ref:`ssec:typeQualifiers_const`
 
-   * :ref:`sec:typePromotion`
+   * :ref:`sec:implicitCasts`
    * :ref:`sec:typeCasting`
    * :ref:`sec:typeInference`
    * :ref:`sec:typealias`

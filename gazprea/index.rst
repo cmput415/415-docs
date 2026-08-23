@@ -26,8 +26,8 @@ Hardware Acceleration Laboratory in Markham, ON.
    spec/types
    spec/type_inference
    spec/type_casting
-   spec/type_promotion
-   spec/typedef
+   spec/implicit_casts
+   spec/typealias
    spec/streams
    spec/expressions
    spec/statements
