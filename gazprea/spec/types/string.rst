@@ -17,7 +17,7 @@ Although a ``string`` and a plain ``character`` array behave alike in most
 respects, *Gazprea* still treats the two differently in a few places:
 strings have an :ref:`extra literal style <sssec:string_lit>`, a distinct
 :ref:`result type for concatenation <sssec:string_ops>`, and special
-:ref:`behaviour when sent to an output stream <sssec:output_format>`.
+:ref:`behavior when sent to an output stream <sssec:output_format>`.
 
 .. _sssec:string_decl:
 
@@ -30,7 +30,9 @@ that all lengths are inferred:
 
 ::
 
-  [<qualifier>] string <identifier> = <type-string>;
+  [<qualifier>] string <identifier>;
+  [<qualifier>] string <identifier> = <type-expr>;
+  [<qualifier>] string <identifier> = <type-array>;
 
 .. _sssec:string_lit:
 
@@ -76,11 +78,14 @@ Remember that because a ``string`` *is* a ``vector<character>``, the
 concatenation operator ``||`` may be used to combine ``string`` values with
 ``character`` arrays (which are a distinct array type). The result type follows the operands: if at least one operand of
 ``||`` is a ``string``, the result is a ``string``; a concatenation of
-character arrays (or characters) alone yields a character array. You may also append a slice of characters to a string using the
-append method.
-As well, a :term:`scalar <scalar type>` character may be concatenated onto
-a string in the same way as it would be concatenated onto an array of
-characters.
+character arrays alone yields a character array. At least one operand of
+``||`` must be a composite type (a ``string`` or an array); concatenating
+two :term:`scalar <scalar type>` values -- for example
+``character || character`` -- must emit a ``TypeError`` (see
+:ref:`sec:errors`). You may also append a slice of characters to a string
+using the append method.
+As well, a scalar character may be concatenated onto a string in the same
+way as it would be concatenated onto an array of characters.
 Note that because ``string`` is a typealias for ``vector<character>``,
 concatenation may also be accomplished with the ``append`` and ``push``
 methods (see :ref:`sssec:vec_methods`; strings have exactly the vector
@@ -89,8 +94,8 @@ method set):
 ::
 
   var string letters = ['a', 'b'] || "cd";
-  letters.append("ef");
-  letters.push('g');
+  call letters.append("ef");
+  call letters.push('g');
   letters  -> std_output;
 
 prints the following:
@@ -99,10 +104,13 @@ prints the following:
 
   abcdefg
 
+Operator precedence and associativity are specified once, for all types,
+in the :ref:`table of operator precedence <ssec:expressions_toop>`.
+
 
 Type Casting and Implicit Casts
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 To see the types that a ``string`` may be cast to -- explicitly with
 ``as<>()`` or through an implicit cast -- see the sections on
-:ref:`sec:typeCasting` and :ref:`sec:typePromotion` respectively.
+:ref:`sec:typeCasting` and :ref:`sec:implicitCasts` respectively.

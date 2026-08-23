@@ -44,11 +44,11 @@ specifier, often called *capacity* in other languages.
 The element type ``T`` of a ``vector<T>`` may be any
 :ref:`storable type <ssec:storable_types>`: a
 :term:`primitive type <primitive type>` (``boolean``,
-``integer``, ``real``, ``character``), an array or matrix of any rank, a
-``string``, a ``tuple``, a ``struct``, or another ``vector`` — nested to
+``integer``, ``real``, ``character``), an array of any rank (a matrix is the
+rank-2 case), a ``string``, a ``tuple``, a ``struct``, or another ``vector`` — nested to
 any depth. Only a :ref:`stream <sec:streams>` may not be stored. Below
 are some examples of ``vector`` declarations.
-   
+
     ::
 
         const vector<integer[2]> v1 = 3;       // [[3, 3]]
@@ -81,6 +81,8 @@ language has no broadcasting and no ``shape()`` operation.
         const vector<character> const_vec = vec;
 
 
+.. _sssec:vec_ops:
+
 Operations
 ~~~~~~~~~~~
 
@@ -88,8 +90,12 @@ Operations on vectors use the same syntax as operations on arrays and,
 except for the differences enumerated above, share their semantics: in an
 expression a vector is treated as an array value of its current length.
 In particular, operand lengths must match for binary expressions and dot
-product. All binary operations between a vector and an array produce
-*array* results -- vector-ness is not propagated through operators.
+product. Every binary operation with a vector operand -- whether the
+other operand is a vector or an array -- produces an *array* result;
+vector-ness is never propagated through operators.
+
+Operator precedence and associativity are specified once, for all types, in
+the :ref:`table of operator precedence <ssec:expressions_toop>`.
 
 .. _sssec:vec_methods:
 
@@ -101,27 +107,36 @@ As a language-supported object, *Gazprea* provides methods for ``vector``
 ``vector<character>``). A method call has the form
 ``receiver.method(arguments)`` and is governed by the following rules:
 
-- A method call is defined as a procedure whose first parameter is the
-  receiver. A method ``m(args)`` invoked on a ``vector<T>`` receiver
-  behaves exactly as a call to
-  ``procedure m(vector<T> self, args...) returns U``: the receiver is bound
-  to ``self`` and the call has ordinary procedure-call semantics. Only
-  ``vector`` (and thus ``string``, its typealias) has methods in this
-  version of the language; user-defined methods on ``struct`` types are a
-  future extension.
+- Each method is either a :ref:`function <sec:function>` or a
+  :ref:`procedure <sec:procedure>`, according to whether it observes the
+  receiver or mutates it. A *stateless*
+  method such as ``len`` is a **function**: it is pure, returns a value, and
+  does not change the receiver. A *stateful* method such as ``push`` or
+  ``append`` is a **procedure**: it mutates the receiver. A method ``m(args)``
+  invoked on a ``vector<T>`` receiver behaves exactly as a call to
+  ``function m(vector<T> self, args...) returns U`` (stateless) or
+  ``procedure m(var vector<T> self, args...)`` (stateful): the receiver is
+  bound to ``self`` and the call has ordinary function- or procedure-call
+  semantics. Only ``vector`` (and thus ``string``, its typealias) has methods
+  in this version of the language; user-defined methods on ``struct`` types
+  are a future extension.
 
 - The receiver must be a variable of a language-supported object type
   (``vector`` or ``string``). Arrays, array slices, and the (array-valued)
   results of expressions have no methods; calling a method on them is a
-  compile-time ``TypeError``.
+  :term:`compile time` ``TypeError`` (see :ref:`sec:errors`).
 
-- A method call whose result is used is an expression. A method call may
-  also stand alone as a statement, terminated by a semicolon; this is the
-  only expression form that may be used as a statement. An explicit
-  ``call`` statement may also be applied to a method call; the method still
-  runs and still acts on its receiver exactly as in the bare statement form.
-  The ``call`` keyword adds nothing here -- any result is discarded either
-  way -- so it is never required for a method call.
+- A **function** method (such as ``len``) is an expression: its result is a
+  value, so it may appear in any expression position -- on the right of a
+  declaration or assignment, as an argument, or in an output-stream
+  expression such as ``v.len() -> std_output``. Like any function call it may
+  not stand alone as a statement, and ``call`` does not apply to it.
+
+- A **procedure** method (such as ``push`` and ``append``) is used as a
+  statement and, like any other
+  :ref:`procedure call <ssec:procedure_call_positions>`, must be written as a
+  ``call`` statement: ``call v.push(1);``. Written without the ``call``
+  keyword -- a bare ``v.push(1);`` -- it is a :ref:`CallError <sec:errors>`.
 
 - Mutating methods (``push``, ``append``) additionally require the
   receiver to be declared ``var``. Inside a :ref:`function <sec:function>`,
@@ -131,11 +146,11 @@ As a language-supported object, *Gazprea* provides methods for ``vector``
 
 The methods are:
 
-- ``push(T)`` - pushes a new element to the back of the vector, where ``T`` is the element type of the vector
+- ``push(T)`` (procedure) - pushes a new element to the back of the vector, where ``T`` is the element type of the vector
 
-- ``len()`` - number of elements in the vector
+- ``len()`` (function) - number of elements in the vector
 
-- ``append(x)`` - append to the vector, where ``T`` is the element type:
+- ``append(x)`` (procedure) - append to the vector, where ``T`` is the element type:
   if ``x`` is a single value implicitly castable to ``T`` it is cast to
   ``T`` and appended as a single element; otherwise ``x`` must be an array
   whose elements are each implicitly castable to ``T``, and its elements
@@ -147,37 +162,35 @@ The methods are:
         var vector<integer> v1;        // v1 == []
         v1.len() -> std_output;        // 0
 
-        v1.push(1);                    // v1 == [1]
+        call v1.push(1);               // v1 == [1]
         v1.len() -> std_output;        // 1
 
-        v1.push(2);                    // v1 == [1, 2]
+        call v1.push(2);               // v1 == [1, 2]
         v1.len() -> std_output;        // 2
 
-        v1.append([3, 4, 5]);          // v1 == [1, 2, 3, 4, 5]
+        call v1.append([3, 4, 5]);     // v1 == [1, 2, 3, 4, 5]
         v1.len() -> std_output;        // 5
 
         var vector<real[2]> v2;        // v2 == []
-        const x = 1..10; 
-        
+        const x = 1..10;
+
         // `1` is implicitly cast to `[1.0, 1.0]` before appending
-        v2.append(1);                  // v2 == [[1.0, 1.0]]
+        call v2.append(1);             // v2 == [[1.0, 1.0]]
 
         // length 1 array padded to length 2
-        v2.append([3.0]);              // v2 == [[1.0, 1.0], [3.0, 0.0]]               
-        
+        call v2.append([3.0]);         // v2 == [[1.0, 1.0], [3.0, 0.0]]
+
         // slices
-        v2.append(x[5..7]);            // v2 == [[1.0, 1.0], [3.0, 0.0], [5.0, 6.0]]
+        call v2.append(x[5..7]);       // v2 == [[1.0, 1.0], [3.0, 0.0], [5.0, 6.0]]
 
         v2.len() -> std_output;        // 3
 
-        v2.len();                      // Legal statement; result discarded
-
-        (v1 + v1).push(3);             // TypeError: the sum is an array
+        call (v1 + v1).push(3);        // TypeError: the sum is an array
                                        // value, and arrays have no methods
 
 Slicing a vector produces an array slice (there are no "vector slices").
 
    ::
 
-        // Slicing a vector produces an array slice
-        vec[2..5].append(x[5..7])      // TypeError; cannot do `append` on an array slice
+        var vector<integer> v3 = x;
+        call v3[2..5].append(x[5..7]); // TypeError; cannot do `append` on an array slice
