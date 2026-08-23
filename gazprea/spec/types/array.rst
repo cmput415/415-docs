@@ -6,8 +6,9 @@ Arrays
 Arrays are fixed size collections, where each element of the array has the same
 type. An array element may be of any :ref:`storable type
 <ssec:storable_types>`: a :term:`primitive type <primitive type>` (``boolean``,
-``integer``, ``real``, ``character``), or an :term:`aggregate type <aggregate
-type>` such as a ``struct``, ``tuple``, ``vector``, ``string``, or another
+``integer``, ``real``, ``character``), or an 
+:term:`aggregate type <aggregate type>` 
+such as a ``struct``, ``tuple``, ``vector``, ``string``, or another
 array (which yields a higher-rank array; see :ref:`ssec:matrix`).
 
 .. _sssec:array_sizing:
