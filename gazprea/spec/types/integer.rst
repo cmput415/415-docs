@@ -83,15 +83,20 @@ behavior as performing exponentiation on reals then truncating to an
 
 Signed 32-bit arithmetic that overflows the ``i32`` range (``+``,
 ``-``, ``*``, ``^``) causes the implementation to raise a
-``MathError`` (see :ref:`sec:errors`). The sole exception is the
-``-ffast-math`` compiler flag, under which integer overflow is
-undefined behavior -- the only construct whose behavior *Gazprea*
-leaves undefined, provided solely for performance testing.
-
+``MathError`` (see :ref:`sec:errors`).
 Division and remainder (``%``) where the right operand is ``0``, and
 exponentiation where the base is ``0`` and the exponent is ``<= 0``,
 cause the implementation to raise a ``MathError`` (see
 :ref:`sec:errors`) at :term:`compile time` or :term:`run time`.
+
+The sole exception is under the mandatory
+``-ffast-math`` compiler flag, under which integer overflow,
+divide by 0, mod 0, exponentiation of base 0 and exponentiation where
+the exponent is <= 0 is
+undefined behavior. This is the only construct where *Gazprea*
+leaves behaviour undefined and is solely provided for performance
+ testing.
+
 
 Operator precedence and associativity are specified once, for all
 types, in the :ref:`table of operator precedence
