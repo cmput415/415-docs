@@ -8,7 +8,7 @@ or another expression.
 
 .. _ssec:expressions_toop:
 
-Table of Operator precedence
+Table of Operator Precedence
 ----------------------------
 
 The following is a table containing all of the precedences and
@@ -59,7 +59,7 @@ therefore one of the ways an array's length becomes fixed at
 A generator creates a value of a 1D array type when one
 :term:`iterator variable` is used, and a 2D array type when two
 iterator variables are used.
-Supplying any other number of iterator variables is ill-formed and is
+Supplying any other number of iterator variables is :term:`ill-formed` and is
 reported through *Gazprea*'s standard error taxonomy rather than as a
 generator-specific error: the compiler must emit a ``SyntaxError`` (see
 :ref:`sec:errors`).
@@ -69,7 +69,7 @@ with three or more dimensions).
 
 The :term:`domain` in a domain expression is any array-typed value:
 static arrays, dynamically-sized :ref:`vectors <ssec:vector>`,
-:ref:`strings <ssec:string>`, and :ref:`ranges <ssec:expressions_toop>`
+:ref:`strings <ssec:string>`, and :ref:`ranges <sssec:array_ops>`
 all count.  The generator
 dimension is determined solely by how many iterator variables the
 generator introduces (one or two), not by the shape of the domain
@@ -88,7 +88,7 @@ This additional expression is used to create the generated values. For example:
          integer[2][3] M = [i in 1..2, j in 1..3 | i * j];
          /* M[i][j] == i * j */
 
-The expression to the right of the bar (``|``), is used to generate the
+The expression to the right of the bar (``|``) is used to generate the
 value at the given index.
 Let ``T`` be the type of the expression to the right of the bar (``|``). The
 rank of the result is fixed by the number of iterator variables, not by the
@@ -142,15 +142,17 @@ For instance:
 
 Iterator variables are not initialized when they are declared. In
 loops, :term:`re-initialization` happens at the start of each
-execution of the loop's body statement. We may chain iterator
-variables using commas, such as in matrix generators.
+execution of the loop's body statement. A generator -- but not an
+iterator loop, which permits only a single domain expression (see
+:ref:`sssec:statements_iter_loop`) -- may chain iterator variables
+using commas, such as in matrix generators.
 
 ::
 
          integer i = 2;
 
          /* The "i"s both domain expressions are at the same scope, which is
-          * the one enclosing the loop. Therefore the matrix is: [[0 0 0] [0 1 2] [0 2 4]]
+          * the one enclosing the generator. Therefore the matrix is: [[0 0 0] [0 1 2] [0 2 4]]
           */
          integer[3][3] mat = [ i in 0..i, j in 0..i | i*j ];
 
@@ -170,7 +172,7 @@ instance:
 This is true for domain expressions within generators as well.
 
 Because the domain is captured by evaluating it once, a runtime-sized
-domain fixes its iteration count at that moment. A :ref:`vector
+domain fixes its iteration count at :term:`initialization`. A :ref:`vector
 <ssec:vector>` or :ref:`string <ssec:string>` may serve as the domain,
 and the length it holds when the domain is evaluated sets the number of
 iterations; growing the vector or string inside the loop body does not
@@ -187,4 +189,4 @@ iterator variable is bound fresh.
 
          loop i in 1..6 {
            integer i = 5;
-         }   
+         }

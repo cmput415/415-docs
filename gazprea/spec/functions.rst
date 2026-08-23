@@ -5,17 +5,17 @@ Functions
 
 A function in *Gazprea* has several requirements:
 
-1.  All of the arguments are implicitly ``const``, and can not be mutable.
+1.  All of the arguments are implicitly ``const``, and cannot be mutable.
 
 2.  Function arguments cannot contain type qualifiers. Including a type qualifier with a function argument must emit a ``SyntaxError`` (see :ref:`sec:errors`).
 
-3.  Argument types must be explicit. Inferred size arrays are allowed
+3.  Argument types must be explicit. Inferred size arrays are allowed.
 
-4.  Functions can not perform any I/O.
+4.  Functions cannot perform any I/O; performing I/O in a function body must emit a ``StatementError`` (see :ref:`sec:errors`).
 
-5.  Functions can not rely upon any mutable state outside of the function.
+5.  Functions cannot rely upon any mutable state outside of the function.
 
-6.  Functions can not call any procedures.
+6.  Functions cannot call any procedures, with one exception: a mutating vector/string method (``push``, ``append``) may be called on a variable local to the function (see :ref:`sssec:vec_methods`); any other procedure call inside a function must emit a ``CallError`` (see :ref:`sec:errors`).
 
 7.  Functions must be declared in the global scope.
 
@@ -76,7 +76,7 @@ These can be called as follows:
          real c = pythag(3, 4); /* 3 and 4 are implicitly cast to real. c == 5.0 */
          real value = get([i in 1..10 | i], 3); /* value == 3 */
 
-A function’s body can also be given by a block statement instead of a
+A function's body can also be given by a block statement instead of a
 single expression. In this case the return value of the function is
 given with the return statement. A return statement must be reached by
 all possible control flows in the function before the end of the
@@ -105,7 +105,7 @@ emit a ``ReturnError`` (see :ref:`sec:errors`).
 ``f`` is :term:`ill-formed` since if ``b == false``, then we reach the
 end of the function without a return statement, so we do not know what
 value ``f(false)`` should take on.  A conforming implementation must
-reject this program with a ``ReturnError`` such as::
+emit a ``ReturnError`` (see :ref:`sec:errors`) rejecting this program, such as::
 
      ReturnError on line 1: function "f" does not have a return statement reachable by all control flows
 
@@ -113,7 +113,7 @@ reject this program with a ``ReturnError`` such as::
 
          /* This is invalid because if the loop ever finished executing the
             function would end before a return statement is encountered. In
-            general the compiler can not tell when a loop would execute
+            general the compiler cannot tell when a loop would execute
             forever, so we make the assumption that all branches in the control
             flow could be followed. */
          function f() returns integer {
@@ -220,24 +220,24 @@ Like Rust, array *slices* may be passed as arguments:
          function slicer() returns real[*] {
              integer[10] a = 1..10;
              var vector<real> two_halves = to_real_vec(a[1..6]);
-             two_halves.append(to_real_vec(a[6..]));
+             call two_halves.append(to_real_vec(a[6..]));
              return two_halves;
          }
 
 Remember that all function parameters are ``const`` in *Gazprea*, so that all
-functions are pure. That means that while it is legal to pass arrays and slices
-*by reference*, a function can change neither the contents nor the length of an
-array, vector, or string it receives, because such a change would be visible
-outside the function. You must check that the ``const`` requirement is honored.
+functions are pure. That means that arrays, vectors, and strings, like every
+other function argument, are passed *by value* at the call (see
+:ref:`ssec:procedure_implicit_casts`), not by reference; a function can change
+neither the contents nor the length of an array, vector, or string it
+receives, since a ``const`` parameter cannot be assigned to at all. A function
+that assigns to one of its parameters must emit an ``AssignError`` (see
+:ref:`sec:errors`).
 
 .. _ssec:function_namespacing:
 
 Function Namespacing
 --------------------
 
-In *Gazprea* function declarations occur in the global scope.
-This means that two functions with the same name cannot coexist in the same
-gazprea program, nor can you forward declare the same function twice.
-
-Additionally, functions and procedures share the same namespace; you cannot
-declare a function and procedure with the same name
+Function identifiers share the global variable/function/procedure namespace
+with every other global identifier; see :ref:`sec:namespaces` for the full
+namespacing rules, including the ``SymbolError`` raised on a collision.

@@ -28,7 +28,8 @@ side.
 
 Type checking must be performed on assignment statements. The expression
 on the right hand side must have a type that can be implicitly cast
-to the type of the variable. For instance:
+to the type of the variable. If it does not, the compiler must emit a
+``TypeError`` (see :ref:`sec:errors`). For instance:
 
 ::
 
@@ -39,7 +40,7 @@ to the type of the variable. For instance:
          /* Since 'int_var' is an integer it can be implicitly cast to a real number */
          real_var = int_var;  /* Legal */
 
-         /* Real numbers can not be turned into boolean values automatically. */
+         /* Real numbers cannot be turned into boolean values automatically. */
          bool_var = real_var; /* Illegal */
 
 Assignments can also be more complicated than this with arrays and tuples.
@@ -79,8 +80,9 @@ Assigning a whole array value changes an array's *contents*, never its
 *length*. Because an array is :term:`initialization`-time sized, its
 length is fixed once at :term:`initialization`; the right hand side is
 fitted to that fixed length, with a shorter value padded using the
-element type's :term:`zero value` and a longer value raising a
-``SizeError`` (see :ref:`sec:errors` and :ref:`sssec:array_sizing`).
+element type's :term:`zero value` and a longer value causing the
+compiler to emit a ``SizeError`` (see :ref:`sec:errors` and
+:ref:`sssec:array_sizing`) at :term:`compile time` or :term:`run time`.
 Assigning to a :ref:`vector <ssec:vector>` behaves differently: it
 replaces the contents *and* the length together, so there is no padding
 and no ``SizeError``.
@@ -154,12 +156,12 @@ assignment. For instance:
           */
 
 The above is a simple example using arrays. You must ensure that values
-can not be aliased with an assignment between any types, including
+cannot be aliased with an assignment between any types, including
 arrays and tuples.
 
 Variables may be declared as const, and in this case a program that
 places them on the left hand side of an assignment expression is
-:term:`ill-formed`.  The compiler must emit an ``AssignError`` when this is
+:term:`ill-formed`.  The compiler must emit an ``AssignError`` (see :ref:`sec:errors`) when this is
 detected, since it does not make sense to change a constant value.
 
 The right hand side of an assignment statement is always evaluated
@@ -189,8 +191,9 @@ statements in other languages such as *C/C++*. As an example:
          }
 
 Is a block statement. Declarations can only appear at the start of a
-block. Each block statement introduces a new scope that new variables
-may be declared in. For instance this is perfectly valid:
+block (see :ref:`sec:declaration`, which specifies the ``StatementError``
+this raises). Each block statement introduces a new scope that new
+variables may be declared in. For instance this is perfectly valid:
 
 ::
 
@@ -354,7 +357,7 @@ predicate. For example:
 A post-predicated loop is also available. In this case the control
 expression is tested after the body statement is executed. This also
 uses the ``while`` token followed by the control expression, but it appears
-at the end of the loop. Post Predicated loop statements must end in a
+at the end of the loop. Post-predicated loop statements must end in a
 semicolon.
 
 ::
@@ -399,27 +402,14 @@ Array ranges can also be used instead:
              i -> std_output;
            }
 
-The domain is evaluated once, when control first reaches the loop, and
-the resulting value is captured for the lifetime of the loop.  Each
-iteration then performs :term:`re-initialization`: a fresh binding of
-the iterator variable to the next element of the captured domain.
-Subsequent modifications to any variable that appeared in the domain
-expression do not affect the captured domain.  For instance:
+The domain is evaluated once, when control first reaches the loop; see
+:ref:`ssec:expressions_dom_expr` for the full evaluate-once and
+:term:`re-initialization` semantics of the iterator variable on each
+pass.
 
-::
-
-           var integer[*] v = [i in 1..3 | i];
-
-           /* Since 'v' is captured on loop entry this loop prints 1,
-              2, and then 3 even though after the first iteration 'v'
-              is the zero array. */
-           loop i in v {
-             v = 0;
-             i -> std_output; "\n" -> std_output;
-           }
-
-Note that multiple domain expressions are *not* allowed; an iterator
-loop with more than one domain expression must emit a ``SyntaxError``.
+Note that multiple domain expressions are *not* allowed; the compiler
+must emit a ``SyntaxError`` (see :ref:`sec:errors`) for an iterator loop
+with more than one domain expression.
 
 ::
 
@@ -442,13 +432,13 @@ Break
 
 A ``break`` statement may only appear within the body of a loop. When a
 ``break`` statement is executed the loop is exited, and *Gazprea* continues
-to execute after the loop. This only exits the innermost loop, which
+to execute after the loop. This only exits the innermost loop that
 actually contains the ``break``.
 
 ::
 
          /* Prints a 3x3 square of *'s */
-         integer x = 0;
+         var integer x = 0;
          var integer y = 0;
 
          loop while (y < 3) {
@@ -466,7 +456,7 @@ actually contains the ``break``.
          }
 
 If a ``break`` statement is not contained within a loop the compiler must
-emit a ``StatementError``.
+emit a ``StatementError`` (see :ref:`sec:errors`).
 
 .. _ssec:statements_continue:
 
@@ -475,11 +465,11 @@ Continue
 
 Similarly to ``break``, ``continue`` may only appear within the body of
 a loop. When a ``continue`` statement is executed the innermost loop
-that contains the ``continue`` statements starts its next iteration.
+that contains the ``continue`` statement starts its next iteration.
 ``continue`` stops the execution of the loop's body statement, the loop
 then continues as though the body statement finished its execution
 normally. If a ``continue`` statement is not contained within a loop the
-compiler must emit a ``StatementError``.
+compiler must emit a ``StatementError`` (see :ref:`sec:errors`).
 
 ::
 
@@ -505,8 +495,9 @@ function/procedure was called.
 
 If the function/procedure has a return type then the ``return`` statement must
 be given a value that is the same as or able to be implicitly cast to (see
-:ref:`sec:typePromotion`) the return type; this will be the result of the
-function/procedure call. Here is an example:
+:ref:`sec:implicitCasts`) the return type; this will be the result of the
+function/procedure call. If the value is neither, the compiler must emit a
+``TypeError`` (see :ref:`sec:errors`). Here is an example:
 
 ::
 
@@ -529,8 +520,9 @@ return early. In this case return is used as follows:
 Stream Statements
 -----------------
 
-Stream statements are the statements used to read and write values in
-*Gazprea*.
+See :ref:`sec:streams` for the streams *Gazprea* provides and their
+output/input formatting rules. Stream statements are the statements
+used to read and write values in *Gazprea*.
 
 Output example:
 
