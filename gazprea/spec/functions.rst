@@ -7,15 +7,21 @@ A function in *Gazprea* has several requirements:
 
 1.  All of the arguments are implicitly ``const``, and cannot be mutable.
 
-2.  Function arguments cannot contain type qualifiers. Including a type qualifier with a function argument must emit a ``SyntaxError`` (see :ref:`sec:errors`).
+2.  Function arguments cannot contain type qualifiers. Including a type
+    qualifier with a function argument must emit a ``SyntaxError`` (see
+    :ref:`sec:errors`).
 
 3.  Argument types must be explicit. Inferred size arrays are allowed.
 
-4.  Functions cannot perform any I/O; performing I/O in a function body must emit a ``StatementError`` (see :ref:`sec:errors`).
+4.  Functions cannot perform any I/O; performing I/O in a function body must
+    emit a ``StatementError`` (see :ref:`sec:errors`).
 
 5.  Functions cannot rely upon any mutable state outside of the function.
 
-6.  Functions cannot call any procedures, with one exception: a mutating vector/string method (``push``, ``append``) may be called on a variable local to the function (see :ref:`sssec:vec_methods`); any other procedure call inside a function must emit a ``CallError`` (see :ref:`sec:errors`).
+6.  Functions cannot call any procedures, with one exception: a mutating
+    vector/string method (``push``, ``append``) may be called on a variable
+    local to the function (see :ref:`sssec:vec_methods`); any other procedure
+    call inside a function must emit a ``CallError`` (see :ref:`sec:errors`).
 
 7.  Functions must be declared in the global scope.
 
@@ -172,7 +178,8 @@ do not have to match the argument names in the function definition.
 Array and Matrix Parameters and Returns
 ----------------------------------------
 
-The arguments and return value of functions can have both explicit and inferred sizes. For example:
+The arguments and return value of functions can have both explicit and inferred
+sizes. For example:
 
 ::
 

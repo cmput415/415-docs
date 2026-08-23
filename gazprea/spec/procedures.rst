@@ -100,17 +100,16 @@ compiler must emit a ``CallError`` (see :ref:`sec:errors`) if a
 function is used in a ``call`` statement.
 
 A procedure may never be called within a function, with one exception: a
-mutating :ref:`vector/string method <sssec:vec_methods>` (``push``,
-``append``) may be called on a variable local to the function. Any other
-procedure call within a function would allow for impure functions, and the
-compiler must emit a ``CallError`` (see :ref:`sec:errors`). The positions in which a procedure call may appear are
-exactly :ref:`those listed at the start of this chapter
+mutating :ref:`vector/string method <sssec:vec_methods>` (``push``, ``append``)
+may be called on a variable local to the function. Any other procedure call
+within a function would allow for impure functions, and the compiler must emit
+a ``CallError`` (see :ref:`sec:errors`). The positions in which a procedure
+call may appear are exactly :ref:`those listed at the start of this chapter
 <ssec:procedure_call_positions>`; in particular, a procedure call may not be
 used as the control expression of a control-flow statement. As noted there, the
 only operations permitted on the result of a procedure call are unary operators
 and :ref:`casts <sec:typeCasting>`; using the result of a procedure call in a
-binary expression is :term:`ill-formed`.
-For example:
+binary expression is :term:`ill-formed`. For example:
 
 ::
 
@@ -143,14 +142,13 @@ just like functions.
 Main
 ----
 
-Execution of a *Gazprea* program starts with a procedure called
-``main``. This procedure takes no arguments, and has an integer return
-type. ``main`` is called exclusively by the operating system, and the return value is
-used by the operating system, so if you are using multiple compilation units
-one and only one compilation unit must define ``main``. A program with no
-``main``, or whose ``main`` does not match this signature, is
-:term:`ill-formed`; the compiler must emit a ``MainError`` (see
-:ref:`sec:errors`).
+Execution of a *Gazprea* program starts with a procedure called ``main``. This
+procedure takes no arguments, and has an integer return type. ``main`` is
+called exclusively by the operating system, and the return value is used by the
+operating system, so if you are using multiple compilation units one and only
+one compilation unit must define ``main``. A program with no ``main``, or whose
+``main`` does not match this signature, is :term:`ill-formed`; the compiler
+must emit a ``MainError`` (see :ref:`sec:errors`).
 
 ::
 
@@ -172,9 +170,9 @@ Implicit Casts of Arguments
 An argument may be :ref:`implicitly cast <sec:implicitCasts>` to the parameter
 type at call time, but only if the argument is passed by value (that is, the
 parameter is ``const``). A mutable (``var``) parameter is effectively call by
-reference, so the parameter and the argument denote the same :term:`l-value <lvalue>` (a
-pointer); there is no separate value to convert, and so no implicit cast can be
-inserted.
+reference, so the parameter and the argument denote the same :term:`l-value
+<lvalue>` (a pointer); there is no separate value to convert, and so no
+implicit cast can be inserted.
 
 ::
 
@@ -211,16 +209,16 @@ cannot bind a ``const`` argument; the compiler must emit a ``TypeError`` (see
 Aliasing
 --------
 
-Since procedures can have mutable arguments, it would be possible to
-cause `aliasing <http://en.wikipedia.org/wiki/Aliasing_(computing)>`__.
-Aliasing is restricted only when at least one of the aliased arguments is
-bound to a ``var`` parameter; two arguments bound to ``const`` parameters may
-always alias, since neither grants the ability to mutate. A program that
-aliases two such arguments, where at least one is bound to a ``var``
-parameter, is :term:`ill-formed`. This
-helps *Gazprea* compilers perform more optimizations. However, the compiler must be able
-to catch cases where mutable memory locations are aliased, and must emit
-an ``AliasingError`` (see :ref:`sec:errors`) when this is detected. For instance:
+Since procedures can have mutable arguments, it would be possible to cause
+`aliasing <http://en.wikipedia.org/wiki/Aliasing_(computing)>`__. Aliasing is
+restricted only when at least one of the aliased arguments is bound to a
+``var`` parameter; two arguments bound to ``const`` parameters may always
+alias, since neither grants the ability to mutate. A program that aliases two
+such arguments, where at least one is bound to a ``var`` parameter, is
+:term:`ill-formed`. This helps *Gazprea* compilers perform more optimizations.
+However, the compiler must be able to catch cases where mutable memory
+locations are aliased, and must emit an ``AliasingError`` (see
+:ref:`sec:errors`) when this is detected. For instance:
 
 ::
 

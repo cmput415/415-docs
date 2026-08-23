@@ -3,13 +3,12 @@
 Arrays
 ------
 
-Arrays are fixed size collections, where each element of the array has
-the same type. An array element may be of any
-:ref:`storable type <ssec:storable_types>`: a
-:term:`primitive type <primitive type>` (``boolean``, ``integer``,
-``real``, ``character``), or an :term:`aggregate type <aggregate type>` such as a ``struct``,
-``tuple``, ``vector``, ``string``, or another array (which yields a
-higher-rank array; see :ref:`ssec:matrix`).
+Arrays are fixed size collections, where each element of the array has the same
+type. An array element may be of any :ref:`storable type
+<ssec:storable_types>`: a :term:`primitive type <primitive type>` (``boolean``,
+``integer``, ``real``, ``character``), or an :term:`aggregate type <aggregate
+type>` such as a ``struct``, ``tuple``, ``vector``, ``string``, or another
+array (which yields a higher-rank array; see :ref:`ssec:matrix`).
 
 .. _sssec:array_sizing:
 
@@ -54,12 +53,12 @@ Aside from any type specifiers, the element type of the array is the first
 portion of the declaration. An array is then declared using square brackets
 immediately after the element type.
 
-If possible, initialization expressions may go through an implicit cast. For instance, when declaring a real array that is
-initialized with an integer value the integer will be implicitly cast to a
-real value, and then used as a scalar initialization of the array.
-Be careful about type inference! If the type of the array is being inferred
-from the right hand side, the previous example would create an ``integer``
-array instead of a ``real`` array.
+If possible, initialization expressions may go through an implicit cast. For
+instance, when declaring a real array that is initialized with an integer value
+the integer will be implicitly cast to a real value, and then used as a scalar
+initialization of the array. Be careful about type inference! If the type of
+the array is being inferred from the right hand side, the previous example
+would create an ``integer`` array instead of a ``real`` array.
 
 #. Explicit Size Declarations
 
@@ -79,15 +78,17 @@ array instead of a ``real`` array.
    The size of the array is given by the integer expression between the
    square brackets.
 
-   If the array is given a scalar value (``type-expr``) of the same element type then the
-   scalar value is duplicated for every single element of the array.
+   If the array is given a scalar value (``type-expr``) of the same element
+   type then the scalar value is duplicated for every single element of the
+   array.
 
-   An array may also be initialized with another array. Initialization occurs element-wise,
-   with the RHS element type's initialization semantics applying from left to right.
-   If the LHS array is initialized using a RHS array that is too small then the LHS array will
-   be padded with the element type's :term:`zero value`. However, if the LHS array is initialized with a RHS
-   array that is too large then the compiler must emit a ``SizeError``
-   (see :ref:`sec:errors`) at :term:`compile time` or :term:`run time`.
+   An array may also be initialized with another array. Initialization occurs
+   element-wise, with the RHS element type's initialization semantics applying
+   from left to right. If the LHS array is initialized using a RHS array that
+   is too small then the LHS array will be padded with the element type's
+   :term:`zero value`. However, if the LHS array is initialized with a RHS
+   array that is too large then the compiler must emit a ``SizeError`` (see
+   :ref:`sec:errors`) at :term:`compile time` or :term:`run time`.
 
 #. Inferred Size Declarations
 

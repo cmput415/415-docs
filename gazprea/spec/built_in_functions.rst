@@ -85,8 +85,8 @@ rank-agnostic ``shape`` built-in in this version of the language.)
 Reverse
 -------
 
-The reverse built-in takes any single-dimensional array, vector, or string, and returns a
-reversed version of it.
+The reverse built-in takes any single-dimensional array, vector, or string, and
+returns a reversed version of it.
 
 ::
 

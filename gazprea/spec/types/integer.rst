@@ -77,7 +77,9 @@ expression. Unary plus always produces the same result as the
 ``integer`` expression it is applied to. Remainder mirrors the behavior
 of remainder in *C99*.
 
-Exponentiation between integers gives an ``integer`` result. This is the same behavior as performing exponentiation on reals then truncating to an ``integer``.
+Exponentiation between integers gives an ``integer`` result. This is the same
+behavior as performing exponentiation on reals then truncating to an
+``integer``.
 
 Signed 32-bit arithmetic that overflows the ``i32`` range (``+``,
 ``-``, ``*``, ``^``) causes the implementation to raise a

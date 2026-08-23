@@ -41,13 +41,12 @@ the literals ``<`` and ``>`` are used in the declaration)
 Unlike the array type, *Gazprea* vectors do not have an explicit size
 specifier, often called *capacity* in other languages.
 
-The element type ``T`` of a ``vector<T>`` may be any
-:ref:`storable type <ssec:storable_types>`: a
-:term:`primitive type <primitive type>` (``boolean``,
+The element type ``T`` of a ``vector<T>`` may be any :ref:`storable type
+<ssec:storable_types>`: a :term:`primitive type <primitive type>` (``boolean``,
 ``integer``, ``real``, ``character``), an array of any rank (a matrix is the
-rank-2 case), a ``string``, a ``tuple``, a ``struct``, or another ``vector`` — nested to
-any depth. Only a :ref:`stream <sec:streams>` may not be stored. Below
-are some examples of ``vector`` declarations.
+rank-2 case), a ``string``, a ``tuple``, a ``struct``, or another ``vector`` —
+nested to any depth. Only a :ref:`stream <sec:streams>` may not be stored.
+Below are some examples of ``vector`` declarations.
 
     ::
 
@@ -146,16 +145,17 @@ As a language-supported object, *Gazprea* provides methods for ``vector``
 
 The methods are:
 
-- ``push(T)`` (procedure) - pushes a new element to the back of the vector, where ``T`` is the element type of the vector
+- ``push(T)`` (procedure) - pushes a new element to the back of the vector,
+  where ``T`` is the element type of the vector
 
 - ``len()`` (function) - number of elements in the vector
 
-- ``append(x)`` (procedure) - append to the vector, where ``T`` is the element type:
-  if ``x`` is a single value implicitly castable to ``T`` it is cast to
+- ``append(x)`` (procedure) - append to the vector, where ``T`` is the element
+  type: if ``x`` is a single value implicitly castable to ``T`` it is cast to
   ``T`` and appended as a single element; otherwise ``x`` must be an array
-  whose elements are each implicitly castable to ``T``, and its elements
-  are appended in order. When both readings apply, the single-element
-  reading is used.
+  whose elements are each implicitly castable to ``T``, and its elements are
+  appended in order. When both readings apply, the single-element reading is
+  used.
 
    ::
 

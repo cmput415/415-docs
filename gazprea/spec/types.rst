@@ -39,12 +39,12 @@ any storable element or field type, including one another. For example a
 ``vector<S>`` (for a struct type ``S``), a struct with a ``tuple`` field,
 and a ``tuple(S, integer[3][3])`` are all :term:`well-formed`.
 
-Nesting must be **acyclic** through :term:`value types <value type>`. A ``struct`` or ``tuple``
-whose fields, directly or transitively, contain a value of its own type
-has no finite size and is :term:`ill-formed`; the compiler must emit a
-``TypeError`` (see :ref:`sec:errors`). A type may, however, refer to
-itself *through a* :ref:`vector <ssec:vector>`, because a vector is
-dynamically sized and stored by indirection:
+Nesting must be **acyclic** through :term:`value types <value type>`. A
+``struct`` or ``tuple`` whose fields, directly or transitively, contain a value
+of its own type has no finite size and is :term:`ill-formed`; the compiler must
+emit a ``TypeError`` (see :ref:`sec:errors`). A type may, however, refer to
+itself *through a* :ref:`vector <ssec:vector>`, because a vector is dynamically
+sized and stored by indirection:
 
 ::
 

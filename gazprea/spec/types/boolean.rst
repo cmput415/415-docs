@@ -11,8 +11,8 @@ represented by an ``i1`` in *MLIR*.
 Declaration
 ~~~~~~~~~~~
 
-A ``boolean`` value is declared with the keyword ``boolean``.
-If the variable is not initialized explicitly, it is set to ``false`` (its :term:`zero value`).
+A ``boolean`` value is declared with the keyword ``boolean``. If the variable
+is not initialized explicitly, it is set to ``false`` (its :term:`zero value`).
 
 .. _sssec:boolean_lit:
 

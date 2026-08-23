@@ -73,5 +73,5 @@ compiler must infer the real type. A variable declared in this manner must be
      var t = (1, 2, 'a', [1, 2, 3]); // tuple(integer, integer, character, integer[3])
      const v = ['a', 'b', 'c', 'd']; // character[4]
 
-See :ref:`sec:typeInference` for a larger description of type inference; this section only
-provides the syntax for inference using ``const`` and ``var``.
+See :ref:`sec:typeInference` for a larger description of type inference; this
+section only provides the syntax for inference using ``const`` and ``var``.

@@ -72,24 +72,22 @@ prints:
 Operations
 ~~~~~~~~~~
 
-As character vectors, strings have all of the same operations defined on them as
-the other array data types.
-Remember that because a ``string`` *is* a ``vector<character>``, the
-concatenation operator ``||`` may be used to combine ``string`` values with
-``character`` arrays (which are a distinct array type). The result type follows the operands: if at least one operand of
-``||`` is a ``string``, the result is a ``string``; a concatenation of
-character arrays alone yields a character array. At least one operand of
-``||`` must be a composite type (a ``string`` or an array); concatenating
-two :term:`scalar <scalar type>` values -- for example
-``character || character`` -- must emit a ``TypeError`` (see
-:ref:`sec:errors`). You may also append a slice of characters to a string
-using the append method.
-As well, a scalar character may be concatenated onto a string in the same
-way as it would be concatenated onto an array of characters.
-Note that because ``string`` is a typealias for ``vector<character>``,
-concatenation may also be accomplished with the ``append`` and ``push``
-methods (see :ref:`sssec:vec_methods`; strings have exactly the vector
-method set):
+As character vectors, strings have all of the same operations defined on them
+as the other array data types. Remember that because a ``string`` *is* a
+``vector<character>``, the concatenation operator ``||`` may be used to combine
+``string`` values with ``character`` arrays (which are a distinct array type).
+The result type follows the operands: if at least one operand of ``||`` is a
+``string``, the result is a ``string``; a concatenation of character arrays
+alone yields a character array. At least one operand of ``||`` must be a
+composite type (a ``string`` or an array); concatenating two :term:`scalar
+<scalar type>` values -- for example ``character || character`` -- must emit a
+``TypeError`` (see :ref:`sec:errors`). You may also append a slice of
+characters to a string using the append method. As well, a scalar character may
+be concatenated onto a string in the same way as it would be concatenated onto
+an array of characters. Note that because ``string`` is a typealias for
+``vector<character>``, concatenation may also be accomplished with the
+``append`` and ``push`` methods (see :ref:`sssec:vec_methods`; strings have
+exactly the vector method set):
 
 ::
 

@@ -159,9 +159,9 @@ The above is a simple example using arrays. You must ensure that values
 cannot be aliased with an assignment between any types, including
 arrays and tuples.
 
-Variables may be declared as const, and in this case a program that
-places them on the left hand side of an assignment expression is
-:term:`ill-formed`.  The compiler must emit an ``AssignError`` (see :ref:`sec:errors`) when this is
+Variables may be declared as const, and in this case a program that places them
+on the left hand side of an assignment expression is :term:`ill-formed`.  The
+compiler must emit an ``AssignError`` (see :ref:`sec:errors`) when this is
 detected, since it does not make sense to change a constant value.
 
 The right hand side of an assignment statement is always evaluated

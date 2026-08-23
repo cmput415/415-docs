@@ -12,7 +12,9 @@ There are three namespaces in *Gazprea*:
   namespace, distinct from the type and variable/function/procedure
   namespaces and from every other struct's field namespace.
 
-Items in separate namespaces may share an :term:`identifier`. Items within the same namespace cannot share an identifier; the compiler must emit a ``SymbolError`` (see :ref:`sec:errors`).
+Items in separate namespaces may share an :term:`identifier`. Items within the
+same namespace cannot share an identifier; the compiler must emit a
+``SymbolError`` (see :ref:`sec:errors`).
 
 ::
 

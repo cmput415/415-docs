@@ -28,7 +28,8 @@ treated as follows when sent to an output stream:
 
 -  :ref:`ssec:character`: Prints the character.
 
--  :ref:`ssec:integer`: Converts it to a string representation, and then prints it.
+-  :ref:`ssec:integer`: Converts it to a string representation, and then prints
+   it.
 
 -  :ref:`ssec:real`: Converts it to a string representation, and then prints it.
    This is the same behavior as the `%g specifier in
@@ -36,9 +37,9 @@ treated as follows when sent to an output stream:
 
 -  :ref:`ssec:boolean`: Prints T for true, and F for false.
 
-:ref:`Arrays <ssec:array>` print their contents according to the rules above, with square
-braces surrounding their elements and with spaces only *between* values.
-For example:
+:ref:`Arrays <ssec:array>` print their contents according to the rules above,
+with square braces surrounding their elements and with spaces only *between*
+values. For example:
 
 ::
 
@@ -57,8 +58,8 @@ statement. A :ref:`string <ssec:string>` is the sole exception: although
 a string is a vector of characters, it prints its characters contiguously
 rather than in bracketed array form, as shown next.
 
-:ref:`Strings <ssec:string>` print their contents as a contiguous sequence of characters.
-For example:
+:ref:`Strings <ssec:string>` print their contents as a contiguous sequence of
+characters. For example:
 
 ::
 
@@ -83,15 +84,14 @@ prints the following:
 
      [[1 2 3] [4 5 6] [7 8 9]]
 
-No other type may be sent to a stream; the compiler must emit a
-``TypeError`` (see :ref:`sec:errors`). For instance, a tuple or a struct
-cannot be sent to a stream. A procedure call may not appear as a stream operand at all,
-since that is not one of the :ref:`positions in which a procedure call may
-appear <ssec:procedure_call_positions>`; the compiler must emit a
-``CallError`` (see :ref:`sec:errors`).
-Also, empty arrays and matrices can be sent to streams, but not empty
-literals (e.g. ``[]``), because they have no type; sending one must emit
-a ``TypeError`` (see :ref:`sec:errors`).
+No other type may be sent to a stream; the compiler must emit a ``TypeError``
+(see :ref:`sec:errors`). For instance, a tuple or a struct cannot be sent to a
+stream. A procedure call may not appear as a stream operand at all, since that
+is not one of the :ref:`positions in which a procedure call may appear
+<ssec:procedure_call_positions>`; the compiler must emit a ``CallError`` (see
+:ref:`sec:errors`). Also, empty arrays and matrices can be sent to streams, but
+not empty literals (e.g. ``[]``), because they have no type; sending one must
+emit a ``TypeError`` (see :ref:`sec:errors`).
 
 Note that there is **no automatic new line or spaces printed.** To print
 a new line, a user must explicitly print the new line or space
@@ -125,8 +125,8 @@ Input streams may only work on the following primitive types:
 -  ``integer``: Reads an integer from stdin. If an integer could not be
    read, an :ref:`error state <sssec:stream_error>` is set on this stream.
 
--  ``real``: Reads a real from stdin. If a real could not be read, an :ref:`error state <sssec:stream_error>` is
-   set on this stream.
+-  ``real``: Reads a real from stdin. If a real could not be read, an
+   :ref:`error state <sssec:stream_error>` is set on this stream.
 
 -  ``boolean``: Reads a boolean from stdin. If a boolean value could not
    be read, an :ref:`error state <sssec:stream_error>` is set on this stream.
@@ -139,33 +139,35 @@ Input Semantics
 ~~~~~~~~~~~~~~~
 
 ``std_input`` expects an input stream of values which do not need to be
-whitespace separated. A read will consume the stream until a character or
-EOF occurs that breaks the pattern match for the given type's specifier. The longest
-successful match is returned.
+whitespace separated. A read will consume the stream until a character or EOF
+occurs that breaks the pattern match for the given type's specifier. The
+longest successful match is returned.
 
-In general input stream semantics are designed for parity with ``scanf``.
-The only differences are the :ref:`ssec:builtIn_stream_state`, a boolean specifier
-and a restriction on the maximum number of bytes that can be consumed in a single read to 512.
+In general input stream semantics are designed for parity with ``scanf``. The
+only differences are the :ref:`ssec:builtIn_stream_state`, a boolean specifier
+and a restriction on the maximum number of bytes that can be consumed in a
+single read to 512.
 
 For each of the allowed types the semantics are given below.
 
-Reading a ``character`` from stdin consumes the first byte that can be read from the
-stream. If the end of the stream is encountered, then a value of ``-1`` is set. There
-is no concept of skipping whitespace for characters, since space and escaped characters
-must be readable.
+Reading a ``character`` from stdin consumes the first byte that can be read
+from the stream. If the end of the stream is encountered, then a value of
+``-1`` is set. There is no concept of skipping whitespace for characters, since
+space and escaped characters must be readable.
 
 An ``integer`` from stdin can take any legal format described in the
 :ref:`integer literal <sssec:integer_lit>` section. It may also be preceded by
-a single negative or positive sign. All preceding whitespace before the number or
-sign character may be skipped up to the limit imposed by the 512 byte read restriction.
+a single negative or positive sign. All preceding whitespace before the number
+or sign character may be skipped up to the limit imposed by the 512 byte read
+restriction.
 
 A ``real`` input from stdin can take any legal format described in the
 :ref:`real literal <sssec:real_lit>` section with the exception that no
 whitespace may be present. It may also be preceded by a single negative or
 positive sign. Preceding whitespace may be skipped in the same way as integers.
 
-A ``boolean`` input from stdin is either ``T`` or ``F``. Preceding whitespace may be
-skipped in the same way as integers and reals.
+A ``boolean`` input from stdin is either ``T`` or ``F``. Preceding whitespace
+may be skipped in the same way as integers and reals.
 
 For the following program:
 

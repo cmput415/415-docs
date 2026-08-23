@@ -3,7 +3,15 @@
 Tuples
 ------
 
-A ``tuple`` is a way of grouping multiple values with potentially different types into an aggregate data structure. Tuples are similar to :ref:`structs<ssec:struct>`, except that a tuple's fields are indexed instead of named. Tuples are often used to return multiple values from a function or procedure. Any :ref:`storable type <ssec:storable_types>` may be stored within a tuple, including arrays of any rank (a matrix is the rank-2 case), ``vector``, ``string``, ``struct``, and other ``tuple`` types, nested to any depth (subject to the :ref:`acyclicity rule <ssec:storable_types>`). Only :ref:`streams <sec:streams>` may not be stored in a tuple.
+A ``tuple`` is a way of grouping multiple values with potentially different
+types into an aggregate data structure. Tuples are similar to
+:ref:`structs<ssec:struct>`, except that a tuple's fields are indexed instead
+of named. Tuples are often used to return multiple values from a function or
+procedure. Any :ref:`storable type <ssec:storable_types>` may be stored within
+a tuple, including arrays of any rank (a matrix is the rank-2 case),
+``vector``, ``string``, ``struct``, and other ``tuple`` types, nested to any
+depth (subject to the :ref:`acyclicity rule <ssec:storable_types>`). Only
+:ref:`streams <sec:streams>` may not be stored in a tuple.
 
 .. _sssec:tuple_decl:
 
@@ -78,10 +86,11 @@ parentheses in a comma separated list. For example:
 Operations
 ~~~~~~~~~~
 
-The following operations are defined on tuple values. In all of the
-usage examples ``tuple-expr`` means some expression yielding tuples with the same type signature,
-while ``int_lit`` is an integer literal as defined in :ref:`Integer Literals <sssec:integer_lit>` and ``tuple-inst`` is the
-name of tuple instance as defined in :ref:`sec:identifiers`.
+The following operations are defined on tuple values. In all of the usage
+examples ``tuple-expr`` means some expression yielding tuples with the same
+type signature, while ``int_lit`` is an integer literal as defined in
+:ref:`Integer Literals <sssec:integer_lit>` and ``tuple-inst`` is the name of
+tuple instance as defined in :ref:`sec:identifiers`.
 
 +------------+---------------+------------+------------------------------+
 | **Class**  | **Operation** | **Symbol** | **Usage**                    |
@@ -93,18 +102,21 @@ name of tuple instance as defined in :ref:`sec:identifiers`.
 |            | not equals    | ``!=``     | ``tuple-expr != tuple-expr`` |
 +------------+---------------+------------+------------------------------+
 
-Note that in the above table ``tuple-inst`` always refers to a variable for *Access*.
-Accessing a literal could be replaced immediately with the scalar inside the tuple literal, however, ``tuple-expr`` may
-refer to a literal in comparison operations to enable shorthand like this:
+Note that in the above table ``tuple-inst`` always refers to a variable for
+*Access*. Accessing a literal could be replaced immediately with the scalar
+inside the tuple literal, however, ``tuple-expr`` may refer to a literal in
+comparison operations to enable shorthand like this:
 
 ::
 
      if ((a, b) == (c, d)) { }
 
-Comparisons are performed pairwise. Two tuples are equal when for every expression pair, the equality operator returns true.
-Two tuples are unequal when one or more expression pairs are unequal. Comparing two tuples of different type
-signatures must emit a ``TypeError`` (see :ref:`sec:errors`). This table describes how the
-comparisons are completed, where ``t1`` and ``t2`` are tuple yielding expressions including literals:
+Comparisons are performed pairwise. Two tuples are equal when for every
+expression pair, the equality operator returns true. Two tuples are unequal
+when one or more expression pairs are unequal. Comparing two tuples of
+different type signatures must emit a ``TypeError`` (see :ref:`sec:errors`).
+This table describes how the comparisons are completed, where ``t1`` and ``t2``
+are tuple yielding expressions including literals:
 
 ============= =========================================
 **Operation** **Meaning**
@@ -121,9 +133,10 @@ the :ref:`table of operator precedence <ssec:expressions_toop>`.
 Unpacking
 ~~~~~~~~~
 
-Any tuple expression may be assigned (unpacked) into multiple lvalues. If the size of
-the tuple being unpacked does not match the number of lvalues being assigned, the compiler
-must emit an ``AssignError`` (see :ref:`sec:errors`). There is no partial unpacking of tuples.
+Any tuple expression may be assigned (unpacked) into multiple lvalues. If the
+size of the tuple being unpacked does not match the number of lvalues being
+assigned, the compiler must emit an ``AssignError`` (see :ref:`sec:errors`).
+There is no partial unpacking of tuples.
 
 ::
 
@@ -135,5 +148,5 @@ must emit an ``AssignError`` (see :ref:`sec:errors`). There is no partial unpack
 Type Casting and Implicit Casts
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-To see the types that tuple may be cast and/or implicitly cast to, see the sections on :ref:`sec:typeCasting`
-and :ref:`sec:implicitCasts`, respectively.
+To see the types that tuple may be cast and/or implicitly cast to, see the
+sections on :ref:`sec:typeCasting` and :ref:`sec:implicitCasts`, respectively.

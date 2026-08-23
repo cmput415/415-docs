@@ -50,10 +50,11 @@ the compiler must emit a ``TypeError`` (see :ref:`sec:errors`):
 Scalar to Array
 -----------------------
 
-A scalar may be explicitly cast to an array of any dimension with an element type that
-the original scalar can be explicitly cast to according to the rules in :ref:`ssec:typeCasting_stos`.
-A scalar to array cast *must* include a size with the type to cast to as this
-cannot be inferred from the scalar value. For example:
+A scalar may be explicitly cast to an array of any dimension with an element
+type that the original scalar can be explicitly cast to according to the rules
+in :ref:`ssec:typeCasting_stos`. A scalar to array cast *must* include a size
+with the type to cast to as this cannot be inferred from the scalar value. For
+example:
 
 ::
 
@@ -68,14 +69,14 @@ cannot be inferred from the scalar value. For example:
 Array to Array
 ----------------
 
-Conversions between array types are also possible. First, the
-values of the original are cast to the destination type's element type
-according to the rules in :ref:`ssec:typeCasting_stos` and then the destination
-is padded with destination element type's :term:`zero value` or truncated to match the
+Conversions between array types are also possible. First, the values of the
+original are cast to the destination type's element type according to the rules
+in :ref:`ssec:typeCasting_stos` and then the destination is padded with
+destination element type's :term:`zero value` or truncated to match the
 destination type size. Note that a concrete size is not required for array to
-array casting: writing the destination element type with an unspecified
-length (``[*]``) keeps the old size, so no padding or truncation occurs.
-Padding or truncation happens only when a concrete size is given. For example:
+array casting: writing the destination element type with an unspecified length
+(``[*]``) keeps the old size, so no padding or truncation occurs. Padding or
+truncation happens only when a concrete size is given. For example:
 
 ::
 
@@ -123,10 +124,10 @@ Array and Vector
 
 A :ref:`vector <ssec:vector>` participates in ``as<>`` casts on both sides.
 
-- As the **operand** of an array cast, a vector supplies its *current*
-  length as the source size; the cast then pads with the element type's
-  :term:`zero value` or truncates to the destination array's stated size, exactly
-  as in :ref:`ssec:typeCasting_vtov`.
+- As the **operand** of an array cast, a vector supplies its *current* length
+  as the source size; the cast then pads with the element type's :term:`zero
+  value` or truncates to the destination array's stated size, exactly as in
+  :ref:`ssec:typeCasting_vtov`.
 
 - As the **destination** type, a ``vector<T>`` takes no size specifier: the
   result simply has the length of the value being cast, so there is nothing

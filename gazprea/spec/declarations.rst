@@ -12,12 +12,12 @@ following formats:
        [<qualifier>] <type> <identifier> [= <expression>];
 
 A declaration creates a variable with an :ref:`identifier <sec:identifiers>` of
-``<identifier>``, with :ref:`type <sec:types>` ``<type>``, and optionally a :ref:`type qualifier <sec:typeQualifiers>` of ``<qualifier>``.
-The two qualifiers are ``var`` and ``const``, which qualify the identifier as
-*mutable* or *immutable*, respectively.
-In *Gazprea* it is important to remember that if the optional qualifier is
-omitted the default is ``const``, i.e. variables are immutable by default
-(normative statement in :ref:`sec:typeQualifiers`).
+``<identifier>``, with :ref:`type <sec:types>` ``<type>``, and optionally a
+:ref:`type qualifier <sec:typeQualifiers>` of ``<qualifier>``. The two
+qualifiers are ``var`` and ``const``, which qualify the identifier as *mutable*
+or *immutable*, respectively. In *Gazprea* it is important to remember that if
+the optional qualifier is omitted the default is ``const``, i.e. variables are
+immutable by default (normative statement in :ref:`sec:typeQualifiers`).
 
 Optionally, a declaration may explicitly initialize the value of the new
 variable with the value of ``<expression>``.

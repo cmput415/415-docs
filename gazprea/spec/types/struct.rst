@@ -66,8 +66,8 @@ scope (see :ref:`sec:typealias`); it may not appear inside a function or
 procedure body, even though a plain struct *definition* may. The combined form
 below both defines the struct type ``S`` and introduces ``Pair`` as an alias
 for it: the struct's own name ``S`` remains usable, for example as a literal
-constructor. Once declared, the alias may be used in place of the struct's type name in
-type positions. It may not, however, be used as a literal constructor.
+constructor. Once declared, the alias may be used in place of the struct's type
+name in type positions. It may not, however, be used as a literal constructor.
 
 ::
 
@@ -122,11 +122,12 @@ the struct type name:
      struct V (integer i, real r, integer[10] arr) v = V(i: 1, r: 2.1, arr: [i in 1..10 | i]);
 
 The fields may be listed in any order, but all fields must be present. The type
-of each value must match, or be implicitly castable to (see :ref:`sec:implicitCasts`),
-the type of the corresponding field definition in the struct. A scalar value given
-for an array-typed field is implicitly cast to fill the array, following the same
-scalar-to-array broadcast rule used for array operations (see :ref:`sssec:array_ops`).
-Finally, note that the field values may need to be evaluated at :term:`run time`.
+of each value must match, or be implicitly castable to (see
+:ref:`sec:implicitCasts`), the type of the corresponding field definition in
+the struct. A scalar value given for an array-typed field is implicitly cast to
+fill the array, following the same scalar-to-array broadcast rule used for
+array operations (see :ref:`sssec:array_ops`). Finally, note that the field
+values may need to be evaluated at :term:`run time`.
 
 .. _sssec:struct_ops:
 
