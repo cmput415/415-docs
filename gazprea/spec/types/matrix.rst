@@ -49,7 +49,7 @@ declared with more rows than are provided, the bottom rows hold the element
 type's zero value. If the number
 of rows or columns exceeds the
 amounts given in a declaration the compiler must emit a ``SizeError``
-(see :ref:`sec:errors`).
+(see :ref:`sec:errors`) at :term:`compile time` or :term:`run time`.
 
 ::
 
@@ -75,7 +75,7 @@ Gazprea supports empty matrices.
 
 ::
 
-   integer[*][*] m = []; /* Should create an empty matrix */
+   integer[*][*] m = []; /* m == [], an empty matrix */
 
 .. _sssec:matrix_ops:
 
@@ -89,30 +89,29 @@ operations are applied between elements with the same position in the arrays.
 
 The operators ==, and != also have the same behavior independent of the
 dimensionality of the array.
-These operations compare whether or not **all** elements of are equal.
+These operations compare whether or not **all** elements of the two matrices
+are equal.
 
 Two dimensional arrays have several special operations defined on them.
 If the element type is numeric (supports addition and multiplication),
 then matrix multiplication is supported using the operator \**.
 Matrix multiplication is only defined between matrices with compatible element
 types, and the dimensions of the matrices must be valid for performing matrix
-multiplication.
+multiplication. When the two operands have differing element types (e.g.
+``integer ** real``), each element is implicitly cast to a common type (see
+:ref:`sec:implicitCasts`) before multiplication, just as for element-wise
+binary operations. When one operand of ``**`` is a scalar, it may only be
+implicitly cast to a matrix operand of matrix multiplication when the other
+operand is a square matrix; see :ref:`sec:implicitCasts`.
 Specifically, the number of columns of the first operand must equal the number
 of rows of the second operand, e.g. an :math:`m \times n` matrix multiplied by
 an :math:`n \times p` matrix will produce an :math:`m \times p` matrix.
-If the dimensions are not correct the compiler must emit a ``SizeError``.
+If the dimensions are not correct the compiler must emit a ``SizeError``
+(see :ref:`sec:errors`).
 
-Matrices support the built in functions ``rows`` and ``columns``,
-which yield the number of rows and columns in the matrix respectively.
-Their generalization to higher-rank arrays is left to a future revision
-(see the introduction to this section). For instance:
-
-::
-
-           integer[*][*] M = [[1, 1, 1], [1, 1, 1]];
-
-           integer r = rows(M);  /* This has a value of 2 */
-           integer c = columns(M);  /* This has a value of 3 */
+The number of rows and columns in a matrix is given by the built-in
+functions ``rows`` and ``columns``; see :ref:`ssec:builtIn_rows_cols` for
+their full definition.
 
 
 Matrix indexing is done similarly to array indexing, however, two
@@ -135,12 +134,16 @@ and column. Both the row and column indices must be integers.
            /* M[1][2] == 12 */
 
 As with arrays, out of bounds indexing on matrices must emit an
-``IndexError``.
+``IndexError`` (see :ref:`sec:errors`) at :term:`compile time` or
+:term:`run time`.
+
+Operator precedence and associativity are specified once, for all types, in
+the :ref:`table of operator precedence <ssec:expressions_toop>`.
 
 
 Type Casting and Implicit Casts
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 To see the types that a matrix may be cast and/or implicitly cast to, see
-the sections on :ref:`sec:typeCasting` and :ref:`sec:typePromotion`
+the sections on :ref:`sec:typeCasting` and :ref:`sec:implicitCasts`
 respectively.
