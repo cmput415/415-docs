@@ -56,4 +56,6 @@ sized and stored by indirection:
    *Implementation.* Nested aggregates are laid out and accessed
    structurally (a chain of ``getelementptr`` in the LLVM dialect); the
    vector at a recursion boundary is the sole point of indirection. Flat,
-   non-nested sequences continue to lower through the tensor/linalg path.
+   non-nested sequences continue to lower through the tensor/linalg path,
+   and should be implemented as contiguous blobs of memory, not lists of
+   lists or structs of arrays pointing to arrays.
