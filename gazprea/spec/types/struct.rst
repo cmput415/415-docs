@@ -151,9 +151,15 @@ expression of a particular type, while ``id`` is a field within the struct.
 Note that in the above table ``struct-type`` may only refer to a variable
 instance for *Access*; accessing a field via dot notation on a non-variable
 (for example, the result of an expression or a struct literal) must emit a
-``TypeError`` (see :ref:`sec:errors`). For *Comparison*, at least one of the
-operands must resolve to a struct type ``T``.
-This allows struct instances to be compared to struct literals:
+``TypeError`` (see :ref:`sec:errors`). For *Comparison*, **both** operands must
+be structs of the same struct type ``T`` (one of them may be a struct literal,
+since a struct literal already carries a struct type). A ``struct`` can only be
+compared against another ``struct`` of the same type; there is no implicit cast
+from a ``tuple`` to a ``struct``, so to compare a ``struct`` against a
+``tuple`` the tuple's value must first be used to construct a ``struct`` of
+type ``T``. Comparing two structs of different types is a ``TypeError`` (see
+:ref:`sec:errors`). This rule still allows a struct instance to be compared to
+a struct literal of the same type:
 
 ::
 
@@ -161,8 +167,6 @@ This allows struct instances to be compared to struct literals:
      if (c == Complex(r: 0.0, i: i)) { }
 
 Two structs are equal when all fields within each struct have the same value.
-Comparing two structs of different types must emit a ``TypeError``
-(see :ref:`sec:errors`).
 
 Operator precedence and associativity are specified once, for all types, in
 the :ref:`table of operator precedence <ssec:expressions_toop>`.

@@ -8,10 +8,11 @@ Matrices
 any :ref:`storable type <ssec:storable_types>`. A *matrix* is the rank-2
 case, and this section describes it in full; higher-rank arrays follow the
 same construction, indexing, and element-wise operation rules, generalized
-to ``k`` index positions. The rank-2 operators discussed below (matrix
-multiplication, ``rows``, and ``columns``) are defined on matrices
-specifically; their generalization to higher-rank arrays is left to a
-future revision of this specification.
+to ``k`` index positions. The ``rows`` and ``columns`` built-ins discussed
+below are defined on matrices (rank-2 arrays) specifically; their
+generalization to higher-rank arrays is left to a future revision of this
+specification. Matrix multiplication (``**``), by contrast, is defined for
+arrays of **any** rank, as described in :ref:`sssec:matrix_ops`.
 
 .. _sssec:matrix_decl:
 
@@ -71,11 +72,15 @@ Also matrices can be initialized with a :term:`scalar <scalar type>` value.
 Initializing with a scalar value makes every element of the matrix equal
 to the scalar.
 
-Gazprea supports empty matrices.
+Gazprea supports empty matrices. A rank-2 array initialized from the empty
+literal ``[]`` is the empty rank-2 array, written ``[[]]``:
 
 ::
 
-   integer[*][*] m = []; /* m == [], an empty matrix */
+   integer[*][*] m = []; /* m == [[]], an empty rank-2 array */
+
+Like an empty 1-D array, an empty matrix has its (zero) dimensions fixed at
+:term:`initialization` and is not growable.
 
 .. _sssec:matrix_ops:
 
@@ -100,14 +105,35 @@ types, and the dimensions of the matrices must be valid for performing matrix
 multiplication. When the two operands have differing element types (e.g.
 ``integer ** real``), each element is implicitly cast to a common type (see
 :ref:`sec:implicitCasts`) before multiplication, just as for element-wise
-binary operations. When one operand of ``**`` is a scalar, it may only be
-implicitly cast to a matrix operand of matrix multiplication when the other
-operand is a square matrix; see :ref:`sec:implicitCasts`.
+binary operations. When one operand of ``**`` is a scalar it can be broadcast to a matrix operand
+of matrix multiplication **only if the other operand is a square matrix**: a
+scalar ``s`` paired with an :math:`n \times n` matrix is filled into an
+:math:`n \times n` matrix whose every element is ``s`` before the
+multiplication. If the other operand is not square the scalar cannot be
+broadcast and the compiler must emit a ``TypeError`` (see :ref:`sec:errors`).
+Scalars broadcast this way only to square matrices (and, for higher-rank
+arrays, to hypercubes whose extents are all equal); *Gazprea* does **not**
+provide comprehensive broadcasting. See :ref:`sec:implicitCasts`.
 Specifically, the number of columns of the first operand must equal the number
 of rows of the second operand, e.g. an :math:`m \times n` matrix multiplied by
 an :math:`n \times p` matrix will produce an :math:`m \times p` matrix.
 If the dimensions are not correct the compiler must emit a ``SizeError``
 (see :ref:`sec:errors`).
+
+More generally, ``**`` is defined for numeric arrays of **any** rank as the
+single-axis contraction familiar from linear algebra: the **last** dimension of
+the left operand is contracted with the **first** dimension of the right
+operand. Writing the left operand as a rank-:math:`a` array ``A`` and the right
+operand as a rank-:math:`b` array ``B``, the last extent of ``A`` must equal
+the first extent of ``B`` -- otherwise the compiler must emit a ``SizeError``
+(see :ref:`sec:errors`) -- and the result ``C`` has rank :math:`a + b - 2`,
+given by
+:math:`C[i_1 \ldots i_{a-1},\, k_2 \ldots k_b] = \sum_j A[i_1 \ldots i_{a-1},\, j] \cdot B[j,\, k_2 \ldots k_b]`.
+The rank-1-with-rank-1 case is therefore the :ref:`dot product
+<sssec:array_ops>` (a scalar) and the rank-2-with-rank-2 case is the matrix
+multiplication described above; both are instances of the one contraction rule,
+which corresponds directly to the contraction operations already available in
+*MLIR*.
 
 The number of rows and columns in a matrix is given by the built-in
 functions ``rows`` and ``columns``; see :ref:`ssec:builtIn_rows_cols` for
@@ -136,6 +162,25 @@ and column. Both the row and column indices must be integers.
 As with arrays, out of bounds indexing on matrices must emit an
 ``IndexError`` (see :ref:`sec:errors`) at :term:`compile time` or
 :term:`run time`.
+
+Because a matrix is an array of arrays, every index position accepts the same
+forms as a 1-D array index (see :ref:`sssec:array_slices`): a single integer
+selects one element along that dimension, and a range written directly in an
+index position selects a contiguous run along that dimension (a slice, with the
+same inclusive-left, exclusive-right bounds and view semantics as for 1-D
+arrays). Multi-dimensional indexing and slicing therefore follow the same
+pattern as 1-D arrays, applied per index position: a single row index ``M[i]``
+selects a whole row (a rank-1 array), ``M[i][j]`` selects one element, and a
+range such as ``M[1..3]`` selects a contiguous band of rows (a sub-matrix).
+Higher-rank arrays generalize this to ``k`` index positions.
+
+::
+
+           integer[*][*] M = [[11, 12, 13], [21, 22, 23], [31, 32, 33]];
+
+           /* M[2]        == [21, 22, 23]     (a whole row)            */
+           /* M[1..3]     == [[11,12,13],[21,22,23]]  (rows 1 and 2)   */
+           /* M[1..3][2]  == [12, 22]         (column 2 of those rows) */
 
 Operator precedence and associativity are specified once, for all types, in
 the :ref:`table of operator precedence <ssec:expressions_toop>`.

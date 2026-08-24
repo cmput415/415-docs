@@ -45,10 +45,16 @@ present:
        integer x = 2; // defaults to const - legal
        var x = 2; // infers integer - legal
        x = 2; // assignment to undeclared x - illegal
-       var x; // can't infer type - illegal
+       var x; // can't infer type - illegal (TypeError)
        integer x; // const integer initialized to 0 - legal
 
 Since neither the qualifier nor the type is present, ``x = 2;`` cannot be
 parsed as a declaration and is instead an assignment; because ``x`` has not
 been previously declared, the compiler must emit a ``SymbolError`` (see
 :ref:`sec:errors`).
+
+The declaration ``var x;`` is :term:`ill-formed` for a different reason: the
+qualifier is present, so it *is* parsed as a declaration, but with the type
+elided the compiler must infer it from an initializer -- and none is given.
+Because the type cannot be resolved, the compiler must emit a ``TypeError``
+(see :ref:`sec:errors`).

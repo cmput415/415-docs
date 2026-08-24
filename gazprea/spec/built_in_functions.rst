@@ -15,6 +15,13 @@ the built-in, and the compiler must emit a ``SymbolError`` (see
 :ref:`sec:errors`). These names are reserved semantically rather than being
 syntactic :ref:`keywords <sec:keywords>`.
 
+The :ref:`vector/string method <sssec:vec_methods>` names (``push``,
+``append``, ``len``), by contrast, are **not** reserved. They live in a method
+namespace associated with the compiler-defined ``vector`` object -- reachable
+only after a ``.`` on a ``vector`` receiver -- and so do not collide with the
+global identifier namespace. A user may freely declare, say, a ``function
+len()`` or a variable named ``push``.
+
 Note that although the examples below all use arrays, the array-shaped
 built-ins (``length``, ``reverse``) also work on
 :ref:`vectors <ssec:vector>` and :ref:`strings <ssec:string>`, using
@@ -86,7 +93,11 @@ Reverse
 -------
 
 The reverse built-in takes any single-dimensional array, vector, or string, and
-returns a reversed version of it.
+returns a reversed *array*. Even when the argument is a vector or string, the
+result is an array value -- vector-ness (string-ness) is not preserved, just as
+for the element-wise operators (see :ref:`sssec:vec_ops`). The resulting array
+may of course be implicitly cast back to a vector or string when stored into
+one.
 
 ::
 

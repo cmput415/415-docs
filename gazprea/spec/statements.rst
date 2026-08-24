@@ -134,7 +134,10 @@ or the tuple's fields must be able to be implicitly cast to the
 variable's type. The number of variables in the comma separated list
 must match the number of fields in the tuple, if this is not the case the
 compiler must emit an ``AssignError`` (see :ref:`sec:errors`). This
-assignment is performed left-to-right.
+assignment is performed left-to-right. The entire right-hand side is, however,
+fully evaluated into a temporary *before* any left-hand-side variable is
+written; this is what lets a swap such as ``z, y = (y, z);`` behave as expected
+even though the individual writes then happen left-to-right.
 
 Assignments and initializations must perform a deep copy. It should not
 be possible to cause the aliasing of memory locations with an
@@ -158,6 +161,17 @@ assignment. For instance:
 The above is a simple example using arrays. You must ensure that values
 cannot be aliased with an assignment between any types, including
 arrays and tuples.
+
+The one exception is an :ref:`array slice <sssec:array_slices>`, which is
+deliberately a *view* over its backing array rather than a copy. Binding a
+slice, as in ``const b = a[1..3];``, aliases the backing array's elements, and
+writing through a mutable slice writes through to that array; this is the sole
+construct that aliases through an assignment or initialization. Every other
+assignment or initialization -- whole arrays, tuples, and structs alike --
+deep-copies, so, for example, creating a new struct copies the right-hand side
+and never aliases it through indexing. (This slice exception is expected to be
+revised in a future version of the specification, alongside a dedicated slice
+type.)
 
 Variables may be declared as const, and in this case a program that places them
 on the left hand side of an assignment expression is :term:`ill-formed`.  The
@@ -220,6 +234,11 @@ statement for the body. If the conditional expression evaluates to true,
 then the body is executed. If the conditional expression evaluates to
 false then the body of the if statement is not executed. If statements
 in *Gazprea* require the conditional expression to be enclosed in parentheses.
+
+The conditional expression must be a **scalar** ``boolean``. Supplying a
+non-boolean value, or a boolean *array* such as ``if ([true, false])``, is a
+``TypeError`` (see :ref:`sec:errors`). The same requirement applies to the
+control expression of a :ref:`predicated loop <sssec:statements_pred_loop>`.
 
 ::
 
@@ -304,6 +323,18 @@ Now if ``x`` does not have a value of 3, ``y`` is assigned a value of
 Loop
 ----
 
+*Gazprea* has a single ``loop`` keyword that forms four loop variants, all
+valid:
+
+- an **infinite loop** -- ``loop <body>`` with no control expression;
+- a **pre-predicated** (``while``-style) loop --
+  ``loop while (<cond>) <body>``;
+- a **post-predicated** (``do``-``while``-style) loop --
+  ``loop <body> while (<cond>);``;
+- an **iterator** (``for``-style) loop -- ``loop <var> in <domain> <body>``.
+
+Each variant is described below.
+
 .. _sssec:statements_inf_Loop:
 
 Infinite Loop
@@ -366,6 +397,20 @@ semicolon.
 
            /* Since the conditional is tested after the execution '10' is printed */
            loop x -> std_output; while (x == 0);
+
+The body may equally be a block statement; the trailing ``while`` and its
+required semicolon are what distinguish a post-predicated loop from a plain
+:ref:`infinite loop <sssec:statements_inf_Loop>` over a block:
+
+::
+
+           var integer x = 0;
+
+           /* Prints 1 to 10; the condition is tested after each pass */
+           loop {
+             x = x + 1;
+             x -> std_output; "\n" -> std_output;
+           } while (x < 10);
 
 .. _sssec:statements_iter_loop:
 
@@ -504,6 +549,13 @@ function/procedure call. If the value is neither, the compiler must emit a
   function square(integer x) returns integer {
     return x * x;
   }
+
+A :ref:`function <sec:function>`, and a :ref:`procedure <sec:procedure>` that
+has a ``returns`` clause, must return a value on **every** control-flow path.
+If control can reach the end of the body without executing a ``return``, the
+program is :term:`ill-formed` and the compiler must emit a ``ReturnError``
+(see :ref:`sec:errors`); see :ref:`sec:function` and :ref:`sec:procedure` for
+the full rule and examples.
 
 If a procedure has no ``returns`` clause, then it has no return type and a
 ``return`` statement is not required but may still be present in order to

@@ -31,3 +31,7 @@ They begin with a number, contain invalid characters, or are a keyword:
 
 *Gazprea* imposes no restrictions on the length of identifiers.
 
+*Gazprea* identifiers are **case-sensitive**: two identifiers that differ
+only in the case of one or more letters are distinct. For example, ``a`` and
+``A`` name two different variables, as do ``value`` and ``Value``.
+

@@ -95,11 +95,17 @@ allowing them to be used to define other constants.
    1. Its size is a valid ``constexpr``.
    2. All of its element initializers are valid ``constexpr``\ s.
 
-   A ``vector`` (the resizable type) can never be a ``constexpr``
-   aggregate, since its length can change at run time; because ``string``
-   is a strong-equivalence alias for ``vector<character>`` (see
-   :ref:`ssec:string`), the same exclusion applies to ``string``. An
-   inferred-size array such
+   A ``var`` ``vector`` can never be a ``constexpr`` aggregate, since its
+   length can change at run time. A ``const`` vector, however, cannot grow --
+   its mutating methods (``push``/``append``) require a ``var`` receiver -- so
+   a ``const`` vector whose initializer is itself a ``constexpr`` *is* a
+   ``constexpr``, equivalent to a ``const`` array whose length is that of its
+   initializer (or the empty array, if the ``const`` vector is declared without
+   an initializer). Because
+   ``string`` is a strong-equivalence alias for ``vector<character>`` (see
+   :ref:`ssec:string`), the same holds for ``string``: for example
+   ``const vector<integer> v = [1, 2, 3];`` and ``const string s = "hi";`` are
+   ``constexpr``\ s. An inferred-size array such
    as ``integer[*] X = [1, 2, 3]`` is a ``constexpr`` when its initializer
    is; ``[*]`` denotes a size inferred once, at :term:`initialization`, not
    a resizable one (see :ref:`sssec:array_sizing`). An array whose size or

@@ -3,8 +3,11 @@
 Character
 ---------
 
-A ``character`` is a signed 8-bit value. A ``character`` can be
-represented by an ``i8`` in *MLIR*.
+A ``character`` is an 8-bit value. A ``character`` can be
+represented by an ``i8`` in *MLIR*. When a ``character`` is cast to
+``integer`` or ``real`` its bit pattern is interpreted as an *unsigned* byte,
+so its numeric value ranges from ``0`` to ``255`` (for example ``'\xFF'`` casts
+to ``255``, not ``-1``); see :ref:`sec:typeCasting`.
 
 .. _sssec:character_decl:
 
@@ -71,6 +74,15 @@ The following operations are defined between ``character`` values.
 |            +---------------+------------+----------------------------+
 |            | not equals    | ``!=``     | ``character != character`` |
 +------------+---------------+------------+----------------------------+
+
+``character`` values are **not orderable**: the relational operators ``<``,
+``>``, ``<=``, and ``>=`` are not defined on characters (only ``==`` and
+``!=`` are), and there is no implicit cast between ``character`` and
+``integer`` (see :ref:`sec:implicitCasts`). Applying a relational operator to
+characters is therefore a ``TypeError`` (see :ref:`sec:errors`). To order
+characters -- for example to test ``'a' <= c and c <= 'z'`` -- explicitly cast
+each operand to ``integer`` with ``as<integer>(...)`` (see
+:ref:`sec:typeCasting`), which yields the character's unsigned byte value.
 
 :term:`Scalar <scalar type>` values with type ``character`` may be
 concatenated onto values of type ``string`` or arrays with type

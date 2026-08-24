@@ -91,7 +91,19 @@ is not one of the :ref:`positions in which a procedure call may appear
 <ssec:procedure_call_positions>`; the compiler must emit a ``CallError`` (see
 :ref:`sec:errors`). Also, empty arrays and matrices can be sent to streams, but
 not empty literals (e.g. ``[]``), because they have no type; sending one must
-emit a ``TypeError`` (see :ref:`sec:errors`).
+emit a ``TypeError`` (see :ref:`sec:errors`). A *typed* empty array prints as an
+empty pair of brackets:
+
+::
+
+     integer[*] empty = [];
+     empty -> std_output;
+
+prints the following:
+
+::
+
+     []
 
 Note that there is **no automatic new line or spaces printed.** To print
 a new line, a user must explicitly print the new line or space
@@ -222,9 +234,15 @@ either be successfully read, or the end of the stream will be reached: the
 read then yields the ``character`` whose 8-bit value is ``-1`` (i.e.
 ``as<character>(-1)``) and sets state 2.
 
-When an error occurs, the :term:`zero value` for the type being read (see the
-Return column of the table below) is assigned and the input stream
-remains pointing to the same position as before the read occurred.
+When a read sets error state ``1`` -- which is possible only for ``boolean``,
+``integer``, and ``real`` (a ``character`` read never sets state ``1``) -- the
+:term:`zero value` for the type being read is assigned to the target, the
+implicit ``stream_state`` is set to ``1``, and the input stream remains
+pointing to the same position as before the read occurred. Reaching the end of
+the stream (state ``2``) instead assigns the value from the Return column of the
+table below -- the type's zero value for ``boolean``/``integer``/``real``, and
+``-1`` (``as<character>(-1)``) for a ``character`` -- and sets ``stream_state``
+to ``2``.
 
 The program below demonstrates 4 reads which set the error
 states 1,0,0,2 respectively.

@@ -82,8 +82,11 @@ behavior as performing exponentiation on reals then truncating to an
 ``integer``.
 
 Signed 32-bit arithmetic that overflows the ``i32`` range (``+``,
-``-``, ``*``, ``^``) causes the implementation to raise a
-``MathError`` (see :ref:`sec:errors`).
+``-``, ``*``, ``/``, ``^``, and unary ``-``) causes the implementation to
+raise a ``MathError`` (see :ref:`sec:errors`). This includes the two overflow
+cases that arise from ``/`` and unary negation specifically: ``INT_MIN / -1``
+and ``-INT_MIN``, whose mathematical results are not representable as an
+``i32``.
 Division and remainder (``%``) where the right operand is ``0``, and
 exponentiation where the base is ``0`` and the exponent is ``<= 0``,
 cause the implementation to raise a ``MathError`` (see
@@ -95,7 +98,7 @@ divide by 0, mod 0, exponentiation of base 0 and exponentiation where
 the exponent is <= 0 is
 undefined behavior. This is the only construct where *Gazprea*
 leaves behaviour undefined and is solely provided for performance
- testing.
+testing.
 
 
 Operator precedence and associativity are specified once, for all

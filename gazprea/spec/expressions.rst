@@ -23,15 +23,15 @@ override it by grouping their contents into a new atom.
 +----------------+------------------------------------+-------------------+
 | 2              | ``[]`` (indexing)                  | left              |
 +----------------+------------------------------------+-------------------+
-| 3              | ``..``                             | N/A               |
+| 3              | ``^``                              | right             |
 +----------------+------------------------------------+-------------------+
 | 4              | unary ``+``, unary ``-``, ``not``  | right             |
 +----------------+------------------------------------+-------------------+
-| 5              | ``^``                              | right             |
+| 5              | ``*``\ , ``/``\ , ``%``, ``**``    | left              |
 +----------------+------------------------------------+-------------------+
-| 6              | ``*``\ , ``/``\ , ``%``, ``**``    | left              |
+| 6              | ``+``\ , ``-``                     | left              |
 +----------------+------------------------------------+-------------------+
-| 7              | ``+``\ , ``-``                     | left              |
+| 7              | ``..``                             | N/A               |
 +----------------+------------------------------------+-------------------+
 | 8              | ``<``\ , ``>``\ , ``<=``\ , ``>=`` | left              |
 +----------------+------------------------------------+-------------------+
@@ -41,8 +41,25 @@ override it by grouping their contents into a new atom.
 +----------------+------------------------------------+-------------------+
 | 11             | ``or``\ , ``xor``                  | left              |
 +----------------+------------------------------------+-------------------+
-| (Lowest) 12    | ``||``                             | right             |
+| (Lowest) 12    | ``||``                             | left              |
 +----------------+------------------------------------+-------------------+
+
+The stream operators ``->`` and ``<-`` are statement-level operators, not
+expression operators, so they do not appear in the table above. They bind more
+loosely than every operator listed -- effectively the very bottom of the
+precedence relation -- so an entire expression is evaluated before it is sent
+to or read from a stream (see :ref:`sec:streams`).
+
+Two consequences of this table are worth calling out, because both changed
+how computed ranges parse:
+
+- Unary ``+``/``-``/``not`` (precedence 4) bind *looser* than exponentiation
+  ``^`` (precedence 3), so ``-2^2`` parses as ``-(2^2) = -4`` (as in ordinary
+  mathematics), not ``(-2)^2``.
+
+- The range operator ``..`` (precedence 7) binds *looser* than every unary and
+  arithmetic operator, so ``-4..5`` parses as ``(-4)..5`` and ``1..n-1`` parses
+  as ``1..(n-1)`` -- the bounds are computed first, then the range is formed.
 
 .. _ssec:expressions_generators:
 

@@ -32,6 +32,17 @@ A procedure call may appear only in one of three positions:
 This is the single authoritative list of those positions. A procedure call
 may not be used as the control expression of a control-flow statement.
 
+Argument position is deliberately **not** on this list: a procedure call may
+not appear as an argument to another call -- neither to a procedure call nor to
+a function call. Nesting a procedure call as an argument, as in ``call
+foo(p())`` or ``f(p())`` where ``p()`` is a procedure call, is
+:term:`ill-formed`, and the compiler must emit a ``CallError`` (see
+:ref:`sec:errors`); assign the inner call's result to a temporary and pass that
+instead. Only procedure calls are restricted this way -- a *function* call
+carries no such restriction and may be nested freely as an argument (subject to
+the usual rule that a procedure argument may itself be a function call, but not
+a procedure call).
+
 When a procedure call appears in one of these positions, the only operations
 that may be applied to its result are unary operators and
 :ref:`casts <sec:typeCasting>`. The result may additionally not be used in the
@@ -62,7 +73,10 @@ procedures. For example, the following code is :term:`ill-formed`:
 
 If a returns clause is present, then a return statement must be reached
 by all possible control flows in the procedure before the end of the
-procedure is encountered. For instance:
+procedure is encountered; if control can reach the end of the body without
+executing a ``return``, the compiler must emit a ``ReturnError`` (see
+:ref:`sec:errors`), exactly as for :ref:`functions <sec:function>`. For
+instance:
 
 ::
 
@@ -303,6 +317,15 @@ checking rules apply:
 Slices can be used wherever arrays are declared as parameters (see
 :ref:`sssec:array_slices`). Unlike functions, an array parameter of a procedure
 may be ``var``, allowing the array or slice passed to it to be modified.
+
+Procedures follow the usual ``var``-is-reference, ``const``-is-value
+convention, with array slices as the subtle case. A slice passed to a
+``const`` parameter cannot modify its backing storage through that slice, so
+passing it by value is semantically fine. A slice is a *view*, however, so if
+some ``var`` reference to the same backing store mutates it during the call,
+the slice must reflect that change -- a requirement this version of the
+specification does not fully pin down. A dedicated slice type and a ``splat``
+operator are planned for a future revision to make these semantics precise.
 
 .. _ssec:procedure_mutation:
 

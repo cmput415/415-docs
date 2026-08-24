@@ -12,11 +12,11 @@ Valid global :term:`scope` :term:`statements <statement>` include:
 * Typealias
 
 All global statements are considered :term:`declarations <declaration>`.
-Global statements need not be written in dependency order, subject to one
-rule: any symbol a global statement references must already be defined
-earlier in the file. Function and procedure prototypes lift this rule for
-calls, since a prototype lets a later definition be referenced before it
-textually appears.
+Global statements must be written in **dependency order**: any symbol a global
+statement references must already be defined earlier in the file. The one
+exception is calls to functions and procedures, for which a forward
+:ref:`prototype <ssec:function_fwd_declr>` lets a later definition be
+referenced before it textually appears.
 
 A statement other than a declaration at global scope -- an assignment, an
 ``if``, a loop, or a bare expression -- must emit a ``GlobalError`` (see
@@ -41,15 +41,20 @@ program runs. This preserves functional purity and enables
 
 *   Functions, procedures, and I/O operations may not appear in a global's
     initializer.
-*   A global may not have a ``vector`` type (the dynamically-sized type),
-    because a vector's size is determined at :term:`run time`. Because
-    :ref:`string <ssec:string>` is a typealias for ``vector<character>``, a
-    global may not have a ``string`` type either (so
-    ``const string s = "hi";`` at global scope is a ``GlobalError``). An
-    inferred-size array such as ``const integer[*] X = [1, 2, 3]`` *is*
-    permitted: ``[*]`` denotes an inferred size that is fixed by its
-    ``constexpr`` initializer at compile time
-    (see :ref:`sssec:array_sizing`).
+*   A global ``vector`` or ``string`` is permitted only when it is ``const``
+    with a ``constexpr`` initializer -- which, since every global is already
+    ``const`` (see above), is the same requirement placed on every other
+    global. Because a ``const`` vector cannot grow (its mutating methods
+    ``push``/``append`` require a ``var`` receiver), its length is fixed at
+    compile time, so a ``const`` vector is equivalent to an array the size of
+    its initializer (or the empty array, if it is declared without an
+    initializer). Consequently ``const string s = "hi";`` and
+    ``const vector<integer> v = [1, 2, 3];`` are legal globals. (A ``var``
+    vector global is still rejected, but for the independent reason that no
+    global may be ``var``.) An inferred-size array such as
+    ``const integer[*] X = [1, 2, 3]`` is likewise permitted: ``[*]`` denotes
+    an inferred size that is fixed by its ``constexpr`` initializer at compile
+    time (see :ref:`sssec:array_sizing`).
 *   All globals are implicitly ``constexpr``.
 
 The compiler must emit a ``GlobalError`` (see :ref:`sec:errors`) for any

@@ -44,8 +44,10 @@ expression whose type is known at compile time.
 Access
 ~~~~~~
 
-The elements in a tuple are accessed using dot notation. Dot
-notation can only be applied to tuple variables and *not* tuple literals.
+The elements in a tuple are accessed using dot notation. Dot notation can only
+be applied to tuple *variables*: applying it to a non-variable -- the result of
+an expression, or a tuple literal -- must emit a ``TypeError`` (see
+:ref:`sec:errors`), exactly as for :ref:`struct field access <sssec:struct_acc>`.
 Dot notation means an identifier followed by a period and then a literal
 integer. Spaces are not allowed between elements in dot notation.
 Field indices *start at one*, not zero. An index less than one or
@@ -114,7 +116,10 @@ comparison operations to enable shorthand like this:
 Comparisons are performed pairwise. Two tuples are equal when for every
 expression pair, the equality operator returns true. Two tuples are unequal
 when one or more expression pairs are unequal. Comparing two tuples of
-different type signatures must emit a ``TypeError`` (see :ref:`sec:errors`).
+different type signatures **with no common implicit-cast target** must emit a
+``TypeError`` (see :ref:`sec:errors`); two signatures that differ but share a
+common implicit-cast target compare legally after a two-sided implicit cast
+(for example ``(1.0, 2) == (2, 3.0)`` -- see :ref:`ssec:implicitCasts_ttot`).
 This table describes how the comparisons are completed, where ``t1`` and ``t2``
 are tuple yielding expressions including literals:
 

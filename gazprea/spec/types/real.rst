@@ -59,14 +59,30 @@ Floating-point operations are equivalent to :ref:`integer operations
 The ``%`` operator is defined on ``real`` operands as the decimal
 remainder, e.g. ``6.77 % 4.21 == 2.56``.
 
-Under normal evaluation, real arithmetic that overflows the finite ``real``
-range, and real division or ``%`` where the right operand is ``0.0``, cause
-the implementation to raise a ``MathError`` (see :ref:`sec:errors`). Under the
-``-ffast-math`` compiler flag they instead produce the IEEE 754 result -- a
-signed ``Infinity``, or ``NaN`` for ``0.0 / 0.0`` -- rather than an error.
+Real values always use the IEEE 754 representation and semantics for
+not-a-number (``NaN``), the signed infinities (``Infinity``), and signed
+zeros. Real arithmetic therefore **never** raises a ``MathError``: overflowing
+the finite ``real`` range yields a signed ``Infinity``, division or ``%`` by
+``0.0`` yields a signed ``Infinity`` (or ``NaN`` for ``0.0 / 0.0``), and every
+subsequent operation on ``Infinity`` and ``NaN`` operands follows IEEE 754. The
+``-ffast-math`` flag has **no effect** on how ``real`` values are produced or
+handled -- in particular it does not change the generation of ``Infinity`` or
+``NaN``. (``-ffast-math`` affects only integer overflow; see
+:ref:`ssec:integer`.)
 
-Real values use the IEEE 754 representation of not-a-number (NaNs), infinity
-(Infs), and zeros.
+Comparisons follow from this rule, exactly as in IEEE 754. With at least one
+``NaN`` operand, every *affirmative* comparison -- ``==``, ``<``, ``>``,
+``<=``, ``>=`` -- evaluates to ``false``, while the *negative* comparison
+``!=`` evaluates to ``true``. A ``NaN`` is unordered with respect to every
+value, including an ``Infinity`` and including another ``NaN``; so when ``x``
+is ``NaN``, ``x == x`` is ``false`` and ``x != x`` is ``true``. Comparisons
+that involve only finite values and the infinities behave as ordinary IEEE 754
+comparisons; for example ``1.0 / 0.0`` compares greater than every finite
+``real``, and ``+Infinity`` compares equal to ``+Infinity``.
+
+Exponentiation (``^``) likewise follows IEEE 754: a negative base raised to a
+fractional exponent -- for example ``(-2.0)^0.5`` -- is not a ``MathError`` but
+yields ``NaN``.
 
 Operator precedence and associativity are specified once, for all types, in
 the :ref:`table of operator precedence <ssec:expressions_toop>`.

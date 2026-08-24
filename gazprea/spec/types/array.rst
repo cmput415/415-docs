@@ -165,6 +165,15 @@ array has a length of zero permanently; it is not an "empty, growable"
 array. A :ref:`vector <ssec:vector>` declared without an initializer also
 starts empty, but *can* subsequently grow.
 
+Note that the empty array literal ``[]`` carries no element type of its own, so
+the element type must come from context (the declared type, as in
+``real[*] v = []`` above). A declaration that elides the type and asks the
+compiler to infer it from an empty literal -- such as ``var v = [];`` -- is
+:term:`ill-formed`, because the element type cannot be deduced; the compiler
+must emit a ``TypeError`` (see :ref:`sec:errors`). The same holds anywhere a
+bare ``[]`` appears without a type to fix its element type (see also
+:ref:`ssec:typeCasting_vtov` and :ref:`ssec:expressions_dom_expr`).
+
 .. _sssec:array_vs_vector:
 
 Arrays Versus Vectors
@@ -281,9 +290,15 @@ Operations
 
       Two rank-1 arrays with the same size and a numeric element type
       (types with the ``+`` and ``*`` operators) may be used in a dot
-      product operation using the ``**`` operator. For rank-2 arrays
-      (matrices), ``**`` instead performs matrix multiplication; see
-      :ref:`ssec:matrix`. For instance:
+      product operation using the ``**`` operator. The two operands must
+      have the same size; if they do not, the compiler must emit a
+      ``SizeError`` (see :ref:`sec:errors`) at :term:`compile time` or
+      :term:`run time`. The dot product is the rank-1 case of a single rule:
+      ``**`` is defined for numeric arrays of any rank as the linear-algebra
+      contraction of the last dimension of the left operand with the first
+      dimension of the right operand, so the rank-2 case is matrix
+      multiplication. See :ref:`ssec:matrix` for the general definition and its
+      ``SizeError``. For instance:
 
       ::
 
@@ -441,6 +456,19 @@ Operations
    The ``!=`` operation also produces a boolean instead of a boolean array.
    The result is the logical negation of the result of the ``==`` operator.
 
+   Only ``==`` and ``!=`` collapse to a single boolean in this way. The
+   *ordering* comparisons ``<``, ``>``, ``<=``, and ``>=`` follow the ordinary
+   element-wise rule: applied between two arrays of the same size they produce
+   a ``boolean`` array (a bitmask) of that size, whose element ``k`` is the
+   comparison of the two operands' element ``k``. As with any element-wise
+   binary operation, a size mismatch is a ``SizeError`` (see :ref:`sec:errors`)
+   and a scalar operand is first broadcast to the array's size. For example:
+
+   ::
+
+      [1, 5, 3] < [2, 2, 2] // results in [true, false, false]
+      [1, 2, 3] <= 2        // results in [true, true, false]
+
    Operator precedence and associativity are specified once, for all types,
    in the :ref:`table of operator precedence <ssec:expressions_toop>`.
 
@@ -527,6 +555,11 @@ lie between ``1`` and ``n + 1`` inclusive (a slice may stop just past the last
 element); a bound outside that range is an ``IndexError`` (see
 :ref:`sec:errors`), at :term:`compile time` or :term:`run time`, exactly as
 for a single-element index.
+
+A slice whose (in-bounds) left bound is greater than its right bound, such as
+``a[4..2]``, is **not** an error: like a range value with a negative difference
+(see :ref:`sssec:array_ops`), it simply selects no elements and yields an empty
+array of ``a``'s element type.
 
 A slice of a mutable (``var``) array is an :term:`lvalue`; used in a
 parameter call or on the left side of an assignment, it allows modification

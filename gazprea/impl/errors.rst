@@ -103,16 +103,18 @@ Here are the compile-time errors your compiler must throw:
     Raised during compilation if the program detects a function or procedure
     with a return value that does not have a return statement reachable by all
     control flows. Control flow constructs may be assumed to always be undecidable,
-    meaning they may branch in either direction.
+    meaning they may branch in either direction. When the subroutine is missing
+    a reachable ``return`` statement, the line number of the subroutine
+    declaration should be printed.
 
-    If the subroutine has a ``return`` statement with a type that does not
-    match the owning subroutine's type, the line number of the ``return``
-    statement should be reported, along with the name and (correct) type of the
-    enclosing routine.
-
-    Note also that, strictly speaking, this is a type error, not a return error.
-    If the procedure/function is missing a ``return`` statement, then the line
-    number of the subroutine declaration should be printed instead.
+    A ``return`` statement whose value's type does not match, and cannot be
+    implicitly cast to, the owning subroutine's return type is normalized as a
+    ``TypeError`` (see the ``TypeError`` entry above and :ref:`sec:statements`),
+    **not** a ``ReturnError``; the line number of the ``return`` statement
+    should be reported, along with the name and (correct) type of the enclosing
+    routine. (The tester is lenient about the exact error name here -- it
+    checks only for the substring "Error" and the line -- as noted at the end
+    of this chapter.)
 
 * ``GlobalError``
 
@@ -226,20 +228,29 @@ More Examples
 ::
 
    /* Indexes */
-   character[3] v = ['a', 'b', 'c']; // Indexing is harder than it looks!
+   var character[3] v = ['a', 'b', 'c']; // Indexing is harder than it looks!
    integer i = 10;
-   v(3) = 'X'; // SyntaxError
+   v(3) = 'X'; // SyntaxError: a call expression cannot be an assignment target
    v[i] = '?'; // Runtime error
    v['a'] = '!'; // TypeError
    i[1] = 1; // TypeError
 
    /* Tuples */
    tuple (integer, integer) a = (9, 5);
-   integer b;
-   integer c;
-   integer d;
+   var integer b;
+   var integer c;
+   var integer d;
    b, c, d = a; // AssignError
    tuple(integer, integer, integer) z = a; // TypeError
+
+``v(3) = 'X'`` is a ``SyntaxError`` because ``v(3)`` parses as a *call*
+expression, and a call expression cannot appear on the left-hand side of an
+assignment; the malformed assignment target is rejected at parse time, before
+any type checking. (Indexing uses square brackets, ``v[3]``.) The ``b, c, d``
+are declared ``var`` so that ``b, c, d = a;`` is purely the intended arity
+mismatch (three lvalues, a two-field tuple) rather than also an assignment to
+``const`` values -- both are ``AssignError``\ s, but the example is meant to
+isolate the arity case.
 
 
 How to Write an Error Test Case

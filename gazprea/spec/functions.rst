@@ -240,6 +240,14 @@ receives, since a ``const`` parameter cannot be assigned to at all. A function
 that assigns to one of its parameters must emit an ``AssignError`` (see
 :ref:`sec:errors`).
 
+Because every function parameter is ``const``, an array :ref:`slice
+<sssec:array_slices>` passed to a function is necessarily received through a
+``const`` parameter and so cannot write through to its backing array. A
+function therefore can never observe or cause a change to a slice's backing
+storage, which makes passing a slice by value (a copy) semantically equivalent
+to passing the view -- the distinction that matters for procedures (below) does
+not arise for functions.
+
 .. _ssec:function_namespacing:
 
 Function Namespacing

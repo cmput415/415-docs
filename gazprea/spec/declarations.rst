@@ -9,7 +9,7 @@ following formats:
 
 ::
 
-       [<qualifier>] <type> <identifier> [= <expression>];
+       [<qualifier>] [<type>] <identifier> [= <expression>];
 
 A declaration creates a variable with an :ref:`identifier <sec:identifiers>` of
 ``<identifier>``, with :ref:`type <sec:types>` ``<type>``, and optionally a
@@ -18,6 +18,14 @@ qualifiers are ``var`` and ``const``, which qualify the identifier as *mutable*
 or *immutable*, respectively. In *Gazprea* it is important to remember that if
 the optional qualifier is omitted the default is ``const``, i.e. variables are
 immutable by default (normative statement in :ref:`sec:typeQualifiers`).
+
+Both ``<qualifier>`` and ``<type>`` are optional, but **at least one must be
+present** so that the declaration can be told apart from an assignment. When
+``<type>`` is elided it is inferred from ``<expression>``, which must therefore
+be present and have an inferable type; if the type cannot be inferred the
+compiler must emit a ``TypeError`` (see :ref:`sec:typeInference` and
+:ref:`sec:errors`). When ``<qualifier>`` is elided it defaults to ``const`` as
+described above.
 
 Optionally, a declaration may explicitly initialize the value of the new
 variable with the value of ``<expression>``.
@@ -32,7 +40,7 @@ variable is ever observable in an uninitialized state.  When the
 programmer omits the explicit initializer, the compiler implicitly
 initializes the variable to the :term:`zero value` of its type.
 The zero value is ``0`` for ``integer``, ``0.0`` for ``real``,
-``false`` for ``boolean``, ``' '`` (a space) for ``character``, the
+``false`` for ``boolean``, ``'\0'`` (the null character) for ``character``, the
 empty collection (e.g. the empty string ``""``) for a ``vector`` or
 ``string``, and, for a fixed-size :term:`aggregate type <aggregate type>`
 (array, matrix, tuple, or struct), each element or field set to its own

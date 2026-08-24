@@ -55,6 +55,12 @@ value of type "From type" is converted to type "toType" using semantics from
 |          |   real    |   N/A   |    N/A    |   N/A   |      id       |
 +----------+-----------+---------+-----------+---------+---------------+
 
+Because ``character`` and ``integer`` are N/A in both directions, there is no
+implicit cast between them. A direct consequence is that ``character`` values
+are **not orderable**: the relational operators ``<``, ``>``, ``<=``, ``>=``
+are undefined on characters, and ordering them requires an explicit
+``as<integer>(...)`` cast (see :ref:`ssec:character` and :ref:`sec:typeCasting`).
+
 .. _ssec:implicitCasts_stoa:
 
 Scalar to Array
@@ -99,9 +105,13 @@ Note that an array can never be cast down to a scalar, even explicitly.
 Also note that matrix multiply imposes strict requirements on the
 dimensionality of the operands. The consequence is that, *as an operand of
 matrix multiplication* (``**``), a scalar can only be implicitly cast to a
-matrix when the other operand is a square matrix (:math:`m \times m`). In
-element-wise operations and initializations a scalar is implicitly cast to
-a matrix of any dimensions.
+matrix when the other operand is a square matrix (:math:`m \times m`): the
+scalar is then broadcast (filled) into an :math:`m \times m` matrix whose every
+element equals the scalar. For higher-rank arrays this generalizes only to
+hypercubes with all extents equal; *Gazprea* provides no comprehensive
+broadcasting, so a scalar cannot be broadcast to a non-square matrix operand of
+``**`` at all. In element-wise operations and initializations a scalar is
+implicitly cast to an array (or matrix) of any dimensions.
 
 .. _ssec:implicitCasts_ttot:
 

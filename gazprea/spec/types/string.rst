@@ -14,10 +14,11 @@ character sequence, which may grow (for example through the ``push`` and
 ``append`` methods). There is no separate sized or bounded string type.
 
 Although a ``string`` and a plain ``character`` array behave alike in most
-respects, *Gazprea* still treats the two differently in a few places:
-strings have an :ref:`extra literal style <sssec:string_lit>`, a distinct
-:ref:`result type for concatenation <sssec:string_ops>`, and special
+respects, *Gazprea* still treats the two differently in a couple of places:
+strings have an :ref:`extra literal style <sssec:string_lit>` and special
 :ref:`behavior when sent to an output stream <sssec:output_format>`.
+(Concatenation is *not* one of these differences -- see
+:ref:`sssec:string_ops`.)
 
 .. _sssec:string_decl:
 
@@ -76,9 +77,14 @@ As character vectors, strings have all of the same operations defined on them
 as the other array data types. Remember that because a ``string`` *is* a
 ``vector<character>``, the concatenation operator ``||`` may be used to combine
 ``string`` values with ``character`` arrays (which are a distinct array type).
-The result type follows the operands: if at least one operand of ``||`` is a
-``string``, the result is a ``string``; a concatenation of character arrays
-alone yields a character array. At least one operand of ``||`` must be a
+Concatenation follows exactly the same rule as for any other vector: like every
+binary operator with a vector or array operand, ``||`` produces an *array*
+result -- here a ``character`` array -- and string-ness (vector-ness) is never
+propagated through the operator (see :ref:`sssec:vec_ops`). The resulting
+``character`` array is then implicitly cast back to a ``string`` whenever it is
+stored into one (see :ref:`ssec:implicitCasts_string`), which is why
+``var string letters = ['a', 'b'] || "cd";`` below is legal even though the
+concatenation itself yields an array. At least one operand of ``||`` must be a
 composite type (a ``string`` or an array); concatenating two :term:`scalar
 <scalar type>` values -- for example ``character || character`` -- must emit a
 ``TypeError`` (see :ref:`sec:errors`). You may also append a slice of

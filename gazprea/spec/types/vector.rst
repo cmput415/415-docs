@@ -90,8 +90,12 @@ except for the differences enumerated above, share their semantics: in an
 expression a vector is treated as an array value of its current length.
 In particular, operand lengths must match for binary expressions and dot
 product. Every binary operation with a vector operand -- whether the
-other operand is a vector or an array -- produces an *array* result;
-vector-ness is never propagated through operators.
+other operand is a vector or an array, and **including concatenation with**
+``||`` -- produces an *array* result; vector-ness is never propagated through
+operators. The resulting array may of course be implicitly cast back to a
+vector (or ``string``) when it is stored into one (see
+:ref:`ssec:implicitCasts_avv`), but that is a separate implicit cast, not a
+property of the operator.
 
 Operator precedence and associativity are specified once, for all types, in
 the :ref:`table of operator precedence <ssec:expressions_toop>`.

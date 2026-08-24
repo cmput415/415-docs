@@ -38,12 +38,19 @@ the compiler must emit a ``TypeError`` (see :ref:`sec:errors`):
 |          +-----------+--------------------------------+--------------------------------+--------------------------+----------------------------+
 |          | boolean   | id                             | '\\0' if false, 0x01 otherwise | 1 if true, 0 otherwise   | 1.0 if true, 0.0 otherwise |
 |          +-----------+--------------------------------+--------------------------------+--------------------------+----------------------------+
-| **From** | character | false if '\\0', true otherwise | id                             | *ASCII* value as integer | *ASCII* value as real      |
+| **From** | character | false if '\\0', true otherwise | id                             | unsigned byte (0-255)    | unsigned byte (0-255)      |
 |          +-----------+--------------------------------+--------------------------------+--------------------------+----------------------------+
 | **type** | integer   | false if 0, true otherwise     | unsigned integer value mod 256 | id                       |  real version of integer   |
 |          +-----------+--------------------------------+--------------------------------+--------------------------+----------------------------+
 |          | real      | N/A                            | N/A                            | truncate                 |  id                        |
 +----------+-----------+--------------------------------+--------------------------------+--------------------------+----------------------------+
+
+A ``character`` is interpreted as an **unsigned** byte when cast to a numeric
+type, so ``character`` to ``integer`` (or ``real``) yields a value in ``0`` to
+``255`` -- for example ``as<integer>('\xFF')`` is ``255``, not ``-1``. This is
+the inverse of the ``integer`` to ``character`` rule (the unsigned value taken
+mod 256). For printable *ASCII* characters (``0`` to ``127``) this is exactly
+the *ASCII* code.
 
 .. _ssec:typeCasting_stovm:
 
