@@ -3,9 +3,9 @@ Peer Evaluation
 
 The peer evaluation is a synchronous, oral assessment of your Gazprea compiler. Your team demonstrates and defends your compiler to another team of students, who assess each of you individually and your team as a whole against the rubric on this page.
 
-The evaluation assesses *understanding*, not the number of tests you pass. The tests you pass are graded separately. What is graded here is whether you can navigate your own code, explain why it is built the way it is, and reason about a compiler as a whole system.
+The evaluation assesses *understanding*; the number of tests you pass is graded separately. What is graded here is whether you can navigate your own code, explain why it is built the way it is, and reason about a compiler as a whole system.
 
-Most of your result is your own: three quarters of it comes from how you personally answered, and the remaining quarter from how your team handled the questions put to it collectively. A working compiler does not earn you marks here if you cannot explain your part of it.
+Most of your result is your own: three quarters of it comes from how you personally answered, and the remaining quarter from how your team handled the questions put to it collectively.
 
 Schedule
 --------
@@ -31,7 +31,7 @@ Presentation (5-10 minutes)
 
 Your team gives a brief account of the compiler: the top-level architecture and who implemented what. Each member individually names the parts of the compiler they worked on.
 
-This phase is not itself graded, but it sets up the rest of the evaluation: it is how the evaluators learn who to direct which questions to. A vague account of who did what leads to questions that do not match your work.
+This phase is not graded. It is how the evaluators learn who to direct which questions to, and a vague account of who did what leads to questions that do not match your work.
 
 Q&A (~60 minutes)
 ^^^^^^^^^^^^^^^^^
@@ -40,9 +40,9 @@ The evaluators ask questions guided by the rubric and take notes as they go.
 
 Evaluators do not see your source code before the session. You are expected to **navigate your codebase live on your own machine**, pointing at specific code to support your answers. Have your development environment open and ready — a build of the compiler, your tests, and an editor you can search in quickly. Evaluators may ask follow-up questions based on what you show them.
 
-Four evaluators reading code over your shoulder can be cramped. Consider joining a muted Discord (or similar) call for the session instead, with every member sharing their screen for its whole duration and one member's laptop connected to the room's TV. That member switches the TV to whichever share belongs to whoever is answering. This is a suggestion rather than a requirement — any arrangement that lets the evaluators see the code you are pointing at will do.
+Four evaluators reading code over your shoulder can be cramped. Consider joining a muted Discord (or similar) call for the session instead, with every member sharing their screen for its whole duration and one member's laptop connected to the room's TV. That member switches the TV to whichever share belongs to whoever is answering. Any arrangement that lets the evaluators see the code you are pointing at will do.
 
-Answers are not judged on first-attempt fluency. Evaluators are instructed to ask clarifying questions rather than record a hesitant first explanation as a failure, so if you know the material you will get room to show it.
+Evaluators are instructed to follow up with clarifying questions when a first explanation comes out hesitant or garbled, so a rough first answer by itself does not cost you marks.
 
 Multiple members may contribute to a single answer. Questions put to a specific member still count towards that member's own mark, though, and that mark suffers if you consistently need a teammate to answer for you.
 
@@ -61,7 +61,7 @@ Three kinds of questions appear in the Q&A.
 * How do you handle implicit type promotion?
 * How are array types handled? What type does an empty array have?
 
-**2. Questions every member must answer.** These three are fixed rather than chosen by the evaluators, so you can prepare them in advance:
+**2. Questions every member must answer.** The evaluators do not choose these; the same three are asked at every session, so you can prepare them in advance:
 
 * Give an example of a test you wrote, and the part of the compiler it was intended to test.
 * Showcase what you are most proud of in your work.
@@ -108,7 +108,9 @@ Evaluating is part of the exercise, and doing it badly denies the other team the
 * **Draw the knowledge out.** Follow up on a weak or garbled first answer instead of recording it as a failure. A student may explain something poorly and still understand it well; your job is to find out which.
 * **Track coverage as you go.** You are responsible for the coverage list above being satisfied before time runs out.
 
-After the evaluation, each evaluator individually fills out a rubric, assigns a mark and writes a justification for each of the four evaluated students and for the team as a whole, and the evaluating team distributes ten contribution points across the evaluated team. All of this is described under the :ref:`grading matrix <sec:peer_eval_grading_matrix>`.
+After the evaluation, each evaluator individually fills out a rubric, assigns a mark and writes a justification for each of the four evaluated students and for the team as a whole, and distributes ten contribution points across the evaluated team. All of this is described under the :ref:`grading matrix <sec:peer_eval_grading_matrix>`.
+
+The evaluated team fills out a form of its own, assessing how well the evaluating team ran the session. Running a session badly therefore costs the evaluating team as well as the team it evaluated.
 
 .. _sec:peer_eval_grading_matrix:
 
@@ -119,11 +121,11 @@ Each evaluator produces five assessments per session: one for each of the four e
 
 **A filled-out rubric.** For a student, place them at one of the four levels on each of the four individual objectives. For the team, place the team at one of the four levels on each of the two group objectives.
 
-**A mark out of 100.** For a student, this reflects their four individual placements; for the team, its two group placements. The mark is a judgement rather than a calculation, but it is expected to stay near the anchors below.
+**A mark out of 100.** For a student, this reflects their four individual placements; for the team, its two group placements. Assign it by judgement, keeping it near the anchors below.
 
 **A written justification.** This covers both the placements and the mark, and says what they rest on — which answers, which code, which moment in the session. If the mark sits away from where the placements alone would put it, the justification is where that gap is explained.
 
-The evaluating team also **distributes ten contribution points across the evaluated team**. The ten whole points are split among the four members according to how their contributions compared to one another, based on what the session showed. Points cannot be split in half, so ten points across four members can never come out even — the evaluators are required to rank the team rather than declare everyone equal. This is a relative signal only, and is separate from the marks out of 100.
+Each evaluator also **distributes ten contribution points across the evaluated team**, individually, alongside their five assessments. The ten whole points are split among the four members according to how their contributions compared to one another, based on what the session showed. Points cannot be split in half, so ten points across four members can never come out even; every evaluator is required to rank the team. This is a relative signal only, and is separate from the marks out of 100.
 
 Objectives and weights
 ^^^^^^^^^^^^^^^^^^^^^^
@@ -146,7 +148,7 @@ A student's peer result is 75% their own individual mark and 25% their team's gr
 Anchors
 ^^^^^^^
 
-The mark is not computed from the rubric placements, but the two must be consistent with each other. These are the reference points:
+The mark and the rubric placements must be consistent with each other. These are the reference points:
 
 .. rubric-anchors::
 
@@ -167,11 +169,11 @@ Group objectives
 Preparing
 ---------
 
-The evaluation rewards work done throughout the project, not cramming the night before. In practice:
+The evaluation rewards work done throughout the project. In practice:
 
 * **Take features end to end.** A feature you carried through the grammar, the type checker, and code generation gives you something to say at every stage of the pipeline. This is what the ownership expectations above ask of you, and it is the single largest thing you can do to prepare.
 * **Work outside what you built.** The individual objectives ask you to trace features through code you did not write. Fixing a bug in a teammate's feature is the cheapest way to get there.
-* **Know why, not just what.** Every objective above distinguishes describing the design from justifying it. Keep track of the decisions your team made and the alternatives you rejected.
+* **Know the reasoning behind the design.** Every objective above distinguishes describing the design from justifying it. Keep track of the decisions your team made and the alternatives you rejected.
 * **Write tests you can talk about.** One objective is entirely about your tests. Be able to name a test, say what behaviour it targets, and reason about what a different failure would have told you.
 * **Be able to find your code.** Live navigation is graded. Know your way around the repository without searching blindly.
 

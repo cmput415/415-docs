@@ -6,6 +6,10 @@
 
 # -- Path setup --------------------------------------------------------------
 
+# If extensions (or modules to document with autodoc) are in another directory,
+# add these directories to sys.path here. If the directory is relative to the
+# documentation root, use os.path.abspath to make it absolute, like shown here.
+#
 # The rubric directives live in _ext/ and read their data from rubric_data.py
 # at the documentation root, so both must be importable.
 

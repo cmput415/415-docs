@@ -98,9 +98,9 @@ OBJECTIVES = [
     },
 ]
 
-# Reference points tying a set of rubric placements to a mark out of 100. The
-# mark is a judgement rather than a calculation, so these are the points an
-# evaluator is expected to stay near, not a formula.
+# Reference points tying a set of rubric placements to a mark out of 100. An
+# evaluator assigns the mark by judgement and is expected to stay near these
+# points.
 ANCHORS = [
     ("Every objective at Excellent", "95"),
     ("Consistently Good", "80"),
