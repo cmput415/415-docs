@@ -47,9 +47,12 @@ variable is a ``constexpr``, the compiler must trace its entire dependency
 chain. If the chain ever depends on a :term:`run time` value, the check
 fails.
 
-A context that requires a ``constexpr`` (a global initializer, see
-:ref:`sec:global`, or a typealias size, see :ref:`sec:typealias`) reports
-that context's own error when this check fails.
+A context that requires a ``constexpr`` -- a global initializer (see
+:ref:`sec:global`) or a ``typealias`` size (see :ref:`sec:typealias`) -- reports
+that context's own error when this check fails: a ``GlobalError`` for a global.
+For a ``typealias`` size the specification does not mandate a specific error, and
+the test battery is permissive here -- an implementation that accepts a
+non-``constexpr`` size, or diagnoses it late, is not penalized.
 
 The only expressions that *must* be ``constexpr`` are global constants and
 the size expressions used to parameterize a ``typealias`` (see

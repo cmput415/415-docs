@@ -85,10 +85,13 @@ initialization statement is therefore :term:`ill-formed`.
        integer i = i;
        integer[10] v = v[1] * 2;
 
-The compiler must emit a ``SymbolError`` (see :ref:`sec:errors`) for the
-use of undeclared variables in these cases. If a variable of the same name
-is declared in an enclosing :term:`scope`, then it is legal to use that in
-the initialization of a variable with the same name. For instance:
+Since the name being declared is not yet in scope during its own initializer,
+the reference resolves as usual to the nearest *enclosing*-scope binding of that
+name, if one exists; only when there is no such outer binding is this a reference
+to an undeclared variable, for which the compiler must emit a ``SymbolError``
+(see :ref:`sec:errors`). So ``integer i = i;`` at the outermost scope is a
+``SymbolError``, whereas the same text nested inside a scope that already binds
+``i`` legally reads the outer ``i``. For instance:
 
 ::
 

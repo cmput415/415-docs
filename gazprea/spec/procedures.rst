@@ -30,7 +30,12 @@ A procedure call may appear only in one of three positions:
 -  as the procedure being called in a ``call`` statement.
 
 This is the single authoritative list of those positions. A procedure call
-may not be used as the control expression of a control-flow statement.
+may not be used as the control expression of a control-flow statement. The
+"right-hand side of an assignment" is a *single*-target assignment or
+declaration: a procedure that returns a ``tuple`` is bound to one variable first
+(``var t = p();``), and it may **not** appear directly as the source of a
+:ref:`tuple-unpacking assignment <sec:statements>` such as ``a, b = p();``. To
+destructure the result, unpack the bound variable instead (``a, b = t;``).
 
 Argument position is deliberately **not** on this list: a procedure call may
 not appear as an argument to another call -- neither to a procedure call nor to
@@ -64,7 +69,8 @@ Syntax
 Procedures are almost exactly the same as functions. However, because
 procedures can cause side effects, the returns clause is optional. Due to
 this, the ``= <stmt>;`` declaration format is not available for
-procedures. For example, the following code is :term:`ill-formed`:
+procedures. For example, the following code is :term:`ill-formed`, and the
+compiler must emit a ``SyntaxError`` (see :ref:`sec:errors`):
 
 ::
 
@@ -235,7 +241,11 @@ such arguments, where at least one is bound to a ``var`` parameter, is
 :term:`ill-formed`. This helps *Gazprea* compilers perform more optimizations.
 However, the compiler must be able to catch cases where mutable memory
 locations are aliased, and must emit an ``AliasingError`` (see
-:ref:`sec:errors`) when this is detected. For instance:
+:ref:`sec:errors`) when this is detected. ``AliasingError`` is always a
+:term:`compile-time <compile time>` diagnosis: since exact overlap is
+undecidable, the check uses the conservative *same-backing-array* rule -- two
+arguments that name the same array, or slices of it, are treated as aliasing
+even when their accessed ranges are disjoint. For instance:
 
 ::
 
@@ -254,8 +264,8 @@ locations are aliased, and must emit an ``AliasingError`` (see
            call p(x, y, x, x); /* Argument a is mutable and aliased with c and d. */
 
            /* Legal */
-             call p(x, y, z, z);
-             /* Even though 'z' is aliased with 'c' and 'd' they are both const. */
+           call p(x, y, z, z);
+           /* Even though 'z' is aliased with 'c' and 'd' they are both const. */
 
            return 0;
          }
