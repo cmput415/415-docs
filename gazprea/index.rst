@@ -36,6 +36,7 @@ Hardware Acceleration Laboratory in Markham, ON.
    spec/globals
    spec/built_in_functions
    spec/flags
+   spec/errors
    spec/glossary
 
 .. toctree::

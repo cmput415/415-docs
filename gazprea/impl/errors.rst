@@ -1,7 +1,13 @@
-.. _sec:errors:
+.. _sec:errors_impl:
 
-Errors
-======
+Errors (Implementation)
+=======================
+
+The **normative error taxonomy** -- the set of error classes and the condition
+under which each must be emitted -- lives in the specification part, at
+:ref:`sec:errors`. This chapter covers only the *mechanics* of reporting those
+errors; the per-class notes below are implementation reminders that defer to
+that taxonomy.
 
 Your implementation is required to report both :term:`compile-time <compile time>` and :term:`run-time <run time>` errors.
 You must use the exceptions defined in ``include/CompileTimeExceptions.h`` and
@@ -65,7 +71,9 @@ keyword.
 
     throw MainError(1, "program does not have a main procedure");
 
-Here are the compile-time errors your compiler must throw: 
+The compiler must throw the following exceptions. Each corresponds to an error
+class defined normatively in :ref:`sec:errors`; the notes here add
+implementation-specific reminders (line numbers, tester leniency):
 
 * ``SyntaxError``
 
