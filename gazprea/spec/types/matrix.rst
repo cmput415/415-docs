@@ -111,8 +111,10 @@ scalar ``s`` paired with an :math:`n \times n` matrix is filled into an
 :math:`n \times n` matrix whose every element is ``s`` before the
 multiplication. If the other operand is not square the scalar cannot be
 broadcast and the compiler must emit a ``TypeError`` (see :ref:`sec:errors`).
-Scalars broadcast this way only to square matrices (and, for higher-rank
-arrays, to hypercubes whose extents are all equal); *Gazprea* does **not**
+Scalars broadcast this way only to ``**`` operands whose extents are all equal --
+a rank-1 array (trivially, since it has a single extent, so a scalar may be
+dotted with a vector; see the :ref:`dot product <sssec:array_ops>`), a square
+matrix, or a higher-rank hypercube with equal extents; *Gazprea* does **not**
 provide comprehensive broadcasting. See :ref:`sec:implicitCasts`.
 Specifically, the number of columns of the first operand must equal the number
 of rows of the second operand, e.g. an :math:`m \times n` matrix multiplied by

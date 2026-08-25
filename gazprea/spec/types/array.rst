@@ -323,6 +323,12 @@ Operations
          /* 1 * 4 + 2 * 5 + 3 * 6 = 32 */
          integer dot = v ** u;  /* Perform a dot product */
 
+      A :term:`scalar <scalar type>` operand broadcasts to the other operand's
+      length here, just as it does for element-wise array operations: because a
+      rank-1 array has a single dimension, the broadcast shape is unambiguous.
+      Thus a scalar may be dotted with a rank-1 array -- ``[1, 2, 3] ** 4`` is
+      the dot product ``[1, 2, 3] ** [4, 4, 4]``, i.e. ``1*4 + 2*4 + 3*4 == 24``.
+
 
    d. Range
 
