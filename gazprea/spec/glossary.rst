@@ -68,8 +68,8 @@ Terms
    zero value
       The value a variable of a given type holds when it is declared
       without an :term:`initializer`.  It is ``0`` for ``integer``,
-      ``0.0`` for ``real``, ``false`` for ``boolean``, and ``' '`` (a
-      space) for ``character``.  For a fixed-size array or
+      ``0.0`` for ``real``, ``false`` for ``boolean``, and ``'\0'`` (the
+      null character) for ``character``.  For a fixed-size array or
       matrix it is that shape filled with the element type's zero value;
       for a ``tuple`` or ``struct``, each member set to its own zero
       value; for a ``vector`` or ``string``, the empty collection.  A
