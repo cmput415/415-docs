@@ -16,9 +16,10 @@ initializations; and they can be passed as array arguments to functions
 and procedures. When a vector appears in an expression it is used as an
 array value of its *current* length. Vectors are nevertheless a distinct
 type, and the differences include (non-exhaustively): vectors have methods
-where arrays have none; a mixed binary operation between a vector and an
-array produces an *array* result (vector-ness is not propagated through
-operators); and a ``vector<T[*]>`` (a vector of
+where arrays have none; a mixed *element-wise* binary operation between a vector and
+an array produces an *array* result (element-wise operators do not propagate
+vector-ness), though :ref:`concatenation <sssec:array_ops>` with ``||`` yields a
+vector when its rightmost operand is a vector; and a ``vector<T[*]>`` (a vector of
 inferred-size arrays) fixes its element size once, from the first array value
 stored into it, and fits every later element to that size (see below).
 
@@ -132,13 +133,15 @@ Operations on vectors use the same syntax as operations on arrays and,
 except for the differences enumerated above, share their semantics: in an
 expression a vector is treated as an array value of its current length.
 In particular, operand lengths must match for binary expressions and dot
-product. Every binary operation with a vector operand -- whether the
-other operand is a vector or an array, and **including concatenation with**
-``||`` -- produces an *array* result; vector-ness is never propagated through
-operators. The resulting array may of course be implicitly cast back to a
-vector (or ``string``) when it is stored into one (see
-:ref:`ssec:implicitCasts_avv`), but that is a separate implicit cast, not a
-property of the operator.
+product. Every *element-wise* binary operation with a vector operand -- whether
+the other operand is a vector or an array -- produces an *array* result;
+vector-ness is never propagated through those operators, and the resulting array
+may of course be implicitly cast back to a vector (or ``string``) when it is
+stored into one (see :ref:`ssec:implicitCasts_avv`). **Concatenation** with
+``||`` is the exception: it is right-associative and its result takes the kind
+of its *receiver*, the rightmost operand, so a concatenation whose receiver is a
+vector is itself a vector -- in particular a ``string`` concatenation stays a
+``string`` (see :ref:`sssec:array_ops`).
 
 Operator precedence and associativity are specified once, for all types, in
 the :ref:`table of operator precedence <ssec:expressions_toop>`.

@@ -77,14 +77,15 @@ As character vectors, strings have all of the same operations defined on them
 as the other array data types. Remember that because a ``string`` *is* a
 ``vector<character>``, the concatenation operator ``||`` may be used to combine
 ``string`` values with ``character`` arrays (which are a distinct array type).
-Concatenation follows exactly the same rule as for any other vector: like every
-binary operator with a vector or array operand, ``||`` produces an *array*
-result -- here a ``character`` array -- and string-ness (vector-ness) is never
-propagated through the operator (see :ref:`sssec:vec_ops`). The resulting
-``character`` array is then implicitly cast back to a ``string`` whenever it is
-stored into one (see :ref:`ssec:implicitCasts_string`), which is why
-``var string letters = ['a', 'b'] || "cd";`` below is legal even though the
-concatenation itself yields an array. At least one operand of ``||`` must be a
+Concatenation takes the kind of its :ref:`receiver <sssec:array_ops>`, the
+rightmost operand: when that receiver is a ``string`` (or any vector), the whole
+concatenation is a ``string``, so ``"x = " || format(x)`` is a ``string`` and
+prints as text when sent to a stream. When instead the receiver is a
+``character`` array, the result is a ``character`` array, which is implicitly
+cast back to a ``string`` whenever it is stored into one (see
+:ref:`ssec:implicitCasts_string`). Either way
+``var string letters = ['a', 'b'] || "cd";`` below is legal -- here its receiver
+``"cd"`` is a ``string``, so the concatenation is itself a ``string``. At least one operand of ``||`` must be a
 composite type (a ``string`` or an array); concatenating two :term:`scalar
 <scalar type>` values -- for example ``character || character`` -- must emit a
 ``TypeError`` (see :ref:`sec:errors`). You may also append a slice of

@@ -269,8 +269,22 @@ Operations
 
       ::
 
-         integer[3] v = 1 || 2 || 3;   // TypeError: both operands are scalars
+         integer[3] v = 1 || 2 || 3;   // TypeError: all operands are scalars
          integer[3] w = [1] || 2 || 3; // [1, 2, 3]: left operand is an array
+
+
+      Concatenation is right-associative, and its *receiver* -- the rightmost
+      operand -- fixes the **kind** of the result. When the receiver is a
+      :ref:`vector <ssec:vector>` (a ``vector<T>`` or a ``string``), the whole
+      concatenation is a vector of that element type; otherwise -- when the
+      receiver is an array or a scalar -- the result is an array, exactly as in
+      the examples above. Nothing else about concatenation changes: at least one
+      operand must still be composite, and the operands must share a common
+      element type through implicit casts. This is what keeps a string
+      concatenation such as ``"x = " || format(x)`` a ``string`` (its receiver
+      ``format(x)`` is a string), so it renders as text when sent to a stream,
+      while a vector result can still be stored into an array through the usual
+      :ref:`vector/array interoperability <ssec:implicitCasts_avv>`.
 
 
       Remember that arrays have a fixed length, which means you cannot grow an
