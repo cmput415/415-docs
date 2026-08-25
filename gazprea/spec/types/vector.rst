@@ -219,7 +219,7 @@ The methods are:
         v1.len() -> std_output;        // 5
 
         var vector<real[2]> v2;        // v2 == []
-        const x = 1..10;
+        const x = 1..11;
 
         // `1` is implicitly cast to `[1.0, 1.0]` before appending
         call v2.append(1);             // v2 == [[1.0, 1.0]]

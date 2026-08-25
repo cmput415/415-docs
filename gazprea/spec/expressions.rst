@@ -218,6 +218,6 @@ iterator variable is bound fresh.
 
 ::
 
-         loop i in 1..6 {
+         loop i in 1..7 {
            integer i = 5;
          }

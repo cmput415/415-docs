@@ -80,7 +80,7 @@ These can be called as follows:
 
          integer x = f(); /* x == 1 */
          real c = pythag(3, 4); /* 3 and 4 are implicitly cast to real. c == 5.0 */
-         real value = get([i in 1..10 | i], 3); /* value == 3 */
+         real value = get([i in 1..11 | i], 3); /* value == 3 */
 
 A function's body can also be given by a block statement instead of a
 single expression. In this case the return value of the function is
