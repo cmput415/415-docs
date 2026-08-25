@@ -284,13 +284,14 @@ Terms
 
       *Gazprea policy.*  A conforming *Gazprea* implementation must
       not have any user-distinguishable implementation-defined
-      behavior or unspecified behavior, and has no undefined behavior
-      beyond the single deliberate exception of integer overflow under
-      the ``-ffast-math`` compiler flag (see :ref:`ssec:integer`),
-      provided solely for performance testing.  Outside that one case,
-      every program is either :term:`well-formed` and produces the
-      output required by this specification, or it is :term:`ill-formed`
-      and the implementation emits an error.  The reason these
+      behavior or unspecified behavior, and has **no undefined behavior
+      under standard operation**.  The single, deliberate exception is
+      the ``-ffast-math`` compiler flag (see :ref:`sec:flags`), under
+      which the integer math faults of :ref:`ssec:integer` become
+      undefined behavior; it is provided solely for performance testing.
+      Outside that one case, every program is either :term:`well-formed`
+      and produces the output required by this specification, or it is
+      :term:`ill-formed` and the implementation emits an error.  The reason these
       C/C++ terms appear in this glossary is definitional -- the
       *Gazprea* prose uses them to say what the language does *not*
       allow, not to reserve latitude for implementers.
@@ -591,7 +592,9 @@ Terms
       [#iso-c11]_.  A program exhibiting undefined behavior at run time
       is not obliged to signal an error, terminate, or produce any
       particular output.  Contrast :term:`unspecified behavior` and
-      :term:`implementation-defined behavior`.
+      :term:`implementation-defined behavior`.  In *Gazprea*, undefined
+      behavior arises only under the ``-ffast-math`` flag (see
+      :ref:`sec:flags`); a program compiled without it has none.
 
    unspecified behavior
       "Use of an unspecified value, or other behavior where this

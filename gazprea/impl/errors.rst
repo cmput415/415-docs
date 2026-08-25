@@ -147,8 +147,13 @@ Here are the compile-time errors your compiler must throw:
 
 * ``MathError``
 
-    May be raised during compile time expression evaluation when division by zero occurs.
-    Conditions for raising are equivalent to a :term:`runtime <run time>` ``MathError``.
+    Raised for the integer math faults defined normatively in :ref:`ssec:integer`
+    -- signed 32-bit overflow, division or ``%`` by ``0``, and exponentiation of
+    base ``0`` with a non-positive exponent. ``real`` arithmetic never raises a
+    ``MathError`` (it follows IEEE 754; see :ref:`ssec:real`). This error may be
+    raised at compile time when the faulting expression is evaluated during
+    constant folding; the conditions are identical to the :term:`runtime <run
+    time>` ``MathError``.
 
 * ``IndexError``
 
@@ -200,8 +205,12 @@ at compile time or at runtime and the tester will accommodate different implemen
 
 * ``MathError``
 
-    Raised at runtime if either zero to the power of N, where N is <= 0, or a
-    division by zero is evaluated.
+    Raised at runtime for the integer math faults defined normatively in
+    :ref:`ssec:integer` (signed 32-bit overflow, division or ``%`` by ``0``, and
+    exponentiation of base ``0`` with a non-positive exponent). ``real``
+    arithmetic never raises a ``MathError``; see :ref:`ssec:real`. Under the
+    ``-ffast-math`` flag these integer faults are :term:`undefined behavior`
+    instead (see :ref:`sec:flags`).
 
 Here is an example :term:`ill-formed` program. If your compiler is smart, you may raise the later error, if you
 prefer not to implement static analysis, the former error can be emitted at runtime.

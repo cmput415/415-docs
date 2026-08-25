@@ -67,8 +67,8 @@ the finite ``real`` range yields a signed ``Infinity``, division or ``%`` by
 subsequent operation on ``Infinity`` and ``NaN`` operands follows IEEE 754. The
 ``-ffast-math`` flag has **no effect** on how ``real`` values are produced or
 handled -- in particular it does not change the generation of ``Infinity`` or
-``NaN``. (``-ffast-math`` affects only integer overflow; see
-:ref:`ssec:integer`.)
+``NaN``. (``-ffast-math`` affects only integer arithmetic; see :ref:`sec:flags`
+and :ref:`ssec:integer`.)
 
 Comparisons follow from this rule, exactly as in IEEE 754. With at least one
 ``NaN`` operand, every *affirmative* comparison -- ``==``, ``<``, ``>``,
