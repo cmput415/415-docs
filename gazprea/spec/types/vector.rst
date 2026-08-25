@@ -18,9 +18,9 @@ array value of its *current* length. Vectors are nevertheless a distinct
 type, and the differences include (non-exhaustively): vectors have methods
 where arrays have none; a mixed binary operation between a vector and an
 array produces an *array* result (vector-ness is not propagated through
-operators); and a vector of inferred-size arrays pads to the size of its
-*first* element (see below), whereas a matrix literal pads to its longest
-row (see :ref:`sssec:matrix_constr`).
+operators); and a ``vector<T[*]>`` (a vector of
+inferred-size arrays) fixes its element size once, from the first array value
+stored into it, and fits every later element to that size (see below).
 
 .. _sssec:vec_decl:
 
@@ -58,26 +58,69 @@ Below are some examples of ``vector`` declarations.
         const vector<real> v6 = 1;             // [1.0]
 
 
-Vectors of inferred-size arrays (``vector<T[*]>``) assume the shape of the
-*first* array in the vector. Subsequent array elements shorter than the
-inferred size are padded with the element type's :term:`zero value`; those
-longer raise a :term:`run time` ``SizeError``. (Contrast with
-:ref:`matrix construction <sssec:matrix_constr>`, where rows pad to the
-*longest* row: the same nested literal can be legal as a matrix and a
-``SizeError`` as a vector of arrays.)
+A ``vector<T[*]>`` -- a vector whose element is an inferred-size array -- fixes
+that element size (the ``*``) exactly once, from the **first array value that
+enters the vector**, and fits every later element to it: a shorter array is
+padded with the element type's :term:`zero value`, and a longer one raises a
+``SizeError`` (see :ref:`sec:errors`). What counts as the "first value" depends
+on how the vector is populated, and the two paths must not be conflated:
 
-A vector of arrays is therefore never ragged: every array element has the
-same shape as the first element. A ``vector<vector<T>>``, by contrast,
-*may* be ragged, because each inner vector carries its own runtime length
-and no element imposes its shape on the others. This version of the
-language has no broadcasting and no ``shape()`` operation.
+- **Initialized from an array value** (including a nested array *literal*): the
+  right-hand side is evaluated to an array *value* on its own first, and only
+  then stored. A nested literal such as ``[[1.0], [2.0, 3.0]]`` is an ordinary
+  array literal, so it is normalized to a rectangle by padding every sub-array
+  to the **longest** one -- exactly as in :ref:`matrix construction
+  <sssec:matrix_constr>` -- *before* the vector ever sees it. This padding is a
+  property of the literal, so it is identical whether the literal initializes an
+  array variable or a vector.
+
+- **Built up incrementally** with ``push`` / ``append`` from a shorter or empty
+  vector: the elements arrive one at a time, so the **first** element stored
+  fixes the size and each later element is fitted to it.
+
+A vector of arrays is therefore never ragged: once the element size is fixed,
+every element has that shape. A ``vector<vector<T>>``, by contrast, *may* be
+ragged, because each inner vector carries its own runtime length and no element
+imposes its shape on the others. This version of the language has no
+broadcasting and no ``shape()`` operation.
+
+Because a nested literal is padded to its longest sub-array before it is stored,
+neither initializer below is ragged and neither is an error -- the short
+sub-array is simply padded, whichever side it is on:
 
    ::
 
-        const vector<character> vec = ['a', 'b', 'c'];
-        const vector<real[*]> ragged_right = [[1.0], [2.0, 2.0]]; // SizeError
-        const vector<real[*]> padded_right = [[1.0, 2.0], [1.0]]; // Pads second element
-        const vector<character> const_vec = vec;
+        const vector<character> vec = ['a', 'b', 'c'];       // ['a', 'b', 'c']
+
+        // Each RHS is normalized to its longest sub-array, then stored:
+        const vector<real[*]> x = [[1.0], [2.0, 3.0]]; // x == [[1.0, 0.0], [2.0, 3.0]]
+        const vector<real[*]> w = [[1.0, 2.0], [1.0]]; // w == [[1.0, 2.0], [1.0, 0.0]]
+
+        const vector<character> const_vec = vec;             // copy of vec
+
+Growing a vector one element at a time is different: there is no surrounding
+literal to normalize, so the first stored element fixes the size and each later
+element is fitted to it. This is why the same value pads differently depending
+on the path -- ``x`` above is padded as a whole literal, whereas ``y`` below
+pads only its newly pushed element:
+
+   ::
+
+        var vector<real[*]> y = [[1.0, 2.0]]; // element size fixed at 2
+        call y.push([3.0]);                   // [3.0] padded to [3.0, 0.0]
+                                              // y == [[1.0, 2.0], [3.0, 0.0]]
+
+An initially empty ``vector<T[*]>`` takes its element size from the first array
+appended, after which the usual pad / ``SizeError`` rules apply. Each call below
+is shown for its own effect on the freshly emptied vector:
+
+   ::
+
+        var vector<integer[*]> z;      // empty; element size not yet fixed
+        call z.append([1, 2]);         // first element fixes the size at 2: z == [[1, 2]]
+        call z.append([1]);            // shorter: padded to [1, 0]
+        call z.append([1, 2, 3]);      // longer than the fixed size 2: SizeError
+        call z.append(1);              // scalar 1 broadcasts to [1, 1], then appended
 
 
 .. _sssec:vec_ops:
