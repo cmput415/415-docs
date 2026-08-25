@@ -59,6 +59,38 @@ Below are some examples of ``vector`` declarations.
         const vector<real> v6 = 1;             // [1.0]
 
 
+A vector declaration ``vector<T> v = E`` is resolved in exactly one of two ways,
+chosen by the rank of the right-hand side ``E`` relative to the element type
+``T``. The two cases are mutually exclusive, so there is never any ambiguity
+about how many elements the vector has:
+
+- **Single-element declaration** -- ``E`` is a :term:`scalar <scalar type>`, or
+  an array of the same rank as ``T``, and is implicitly cast or broadcast to
+  ``T``. The vector then has exactly **one** element: ``E`` converted to ``T``. A
+  scalar is broadcast to fill that element; a same-rank array is cast to ``T``
+  element-wise and, when ``T`` is a fixed-size array, fitted to ``T``'s size by
+  the usual :ref:`array-to-array rules <ssec:implicitCasts_atoa>` -- a shorter
+  value is **padded** with the element type's :term:`zero value`, a longer one is
+  a ``SizeError``. So ``vector<integer[2]> v = [4, 5]`` is the one-element
+  ``[[4, 5]]``, and ``vector<integer[3]> v = [4, 5]`` is the one-element
+  ``[[4, 5, 0]]`` (the ``integer[2]`` value is padded to ``integer[3]``).
+
+- **Multi-element declaration** -- ``E`` has the rank of the vector's underlying
+  array type ``T[]``, one rank higher than ``T``. Each element of ``E`` must be
+  implicitly castable to ``T`` (see :ref:`sec:implicitCasts`); the vector holds
+  those elements, in order, each converted to ``T``.
+
+Any other rank of ``E`` is a ``TypeError`` (see :ref:`sec:errors`). A scalar is
+always the single-element case, so ``vector<integer> v = 42`` is ``[42]``; to
+supply several elements you write the literal one rank deeper. The two spellings
+can therefore denote the same value: for ``const vector<integer[*]> a = [1, 2]``
+the right-hand side is a single ``integer[*]`` element, so ``a == [[1, 2]]``,
+while ``const vector<integer[*]> a = [[1, 2]]`` is a multi-element declaration
+with one element, so ``a == [[1, 2]]`` as well. When ``T`` is an inferred-size
+array (``T[*]``), the element(s) selected by whichever case applies fix that
+inferred size once, as described next.
+
+
 A ``vector<T[*]>`` -- a vector whose element is an inferred-size array -- fixes
 that element size (the ``*``) exactly once, from the **first array value that
 enters the vector**, and fits every later element to it: a shorter array is
@@ -201,11 +233,12 @@ The methods are:
 - ``len()`` (function) - number of elements in the vector
 
 - ``append(x)`` (procedure) - append to the vector, where ``T`` is the element
-  type: if ``x`` is a single value implicitly castable to ``T`` it is cast to
-  ``T`` and appended as a single element; otherwise ``x`` must be an array
-  whose elements are each implicitly castable to ``T``, and its elements are
-  appended in order. When both readings apply, the single-element reading is
-  used.
+  type. ``x`` is split into elements of ``T`` by the same single-versus-multi
+  test as a vector declaration (see :ref:`sssec:vec_decl`): if ``x`` is a scalar
+  or an array of the same rank as ``T`` it is cast to ``T`` and appended as a
+  **single** element; if ``x`` has the rank of ``T[]`` (one higher than ``T``)
+  each of its elements is cast to ``T`` and they are appended **in order**. The
+  two cases are mutually exclusive, so no tie-break is needed.
 
    ::
 
