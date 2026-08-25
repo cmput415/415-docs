@@ -140,18 +140,17 @@ functions ``rows`` and ``columns``; see :ref:`ssec:builtIn_rows_cols` for
 their full definition.
 
 
-Matrix indexing is done similarly to array indexing, however, two
-indices must be used. Because matrices are arrays of arrays the indexing is
-composite:
+Matrix indexing is done similarly to array indexing, except that one subscript
+is written per axis:
 
 ::
 
            M[i][j] -> std_output;
 
 
-The first index specifies the row of the matrix, and the second index
-specifies the column of the matrix. The result is retrieved from the row
-and column. Both the row and column indices must be integers.
+The first index selects along the first axis (the row) and the second along the
+second axis (the column). When both indices are single integers, as here, the
+result is the one element at that row and column:
 
 ::
 
@@ -163,16 +162,22 @@ As with arrays, out of bounds indexing on matrices must emit an
 ``IndexError`` (see :ref:`sec:errors`) at :term:`compile time` or
 :term:`run time`.
 
-Because a matrix is an array of arrays, every index position accepts the same
-forms as a 1-D array index (see :ref:`sssec:array_slices`): a single integer
-selects one element along that dimension, and a range written directly in an
-index position selects a contiguous run along that dimension (a slice, with the
-same inclusive-left, exclusive-right bounds and view semantics as for 1-D
-arrays). Multi-dimensional indexing and slicing therefore follow the same
-pattern as 1-D arrays, applied per index position: a single row index ``M[i]``
-selects a whole row (a rank-1 array), ``M[i][j]`` selects one element, and a
-range such as ``M[1..3]`` selects a contiguous band of rows (a sub-matrix).
-Higher-rank arrays generalize this to ``k`` index positions.
+Every index position accepts the same forms as a 1-D array index (see
+:ref:`sssec:array_slices`): a single integer selects one element along that
+axis, and a range written directly in an index position selects a contiguous
+run along that axis (a slice, with the same inclusive-left, exclusive-right
+bounds as for 1-D arrays). Indexing is *positional*: in a subscript chain
+``M[s1][s2]``, ``s1`` applies to the first axis (rows) and ``s2`` to the second
+(columns), and a rank-``k`` array accepts up to ``k`` such positions. An axis
+indexed by a single integer is dropped from the result, while an axis indexed by
+a range is kept, so the rank of the result is the number of index positions that
+are ranges: ``M[i]`` selects a whole row (a rank-1 array), ``M[i][j]`` selects
+one element, ``M[1..3]`` selects a contiguous band of rows (a rank-2
+sub-matrix), and ``M[1..3][2]`` selects column 2 of that band (a rank-1 array).
+Higher-rank arrays generalize this to ``k`` index positions. Slices of a matrix
+carry the same copy-on-read, write-through-on-assignment semantics as for 1-D
+arrays: a slice read as a value copies the selected elements, while a slice on
+the left of an assignment writes through to the matrix (which must be ``var``).
 
 ::
 

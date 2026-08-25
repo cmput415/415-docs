@@ -61,6 +61,19 @@ how computed ranges parse:
   arithmetic operator, so ``-4..5`` parses as ``(-4)..5`` and ``1..n-1`` parses
   as ``1..(n-1)`` -- the bounds are computed first, then the range is formed.
 
+The indexing operator ``[]`` (precedence 2) is a *postfix, multi-axis* operator:
+a maximal run of subscripts written directly against an array operand --
+``a[s1][s2]...[sk]`` -- is a single :ref:`positional index <sssec:array_slices>`
+on that operand, with ``sm`` selecting along axis ``m`` (see :ref:`ssec:matrix`).
+Its left-associativity only fixes the order in which the axes are read (left to
+right, outermost axis first); it does **not** re-index an intermediate result.
+Because the axes are counted against the operand, parentheses matter:
+``M[1..3][2]`` indexes ``M`` positionally and selects column 2 of rows 1--2,
+whereas ``(M[1..3])[2]`` first evaluates ``M[1..3]`` to an array value and then
+indexes *that* value on its own first axis (selecting a row). Parenthesizing an
+inner slice -- or binding it to a variable -- is therefore how one indexes into
+a slice's result.
+
 .. _ssec:expressions_generators:
 
 Generators

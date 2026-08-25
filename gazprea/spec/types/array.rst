@@ -506,48 +506,67 @@ element:
 | ``i..j``  | ``i`` through ``j-1``                   |
 +-----------+-----------------------------------------+
 
-An array slice is a **view** into the elements of its backing array, not a
-copy:
+Whether a slice copies or writes through depends on where it appears: a slice is
+a **copy when read** and a **view when assigned to**.
 
--  As an :term:`lvalue`, a slice writes through to its backing array, and
-   so is an lvalue only when that array is mutable (declared ``var``):
+-  **In value position** (an :term:`rvalue`) -- as an initializer, on the right
+   of an assignment, as an argument bound to a ``const`` parameter, or anywhere
+   an array value is expected -- a slice produces a **fresh, independent array**
+   holding a *copy* of the selected elements. Binding it to a variable creates a
+   new array; the copy and the original never observe each other's later writes.
+   Because the elements are copied, the source array need not be mutable -- a
+   slice of a ``const`` array is perfectly legal here -- and the copy's own
+   mutability is decided by the declaration that receives it:
 
    ::
 
-      var integer[3] a = [1, 2, 3];
-      a[1..3] = [4, 5];
-      a -> std_output; // [4, 5, 3]
+      integer[3] a = [1, 2, 3];   // a is const (the default)
+      var b = a[1..3];            // b is a fresh var integer[2] == [1, 2] (a copy)
+      b[1] = 9;                   // b == [9, 2]; a is unchanged, still [1, 2, 3]
 
    (``a[1..3]`` selects indices 1 and 2.)
 
--  As an :term:`rvalue`, a slice is a live, read-only view. A ``const``
-   slice is such a read-only view and need not be built on a ``const``
-   array -- it still reflects later changes to its backing array:
+-  **In assignment-target position** (an :term:`lvalue`) -- on the *left* of an
+   assignment, or bound to a ``var`` reference parameter -- a slice is a **view**
+   that writes *through* to its backing array. This is the only situation in
+   which a slice aliases storage, and it requires the backing array to be mutable
+   (declared ``var``); a slice of a ``const`` array is never an lvalue. The
+   assigned value is fitted to the slice's length exactly as for a whole-array
+   assignment -- a shorter value is padded with the element type's
+   :term:`zero value` and a longer value is a ``SizeError`` (see
+   :ref:`sssec:array_sizing`):
 
    ::
 
       var integer[3] a = [1, 2, 3];
-      const b = a[1..3];
-      b -> std_output; // [1, 2]
-      a[2] = 4;
-      b -> std_output; // [1, 4]
+      a[1..3] = [4, 5];           // writes through: a == [4, 5, 3]
+      a -> std_output;            // [4, 5, 3]
 
-Further indexing and slicing shorthand forms are shown below.
+This copy-on-read, view-on-assignment split applies unchanged to arrays of any
+rank; the higher-rank case is described below and in :ref:`ssec:matrix`.
+
+Slicing shorthand forms are shown below. Each names a slice in value position,
+so each is an ordinary array value (a copy):
 
 ::
 
     // 0..10 is a range value, not a slice
     integer[*] a = [0, 2, 4, 6, 8, 10];
-    integer[2] x = a[2..4]; /* x == [2, 4] */
-    integer y = a[2..4][1]; /* y == 2 */
+    integer[2] x = a[2..4]; /* x == [2, 4] (a fresh copy) */
 
     integer[*] u = a[..4];  /* u == [0, 2, 4] */
     integer[*] v = a[4..];  /* v == [6, 8, 10] */
     integer[*] w = a[..-1]; /* w == [0, 2, 4, 6, 8] */
 
-    // A slice of the entire array behaves as the array itself, this can be repeated
-    integer z1 = a[4];                   /* z1 == 6 */
-    integer z2 = a[1..7][1..7][1..7][4]; /* z2 == 6 */
+To index *into* the array that a slice produces, bind it to a variable (or
+parenthesize the slice) and index that value; being a copy, it behaves as any
+other array value:
+
+::
+
+    integer[*] a = [0, 2, 4, 6, 8, 10];
+    var s = a[2..4];        /* s is a fresh integer[2] copy == [2, 4] */
+    integer y = s[1];       /* y == 2 */
 
 
 After resolving any negative bound, both ``i`` and ``j`` in ``a[i..j]`` must
@@ -561,11 +580,52 @@ A slice whose (in-bounds) left bound is greater than its right bound, such as
 (see :ref:`sssec:array_ops`), it simply selects no elements and yields an empty
 array of ``a``'s element type.
 
-A slice of a mutable (``var``) array is an :term:`lvalue`; used in a
-parameter call or on the left side of an assignment, it allows modification
-of the backing array, as in the following example. A slice of a ``const``
-array may be used only as an :term:`rvalue`:
+Slicing generalizes to arrays of any rank. Indexing is *positional*: in a
+subscript chain ``a[s1][s2]...[sk]`` the subscript ``sm`` applies to axis ``m``
+of ``a``, and a rank-``k`` array accepts up to ``k`` index positions (see
+:ref:`ssec:matrix`). An axis indexed by a single integer is dropped from the
+result; an axis indexed by a range is kept, holding the selected run -- so the
+rank of the result is the number of index positions that are ranges. The
+copy-on-read, view-on-assignment rule carries over per selection: the result is
+a copy when read and a write-through view when it is the target of an
+assignment.
 
+::
+
+    // a rank-3 array whose 27 elements are 1, 2, 3, ..., 27 in order
+    var integer[3][3][3] a = ...;
+
+    // axis 1 by an integer (dropped); axes 2 and 3 by ranges (kept):
+    var b = a[1][1..3][1..3];   // a fresh integer[2][2] copy == [[1, 2], [4, 5]]
+
+    // the same positional selection as an lvalue writes through to a:
+    a[2][1..3][1..3] = [[28, 29], [30, 31]];  // updates those four elements of a
+
+Because a subscript chain names successive axes rather than re-indexing an
+intermediate result, writing more index positions than the array has axes is
+*not* how one indexes into a slice's result; for that, bind the slice to a
+variable (or parenthesize it) and index the resulting value, as shown above.
+
+A slice may also be handed to a :ref:`function <sec:function>` or
+:ref:`procedure <sec:procedure>`. In an argument position it follows the same
+copy-or-view rule as everywhere else, decided by the *parameter* it binds to:
+
+-  A slice bound to a ``const`` parameter is passed **by value** -- the callee
+   receives a copy of the selected elements and cannot reach the caller's array
+   through it. Every :ref:`function <sec:function>` parameter is ``const``
+   (functions are pure), so a slice passed to a function is always such a copy.
+
+-  A slice bound to a ``var`` parameter -- available only for
+   :ref:`procedures <ssec:procedure_vec_mat>`, whose parameters may be ``var`` --
+   is passed **by reference**: it is a view that writes *through* to the backing
+   array, exactly as an lvalue slice does, so the callee's writes are visible to
+   the caller once the call returns. This requires the backing array to be
+   ``var``.
+
+An implementation may still pass a ``const`` slice by reference for efficiency:
+because the callee only reads it, the choice is unobservable, and *Gazprea*'s
+value semantics -- realized directly by *MLIR* -- make the copy and the shared
+reference indistinguishable in that case.
 
 ::
 
@@ -575,31 +635,29 @@ array may be used only as an :term:`rvalue`:
 
     procedure main() returns integer {
 
-        integer[6] a = [0, 2, 4, 6, 8, 10];
+        integer[6] a = [0, 2, 4, 6, 8, 10];   /* a and b are const */
         integer[6] b = [0, 3, 6, 9, 12, 15];
-        var integer[6] c;          /* c must be var */
+        var integer[6] c;                      /* c must be var */
 
-        /* procedure works normally with an array */
+        /* procedure works normally with whole arrays */
         call sum_arrays(a, b, c);
         c -> std_output; /* [0, 5, 10, 15, 20, 25] */
 
-        /* procedure can also modify a slice */
+        /* a[1..4] and b[1..4] are copied into the const parameters;
+           c[4..7] is a var slice, so writes pass through to c */
         call sum_arrays(a[1..4], b[1..4], c[4..7]);
         c -> std_output; /* [0, 5, 10, 0, 5, 10] */
 
-        /* slice can be assigned to, modifying c */
+        /* a slice on the left of an assignment writes through to c */
         c[3..5] = [415, 429];
         c -> std_output; /* [0, 5, 415, 429, 5, 10] */
 
         return 0;
     }
 
-Because ``c[4..7]`` and ``c[3..5]`` are views over the mutable array ``c``,
-each write passes through to ``c`` itself; no copy of ``c`` is made. A slice
-is *always* a view, never a copy: binding one to a new variable (as in the
-earlier examples) aliases the backing array's elements rather than copying
-them, so a later write through either name is visible through the other. (A
-dedicated copy operator is a planned future addition.)
+Here ``c[4..7]`` and ``c[3..5]`` are lvalue slices of the mutable array ``c``,
+so each write passes through to ``c`` itself; ``a[1..4]`` and ``b[1..4]``, bound
+to ``const`` parameters, are copied and leave ``a`` and ``b`` untouched.
 
 
 Type Casting and Implicit Casts

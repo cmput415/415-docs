@@ -215,7 +215,7 @@ checked:
    length in its type, so no length check applies in either direction; the
    parameter simply takes on the length of the value passed or returned.
 
-Like Rust, array *slices* may be passed as arguments:
+Array *slices* may also be passed as arguments:
 
 ::
 
@@ -241,12 +241,11 @@ that assigns to one of its parameters must emit an ``AssignError`` (see
 :ref:`sec:errors`).
 
 Because every function parameter is ``const``, an array :ref:`slice
-<sssec:array_slices>` passed to a function is necessarily received through a
-``const`` parameter and so cannot write through to its backing array. A
-function therefore can never observe or cause a change to a slice's backing
-storage, which makes passing a slice by value (a copy) semantically equivalent
-to passing the view -- the distinction that matters for procedures (below) does
-not arise for functions.
+<sssec:array_slices>` passed to a function is received **by value** -- a copy of
+the selected elements -- and so can never observe or cause a change to the
+slice's backing storage. The view-versus-copy distinction that matters for a
+``var`` parameter therefore does not arise for functions: every slice a function
+receives is a copy.
 
 .. _ssec:function_namespacing:
 

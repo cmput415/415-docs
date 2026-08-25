@@ -162,16 +162,16 @@ The above is a simple example using arrays. You must ensure that values
 cannot be aliased with an assignment between any types, including
 arrays and tuples.
 
-The one exception is an :ref:`array slice <sssec:array_slices>`, which is
-deliberately a *view* over its backing array rather than a copy. Binding a
-slice, as in ``const b = a[1..3];``, aliases the backing array's elements, and
-writing through a mutable slice writes through to that array; this is the sole
-construct that aliases through an assignment or initialization. Every other
-assignment or initialization -- whole arrays, tuples, and structs alike --
-deep-copies, so, for example, creating a new struct copies the right-hand side
-and never aliases it through indexing. (This slice exception is expected to be
-revised in a future version of the specification, alongside a dedicated slice
-type.)
+This deep-copy rule has no exceptions; :ref:`array slices <sssec:array_slices>`
+obey it too. Binding a slice to a variable, as in ``const b = a[1..3];``,
+*copies* the selected elements into a fresh, independent array, so ``b`` does
+not alias ``a`` and neither one sees the other's later writes. A slice writes
+*through* to its backing array only when it is the target on the *left* of an
+assignment (``a[1..3] = [4, 5];``) or is bound to a ``var`` reference parameter
+-- that is the :term:`lvalue` meaning of a slice, not an aliasing of two
+variables. Every assignment and initialization -- whole arrays, slices, tuples,
+and structs alike -- deep-copies, so, for example, creating a new struct copies
+the right-hand side and never aliases it through indexing.
 
 Variables may be declared as const, and in this case a program that places them
 on the left hand side of an assignment expression is :term:`ill-formed`.  The

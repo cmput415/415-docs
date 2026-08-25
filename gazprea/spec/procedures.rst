@@ -270,10 +270,11 @@ passed to procedures. For instance:
 It is impossible to tell whether or not these overlap at :term:`compile time`
 due to the halting problem. Thus for simplicity, whenever an array is passed
 to a procedure *Gazprea* detects aliasing whenever the same array is used,
-regardless of whether or not the access would overlap. Because a
-:ref:`slice <sssec:array_slices>` is a view into a backing array, two ``var``
-arguments that slice the same backing array always alias -- the backing array
-is the unit of aliasing -- even when their ranges are disjoint.
+regardless of whether or not the access would overlap. A
+:ref:`slice <sssec:array_slices>` bound to a ``var`` parameter is a reference
+into its backing array, so two ``var`` arguments that slice the same backing
+array always alias -- the backing array is the unit of aliasing -- even when
+their ranges are disjoint.
 
 Another instance of aliasing relates to tuple and struct fields. Passing the
 same field to two ``var`` parameters is aliasing, but passing two *disjoint*
@@ -319,13 +320,16 @@ Slices can be used wherever arrays are declared as parameters (see
 may be ``var``, allowing the array or slice passed to it to be modified.
 
 Procedures follow the usual ``var``-is-reference, ``const``-is-value
-convention, with array slices as the subtle case. A slice passed to a
-``const`` parameter cannot modify its backing storage through that slice, so
-passing it by value is semantically fine. A slice is a *view*, however, so if
-some ``var`` reference to the same backing store mutates it during the call,
-the slice must reflect that change -- a requirement this version of the
-specification does not fully pin down. A dedicated slice type and a ``splat``
-operator are planned for a future revision to make these semantics precise.
+convention, and array slices follow it too. A slice bound to a ``const``
+parameter is passed **by value**: the callee receives a copy of the selected
+elements and cannot reach the caller's array through it, so no aliasing arises.
+A slice bound to a ``var`` parameter is passed **by reference**: it is a view
+that writes *through* to the backing array, exactly as a slice on the left of an
+assignment does, so the callee's writes are visible to the caller once the call
+returns (and the backing array must therefore be ``var``). An implementation may
+pass a ``const`` slice by reference for efficiency -- because the callee only
+reads it, the choice is unobservable, and *Gazprea*'s value semantics (realized
+directly by *MLIR*) make the copy and the shared reference indistinguishable.
 
 .. _ssec:procedure_mutation:
 
