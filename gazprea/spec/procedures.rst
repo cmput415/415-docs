@@ -149,7 +149,10 @@ Procedure Declarations
 ----------------------
 
 Procedures can use :ref:`forward declaration <ssec:function_fwd_declr>`
-just like functions.
+just like functions. As with a function, a procedure prototype is only a
+forward *declaration* and must be matched by a definition elsewhere in the
+program; a procedure that is prototyped but never defined is :term:`ill-formed`,
+and the compiler must emit a ``DefinitionError`` (see :ref:`sec:errors`).
 
 .. _ssec:procedure_main:
 

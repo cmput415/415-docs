@@ -172,6 +172,11 @@ function and the definition must be identical. That means the argument names in
 the prototype are *optional*. If the prototype arguments are given names they
 do not have to match the argument names in the function definition.
 
+A prototype is only a forward *declaration*, not a definition: it must be
+matched by a definition elsewhere in the program. A function that is prototyped
+but never defined is :term:`ill-formed`, and the compiler must emit a
+``DefinitionError`` (see :ref:`sec:errors`).
+
 
 .. _ssec:function_vec_mat:
 
