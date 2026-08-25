@@ -12,9 +12,13 @@ Valid global :term:`scope` :term:`statements <statement>` include:
 * Typealias
 
 All global statements are considered :term:`declarations <declaration>`.
-Global statements must be written in **dependency order**: any symbol a global
-statement references must already be defined earlier in the file. The one
-exception is calls to functions and procedures, for which a forward
+Global statements must be written in **dependency order**, and this is a hard
+requirement: a global may reference only symbols already defined *earlier* in
+the file, so globals are initialized in the order they are written. A global
+whose initializer references a global not yet defined at that point is
+:term:`ill-formed` -- the referenced name is not yet in :term:`scope` -- so the
+compiler must emit a ``SymbolError`` (see :ref:`sec:errors`). The one exception
+is calls to functions and procedures, for which a forward
 :ref:`prototype <ssec:function_fwd_declr>` lets a later definition be
 referenced before it textually appears.
 

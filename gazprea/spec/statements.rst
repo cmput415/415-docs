@@ -204,10 +204,9 @@ statements in other languages such as *C/C++*. As an example:
            x -> std_output; "\n" -> std_output; z -> std_output; "\n" -> std_output;
          }
 
-Is a block statement. Declarations can only appear at the start of a
-block (see :ref:`sec:declaration`, which specifies the ``StatementError``
-this raises). Each block statement introduces a new scope that new
-variables may be declared in. For instance this is perfectly valid:
+Is a block statement. Declarations may appear anywhere within a block,
+interleaved with the other statements (see :ref:`sec:declaration`). Each block
+statement introduces a new scope that new variables may be declared in. For instance this is perfectly valid:
 
 ::
 

@@ -54,32 +54,25 @@ This applies to ``const`` declarations as well: a ``const`` variable
 declared without an initializer is legal and holds the zero value of
 its type permanently.
 
-For simplicity *Gazprea* assumes that declarations can only appear at
-the beginning of a block. For instance this would not be legal in
-*Gazprea*:
+A declaration may appear at **any** point within a block; *Gazprea* does not
+require the declarations of a block to be grouped at its start, so a declaration
+may be interleaved freely with the statements around it. For instance, this is
+legal even though a declaration follows an ordinary statement:
 
 ::
 
        var integer i = 10;
        if (blah) {
-         i = i + 1;
-         real i = 0;  // Illegal placement of a declaration.
+         i = i + 1;         // an ordinary statement
+         var real r = 2.0;  // a declaration after a statement -- legal
+         r = r + i;
        }
 
-because the declaration of the real version of ``i`` does not occur at
-the start of the block. The compiler must emit a ``StatementError`` (see
-:ref:`sec:errors`) for any declaration that appears after the declaration
-prefix at the start of its enclosing block statement.
-
-The following declaration placement is legal:
-
-::
-
-       var integer i = 10;
-       if (blah) {
-         var real i = 0;  // At the start of the block. All good.
-         i = i + 1;
-       }
+The one exception is :ref:`global scope <sec:global>`, where declarations are
+**not** free to appear in any order: because every global is initialized before
+the program runs, a global may reference only globals defined *earlier* in the
+file, so globals must be written in :term:`initialization` order (see
+:ref:`sec:global`).
 
 A variable's name enters :term:`scope` only after its initializer has
 been evaluated. A program that refers to a variable within its own
