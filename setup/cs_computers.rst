@@ -8,7 +8,7 @@ They run Ubuntu 20.04 LTS with the Xfce desktop. ``vim``, ``emacs``, ``nano``, `
 Why the lab machines
 --------------------
 
-Lab exams are written in person, at a lab machine, in a one-hour block. The environment you get on exam day is the lab machine environment — its compiler, its CMake, its editors, its keyboard shortcuts, its window manager. Time spent that day discovering that your editor is not installed, that your build flags differ, or that your shell configuration lives only on your laptop is time taken out of the exam.
+Lab exams are written in person, at a lab machine, in a one-hour block. The environment you get on exam day is the lab machine environment — its compiler, its CMake, its editors, its keyboard shortcuts, its window manager. You do not want to discover on exam day that your editor is configured incorrectly or you have been using a different version of MLIR.
 
 The way to avoid that is to make the lab machine the environment you already work in, so that exam day is an ordinary working session in a familiar place.
 
@@ -26,20 +26,22 @@ UCOMM 2-070      ``ucomm-2070-w00`` – ``ucomm-2070-w24``          25
 UCOMM 2-086      ``ucomm-2086-w00`` – ``ucomm-2086-w33``          34
 ===============  ===============================================  =====
 
-Remote logins are not load balanced, so pick your machine from your student ID rather than picking a low number that everyone else also picks. Take your student ID modulo 59:
+Remote logins are not load balanced, so pick your machine from your student ID rather than picking a low number that everyone else also picks. Substitute your student ID and run:
 
 .. code-block:: console
 
- $ echo $(( <your student ID> % 59 ))
+ $ n=$(( <your student ID> % 59 )); [ $n -lt 25 ] && printf 'ucomm-2070-w%02d\n' $n || printf 'ucomm-2086-w%02d\n' $(( n - 25 ))
 
-If the result is 0–24, your machine is ``ucomm-2070-w<result>``; if it is 25–58, your machine is ``ucomm-2086-w<result minus 25>``. Hostnames pad the number to two digits, so a result of 7 is ``ucomm-2070-w07``.
+That prints the hostname of your machine: the first 25 numbers land in UCOMM 2-070 and the rest in UCOMM 2-086.
 
 Nothing binds you to that machine — it is a starting point that spreads the class out. If yours is unreachable or heavily loaded, move to another one. Your files live in ``/cshome``, which is shared across every CS machine, so your work follows you.
 
 Logging in over SSH
 -------------------
 
-A terminal session is enough for the whole build-test-debug cycle: ``cmake``, ``ninja``, ``dragon-runner``, ``git``, and a terminal editor.
+A terminal session is enough for the whole build-test-debug cycle: ``cmake``, ``make``, ``dragon-runner``, ``git``, and a terminal editor.
+
+If you prefer to work with a GUI and an IDE, skip to `Graphical sessions with X2Go`_.
 
 The lab machines do not accept connections from outside the department network, so you reach them through the CS SSH gateway, ``innisfree.cs.ualberta.ca``. Connecting straight to a lab machine times out; ``-J`` makes the jump for you in one command:
 
@@ -49,7 +51,7 @@ The lab machines do not accept connections from outside the department network, 
 
 The first connection asks you to confirm the host key of each host in turn. After that you are at a shell on the lab machine.
 
-Three things make this much more pleasant, and all are worth setting up now rather than during an exam week:
+For your convenience, you can set this up nicely:
 
 **A host alias.** Put these entries in ``~/.ssh/config`` on your own machine and the whole command becomes ``ssh lab``:
 
@@ -100,6 +102,8 @@ If you want a graphical desktop on the lab machine — CLion, a file manager, a 
 #. Connect. You get an Xfce desktop on the lab machine.
 
 X2Go sessions can be suspended and resumed, so you can disconnect, move, and pick up the same desktop with your editor and terminals where you left them.
+
+The department publishes its own `X2Go Quick Guide <https://www.ualberta.ca/en/computing-science/resources/technical-support/computing-resources/x2go-quick-guide.html>`__ covering the same setup.
 
 X11 forwarding (``ssh -X``, adding ``-X`` to the jump command above) also works for a single graphical program, but it is slow over anything other than a campus connection.
 
@@ -172,14 +176,3 @@ Installing CLion
 
 Because CLion is installed into your ``/cshome`` directory, it is there on every lab machine once you have installed it once. Launch it from an X2Go session; over plain SSH there is no display to put it on.
 
-Checking that you are ready
----------------------------
-
-You are ready for an exam week when all of the following are true on a lab machine you have not used before:
-
-* You can log in, at the machine and remotely — through the gateway, from off campus.
-* ``which cmake ninja java`` and ``dragon-runner --help`` all work in a fresh shell.
-* Your editor of choice starts and has the configuration you expect.
-* You can clone one of your project repositories from GitHub and build it.
-
-Work through that list early in the term. Every item on it is quick to fix in week two and expensive to discover in an exam.
