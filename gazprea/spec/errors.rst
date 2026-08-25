@@ -23,26 +23,27 @@ Compile-time errors
 -------------------
 
 * ``SyntaxError`` -- the program is not syntactically valid. This covers both
-  errors the parser reports directly and *syntactic* restrictions enforced by a
-  validation pass **after** parsing (for example a generator with three or more
+  errors the parser reports directly and *syntactic* errors enforced during
+  parsing (for example a generator with three or more
   iterator variables, an iterator loop with more than one domain, or a qualifier
-  on a function argument). Raising a ``SyntaxError`` from a post-parse pass is a
-  legitimate strategy; the grammar itself need not reject these constructs.
+  on a function argument). The grammar itself need not reject these constructs.
 
-* ``SymbolError`` -- an undefined symbol is referenced, or a symbol is re-defined
-  in the same :term:`scope`.
+* ``SymbolError`` -- an undefined symbol is referenced, or a symbol is
+  re-defined in the same :term:`scope`.
 
 * ``TypeError`` -- an operation or statement is applied to, or between,
-  expressions of invalid or incompatible types. A ``return`` whose value does not
+  expressions of invalid or incompatible types. A ``return`` whose value does
+  not
   match, and cannot be implicitly cast to, the routine's return type is a
   ``TypeError`` (not a ``ReturnError``).
 
 * ``AliasingError`` -- two arguments that may name the same mutable memory are
   passed to a procedure with at least one bound to a ``var`` parameter (see
-  :ref:`sec:procedure`). This is always a compile-time diagnosis, using the
-  conservative same-backing-array rule.
+  :ref:`sec:procedure`). This is always a compile-time diagnosis, using a
+  conservative approximation that two values that come from the same array are
+  said to alias unconditionally.
 
-* ``AssignError`` -- an assignment to a ``const`` value, or a tuple-unpacking
+* ``AssignError`` -- A tuple-unpacking
   assignment whose number of :term:`lvalues <lvalue>` differs from the number of
   fields in the tuple :term:`rvalue`.
 

@@ -155,52 +155,51 @@ functions ``rows`` and ``columns``; see :ref:`ssec:builtIn_rows_cols` for
 their full definition.
 
 
-Matrix indexing is done similarly to array indexing, except that one subscript
-is written per axis:
+Matrix indexing is done similarly to array indexing. Because a matrix is an
+array of arrays, indexing is *composite*: each subscript is applied, left to
+right, to the value the subscripts before it produced. The ``[]`` operator is
+left-associative, so ``M[i][j]`` groups as ``(M[i])[j]``:
 
 ::
 
            M[i][j] -> std_output;
 
 
-The first index selects along the first axis (the row) and the second along the
-second axis (the column). When both indices are single integers, as here, the
-result is the one element at that row and column:
+The first subscript ``M[i]`` selects row ``i`` -- a whole rank-1 array -- and
+the second subscript then indexes *that* row, so ``M[i][j]`` selects element
+``j`` of row ``i``. When both indices are single integers, as here, the result
+is the one element at that row and column:
 
 ::
 
            integer[*][*] M = [[11, 12, 13], [21, 22, 23]];
 
-           /* M[1][2] == 12 */
+           /* M[1]    == [11, 12, 13]  (the whole first row) */
+           /* M[1][2] == 12            (its second element)  */
 
 As with arrays, out of bounds indexing on matrices must emit an
 ``IndexError`` (see :ref:`sec:errors`) at :term:`compile time` or
 :term:`run time`.
 
-Every index position accepts the same forms as a 1-D array index (see
-:ref:`sssec:array_slices`): a single integer selects one element along that
-axis, and a range written directly in an index position selects a contiguous
-run along that axis (a slice, with the same inclusive-left, exclusive-right
-bounds as for 1-D arrays). Indexing is *positional*: in a subscript chain
-``M[s1][s2]``, ``s1`` applies to the first axis (rows) and ``s2`` to the second
-(columns), and a rank-``k`` array accepts up to ``k`` such positions. An axis
-indexed by a single integer is dropped from the result, while an axis indexed by
-a range is kept, so the rank of the result is the number of index positions that
-are ranges: ``M[i]`` selects a whole row (a rank-1 array), ``M[i][j]`` selects
-one element, ``M[1..3]`` selects a contiguous band of rows (a rank-2
-sub-matrix), and ``M[1..3][2]`` selects column 2 of that band (a rank-1 array).
-Higher-rank arrays generalize this to ``k`` index positions. Slices of a matrix
-carry the same copy-on-read, write-through-on-assignment semantics as for 1-D
-arrays: a slice read as a value copies the selected elements, while a slice on
-the left of an assignment writes through to the matrix (which must be ``var``).
+Each index position accepts the same forms as a 1-D array index (see
+:ref:`sssec:array_slices`): a single integer selects one element along the
+current outermost axis and drops that axis, while a range written directly in an
+index position selects a contiguous run along it and keeps it (a slice, with the
+same inclusive-left, exclusive-right bounds as for 1-D arrays). Because the
+subscripts are applied one after another, each indexes the outermost *remaining*
+axis of the value the previous subscripts produced -- a matrix is peeled from
+the outside in, exactly as in *C*. So ``M[i]`` selects a whole row (a rank-1
+array), ``M[i][j]`` selects one element, ``M[1..3]`` selects a contiguous band
+of rows (a rank-2 sub-matrix), and ``M[1..3][2]`` re-indexes that band to select
+its second row. Higher-rank arrays generalize this to ``k`` subscripts.
 
 ::
 
            integer[*][*] M = [[11, 12, 13], [21, 22, 23], [31, 32, 33]];
 
-           /* M[2]        == [21, 22, 23]     (a whole row)            */
-           /* M[1..3]     == [[11,12,13],[21,22,23]]  (rows 1 and 2)   */
-           /* M[1..3][2]  == [12, 22]         (column 2 of those rows) */
+           /* M[2]        == [21, 22, 23]                  (a whole row)         */
+           /* M[1..3]     == [[11, 12, 13], [21, 22, 23]]  (rows 1 and 2)        */
+           /* M[1..3][2]  == [21, 22, 23]                  (second row of those) */
 
 Operator precedence and associativity are specified once, for all types, in
 the :ref:`table of operator precedence <ssec:expressions_toop>`.

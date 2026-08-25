@@ -579,28 +579,25 @@ a **copy when read** and a **view when assigned to**.
 This copy-on-read, view-on-assignment split applies unchanged to arrays of any
 rank; the higher-rank case is described below and in :ref:`ssec:matrix`.
 
-Slicing shorthand forms are shown below. Each names a slice in value position,
-so each is an ordinary array value (a copy):
+Slicing shorthand forms are shown below. A slice is itself an array value, so it
+may be indexed or sliced again -- each subscript re-indexes the value the
+previous one produced (see :ref:`ssec:matrix`):
 
 ::
 
     // 0..10 is a range value, not a slice
     integer[*] a = [0, 2, 4, 6, 8, 10];
-    integer[2] x = a[2..4]; /* x == [2, 4] (a fresh copy) */
+    integer[2] x = a[2..4]; /* x == [2, 4] */
+    integer y = a[2..4][1]; /* y == 2: index into the slice's result */
 
     integer[*] u = a[..4];  /* u == [0, 2, 4] */
     integer[*] v = a[4..];  /* v == [6, 8, 10] */
     integer[*] w = a[..-1]; /* w == [0, 2, 4, 6, 8] */
 
-To index *into* the array that a slice produces, bind it to a variable (or
-parenthesize the slice) and index that value; being a copy, it behaves as any
-other array value:
-
-::
-
-    integer[*] a = [0, 2, 4, 6, 8, 10];
-    var s = a[2..4];        /* s is a fresh integer[2] copy == [2, 4] */
-    integer y = s[1];       /* y == 2 */
+    // A slice of the whole array behaves as the array itself, so slicing may be
+    // repeated before a final index:
+    integer z1 = a[4];                   /* z1 == 6 */
+    integer z2 = a[1..7][1..7][1..7][4]; /* z2 == 6 */
 
 
 The **right** bound of a slice may be negative: ``-j`` counts from the end,
@@ -618,31 +615,31 @@ A slice whose (in-bounds) left bound is greater than its right bound, such as
 (see :ref:`sssec:array_ops`), it simply selects no elements and yields an empty
 array of ``a``'s element type.
 
-Slicing generalizes to arrays of any rank. Indexing is *positional*: in a
-subscript chain ``a[s1][s2]...[sk]`` the subscript ``sm`` applies to axis ``m``
-of ``a``, and a rank-``k`` array accepts up to ``k`` index positions (see
-:ref:`ssec:matrix`). An axis indexed by a single integer is dropped from the
-result; an axis indexed by a range is kept, holding the selected run -- so the
-rank of the result is the number of index positions that are ranges. The
-copy-on-read, view-on-assignment rule carries over per selection: the result is
-a copy when read and a write-through view when it is the target of an
-assignment.
+Slicing generalizes to arrays of any rank. Indexing is *composite*: in a
+subscript chain ``a[s1][s2]...[sk]`` each subscript is applied, left to right, to
+the value the previous subscripts produced -- the ``[]`` operator is
+left-associative, so the chain groups as ``(((a[s1])[s2])...)[sk]`` (see
+:ref:`ssec:matrix`). Each subscript indexes the outermost *remaining* axis of
+that value: a single integer selects one element along it and drops that axis,
+while a range selects a contiguous run along it and keeps it. An array is thus
+peeled from the outside in, exactly as in *C*, and applying ``k`` integer
+subscripts to a rank-``k`` array reaches a single element.
 
 ::
 
     // a rank-3 array whose 27 elements are 1, 2, 3, ..., 27 in order
     var integer[3][3][3] a = ...;
 
-    // axis 1 by an integer (dropped); axes 2 and 3 by ranges (kept):
-    var b = a[1][1..3][1..3];   // a fresh integer[2][2] copy == [[1, 2], [4, 5]]
+    var b = a[1];           // the first plane: an integer[3][3] == [[1,2,3],[4,5,6],[7,8,9]]
+    var c = a[1][1..3];     // its first two rows: an integer[2][3] == [[1,2,3],[4,5,6]]
+    var d = a[1][1..3][2];  // the second of those rows: an integer[3] == [4,5,6]
+    integer e = a[1][2][3]; // the third element of the second row of the first plane == 6
 
-    // the same positional selection as an lvalue writes through to a:
-    a[2][1..3][1..3] = [[28, 29], [30, 31]];  // updates those four elements of a
-
-Because a subscript chain names successive axes rather than re-indexing an
-intermediate result, writing more index positions than the array has axes is
-*not* how one indexes into a slice's result; for that, bind the slice to a
-variable (or parenthesize it) and index the resulting value, as shown above.
+Because each subscript re-indexes the value the previous one produced, indexing
+directly into a slice needs no parentheses -- ``a[1][1..3][2]`` above slices the
+first plane to two rows and then selects the second of them. Once a subscript
+chain has reached a single element, applying a further subscript is a
+``TypeError`` (see :ref:`sec:errors`): there is no axis left to index.
 
 A slice may also be handed to a :ref:`function <sec:function>` or
 :ref:`procedure <sec:procedure>`. In an argument position it follows the same
