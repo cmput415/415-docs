@@ -25,13 +25,18 @@ sentence in another chapter can read
 
 .. note::
 
-   The entries here are *definitions of terminology*, not statements of
-   *Gazprea* semantics.  Where *Gazprea* re-uses a word from another
-   language (for instance ``type qualifier``, which C reserves for
-   ``const``/``volatile``/``restrict``/``_Atomic`` but *Gazprea* uses for
-   the mutability distinction ``const``/``var``), the glossary explains
-   the source of the word and points to the *Gazprea* chapter that gives
-   its language-specific meaning.
+   Most entries here are *definitions of terminology*.  Where *Gazprea*
+   re-uses a word from another language (for instance ``type qualifier``,
+   which C reserves for ``const``/``volatile``/``restrict``/``_Atomic`` but
+   *Gazprea* uses for the mutability distinction ``const``/``var``), the
+   glossary explains the source of the word and points to the *Gazprea*
+   chapter that gives its language-specific meaning.
+
+   A few entries, however, *do* state normative *Gazprea* rules -- notably
+   :term:`zero value`, :term:`initialization`, :term:`re-initialization`,
+   :term:`domain`, and :term:`value type`.  These are load-bearing: their
+   content is normative wherever it appears, and each is cross-referenced to
+   the chapter that states it in full.  Do not skip them.
 
 .. contents:: On this page
    :local:
@@ -75,7 +80,9 @@ Terms
       value; for a ``vector`` or ``string``, the empty collection.  A
       ``const`` variable declared without an initializer keeps its zero
       value for its entire lifetime; a shorter array value stored into a
-      longer array is padded with the element type's zero value.
+      longer array is padded with the element type's zero value.  This rule
+      is stated normatively, in the context of *Gazprea*'s RAII-style
+      initialization, in :ref:`sec:declaration`.
 
    aggregate type
       A type composed of subordinate members of possibly-different types.
