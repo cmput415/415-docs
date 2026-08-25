@@ -26,7 +26,8 @@ comment is the **first** occurrence of the sequence of characters
 
 Block comments cannot be nested because the comment finishes when it
 reaches the first closing sequence.  For example, the following is
-:term:`ill-formed` (the second ``*/`` has no matching ``/*``):
+:term:`ill-formed` (the second ``*/`` has no matching ``/*``); the compiler must
+emit a ``SyntaxError`` (see :ref:`sec:errors`):
 
 ::
 

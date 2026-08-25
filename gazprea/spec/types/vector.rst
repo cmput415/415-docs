@@ -28,15 +28,15 @@ stored into it, and fits every later element to that size (see below).
 Declaration
 ~~~~~~~~~~~
 
-Vectors are declared and (optionally) initialized as follows.
-(Note that we have replaced ``<>`` with ``|`` in the notation below since
-the literals ``<`` and ``>`` are used in the declaration)
+Vectors are declared and (optionally) initialized as follows, where
+``qualifier``, ``elem-type``, ``id``, and ``value`` are placeholders (the angle
+brackets of ``vector<...>`` are literal):
 
    ::
 
-            [<qualifier>] vector<|type|> |identifier|;
-            [<qualifier>] vector<|type|> |identifier| = |type-expr|;
-            [<qualifier>] vector<|type|> |identifier| = |type-array|;
+            [qualifier] vector<elem-type> id;
+            [qualifier] vector<elem-type> id = value;
+            [qualifier] vector<elem-type> id = array-value;
 
 
 Unlike the array type, *Gazprea* vectors do not have an explicit size
@@ -227,8 +227,11 @@ As a language-supported object, *Gazprea* provides methods for ``vector``
 
 The methods are:
 
-- ``push(T)`` (procedure) - pushes a new element to the back of the vector,
-  where ``T`` is the element type of the vector
+- ``push(x)`` (procedure) - pushes ``x`` onto the back of the vector as a single
+  new element; ``x`` is cast to the element type ``T`` exactly as in the
+  single-element case of ``append`` and of a
+  :ref:`vector declaration <sssec:vec_decl>` (a scalar broadcasts, a shorter
+  array pads)
 
 - ``len()`` (function) - number of elements in the vector
 

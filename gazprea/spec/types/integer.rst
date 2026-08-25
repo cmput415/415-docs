@@ -92,8 +92,9 @@ exponentiation where the base is ``0`` and the exponent is ``<= 0``,
 cause the implementation to raise a ``MathError`` (see
 :ref:`sec:errors`) at :term:`compile time` or :term:`run time`.
 
-The sole exception is under the mandatory ``-ffast-math`` compiler flag, under
-which every one of these integer faults -- overflow, divide by ``0``, ``%`` by
+The sole exception is under the ``-ffast-math`` compiler flag -- which every
+conforming implementation must support, but which is off unless explicitly
+enabled -- under which every one of these integer faults -- overflow, divide by ``0``, ``%`` by
 ``0``, and exponentiation of base ``0`` with a non-positive exponent -- becomes
 :term:`undefined behavior` instead of raising a ``MathError``. This is the only
 construct in which *Gazprea* leaves behavior undefined, and it is provided

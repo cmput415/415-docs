@@ -20,7 +20,9 @@ Declaration
 
 A tuple value is declared with the keyword ``tuple`` followed by a
 parentheses-surrounded, comma-separated list of types. The list must
-contain *at least two elements*. As with any other type, a tuple variable
+contain *at least two elements*; a ``tuple`` type with fewer than two members is
+:term:`ill-formed`, and the compiler must emit a ``TypeError`` (see
+:ref:`sec:errors`). As with any other type, a tuple variable
 is mutable only when declared ``var`` (see :ref:`sec:typeQualifiers`).
 For example:
 
@@ -49,10 +51,15 @@ be applied to tuple *variables*: applying it to a non-variable -- the result of
 an expression, or a tuple literal -- must emit a ``TypeError`` (see
 :ref:`sec:errors`), exactly as for :ref:`struct field access <sssec:struct_acc>`.
 Dot notation means an identifier followed by a period and then a literal
-integer. Spaces are not allowed between elements in dot notation.
-Field indices *start at one*, not zero. An index less than one or
-greater than the tuple's number of fields causes the compiler to emit
-an ``IndexError`` (see :ref:`sec:errors`). For example:
+integer. Spaces are not allowed between elements in dot notation. Because a real
+literal may begin with a period (``.1`` denotes ``0.1``; see :ref:`ssec:real`),
+a naive lexer can mis-tokenize ``t1.1`` as ``t1`` followed by the real ``.1``;
+an implementation must lex the ``.`` after a tuple variable as the field-access
+operator, not absorb it into a real literal.
+Field indices *start at one*, not zero. Because a tuple index is a literal, an
+index less than one or greater than the tuple's number of fields is caught at
+:term:`compile time`, and the compiler must emit an ``IndexError`` (see
+:ref:`sec:errors`). For example:
 
 ::
 

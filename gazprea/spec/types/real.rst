@@ -56,8 +56,11 @@ Operations
 Floating-point operations are equivalent to :ref:`integer operations
 <sssec:integer_ops>`.
 
-The ``%`` operator is defined on ``real`` operands as the decimal
-remainder, e.g. ``6.77 % 4.21 == 2.56``.
+The ``%`` operator is defined on ``real`` operands as the decimal remainder; for
+example ``5.5 % 2.0 == 1.5``. Because ``==`` on reals is exact IEEE 754 equality
+(bit-for-bit), such an equation holds only when the operands and the result are
+all exactly representable; approximate numeric equality is not provided and would
+require a user-defined tolerance comparison.
 
 Real values always use the IEEE 754 representation and semantics for
 not-a-number (``NaN``), the signed infinities (``Infinity``), and signed

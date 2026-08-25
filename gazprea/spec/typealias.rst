@@ -84,6 +84,7 @@ folding of scalar literals but also constant propagation through other
   typealias integer[1 + 3 - 2] vec_of_two;
   procedure main() returns integer {
     vec_of_two v = 1..4;
+    return 0;
   }
 
 The compiler must emit a ``SizeError`` (see :ref:`sec:errors`) on line 3

@@ -89,13 +89,16 @@ therefore one of the ways an array's length becomes fixed at
 A generator creates a value of a 1D array type when one
 :term:`iterator variable` is used, and a 2D array type when two
 iterator variables are used.
-Supplying any other number of iterator variables is :term:`ill-formed` and is
-reported through *Gazprea*'s standard error taxonomy rather than as a
-generator-specific error: the compiler must emit a ``SyntaxError`` (see
-:ref:`sec:errors`).
-In particular, *Gazprea* does not currently support generators over
-three or more iterator variables (no direct construction of arrays
-with three or more dimensions).
+Supplying any other number of iterator variables is :term:`ill-formed`: the
+compiler must emit a ``SyntaxError`` (see :ref:`sec:errors`). This is a
+*syntactic* rejection even though a natural grammar would accept it -- the
+grammar need not encode the "one or two iterator variables" restriction; it may
+instead be enforced during syntactic validation after parsing, which is a
+legitimate place to raise a ``SyntaxError`` (see :ref:`sec:errors`). In
+particular, *Gazprea* does not currently support generators over three or more
+iterator variables (no direct construction of arrays with three or more
+dimensions); higher-dimensional generators are a planned addition to a future
+revision of this specification.
 
 The :term:`domain` in a domain expression is any array-typed value:
 static arrays, dynamically-sized :ref:`vectors <ssec:vector>`,

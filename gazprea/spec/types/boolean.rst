@@ -49,7 +49,10 @@ not equals    ``!=``     ``bool-expr != bool-expr``
 Unlike many languages, the ``and`` and ``or`` operators do not `short-circuit
 evaluation <https://en.wikipedia.org/wiki/Short-circuit_evaluation>`__.
 Therefore, both the left hand side and right hand side of an expression
-must always be evaluated.
+must always be evaluated. This has a practical consequence: a guard like
+``x != 0 and 1/x > 0`` does **not** protect the division -- ``1/x`` is evaluated
+even when ``x`` is ``0``, raising a ``MathError`` (see :ref:`ssec:integer` and
+:ref:`sec:errors`). To guard a fallible expression, nest an ``if`` instead.
 
 Operator precedence and associativity are specified once, for all
 types, in the

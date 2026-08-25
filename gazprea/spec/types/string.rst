@@ -12,6 +12,18 @@ Because a ``string`` *is* a ``vector``, it is runtime-sized and unbounded
 like any other vector: its length is simply the length of its underlying
 character sequence, which may grow (for example through the ``push`` and
 ``append`` methods). There is no separate sized or bounded string type.
+Growth needs a mutable receiver, though: ``push`` and ``append`` require a
+``var`` string, and -- as with every declaration -- a ``string`` is ``const`` by
+default, so a ``const string`` (or one whose qualifier is elided) is effectively
+fixed for its lifetime:
+
+::
+
+   var string greeting = "hi";
+   call greeting.append(" there");   // greeting == "hi there"
+   call greeting.push('!');          // greeting == "hi there!"
+
+   const string fixed = "constant";  // const by default; it cannot grow
 
 Although a ``string`` and a plain ``character`` array behave alike in most
 respects, *Gazprea* still treats the two differently in a couple of places:

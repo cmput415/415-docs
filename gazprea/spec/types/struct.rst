@@ -13,7 +13,9 @@ struct, including arrays of any rank (a matrix is the rank-2 case),
 depth (subject to the
 :ref:`acyclicity rule <ssec:storable_types>`). Only
 :ref:`streams<sec:streams>` may not be stored within a struct. Also like
-tuples, structs must contain *at least two fields*.
+tuples, structs must contain *at least two fields*; a ``struct`` type with fewer
+than two fields is :term:`ill-formed`, and the compiler must emit a ``TypeError``
+(see :ref:`sec:errors`).
 
 .. _sssec:struct_decl:
 

@@ -58,6 +58,10 @@ Backslash       ``\\``               ``0x5C``
 Hex escape      ``\xH[H]``          ``0x00`` to ``0xFF``
 =============== =================== ===============
 
+A hex escape must be followed by at least one hexadecimal digit (``\xH`` or
+``\xHH``); a ``\x`` with no following hex digit is :term:`ill-formed`, and the
+compiler must emit a ``LiteralError`` (see :ref:`sec:errors`).
+
 .. _sssec:character_ops:
 
 Operations

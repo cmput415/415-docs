@@ -48,9 +48,12 @@ the compiler must emit a ``TypeError`` (see :ref:`sec:errors`):
 A ``character`` is interpreted as an **unsigned** byte when cast to a numeric
 type, so ``character`` to ``integer`` (or ``real``) yields a value in ``0`` to
 ``255`` -- for example ``as<integer>('\xFF')`` is ``255``, not ``-1``. This is
-the inverse of the ``integer`` to ``character`` rule (the unsigned value taken
-mod 256). For printable *ASCII* characters (``0`` to ``127``) this is exactly
-the *ASCII* code.
+the inverse of the ``integer`` to ``character`` rule, under which an ``integer``
+``n`` becomes the byte ``n`` reduced modulo 256 into the range ``0`` to ``255``
+-- the mathematical, non-negative remainder, so ``as<character>(-1)`` is
+``0xFF`` (= ``255``) and ``as<character>(256)`` is ``0x00`` (the null character).
+For printable *ASCII* characters (``0`` to ``127``) this is exactly the *ASCII*
+code.
 
 .. _ssec:typeCasting_stovm:
 
@@ -99,7 +102,8 @@ truncation happens only when a concrete size is given. For example:
      real[2] y = as<real[2]>(v);
 
 A cast of a non-variable empty array literal ``[]`` is :term:`ill-formed`,
-because a literal empty array does not have a type.
+because a literal empty array does not have a type; the compiler must emit a
+``TypeError`` (see :ref:`sec:errors`).
 
 .. _ssec:typeCasting_mtom:
 
