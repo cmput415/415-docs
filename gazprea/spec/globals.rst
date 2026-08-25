@@ -32,9 +32,14 @@ with the ``var`` specifier, then the compiler must emit a ``GlobalError``
 variables would ruin :term:`functional purity`. If functions have access to
 mutable global state then the compiler can no longer guarantee their purity.
 
-Globals must be initialized with a valid
-:ref:`constant expression <sec:constexpr>`. A global :term:`initializer`
-may therefore reference other globals and use arithmetic and constexpr
+Globals must always be initialized with a valid
+:ref:`constant expression <sec:constexpr>`. Unlike a local variable, a global is
+never implicitly :term:`zero-initialized <zero value>`: a global declared
+without an initializer is :term:`ill-formed`, and the compiler must emit a
+``GlobalError`` (see :ref:`sec:errors`). A zero value is never assumed for a
+global -- if one is intended it must be written explicitly (for example
+``const integer i = 0;`` or ``const integer[3] a = 0;``). A global
+:term:`initializer` may reference other globals and use arithmetic and constexpr
 aggregates, but it must be fully evaluable by the compiler before the
 program runs. This preserves functional purity and enables
 :term:`compile-time <compile time>` optimizations. As a consequence:
@@ -47,8 +52,8 @@ program runs. This preserves functional purity and enables
     global. Because a ``const`` vector cannot grow (its mutating methods
     ``push``/``append`` require a ``var`` receiver), its length is fixed at
     compile time, so a ``const`` vector is equivalent to an array the size of
-    its initializer (or the empty array, if it is declared without an
-    initializer). Consequently ``const string s = "hi";`` and
+    its initializer (or the empty array, when that initializer is the empty
+    literal ``[]``). Consequently ``const string s = "hi";`` and
     ``const vector<integer> v = [1, 2, 3];`` are legal globals. (A ``var``
     vector global is still rejected, but for the independent reason that no
     global may be ``var``.) An inferred-size array such as
