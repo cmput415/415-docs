@@ -46,17 +46,34 @@ It can help to break large tasks into smaller sub-tasks, because sizing can be
 more accurate, but dependencies between sub-tasks must be identified so that a
 critical path can be identified.
 
-The tasks should be recorded and tracked in Github Project.
-The development coding processes, such as commit conventions and reviews,
-should also be agreed upon, and then enforced in the CI pipeline.
-The CI processes should also include building a test suite that can be used for
-regression testing. A typical process is that each feature PR includes tests
-that demonstrate it's correctness.
+Record the tasks you identify as issues, and assign each one to the member doing it. Agree on the rest of the development process early: commit conventions, how a change reaches the default branch, and who reviews it before it does. A typical process is that each feature pull request carries the tests that demonstrate its correctness.
 
 It is important to actually track the tasks that you identified. Often you will
 have to refine/resize them or discover new tasks that must be sized and
 assigned. Only by tracking these tasks can you know that your team can deliver
 your product on time.
+
+.. _sec:gazprea_pm_marks:
+
+Gazprea project management marks
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Four marks at Part 1 and four at Part 2, awarded to the team. Setting up the process these are read from is described under :external+gazprea:doc:`Project Management <impl/process>`.
+
+.. list-table::
+   :header-rows: 1
+   :widths: 12 88
+
+   * - Marks
+     - Line
+   * - 1
+     - **Delivery by pull request.** At least four pull requests merged into the default branch during the part.
+   * - 2
+     - **Review before merge.** The fraction of those merged pull requests that a non-author teammate approved before they were merged.
+   * - 1
+     - **Work tracked in issues.** At least two issues opened during the part and assigned to a member.
+
+Counts are taken over the part being marked, so Part 2 starts from zero rather than carrying Part 1 forward.
 
 
 Grammar
