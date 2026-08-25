@@ -9,9 +9,12 @@ any :ref:`storable type <ssec:storable_types>`. A *matrix* is the rank-2
 case, and this section describes it in full; higher-rank arrays follow the
 same construction, indexing, and element-wise operation rules, generalized
 to ``k`` index positions. The ``rows`` and ``columns`` built-ins discussed
-below are defined on matrices (rank-2 arrays) specifically; their
-generalization to higher-rank arrays is left to a future revision of this
-specification. Matrix multiplication (``**``), by contrast, is defined for
+below are defined on matrices (rank-2 arrays) specifically, and ``length`` on
+rank-1 arrays; there is currently **no** size query for arrays of rank 3 or
+more, so their extents are not observable at run time. This is a known
+limitation: a general ``shape`` built-in reporting the extents of an array of
+any rank is planned for a future revision of this specification. Matrix
+multiplication (``**``), by contrast, is defined for
 arrays of **any** rank, as described in :ref:`sssec:matrix_ops`.
 
 .. _sssec:matrix_decl:
@@ -51,6 +54,13 @@ type's zero value. If the number
 of rows or columns exceeds the
 amounts given in a declaration the compiler must emit a ``SizeError``
 (see :ref:`sec:errors`) at :term:`compile time` or :term:`run time`.
+
+This pad-to-longest-row rule is a property of the nested array literal itself, so
+it applies identically whether the literal initializes a matrix, an array
+variable, or a :ref:`vector of arrays <ssec:vector>`. Only *incrementally*
+growing a vector with ``push``/``append`` behaves differently, fitting each new
+element to the size fixed by the first element; :ref:`ssec:vector` walks through
+the contrast with worked examples.
 
 ::
 
