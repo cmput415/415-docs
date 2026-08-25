@@ -3,17 +3,24 @@
 Namespaces
 ==========
 
-There are three namespaces in *Gazprea*:
+There are two namespaces in *Gazprea*:
 
 - Type namespace: user-defined types (structs and typealiases).
 - Variable/Function/procedure namespace: variables, functions, and
   procedures.
-- Struct field namespace: each ``struct`` type has its own field
-  namespace, distinct from the type and variable/function/procedure
-  namespaces and from every other struct's field namespace.
 
 Items in separate namespaces may share an :term:`identifier`. Items within the
 same namespace cannot share an identifier; the compiler must emit a
+``SymbolError`` (see :ref:`sec:errors`).
+
+A ``struct``'s field names are **not** a third namespace. Each ``struct``
+introduces its own :term:`declaration scope <scope>` for its fields -- the same
+mechanism by which a block or a function body scopes its local names -- so a
+field name lives in that struct's scope, not in either global namespace, and may
+freely coincide with a type name, a variable/function/procedure name, or a field
+name of another struct. The only constraint applies *within* a single struct:
+its fields must have distinct names. A ``struct`` that declares two fields with
+the same name is :term:`ill-formed`, and the compiler must emit a
 ``SymbolError`` (see :ref:`sec:errors`).
 
 ::

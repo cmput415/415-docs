@@ -119,7 +119,7 @@ the struct type name:
      struct S (integer i, character[5] c, integer[3] a3);
      const S cs = S(i: x, c: "hello", a3: [1, 2, 3]);
      var S vs = S(c: ' ', i: 0, a3: 0);
-     struct V (integer i, real r, integer[10] arr) v = V(i: 1, r: 2.1, arr: [i in 1..10 | i]);
+     struct V (integer i, real r, integer[10] arr) v = V(i: 1, r: 2.1, arr: [i in 1..11 | i]);
 
 The fields may be listed in any order, but all fields must be present. The type
 of each value must match, or be implicitly castable to (see
@@ -186,7 +186,10 @@ Struct Namespacing
 ~~~~~~~~~~~~~~~~~~
 
 Struct type identifiers share the global type namespace with every other
-user-defined type, while each struct's field identifiers form a separate
-namespace scoped to that struct declaration; see :ref:`sec:namespaces` for
-the full namespacing rules, including the ``SymbolError`` raised on a
-collision.
+user-defined type. A struct's field identifiers are not a namespace of their
+own: each struct introduces its own :term:`declaration scope <scope>` for its
+fields, so a field name may coincide with a type, a
+variable/function/procedure, or a field of another struct, while the fields
+*within* one struct must be distinct. See :ref:`sec:namespaces` for the full
+rules, including the ``SymbolError`` raised when a struct declares two fields
+with the same name.
