@@ -315,8 +315,11 @@ Operations
       The ``..`` operator creates an integer array holding the specified range
       of integer values.
       This operator must have an expression resulting in an integer on both
-      sides of it. These integers mark the *inclusive* upper and lower bounds
-      of the range.
+      sides of it. The range is **half-open**: the left bound is *inclusive*
+      and the right bound is *exclusive*, so ``i..j`` holds the integers ``i,
+      i+1, ..., j-1``. This is the same convention used when a range is written
+      inside an index position to form a :ref:`slice <sssec:array_slices>`, so a
+      range value and a slice agree on exactly which endpoints they include.
 
       For example:
 
@@ -329,8 +332,8 @@ Operations
 
       ::
 
-         [1 2 3 4 5 6 7 8 9 10]
-         [2 3 4 5 6 7 8 9 10 11]
+         [1 2 3 4 5 6 7 8 9]
+         [2 3 4 5 6 7 8 9 10]
 
       The number of integers in a range may not be known at :term:`compile time`
       when the integer expressions use variables. In another example, assuming
@@ -344,10 +347,11 @@ Operations
 
       ::
 
-         [-4 -3 -2 -1 0 1 2 3 4 5]
+         [-4 -3 -2 -1 0 1 2 3 4]
 
       Therefore, it is *valid* to have bounds that will produce an empty
-      array because the difference between them is negative.
+      array: because the right bound is *exclusive*, ``i..j`` is empty whenever
+      ``i >= j`` (for example ``5..5`` or ``5..2``).
 
    e. Indexing
 
@@ -479,12 +483,11 @@ Array Slices
 
 An array slice is a contiguous subset of elements, described by a range.
 The left hand bound is *inclusive* and the right hand bound is *exclusive*:
-``a[i..j]`` selects the elements from ``i`` up to but not including ``j``.
-(This differs from a range *value*, whose bounds are both inclusive:
-``0..10`` written as an expression produces the integers 0 through 10, while
-the same ``i..j`` syntax written inside an index position selects elements
-with a right-exclusive bound.) A slice always selects a contiguous run of
-elements.
+``a[i..j]`` selects the elements from ``i`` up to but not including ``j``. This
+is the identical half-open convention used by a range *value* (see the
+:ref:`range operator <sssec:array_ops>`), so ``i..j`` picks out the same
+endpoints whether it is written as a value or inside an index position. A slice
+always selects a contiguous run of elements.
 
 The following forms are accepted inside an index position, where ``n`` is
 the length of the array being sliced and elements are 1-indexed. A negative

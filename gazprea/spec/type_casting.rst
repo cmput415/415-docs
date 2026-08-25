@@ -87,7 +87,7 @@ truncation happens only when a concrete size is given. For example:
 
 ::
 
-     real[3] v = [i in 1..3 | i + 0.3 * i];
+     real[3] v = [i in 1..4 | i + 0.3 * i];
 
      // Convert the real array to an integer array.
      integer[3] u = as<integer[*]>(v);

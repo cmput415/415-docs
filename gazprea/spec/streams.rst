@@ -43,7 +43,7 @@ values. For example:
 
 ::
 
-     integer[*] v = 1..3;
+     integer[*] v = 1..4;
      v -> std_output;
 
 prints the following:

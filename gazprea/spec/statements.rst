@@ -443,7 +443,7 @@ Array ranges can also be used instead:
 ::
 
            // This will print 123
-           loop i in 1..3 {
+           loop i in 1..4 {
              i -> std_output;
            }
 

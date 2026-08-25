@@ -81,7 +81,7 @@ parentheses in a comma separated list. For example:
      tuple(integer, character[5], integer[3]) my_tuple = (x, "hello", [1, 2, 3]);
      var our_tuple = (x, "hello", [1, 2, 3]);
      const your_tuple = (x, "hello", [1, 2, 3]);
-     tuple(integer, real, integer[10]) tuple_var = (1, 2.1, [i in 1..10 | i]);
+     tuple(integer, real, integer[10]) tuple_var = (1, 2.1, [i in 1..11 | i]);
 
 .. _sssec:tuple_ops:
 

@@ -112,10 +112,10 @@ This additional expression is used to create the generated values. For example:
 
 ::
 
-         integer[10] v = [i in 1..10 | i * i];
+         integer[10] v = [i in 1..11 | i * i];
          /* v[i] == i * i */
 
-         integer[2][3] M = [i in 1..2, j in 1..3 | i * j];
+         integer[2][3] M = [i in 1..3, j in 1..4 | i * j];
          /* M[i][j] == i * j */
 
 The expression to the right of the bar (``|``) is used to generate the
@@ -135,7 +135,7 @@ is perfectly legal:
          integer i = 7;
 
          /* The domain expression should use the previously defined i */
-         integer[*] v = [i in [i in 1..i | i] | [i in 1..10 | i * i][i]];
+         integer[*] v = [i in [i in 1..i+1 | i] | [i in 1..11 | i * i][i]];
 
          /* v should contain the first 7 squares. */
 
@@ -166,7 +166,7 @@ For instance:
          integer i = 7;
 
          /* This will print 1234567 */
-         loop i in 1..i {
+         loop i in 1..i+1 {
            i -> std_output;
          }
 
@@ -184,17 +184,18 @@ using commas, such as in matrix generators.
          /* The "i"s both domain expressions are at the same scope, which is
           * the one enclosing the generator. Therefore the matrix is: [[0 0 0] [0 1 2] [0 2 4]]
           */
-         integer[3][3] mat = [ i in 0..i, j in 0..i | i*j ];
+         integer[3][3] mat = [ i in 0..i+1, j in 0..i+1 | i*j ];
 
 The domain of a domain expression is only evaluated once. For
 instance:
 
 ::
 
-         integer x = 1;
+         integer x = 2;
 
          /* 1..x is only evaluated the first time the loop executes, so it is
-            simply 1..1, and not an infinite loop. */
+            simply 1..2 -- the one-element range [1] -- and not an infinite
+            loop. */
          loop i in 1..x {
            x = x + 1;
          }

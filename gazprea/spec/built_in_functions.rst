@@ -47,7 +47,7 @@ matrix instead.
 
 ::
 
-         integer[*] v = 1..5;
+         integer[*] v = 1..6;
 
          length(v) -> std_output; /* Prints 5 */
 
@@ -101,7 +101,7 @@ one.
 
 ::
 
-         integer[*] v = 1..5;
+         integer[*] v = 1..6;
          integer[*] w = reverse(v);
 
          v -> std_output; /* Prints [1, 2, 3, 4, 5] */

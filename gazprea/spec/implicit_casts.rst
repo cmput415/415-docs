@@ -94,7 +94,7 @@ Other examples:
 ::
 
   1 == [1, 1]  // true
-  1..2 || 3 // [1, 2, 3]
+  1..3 || 3 // [1, 2, 3]
 
 Concatenation (``||``) is an exception to the size-matching rule above: a
 scalar operand becomes a single new element regardless of the other
