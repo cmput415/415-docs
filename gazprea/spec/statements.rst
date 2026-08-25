@@ -45,13 +45,11 @@ to the type of the variable. If it does not, the compiler must emit a
 
 Assignments can also be more complicated than this with arrays and tuples.
 With arrays indices may be provided in order to change the value of an array
-element. In *Gazprea*, an array cannot be indexed with an array *value*:
-``v[w]`` is illegal whenever ``w`` evaluates to an array value, even one
-holding a range (this covers array variables, expressions, and function
-calls that return an array alike); the compiler must emit a ``TypeError``
-(see :ref:`sec:errors`). Range syntax written directly inside
-an index position is not an array-valued index; it forms a slice
-(see :ref:`sssec:array_slices`).
+element. As in any indexing context, an array cannot be indexed with an array
+*value* -- see the :ref:`indexing rules <sssec:array_ops>` for the normative
+statement and its ``TypeError`` -- and a range written directly inside an index
+position is not an array-valued index but forms a
+:ref:`slice <sssec:array_slices>`.
 For instance, with single dimensional arrays:
 
 ::
@@ -411,6 +409,13 @@ required semicolon are what distinguish a post-predicated loop from a plain
              x -> std_output; "\n" -> std_output;
            } while (x < 10);
 
+The single-statement post-predicated form (``loop <stmt>; while (cond);``) is
+distinguished from a plain :ref:`infinite loop <sssec:statements_inf_Loop>` whose
+body is that same statement only by the trailing ``while``, so the two
+productions can diverge arbitrarily far into the input. *ANTLR*'s adaptive
+``LL(*)`` prediction resolves this without special effort, but a hand-written or
+fixed-lookahead ``LL(k)`` grammar will need care around this production.
+
 .. _sssec:statements_iter_loop:
 
 Iterator Loop
@@ -487,6 +492,7 @@ actually contains the ``break``.
 
          loop while (y < 3) {
            y = y + 1;
+           x = 0;   /* reset the column counter at the start of each row */
 
            /* Normally this would loop forever, but the break exits this inner loop */
            loop {

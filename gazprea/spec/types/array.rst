@@ -379,8 +379,12 @@ Operations
       the array. An array may be indexed using an integer, in which case
       the index yields a single element, or using range syntax written
       directly at the index position, in which case the index yields a
-      slice (see :ref:`sssec:array_slices`). An array *value* — including
-      a range bound to a variable — is not a legal index.
+      slice (see :ref:`sssec:array_slices`). An array *value* is **not** a legal
+      index: ``v[w]`` is illegal whenever ``w`` evaluates to an array value --
+      even one holding a range, and whether it comes from an array variable, an
+      expression, or a function call -- and the compiler must emit a
+      ``TypeError`` (see :ref:`sec:errors`). A range written *directly* inside an
+      index position is not an array-valued index; it forms a slice.
       *Gazprea* is 1-indexed, so the first element of an array is at index 1
       (as opposed to index 0 in languages like *C*). For instance:
 
@@ -388,7 +392,7 @@ Operations
 
          integer[3] v = [4, 5, 6];
          integer x = v[2]; /* x == 5 */
-         integer y = [4,5,6][3] /* y == 6 */
+         integer y = [4,5,6][3]; /* y == 6 */
 
       Like Python, *Gazprea* allows negative indices, which are interpreted as
       starting from the *back* of the array instead of the front:
@@ -397,10 +401,13 @@ Operations
 
          integer[3] v = [4, 5, 6];
          integer x = v[-2]; /* x == 5 */
-         integer y = [4,5,6][-1] /* y == 6 */
+         integer y = [4,5,6][-1]; /* y == 6 */
 
-      The compiler must emit an ``IndexError`` (see :ref:`sec:errors`) for
-      an out-of-bounds index, at :term:`compile time` or :term:`run time`.
+      A negative index ``-k`` refers to element ``n + 1 - k``, so ``-1`` is the
+      last element and ``-n`` the first. An index is in bounds when it lies in
+      ``1..n`` or in ``-n..-1``; ``0``, or any magnitude past ``n`` in either
+      direction, is out of bounds, and the compiler must emit an ``IndexError``
+      (see :ref:`sec:errors`) at :term:`compile time` or :term:`run time`.
 
    f. Slices
 
@@ -423,11 +430,15 @@ Operations
    ``nv`` would have a value of
    ``[not true, not false, not true, not true] = [false, true, false, false]``.
 
-   Similarly, most binary operations that are valid for the element type of an
+   Similarly, every binary operation that is valid for the element type of an
    array may also be applied to two arrays. When applied to two
    arrays of the same size, the result of the binary operation is an
    array formed by the element-wise application of the binary operation
-   to the array operands.
+   to the array operands. The sole exceptions are the equality operators
+   ``==`` and ``!=``, which collapse to a single ``boolean`` rather than a
+   ``boolean`` array (see below); the ordering comparisons ``<``, ``>``, ``<=``,
+   ``>=`` are *not* exceptions -- they apply element-wise and yield a ``boolean``
+   array.
 
    ::
 
@@ -592,11 +603,15 @@ other array value:
     integer y = s[1];       /* y == 2 */
 
 
-After resolving any negative bound, both ``i`` and ``j`` in ``a[i..j]`` must
-lie between ``1`` and ``n + 1`` inclusive (a slice may stop just past the last
-element); a bound outside that range is an ``IndexError`` (see
-:ref:`sec:errors`), at :term:`compile time` or :term:`run time`, exactly as
-for a single-element index.
+The **right** bound of a slice may be negative: ``-j`` counts from the end,
+resolving to ``n + 1 - j`` (so ``..-1`` stops just before the last element), and
+this applies equally in the two-sided form ``a[i..-j]``. The **left** bound may
+**not** be negative -- a negative left bound is an ``IndexError`` (see
+:ref:`sec:errors`). After resolving any negative right bound, both ``i`` and
+``j`` in ``a[i..j]`` must lie between ``1`` and ``n + 1`` inclusive (a slice may
+stop just past the last element); a bound outside that range is an
+``IndexError``, at :term:`compile time` or :term:`run time`, exactly as for a
+single-element index.
 
 A slice whose (in-bounds) left bound is greater than its right bound, such as
 ``a[4..2]``, is **not** an error: like a range value with a negative difference

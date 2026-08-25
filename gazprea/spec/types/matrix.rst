@@ -80,7 +80,9 @@ literal ``[]`` is the empty rank-2 array, written ``[[]]``:
    integer[*][*] m = []; /* m == [[]], an empty rank-2 array */
 
 Like an empty 1-D array, an empty matrix has its (zero) dimensions fixed at
-:term:`initialization` and is not growable.
+:term:`initialization` and is not growable. Both of its dimensions are zero:
+``rows(m)`` and ``columns(m)`` are each ``0`` (a 0x0 matrix, notwithstanding the
+``[[]]`` notation).
 
 .. _sssec:matrix_ops:
 
@@ -105,7 +107,13 @@ types, and the dimensions of the matrices must be valid for performing matrix
 multiplication. When the two operands have differing element types (e.g.
 ``integer ** real``), each element is implicitly cast to a common type (see
 :ref:`sec:implicitCasts`) before multiplication, just as for element-wise
-binary operations. When one operand of ``**`` is a scalar it can be broadcast to a matrix operand
+binary operations. Specifically, the number of columns of the first operand must equal the number
+of rows of the second operand, e.g. an :math:`m \times n` matrix multiplied by
+an :math:`n \times p` matrix will produce an :math:`m \times p` matrix.
+If the dimensions are not correct the compiler must emit a ``SizeError``
+(see :ref:`sec:errors`).
+
+When one operand of ``**`` is a scalar it can be broadcast to a matrix operand
 of matrix multiplication **only if the other operand is a square matrix**: a
 scalar ``s`` paired with an :math:`n \times n` matrix is filled into an
 :math:`n \times n` matrix whose every element is ``s`` before the
@@ -116,11 +124,6 @@ a rank-1 array (trivially, since it has a single extent, so a scalar may be
 dotted with a vector; see the :ref:`dot product <sssec:array_ops>`), a square
 matrix, or a higher-rank hypercube with equal extents; *Gazprea* does **not**
 provide comprehensive broadcasting. See :ref:`sec:implicitCasts`.
-Specifically, the number of columns of the first operand must equal the number
-of rows of the second operand, e.g. an :math:`m \times n` matrix multiplied by
-an :math:`n \times p` matrix will produce an :math:`m \times p` matrix.
-If the dimensions are not correct the compiler must emit a ``SizeError``
-(see :ref:`sec:errors`).
 
 More generally, ``**`` is defined for numeric arrays of **any** rank as the
 single-axis contraction familiar from linear algebra: the **last** dimension of
