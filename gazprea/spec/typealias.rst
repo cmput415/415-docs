@@ -6,12 +6,14 @@ Typealias
 Custom names for types can be defined using ``typealias``. A type alias does
 not introduce a new type: the alias name and the original type are the same
 type by strong equivalence, and the two names may be used interchangeably
-anywhere a type is expected. Type aliases may only appear at global scope;
-a ``typealias`` declared within a function or procedure body must emit a
-``StatementError`` (see :ref:`sec:errors`). A type alias may use any
-valid identifier for the name of the type. After the type alias has been
-defined, the new name may be used anywhere the original type could be used --
-in global or local declarations, and in function or procedure signatures and
+anywhere a type is expected. A ``typealias`` may be declared at global scope or inside a function or
+procedure body. A local alias is :term:`scoped <scope>` to the block that
+contains it and **shadows** any outer alias or type of the same name for the
+rest of that block, without affecting the outer name outside it (two aliases
+sharing a name in the *same* scope remain a conflict; see below). A type alias
+may use any valid identifier for the name of the type. After the type alias has
+been defined, the new name may be used anywhere the original type could be used
+-- in global or local declarations, and in function or procedure signatures and
 bodies. For instance:
 
 ::
@@ -62,8 +64,9 @@ also be defined in terms of another ``typealias``:
   typealias integer int;
   typealias int also_int;
 
-The compiler must emit a ``SymbolError`` (see :ref:`sec:errors`) for
-duplicate alias names.
+The compiler must emit a ``SymbolError`` (see :ref:`sec:errors`) for two aliases
+that share a name *in the same scope*. (A local alias that shares its name with
+one in an enclosing scope is not a conflict -- it shadows it, as above.)
 
 ::
 

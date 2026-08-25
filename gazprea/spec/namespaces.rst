@@ -13,6 +13,13 @@ Items in separate namespaces may share an :term:`identifier`. Items within the
 same namespace cannot share an identifier; the compiler must emit a
 ``SymbolError`` (see :ref:`sec:errors`).
 
+Both namespaces are :term:`lexically scoped <scope>`. The no-sharing rule
+applies within a single scope; a name introduced in an inner scope -- a local
+variable, or a type defined by a local ``struct`` or ``typealias`` -- **shadows**
+any outer name of the same namespace for the extent of that scope and does not
+leak back out. In particular, a type defined inside a function or procedure is
+not added to the global type namespace.
+
 A ``struct``'s field names are **not** a third namespace. Each ``struct``
 introduces its own :term:`declaration scope <scope>` for its fields -- the same
 mechanism by which a block or a function body scopes its local names -- so a

@@ -60,14 +60,15 @@ A mutable struct instance such as ``var struct s1 (...) t1;`` (or the split
 Type Aliasing
 ~~~~~~~~~~~~~
 
-A struct type can be given a :ref:`type alias <sec:typealias>`. As with any
-type alias, the ``typealias`` declaration itself may only appear at global
-scope (see :ref:`sec:typealias`); it may not appear inside a function or
-procedure body, even though a plain struct *definition* may. The combined form
-below both defines the struct type ``S`` and introduces ``Pair`` as an alias
-for it: the struct's own name ``S`` remains usable, for example as a literal
-constructor. Once declared, the alias may be used in place of the struct's type
-name in type positions. It may not, however, be used as a literal constructor.
+A struct type can be given a :ref:`type alias <sec:typealias>`. Like any type
+alias (see :ref:`sec:typealias`), and like a plain struct *definition*, the
+``typealias struct`` form may appear at global scope or inside a function or
+procedure body; a local one is :term:`scoped <scope>` to its block and shadows
+any outer type or alias of the same name. The combined form below both defines
+the struct type ``S`` and introduces ``Pair`` as an alias for it: the struct's
+own name ``S`` remains usable, for example as a literal constructor. Once
+declared, the alias may be used in place of the struct's type name in type
+positions. It may not, however, be used as a literal constructor.
 
 ::
 
@@ -182,14 +183,56 @@ sections :ref:`sec:typeCasting` and :ref:`sec:implicitCasts`.
 
 .. _sssec:struct_namespacing:
 
-Struct Namespacing
-~~~~~~~~~~~~~~~~~~
+Struct Namespacing and Type Identity
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Struct type identifiers share the global type namespace with every other
-user-defined type. A struct's field identifiers are not a namespace of their
-own: each struct introduces its own :term:`declaration scope <scope>` for its
-fields, so a field name may coincide with a type, a
-variable/function/procedure, or a field of another struct, while the fields
-*within* one struct must be distinct. See :ref:`sec:namespaces` for the full
-rules, including the ``SymbolError`` raised when a struct declares two fields
-with the same name.
+Struct type identifiers live in the :ref:`type namespace <sec:namespaces>`,
+which is :term:`lexically scoped <scope>`: a struct defined at global scope is
+visible program-wide, while a struct defined inside a function or procedure
+belongs only to that block and is **not** propagated outward. A struct
+definition whose name matches one in an enclosing scope *shadows* it for the
+rest of the block, just as a local variable shadows an outer one.
+
+Structs are **nominal**: a struct's type identity is the *declaration* that
+introduced it, not its field layout. Each ``struct`` (or ``typealias struct``)
+declaration mints a fresh, distinct type, so two struct definitions have
+different types even when their fields are identical -- including a local
+definition that shadows a global one under the same name. A ``typealias``, by
+contrast, introduces **no** new type: an alias is a transparent synonym that
+carries the identity of whatever type it names (see :ref:`sec:typealias`), so an
+alias of a struct *is* that struct's nominal type.
+
+A variable's struct type is fixed at its declaration to whichever definition is
+then in scope; a later redefinition of the name does not change it. Since
+comparing two different struct types is a ``TypeError`` (see
+:ref:`sssec:struct_ops`), this fixes exactly which comparisons are legal:
+
+::
+
+    typealias struct S(integer a, integer b) Pair; // global S; Pair == global S
+
+    function f() returns integer {
+        S    s1 = S(a: 2, b: 3);   // s1 : global S
+        Pair p1 = S(a: 2, b: 3);   // p1 : Pair, i.e. global S
+
+        // A new, distinct type despite identical fields; Pair now aliases it:
+        typealias struct S(integer a, integer b) Pair; // local S
+
+        S    s2 = S(a: 2, b: 3);   // s2 : local S
+        Pair p2 = S(a: 2, b: 3);   // p2 : local S
+
+        s1 == p1 -> std_output;    // T: both global S, equal field values
+        s2 == p2 -> std_output;    // T: both local S
+        s1 == s2 -> std_output;    // TypeError: global S vs local S
+        p1 == p2 -> std_output;    // TypeError: global S vs local S
+        s1 == p2 -> std_output;    // TypeError: global S vs local S
+        s2 == p1 -> std_output;    // TypeError: local S vs global S
+        return 1;
+    }
+
+A struct's field identifiers are not a namespace of their own: each struct
+introduces its own :term:`declaration scope <scope>` for its fields, so a field
+name may coincide with a type, a variable/function/procedure, or a field of
+another struct, while the fields *within* one struct must be distinct. See
+:ref:`sec:namespaces` for the full rules, including the ``SymbolError`` raised
+when a struct declares two fields with the same name.
