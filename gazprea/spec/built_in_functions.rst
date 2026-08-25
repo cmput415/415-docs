@@ -1,7 +1,7 @@
 .. _sec:builtIn:
 
-Built-In Functions
-==================
+Built-in Functions, Procedures and Methods
+===========================================
 
 *Gazprea* has some built-in functions. These built-in functions may have
 some special behavior that normal functions cannot have, for instance
@@ -33,6 +33,55 @@ Applying a built-in outside its defined domain -- ``reverse``/``length`` on
 a non-1-D value, ``rows``/``columns`` on a non-2-D value, or ``format`` on a
 non-scalar -- is a compile-time error; the compiler must emit a
 ``TypeError`` (see :ref:`sec:errors`).
+
+.. _ssec:builtIn_signatures:
+
+Signatures
+----------
+
+*Gazprea* has no user-facing type parameters -- they may be added in a future
+revision -- but the built-ins are generic over element and scalar types. Their
+signatures are therefore written below with a ``[T]`` type-parameter notation
+purely for exposition: ``function id[T](T obj) returns T;`` reads as "``id`` is
+generic over ``T``". This notation is **not** part of the language.
+
+::
+
+    function length[T](T[*] arr) returns integer;    // also accepts a vector<T> / string
+    function rows[T](T[*][*] mat) returns integer;
+    function columns[T](T[*][*] mat) returns integer;
+    function reverse[T](T[*] arr) returns T[*];       // also accepts a vector<T> / string
+    function format[T](T value) returns string;       // T is a scalar type
+    procedure stream_state(var input_stream) returns integer; // notional; see below
+
+The per-built-in sections below give each domain and its error conditions in
+full.
+
+.. _ssec:builtIn_methods:
+
+Vector and String Methods
+-------------------------
+
+In addition to these free-standing built-ins, ``vector`` and ``string`` values
+carry **methods** -- ``push``, ``append``, and ``len`` -- invoked with receiver
+syntax (``v.len()``). These are specified with the type, in
+:ref:`sssec:vec_methods`, not here. In particular, ``len`` (a method, on vectors
+and strings only) and ``length`` (a built-in, accepting arrays, vectors, and
+strings) answer the same question with different spellings and different domains:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 30 35 35
+
+   * - Query on ``x``
+     - ``length(x)`` (built-in)
+     - ``x.len()`` (method)
+   * - array ``T[n]``
+     - the fixed length ``n``
+     - ``TypeError`` -- arrays have no methods
+   * - ``vector<T>`` / ``string``
+     - the current length
+     - the current length
 
 .. _ssec:builtIn_length:
 
