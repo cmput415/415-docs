@@ -63,9 +63,9 @@ Three kinds of questions appear in the Q&A.
 
 **2. Questions every member must answer.** The evaluators do not choose these; the same three are asked at every session, so you can prepare them in advance:
 
-* Give an example of a test you wrote, and the part of the compiler it was intended to test.
-* Showcase what you are most proud of in your work.
-* What did you struggle most to implement, why, and how did you solve it?
+.. rubric-required-questions::
+
+Each member confirms which of the three they were asked, on the form described under :ref:`sec:rating_your_evaluators`.
 
 **3. Questions to the group.** Answered collaboratively by whichever members hold the relevant knowledge. These cover cross-cutting design. The evaluators choose their own; these are examples of the sort of thing to expect:
 
@@ -80,13 +80,9 @@ Coverage
 
 Before the Q&A ends, the evaluators must have asked at least one question touching each of:
 
-* grammar and parse tree
-* AST design and node structure
-* symbol tables and scoping
-* type system: checking, inference, and promotion
-* functions versus procedures — the semantic difference and how it is enforced
-* MLIR code generation
-* error detection and reporting
+.. rubric-coverage::
+
+The team you evaluate is asked which of these its session reached, on the form described under :ref:`sec:rating_your_evaluators`.
 
 Ownership expectations
 ----------------------
@@ -110,7 +106,16 @@ Evaluating is part of the exercise, and doing it badly denies the other team the
 
 After the evaluation, each evaluator individually fills out a rubric, assigns a mark and writes a justification for each of the four evaluated students and for the team as a whole, and distributes ten contribution points across the evaluated team. All of this is described under the :ref:`grading matrix <sec:peer_eval_grading_matrix>`.
 
-The evaluated team fills out a form of its own, assessing how well the evaluating team ran the session. Running a session badly therefore costs the evaluating team as well as the team it evaluated.
+The evaluated team fills out a form of its own, assessing how well you ran the session. Running a session badly therefore costs the evaluating team as well as the team it evaluated.
+
+.. _sec:rating_your_evaluators:
+
+Rating your evaluators
+----------------------
+
+Every member of the evaluated team individually fills out a short form on Canvas about how the session was run, due shortly after the session ends. It asks for one mark out of 100 for the evaluating team, with a written justification.
+
+Anything serious — evaluators who did not arrive, hostility, or being stopped from showing your own code — goes in the second question on the form, which reaches the instructor directly.
 
 .. _sec:peer_eval_grading_matrix:
 

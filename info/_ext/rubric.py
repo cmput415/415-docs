@@ -9,6 +9,8 @@ parser, so the output matches tables written by hand elsewhere in the docs.
 - ``rubric-objective`` one objective: its lead-in and its four descriptors
 - ``rubric-objectives`` every objective of a given scope, in order
 - ``rubric-chart``     all objectives against all levels, as one wide grid
+- ``rubric-coverage``  the areas an evaluator must ask about, as a bullet list
+- ``rubric-required-questions`` the three questions every member is asked
 
 The chart page also gets its own stylesheet, attached here so that the rest of
 the site keeps the theme's usual layout.
@@ -29,6 +31,10 @@ def _list_table(rows, widths):
             lines.append(("   * - " if index == 0 else "     - ") + cell)
     lines.append("")
     return lines
+
+
+def _bullets(items):
+    return ["* " + item for item in items] + [""]
 
 
 def _objective(objective_id):
@@ -108,6 +114,16 @@ class RubricChart(_RubricDirective):
         return _list_table(rows, [16, 21, 21, 21, 21])
 
 
+class RubricCoverage(_RubricDirective):
+    def lines(self):
+        return _bullets(rubric_data.COVERAGE_AREAS)
+
+
+class RubricRequiredQuestions(_RubricDirective):
+    def lines(self):
+        return _bullets(rubric_data.REQUIRED_QUESTIONS)
+
+
 #: The page laid out as a reference sheet by ``_static/css/rubric_sheet.css``.
 SHEET_PAGE = "rubric_chart"
 
@@ -124,5 +140,7 @@ def setup(app):
     app.add_directive("rubric-objective", RubricObjective)
     app.add_directive("rubric-objectives", RubricObjectives)
     app.add_directive("rubric-chart", RubricChart)
+    app.add_directive("rubric-coverage", RubricCoverage)
+    app.add_directive("rubric-required-questions", RubricRequiredQuestions)
     app.connect("html-page-context", _attach_sheet_css)
     return {"parallel_read_safe": True, "parallel_write_safe": True}

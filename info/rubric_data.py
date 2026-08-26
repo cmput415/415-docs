@@ -107,3 +107,47 @@ ANCHORS = [
     ("Consistently Satisfactory", "65"),
     ("Consistently Needs improvement", "35"),
 ]
+
+# Asked of every member of an evaluated team at every session. Evaluators do
+# not choose these, so students can prepare them in advance, and each member
+# confirms on the session feedback form which of them they were asked.
+REQUIRED_QUESTIONS = [
+    "Give an example of a test you wrote, and the part of the compiler it was intended to test.",
+    "Showcase what you are most proud of in your work.",
+    "What did you struggle most to implement, why, and how did you solve it?",
+]
+
+# Every area an evaluator must ask about before the Q&A ends. The evaluated
+# team ticks off the ones that were reached on the session feedback form, which
+# is the only account of coverage that does not come from the evaluators
+# themselves.
+COVERAGE_AREAS = [
+    "grammar and parse tree",
+    "AST design and node structure",
+    "symbol tables and scoping",
+    "type system: checking, inference, and promotion",
+    "functions versus procedures — the semantic difference and how it is enforced",
+    "MLIR code generation",
+    "error detection and reporting",
+]
+
+# What the evaluated team judges its evaluators against. These carry no levels:
+# the evaluated team gives the evaluating team one mark for the session as a
+# whole, and these say what that mark is a judgement of.
+SESSION_EXPECTATIONS = [
+    ("Directs questions at the right people", "Questions match the work each member said they did."),
+    ("Spreads the questions across the team", "Every member is asked enough for their understanding to show."),
+    ("Draws the knowledge out", "A hesitant or incomplete first answer gets a follow-up."),
+    ("Covers the required ground", "Questions reach all seven coverage areas, and the group questions are substantive."),
+    ("Runs the session professionally", "Starts on time, manages the clock, lets the team navigate and show its own code, and engages without hostility."),
+]
+
+# Reference points for the mark the evaluated team gives its evaluators. A
+# session is judged as a whole, so these describe sessions rather than rubric
+# placements.
+SESSION_ANCHORS = [
+    ("Ran the session as well as it could have been run: every chance to show what your team knew", "95"),
+    ("Ran it well, with questions or follow-ups that could have gone further", "80"),
+    ("Got through it, leaving parts of your team or of the material untested", "65"),
+    ("Did not give your team a fair chance to demonstrate its work", "35"),
+]
