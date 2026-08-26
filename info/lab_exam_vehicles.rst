@@ -8,7 +8,7 @@ Exam Vehicles
 What a vehicle is
 ------------------
 
-Each lab exam gives you a **small, complete, working program in a language you have not seen before**, built out of the same parts as the project it follows: the same kind of front end, the same toolchain, the same test format. That program is the exam's *vehicle* — it is what you read, debug, test, and extend during the hour.
+Each lab exam gives you a **small, complete, working program in a language you have not seen before**, built out of the same parts as the project it follows: the same kind of front end, the same toolchain, the same test format. That program is the exam's *vehicle* — it is what you read, debug, test, and extend during the exam.
 
 A vehicle is never your own submission or your teammates'. The project is graded on a working compiler, and nobody can tell from a repository alone which member of a team understood which part of it. Because the vehicle is unfamiliar, you cannot fall back on code you happen to remember writing, and a team whose work was unevenly divided does not get to hide that in the exam.
 

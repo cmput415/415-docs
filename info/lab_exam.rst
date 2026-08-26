@@ -23,9 +23,9 @@ Schedule
 
 Exams are written during the Friday lab section, in the week following the deadline of the project they cover, while the material is fresh.
 
-The exam is synchronous — everyone writes at the same time — and you are given one hour at the keyboard. The lab block runs 2:00 to 4:50 PM, so there is room around the hour to get everyone signed in and set up before the clock starts.
+The exam is synchronous — everyone writes at the same time. The tasks are set to be finished in one hour, and **every student is given two and a half hours at the keyboard**: the course applies the University's `universal time multiplier <https://www.ualberta.ca/en/centre-for-teaching-and-learning/resources/access-community-belonging/access-and-accessibility/universal-time-multipliers.html>`_ of 2.5× to the whole class.
 
-Students with an exam accommodation for extra time receive **2.5× the standard duration**, which is two and a half hours. That has to fit inside the lab block, so if this applies to you, arrange your start time in advance. A start time that would run past the end of the block cannot be accommodated on the day.
+The lab block runs 2:00 to 4:50 PM. Sign-in and setup happen at the start of the block, before the clock starts.
 
 Where the exam runs
 -------------------
@@ -118,7 +118,7 @@ Submitting your work
 
 **You are graded on what has reached GitHub by the end of the exam.**
 
-Push early and push often. Timestamps in a local repository **can be spoofed**, so only what has reached GitHub can be credited once time is called. Pushing regularly across the hour also protects your work if the machine fails.
+Push early and push often. Timestamps in a local repository **can be spoofed**, so only what has reached GitHub can be credited once time is called. Pushing regularly across the session also protects your work if the machine fails.
 
 Commit and ``git push`` to your repository's default branch, the same way you would on a project.
 
