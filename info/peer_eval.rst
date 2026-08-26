@@ -106,8 +106,6 @@ Evaluating is part of the exercise, and doing it badly denies the other team the
 
 After the evaluation, each evaluator individually fills out a rubric, assigns a mark and writes a justification for each of the four evaluated students and for the team as a whole, and distributes ten contribution points across the evaluated team. All of this is described under the :ref:`grading matrix <sec:peer_eval_grading_matrix>`.
 
-The evaluated team fills out a form of its own, assessing how well you ran the session. Running a session badly therefore costs the evaluating team as well as the team it evaluated.
-
 .. _sec:rating_your_evaluators:
 
 Rating your evaluators
