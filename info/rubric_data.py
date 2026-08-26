@@ -151,3 +151,38 @@ SESSION_ANCHORS = [
     ("Got through it, leaving parts of your team or of the material untested", "65"),
     ("Did not give your team a fair chance to demonstrate its work", "35"),
 ]
+
+# Question shapes for the evaluator cheat sheet. The blanks are filled from
+# what the team has just said, so a template carries the shape of a follow-up
+# and none of its content.
+FOLLOW_UP_TEMPLATES = [
+    ("Clarify", "You said ______. Can you show me where that happens?"),
+    ("Go deeper", "What happens if ______ instead?"),
+    ("Trace", "Take ______ and walk it from the parser through to the output."),
+    ("Justify", "Why ______ rather than ______? What did that cost you?"),
+    ("Rescue a stall", "Let us back up: what does ______ do at all? Open the file and read it with us."),
+    ("Hypothetical", "If we added ______ to the language, where would it touch first?"),
+    ("Redirect", "______, you wrote ______. How does that interact with what we just heard?"),
+]
+
+# How to ask, for the cheat sheet.
+ETIQUETTE = [
+    "Follow up on a weak answer before you record it, and ask the same person a second way.",
+    "Let a silence run a few seconds. A student who is thinking looks like a student who is stuck.",
+    "Ask for the reasoning behind an answer rather than arguing with the answer.",
+    "Keep your face still. The team is reading it while they talk.",
+    "Ask one question at a time.",
+    "Say when an answer has landed, then move on.",
+]
+
+# Where a session should be at a given time. A lab period runs two of them
+# back to back, the first from 2:00 PM and the second from 3:20 PM. Each is
+# allotted 80 minutes: the presentation takes 5 to 10 of them and the Q&A about
+# an hour, with the rest going on changing rooms and setting up.
+SESSION_CLOCK = [
+    ("2:00", "3:20", "Presentation. Write down each member's name and the areas they claim."),
+    ("2:10", "3:30", "Q&A opens. Start with a member who named a specific feature."),
+    ("2:40", "4:00", "Halfway. Every member should have answered by now — check the tally."),
+    ("3:00", "4:20", "Ten minutes left. Fill the gaps: unticked coverage areas, unasked required questions."),
+    ("3:10", "4:30", "Stop. Before you leave the room: a line on each member, and the ten contribution points split across the team."),
+]
