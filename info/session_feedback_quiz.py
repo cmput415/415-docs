@@ -12,7 +12,7 @@ Compile it to a QTI package with::
     text2qti session_feedback_p1.txt
 
 and import the resulting ``.zip`` through Settings > Import Course Content >
-"QTI .zip file", then set the imported quiz to **Graded Survey**.
+"QTI .zip file", then apply the Canvas settings listed in ``qti_quiz.py``.
 
 The form is due before the evaluators submit their own assessments, so a
 student rates the session without knowing the mark it earned them.
@@ -66,7 +66,7 @@ def _choice_question(quiz, title, prompt, labels):
 def build(session):
     name, part = SESSIONS[session]
     quiz = qti_quiz.Quiz(
-        f"{name} — Session Feedback",
+        f"{name} — Session Feedback as Evaluee (Required)",
         f"Your account of how the team that evaluated you ran your {part} peer evaluation. "
         f"Fill this out individually: every member of the evaluated team fills out their own. "
         f"It is due shortly after the session ends.",

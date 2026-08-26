@@ -15,9 +15,8 @@ objective for every evaluated member, a mark and a justification for each of
 them, and the same for the team as a whole.
 
 Canvas has no matrix question type, so each placement is its own question and
-the descriptors are carried in the choices. Nothing here has a right answer, so
-set the imported quiz to **Graded Survey** in its settings: that awards points
-for completing it and leaves a gradebook column, without scoring the responses.
+the descriptors are carried in the choices. Nothing here has a right answer;
+``qti_quiz.py`` lists the Canvas settings an imported quiz needs.
 Under ``--placement mc`` the first choice is marked correct because text2qti
 requires a key; ``--placement numeric`` accepts any placement in ``[1, 4]``
 instead and so carries no key at all.
@@ -95,7 +94,7 @@ def build(session, members, placement_style, contribution_points):
     group = _objectives("Group")
     name, part = SESSIONS[session]
     quiz = qti_quiz.Quiz(
-        f"{name} — Evaluator Assessment",
+        f"{name} — Assessment as Evaluator (Required)",
         f"Your assessment of one team's {part} peer evaluation. "
         f"Fill this out individually, once for the team you evaluated. "
         f"Place each member on all {len(individual)} individual objectives and the team on both group objectives, "

@@ -11,6 +11,23 @@ Survey** in the quiz settings: that awards points for completing the form and
 leaves a gradebook column, without scoring the responses. A multiple-choice
 question still carries a key because text2qti requires one; the survey ignores
 it.
+
+A QTI package carries the title and the questions. Everything else is set on
+Canvas afterwards:
+
+- **Points possible**, equal to the number of questions. Canvas stores this on
+  the quiz rather than deriving it, and leaves it unset on import, which shows a
+  completed submission as ``0``. Write it on the quiz; the linked assignment
+  takes its value from there, and a write aimed at the assignment is discarded.
+- **Omit from final grade** on the assignment, so completing the form counts
+  towards nothing.
+- **Show correct answers** off.
+- A **manual posting policy**, which only the GraphQL
+  ``setAssignmentPostPolicy`` mutation reaches. The assignment has no field for
+  it.
+- The **availability window**, which differs per session: a form opens when the
+  session it covers ends and closes once the marks it is a condition of are
+  released.
 """
 
 # One quiz per evaluation session. Part 2 is evaluated twice, so a part number
