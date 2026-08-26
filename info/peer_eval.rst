@@ -106,12 +106,16 @@ Evaluating is part of the exercise, and doing it badly denies the other team the
 
 After the evaluation, each evaluator individually fills out a rubric, assigns a mark and writes a justification for each of the four evaluated students and for the team as a whole, and distributes ten contribution points across the evaluated team. All of this is described under the :ref:`grading matrix <sec:peer_eval_grading_matrix>`.
 
+**Submit it to receive any peer evaluation marks of your own.** A member who does not submit their assessment of the team they evaluated scores zero for that evaluation.
+
 .. _sec:rating_your_evaluators:
 
 Rating your evaluators
 ----------------------
 
 Every member of the evaluated team individually fills out a short form on Canvas about how the session was run, due shortly after the session ends. It asks for one mark out of 100 for the evaluating team, with a written justification.
+
+**Submit it to see your own results.** Your marks for an evaluation are released once you have submitted the form for it.
 
 Anything serious — evaluators who did not arrive, hostility, or being stopped from showing your own code — goes in the second question on the form, which reaches the instructor directly.
 
