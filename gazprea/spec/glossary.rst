@@ -10,10 +10,12 @@ authoritative literature behind each term, and to give students a
 jumping-off point when they need to specify a language or compiler task
 of their own.
 
-Every entry below has a **primary citation** to an authoritative source:
+Most entries below have a **primary citation** to an authoritative source:
 an ISO/IEC or IEEE standard, the documentation of an ongoing industrial
 open-source project (LLVM, GCC, GNU Binutils), or a peer-reviewed
-publication in a respected venue.  Where a term has a widely-used *effective*
+publication in a respected venue.  The *Gazprea*-specific normative entries
+(for example :term:`zero value` and :term:`value type`) instead cite the
+specification chapter that states the rule in full.  Where a term has a widely-used *effective*
 reference (e.g. cppreference for the C++ value categories), that reference
 appears alongside the authoritative citation and is explicitly labeled as
 non-normative.
@@ -291,12 +293,8 @@ Terms
 
       *Gazprea policy.*  A conforming *Gazprea* implementation must
       not have any user-distinguishable implementation-defined
-      behavior or unspecified behavior, and has **no undefined behavior
-      under standard operation**.  The single, deliberate exception is
-      the ``-ffast-math`` compiler flag (see :ref:`sec:flags`), under
-      which the integer math faults of :ref:`ssec:integer` become
-      undefined behavior; it is provided solely for performance testing.
-      Outside that one case, every program is either :term:`well-formed`
+      behavior or unspecified behavior, and has **no undefined
+      behavior** at all.  Every program is either :term:`well-formed`
       and produces the output required by this specification, or it is
       :term:`ill-formed` and the implementation emits an error.  The reason these
       C/C++ terms appear in this glossary is definitional -- the
@@ -599,9 +597,10 @@ Terms
       [#iso-c11]_.  A program exhibiting undefined behavior at run time
       is not obliged to signal an error, terminate, or produce any
       particular output.  Contrast :term:`unspecified behavior` and
-      :term:`implementation-defined behavior`.  In *Gazprea*, undefined
-      behavior arises only under the ``-ffast-math`` flag (see
-      :ref:`sec:flags`); a program compiled without it has none.
+      :term:`implementation-defined behavior`.  *Gazprea* has no
+      undefined behavior at all: every program is either
+      :term:`well-formed` and produces the specified output, or it is
+      :term:`ill-formed` and the implementation emits an error.
 
    unspecified behavior
       "Use of an unspecified value, or other behavior where this
