@@ -8,11 +8,11 @@ some special behavior that normal functions cannot have, for instance
 many of them will work on arrays of any element type.
 Normally a function must specify the element type of an array argument.
 
-The names of the built-in functions are reserved. A user program may not
-declare *any* identifier -- a variable, function, procedure, ``struct``, or
-otherwise -- with the same name as a built-in function; doing so would shadow
-the built-in, and the compiler must emit a ``SymbolError`` (see
-:ref:`sec:errors`). These names are reserved semantically rather than being
+The names of the built-in functions and procedures are reserved. A user program
+may not declare *any* identifier -- a variable, function, procedure, ``struct``,
+or otherwise -- with the same name as a built-in function or procedure; doing
+so would shadow the built-in, and the compiler must emit a ``SymbolError``
+(see :ref:`sec:errors`). These names are reserved semantically rather than being
 syntactic :ref:`keywords <sec:keywords>`.
 
 The :ref:`vector/string method <sssec:vec_methods>` names (``push``,
@@ -96,7 +96,7 @@ matrix instead.
 
 ::
 
-         integer[*] v = 1..6;
+         integer[*] v = 1..5;
 
          length(v) -> std_output; /* Prints 5 */
 
@@ -150,11 +150,11 @@ one.
 
 ::
 
-         integer[*] v = 1..6;
+         integer[*] v = 1..5;
          integer[*] w = reverse(v);
 
-         v -> std_output; /* Prints [1, 2, 3, 4, 5] */
-         w -> std_output; /* Prints [5, 4, 3, 2, 1] */
+         v -> std_output; /* Prints [1 2 3 4 5] */
+         w -> std_output; /* Prints [5 4 3 2 1] */
 
 .. _ssec:builtIn_format:
 
@@ -172,7 +172,7 @@ stream (see :ref:`sssec:output_format`); a type with no defined output format
          integer i = 24;
          real r = 2.4;
 
-         "i = " || format(i) || ", r = " || format(r) || '\n' -> std_output;
+         "i = " || format(i) || ", r = " || format(r) || "\n" -> std_output;
          // Prints: "i = 24, r = 2.4\n"
 
 Note that ``format`` allocates space to hold the return string; the
