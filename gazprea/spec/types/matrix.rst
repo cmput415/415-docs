@@ -159,6 +159,20 @@ multiplication described above; both are instances of the one contraction rule,
 which corresponds directly to the contraction operations already available in
 *MLIR*.
 
+Concatenation with ``||`` stacks arrays along their **outermost** axis: two
+rank-``k`` arrays with identical extents in every axis but the first join into a
+rank-``k`` array whose first extent is the sum of theirs, so two matrices
+concatenate exactly when they have the same number of columns and the result
+stacks their rows. Differing trailing extents are a ``SizeError`` and differing
+ranks a ``TypeError`` (see :ref:`sssec:array_ops` for the full rule, scalar
+promotion, and the ``M || [r]`` row-append idiom).
+
+::
+
+           integer[*][*] A = [[1, 2], [3, 4]];
+           integer[*][*] B = [[5, 6]];
+           /* A || B == [[1, 2], [3, 4], [5, 6]] */
+
 The number of rows and columns in a matrix is given by the built-in
 functions ``rows`` and ``columns``; see :ref:`ssec:builtIn_rows_cols` for
 their full definition.

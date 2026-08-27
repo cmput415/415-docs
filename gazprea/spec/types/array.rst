@@ -253,42 +253,52 @@ Operations
       would be permitted, and the integer array ``v`` would be implicitly
       cast to a real array before the concatenation.
 
-      Concatenation may also be used with scalar values. In this case
-      the scalar values are treated as though they were single element
-      arrays.
+      Concatenation may also be used with scalar values. Every
+      :term:`scalar <scalar type>` operand is implicitly promoted to a
+      single-element array of its type before the operation, so ``||`` never
+      requires a composite operand and even two scalars may be concatenated
+      directly:
 
       ::
 
          1 || [2, 3, 4]   // produces [1, 2, 3, 4]
-         [1, 2, 3] || [4] // produces [1, 2, 3, 4]
-
-
-      Each ``||`` operation requires at least one of its two operands to be a
-      composite value (an array, :ref:`vector <ssec:vector>`, or ``string``); a
-      scalar operand is treated as a single-element array and concatenated on.
-      Concatenating two scalars is a ``TypeError``. Because ``||`` is
-      right-associative, the way to concatenate a run of scalars is to end it
-      with an array operand, onto which the scalars to its left are concatenated
-      in turn:
-
-      ::
-
-         integer[3] v = 1 || 2 || 3;   // TypeError: all operands are scalars
-         integer[3] w = 1 || 2 || [3]; // [1, 2, 3]: the rightmost operand is an array
+         [1, 2, 3] || 4   // produces [1, 2, 3, 4]
+         1 || 2 || 3      // produces [1, 2, 3]
 
 
       Concatenation is right-associative, and its *receiver* -- the rightmost
-      operand -- fixes the **kind** of the result. When the receiver is a
-      :ref:`vector <ssec:vector>` (a ``vector<T>`` or a ``string``), the whole
-      concatenation is a vector of that element type; otherwise -- when the
-      receiver is an array or a scalar -- the result is an array, exactly as in
-      the examples above. Nothing else about concatenation changes: at least one
-      operand must still be composite, and the operands must share a common
-      element type through implicit casts. This is what keeps a string
-      concatenation such as ``"x = " || format(x)`` a ``string`` (its receiver
-      ``format(x)`` is a string), so it renders as text when sent to a stream,
-      while a vector result can still be stored into an array through the usual
-      :ref:`vector/array interoperability <ssec:implicitCasts_avv>`.
+      operand -- fixes the **kind** and element type of the result. When the
+      receiver is a :ref:`vector <ssec:vector>` (a ``vector<T>`` or a
+      ``string``) the whole concatenation is a vector of that element type; when
+      it is an array, the result is an array of that element type. When the
+      receiver is a *scalar* it is promoted as above, so the result is a plain
+      array of that scalar's type -- an ``integer`` receiver yields an
+      ``integer`` array and, importantly, a ``character`` receiver yields a
+      ``character`` array, **not** a ``string``. A concatenation therefore
+      prints as text only when its rightmost operand is already a ``string``:
+      ``"x = " || format(x)`` is a ``string`` (its receiver ``format(x)`` is a
+      string) and renders as text when sent to a stream, whereas
+      ``"x = " || 'y'`` is a ``character`` array. The operands must still share
+      a common element type through implicit casts, and a vector result can be
+      stored into an array through the usual :ref:`vector/array interoperability
+      <ssec:implicitCasts_avv>`.
+
+      Concatenation generalizes to arrays of any rank. Viewing a rank-``k``
+      array as the sequence of its rank-``(k-1)`` outer slices -- its rows, for
+      a matrix -- ``a || b`` joins those two sequences along the outermost axis:
+      both operands must have the same rank ``k`` (after the scalar-to-rank-1
+      promotion above) and identical extents in every axis but the first, and
+      the result has rank ``k`` with its first extent the sum of the two.
+
+      ::
+
+         [[1, 2], [3, 4]] || [[5, 6]] // produces [[1, 2], [3, 4], [5, 6]]
+
+      A mismatch in those trailing extents is a ``SizeError`` (see
+      :ref:`sec:errors`); operands whose ranks differ -- other than a scalar
+      promoted to rank 1 -- are a ``TypeError``, so to append a single row ``r``
+      to a matrix ``M`` you write ``M || [r]`` rather than ``M || r``. See
+      :ref:`ssec:matrix` for the rank-general rule.
 
 
       Remember that arrays have a fixed length, which means you cannot grow an

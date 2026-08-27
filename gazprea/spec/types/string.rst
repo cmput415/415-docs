@@ -97,10 +97,14 @@ prints as text when sent to a stream. When instead the receiver is a
 cast back to a ``string`` whenever it is stored into one (see
 :ref:`ssec:implicitCasts_string`). Either way
 ``var string letters = ['a', 'b'] || "cd";`` below is legal -- here its receiver
-``"cd"`` is a ``string``, so the concatenation is itself a ``string``. At least one operand of ``||`` must be a
-composite type (a ``string`` or an array); concatenating two :term:`scalar
-<scalar type>` values -- for example ``character || character`` -- must emit a
-``TypeError`` (see :ref:`sec:errors`). You may also append a slice of
+``"cd"`` is a ``string``, so the concatenation is itself a ``string``. Every
+:term:`scalar <scalar type>` operand of ``||`` is promoted to a single-element
+array of its type, so no operand need be composite and two scalars may be
+concatenated: ``character || character`` yields a two-element ``character``
+array -- never a ``string``, and never a ``TypeError``. Because the result is a
+``string`` only when the rightmost operand already is one, a scalar character on
+the right, as in ``"ab" || 'c'``, gives a ``character`` array, whereas
+``"ab" || "c"`` gives a ``string``. You may also append a slice of
 characters to a string using the append method. As well, a scalar character may
 be concatenated onto a string in the same way as it would be concatenated onto
 an array of characters. Note that because ``string`` is a typealias for

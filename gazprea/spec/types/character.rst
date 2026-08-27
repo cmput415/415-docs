@@ -93,9 +93,10 @@ each operand to ``integer`` with ``as<integer>(...)`` (see
 
 :term:`Scalar <scalar type>` values with type ``character`` may be
 concatenated onto values of type ``string`` or arrays with type
-``character``. See :ref:`sssec:string_ops` for the full concatenation
-rules, including the ``TypeError`` (see :ref:`sec:errors`) raised when
-both operands of ``||`` are scalar, e.g. ``character || character``.
+``character``; a ``character`` scalar is itself promoted to a single-element
+``character`` array when concatenated, so ``character || character`` yields a
+two-element ``character`` array (not a ``string``). See :ref:`sssec:string_ops`
+for the full concatenation rules.
 
 Operator precedence and associativity are specified once, for all types, in
 the :ref:`table of operator precedence <ssec:expressions_toop>`.
