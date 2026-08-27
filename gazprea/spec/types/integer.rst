@@ -11,7 +11,8 @@ represented by an ``i32`` in *MLIR*.
 Declaration
 ~~~~~~~~~~~
 
-An ``integer`` value is declared with the keyword ``integer``.
+An ``integer`` value is declared with the keyword ``integer``. If the variable
+is not initialized explicitly, it is set to ``0`` (its :term:`zero value`).
 
 .. _sssec:integer_lit:
 
@@ -75,32 +76,28 @@ expression.
 Unary negation produces the additive inverse of the ``integer``
 expression. Unary plus always produces the same result as the
 ``integer`` expression it is applied to. Remainder mirrors the behavior
-of remainder in *C99*.
+of remainder in *C99*, and division ``/`` truncates toward zero (also as in
+*C99*), so ``(a / b) * b + a % b == a``.
 
-Exponentiation between integers gives an ``integer`` result. This is the same
-behavior as performing exponentiation on reals then truncating to an
-``integer``.
+Exponentiation between integers gives an ``integer`` result, computed exactly
+by integer multiplication rather than by converting to ``real``: for a
+non-negative exponent it is the exact integer power (so ``3 ^ 16 == 43046721``),
+and for a negative exponent it is ``b ^ e`` truncated toward zero (``0`` whenever
+``|b| > 1``). A result outside the ``i32`` range raises a ``MathError`` as for
+any other overflowing integer arithmetic (see below).
 
 Signed 32-bit arithmetic that overflows the ``i32`` range (``+``,
 ``-``, ``*``, ``/``, ``^``, and unary ``-``) causes the implementation to
-raise a ``MathError`` (see :ref:`sec:errors`). This includes the two overflow
-cases that arise from ``/`` and unary negation specifically: ``INT_MIN / -1``
+raise a ``MathError`` (see :ref:`sec:errors`) at :term:`compile time` or
+:term:`run time`. This includes ``INT_MIN / -1``
 and ``-INT_MIN``, whose mathematical results are not representable as an
-``i32``.
+``i32``, and ``INT_MIN % -1``, which is a ``MathError`` too: although its
+mathematical result ``0`` is representable, evaluating the remainder overflows
+because it requires the same out-of-range quotient ``INT_MIN / -1``.
 Division and remainder (``%``) where the right operand is ``0``, and
 exponentiation where the base is ``0`` and the exponent is ``<= 0``,
 cause the implementation to raise a ``MathError`` (see
 :ref:`sec:errors`) at :term:`compile time` or :term:`run time`.
-
-The sole exception is under the ``-ffast-math`` compiler flag -- which every
-conforming implementation must support, but which is off unless explicitly
-enabled -- under which every one of these integer faults -- overflow, divide by ``0``, ``%`` by
-``0``, and exponentiation of base ``0`` with a non-positive exponent -- becomes
-:term:`undefined behavior` instead of raising a ``MathError``. This is the only
-construct in which *Gazprea* leaves behavior undefined, and it is provided
-solely for performance testing; see :ref:`sec:flags` for its precise semantics
-and the rules governing its use.
-
 
 Operator precedence and associativity are specified once, for all
 types, in the :ref:`table of operator precedence

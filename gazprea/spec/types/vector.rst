@@ -5,7 +5,7 @@ Vectors
 
 Vectors are language-supported objects that provide runtime-sized arrays.
 Unlike an array, whose length is fixed once at its :term:`initialization`
-(see :ref:`sssec:array_vs_vector`), a vector is *runtime sized*: it begins
+(see :ref:`sssec:array_vs_vector`), a vector is *runtime-sized*: it begins
 at some length and may grow over its lifetime through its mutating methods
 (``push`` and ``append``).
 
@@ -115,7 +115,7 @@ A vector of arrays is therefore never ragged: once the element size is fixed,
 every element has that shape. A ``vector<vector<T>>``, by contrast, *may* be
 ragged, because each inner vector carries its own runtime length and no element
 imposes its shape on the others. This version of the language has no
-broadcasting and no ``shape()`` operation.
+comprehensive broadcasting and no ``shape()`` operation.
 
 Because a nested literal is padded to its longest sub-array before it is stored,
 neither initializer below is ragged and neither is an error -- the short
@@ -144,8 +144,10 @@ pads only its newly pushed element:
                                               // y == [[1.0, 2.0], [3.0, 0.0]]
 
 An initially empty ``vector<T[*]>`` takes its element size from the first array
-appended, after which the usual pad / ``SizeError`` rules apply. Each call below
-is shown for its own effect on the freshly emptied vector:
+appended, after which the usual pad / ``SizeError`` rules apply. The first
+``append`` below fixes the element size at 2; each later line is an independent
+continuation from that size-2 state (shown separately so the ``SizeError`` line
+does not abort the ones after it):
 
    ::
 
@@ -258,7 +260,7 @@ The methods are:
         v1.len() -> std_output;        // 5
 
         var vector<real[2]> v2;        // v2 == []
-        const x = 1..11;
+        const x = 1..10;
 
         // `1` is implicitly cast to `[1.0, 1.0]` before appending
         call v2.append(1);             // v2 == [[1.0, 1.0]]
@@ -267,7 +269,7 @@ The methods are:
         call v2.append([3.0]);         // v2 == [[1.0, 1.0], [3.0, 0.0]]
 
         // slices
-        call v2.append(x[5..7]);       // v2 == [[1.0, 1.0], [3.0, 0.0], [5.0, 6.0]]
+        call v2.append(x[5..6]);       // v2 == [[1.0, 1.0], [3.0, 0.0], [5.0, 6.0]]
 
         v2.len() -> std_output;        // 3
 
@@ -279,4 +281,4 @@ Slicing a vector produces an array slice (there are no "vector slices").
    ::
 
         var vector<integer> v3 = x;
-        call v3[2..5].append(x[5..7]); // TypeError; cannot do `append` on an array slice
+        call v3[2..5].append(x[5..6]); // TypeError; cannot do `append` on an array slice

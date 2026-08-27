@@ -88,7 +88,7 @@ parentheses in a comma separated list. For example:
      tuple(integer, character[5], integer[3]) my_tuple = (x, "hello", [1, 2, 3]);
      var our_tuple = (x, "hello", [1, 2, 3]);
      const your_tuple = (x, "hello", [1, 2, 3]);
-     tuple(integer, real, integer[10]) tuple_var = (1, 2.1, [i in 1..11 | i]);
+     tuple(integer, real, integer[10]) tuple_var = (1, 2.1, [i in 1..10 | i]);
 
 .. _sssec:tuple_ops:
 
@@ -98,7 +98,7 @@ Operations
 The following operations are defined on tuple values. In all of the usage
 examples ``tuple-expr`` means some expression yielding tuples with the same
 type signature, while ``int_lit`` is an integer literal as defined in
-:ref:`Integer Literals <sssec:integer_lit>` and ``tuple-inst`` is the name of
+:ref:`Integer Literals <sssec:integer_lit>` and ``tuple-inst`` is the name of a
 tuple instance as defined in :ref:`sec:identifiers`.
 
 +------------+---------------+------------+------------------------------+
@@ -112,8 +112,8 @@ tuple instance as defined in :ref:`sec:identifiers`.
 +------------+---------------+------------+------------------------------+
 
 Note that in the above table ``tuple-inst`` always refers to a variable for
-*Access*. Accessing a literal could be replaced immediately with the scalar
-inside the tuple literal, however, ``tuple-expr`` may refer to a literal in
+*Access*. Accessing a literal could be replaced immediately with the value
+inside the tuple literal; however, ``tuple-expr`` may refer to a literal in
 comparison operations to enable shorthand like this:
 
 ::
@@ -145,7 +145,7 @@ the :ref:`table of operator precedence <ssec:expressions_toop>`.
 Unpacking
 ~~~~~~~~~
 
-Any tuple expression may be assigned (unpacked) into multiple lvalues. If the
+Any tuple expression may be assigned (unpacked) into multiple :term:`lvalues <lvalue>`. If the
 size of the tuple being unpacked does not match the number of lvalues being
 assigned, the compiler must emit an ``AssignError`` (see :ref:`sec:errors`).
 There is no partial unpacking of tuples.

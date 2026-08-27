@@ -122,7 +122,7 @@ the struct type name:
      struct S (integer i, character[5] c, integer[3] a3);
      const S cs = S(i: x, c: "hello", a3: [1, 2, 3]);
      var S vs = S(c: ' ', i: 0, a3: 0);
-     struct V (integer i, real r, integer[10] arr) v = V(i: 1, r: 2.1, arr: [i in 1..11 | i]);
+     struct V (integer i, real r, integer[10] arr) v = V(i: 1, r: 2.1, arr: [k in 1..10 | k]);
 
 The fields may be listed in any order, but all fields must be present. The type
 of each value must match, or be implicitly castable to (see
@@ -138,20 +138,21 @@ Operations
 ~~~~~~~~~~
 
 The following operations are defined on ``struct`` instances.
-In all of the usage examples, ``struct-type`` means some struct yielding
-expression of a particular type, while ``id`` is a field within the struct.
+In all of the usage examples, ``struct-inst`` is the name of a struct instance
+(a variable) and ``struct-expr`` is any struct-yielding expression, while
+``id`` is a field within the struct.
 
 +------------+---------------+------------+--------------------------------+
 | **Class**  | **Operation** | **Symbol** | **Usage**                      |
 +------------+---------------+------------+--------------------------------+
-| Access     | dot           | ``.``      | ``struct-type.id``             |
+| Access     | dot           | ``.``      | ``struct-inst.id``             |
 +------------+---------------+------------+--------------------------------+
-| Comparison | equals        | ``==``     | ``struct-type == struct-type`` |
+| Comparison | equals        | ``==``     | ``struct-expr == struct-expr`` |
 +            +---------------+------------+--------------------------------+
-|            | not equals    | ``!=``     | ``struct-type != struct-type`` |
+|            | not equals    | ``!=``     | ``struct-expr != struct-expr`` |
 +------------+---------------+------------+--------------------------------+
 
-Note that in the above table ``struct-type`` may only refer to a variable
+Note that in the above table ``struct-inst`` must be a variable
 instance for *Access*; accessing a field via dot notation on a non-variable
 (for example, the result of an expression or a struct literal) must emit a
 ``TypeError`` (see :ref:`sec:errors`). For *Comparison*, **both** operands must

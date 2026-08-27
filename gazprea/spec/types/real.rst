@@ -11,7 +11,8 @@ represented by an ``f32`` in *MLIR*.
 Declaration
 ~~~~~~~~~~~
 
-A ``real`` value is declared with the keyword ``real``.
+A ``real`` value is declared with the keyword ``real``. If the variable is not
+initialized explicitly, it is set to ``0.0`` (its :term:`zero value`).
 
 .. _sssec:real_lit:
 
@@ -35,7 +36,8 @@ parsed. For example:
 
 A ``real`` literal can also be created by any valid ``real`` or ``integer``
 literal followed by scientific notation indicated by the character ``e`` or
-``E`` and another valid ``integer`` literal. Scientific notation multiplies the
+``E`` and an optionally-signed ``integer`` literal (e.g. ``-3``, ``+9``).
+Scientific notation multiplies the
 first literal by :math:`{10}^{x}`, e.g. :math:`4.2\mathrm{e}{-3}=4.2
 \times10^{-3}`. For example:
 
@@ -53,11 +55,12 @@ first literal by :math:`{10}^{x}`, e.g. :math:`4.2\mathrm{e}{-3}=4.2
 Operations
 ~~~~~~~~~~
 
-Floating-point operations are equivalent to :ref:`integer operations
-<sssec:integer_ops>`.
+Floating-point operations use the same operators as :ref:`integer operations
+<sssec:integer_ops>`, with the differences described below.
 
 The ``%`` operator is defined on ``real`` operands as the decimal remainder; for
-example ``5.5 % 2.0 == 1.5``. Because ``==`` on reals is exact IEEE 754 equality
+example ``5.5 % 2.0 == 1.5``. The result takes the sign of the left operand (the
+dividend), as with C ``fmod`` -- for example ``-5.5 % 2.0 == -1.5``. Because ``==`` on reals is exact IEEE 754 equality
 (bit-for-bit), such an equation holds only when the operands and the result are
 all exactly representable; approximate numeric equality is not provided and would
 require a user-defined tolerance comparison.
@@ -67,11 +70,7 @@ not-a-number (``NaN``), the signed infinities (``Infinity``), and signed
 zeros. Real arithmetic therefore **never** raises a ``MathError``: overflowing
 the finite ``real`` range yields a signed ``Infinity``, division or ``%`` by
 ``0.0`` yields a signed ``Infinity`` (or ``NaN`` for ``0.0 / 0.0``), and every
-subsequent operation on ``Infinity`` and ``NaN`` operands follows IEEE 754. The
-``-ffast-math`` flag has **no effect** on how ``real`` values are produced or
-handled -- in particular it does not change the generation of ``Infinity`` or
-``NaN``. (``-ffast-math`` affects only integer arithmetic; see :ref:`sec:flags`
-and :ref:`ssec:integer`.)
+subsequent operation on ``Infinity`` and ``NaN`` operands follows IEEE 754.
 
 Comparisons follow from this rule, exactly as in IEEE 754. With at least one
 ``NaN`` operand, every *affirmative* comparison -- ``==``, ``<``, ``>``,

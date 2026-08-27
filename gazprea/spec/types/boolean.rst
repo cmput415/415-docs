@@ -37,7 +37,7 @@ expression.
 ============= ========== ===========================
 **Operation** **Symbol** **Usage**
 ============= ========== ===========================
-parenthesis   ``()``     ``(bool-expr)``
+parentheses   ``()``     ``(bool-expr)``
 negation      ``not``    ``not bool-expr``
 logical or    ``or``     ``bool-expr or bool-expr``
 logical xor   ``xor``    ``bool-expr xor bool-expr``
@@ -46,7 +46,7 @@ equals        ``==``     ``bool-expr == bool-expr``
 not equals    ``!=``     ``bool-expr != bool-expr``
 ============= ========== ===========================
 
-Unlike many languages, the ``and`` and ``or`` operators do not `short-circuit
+Unlike many languages, the ``and`` and ``or`` operators do not use `short-circuit
 evaluation <https://en.wikipedia.org/wiki/Short-circuit_evaluation>`__.
 Therefore, both the left hand side and right hand side of an expression
 must always be evaluated. This has a practical consequence: a guard like
