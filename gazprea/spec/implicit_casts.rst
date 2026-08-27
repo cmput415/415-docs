@@ -94,7 +94,7 @@ Other examples:
 ::
 
   1 == [1, 1]  // true
-  1..3 || 3 // [1, 2, 3]
+  1..2 || 3 // [1, 2, 3]
 
 Concatenation (``||``) is an exception to the size-matching rule above: a
 scalar operand becomes a single new element regardless of the other
@@ -124,7 +124,7 @@ corresponding member of the destination. Each member is cast by the rule for
 its own kind: scalar members follow the scalar table above, array members
 follow the :ref:`array sizing rules <sssec:array_sizing>` -- a shorter value is
 padded with the element type's :term:`zero value` and a longer value raises a
-``SizeError`` (see :ref:`sec:errors`) -- and a nested ``tuple``, ``vector``, or
+``SizeError`` (see :ref:`sec:errors`). A nested ``tuple``, ``vector``, or
 array member follows the same implicit-cast rules as a standalone value of that
 type. A ``struct`` member is the exception: a ``struct`` is never implicitly
 cast (see :ref:`ssec:struct`), so the two struct types must be identical and
@@ -139,7 +139,7 @@ the member is copied unchanged. For example:
      tuple(character, real, boolean[2]) other_tup = many_tup;
 
 If initializing a variable with a tuple via :ref:`sec:typeInference`, the
-variable is assumed to be the same type.
+variable is inferred to have the same type as the tuple initializer.
 Therefore, tuple elements are also copied accordingly. For example:
 
 ::

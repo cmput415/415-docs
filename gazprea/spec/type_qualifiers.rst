@@ -7,9 +7,10 @@ Type Qualifiers
 ``var``. These qualifiers can prefix a type to specify its mutability or
 entirely replace the type to request that it be inferred. Mutability
 refers to a value's ability to be an :term:`lvalue`: every value can be an
-:term:`rvalue`, but only a mutable one can also be an lvalue (an array
-slice's lvalue-ness follows the mutability of its backing array; see
-:ref:`sssec:array_slices`).
+:term:`rvalue`, but only a mutable one can also be an lvalue. (An array slice is
+an lvalue only as the target on the left of an assignment, and only when its
+backing array is mutable; in every other position a slice is an ordinary array
+value. See :ref:`sssec:array_slices`.)
 The two qualifiers cannot be combined as they are mutually exclusive.
 
 .. _ssec:typeQualifiers_const:

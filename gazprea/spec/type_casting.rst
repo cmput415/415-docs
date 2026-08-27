@@ -60,8 +60,9 @@ code.
 Scalar to Array
 -----------------------
 
-A scalar may be explicitly cast to an array of any dimension with an element
-type that the original scalar can be explicitly cast to according to the rules
+A :term:`scalar <scalar type>` may be explicitly cast to an array of any
+dimension with an element type that the original scalar can be explicitly cast
+to according to the rules
 in :ref:`ssec:typeCasting_stos`. A scalar to array cast *must* include a size
 with the type to cast to as this cannot be inferred from the scalar value. For
 example:
@@ -90,7 +91,7 @@ truncation happens only when a concrete size is given. For example:
 
 ::
 
-     real[3] v = [i in 1..4 | i + 0.3 * i];
+     real[3] v = [i in 1..3 | i + 0.3 * i];
 
      // Convert the real array to an integer array.
      integer[3] u = as<integer[*]>(v);
@@ -101,8 +102,9 @@ truncation happens only when a concrete size is given. For example:
      // Truncate the array.
      real[2] y = as<real[2]>(v);
 
-A cast of a non-variable empty array literal ``[]`` is :term:`ill-formed`,
-because a literal empty array does not have a type; the compiler must emit a
+A cast of the empty array literal ``[]`` (as opposed to a typed variable
+holding an empty vector) is :term:`ill-formed`, because a literal empty array
+does not have a type; the compiler must emit a
 ``TypeError`` (see :ref:`sec:errors`).
 
 .. _ssec:typeCasting_mtom:
@@ -110,7 +112,10 @@ because a literal empty array does not have a type; the compiler must emit a
 Multi-dimensional Arrays
 ------------------------
 
-Conversions between arrays of any dimension are possible.
+Conversions between arrays of any dimension are possible. Such a cast preserves
+rank (the result has the same number of dimensions as the operand); only the
+extents and element type change, just as an array is never *implicitly* cast to
+a different rank (see :ref:`sec:implicitCasts`).
 The process is exactly like :ref:`ssec:typeCasting_vtov` except padding and
 truncation can occur in all dimensions. For example:
 
@@ -172,7 +177,7 @@ Tuple to Tuple
 
 Conversions between ``tuple`` types are also possible. The source type and
 the destination type must have an equal number of members, and each member
-must be pairwise castable; a mismatch in the number of members, or a member
+must be pairwise castable. A mismatch in the number of members, or a member
 that cannot be cast under its own kind's rule, is a compile-time error and
 the compiler must emit a ``TypeError`` (see :ref:`sec:errors`). Every
 member is cast by the rule for its own kind: scalar members follow

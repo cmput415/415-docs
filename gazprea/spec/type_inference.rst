@@ -22,7 +22,7 @@ provided. For instance, instead of writing:
 This is allowed because the compiler knows that the :term:`initializer`,
 2, has the type integer. Because of this the compiler can automatically
 give x an integer type. A *Gazprea* programmer can use ``var`` or
-``const`` for any declaration with an initial value expression, as long
+``const`` for any declaration with an initializer, as long
 as the compiler can infer the type for the expression.
 
 Note that although the qualifier may be elided (default is ``const``; see
