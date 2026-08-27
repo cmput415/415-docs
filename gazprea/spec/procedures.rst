@@ -7,7 +7,10 @@ A procedure in *Gazprea* is like a function, except that it does not
 have to be :term:`pure <functional purity>` and as a result it may:
 
 -  Have arguments marked with ``var`` that can be mutated. By default
-   arguments are ``const`` just like functions (see :ref:`sec:typeQualifiers`).
+   arguments are ``const`` just like functions (see :ref:`sec:typeQualifiers`);
+   only a ``var`` parameter may be assigned to, and a procedure that assigns to
+   a ``const`` (non-``var``) parameter must emit an ``AssignError`` (see
+   :ref:`sec:errors`).
 
 -  Accept a literal or expression as an argument if and only if the
    corresponding parameter is declared ``const``.
@@ -50,9 +53,13 @@ a procedure call).
 
 When a procedure call appears in one of these positions, the only operations
 that may be applied to its result are unary operators and
-:ref:`casts <sec:typeCasting>`. The result may additionally not be used in the
-direct construction of a type that does not match the return type of the
-procedure. A procedure call used outside these positions, or with any other
+:ref:`casts <sec:typeCasting>`. The result may additionally not appear as a
+component or operand inside an aggregate constructor -- an array, matrix,
+tuple, or ``struct`` literal. To build an aggregate from a call's result, bind
+the result to a variable first and use that variable, exactly as in the
+constexpr case where ``[10, get_val()]`` is rejected (see
+:ref:`ssec:constexpr_aggregates`). A procedure call used outside these
+positions, or with any other
 operation applied to its result, is :term:`ill-formed`; the compiler must emit
 a ``CallError`` (see :ref:`sec:errors`).
 
@@ -151,8 +158,8 @@ The compiler must emit a ``CallError`` in such a case.
 
 .. _ssec:procedure_fwd_declr:
 
-Procedure Declarations
-----------------------
+Prototypes
+----------
 
 Procedures can use :ref:`forward declaration <ssec:function_fwd_declr>`
 just like functions. As with a function, a procedure prototype is only a
@@ -193,8 +200,8 @@ Implicit Casts of Arguments
 An argument may be :ref:`implicitly cast <sec:implicitCasts>` to the parameter
 type at call time, but only if the argument is passed by value (that is, the
 parameter is ``const``). A mutable (``var``) parameter is effectively call by
-reference, so the parameter and the argument denote the same :term:`l-value
-<lvalue>` (a pointer); there is no separate value to convert, and so no
+reference, so the parameter and the argument denote the same :term:`lvalue`
+(a pointer); there is no separate value to convert, and so no
 implicit cast can be inserted.
 
 ::
@@ -244,8 +251,8 @@ locations are aliased, and must emit an ``AliasingError`` (see
 :ref:`sec:errors`) when this is detected. ``AliasingError`` is always a
 :term:`compile-time <compile time>` diagnosis: since exact overlap is
 undecidable, the check uses the conservative *same-backing-array* rule -- two
-arguments that name the same array, or slices of it, are treated as aliasing
-even when their accessed ranges are disjoint. For instance:
+arguments that name the same array are treated as aliasing even when their
+accessed ranges are disjoint. For instance:
 
 ::
 
@@ -283,11 +290,11 @@ passed to procedures. For instance:
 It is impossible to tell whether or not these overlap at :term:`compile time`
 due to the halting problem. Thus for simplicity, whenever an array is passed
 to a procedure *Gazprea* detects aliasing whenever the same array is used,
-regardless of whether or not the access would overlap. A
-:ref:`slice <sssec:array_slices>` bound to a ``var`` parameter is a reference
-into its backing array, so two ``var`` arguments that slice the same backing
-array always alias -- the backing array is the unit of aliasing -- even when
-their ranges are disjoint.
+regardless of whether or not the access would overlap; the backing array is the
+unit of aliasing. A :ref:`slice <sssec:array_slices>` is never itself a ``var``
+argument -- in argument position a slice is an :term:`rvalue`, exactly like an
+array literal, and binds only to a ``const`` parameter -- so a slice is not a
+source of ``var``-argument aliasing.
 
 Another instance of aliasing relates to tuple and struct fields. Passing the
 same field to two ``var`` parameters is aliasing, but passing two *disjoint*
@@ -307,8 +314,8 @@ disjoint fields occupy non-overlapping storage:
 
 .. _ssec:procedure_vec_mat:
 
-Array Parameters and Returns
-----------------------------------------
+Composite Type Parameters
+-------------------------
 
 :ref:`As with functions <ssec:function_vec_mat>`, the parameters and return
 value of a procedure can have both explicit and inferred sizes, and the same
@@ -328,21 +335,23 @@ checking rules apply:
 -  A :ref:`vector <ssec:vector>` parameter or return type carries no length in
    its type, so no length check applies in either direction.
 
-Slices can be used wherever arrays are declared as parameters (see
-:ref:`sssec:array_slices`). Unlike functions, an array parameter of a procedure
-may be ``var``, allowing the array or slice passed to it to be modified.
+Slices can be passed wherever a procedure declares a ``const`` array parameter
+(see :ref:`sssec:array_slices`). Unlike functions, an array parameter of a
+procedure may also be ``var``, allowing the whole array passed to it to be
+modified by reference (see :ref:`ssec:procedure_mutation`).
 
-Procedures follow the usual ``var``-is-reference, ``const``-is-value
-convention, and array slices follow it too. A slice bound to a ``const``
-parameter is passed **by value**: the callee receives a copy of the selected
-elements and cannot reach the caller's array through it, so no aliasing arises.
-A slice bound to a ``var`` parameter is passed **by reference**: it is a view
-that writes *through* to the backing array, exactly as a slice on the left of an
-assignment does, so the callee's writes are visible to the caller once the call
-returns (and the backing array must therefore be ``var``). An implementation may
-pass a ``const`` slice by reference for efficiency -- because the callee only
-reads it, the choice is unobservable, and *Gazprea*'s value semantics (realized
-directly by *MLIR*) make the copy and the shared reference indistinguishable.
+In argument position a slice is an ordinary array **value** -- exactly like an
+array literal -- so it is passed **by value**: the callee receives a *copy* of
+the selected elements and cannot reach the caller's array through it, and no
+aliasing arises. Because it is a value (an :term:`rvalue`), a slice binds only to
+a ``const`` parameter; it may **not** be passed to a ``var`` parameter, just as
+an array literal may not, and a program that does so is :term:`ill-formed`, with
+the compiler emitting a ``TypeError`` (see :ref:`sec:errors`). A whole array
+variable, by contrast, is an :term:`lvalue` and may bind to a ``var`` parameter.
+An implementation may still pass a ``const`` slice by reference for efficiency --
+because the callee only reads it, the choice is unobservable, and *Gazprea*'s
+value semantics (realized directly by *MLIR*) make the copy and the shared
+reference indistinguishable.
 
 .. _ssec:procedure_mutation:
 
@@ -360,7 +369,7 @@ array or a vector:
    element type's :term:`zero value`; a longer value raises a ``SizeError``
    (see :ref:`sec:errors`).
 
--  A ``var`` :ref:`vector <ssec:vector>` parameter is runtime sized and so
+-  A ``var`` :ref:`vector <ssec:vector>` parameter is runtime-sized and so
    **may be grown**: ``push`` and ``append`` (see :ref:`sssec:vec_methods`)
    add elements, and because the parameter is call by reference the caller
    observes the new length once the call returns.
