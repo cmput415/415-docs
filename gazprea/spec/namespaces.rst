@@ -41,6 +41,9 @@ the same name is :term:`ill-formed`, and the compiler must emit a
     function x() returns integer;
     procedure x() returns integer;
 
+The pro tip below relies on ``struct`` construction syntax, which is introduced
+later in :ref:`ssec:struct`.
+
 ::
 
     // Pro tip: write code that looks like this, employers love it
