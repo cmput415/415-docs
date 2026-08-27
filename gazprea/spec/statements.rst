@@ -129,7 +129,8 @@ variable. For instance:
 
 The types of the variables must match the types of the tuple's fields,
 or the tuple's fields must be able to be implicitly cast to the
-variable's type. The number of variables in the comma separated list
+variable's type; otherwise the compiler must emit a ``TypeError`` (see
+:ref:`sec:errors`). The number of variables in the comma separated list
 must match the number of fields in the tuple, if this is not the case the
 compiler must emit an ``AssignError`` (see :ref:`sec:errors`). This
 assignment is performed left-to-right. The entire right-hand side is, however,
@@ -165,14 +166,15 @@ obey it too. Binding a slice to a variable, as in ``const b = a[1..3];``,
 *copies* the selected elements into a fresh, independent array, so ``b`` does
 not alias ``a`` and neither one sees the other's later writes. A slice writes
 *through* to its backing array only when it is the target on the *left* of an
-assignment (``a[1..3] = [4, 5];``) or is bound to a ``var`` reference parameter
--- that is the :term:`lvalue` meaning of a slice, not an aliasing of two
-variables. Every assignment and initialization -- whole arrays, slices, tuples,
+assignment (``a[1..3] = [4, 5];``) -- that is the :term:`lvalue` meaning of a
+slice, not an aliasing of two variables. Everywhere else a slice is an ordinary
+array value, exactly like an array literal. Every assignment and initialization
+-- whole arrays, slices, tuples,
 and structs alike -- deep-copies, so, for example, creating a new struct copies
 the right-hand side and never aliases it through indexing.
 
 Variables may be declared as const, and in this case a program that places them
-on the left hand side of an assignment expression is :term:`ill-formed`.  The
+on the left hand side of an assignment statement is :term:`ill-formed`.  The
 compiler must emit an ``AssignError`` (see :ref:`sec:errors`) when this is
 detected, since it does not make sense to change a constant value.
 
@@ -204,7 +206,7 @@ statements in other languages such as *C/C++*. As an example:
 
 Is a block statement. Declarations may appear anywhere within a block,
 interleaved with the other statements (see :ref:`sec:declaration`). Each block
-statement introduces a new scope that new variables may be declared in. For instance this is perfectly valid:
+statement introduces a new :term:`scope` that new variables may be declared in. For instance this is perfectly valid:
 
 ::
 
@@ -219,7 +221,7 @@ statement introduces a new scope that new variables may be declared in. For inst
 
          y = x;
 
-After execution this ``y = 3`` and ``z = 7.1``.
+After execution, ``y == 3`` and ``z == 7.1``.
 
 .. _ssec:statements_cond:
 
@@ -332,7 +334,7 @@ valid:
 
 Each variant is described below.
 
-.. _sssec:statements_inf_Loop:
+.. _sssec:statements_inf_loop:
 
 Infinite Loop
 ~~~~~~~~~~~~~
@@ -397,7 +399,7 @@ semicolon.
 
 The body may equally be a block statement; the trailing ``while`` and its
 required semicolon are what distinguish a post-predicated loop from a plain
-:ref:`infinite loop <sssec:statements_inf_Loop>` over a block:
+:ref:`infinite loop <sssec:statements_inf_loop>` over a block:
 
 ::
 
@@ -410,7 +412,7 @@ required semicolon are what distinguish a post-predicated loop from a plain
            } while (x < 10);
 
 The single-statement post-predicated form (``loop <stmt>; while (cond);``) is
-distinguished from a plain :ref:`infinite loop <sssec:statements_inf_Loop>` whose
+distinguished from a plain :ref:`infinite loop <sssec:statements_inf_loop>` whose
 body is that same statement only by the trailing ``while``, so the two
 productions can diverge arbitrarily far into the input. *ANTLR*'s adaptive
 ``LL(*)`` prediction resolves this without special effort, but a hand-written or
@@ -447,7 +449,7 @@ Array ranges can also be used instead:
 ::
 
            // This will print 123
-           loop i in 1..4 {
+           loop i in 1..3 {
              i -> std_output;
            }
 

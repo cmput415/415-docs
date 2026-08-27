@@ -69,7 +69,7 @@ initialization statement is therefore :term:`ill-formed`.
 
 Since the name being declared is not yet in scope during its own initializer,
 the reference resolves as usual to the nearest *enclosing*-scope binding of that
-name, if one exists; only when there is no such outer binding is this a
+name, if one exists. Only when there is no such outer binding is this a
 reference
 to an undeclared variable, for which the compiler must emit a ``SymbolError``
 (see :ref:`sec:errors`). So ``integer i = i;`` at the outermost scope is a
