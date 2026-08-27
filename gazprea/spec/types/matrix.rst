@@ -80,7 +80,16 @@ Similarly, we can have:
 
 Also matrices can be initialized with a :term:`scalar <scalar type>` value.
 Initializing with a scalar value makes every element of the matrix equal
-to the scalar.
+to the scalar. This requires the matrix's dimensions to be given explicitly in
+*every* position: a matrix with an inferred ``[*]`` dimension has no shape to
+infer from a scalar, so initializing a matrix that has any ``[*]`` dimension
+from a scalar is :term:`ill-formed`, and the compiler must emit an
+``AssignError`` (see :ref:`sec:errors`).
+
+::
+
+   integer[3][3] A = 5;   /* fine: every element is 5 */
+   integer[*][*] B = 5;   /* AssignError: no shape to infer from a scalar */
 
 Gazprea supports empty matrices. A rank-2 array initialized from the empty
 literal ``[]`` is the empty rank-2 array, written ``[[]]``:
@@ -185,12 +194,12 @@ Each index position accepts the same forms as a 1-D array index (see
 :ref:`sssec:array_slices`): a single integer selects one element along the
 current outermost axis and drops that axis, while a range written directly in an
 index position selects a contiguous run along it and keeps it (a slice, with the
-same inclusive-left, exclusive-right bounds as for 1-D arrays). Because the
+same bounds inclusive on both ends as for 1-D arrays). Because the
 subscripts are applied one after another, each indexes the outermost *remaining*
 axis of the value the previous subscripts produced -- a matrix is peeled from
 the outside in, exactly as in *C*. So ``M[i]`` selects a whole row (a rank-1
-array), ``M[i][j]`` selects one element, ``M[1..3]`` selects a contiguous band
-of rows (a rank-2 sub-matrix), and ``M[1..3][2]`` re-indexes that band to select
+array), ``M[i][j]`` selects one element, ``M[1..2]`` selects a contiguous band
+of rows (a rank-2 sub-matrix), and ``M[1..2][2]`` re-indexes that band to select
 its second row. Higher-rank arrays generalize this to ``k`` subscripts.
 
 ::
@@ -198,8 +207,8 @@ its second row. Higher-rank arrays generalize this to ``k`` subscripts.
            integer[*][*] M = [[11, 12, 13], [21, 22, 23], [31, 32, 33]];
 
            /* M[2]        == [21, 22, 23]                  (a whole row)         */
-           /* M[1..3]     == [[11, 12, 13], [21, 22, 23]]  (rows 1 and 2)        */
-           /* M[1..3][2]  == [21, 22, 23]                  (second row of those) */
+           /* M[1..2]     == [[11, 12, 13], [21, 22, 23]]  (rows 1 and 2)        */
+           /* M[1..2][2]  == [21, 22, 23]                  (second row of those) */
 
 Operator precedence and associativity are specified once, for all types, in
 the :ref:`table of operator precedence <ssec:expressions_toop>`.
