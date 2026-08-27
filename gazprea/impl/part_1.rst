@@ -99,4 +99,8 @@ recommended strategy.
 
    * DefinitionError
 
+   * LiteralError (integer and character literals are Part 1)
+
    * MathError
+
+   * IndexError (tuples are Part 1; an out-of-range tuple index is an IndexError)

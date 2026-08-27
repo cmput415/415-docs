@@ -111,16 +111,16 @@ implementation-specific reminders (line numbers, tester leniency):
     Raised during compilation if the program detects a function or procedure
     with a return value that does not have a return statement reachable by all
     control flows. Control flow constructs may be assumed to always be undecidable,
-    meaning they may branch in either direction. When the subroutine is missing
-    a reachable ``return`` statement, the line number of the subroutine
-    declaration should be printed.
+    meaning they may branch in either direction. When the function or procedure is missing
+    a reachable ``return`` statement, the line number of the function or
+    procedure declaration should be printed.
 
     A ``return`` statement whose value's type does not match, and cannot be
-    implicitly cast to, the owning subroutine's return type is normalized as a
+    implicitly cast to, the owning function or procedure's return type is normalized as a
     ``TypeError`` (see the ``TypeError`` entry above and :ref:`sec:statements`),
     **not** a ``ReturnError``; the line number of the ``return`` statement
     should be reported, along with the name and (correct) type of the enclosing
-    routine. (The tester is lenient about the exact error name here -- it
+    function or procedure. (The tester is lenient about the exact error name here -- it
     checks only for the substring "Error" and the line -- as noted at the end
     of this chapter.)
 
@@ -216,9 +216,7 @@ at compile time or at runtime and the tester will accommodate different implemen
     Raised at runtime for the integer math faults defined normatively in
     :ref:`ssec:integer` (signed 32-bit overflow, division or ``%`` by ``0``, and
     exponentiation of base ``0`` with a non-positive exponent). ``real``
-    arithmetic never raises a ``MathError``; see :ref:`ssec:real`. Under the
-    ``-ffast-math`` flag these integer faults are :term:`undefined behavior`
-    instead (see :ref:`sec:flags`).
+    arithmetic never raises a ``MathError``; see :ref:`ssec:real`.
 
 Here is an example :term:`ill-formed` program. If your compiler is smart, you may raise the later error, if you
 prefer not to implement static analysis, the former error can be emitted at runtime.

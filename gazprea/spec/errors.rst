@@ -34,7 +34,8 @@ Compile-time errors
 * ``TypeError`` -- an operation or statement is applied to, or between,
   expressions of invalid or incompatible types. A ``return`` whose value does
   not
-  match, and cannot be implicitly cast to, the routine's return type is a
+  match, and cannot be implicitly cast to, the function or procedure's return
+  type is a
   ``TypeError`` (not a ``ReturnError``).
 
 * ``AliasingError`` -- two arguments that may name the same mutable memory are
@@ -43,9 +44,12 @@ Compile-time errors
   conservative approximation that two values that come from the same array are
   said to alias unconditionally.
 
-* ``AssignError`` -- A tuple-unpacking
-  assignment whose number of :term:`lvalues <lvalue>` differs from the number of
-  fields in the tuple :term:`rvalue`.
+* ``AssignError`` -- an assignment whose target is not a ``var`` (an attempt to
+  modify a ``const`` value, including assigning to a ``const`` function or
+  procedure parameter), a tuple-unpacking assignment whose number of
+  :term:`lvalues <lvalue>` differs from the number of fields in the tuple
+  :term:`rvalue`, or a scalar initialization of a matrix that has any inferred
+  ``[*]`` dimension (which has no shape to infer from the scalar).
 
 * ``MainError`` -- the program has no ``main`` procedure, or ``main`` has an
   :term:`ill-formed` signature (see :ref:`ssec:procedure_main`).
@@ -82,8 +86,7 @@ phase.
 * ``MathError`` -- an integer math fault: signed 32-bit overflow, division or
   ``%`` by ``0``, or exponentiation of base ``0`` with a non-positive exponent
   (see :ref:`ssec:integer`). ``real`` arithmetic never raises a ``MathError``
-  (see :ref:`ssec:real`). Under ``-ffast-math`` these integer faults are
-  :term:`undefined behavior` instead (see :ref:`sec:flags`).
+  (see :ref:`ssec:real`).
 
 * ``IndexError`` -- an index is out of bounds. For an array this is an integer
   index outside ``1..n`` or ``-n..-1`` (see :ref:`sssec:array_ops`); for a
