@@ -1,6 +1,26 @@
 Grading
 =======
 
+Programming assignments are assessed from three different perspectives:
+written artefects or deliverables, a lab quiz, and a peer evaluation.
+This section describes each grading element so that you and your team can
+prepare as needed. The weighting of each grading perspective is as follows:
+
+
++-------------------+-----------+---------+--------+--------------+--------------+
+| **Perspective**   | Generator | LOLCODE | VCalc  |  Gazprea P1  |  Gazprea P2  |
++===================+===========+=========+========+==============+==============+
+| Written Artefacts | 40%       | 50%     | 60%    | 34%          | 50%          |
++-------------------+-----------+---------+--------+--------------+--------------+
+| Lab Quiz          | 60%       | 50%     | 40%    | 33%          | 50%          |
++-------------------+-----------+---------+--------+--------------+--------------+
+| Peer Evaluation   | 0%        | 0%      | 0%     | 33%          | 0%           |
++-------------------+-----------+---------+--------+--------------+--------------+
+
+
+Written Artefacts
+------------------
+
 A successful product or project is the culmination of many small parts that
 work together. No one part can take all the credit for a success, they must
 all be present and executed correctly. While different projects emphasize and
