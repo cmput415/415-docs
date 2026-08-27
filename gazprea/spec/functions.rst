@@ -80,7 +80,7 @@ These can be called as follows:
 
          integer x = f(); /* x == 1 */
          real c = pythag(3, 4); /* 3 and 4 are implicitly cast to real. c == 5.0 */
-         real value = get([i in 1..11 | i], 3); /* value == 3 */
+         real value = get([i in 1..10 | i], 3); /* value == 3 */
 
 A function's body can also be given by a block statement instead of a
 single expression. In this case the return value of the function is
@@ -146,8 +146,8 @@ function if they were declared before the function was defined.
 
 .. _ssec:function_fwd_declr:
 
-Function Prototypes
--------------------
+Prototypes
+----------
 
 Functions can be declared before they are defined in a *Gazprea* file.
 This allows function definitions to be moved to more convenient
@@ -180,8 +180,8 @@ but never defined is :term:`ill-formed`, and the compiler must emit a
 
 .. _ssec:function_vec_mat:
 
-Array and Matrix Parameters and Returns
-----------------------------------------
+Composite Type Parameters
+-------------------------
 
 The arguments and return value of functions can have both explicit and inferred
 sizes. For example:
@@ -230,8 +230,8 @@ Array *slices* may also be passed as arguments:
          }
 
          function slicer() returns real[*] {
-             integer[10] a = 1..11;
-             var vector<real> two_halves = to_real_vec(a[1..6]);
+             integer[10] a = 1..10;
+             var vector<real> two_halves = to_real_vec(a[1..5]);
              call two_halves.append(to_real_vec(a[6..]));
              return two_halves;
          }
@@ -248,9 +248,9 @@ that assigns to one of its parameters must emit an ``AssignError`` (see
 Because every function parameter is ``const``, an array :ref:`slice
 <sssec:array_slices>` passed to a function is received **by value** -- a copy of
 the selected elements -- and so can never observe or cause a change to the
-slice's backing storage. The view-versus-copy distinction that matters for a
-``var`` parameter therefore does not arise for functions: every slice a function
-receives is a copy.
+slice's backing storage. This is simply the general rule that a slice in
+argument position is an ordinary array value, exactly like an array literal:
+every slice a function receives is a copy.
 
 .. _ssec:function_namespacing:
 
