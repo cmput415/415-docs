@@ -56,33 +56,21 @@ Generators
 ----------
 
 A generator may be used to construct either a one or two dimensional array.
-A generator always yields an :ref:`array <ssec:array>` value -- never a
-:ref:`vector <ssec:vector>` -- whose size is settled at the moment the
-generator is evaluated and is fixed thereafter. Using a generator (or a
-range) to initialize an inferred-size array such as an ``integer[*]`` is
-therefore one of the ways an array's length becomes fixed at
-:term:`initialization` (see :ref:`sssec:array_sizing`).
+A generator always yields an :ref:`array <ssec:array>` value
+whose size is settled at the moment the
+generator is evaluated and is fixed thereafter.
 A generator creates a value of a 1D array type when one
 :term:`iterator variable` is used, and a 2D array type when two
 iterator variables are used.
 Supplying any other number of iterator variables is :term:`ill-formed`: the
-compiler must emit a ``SyntaxError`` (see :ref:`sec:errors`). This is a
-*syntactic* rejection even though a natural grammar would accept it -- the
-grammar need not encode the "one or two iterator variables" restriction; it may
-instead be enforced during syntactic validation after parsing, which is a
-legitimate place to raise a ``SyntaxError`` (see :ref:`sec:errors`). In
-particular, *Gazprea* does not currently support generators over three or more
-iterator variables (no direct construction of arrays with three or more
-dimensions); higher-dimensional generators are a planned addition to a future
+compiler must emit a ``SyntaxError`` (see :ref:`sec:errors`).
+Higher-dimensional generators are a planned addition to a future
 revision of this specification.
 
 The :term:`domain` in a domain expression is any array-typed value:
 static arrays, dynamically-sized :ref:`vectors <ssec:vector>`,
 :ref:`strings <ssec:string>`, and :ref:`ranges <sssec:array_ops>`
-all count.  The generator
-dimension is determined solely by how many iterator variables the
-generator introduces (one or two), not by the shape of the domain
-value.
+all count.
 
 A generator consists of either one or two
 :term:`domain expressions <domain expression>`, and an additional
@@ -91,17 +79,16 @@ This additional expression is used to create the generated values. For example:
 
 ::
 
-         integer[10] v = [i in 1..11 | i * i];
+         integer[10] v = [i in 1..10 | i * i];
          /* v[i] == i * i */
 
-         integer[2][3] M = [i in 1..3, j in 1..4 | i * j];
+         integer[2][3] M = [i in 1..2, j in 1..3 | i * j];
          /* M[i][j] == i * j */
 
 The expression to the right of the bar (``|``) is used to generate the
 value at the given index.
-Let ``T`` be the type of the expression to the right of the bar (``|``). The
-rank of the result is fixed by the number of iterator variables, not by the
-shape of any domain. With one iterator variable ranging over a domain of size
+Let ``T`` be the type of the expression to the right of the bar (``|``).
+With one iterator variable ranging over a domain of size
 ``N``, the result is a 1D array of size ``N`` with element type ``T``. With two
 iterator variables ranging over domains of size ``N`` and ``M`` respectively,
 the result is a 2D array of size ``N`` x ``M`` with element type ``T``.
@@ -114,7 +101,7 @@ is perfectly legal:
          integer i = 7;
 
          /* The domain expression should use the previously defined i */
-         integer[*] v = [i in [i in 1..i+1 | i] | [i in 1..11 | i * i][i]];
+         integer[*] v = [i in [i in 1..i | i] | [i in 1..10 | i * i][i]];
 
          /* v should contain the first 7 squares. */
 
@@ -124,14 +111,14 @@ Domain Expressions
 ------------------
 
 A :term:`domain expression` consists of an :term:`identifier`
-denoting an :term:`iterator variable` and an expression -- the
-:term:`domain` -- that evaluates to **any** array type.
+denoting an :term:`iterator variable` and an expression
+that evaluates to an array type.
 Domain expressions can only appear within
 :ref:`iterator loops <sssec:statements_iter_loop>` and generators.
 A domain expression is a way of declaring a variable that is local to
 the loop or generator, that takes on values from the domain in order.
-The domain's element type must be inferable, so an empty array literal --
-which has no inferable element type -- yields a ``TypeError``.
+The domain's element type must be inferable, so an empty array literal
+yields a ``TypeError``.
 The :term:`scope` of the iterator variable (the left hand side of the
 declaration) is within the body of the generator or loop.
 The domain (the right hand side) is evaluated before any of the
@@ -145,25 +132,24 @@ For instance:
          integer i = 7;
 
          /* This will print 1234567 */
-         loop i in 1..i+1 {
+         loop i in 1..i {
            i -> std_output;
          }
 
-Iterator variables are not initialized when they are declared. In
+Iterator variables are initialized after their domain. In
 loops, :term:`re-initialization` happens at the start of each
-execution of the loop's body statement. A generator -- but not an
-iterator loop, which permits only a single domain expression (see
-:ref:`sssec:statements_iter_loop`) -- may chain iterator variables
-using commas, such as in matrix generators.
+execution of the loop's body statement. Only generators
+may chain iterator variables
+using commas.
 
 ::
 
          integer i = 2;
 
-         /* The "i"s both domain expressions are at the same scope, which is
+         /* The "i"s in both domain expressions are at the same scope, which is
           * the one enclosing the generator. Therefore the matrix is: [[0 0 0] [0 1 2] [0 2 4]]
           */
-         integer[3][3] mat = [ i in 0..i+1, j in 0..i+1 | i*j ];
+         integer[3][3] mat = [ i in 0..i, j in 0..i | i*j ];
 
 The domain of a domain expression is only evaluated once. For
 instance:
@@ -172,8 +158,8 @@ instance:
 
          integer x = 2;
 
-         /* 1..x is only evaluated the first time the loop executes, so it is
-            simply 1..2 -- the one-element range [1] -- and not an infinite
+         /* 1..x is evaluated once, when control first reaches the loop, so it
+            is simply 1..2 -- the two-element range [1, 2] -- and not an infinite
             loop. */
          loop i in 1..x {
            x = x + 1;
@@ -183,13 +169,21 @@ This is true for domain expressions within generators as well.
 
 Because the domain is captured by evaluating it once, a runtime-sized
 domain fixes its iteration count at :term:`initialization`. A :ref:`vector
-<ssec:vector>` or :ref:`string <ssec:string>` may serve as the domain,
-and the length it holds when the domain is evaluated sets the number of
-iterations; growing the vector or string inside the loop body does not
-add iterations.
+<ssec:vector>` or :ref:`string <ssec:string>` may serve as the domain; the
+length it holds at the moment the domain is captured fixes the number of
+iterations, before the loop body executes.
+
+A range domain may be empty. Because ``i..j`` has length ``max(0, j - i + 1)``
+(see :ref:`sssec:array_ops`), a domain such as ``5..1`` is the empty range, so a
+loop or generator over it simply iterates zero times -- the range analogue of
+the empty array literal ``[]``:
+
+::
+
+         loop i in 5..1 { i -> std_output; } /* 5..1 is empty: body runs 0 times */
 
 Iterator variables can be assigned to and :term:`re-declared
-<re-declaration>` within the enclosed iterator loop.  Neither carries
+<re-declaration>` within the enclosed iterator loop. Neither carries
 information into the next iteration: the next iteration performs
 :term:`re-initialization` from the captured domain, so any shadowing
 binding introduced by :term:`re-declaration` is torn down and the
@@ -197,6 +191,13 @@ iterator variable is bound fresh.
 
 ::
 
-         loop i in 1..7 {
+         loop i in 1..6 {
+           i -> std_output; // produces 123456
            integer i = 5;
          }
+
+         loop i in 1..6 {
+           integer i = 5;
+           i -> std_output; // produces 555555
+         }
+
