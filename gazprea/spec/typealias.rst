@@ -50,7 +50,7 @@ consistency:
   student_id_grade chucky_cheese = ("C. Cheese", 123456, 77.0);
 
   typealias integer[2][3] two_by_three_matrix;
-  two_by_three_matrix m = [i in 1..3, j in 1..4 | i + j];
+  two_by_three_matrix m = [i in 1..2, j in 1..3 | i + j];
 
 Type aliases of arrays with inferred sizes (``[*]``) are allowed, but
 declarations of variables using the type alias must be initialized
@@ -83,7 +83,7 @@ folding of scalar literals but also constant propagation through other
 
   typealias integer[1 + 3 - 2] vec_of_two;
   procedure main() returns integer {
-    vec_of_two v = 1..4;
+    vec_of_two v = 1..3;
     return 0;
   }
 
