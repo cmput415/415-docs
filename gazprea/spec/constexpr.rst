@@ -40,7 +40,7 @@ An expression is **not** a ``constexpr`` if it contains:
 
 1.  References to ``var`` variables.
 2.  Function or procedure calls.
-3.  Any I/O operations (``<-``).
+3.  Any I/O operations (``<-``/``->``).
 
 The compiler must perform this validation recursively. When checking if a
 variable is a ``constexpr``, the compiler must trace its entire dependency
@@ -89,7 +89,11 @@ Constant Expressions with Aggregate Types
 -----------------------------------------
 
 Arrays and tuples can also be ``constexpr``\ s if they meet specific criteria,
-allowing them to be used to define other constants.
+allowing them to be used to define other constants. The same criteria extend to
+the remaining :term:`aggregate types <aggregate type>`: a ``struct`` and a
+matrix (a higher-rank array) are ``constexpr``\ s on exactly the same terms --
+every field or element initializer, and any size, must itself be a
+``constexpr``.
 
 #. Arrays
 
