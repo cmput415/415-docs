@@ -17,14 +17,19 @@ requirement: a global may reference only symbols already defined *earlier* in
 the file, so globals are initialized in the order they are written. A global
 whose initializer references a global not yet defined at that point is
 :term:`ill-formed` -- the referenced name is not yet in :term:`scope` -- so the
-compiler must emit a ``SymbolError`` (see :ref:`sec:errors`). The one exception
-is calls to functions and procedures, for which a forward
-:ref:`prototype <ssec:function_fwd_declr>` lets a later definition be
-referenced before it textually appears.
+compiler must emit a ``SymbolError`` (see :ref:`sec:errors`). This ordering
+requirement governs global *variable* initializers. References *between*
+functions and procedures are not bound by textual order -- a routine may call
+another that is defined later in the file -- so a forward
+:ref:`prototype <ssec:function_fwd_declr>` is permitted but never necessary.
 
 A statement other than a declaration at global scope -- an assignment, an
 ``if``, a loop, or a bare expression -- must emit a ``GlobalError`` (see
-:ref:`sec:errors`).
+:ref:`sec:errors`). This is a rule about *context* -- a non-declaration
+statement written at global scope -- and is independent of the target; an
+assignment that targets a global from *within a routine body* is instead an
+``AssignError`` (see :ref:`sec:errors`), since every global is ``const``
+(see below).
 
 Variable Declarations
 ---------------------
