@@ -43,7 +43,7 @@ values. For example:
 
 ::
 
-     integer[*] v = 1..4;
+     integer[*] v = 1..3;
      v -> std_output;
 
 prints the following:
@@ -156,8 +156,8 @@ Implicit casting is not performed for stream input over any type.
 
 .. _sssec:input_format:
 
-Input Semantics
-~~~~~~~~~~~~~~~
+Input Format
+~~~~~~~~~~~~
 
 ``std_input`` expects an input stream of values which do not need to be
 whitespace separated. A read will consume the stream until a character or EOF
@@ -266,7 +266,6 @@ states 1,0,0,2 respectively.
 
     var integer ss;
     var integer i;
-    var boolean b;
     var character c;
 
     i <- std_input;
