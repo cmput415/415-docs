@@ -20,13 +20,21 @@ CANVAS_GLOSSARY_TOOL  := _ext/build_canvas_glossary.py
 # to live links on the published site.
 CANVAS_GLOSSARY_BASEURL := ../.baseurl
 CANVAS_GLOSSARY_INV     := $(BUILDDIR)/html/objects.inv
+
+# Tangled example tests.  Scans the RST sources for gazprea-example(-wrap)
+# directives and packages one .gaz lit test per example into a .tar.gz that
+# drops into the solution compiler's tests/ tree.  Dependency-free, like the
+# Canvas converter above; not part of the rendered spec.
+EXAMPLES_OUT   := $(BUILDDIR)/examples/gazprea-examples.tar.gz
+EXAMPLES_TOOL  := _ext/tangle_examples.py
+
 PYTHON                ?= python3
 
 # Put it first so that "make" without argument is like "make help".
 help:
 	@$(SPHINXBUILD) -M help "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
 
-.PHONY: help Makefile canvas
+.PHONY: help Makefile canvas examples
 
 # ``canvas`` is always run (no file-target prerequisites) so we don't
 # collide with the ``%: Makefile`` catch-all below, which would otherwise
@@ -38,6 +46,14 @@ canvas:
 	    --output $(CANVAS_GLOSSARY_OUT) \
 	    --baseurl-file $(CANVAS_GLOSSARY_BASEURL) \
 	    --inventory $(CANVAS_GLOSSARY_INV)
+
+# ``examples`` tangles the gazprea-example(-wrap) blocks into a .tar.gz of
+# lit tests.  Same rationale as ``canvas`` for being phony.
+examples:
+	@mkdir -p $(dir $(EXAMPLES_OUT))
+	$(PYTHON) $(EXAMPLES_TOOL) \
+	    --source . \
+	    --output $(EXAMPLES_OUT)
 
 # Catch-all target: route all unknown targets to Sphinx using the new
 # "make mode" option.  $(O) is meant as a shortcut for $(SPHINXOPTS).

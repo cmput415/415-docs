@@ -27,6 +27,8 @@ all:
 	$(foreach dir, $(DIRS), rm -rf $(dir)/_build/html/_sources/;)
 	$(foreach dir, $(DIRS), $(MAKE) latexpdf -C $(dir);)
 	$(MAKE) canvas -C gazprea
+	# Tangle the gazprea-example(-wrap) blocks into a .tar.gz of lit tests.
+	$(MAKE) examples -C gazprea
 
 github: all
 	rm -rf _site
@@ -40,6 +42,7 @@ github: all
 	$(foreach dir, $(DIRS), cp -r $(dir)/_build/latex/$(dir).pdf _site/$(dir).pdf;)
 	$(foreach file, $(FILES), cp base/$(file) _site/$(file);)
 	cp gazprea/_build/canvas/gazprea-glossary.html _site/gazprea/gazprea-glossary-canvas.html
+	cp gazprea/_build/examples/gazprea-examples.tar.gz _site/gazprea/gazprea-examples.tar.gz
 	touch _site/.nojekyll
 
 clean:
