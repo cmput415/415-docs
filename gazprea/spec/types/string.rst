@@ -6,14 +6,14 @@ String
 A ``string`` is a language-supplied *typealias* for ``vector<character>``:
 the two are the same type by strong equivalence, not a distinct sub-type.
 Anything true of a ``vector<character>`` is therefore true of a ``string``,
-and the two may be used interchangeably.
+and the two may be used interchangeably *except for their print format*.
 
 Because a ``string`` *is* a ``vector``, it is runtime-sized and unbounded
 like any other vector: its length is simply the length of its underlying
 character sequence, which may grow (for example through the ``push`` and
 ``append`` methods). There is no separate sized or bounded string type.
 Growth needs a mutable receiver, though: ``push`` and ``append`` require a
-``var`` string, and -- as with every declaration -- a ``string`` is ``const`` by
+``var`` string, and a ``string`` is ``const`` by
 default, so a ``const string`` (or one whose qualifier is elided) is effectively
 fixed for its lifetime:
 
@@ -25,7 +25,8 @@ fixed for its lifetime:
 
    const string fixed = "constant";  // const by default; it cannot grow
 
-Although a ``string`` and a plain ``character`` array behave alike in most
+Although a ``string`` and a plain ``character`` array/vector
+behave alike in most
 respects, *Gazprea* still treats the two differently in a couple of places:
 strings have an :ref:`extra literal style <sssec:string_lit>` and special
 :ref:`behavior when sent to an output stream <sssec:output_format>`.
@@ -68,7 +69,9 @@ differently by the compiler:
 
    character[*] carray = ['h', 'e', 'l', 'l', 'o', ' ', 'w', 'o', 'r', 'l', 'd', '\n'];
    string vec = carray;
+   vector<character> charvec = carray;
    carray -> std_output;
+   charvec -> std_output;
    vec -> std_output;
 
 prints:
@@ -76,6 +79,7 @@ prints:
 ::
 
   [h e l l o   w o r l d
+  ][h e l l o   w o r l d
   ]
   hello world
 

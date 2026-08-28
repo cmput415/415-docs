@@ -81,7 +81,9 @@ of remainder in *C99*, and division ``/`` truncates toward zero (also as in
 
 Exponentiation between integers gives an ``integer`` result, computed exactly
 by integer multiplication rather than by converting to ``real``: for a
-non-negative exponent it is the exact integer power (so ``3 ^ 16 == 43046721``),
+non-negative exponent it is the exact integer power (so ``3 ^ 16 == 43046721``,
+converting this to a floating point power operation will yield an incorrect
+result),
 and for a negative exponent it is ``b ^ e`` truncated toward zero (``0`` whenever
 ``|b| > 1``). A result outside the ``i32`` range raises a ``MathError`` as for
 any other overflowing integer arithmetic (see below).

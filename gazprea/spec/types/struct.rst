@@ -158,7 +158,8 @@ instance for *Access*; accessing a field via dot notation on a non-variable
 ``TypeError`` (see :ref:`sec:errors`). For *Comparison*, **both** operands must
 be structs of the same struct type ``T`` (one of them may be a struct literal,
 since a struct literal already carries a struct type). A ``struct`` can only be
-compared against another ``struct`` of the same type; there is no implicit cast
+compared against another ``struct`` of the **same type**;
+there is no implicit cast
 from a ``tuple`` to a ``struct``, so to compare a ``struct`` against a
 ``tuple`` the tuple's value must first be used to construct a ``struct`` of
 type ``T``. Comparing two structs of different types is a ``TypeError`` (see

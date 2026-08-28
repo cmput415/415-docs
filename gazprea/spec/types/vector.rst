@@ -15,13 +15,7 @@ expressions; they can be used on the RHS of array declarations and
 initializations; and they can be passed as array arguments to functions
 and procedures. When a vector appears in an expression it is used as an
 array value of its *current* length. Vectors are nevertheless a distinct
-type, and the differences include (non-exhaustively): vectors have methods
-where arrays have none; a mixed *element-wise* binary operation between a vector and
-an array produces an *array* result (element-wise operators do not propagate
-vector-ness), though :ref:`concatenation <sssec:array_ops>` with ``||`` yields a
-vector when its rightmost operand is a vector; and a ``vector<T[*]>`` (a vector of
-inferred-size arrays) fixes its element size once, from the first array value
-stored into it, and fits every later element to that size (see below).
+type, we will explore the differences below.
 
 .. _sssec:vec_decl:
 
@@ -40,13 +34,12 @@ brackets of ``vector<...>`` are literal):
 
 
 Unlike the array type, *Gazprea* vectors do not have an explicit size
-specifier, often called *capacity* in other languages.
+specifier. Also, vectors do not have a defined pre-allocated or suggested
+memory extent,
+often called *capacity* in other languages.
 
 The element type ``T`` of a ``vector<T>`` may be any :ref:`storable type
-<ssec:storable_types>`: a :term:`primitive type <primitive type>` (``boolean``,
-``integer``, ``real``, ``character``), an array of any rank (a matrix is the
-rank-2 case), a ``string``, a ``tuple``, a ``struct``, or another ``vector`` —
-nested to any depth. Only a :ref:`stream <sec:streams>` may not be stored.
+<ssec:storable_types>`.
 Below are some examples of ``vector`` declarations.
 
     ::
@@ -59,17 +52,16 @@ Below are some examples of ``vector`` declarations.
         const vector<real> v6 = 1;             // [1.0]
 
 
-A vector declaration ``vector<T> v = E`` is resolved in exactly one of two ways,
+A vector declaration ``vector<T> v = E`` is resolved in one of two ways,
 chosen by the rank of the right-hand side ``E`` relative to the element type
-``T``. The two cases are mutually exclusive, so there is never any ambiguity
-about how many elements the vector has:
+``T``:
 
 - **Single-element declaration** -- ``E`` is a :term:`scalar <scalar type>`, or
   an array of the same rank as ``T``, and is implicitly cast or broadcast to
   ``T``. The vector then has exactly **one** element: ``E`` converted to ``T``. A
   scalar is broadcast to fill that element; a same-rank array is cast to ``T``
   element-wise and, when ``T`` is a fixed-size array, fitted to ``T``'s size by
-  the usual :ref:`array-to-array rules <ssec:implicitCasts_atoa>` -- a shorter
+  the usual :ref:`array-to-array rules <ssec:implicitCasts_atoa>`; a shorter
   value is **padded** with the element type's :term:`zero value`, a longer one is
   a ``SizeError``. So ``vector<integer[2]> v = [4, 5]`` is the one-element
   ``[[4, 5]]``, and ``vector<integer[3]> v = [4, 5]`` is the one-element
@@ -102,23 +94,22 @@ on how the vector is populated, and the two paths must not be conflated:
   right-hand side is evaluated to an array *value* on its own first, and only
   then stored. A nested literal such as ``[[1.0], [2.0, 3.0]]`` is an ordinary
   array literal, so it is normalized to a rectangle by padding every sub-array
-  to the **longest** one -- exactly as in :ref:`matrix construction
-  <sssec:matrix_constr>` -- *before* the vector ever sees it. This padding is a
+  to the **longest** one exactly as in :ref:`matrix construction
+  <sssec:matrix_constr>`. Once normalized, this padding is a
   property of the literal, so it is identical whether the literal initializes an
   array variable or a vector.
 
 - **Built up incrementally** with ``push`` / ``append`` from a shorter or empty
-  vector: the elements arrive one at a time, so the **first** element stored
+  vector, so the **first** element stored
   fixes the size and each later element is fitted to it.
 
 A vector of arrays is therefore never ragged: once the element size is fixed,
 every element has that shape. A ``vector<vector<T>>``, by contrast, *may* be
 ragged, because each inner vector carries its own runtime length and no element
-imposes its shape on the others. This version of the language has no
-comprehensive broadcasting and no ``shape()`` operation.
+imposes its shape on the others.
 
 Because a nested literal is padded to its longest sub-array before it is stored,
-neither initializer below is ragged and neither is an error -- the short
+neither initializer below is ragged and neither is an error; the short
 sub-array is simply padded, whichever side it is on:
 
    ::
@@ -226,6 +217,18 @@ As a language-supported object, *Gazprea* provides methods for ``vector``
   mutating methods may be applied only to variables local to the function;
   this preserves function purity, since no state outside the function can
   change.
+
+You may find it useful to think of vectors similar to a struct with an impl
+follows (**Note**: this is illustrative notation, impls do not exist in the
+gazprea 26 standard):
+
+   ::
+
+        struct vector(T[] data, integer len) impl {
+          procedure push(var self, T other);
+          procedure append(var self, T[] other);
+          function len(self) returns integer;
+        }
 
 The methods are:
 

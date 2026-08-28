@@ -37,8 +37,9 @@ valid matrix declarations:
 Both matrix dimensions are :term:`initialization`-time sized: each length is
 fixed once when the matrix is :term:`initialized <initialization>` and never
 changes thereafter. A ``[*]`` in either position infers that dimension once
-from the initializer — exactly as ``[*]`` infers the length of a 1-D array —
-after which it too is fixed.
+from the initializer, exactly as ``[*]`` infers the length of a 1-D array.
+The extent of a matrix or n-d array is fixed at initialization and cannot be
+changed.
 
 .. _sssec:matrix_constr:
 
@@ -126,7 +127,8 @@ types, and the dimensions of the matrices must be valid for performing matrix
 multiplication. When the two operands have differing element types (e.g.
 ``integer ** real``), each element is implicitly cast to a common type (see
 :ref:`sec:implicitCasts`) before multiplication, just as for element-wise
-binary operations. Specifically, the number of columns of the first operand must equal the number
+binary operations.
+Specifically, the number of columns of the first operand must equal the number
 of rows of the second operand, e.g. an :math:`m \times n` matrix multiplied by
 an :math:`n \times p` matrix will produce an :math:`m \times p` matrix.
 If the dimensions are not correct the compiler must emit a ``SizeError``
@@ -157,7 +159,7 @@ The rank-1-with-rank-1 case is therefore the :ref:`dot product
 <sssec:array_ops>` (a scalar) and the rank-2-with-rank-2 case is the matrix
 multiplication described above; both are instances of the one contraction rule,
 which corresponds directly to the contraction operations already available in
-*MLIR*.
+*MLIR* under the tensor and linalg dialects.
 
 Concatenation with ``||`` stacks arrays along their **outermost** axis: two
 rank-``k`` arrays with identical extents in every axis but the first join into a

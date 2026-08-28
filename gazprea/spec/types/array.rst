@@ -6,8 +6,8 @@ Arrays
 Arrays are fixed-size collections, where each element of the array has the same
 type. An array element may be of any :ref:`storable type
 <ssec:storable_types>`: a :term:`primitive type <primitive type>` (``boolean``,
-``integer``, ``real``, ``character``), or an 
-:term:`aggregate type <aggregate type>` 
+``integer``, ``real``, ``character``), or an
+:term:`aggregate type <aggregate type>`
 such as a ``struct``, ``tuple``, ``vector``, ``string``, or another
 array (which yields a higher-rank array; see :ref:`ssec:matrix`).
 
@@ -16,22 +16,18 @@ array (which yields a higher-rank array; see :ref:`ssec:matrix`).
 Sizing
 ~~~~~~
 
-Arrays are **initialization-time sized**: the length of an array variable --
-and, for a :ref:`matrix or higher-rank array <ssec:matrix>`, each of its
-dimensions -- is settled exactly *once*, at the variable's
-:term:`initialization`, and from that point on is fixed for the entire
-:term:`lifetime` of the variable. The glossary entry for
-:term:`initialization` gives the general rule -- a size is any integer
-expression, evaluated a single time at the declaration's program point, and
-need not be a :term:`compile time` constant. Concretely:
+Arrays are **initialization-time sized**. The extents of each rank are
+determined once at
+:term:`initialization`, and from that point on are fixed for the entire
+:term:`lifetime` of the variable. Concretely:
 
 -  A declaration such as ``integer[n] v;`` evaluates ``n`` once, at
    initialization. Later changes to ``n`` have no effect on the length of
    ``v``.
 
 -  A declaration such as ``integer[*] v = <expr>;`` takes its length from the
-   value of ``<expr>`` at initialization. The ``*`` means "infer this length
-   once, here"; it does **not** mean the array is resizable.
+   value of ``<expr>`` at initialization. The ``*`` declares the extent of a
+   dimension 'inferred' from the RHS expression.
 
 -  No subsequent operation can change the length of an array variable.
    Assignment, concatenation, and casting all produce array *values*; storing
@@ -50,8 +46,8 @@ If you need a collection whose length changes as the program runs, use a
 Declaration
 ~~~~~~~~~~~
 
-Aside from any type specifiers, the element type of the array is the first
-portion of the declaration. An array is then declared using square brackets
+An array is declared like any other variable, with the extent of the array ranks
+enclosed using square brackets
 immediately after the element type.
 
 If possible, initialization expressions may go through an implicit cast. For
@@ -71,12 +67,12 @@ would create an ``integer`` array instead of a ``real`` array.
 
    ::
 
-            [<qualifier>] <type>[<int-expr>] <identifier>;
-            [<qualifier>] <type>[<int-expr>] <identifier> = <type-expr>;
-            [<qualifier>] <type>[<int-expr>] <identifier> = <type-array>;
+            [<qualifier>] <type>[<int-expr>]([<int-expr>])* <identifier>;
+            [<qualifier>] <type>[<int-expr>]([<int-expr>])* <identifier> = <type-expr>;
+            [<qualifier>] <type>[<int-expr>]([<int-expr>])* <identifier> = <type-array>;
 
 
-   The size of the array is given by the integer expression between the
+   The extents of the array are given by the integer expression between the
    square brackets.
 
    If the array is given a scalar value (``type-expr``) of the same element
@@ -119,9 +115,8 @@ would create an ``integer`` array instead of a ``real`` array.
 
    In this example the compiler can infer both the size and the type of
    ``w`` from ``v``. As with any array, this inferred size is fixed once,
-   at :term:`initialization`, and never changes afterwards; a collection
-   whose length must *change* after it is created requires a
-   :ref:`vector <ssec:vector>`.
+   at :term:`initialization`, and never changes afterwards in contrast to a
+   :ref:`vector <ssec:vector>`, whose size may change at runtime.
 
 .. _sssec:array_constr:
 
@@ -161,14 +156,12 @@ method of construction.
    real[*] v = []; /* Should create an empty array */
 
 Because the length of an array is fixed at :term:`initialization`, such an
-array has a length of zero permanently; it is not an "empty, growable"
-array. A :ref:`vector <ssec:vector>` declared without an initializer also
-starts empty, but *can* subsequently grow.
+array has a length of zero permanently.
 
 Note that the empty array literal ``[]`` carries no element type of its own, so
 the element type must come from context (the declared type, as in
 ``real[*] v = []`` above). A declaration that elides the type and asks the
-compiler to infer it from an empty literal -- such as ``var v = [];`` -- is
+compiler to infer it from an empty literal (ex. ``var v = [];``) is
 :term:`ill-formed`, because the element type cannot be deduced; the compiler
 must emit a ``TypeError`` (see :ref:`sec:errors`). The same holds anywhere a
 bare ``[]`` appears without a type to fix its element type (see also
@@ -180,7 +173,7 @@ Arrays Versus Vectors
 ~~~~~~~~~~~~~~~~~~~~~~~
 
 *Gazprea* has two collection types that share the same element-wise
-operations but differ in exactly one respect -- when their length is decided:
+operations but differ in their policies for length modification:
 
 .. list-table::
    :header-rows: 1
@@ -191,16 +184,16 @@ operations but differ in exactly one respect -- when their length is decided:
      - **Vector** (``vector<T>``, ``string``)
    * - When is the length set?
      - Once, at initialization
-     - Continuously, at run time
+     - Variable, no fixed length
    * - Can it change afterwards?
      - No
      - Yes
    * - Written in the type?
      - Yes (``[N]``), or inferred once (``[*]``)
      - No
-   * - Grows via ``push`` / ``append``?
-     - No -- ``TypeError`` (arrays have no methods)
-     - Yes
+   * - Growth mechanism
+     - None
+     - ``push`` / ``append``
    * - Too-short value stored into it
      - Padded with the element type's :term:`zero value`
      - The vector takes the value's length
@@ -213,6 +206,9 @@ array context yields an array value of the vector's current length, and an
 array value stored into a vector sets that vector's length. Neither direction
 ever makes an array variable resizable. See :ref:`ssec:vector` for the
 details of that interoperation.
+
+One possible future extension merges arrays and vectors into a single type,
+however this is left to future editions of gazprea.
 
 .. _sssec:array_ops:
 
@@ -266,13 +262,19 @@ Operations
          1 || 2 || 3      // produces [1, 2, 3]
 
 
-      Concatenation is right-associative, and its *receiver* -- the rightmost
-      operand -- fixes the **kind** and element type of the result. When the
+      Concatenation is right-associative, and its *receiver*, defined as
+      the rightmost
+      operand, fixes the **kind** and element type of the result. When the
       receiver is a :ref:`vector <ssec:vector>` (a ``vector<T>`` or a
       ``string``) the whole concatenation is a vector of that element type; when
       it is an array, the result is an array of that element type. When the
       receiver is a *scalar* it is promoted as above, so the result is a plain
-      array of that scalar's type -- an ``integer`` receiver yields an
+      array of that scalar's type.
+
+      A result of the reciever type rule is that an ``integer`` receiver (having
+      an integer-typed expression as the right-most expression in the
+      concatenation) yields
+      an
       ``integer`` array and, importantly, a ``character`` receiver yields a
       ``character`` array, **not** a ``string``. A concatenation therefore
       prints as text only when its rightmost operand is already a ``string``:
@@ -288,11 +290,13 @@ Operations
       a matrix -- ``a || b`` joins those two sequences along the outermost axis:
       both operands must have the same rank ``k`` (after the scalar-to-rank-1
       promotion above) and identical extents in every axis but the first, and
-      the result has rank ``k`` with its first extent the sum of the two.
+      the result has rank ``k`` with its first extent the sum of the two
+      concatenating array extents.
 
       ::
 
          [[1, 2], [3, 4]] || [[5, 6]] // produces [[1, 2], [3, 4], [5, 6]]
+         //  [2][2]            [1][2]                [3][2]
 
       A mismatch in those trailing extents is a ``SizeError`` (see
       :ref:`sec:errors`); operands whose ranks differ -- other than a scalar
@@ -340,8 +344,9 @@ Operations
       A :term:`scalar <scalar type>` operand broadcasts to the other operand's
       length here, just as it does for element-wise array operations: because a
       rank-1 array has a single dimension, the broadcast shape is unambiguous.
-      Thus a scalar may be dotted with a rank-1 array -- ``[1, 2, 3] ** 4`` is
-      the dot product ``[1, 2, 3] ** [4, 4, 4]``, i.e. ``1*4 + 2*4 + 3*4 == 24``.
+      Thus a scalar may be dotted with a rank-1 array, ex. ``[1, 2, 3] ** 4`` is
+      the dot product
+      ``[1, 2, 3] ** [4, 4, 4]``, i.e. ``1*4 + 2*4 + 3*4 == 24``.
 
 
    d. Range
@@ -353,8 +358,7 @@ Operations
       and the right bound are *both included*, so ``i..j`` holds the integers
       ``i, i+1, ..., j`` and has length ``max(0, j - i + 1)``. This is the same
       convention used when a range is written inside an index position to form a
-      :ref:`slice <sssec:array_slices>`, so both a range value and a slice use
-      inclusive bounds (inclusive of both endpoints).
+      :ref:`slice <sssec:array_slices>`.
 
       For example:
 
@@ -385,9 +389,10 @@ Operations
          [-4 -3 -2 -1 0 1 2 3 4 5]
 
       Therefore, it is *valid* to have bounds that will produce an empty
-      array: because both bounds are *inclusive*, ``i..j`` is empty exactly when
+      array: because both bounds are *inclusive*, ``i..j`` is empty when
       ``j < i`` (for example ``5..2`` or ``6..5``). A single-point range such as
-      ``5..5`` is *not* empty -- it is the one-element array ``[5]`` -- and a
+      ``5..5`` is *not* empty, rather it is the one-element array ``[5]``
+      and a
       reversed range such as ``10..1`` is empty rather than descending.
 
    e. Indexing
@@ -397,10 +402,14 @@ Operations
       the index yields a single element, or using range syntax written
       directly at the index position, in which case the index yields a
       slice (see :ref:`sssec:array_slices`). An array *value* is **not** a legal
-      index: ``v[w]`` is illegal whenever ``w`` evaluates to an array value --
-      even one holding a range, and whether it comes from an array variable, an
-      expression, or a function call -- and the compiler must emit a
-      ``TypeError`` (see :ref:`sec:errors`). A range written *directly* inside an
+      index: ``v[w]`` is illegal whenever ``w`` evaluates to an array value.
+
+      Attempting to index an array with any array-typed variable or expression
+      outside of the range syntax described later for slices is
+      :term:`ill-formed`, and the compiler must emit a
+      ``TypeError`` (see :ref:`sec:errors`).
+
+      A range written *directly* inside an
       index position is not an array-valued index; it forms a slice.
       *Gazprea* is 1-indexed, so the first element of an array is at index 1
       (as opposed to index 0 in languages like *C*). For instance:
@@ -422,7 +431,8 @@ Operations
 
       A negative index ``-k`` refers to element ``n + 1 - k``, so ``-1`` is the
       last element and ``-n`` the first. An index is in bounds when it lies in
-      ``1..n`` or in ``-n..-1``; ``0``, or any magnitude past ``n`` in either
+      ``1..n`` or in ``-n..-1``; ``0``, or any index greater than ``n`` in
+      either
       direction, is out of bounds, and the compiler must emit an ``IndexError``
       (see :ref:`sec:errors`) at :term:`compile time` or :term:`run time`.
 
@@ -454,7 +464,8 @@ Operations
    to the array operands. The sole exceptions are the equality operators
    ``==`` and ``!=``, which collapse to a single ``boolean`` rather than a
    ``boolean`` array (see below); the ordering comparisons ``<``, ``>``, ``<=``,
-   ``>=`` are *not* exceptions -- they apply element-wise and yield a ``boolean``
+   ``>=`` are *not* exceptions, ratherthey apply element-wise and
+   yield a ``boolean``
    array.
 
    ::
@@ -484,6 +495,12 @@ Operations
 
       [1, 2, 3, 4] + 2.3 // results in [3.3, 4.3, 5.3, 6.3]
 
+
+   Note that this behaviour generalizes to arbitrary-rank arrays. A scalar under
+   any of the binary operators excepting the ``**`` dot-product/matrix
+   multiplication operator can be implicitly broadcast to an array of equivalent
+   extent to perform element-wise binary or logical operations with another
+   array.
 
    The equality operation is the exception to the behavior of the binary
    operations. Instead of producing a boolean array, an equality
@@ -531,10 +548,8 @@ Array Slices
 
 An array slice is a contiguous subset of elements, described by a range.
 Both bounds are *inclusive*:
-``a[i..j]`` selects the elements from ``i`` through ``j``, including both. This
-is the identical inclusive convention used by a range *value* (see the
-:ref:`range operator <sssec:array_ops>`), so both a range value and a slice use
-inclusive bounds (inclusive of both endpoints). A slice
+``a[i..j]`` selects the elements from ``i`` through ``j``, including both,
+identical to a :ref:`range expression <sssec:array_ops>`. A slice
 always selects a contiguous run of elements.
 
 The following forms are accepted inside an index position, where ``n`` is
@@ -557,20 +572,20 @@ through the final element and ``..-2`` stops at the second-to-last:
 | ``i..j``  | ``i`` through ``j``                     |
 +-----------+-----------------------------------------+
 
-A slice is an ordinary **array value** -- identical in every respect to an
-:ref:`array literal <sssec:array_constr>` -- in every position but one. The
-single exception is when a slice is the **target on the left of an assignment**,
-where it writes *through* to the array it slices. Put briefly, a slice is a
-**copy when read** and a **view only when it is assigned to**:
+A slice is an ordinary **array value** except
+when a slice is the **target on the left of an assignment**,
+where it writes *through* to the array it slices:
 
--  **In value position** (an :term:`rvalue`) -- as an initializer, on the right
+-  **In value position** (an :term:`rvalue`) (as an initializer, on the right
    of an assignment, as an argument, in a larger expression, or anywhere an
-   array value is expected -- a slice produces a **fresh, independent array**
-   holding a *copy* of the selected elements, exactly as an array literal would.
+   array value is expected) a slice behaves equivalently to a **fresh,
+   independent array**
+   holding the selected elements, exactly as an array literal would.
    It is in no sense a view: binding it to a variable creates a new array, and
-   the copy and the original never observe each other's later writes. Because the
-   elements are copied, the source array need not be mutable -- a slice of a
-   ``const`` array is perfectly legal here -- and the copy's own mutability is
+   the copy and the original never observe each other's later writes.
+   Because the
+   elements behave as though copied, the source array need not be mutable
+   and the copy's own mutability is
    decided by the declaration that receives it:
 
    ::
@@ -581,16 +596,17 @@ where it writes *through* to the array it slices. Put briefly, a slice is a
 
    (``a[1..2]`` selects indices 1 and 2.)
 
--  **As the target on the left of an assignment** (an :term:`lvalue`) -- and
-   *only* there -- a slice writes *through* to its backing array. Slicing on the
-   left works exactly like :ref:`indexing <sssec:array_ops>` a whole array on the
+-  **As the target on the left of an assignment** (an :term:`lvalue`)
+   a slice writes *through* to its backing array. Slicing on the
+   left works exactly like :ref:`indexing <sssec:array_ops>` a whole
+   array on the
    left, such as ``a[2] = 5``, except that it names a contiguous run of elements
-   rather than a single one; the write is then reflected in the base array. This
-   is the only situation in which a slice reaches its backing storage, and it
-   requires that storage to be mutable: the backing array must be declared
+   rather than a single one. Any writes to the slice are then reflected in the
+   base array. This
+   requires that the array is mutable: the backing array must be declared
    ``var``, and a slice of a ``const`` array can never be an assignment target.
    The assigned value is fitted to the slice's length exactly as for a
-   whole-array assignment -- a shorter value is padded with the element type's
+   whole-array assignment: a shorter value is padded with the element type's
    :term:`zero value` and a longer value is a ``SizeError`` (see
    :ref:`sssec:array_sizing`):
 
@@ -600,7 +616,7 @@ where it writes *through* to the array it slices. Put briefly, a slice is a
       a[1..2] = [4, 5];           // writes through: a == [4, 5, 3]
       a -> std_output;            // [4 5 3]
 
-This value-everywhere, write-through-only-as-an-assignment-target rule applies
+These two rules apply
 unchanged to arrays of any rank; the higher-rank case is described below and in
 :ref:`ssec:matrix`.
 
@@ -627,20 +643,24 @@ previous one produced (see :ref:`ssec:matrix`):
 The **right** bound of a slice may be negative: ``-j`` counts from the end,
 resolving to ``n + 1 - j`` (so ``..-1`` denotes the last element itself, exactly
 as a single index ``-1`` does), and this applies equally in the two-sided form
-``a[i..-j]``. The **left** bound may **not** be negative -- a negative left bound
-is an ``IndexError`` (see :ref:`sec:errors`). After resolving any negative right
+``a[i..-j]``. The **left** bound may **not** be negative. If given a negative
+left bound, the compiler must emit
+an ``IndexError`` (see :ref:`sec:errors`). After resolving any negative right
 bound, both ``i`` and ``j`` in ``a[i..j]`` must lie between ``1`` and ``n``
-inclusive; a bound outside that range is an ``IndexError``, at
+inclusive. If the compiler observes an index outside of that range, the compiler
+must emit an ``IndexError``, at
 :term:`compile time` or :term:`run time`, exactly as for a single-element index.
 
 A slice whose (in-bounds) left bound is greater than its right bound, such as
-``a[4..2]``, is **not** an error: like a range value whose right bound lies below
+``a[4..2]``, is **not** an error: like a range
+value whose right bound lies below
 its left (see :ref:`sssec:array_ops`), it simply selects no elements and yields
 an empty array of ``a``'s element type.
 
 Slicing generalizes to arrays of any rank. Indexing is *composite*: in a
-subscript chain ``a[s1][s2]...[sk]`` each subscript is applied, left to right, to
-the value the previous subscripts produced -- the ``[]`` operator is
+subscript chain ``a[s1][s2]...[sk]``
+each subscript is applied, left to right, to
+the value the previous subscripts produced. The ``[]`` operator is
 left-associative, so the chain groups as ``(((a[s1])[s2])...)[sk]`` (see
 :ref:`ssec:matrix`). Each subscript indexes the outermost *remaining* axis of
 that value: a single integer selects one element along it and drops that axis,
@@ -651,7 +671,23 @@ subscripts to a rank-``k`` array reaches a single element.
 ::
 
     // a rank-3 array whose 27 elements are 1, 2, 3, ..., 27 in order
-    var integer[3][3][3] a = ...;
+    var integer[3][3][3] a = [
+      [
+        [1, 2, 3],
+        [4, 5, 6],
+        [7, 8, 9]
+      ],
+      [
+        [10, 11, 12],
+        [13, 14, 15],
+        [16, 17, 18]
+      ],
+      [
+        [19, 20, 21],
+        [22, 23, 24],
+        [25, 26, 27]
+      ]
+    ];
 
     var b = a[1];           // the first plane: an integer[3][3] == [[1,2,3],[4,5,6],[7,8,9]]
     var c = a[1][1..2];     // its first two rows: an integer[2][3] == [[1,2,3],[4,5,6]]
@@ -659,17 +695,17 @@ subscripts to a rank-``k`` array reaches a single element.
     integer e = a[1][2][3]; // the third element of the second row of the first plane == 6
 
 Because each subscript re-indexes the value the previous one produced, indexing
-directly into a slice needs no parentheses -- ``a[1][1..2][2]`` above slices the
+directly into a slice needs no parentheses. In the above example
+``a[1][1..2][2]`` slices the
 first plane to two rows and then selects the second of them. Once a subscript
 chain has reached a single element, applying a further subscript is a
-``TypeError`` (see :ref:`sec:errors`): there is no axis left to index.
+``TypeError`` (see :ref:`sec:errors`) since there is no axis left to index.
 
 A slice may also be handed to a :ref:`function <sec:function>` or
 :ref:`procedure <sec:procedure>`. Because a slice in argument position is an
-ordinary array value -- just like an array literal -- it is passed **by value**:
-the callee receives a *copy* of the selected elements and cannot reach the
-caller's array through it. Two consequences follow, and they are exactly the
-consequences of passing an array literal:
+ordinary array value the callee receives a *copy* of the selected
+elements and cannot reach the
+caller's array through it. Two consequences follow:
 
 -  A slice may be passed to any ``const`` parameter, and the callee gets a copy;
    the caller's array is left untouched. Every :ref:`function <sec:function>`
@@ -682,15 +718,10 @@ consequences of passing an array literal:
    array literal or any other expression, is an :term:`rvalue` in argument
    position, and only a ``const`` parameter accepts one. Passing a slice to a
    ``var`` parameter is :term:`ill-formed`, and the compiler must emit a
-   ``TypeError`` (see :ref:`sec:errors`) -- exactly as it would for ``[1, 2, 3]``
+   ``TypeError`` (see :ref:`sec:errors`), similar to passing an array literal
    in the same position. To have a procedure write into part of an array, pass
    the whole array to a ``var`` parameter and slice on the left of an assignment
    inside the callee, or assign the call's result into a slice at the call site.
-
-An implementation may still pass a ``const`` slice by reference for efficiency:
-because the callee only reads it, the choice is unobservable, and *Gazprea*'s
-value semantics -- realized directly by *MLIR* -- make the copy and the shared
-reference indistinguishable in that case.
 
 ::
 
@@ -727,8 +758,8 @@ reference indistinguishable in that case.
         return 0;
     }
 
-Here ``c[4..6]`` and ``c[3..4]`` are slices on the left of an assignment -- the
-one place a slice reaches its backing array -- so each write passes through to
+Here ``c[4..6]`` and ``c[3..4]`` are slices on the left of an assignment
+so each write passes through to
 ``c`` itself. The slices ``a[1..3]`` and ``b[1..3]`` are arguments in value
 position, so they are copied into the ``const`` parameters and leave ``a`` and
 ``b`` untouched, exactly as array literals would be; a slice such as ``c[4..6]``
