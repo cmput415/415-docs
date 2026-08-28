@@ -94,11 +94,14 @@ matrix instead. In future editions of the spec this may be extended to a
 generic ``shape`` function, but that is left to future revisions of the
 course.
 
-::
+.. gazprea-example-wrap::
+   :name: builtin_length
 
-         integer[*] v = 1..5;
+   integer[*] v = 1..5;
+   length(v) -> std_output; /* Prints 5 */
 
-         length(v) -> std_output; /* Prints 5 */
+   --- output ---
+   5
 
 Because an array is :term:`initialization`-time sized, ``length`` applied to
 an array is invariant after :term:`initialization`: every call returns the
@@ -128,12 +131,17 @@ The built-ins ``rows`` and ``columns`` report the dimensions of a
 rank-2 array (a :ref:`matrix <ssec:matrix>`): ``rows`` returns the
 number of rows and ``columns`` the number of columns.
 
-::
+.. gazprea-example-wrap::
+   :name: builtin_rows_columns
 
-         integer[*][*] M = [[1, 2, 3], [4, 5, 6]];
+   integer[*][*] M = [[1, 2, 3], [4, 5, 6]];
+   rows(M) -> std_output;    /* Prints 2 */
+   '\n' -> std_output;
+   columns(M) -> std_output; /* Prints 3 */
 
-         rows(M) -> std_output;    /* Prints 2 */
-         columns(M) -> std_output; /* Prints 3 */
+   --- output ---
+   2
+   3
 
 .. _ssec:builtIn_reverse:
 
@@ -147,13 +155,18 @@ for the element-wise operators (see :ref:`sssec:vec_ops`). The resulting array
 may of course be implicitly cast back to a vector or string when stored into
 one.
 
-::
+.. gazprea-example-wrap::
+   :name: builtin_reverse
 
-         integer[*] v = 1..5;
-         integer[*] w = reverse(v);
+   integer[*] v = 1..5;
+   integer[*] w = reverse(v);
+   v -> std_output; /* Prints [1 2 3 4 5] */
+   '\n' -> std_output;
+   w -> std_output; /* Prints [5 4 3 2 1] */
 
-         v -> std_output; /* Prints [1 2 3 4 5] */
-         w -> std_output; /* Prints [5 4 3 2 1] */
+   --- output ---
+   [1 2 3 4 5]
+   [5 4 3 2 1]
 
 .. _ssec:builtIn_format:
 
@@ -167,13 +180,16 @@ stream (see :ref:`sssec:output_format`). This function only takes scalars;
 a type with no defined output format
 (a ``tuple`` or ``struct``) cannot be formatted.
 
-::
+.. gazprea-example-wrap::
+   :name: builtin_format
 
-         integer i = 24;
-         real r = 2.4;
+   integer i = 24;
+   real r = 2.4;
+   "i = " || format(i) || ", r = " || format(r) || "\n" -> std_output;
+   // Prints: "i = 24, r = 2.4\n"
 
-         "i = " || format(i) || ", r = " || format(r) || "\n" -> std_output;
-         // Prints: "i = 24, r = 2.4\n"
+   --- output ---
+   i = 24, r = 2.4
 
 Note that ``format`` allocates space to hold the return string; the
 implementation is responsible for reclaiming it.
