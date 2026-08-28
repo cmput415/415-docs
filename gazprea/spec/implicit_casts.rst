@@ -76,19 +76,17 @@ The scalar is implicitly cast to an array matching the array operand's size
 type is whichever type the operation requires, and the scalar is first
 implicitly cast to that element type. For example:
 
-::
+.. gazprea-example-wrap::
+   :name: implicit_scalar_to_array
 
-     integer i = 1;
-     integer[*] v = [1, 2, 3, 4, 5];
-     integer[*] res = v + i;
+   integer i = 1;
+   integer[*] v = [1, 2, 3, 4, 5];
+   integer[*] res = v + i;
 
-     res -> std_output;
+   res -> std_output;
 
-would print the following:
-
-::
-
-     [2 3 4 5 6]
+   --- output ---
+   [2 3 4 5 6]
 
 Other examples:
 
@@ -132,38 +130,58 @@ type. A ``struct`` member is the exception: a ``struct`` is never implicitly
 cast (see :ref:`ssec:struct`), so the two struct types must be identical and
 the member is copied unchanged. For example:
 
-::
+.. gazprea-example-wrap::
+   :name: implicit_tuple_to_tuple
 
-     tuple(integer, integer) int_tup = (1, 2);
-     tuple(real, real) real_tup = int_tup;
+   tuple(integer, integer) int_tup = (1, 2);
+   tuple(real, real) real_tup = int_tup;
 
-     tuple(character, integer, boolean[2]) many_tup = ('a', 1, [true, false]);
-     tuple(character, real, boolean[2]) other_tup = many_tup;
+   tuple(character, integer, boolean[2]) many_tup = ('a', 1, [true, false]);
+   tuple(character, real, boolean[2]) other_tup = many_tup;
+
+   real_tup.1 -> std_output; '\n' -> std_output;
+   real_tup.2 -> std_output;
+
+   --- output ---
+   1
+   2
 
 If initializing a variable with a tuple via :ref:`sec:typeInference`, the
 variable is inferred to have the same type as the tuple initializer.
 Therefore, tuple elements are also copied accordingly. For example:
 
-::
+.. gazprea-example-wrap::
+   :name: implicit_tuple_inference
 
-     tuple(real, real) foo = (1, 2);
-     tuple(real, real) bar = (3, 4);
+   tuple(real, real) foo = (1, 2);
+   tuple(real, real) bar = (3, 4);
 
-     var baz = foo;
-     baz.1 -> std_output; // 1.0
-     baz.2 -> std_output; // 2.0
+   var baz = foo;
+   baz.1 -> std_output; '\n' -> std_output; // 1.0
+   baz.2 -> std_output; '\n' -> std_output; // 2.0
 
-     baz = bar;
-     baz.1 -> std_output; // 3.0
-     baz.2 -> std_output; // 4.0
+   baz = bar;
+   baz.1 -> std_output; '\n' -> std_output; // 3.0
+   baz.2 -> std_output;                     // 4.0
+
+   --- output ---
+   1
+   2
+   3
+   4
 
 
 It is possible for a two-sided implicit cast to occur with tuples. For
 example:
 
-::
+.. gazprea-example-wrap::
+   :name: implicit_tuple_two_sided
 
-  boolean b = (1.0, 2) == (1, 2.0); // returns true
+   boolean b = (1.0, 2) == (1, 2.0); // returns true
+   b -> std_output;
+
+   --- output ---
+   T
 
 .. _ssec:implicitCasts_avv:
 
@@ -217,10 +235,15 @@ element type's :term:`zero value` and a longer value raises a ``SizeError``
 cast to a different
 rank.
 
-::
+.. gazprea-example-wrap::
+   :name: implicit_array_to_array
 
-     integer[3] v = [1, 2, 3];
-     real[3] u = v;                         // [1.0, 2.0, 3.0]
+   integer[3] v = [1, 2, 3];
+   real[3] u = v;                         // [1.0, 2.0, 3.0]
+   u -> std_output;
+
+   --- output ---
+   [1 2 3]
 
 .. _ssec:implicitCasts_string:
 
@@ -234,8 +257,13 @@ A ``string`` value can be implicitly cast to a ``character`` array
 :ref:`ssec:implicitCasts_avv` specialized to the ``character`` element type;
 the conversion of note is between ``string`` and character *arrays*.
 
-::
+.. gazprea-example-wrap::
+   :name: implicit_string_char_array
 
-     string str1 = "Hello"; /* str1 == "Hello" */
-     character[*] chars = str1; /* chars == ['H', 'e', 'l', 'l', 'o'] */
-     string str2 = chars || [' ', 'W', 'o', 'r', 'l', 'd']; /* str2 == "Hello World" */
+   string str1 = "Hello"; /* str1 == "Hello" */
+   character[*] chars = str1; /* chars == ['H', 'e', 'l', 'l', 'o'] */
+   string str2 = chars || [' ', 'W', 'o', 'r', 'l', 'd']; /* str2 == "Hello World" */
+   str2 -> std_output;
+
+   --- output ---
+   Hello World
