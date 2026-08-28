@@ -67,13 +67,22 @@ in :ref:`ssec:typeCasting_stos`. A scalar to array cast *must* include a size
 with the type to cast to as this cannot be inferred from the scalar value. For
 example:
 
-::
+.. gazprea-example-wrap::
+   :name: cast_scalar_to_array
 
-     // Create an array of reals with length three where all values are 1.0.
-     real[*] v = as<real[3]>(1);
+   // Create an array of reals with length three where all values are 1.0.
+   real[*] v = as<real[3]>(1);
 
-     // Create an array of booleans with length 10 where all values are true.
-     var u = as<boolean[10]>('c');
+   // Create an array of booleans with length 10 where all values are true.
+   var u = as<boolean[10]>('c');
+
+   v -> std_output;
+   '\n' -> std_output;
+   u -> std_output;
+
+   --- output ---
+   [1 1 1]
+   [T T T T T T T T T T]
 
 .. _ssec:typeCasting_vtov:
 
@@ -89,18 +98,28 @@ array casting: writing the destination element type with an unspecified length
 (``[*]``) keeps the old size, so no padding or truncation occurs. Padding or
 truncation happens only when a concrete size is given. For example:
 
-::
+.. gazprea-example-wrap::
+   :name: cast_array_to_array
 
-     real[3] v = [i in 1..3 | i + 0.3 * i];
+   real[3] v = [i in 1..3 | i + 0.3 * i];
 
-     // Convert the real array to an integer array.
-     integer[3] u = as<integer[*]>(v);
+   // Convert the real array to an integer array.
+   integer[3] u = as<integer[*]>(v);
 
-     // Convert to integers and zero pad.
-     integer[5] x = as<integer[5]>(v);
+   // Convert to integers and zero pad.
+   integer[5] x = as<integer[5]>(v);
 
-     // Truncate the array.
-     real[2] y = as<real[2]>(v);
+   // Truncate the array.
+   real[2] y = as<real[2]>(v);
+
+   u -> std_output; '\n' -> std_output;
+   x -> std_output; '\n' -> std_output;
+   y -> std_output;
+
+   --- output ---
+   [1 2 3]
+   [1 2 3 0 0]
+   [1.3 2.6]
 
 A cast of the empty array literal ``[]`` (as opposed to a typed variable
 holding an empty vector) is :term:`ill-formed`, because a literal empty array
@@ -119,19 +138,31 @@ a different rank (see :ref:`sec:implicitCasts`).
 The process is exactly like :ref:`ssec:typeCasting_vtov` except padding and
 truncation can occur in all dimensions. For example:
 
-::
+.. gazprea-example-wrap::
+   :name: cast_multidim_array
 
-     real[2][2] a = [[1.2, 24], [-13e2, 4.0]];
+   real[2][2] a = [[1.2, 24], [-13e2, 4.0]];
 
-     // Convert to an integer matrix.
-     integer[2][2] b = as<integer[2][2]>(a);
+   // Convert to an integer matrix.
+   integer[2][2] b = as<integer[2][2]>(a);
 
-     // Convert to integers and pad in both dimensions.
-     integer[3][3] c = as<integer[3][3]>(a);
+   // Convert to integers and pad in both dimensions.
+   integer[3][3] c = as<integer[3][3]>(a);
 
-     // Truncate in one dimension and pad in the other.
-     real[1][3] d = as<real[1][3]>(a);
-     real[3][1] e = as<real[3][1]>(a);
+   // Truncate in one dimension and pad in the other.
+   real[1][3] d = as<real[1][3]>(a);
+   real[3][1] e = as<real[3][1]>(a);
+
+   b -> std_output; '\n' -> std_output;
+   c -> std_output; '\n' -> std_output;
+   d -> std_output; '\n' -> std_output;
+   e -> std_output;
+
+   --- output ---
+   [[1 24] [-1300 4]]
+   [[1 24 0] [-1300 4 0] [0 0 0]]
+   [[1.2 24 0]]
+   [[1.2] [-1300] [0]]
 
 .. _ssec:typeCasting_vec:
 
@@ -188,10 +219,18 @@ cast rules as a standalone value of that type. A ``struct`` member is the
 exception: a ``struct`` cannot be cast (see :ref:`ssec:struct`), so the two
 struct types must be identical and the member is copied unchanged. For example:
 
-::
+.. gazprea-example-wrap::
+   :name: cast_tuple_to_tuple
 
-     tuple(integer, integer) int_tup = (1, 2);
-     tuple(real, boolean) rb_tup = as<tuple(real, boolean)>(int_tup);
+   tuple(integer, integer) int_tup = (1, 2);
+   tuple(real, boolean) rb_tup = as<tuple(real, boolean)>(int_tup);
+
+   rb_tup.1 -> std_output; '\n' -> std_output;
+   rb_tup.2 -> std_output;
+
+   --- output ---
+   1
+   T
 
 Structs
 -------
