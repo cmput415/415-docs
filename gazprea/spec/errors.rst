@@ -4,11 +4,14 @@ Errors
 ======
 
 Every :term:`ill-formed` *Gazprea* program is rejected with an error drawn from
-the fixed taxonomy below; a :term:`well-formed` program produces none. This page
-is the **normative** source of that taxonomy -- the set of error classes and the
+the fixed taxonomy below; a :term:`well-formed` program produces no errors.
+This page
+is the **normative** source of that taxonomy, the set of error classes and the
 condition under which each must be emitted. The *mechanics* of reporting them
-(which C++ exception class to throw, the ANTLR error listener, the run-time error
-functions, and how the test harness reads ``stderr``) are described in the
+(which C++ exception class to throw, the ANTLR error listener, the run-time
+error
+functions, and how the test harness reads ``stderr``) are up to the
+implementation. We provide some guidance in the
 :ref:`implementation chapter <sec:errors_impl>`.
 
 Each class is *either* a compile-time or a run-time error, but for several of
@@ -17,16 +20,18 @@ conditions (an out-of-bounds index, a division by zero) are undecidable in
 general, so an implementation may catch them at :term:`compile time` when it can
 prove them and otherwise at :term:`run time`. The prose throughout this
 specification therefore says only that the compiler "must emit" a given error,
-naming the *class* rather than the phase.
+naming the *class* rather than the phase at which the compiler should emit the
+error.
 
-Compile-time errors
+*Gazprea* Errors
 -------------------
+
+The following set of errors are generally classed as compile-time errors in
+gazprea.
 
 * ``SyntaxError`` -- the program is not syntactically valid. This covers both
   errors the parser reports directly and *syntactic* errors enforced during
-  parsing (for example a generator with three or more
-  iterator variables, an iterator loop with more than one domain, or a qualifier
-  on a function argument). The grammar itself need not reject these constructs.
+  parsing. The grammar itself need not reject these constructs, but it may.
 
 * ``SymbolError`` -- an undefined symbol is referenced, or a symbol is
   re-defined in the same :term:`scope`.
@@ -58,7 +63,8 @@ Compile-time errors
   path that reaches its end without a ``return``.
 
 * ``GlobalError`` -- an illegal global: a ``var`` global, a global with no
-  initializer or a non-``constexpr`` initializer, a global referencing a name not
+  initializer or a non-``constexpr`` initializer,
+  a global referencing a name not
   yet defined, or a non-declaration statement at global scope (see
   :ref:`sec:global`).
 
@@ -73,10 +79,9 @@ Compile-time errors
   never defined.
 
 * ``LiteralError`` -- a literal does not fit its type (for example an integer
-  literal outside the ``i32`` range, or a ``\x`` escape with no hex digit).
+  literal outside the ``i32`` range, or a ``\x`` escape with no
+  or too many hex digit(s)).
 
-Run-time errors
----------------
 
 The following are classified as run-time errors, but an implementation may
 instead detect and report them at :term:`compile time` whenever it can prove them
