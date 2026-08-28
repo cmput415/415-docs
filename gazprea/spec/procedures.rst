@@ -82,9 +82,11 @@ this, the ``= <stmt>;`` declaration format is not available for
 procedures. For example, the following code is :term:`ill-formed`, and the
 compiler must emit a ``SyntaxError`` (see :ref:`sec:errors`):
 
-::
+.. gazprea-example::
+   :name: procedure_no_expr_form
+   :error: SyntaxError
 
-  procedure f() returns integer = 1;
+   procedure f() returns integer = 1;
 
 
 If a returns clause is present, then a return statement must be reached
@@ -94,32 +96,44 @@ executing a ``return``, the compiler must emit a ``ReturnError`` (see
 :ref:`sec:errors`), exactly as for :ref:`functions <sec:function>`. For
 instance:
 
-::
+.. gazprea-example::
+   :name: procedure_call_examples
 
-         procedure change_first(var integer[*] v) {
-           v[1] = 7;
-         }
+   procedure change_first(var integer[*] v) {
+     v[1] = 7;
+   }
 
-         procedure increment(var integer x) {
-           x = x + 1;
-         }
+   procedure increment(var integer x) {
+     x = x + 1;
+   }
 
-         procedure fibonacci(var integer a, var integer b) returns integer {
-           integer c = a + b;
-           a = b;
-           b = c;
-           return c;
-         }
+   procedure fibonacci(var integer a, var integer b) returns integer {
+     integer c = a + b;
+     a = b;
+     b = c;
+     return c;
+   }
 
-         // These procedures can be called as follows:
+   procedure main() returns integer {
+     // These procedures can be called as follows:
+     var integer x = 12;
+     var integer y = 21;
+     var integer[5] v = 13;
 
-         var integer x = 12;
-         var integer y = 21;
-         var integer[5] v = 13;
+     call change_first(v); /* v == [7, 13, 13, 13, 13] */
+     call increment(x); /* x == 13 */
+     call fibonacci(x,y); /* x == 21 and y == 34 */
 
-         call change_first(v); /* v == [7, 13, 13, 13, 13] */
-         call increment(x); /* x == 13 */
-         call fibonacci(x,y); /* x == 21 and y == 34 */
+     v -> std_output; '\n' -> std_output;
+     x -> std_output; '\n' -> std_output;
+     y -> std_output;
+     return 0;
+   }
+
+   --- output ---
+   [7 13 13 13 13]
+   21
+   34
 
 Only procedures may be called with ``call``. Functions must
 appear in expressions because they cannot cause side effects, so using
@@ -157,10 +171,18 @@ These restrictions are made by *Gazprea* arbitrarily.
 
 Procedures without a return clause may not be used in an expression.
 The compiler must emit a ``CallError`` in such a case.
-::
 
-         /* p is some procedure with no return clause */
-         integer x = p(); /* Illegal */
+.. gazprea-example::
+   :name: procedure_no_return_in_expr
+   :error: CallError
+
+   /* p is some procedure with no return clause */
+   procedure p() { }
+
+   procedure main() returns integer {
+     integer x = p(); /* Illegal */
+     return 0;
+   }
 
 .. _ssec:procedure_fwd_declr:
 
@@ -186,17 +208,21 @@ one compilation unit must define ``main``. A program with no ``main``, or whose
 ``main`` does not match this signature, is :term:`ill-formed` and the compiler
 must emit a ``MainError`` (see :ref:`sec:errors`).
 
-::
+.. gazprea-example::
+   :name: procedure_main
 
-         /* must be written like this */
-         procedure main() returns integer {
-           var integer x = 1;
-           x = x + x;
-           x -> std_output;
+   /* must be written like this */
+   procedure main() returns integer {
+     var integer x = 1;
+     x = x + x;
+     x -> std_output;
 
-           /* must have a return */
-           return 0;
-         }
+     /* must have a return */
+     return 0;
+   }
+
+   --- output ---
+   2
 
 .. _ssec:procedure_implicit_casts:
 
@@ -209,26 +235,27 @@ A mutable (``var``) parameter the argument denote the same :term:`lvalue`
 (a pointer). There is no separate value to convert, and so no
 implicit cast can be inserted.
 
-::
+.. gazprea-example::
+   :name: procedure_var_no_implicit_cast
+   :error: TypeError
 
+   procedure byvalue(string x) returns integer {
+     return length(x);
+   }
+   procedure byreference(var string x) returns integer {
+     return length(x);
+   }
+   procedure main() returns integer {
+     const character[3] y = ['y', 'e', 's'];
 
-         procedure byvalue(string x) returns integer {
-           return length(x);
-         }
-         procedure byreference(var string x) returns integer {
-           return length(x);
-         }
-         procedure main() returns integer {
-           const character[3] y = ['y', 'e', 's'];
+     integer size = byvalue(y); // legal
+     call byreference(y);       // illegal due to qualifier
 
-           integer size = byvalue(y); // legal
-           call byreference(y);       // illegal due to qualifier
+     var character[3] z = ['y', 'e', 's'];
+     call byreference(z); // still illegal, no implicit casts at vararg
 
-           var character[3] z = ['y', 'e', 's'];
-           call byreference(z); // still illegal, no implicit casts at vararg
-
-           return 0;
-         }
+     return 0;
+   }
 
 In ``byvalue(y)`` the argument ``y`` is a ``character[3]`` and the parameter is
 a :ref:`string <ssec:string>` -- a runtime-sized :ref:`vector <ssec:vector>` of
@@ -263,28 +290,45 @@ undecidable, the check uses the conservative *same-backing-array* rule: two
 arguments that name the same array are treated as aliasing even when their
 accessed ranges are disjoint. For instance:
 
-::
+.. gazprea-example::
+   :name: procedure_aliasing_illegal
+   :error: AliasingError
 
-         procedure p(var integer a, var integer b, const integer c, const integer d) {
-            /* Some code here */
-         }
+   procedure p(var integer a, var integer b, const integer c, const integer d) {
+      /* Some code here */
+   }
 
-         procedure main() returns integer {
-           var integer x = 0;
-           var integer y = 0;
-           var integer z = 0;
+   procedure main() returns integer {
+     var integer x = 0;
+     var integer y = 0;
 
-           /* Illegal */
-           call p(x, x, x, x); /* Aliasing, this is an error. */
-           call p(x, x, y, y); /* Still aliasing, error. */
-           call p(x, y, x, x); /* Argument a is mutable and aliased with c and d. */
+     call p(x, x, x, x); /* Aliasing, this is an error. */
+     call p(x, x, y, y); /* Still aliasing, error. */
+     call p(x, y, x, x); /* Argument a is mutable and aliased with c and d. */
 
-           /* Legal */
-           call p(x, y, z, z);
-           /* Even though 'z' is aliased with 'c' and 'd' they are both const. */
+     return 0;
+   }
 
-           return 0;
-         }
+The same shape of call is legal when every aliased argument is bound to a
+``const`` parameter, since neither can be mutated:
+
+.. gazprea-example::
+   :name: procedure_aliasing_legal
+
+   procedure p(var integer a, var integer b, const integer c, const integer d) {
+      /* Some code here */
+   }
+
+   procedure main() returns integer {
+     var integer x = 0;
+     var integer y = 0;
+     var integer z = 0;
+
+     /* Even though 'z' is aliased with 'c' and 'd' they are both const. */
+     call p(x, y, z, z);
+
+     return 0;
+   }
 
 Whenever a procedure has a mutable argument ``x`` it must be checked that
 none of the other arguments given to the procedure are ``x``.
