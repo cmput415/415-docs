@@ -192,3 +192,9 @@ struct types must be identical and the member is copied unchanged. For example:
 
      tuple(integer, integer) int_tup = (1, 2);
      tuple(real, boolean) rb_tup = as<tuple(real, boolean)>(int_tup);
+
+Structs
+-------
+
+Structs are :term:`nominal types <nominal type>`, so they cannot be cast to
+other types.
