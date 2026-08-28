@@ -77,13 +77,22 @@ A generator consists of either one or two
 expression on the right hand side of the bar (``|``).
 This additional expression is used to create the generated values. For example:
 
-::
+.. gazprea-example-wrap::
+   :name: generator_1d_2d
 
-         integer[10] v = [i in 1..10 | i * i];
-         /* v[i] == i * i */
+   integer[10] v = [i in 1..10 | i * i];
+   /* v[i] == i * i */
 
-         integer[2][3] M = [i in 1..2, j in 1..3 | i * j];
-         /* M[i][j] == i * j */
+   integer[2][3] M = [i in 1..2, j in 1..3 | i * j];
+   /* M[i][j] == i * j */
+
+   v -> std_output;
+   '\n' -> std_output;
+   M -> std_output;
+
+   --- output ---
+   [1 4 9 16 25 36 49 64 81 100]
+   [[1 2 3] [2 4 6]]
 
 The expression to the right of the bar (``|``) is used to generate the
 value at the given index.
@@ -97,14 +106,19 @@ Generators may be nested, and
 may be used within domain expressions. For instance, the generator below
 is perfectly legal:
 
-::
+.. gazprea-example-wrap::
+   :name: generator_nested
 
-         integer i = 7;
+   integer i = 7;
 
-         /* The domain expression should use the previously defined i */
-         integer[*] v = [i in [i in 1..i | i] | [i in 1..10 | i * i][i]];
+   /* The domain expression should use the previously defined i */
+   integer[*] v = [i in [i in 1..i | i] | [i in 1..10 | i * i][i]];
 
-         /* v should contain the first 7 squares. */
+   /* v should contain the first 7 squares. */
+   v -> std_output;
+
+   --- output ---
+   [1 4 9 16 25 36 49]
 
 .. _ssec:expressions_dom_expr:
 
@@ -128,14 +142,18 @@ domain is the one enclosing the iterator loop or generator.
 
 For instance:
 
-::
+.. gazprea-example-wrap::
+   :name: domain_loop_capture
 
-         integer i = 7;
+   integer i = 7;
 
-         /* This will print 1234567 */
-         loop i in 1..i {
-           i -> std_output;
-         }
+   /* This will print 1234567 */
+   loop i in 1..i {
+     i -> std_output;
+   }
+
+   --- output ---
+   1234567
 
 Iterator variables are initialized after their domain. In
 loops, :term:`re-initialization` happens at the start of each
@@ -143,28 +161,38 @@ execution of the loop's body statement. Only generators
 may chain iterator variables
 using commas.
 
-::
+.. gazprea-example-wrap::
+   :name: generator_comma_matrix
 
-         integer i = 2;
+   integer i = 2;
 
-         /* The "i"s in both domain expressions are at the same scope, which is
-          * the one enclosing the generator. Therefore the matrix is: [[0 0 0] [0 1 2] [0 2 4]]
-          */
-         integer[3][3] mat = [ i in 0..i, j in 0..i | i*j ];
+   /* The "i"s in both domain expressions are at the same scope, which is
+    * the one enclosing the generator. Therefore the matrix is: [[0 0 0] [0 1 2] [0 2 4]]
+    */
+   integer[3][3] mat = [ i in 0..i, j in 0..i | i*j ];
+   mat -> std_output;
+
+   --- output ---
+   [[0 0 0] [0 1 2] [0 2 4]]
 
 The domain of a domain expression is only evaluated once. For
 instance:
 
-::
+.. gazprea-example-wrap::
+   :name: domain_evaluated_once
 
-         integer x = 2;
+   integer x = 2;
 
-         /* 1..x is evaluated once, when control first reaches the loop, so it
-            is simply 1..2 -- the two-element range [1, 2] -- and not an infinite
-            loop. */
-         loop i in 1..x {
-           x = x + 1;
-         }
+   /* 1..x is evaluated once, when control first reaches the loop, so it
+      is simply 1..2 -- the two-element range [1, 2] -- and not an infinite
+      loop. */
+   loop i in 1..x {
+     x = x + 1;
+   }
+   x -> std_output;
+
+   --- output ---
+   4
 
 This is true for domain expressions within generators as well.
 
@@ -179,9 +207,10 @@ A range domain may be empty. Because ``i..j`` has length ``max(0, j - i + 1)``
 loop or generator over it simply iterates zero times, equivalent to using
 the empty array literal ``[]``:
 
-::
+.. gazprea-example-wrap::
+   :name: empty_range_loop
 
-         loop i in 5..1 { i -> std_output; } /* 5..1 is empty: body runs 0 times */
+   loop i in 5..1 { i -> std_output; } /* 5..1 is empty: body runs 0 times */
 
 Iterator variables can be assigned to and :term:`re-declared
 <re-declaration>` within the enclosed iterator loop. Neither carries
