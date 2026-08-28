@@ -19,6 +19,15 @@ whose initializer references a global not yet defined at that point is
 :term:`ill-formed` and the
 compiler must emit a ``SymbolError`` (see :ref:`sec:errors`).
 
+.. gazprea-example::
+   :name: global_out_of_order
+   :error: SymbolError
+
+   const B = A;   // A is not yet defined here -- ill-formed
+   const A = 10;
+
+   procedure main() returns integer { return 0; }
+
 Only global variable initializers are required to be written in dependency
 order. References between
 functions and procedures are not bound by textual order. Consult 
@@ -32,6 +41,14 @@ assignment that targets a global from within a routine body instead an
 ``AssignError`` (see :ref:`sec:errors`), as every global is ``const``
 (see below).
 
+.. gazprea-example::
+   :name: global_statement_illegal
+   :error: GlobalError
+
+   5 -> std_output;   // a statement, not a declaration, at global scope
+
+   procedure main() returns integer { return 0; }
+
 Variable Declarations
 ---------------------
 
@@ -40,6 +57,14 @@ globals must be immutable (``const``). If a global identifier is declared
 with the ``var`` specifier, then the compiler must emit a ``GlobalError``
 (see :ref:`sec:errors`). This restriction is in place since mutable global
 variables would make :term:`functional purity` undecidable in general.
+
+.. gazprea-example::
+   :name: global_var_illegal
+   :error: GlobalError
+
+   var integer g = 0;   // globals may not be declared 'var'
+
+   procedure main() returns integer { return 0; }
 
 Globals must always be initialized with a valid
 :ref:`constant expression <sec:constexpr>`. Unlike a local variable, a global is
@@ -63,7 +88,34 @@ program runs. As a consequence:
     ``const integer[*] X = [1, 2, 3]`` is likewise permitted if the initializer
     is a constexpr (see :ref:`sssec:array_sizing`).
 
+Legal globals in dependency order -- a later global may read an earlier one:
+
+.. gazprea-example::
+   :name: global_legal
+
+   const A = 10;
+   const B = A * 2;                  // may reference an earlier global
+   const integer[*] X = [1, 2, 3];
+
+   procedure main() returns integer {
+     B -> std_output; '\n' -> std_output;
+     X -> std_output;
+     return 0;
+   }
+
+   --- output ---
+   20
+   [1 2 3]
+
 The compiler must emit a ``GlobalError`` (see :ref:`sec:errors`) for any
-violation of the above rules.
+violation of the above rules. For instance, a global with no initializer:
+
+.. gazprea-example::
+   :name: global_uninitialized_illegal
+   :error: GlobalError
+
+   const integer i;   // a global is never implicitly zero-initialized
+
+   procedure main() returns integer { return 0; }
 
 *   **lemma**: All globals are ``constexpr``.
