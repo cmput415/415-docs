@@ -41,16 +41,14 @@ treated as follows when sent to an output stream:
 with square braces surrounding their elements and with spaces only *between*
 values. For example:
 
-::
+.. gazprea-example-wrap::
+   :name: streams_array_print
 
-     integer[*] v = 1..3;
-     v -> std_output;
+   integer[*] v = 1..3;
+   v -> std_output;
 
-prints the following:
-
-::
-
-     [1 2 3]
+   --- output ---
+   [1 2 3]
 
 :ref:`Vectors <ssec:vector>` print exactly as :ref:`arrays <ssec:array>`
 do, using whatever length the vector holds at the time of the output
@@ -61,28 +59,24 @@ rather than in bracketed array form, as shown next.
 :ref:`Strings <ssec:string>` print their contents as a contiguous sequence of
 characters. For example:
 
-::
+.. gazprea-example-wrap::
+   :name: streams_string_print
 
-     string str = "Hello, World!";
-     str -> std_output;
+   string str = "Hello, World!";
+   str -> std_output;
 
-prints the following:
-
-::
-
-     Hello, World!
+   --- output ---
+   Hello, World!
 
 :ref:`Matrices <ssec:matrix>` print like an array of arrays. For example:
 
-::
+.. gazprea-example-wrap::
+   :name: streams_matrix_print
 
-     [[1, 2, 3], [4, 5, 6], [7, 8, 9]] -> std_output;
+   [[1, 2, 3], [4, 5, 6], [7, 8, 9]] -> std_output;
 
-prints the following:
-
-::
-
-     [[1 2 3] [4 5 6] [7 8 9]]
+   --- output ---
+   [[1 2 3] [4 5 6] [7 8 9]]
 
 No other type may be sent to a stream; the compiler must emit a ``TypeError``
 (see :ref:`sec:errors`). For instance, a tuple or a struct cannot be sent to a
@@ -94,16 +88,14 @@ not empty literals (e.g. ``[]``), because they have no type; sending one must
 emit a ``TypeError`` (see :ref:`sec:errors`). A *typed* empty array prints as an
 empty pair of brackets:
 
-::
+.. gazprea-example-wrap::
+   :name: streams_empty_array_print
 
-     integer[*] empty = [];
-     empty -> std_output;
+   integer[*] empty = [];
+   empty -> std_output;
 
-prints the following:
-
-::
-
-     []
+   --- output ---
+   []
 
 Note that there is **no automatic new line or spaces printed.** To print
 a new line, a user must explicitly print the new line or space
