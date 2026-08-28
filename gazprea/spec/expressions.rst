@@ -46,8 +46,8 @@ override it by grouping their contents into a new atom.
 
 The stream operators ``->`` and ``<-`` are statement-level operators, not
 expression operators, so they do not appear in the table above. They bind more
-loosely than every operator listed -- effectively the very bottom of the
-precedence relation -- so an entire expression is evaluated before it is sent
+loosely than every operator listed, being effectively the very bottom of the
+precedence relation. An entire expression is evaluated before it is sent
 to or read from a stream (see :ref:`sec:streams`).
 
 .. _ssec:expressions_generators:
@@ -64,7 +64,7 @@ A generator creates a value of a 1D array type when one
 iterator variables are used.
 Supplying any other number of iterator variables is :term:`ill-formed`: the
 compiler must emit a ``SyntaxError`` (see :ref:`sec:errors`).
-Higher-dimensional generators are a planned addition to a future
+Higher-dimensional generators are a potential addition to a future
 revision of this specification.
 
 The :term:`domain` in a domain expression is any array-typed value:
@@ -87,6 +87,7 @@ This additional expression is used to create the generated values. For example:
 
 The expression to the right of the bar (``|``) is used to generate the
 value at the given index.
+
 Let ``T`` be the type of the expression to the right of the bar (``|``).
 With one iterator variable ranging over a domain of size
 ``N``, the result is a 1D array of size ``N`` with element type ``T``. With two
@@ -175,7 +176,7 @@ iterations, before the loop body executes.
 
 A range domain may be empty. Because ``i..j`` has length ``max(0, j - i + 1)``
 (see :ref:`sssec:array_ops`), a domain such as ``5..1`` is the empty range, so a
-loop or generator over it simply iterates zero times -- the range analogue of
+loop or generator over it simply iterates zero times, equivalent to using
 the empty array literal ``[]``:
 
 ::
