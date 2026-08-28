@@ -121,10 +121,16 @@ An :term:`lvalue` may be anything that can appear on the left hand side of an
 assignment statement (see :ref:`sec:expressions`) -- not only a plain variable
 but also, for example, an array element:
 
-::
+.. gazprea-example-wrap::
+   :name: input_array_element
+   :input: 5
 
-     var integer[3] v = [0, 0, 0];
-     v[2] <- std_input;   // reads a single integer into element 2 of v
+   var integer[3] v = [0, 0, 0];
+   v[2] <- std_input;   // reads a single integer into element 2 of v
+   v -> std_output;
+
+   --- output ---
+   [0 5 0]
 
 The primitive-only restriction below still applies: the target must designate a
 single primitive location.
@@ -188,9 +194,12 @@ contiguous -- no whitespace may appear *within* the value.
 A ``boolean`` input from stdin is either ``T`` or ``F``. Preceding whitespace
 may be skipped in the same way as integers and reals.
 
-For the following program:
+Given the following program and stdin (where ``\t`` is a tab, ``\n`` a
+newline, and a single space precedes ``1.``):
 
-::
+.. gazprea-example-wrap::
+   :name: input_format_mixed
+   :input: \tF\n1\n 1.\n
 
    var boolean b;
    var character c;
@@ -202,19 +211,7 @@ For the following program:
    r <- std_input;
    format(b) || " " || format(r) -> std_output;
 
-And this input (where '\\t' is TAB, '*' is space, and each line ends with a
-newline ('\\n'):
-
-::
-
-   \tF\n
-   1\n
-   *1.\n
-
-The output would be:
-
-::
-
+   --- output ---
    F 1
 
 (``1.`` reads as the real 1.0, which prints as ``1`` under the ``%g``
@@ -254,37 +251,30 @@ table below -- the type's zero value for ``boolean``/``integer``/``real``, and
 The program below demonstrates 4 reads which set the error
 states 1,0,0,2 respectively.
 
-::
+.. gazprea-example-wrap::
+   :name: input_stream_state
+   :input: .7
 
-    var integer ss;
-    var integer i;
-    var character c;
+   var integer ss;
+   var integer i;
+   var character c;
 
-    i <- std_input;
-    i -> std_output;
-    ss = stream_state(std_input);
-    ss -> std_output;
+   i <- std_input;
+   i -> std_output;
+   ss = stream_state(std_input);
+   ss -> std_output;
 
-    c <- std_input; //eat the .
+   c <- std_input; //eat the .
 
-    i <- std_input;
-    i -> std_output;
+   i <- std_input;
+   i -> std_output;
 
-    c <- std_input;
-    ss = stream_state(std_input);
-    ss -> std_output;
+   c <- std_input;
+   ss = stream_state(std_input);
+   ss -> std_output;
 
-With the input stream:
-
-::
-
-  .7
-
-And the expected output:
-
-::
-
-  0172
+   --- output ---
+   0172
 
 This table summarizes an input stream's possible error states after a read of a
 particular data type.

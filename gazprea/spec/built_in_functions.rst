@@ -218,18 +218,20 @@ reads are specified in :ref:`sssec:stream_error`. In brief: ``0`` means the
 last read succeeded, ``1`` that it encountered an error, and ``2`` that it
 encountered the end of the stream.
 
-::
+.. gazprea-example-wrap::
+   :name: builtin_stream_state
+   :input: 9
 
-    var boolean b;
-    var integer i;
+   var boolean b;
+   var integer i;
 
-    // Input stream: 9
-    b <- std_input;              // b = false (error reading boolean)
-    i = stream_state(std_input); // i = 1     (last read was error)
-    i <- std_input;              // i = 9     (successfully read integer)
-    i = stream_state(std_input); // i = 0     (last read was success)
-    b <- std_input;              // b = false (read end of stream)
-    i = stream_state(std_input); // i = 2     (last read was end of stream)
+   // Input stream: 9
+   b <- std_input;              // b = false (error reading boolean)
+   i = stream_state(std_input); // i = 1     (last read was error)
+   i <- std_input;              // i = 9     (successfully read integer)
+   i = stream_state(std_input); // i = 0     (last read was success)
+   b <- std_input;              // b = false (read end of stream)
+   i = stream_state(std_input); // i = 2     (last read was end of stream)
 
 
 The input stream is described in more detail in the
