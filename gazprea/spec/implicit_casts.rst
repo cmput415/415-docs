@@ -9,22 +9,23 @@ the *explicit casts* written ``as<toType>(value)`` in
 :ref:`sec:typeCasting`; "cast" is the umbrella term for both.
 
 Most conversions that can be performed implicitly can also be written
-explicitly as an ``as<>`` cast. The one caveat is that a scalar-to-array
+explicitly as an ``as<>`` cast. Note that a scalar-to-array
 *explicit cast* must state the destination size explicitly
 (:ref:`ssec:typeCasting_stovm`), whereas the corresponding *implicit cast*
-takes its size from the array operand. (The ``string`` / ``character[*]``
+takes its size from the array operand. The ``string`` / ``character[*]``
 conversion, being the array/vector cast specialized to ``character``, has
 both an implicit and an explicit ``as<>`` form like any other array/vector
-cast; see :ref:`ssec:implicitCasts_string`.)
+cast; see :ref:`ssec:implicitCasts_string`.
 
 A :term:`scalar <scalar type>` may be implicitly cast to an array of any
-rank, including the rank-2 matrix case (see :ref:`ssec:implicitCasts_stoa`).
+rank (see :ref:`ssec:implicitCasts_stoa`).
 An array is never implicitly cast to a different rank; only a scalar expands
-to fill an array or matrix.
+to fill an array or matrix, and then only if the dimensions are completely
+specified.
 
 Attempting any conversion this chapter does not describe as a valid implicit
-cast -- in a declaration, an assignment, or between corresponding tuple
-members -- is a compile-time error; the compiler must emit a ``TypeError``
+cast, such as in a declaration, an assignment, or between corresponding tuple
+members, is a compile-time error; the compiler must emit a ``TypeError``
 (see :ref:`sec:errors`).
 
 .. _ssec:implicitCasts_scalar:
@@ -33,7 +34,7 @@ Scalars
 -------
 
 The only automatic implicit cast between scalars is ``integer`` to
-``real``. This cast is one way -- a ``real`` is never implicitly cast to
+``real``. This cast is one way, so a ``real`` is never implicitly cast to
 ``integer``.
 
 Automatic conversion follows this table where N/A means no implicit cast is
@@ -105,7 +106,7 @@ Note that an array can never be cast down to a scalar, even explicitly.
 Also note that matrix multiply imposes strict requirements on the
 dimensionality of the operands. The consequence is that, *as an operand of
 matrix multiplication* (``**``), a scalar can only be implicitly cast to a
-matrix when the other operand is a square matrix (:math:`m \times m`): the
+matrix when the other operand is a **square** matrix (:math:`m \times m`): the
 scalar is then broadcast (filled) into an :math:`m \times m` matrix whose every
 element equals the scalar. For higher-rank arrays this generalizes only to
 hypercubes with all extents equal; *Gazprea* provides no comprehensive
@@ -122,7 +123,8 @@ A tuple may be implicitly cast to another tuple type when the two have an equal
 number of members and each member of the source can be implicitly cast to the
 corresponding member of the destination. Each member is cast by the rule for
 its own kind: scalar members follow the scalar table above, array members
-follow the :ref:`array sizing rules <sssec:array_sizing>` -- a shorter value is
+follow the :ref:`array sizing rules <sssec:array_sizing>`, where
+a shorter value is
 padded with the element type's :term:`zero value` and a longer value raises a
 ``SizeError`` (see :ref:`sec:errors`). A nested ``tuple``, ``vector``, or
 array member follows the same implicit-cast rules as a standalone value of that
@@ -161,7 +163,7 @@ example:
 
 ::
 
-  boolean b = (1.0, 2) == (2, 3.0);
+  boolean b = (1.0, 2) == (1, 2.0); // returns true
 
 .. _ssec:implicitCasts_avv:
 
@@ -211,7 +213,8 @@ scalar table of :ref:`ssec:implicitCasts_scalar` for scalar elements, applied
 recursively for composite elements). The result obeys the destination array's
 :ref:`fixed length <sssec:array_sizing>`: a shorter value is padded with the
 element type's :term:`zero value` and a longer value raises a ``SizeError``
-(see :ref:`sec:errors`). An array is never implicitly cast to a different
+(see :ref:`sec:errors`). An array is never implicitly or explicitly
+cast to a different
 rank.
 
 ::
