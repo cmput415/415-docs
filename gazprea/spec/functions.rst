@@ -20,7 +20,9 @@ A function in *Gazprea* has several requirements:
 
 6.  Functions cannot call any procedures, with one exception: a mutating
     vector/string method (``push``, ``append``) may be called on a variable
-    local to the function (see :ref:`sssec:vec_methods`); any other procedure
+    local to the function (see :ref:`sssec:vec_methods`). The compiler can
+    generally prove purity of a function with such a procedure invokation
+    because it is bound to a local variable. Any other procedure
     call inside a function must emit a ``CallError`` (see :ref:`sec:errors`).
 
 7.  Functions must be declared in the global scope.
@@ -28,7 +30,13 @@ A function in *Gazprea* has several requirements:
 The reason for this is to ensure that functions in *Gazprea* behave as
 :term:`pure functions <functional purity>`. Every time you call a function
 with the same arguments
-it will perform the exact same operations. This has a lot of benefits.
+it will perform the exact same operations. This has many benefits that you can
+ask any haskell programmer about. You should prepare an escape topic for your
+conversation, like mentioning python or javascript as your haskell friend will
+continue talking to you about the virtues of functional purity
+until you die of hunger, thirst, boredom, or until you too become a haskell
+user. Whichever comes first.
+
 It makes code easier to understand if functions only depend upon their
 inputs and not some hidden state, and it also allows the compiler to
 make more assumptions and as a result perform more optimizations.
@@ -61,7 +69,12 @@ This defines a function called times_two which can be used as follows:
 
          value -> std_output; "\n" -> std_output;
 
-Functions can have an arbitrary number of arguments. Here are some
+Functions can have an arbitrary number of arguments. As a matter of
+practicality, your compiler does not need to handle more than 255 arguments. You
+may find it entertaining to ask your professor about times they needed to
+refactor their compilers to handle more arguments. You can kill a lecture that
+way.
+Here are some
 examples of functions with different numbers of arguments:
 ::
 
@@ -85,7 +98,7 @@ These can be called as follows:
 A function's body can also be given by a block statement instead of a
 single expression. In this case the return value of the function is
 given with the return statement. A return statement must be reached by
-all possible control flows in the function before the end of the
+**all** possible control flows in the function before the end of the
 function is encountered; if this cannot be established the compiler must
 emit a ``ReturnError`` (see :ref:`sec:errors`).
 
@@ -113,7 +126,7 @@ end of the function without a return statement, so we do not know what
 value ``f(false)`` should take on.  A conforming implementation must
 emit a ``ReturnError`` (see :ref:`sec:errors`) rejecting this program, such as::
 
-     ReturnError on line 1: function "f" does not have a return statement reachable by all control flows
+     ReturnError on ${line number}: function "f" does not have a return statement reachable by all control flows
 
 ::
 
@@ -152,7 +165,9 @@ Prototypes
 Functions can be declared before they are defined in a *Gazprea* file.
 This allows function definitions to be moved to more convenient
 locations in the file, and allows for multiple compilation units if the
-function definitions are in different source files.
+function definitions are in different source files. Note that your compiler
+does not need to allow for multiple compilation units, however this could be
+a future addition.
 
 ::
 
@@ -237,20 +252,11 @@ Array *slices* may also be passed as arguments:
          }
 
 Remember that all function parameters are ``const`` in *Gazprea*, so that all
-functions are pure. That means that arrays, vectors, and strings, like every
-other function argument, are passed *by value* at the call (see
-:ref:`ssec:procedure_implicit_casts`), not by reference; a function can change
+functions are pure. A function can change
 neither the contents nor the length of an array, vector, or string it
 receives, since a ``const`` parameter cannot be assigned to at all. A function
 that assigns to one of its parameters must emit an ``AssignError`` (see
 :ref:`sec:errors`).
-
-Because every function parameter is ``const``, an array :ref:`slice
-<sssec:array_slices>` passed to a function is received **by value** -- a copy of
-the selected elements -- and so can never observe or cause a change to the
-slice's backing storage. This is simply the general rule that a slice in
-argument position is an ordinary array value, exactly like an array literal:
-every slice a function receives is a copy.
 
 .. _ssec:function_namespacing:
 
