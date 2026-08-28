@@ -79,28 +79,30 @@ to an undeclared variable, for which the compiler must emit a ``SymbolError``
 ``SymbolError``, whereas the same text nested inside a scope that already binds
 ``i`` legally reads the outer ``i``. For instance:
 
-::
+.. gazprea-example-wrap::
+   :name: declaration_enclosing_scope
 
-       integer x = 7;
-       if (true) {
-         integer y = x;  /* y gets a value of 7 */
-         real x = x; /* Refers to the enclosing scope's 'x', so this is legal */
+   integer x = 7;
+   if (true) {
+     integer y = x;  /* y gets a value of 7 */
+     real x = x; /* Refers to the enclosing scope's 'x', so this is legal */
 
-       }
-       /* Now 'x' refers to the real version, with a value of 7.0 */
+   }
+   /* Now 'x' refers to the integer version, with a value of 7 */
 
 Likewise the following example would be legal, as gazprea allows for
 variable shadowing:
 
-::
+.. gazprea-example-wrap::
+   :name: declaration_shadowing
 
-       integer x = 7;
-       if (true) {
-         var real x = x;  /* x gets a value of 7.0 */
-         x = x + 1; // x -> std_output would print 8.0
+   integer x = 7;
+   if (true) {
+     var real x = x;  /* x gets a value of 7.0 */
+     x = x + 1; // x -> std_output would print 8.0
 
-       }
-       /* Now 'x' refers to the integer version, with a value of 7 */
+   }
+   /* Now 'x' refers to the integer version, with a value of 7 */
 
 .. _ssec:declaration_special:
 
