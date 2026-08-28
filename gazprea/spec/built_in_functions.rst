@@ -3,22 +3,21 @@
 Built-in Functions, Procedures and Methods
 ===========================================
 
-*Gazprea* has some built-in functions. These built-in functions may have
-some special behavior that normal functions cannot have, for instance
-many of them will work on arrays of any element type.
-Normally a function must specify the element type of an array argument.
+*Gazprea* has some built-in functions and procedures
+that do not follow the usual
+rules for functions and procedures.
 
 The names of the built-in functions and procedures are reserved. A user program
-may not declare *any* identifier -- a variable, function, procedure, ``struct``,
-or otherwise -- with the same name as a built-in function or procedure; doing
+may not declare *any* function or procedure identifier
+with the same name as a built-in function or procedure; doing
 so would shadow the built-in, and the compiler must emit a ``SymbolError``
 (see :ref:`sec:errors`). These names are reserved semantically rather than being
 syntactic :ref:`keywords <sec:keywords>`.
 
 The :ref:`vector/string method <sssec:vec_methods>` names (``push``,
 ``append``, ``len``), by contrast, are **not** reserved. They live in a method
-namespace associated with the compiler-defined ``vector`` object -- reachable
-only after a ``.`` on a ``vector`` receiver -- and so do not collide with the
+namespace associated with the compiler-defined ``vector`` object
+and so do not collide with the
 global identifier namespace. A user may freely declare, say, a ``function
 len()`` or a variable named ``push``.
 
@@ -27,11 +26,10 @@ built-ins (``length``, ``reverse``) also work on
 :ref:`vectors <ssec:vector>` and :ref:`strings <ssec:string>`, using
 whatever length that value currently holds. The shape-specific built-ins
 keep the domains their own sections describe: ``rows`` and ``columns``
-require a two-dimensional matrix, and ``format`` takes a scalar.
+require a two-dimensional matrix, and ``format`` takes only scalars.
 
-Applying a built-in outside its defined domain -- ``reverse``/``length`` on
-a non-1-D value, ``rows``/``columns`` on a non-2-D value, or ``format`` on a
-non-scalar -- is a compile-time error; the compiler must emit a
+Applying a built-in outside its defined domain 
+is a compile-time error and the compiler must emit a
 ``TypeError`` (see :ref:`sec:errors`).
 
 .. _ssec:builtIn_signatures:
@@ -39,8 +37,8 @@ non-scalar -- is a compile-time error; the compiler must emit a
 Signatures
 ----------
 
-*Gazprea* has no user-facing type parameters -- they may be added in a future
-revision -- but the built-ins are generic over element and scalar types. Their
+*Gazprea* has no user-facing type parameters (they may be added in a future
+revision), but the built-ins are generic over element and scalar types. Their
 signatures are therefore written below with a ``[T]`` type-parameter notation
 purely for exposition: ``function id[T](T obj) returns T;`` reads as "``id`` is
 generic over ``T``". This notation is **not** part of the language.
@@ -88,11 +86,13 @@ strings) answer the same question with different spellings and different domains
 Length
 ------
 
-``length`` takes a single-dimensional array of any element type, and
+``length`` takes an rank-1 array of any element type, and
 returns an integer representing the number of elements in the array.
 ``length`` is not defined for an array of rank greater than 1; use ``rows``
 and ``columns`` (see :ref:`ssec:builtIn_rows_cols`) for a two-dimensional
-matrix instead.
+matrix instead. In future editions of the spec this may be extended to a
+generic ``shape`` function, but that is left to future revisions of the
+course.
 
 ::
 
@@ -125,9 +125,8 @@ Rows and Columns
 ----------------
 
 The built-ins ``rows`` and ``columns`` report the dimensions of a
-two-dimensional array (a :ref:`matrix <ssec:matrix>`): ``rows`` returns the
-number of rows and ``columns`` the number of columns. (There is no
-rank-agnostic ``shape`` built-in in this version of the language.)
+rank-2 array (a :ref:`matrix <ssec:matrix>`): ``rows`` returns the
+number of rows and ``columns`` the number of columns.
 
 ::
 
@@ -141,9 +140,9 @@ rank-agnostic ``shape`` built-in in this version of the language.)
 Reverse
 -------
 
-The reverse built-in takes any single-dimensional array, vector, or string, and
+The reverse built-in takes any rank-1 array, vector, or string, and
 returns a reversed *array*. Even when the argument is a vector or string, the
-result is an array value -- vector-ness (string-ness) is not preserved, just as
+result is an array value. Vector-ness (string-ness) is not preserved, just as
 for the element-wise operators (see :ref:`sssec:vec_ops`). The resulting array
 may of course be implicitly cast back to a vector or string when stored into
 one.
@@ -164,7 +163,8 @@ Format
 The ``format`` built-in takes any :term:`scalar <scalar type>` as input and
 returns a ``string`` containing the formatted value of the scalar. The result
 uses the same representation the scalar's type has when sent to an output
-stream (see :ref:`sssec:output_format`); a type with no defined output format
+stream (see :ref:`sssec:output_format`). This function only takes scalars;
+a type with no defined output format
 (a ``tuple`` or ``struct``) cannot be formatted.
 
 ::
