@@ -32,7 +32,9 @@ A procedure call may appear only in one of three positions:
 
 -  as the procedure being called in a ``call`` statement.
 
-This is the single authoritative list of those positions. A procedure call
+This is the authoritative list of those positions. If you identify a
+contradiction in the specification, please open an issue as that is a
+specification error. A procedure call
 may not be used as the control expression of a control-flow statement. The
 "right-hand side of an assignment" is a *single*-target assignment or
 declaration: a procedure that returns a ``tuple`` is bound to one variable first
@@ -41,12 +43,13 @@ declaration: a procedure that returns a ``tuple`` is bound to one variable first
 destructure the result, unpack the bound variable instead (``a, b = t;``).
 
 Argument position is deliberately **not** on this list: a procedure call may
-not appear as an argument to another call -- neither to a procedure call nor to
+not appear as an argument to either a procedure call nor to
 a function call. Nesting a procedure call as an argument, as in ``call
 foo(p())`` or ``f(p())`` where ``p()`` is a procedure call, is
 :term:`ill-formed`, and the compiler must emit a ``CallError`` (see
-:ref:`sec:errors`); assign the inner call's result to a temporary and pass that
-instead. Only procedure calls are restricted this way -- a *function* call
+:ref:`sec:errors`). When programming in gazprea, the user should assign the
+inner call's result to a temporary and pass that
+instead. Only procedure calls are restricted this way. A *function* call
 carries no such restriction and may be nested freely as an argument (subject to
 the usual rule that a procedure argument may itself be a function call, but not
 a procedure call).
@@ -108,9 +111,7 @@ instance:
            return c;
          }
 
-These procedures can be called as follows:
-
-::
+         // These procedures can be called as follows:
 
          var integer x = 12;
          var integer y = 21;
@@ -126,14 +127,20 @@ a function in a ``call`` statement would not do anything. *Gazprea*'s
 compiler must emit a ``CallError`` (see :ref:`sec:errors`) if a
 function is used in a ``call`` statement.
 
+.. note
+   Since procedures may have no return value, it can be useful to define the
+   ``void`` type even if this is its only use.
+
 A procedure may never be called within a function, with one exception: a
 mutating :ref:`vector/string method <sssec:vec_methods>` (``push``, ``append``)
 may be called on a variable local to the function. Any other procedure call
 within a function would allow for impure functions, and the compiler must emit
 a ``CallError`` (see :ref:`sec:errors`). The positions in which a procedure
 call may appear are exactly :ref:`those listed at the start of this chapter
-<ssec:procedure_call_positions>`; in particular, a procedure call may not be
-used as the control expression of a control-flow statement. As noted there, the
+<ssec:procedure_call_positions>`.
+
+A procedure call may not be
+used as the control expression of a control-flow statement. As noted above, the
 only operations permitted on the result of a procedure call are unary operators
 and :ref:`casts <sec:typeCasting>`; using the result of a procedure call in a
 binary expression is :term:`ill-formed`. For example:
@@ -146,8 +153,7 @@ binary expression is :term:`ill-formed`. For example:
          var z = not p(); /* Legal, depending on the return type of p */
          var u = p() + p(); /* Illegal */
 
-These restrictions are made by *Gazprea* in order to allow for more
-optimizations.
+These restrictions are made by *Gazprea* arbitrarily.
 
 Procedures without a return clause may not be used in an expression.
 The compiler must emit a ``CallError`` in such a case.
@@ -177,7 +183,7 @@ procedure takes no arguments, and has an integer return type. ``main`` is
 called exclusively by the operating system, and the return value is used by the
 operating system, so if you are using multiple compilation units one and only
 one compilation unit must define ``main``. A program with no ``main``, or whose
-``main`` does not match this signature, is :term:`ill-formed`; the compiler
+``main`` does not match this signature, is :term:`ill-formed` and the compiler
 must emit a ``MainError`` (see :ref:`sec:errors`).
 
 ::
@@ -198,10 +204,9 @@ Implicit Casts of Arguments
 ---------------------------
 
 An argument may be :ref:`implicitly cast <sec:implicitCasts>` to the parameter
-type at call time, but only if the argument is passed by value (that is, the
-parameter is ``const``). A mutable (``var``) parameter is effectively call by
-reference, so the parameter and the argument denote the same :term:`lvalue`
-(a pointer); there is no separate value to convert, and so no
+type at call time, but only if the argument is ``const``.
+A mutable (``var``) parameter the argument denote the same :term:`lvalue`
+(a pointer). There is no separate value to convert, and so no
 implicit cast can be inserted.
 
 ::
@@ -217,7 +222,10 @@ implicit cast can be inserted.
            const character[3] y = ['y', 'e', 's'];
 
            integer size = byvalue(y); // legal
-           call byreference(y);       // illegal
+           call byreference(y);       // illegal due to qualifier
+
+           var character[3] z = ['y', 'e', 's'];
+           call byreference(z); // still illegal, no implicit casts at vararg
 
            return 0;
          }
@@ -245,12 +253,13 @@ restricted only when at least one of the aliased arguments is bound to a
 ``var`` parameter; two arguments bound to ``const`` parameters may always
 alias, since neither grants the ability to mutate. A program that aliases two
 such arguments, where at least one is bound to a ``var`` parameter, is
-:term:`ill-formed`. This helps *Gazprea* compilers perform more optimizations.
+:term:`ill-formed`. This helps *Gazprea* compilers perform more aggressive
+optimizations.
 However, the compiler must be able to catch cases where mutable memory
 locations are aliased, and must emit an ``AliasingError`` (see
 :ref:`sec:errors`) when this is detected. ``AliasingError`` is always a
 :term:`compile-time <compile time>` diagnosis: since exact overlap is
-undecidable, the check uses the conservative *same-backing-array* rule -- two
+undecidable, the check uses the conservative *same-backing-array* rule: two
 arguments that name the same array are treated as aliasing even when their
 accessed ranges are disjoint. For instance:
 
@@ -358,7 +367,8 @@ reference indistinguishable.
 Mutating Array and Vector Parameters
 ----------------------------------------
 
-A ``var`` parameter is call by reference, so a procedure may change what the
+A ``var`` parameter must be implemented as call by reference,
+so a procedure may change what the
 caller sees through it. What may change depends on whether the parameter is an
 array or a vector:
 
