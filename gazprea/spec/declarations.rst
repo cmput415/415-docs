@@ -62,12 +62,14 @@ A variable's name enters :term:`scope` only after its initializer has
 been evaluated. A program that refers to a variable within its own
 initialization statement is therefore :term:`ill-formed`.
 
-::
+.. gazprea-example-wrap::
+   :name: declaration_self_reference
+   :error: SymbolError
 
-       /* All of these declarations are illegal: the right-hand-side identifier
-          is not yet in scope during its own initializer. */
-       integer i = i; // assuming that i is not initialized before this point
-       integer[10] v = v[1] * 2; // likewise v
+   /* All of these declarations are illegal: the right-hand-side identifier
+      is not yet in scope during its own initializer. */
+   integer i = i; // assuming that i is not initialized before this point
+   integer[10] v = v[1] * 2; // likewise v
 
 if a variable name is referenced in an initializer but is not defined in the
 current scope,

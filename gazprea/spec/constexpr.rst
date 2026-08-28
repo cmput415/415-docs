@@ -81,15 +81,19 @@ of ``C`` is known at compile time:
 An initializer that depends on a function call is not a ``constexpr``, so in
 global scope the compiler must emit a ``GlobalError`` (see :ref:`sec:errors`):
 
-::
+.. gazprea-example::
+   :name: constexpr_illegal_call
+   :error: GlobalError
 
-    // ----------------------------
-    // in global scope
-    // ----------------------------
+   // ----------------------------
+   // in global scope
+   // ----------------------------
 
-    // Illegal Global Constant Expressions
-    function get_val() returns integer { return 100; }
-    const Z = get_val(); // Not a constexpr: depends on a function call
+   // Illegal Global Constant Expressions
+   function get_val() returns integer { return 100; }
+   const Z = get_val(); // Not a constexpr: depends on a function call
+
+   procedure main() returns integer { return 0; }
 
 .. _ssec:constexpr_aggregates:
 
@@ -118,7 +122,17 @@ it may size a later declaration:
      const ELEMENT = LOOKUP_TABLE[3];          // Legal: ELEMENT is a constexpr with value 30
      integer[ELEMENT] my_array = 0;            // Legal: static array of size 30, zero-filled
 
-     const integer[2] BAD_TABLE = [10, get_val()]; // Illegal: initializer is not a constexpr
+By contrast, an element initializer that is not a ``constexpr`` makes the
+whole array non-constant, so in global scope this is a ``GlobalError``:
+
+.. gazprea-example::
+   :name: constexpr_illegal_array
+   :error: GlobalError
+
+   function get_val() returns integer { return 100; }
+   const integer[2] BAD_TABLE = [10, get_val()]; // Illegal: initializer is not a constexpr
+
+   procedure main() returns integer { return 0; }
 
 A ``constexpr`` tuple, and field access on it, are ``constexpr``\ s too:
 

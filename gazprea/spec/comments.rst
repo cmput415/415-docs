@@ -31,6 +31,8 @@ reaches the first closing sequence.  For example, the following is
 :term:`ill-formed` (the second ``*/`` has no matching ``/*``); the compiler must
 emit a ``SyntaxError`` (see :ref:`sec:errors`):
 
-::
+.. gazprea-example-wrap::
+   :name: comments_nested_illegal
+   :error: SyntaxError
 
-     /* A comment /* A nested comment */ */
+   /* A comment /* A nested comment */ */
