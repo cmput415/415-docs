@@ -7,7 +7,7 @@ This page collects the technical terminology used throughout the *Gazprea*
 specification.  Its purpose is threefold: to fix the meaning of the words we
 use so that the specification is self-consistent, to point the reader at the
 authoritative literature behind each term, and to give students a
-jumping-off point when they need to specify a language or compiler task
+jumping-off point when they need or want to specify a language or compiler task
 of their own.
 
 Most entries below have a **primary citation** to an authoritative source:
@@ -15,15 +15,11 @@ an ISO/IEC or IEEE standard, the documentation of an ongoing industrial
 open-source project (LLVM, GCC, GNU Binutils), or a peer-reviewed
 publication in a respected venue.  The *Gazprea*-specific normative entries
 (for example :term:`zero value` and :term:`value type`) instead cite the
-specification chapter that states the rule in full.  Where a term has a widely-used *effective*
+specification chapter that states the rule in full.
+Where a term has a widely-used *effective*
 reference (e.g. cppreference for the C++ value categories), that reference
 appears alongside the authoritative citation and is explicitly labeled as
 non-normative.
-
-Every glossary entry is a Sphinx ``:term:`` target and can be
-cross-referenced from anywhere in the specification.  For example, a
-sentence in another chapter can read
-"the value must be a :term:`constant expression`\ ".
 
 .. note::
 
@@ -36,9 +32,9 @@ sentence in another chapter can read
 
    A few entries, however, *do* state normative *Gazprea* rules -- notably
    :term:`zero value`, :term:`initialization`, :term:`re-initialization`,
-   :term:`domain`, and :term:`value type`.  These are load-bearing: their
-   content is normative wherever it appears, and each is cross-referenced to
-   the chapter that states it in full.  Do not skip them.
+   :term:`domain`, and :term:`value type`.  These definitions are
+   normative wherever it appears, and each is cross-referenced to
+   the chapter that states it in full.
 
 .. contents:: On this page
    :local:
@@ -54,21 +50,32 @@ Terms
 
    initialization
       The :term:`run time` instant at which a variable's declaration first
-      executes.  A declaration is a single *program point*; at run time
-      control reaches that point along some *control-flow path*, and may reach
-      it more than once -- a declaration in a loop body, or one on a branch of
-      a conditional, is reached once per time control flows through it.  A
-      variable is *initialized* on the first execution of its declaration
-      point along the path taken; each subsequent execution of the same
+      executes.  A declaration is surrounded by two *program points* such that
+      any control path reaching the first point (preceding the declaration)
+      *must* pass through the second point [#dragon]_;
+      at run time
+      control reaches the point preceding the declaration
+      along some *control-flow path*, and may reach
+      it more than once. For example, a declaration in a loop body,
+      or one on a branch of
+      a conditional, is reached once per time control flows through it.
+
+      A
+      variable is *initialized* on the first transit of control through the path
+      between the two points enclosing the declaration.
+      Each subsequent execution of the same
       declaration begins a fresh :term:`lifetime` rather than mutating the
-      previous one (see :term:`re-initialization`).  A variable's array and
+      previous one (see :term:`re-initialization`).
+
+      A variable's array and
       matrix dimensions are settled *exactly once*, at initialization, and are
       then fixed for the remainder of that variable's lifetime: an array is
       sized once and can never be resized.  A size may be any integer
-      expression -- it need not be a :term:`compile time` constant -- but it is
-      evaluated a single time, at this instant, and later changes to that
-      expression's inputs do not affect the array.  (Ada draws the same
-      once-only distinction with a separate *elaboration* step; *Gazprea*
+      expression. It need not be a :term:`compile time` constant, but it is
+      evaluated a single time, at the first execution of the declaration,
+      and later changes to that
+      expression's inputs do not affect the array. (Ada draws a similar
+      once-only distinction termed *elaboration*; *Gazprea*
       keeps a single definition of a variable's size and calls the instant it
       happens *initialization*.)
 
@@ -94,8 +101,8 @@ Terms
 
       *Terminology note.*  Ada calls this umbrella category *composite
       type* rather than *aggregate type* [#ada-rm]_.  ISO C
-      also defines *composite type* but with an unrelated meaning -- it
-      is the merged type produced from two compatible declarations of
+      also defines *composite type* but with an unrelated meaning:
+      the merged type produced from two compatible declarations of
       the same entity, not a category of types [#iso-c11]_.  Because
       "composite" is a false friend between the two standards, *Gazprea*
       follows the C/C++ convention and uses *aggregate type* as the
@@ -122,19 +129,18 @@ Terms
       architectures follow the classical front-end / middle-end /
       back-end division [#gcc-int]_ [#llvm-langref]_.
 
-      *Compiler subtypes.*  The unmarked base case -- a compiler whose
-      target is machine code executable by a CPU -- has no distinct
-      term of art; it is simply *compiler*.  Two marked variants are
+      *Compiler subtypes.*  The default definition of a compiler is one thats
+      target is machine code executable by a CPU.
+      Two marked variants are
       recognized:
 
       *  A :term:`source-to-source translator` compiles from one
          high-level language to another high-level language [#dragon]_.
          The informal term *transpiler* is sometimes used for the same
-         concept; it is not defined in any ISO/IEC standard, LLVM
-         document, or GCC document, and the first attempt at a
+         concept. The first attempt at a
          peer-reviewed generic definition appears in a 2023 mapping
          review [#meza-transpilers-2023]_.  Prefer *source-to-source
-         translator* in the formal register.
+         translator*.
       *  A :term:`cross-compiler` runs on one host platform and emits
          code for a different target platform (CPU or operating system)
          [#clang-cross]_ [#gcc-cross]_.  Cross-compilation is
@@ -188,17 +194,19 @@ Terms
       computation.  An expression can result in a value and can cause
       side effects" [#cpp-draft]_.  The syntactic shape of
       expressions in *Gazprea* is defined in :ref:`sec:expressions`.
+      Note that in gazprea an expression is functionally pure.
 
    domain
       In a *Gazprea* :ref:`iterator loop <sssec:statements_iter_loop>`
       or :term:`domain expression`, the array-typed operand to the
-      right of ``in``.  The domain is evaluated exactly once, when
-      control first reaches the loop; the resulting value is captured
+      right of ``in``.  The domain is evaluated exactly once, at
+      :term:`initialization`; the resulting value is captured
       for the lifetime of the loop, and subsequent modifications to
       any variable that appeared in the domain expression do not
-      affect it.  In general PL usage the analogous notion is the
+      affect the domain variable.
+      In general PL usage the analogous notion is the
       *range* of a range-based loop (C++ ``for (x : R)``
-      [#cpp-draft]_) or the *iteration scheme* of an Ada
+      [#cpp-draft]_), archaically called the *iteration scheme* of an Ada
       ``for`` loop [#ada-rm]_.
 
    domain expression
@@ -265,6 +273,8 @@ Terms
       motivation for forbidding mutable :ref:`globals <sec:global>` and
       for the input-only nature of function arguments.
 
+      Once again, consult with a Haskell programmer.
+
    glvalue
       A "generalized" lvalue: "an expression whose evaluation
       determines the identity of an object, function, non-static data
@@ -272,7 +282,8 @@ Terms
       One of the three C++11 :term:`value categories <value category>`
       (together with :term:`prvalue` and :term:`xvalue`).  See the
       non-normative summary at [#cppref-value-cat]_ for an accessible
-      introduction.
+      introduction. Note that gazprea does not contain glvalues, this is
+      for extended reading.
 
    identifier
       "A sequence of nondigit characters ... and digits, which
@@ -296,10 +307,7 @@ Terms
       behavior or unspecified behavior, and has **no undefined
       behavior** at all.  Every program is either :term:`well-formed`
       and produces the output required by this specification, or it is
-      :term:`ill-formed` and the implementation emits an error.  The reason these
-      C/C++ terms appear in this glossary is definitional -- the
-      *Gazprea* prose uses them to say what the language does *not*
-      allow, not to reserve latitude for implementers.
+      :term:`ill-formed` and the implementation emits an error.
 
    implicit cast
       A conversion the compiler performs automatically, with no syntax
@@ -322,9 +330,17 @@ Terms
    value type
       A type whose values are stored inline, by value, rather than
       through indirection.  In *Gazprea* every :term:`aggregate type`
-      except ``vector`` is a value type; nesting must be acyclic through
+      except ``vector`` behaves as though it is a value type. Due to value-type
+      behaviour requiring a value to be
+      :term:`materializable <materialization>`,
+      nesting of aggregate type definitions must be acyclic through
       value types, so a ``struct`` or ``tuple`` may refer to its own type
       only through a ``vector`` (see :ref:`ssec:storable_types`).
+
+    materialization
+      "Materialization is the blanket term for any actions that are required
+      [...] to generate a symbol definition that is safe to call or access."
+      [#llvm-orcjit]_ .
 
    implicit conversion
       An automatic conversion inserted by the language, without a cast,
@@ -356,14 +372,13 @@ Terms
       throughout its lifetime" [#iso-c11]_.
 
       Rust makes *lifetime* a first-class object of the type system
-      -- every reference carries a compile-time lifetime parameter
+      such that every reference carries a compile-time lifetime parameter
       that the borrow-checker uses to prove memory safety without a
       garbage collector.  The Rust Reference chapter on lifetimes
       [#rust-ref-lifetimes]_ and the Rustonomicon chapter on
       references [#rustonomicon-lifetimes]_ together give the most
       operationally-precise treatment of the concept in a
-      production language; students designing safe systems languages
-      typically start there.
+      production language.
 
    linker
       A program that combines separately-translated
@@ -410,10 +425,10 @@ Terms
       glossary the word always refers to the *run-time* storage-region
       entity, in the ISO C sense.
 
-      *Gazprea note.*  *Gazprea* is not an object-oriented language --
-      it has no user-defined classes, no inheritance, and no virtual
-      dispatch.  The one place the *Gazprea* prose reaches for
-      OO-flavored wording is the :term:`aggregate <aggregate type>`
+      *Gazprea note.*  *Gazprea* is not an object-oriented language.
+      It has no user-defined classes, no inheritance, and no virtual
+      dispatch.  *Gazprea* uses object oriented terminology to describe
+      :term:`aggregates <aggregate type>`, particularly the
       :ref:`vector <ssec:vector>` type, which exposes methods
       (``push``, ``len``, ``append``) via dot syntax.  Those are
       built-in operations on the vector's storage-region object, not
@@ -518,8 +533,8 @@ Terms
       :ref:`sec:statements`.
 
    static
-      Determined or known at :term:`compile time`.  Ada gives the
-      cleanest formal definition: "Static means determinable at compile
+      Determined or known at :term:`compile time`.  Ada gives a nice
+      definition: "Static means determinable at compile
       time, using the declared properties or values of the program
       entities" [#ada-rm]_.  Contrast with :term:`dynamic`.
 
@@ -568,9 +583,7 @@ Terms
       In ISO C the term refers to the *cv*-qualifiers ``const``,
       ``restrict``, ``volatile``, and ``_Atomic``, defined in §6.7.3
       [#iso-c11]_.  *Gazprea* re-uses the phrase for the mutability
-      qualifiers ``const`` and ``var`` (see :ref:`sec:typeQualifiers`);
-      this is a *terminological convention*, not an assertion that
-      *Gazprea*'s qualifiers behave like C's.
+      qualifiers ``const`` and ``var`` (see :ref:`sec:typeQualifiers`).
 
    type system
       A tractable syntactic method for classifying phrases of a
@@ -581,16 +594,14 @@ Terms
       Pierce, Chapter 1 [#pierce-tapl]_.
 
       *Further reading (for the curious student).*  The deep
-      connection between type systems and formal logic -- types
-      correspond to propositions, programs to proofs, program
-      reduction to proof normalization -- is the *Curry-Howard
+      connection between type systems and formal logic is the *Curry-Howard
       correspondence*.  Wadler's ACM lecture "Propositions as Types"
       [#wadler-2015]_ is a short, entry-level survey; Sørensen and
       Urzyczyn's book-length *Lectures on the Curry-Howard
       Isomorphism* [#sorensen-urzyczyn-2006]_ is the standard
       textbook.  These are not required reading for *Gazprea*, but
-      students designing their own type systems in future courses
-      typically encounter them.
+      students designing their own type systems in future courses may
+      encounter them.
 
    undefined behavior
       "Behavior ... for which this document imposes no requirements"
@@ -606,7 +617,9 @@ Terms
       "Use of an unspecified value, or other behavior where this
       document provides two or more possibilities and imposes no
       further requirements on which is chosen in any instance"
-      [#iso-c11]_.
+      [#iso-c11]_. *Gazprea* should not have _any_ unspecified behaviour.
+      If you find any unspecified behaviour, please open an issue on the public
+      github, as this is a specification error.
 
    value category
       "Every expression belongs to exactly one of the fundamental
@@ -666,8 +679,8 @@ The primary citations for the entries above are listed here.
    the clauses cited here (§3.4.x, §3.15, §5.1.1.2, §6.2.1, §6.2.4,
    §6.2.5, §6.3, §6.5.4, §6.7, §6.7.3, §6.9, §6.4.2.1).  The C17
    revision (WG14 N2310) retains the same wording; the C23 revision
-   (WG14 N3220) renumbers some clauses -- when a *Gazprea* rule depends
-   on a specific revision, cite the revision year explicitly.
+   (WG14 N3220) renumbers some clauses. When a *Gazprea* rule depends
+   on a specific revision, we cite the revision year explicitly.
 
 .. [#cpp-draft] ISO/IEC 14882 (C++23) working draft N4950, live-tracked
    mirror at https://eel.is/c++draft/, PDF at
@@ -718,6 +731,10 @@ The primary citations for the entries above are listed here.
    snapshot cite a tagged release, e.g.
    https://releases.llvm.org/18.1.8/docs/LangRef.html.  Accessed
    2026-08-01.
+
+.. [#llvm-orcjit] *LLVM Orc JIT v2 Documentation*,
+   "ORC Design and Implementation".
+   https://llvm.org/docs/ORCv2.html#design-overview. Accessed 2026-08-28
 
 .. [#llvm-lto] *LLVM Link Time Optimization: Design and Implementation*.
    https://llvm.org/docs/LinkTimeOptimization.html.  Accessed
@@ -829,9 +846,7 @@ without narrative -- the technical vocabulary of a system
 [#diataxis]_.  The Write the Docs community guide reiterates the
 constraint that reference material should be optimized for lookup
 rather than for narrative reading [#wtd-reference]_.  Guidance on the
-craft of glossary-writing itself -- one entry per concept, plain
-language, definitions that do not re-use the word being defined, and
-concrete examples where possible -- is summarized by Lester at The
+craft of glossary-writing itself is summarized by Lester at The
 Word Factory [#wordfactory-glossary]_.  ISO/IEC/IEEE 26514:2022
 gives the formal standards-track requirements for user documentation,
 including terminology sections [#iso-26514]_.
