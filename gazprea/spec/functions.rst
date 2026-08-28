@@ -54,20 +54,21 @@ using ``returns``.
 
 A function can be given by a single expression. For instance:
 
-::
+.. gazprea-example::
+   :name: function_single_expr
 
-         function times_two(integer x) returns integer = 2 * x;
+   function times_two(integer x) returns integer = 2 * x;
 
-This defines a function called times_two which can be used as follows:
+   procedure main() returns integer {
+       /* Prints 8. value gets assigned the result of calling times_two with
+          an argument of 4 */
+       integer value = times_two(4);
+       value -> std_output; "\n" -> std_output;
+       return 0;
+   }
 
-::
-
-         /* Prints 8. value gets assigned the result of calling times_two with an
-            argument of 4
-          */
-         integer value = times_two(4);
-
-         value -> std_output; "\n" -> std_output;
+   --- output ---
+   8
 
 Functions can have an arbitrary number of arguments. As a matter of
 practicality, your compiler does not need to handle more than 255 arguments. You
@@ -102,24 +103,28 @@ given with the return statement. A return statement must be reached by
 function is encountered; if this cannot be established the compiler must
 emit a ``ReturnError`` (see :ref:`sec:errors`).
 
-::
+.. gazprea-example::
+   :name: function_returnerror
+   :error: ReturnError
 
-         /* Invalid -- should cause a compiler error */
-         function f (boolean b) returns integer {
-           if (b) {
-             return 3;
-           }
-         }
+   /* Invalid -- should cause a compiler error */
+   function f (boolean b) returns integer {
+     if (b) {
+       return 3;
+     }
+   }
 
-         /* Valid, all possible branches hit a return statement with a valid type */
-         function g (boolean b) returns integer {
-           if (b) {
-             return 3;
-           }
-           else {
-             return 8;
-           }
-         }
+   /* Valid, all possible branches hit a return statement with a valid type */
+   function g (boolean b) returns integer {
+     if (b) {
+       return 3;
+     }
+     else {
+       return 8;
+     }
+   }
+
+   procedure main() returns integer { return 0; }
 
 ``f`` is :term:`ill-formed` since if ``b == false``, then we reach the
 end of the function without a return statement, so we do not know what
