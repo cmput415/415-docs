@@ -55,16 +55,37 @@ implementation.**
 **Note**: we will annotate the scope explicitly in these examples. Some
 'illegal' examples here would be legal within a non-global scope.
 
+The legal declarations below form a valid ``constexpr`` chain, so the value
+of ``C`` is known at compile time:
+
+.. gazprea-example::
+   :name: constexpr_scalar
+
+   // ----------------------------
+   // in global scope
+   // ----------------------------
+
+   // Legal Global Constant Expressions
+   const A = 10;
+   const B = A * 2; // Depends on another constexpr
+   const C = B + 5; // C is 25
+
+   procedure main() returns integer {
+       C -> std_output;
+       return 0;
+   }
+
+   --- output ---
+   25
+
+An initializer that depends on a function call is not a ``constexpr``, so in
+global scope the compiler must emit a ``GlobalError`` (see :ref:`sec:errors`):
+
 ::
 
     // ----------------------------
     // in global scope
     // ----------------------------
-
-    // Legal Global Constant Expressions
-    const A = 10;
-    const B = A * 2; // Depends on another constexpr
-    const C = B + 5; // C is 25
 
     // Illegal Global Constant Expressions
     function get_val() returns integer { return 100; }
@@ -82,6 +103,9 @@ allowing them to be used to define other constants:
 every field or element initializer, and any size, must itself be a
 ``constexpr``.
 
+An array can be a ``constexpr``, and indexing one yields a ``constexpr``, so
+it may size a later declaration:
+
 ::
 
      // ----------------------------
@@ -96,13 +120,34 @@ every field or element initializer, and any size, must itself be a
 
      const integer[2] BAD_TABLE = [10, get_val()]; // Illegal: initializer is not a constexpr
 
-     // ----------------------------
-     // in global scope
-     // ----------------------------
-     const CONFIG = (true, 10 * 2); // Legal constexpr tuple
+A ``constexpr`` tuple, and field access on it, are ``constexpr``\ s too:
 
-     const IS_ENABLED = CONFIG.1; // Legal: IS_ENABLED is a constexpr with value 'true'
-     const VALUE = CONFIG.2;      // Legal: VALUE is a constexpr with value 20
+.. gazprea-example::
+   :name: constexpr_tuple
+
+   // ----------------------------
+   // in global scope
+   // ----------------------------
+   const CONFIG = (true, 10 * 2); // Legal constexpr tuple
+
+   const IS_ENABLED = CONFIG.1; // Legal: IS_ENABLED is a constexpr with value 'true'
+   const VALUE = CONFIG.2;      // Legal: VALUE is a constexpr with value 20
+
+   procedure main() returns integer {
+       IS_ENABLED -> std_output;
+       '\n' -> std_output;
+       VALUE -> std_output;
+       return 0;
+   }
+
+   --- output ---
+   T
+   20
+
+Outside global scope, an immutable ``const`` may take a runtime value; it is
+then legal but not a ``constexpr``:
+
+::
 
      // ----------------------------------
      // in local/function/non-global scope
