@@ -46,8 +46,8 @@ to the type of the variable. If it does not, the compiler must emit a
 Assignments can also be more complicated than this with arrays and tuples.
 With arrays indices may be provided in order to change the value of an array
 element. As in any indexing context, an array cannot be indexed with an array
-*value* -- see the :ref:`indexing rules <sssec:array_ops>` for the normative
-statement and its ``TypeError`` -- and a range written directly inside an index
+*value* (see the :ref:`indexing rules <sssec:array_ops>` for the normative
+statement and its ``TypeError``) and a range written directly inside an index
 position is not an array-valued index but forms a
 :ref:`slice <sssec:array_slices>`.
 For instance, with single dimensional arrays:
@@ -161,22 +161,20 @@ The above is a simple example using arrays. You must ensure that values
 cannot be aliased with an assignment between any types, including
 arrays and tuples.
 
-This deep-copy rule has no exceptions; :ref:`array slices <sssec:array_slices>`
-obey it too. Binding a slice to a variable, as in ``const b = a[1..3];``,
+Binding a slice to a variable, as in ``const b = a[1..3];``,
 *copies* the selected elements into a fresh, independent array, so ``b`` does
 not alias ``a`` and neither one sees the other's later writes. A slice writes
 *through* to its backing array only when it is the target on the *left* of an
-assignment (``a[1..3] = [4, 5];``) -- that is the :term:`lvalue` meaning of a
-slice, not an aliasing of two variables. Everywhere else a slice is an ordinary
+assignment (``a[1..3] = [4, 5, 6];``). In other words when the slice denotes
+an :term:`lvalue` with an offset and length into an array.
+Everywhere else a slice is an ordinary
 array value, exactly like an array literal. Every assignment and initialization
--- whole arrays, slices, tuples,
-and structs alike -- deep-copies, so, for example, creating a new struct copies
+deep-copies, so, for example, creating a new struct copies
 the right-hand side and never aliases it through indexing.
 
 Variables may be declared as const, and in this case a program that places them
 on the left hand side of an assignment statement is :term:`ill-formed`.  The
-compiler must emit an ``AssignError`` (see :ref:`sec:errors`) when this is
-detected, since it does not make sense to change a constant value.
+compiler must emit an ``AssignError`` (see :ref:`sec:errors`) on violation.
 
 The right hand side of an assignment statement is always evaluated
 before the left hand side. This is important for cases where procedures
@@ -205,8 +203,11 @@ statements in other languages such as *C/C++*. As an example:
          }
 
 Is a block statement. Declarations may appear anywhere within a block,
-interleaved with the other statements (see :ref:`sec:declaration`). Each block
-statement introduces a new :term:`scope` that new variables may be declared in. For instance this is perfectly valid:
+interleaved with the other statements (see :ref:`sec:declaration`). In previous
+versions of the specification, declarations could only appear at the start of
+the block, this restriction has been removed in gazprea. Each block
+statement introduces a new :term:`scope` that new variables may
+be declared in. For instance this is perfectly valid:
 
 ::
 
