@@ -16,19 +16,20 @@ Global statements must be written in **dependency order**, and this is a hard
 requirement: a global may reference only symbols already defined *earlier* in
 the file, so globals are initialized in the order they are written. A global
 whose initializer references a global not yet defined at that point is
-:term:`ill-formed` -- the referenced name is not yet in :term:`scope` -- so the
-compiler must emit a ``SymbolError`` (see :ref:`sec:errors`). This ordering
-requirement governs global *variable* initializers. References *between*
-functions and procedures are not bound by textual order -- a routine may call
-another that is defined later in the file -- so a forward
-:ref:`prototype <ssec:function_fwd_declr>` is permitted but never necessary.
+:term:`ill-formed` and the
+compiler must emit a ``SymbolError`` (see :ref:`sec:errors`).
 
-A statement other than a declaration at global scope -- an assignment, an
-``if``, a loop, or a bare expression -- must emit a ``GlobalError`` (see
-:ref:`sec:errors`). This is a rule about *context* -- a non-declaration
-statement written at global scope -- and is independent of the target; an
-assignment that targets a global from *within a routine body* is instead an
-``AssignError`` (see :ref:`sec:errors`), since every global is ``const``
+Only global variable initializers are required to be written in dependency
+order. References between
+functions and procedures are not bound by textual order. Consult 
+:ref:`prototype <ssec:function_fwd_declr>` for forward declaration
+rules in functions
+
+A statement other than a declaration at global scope must emit a
+``GlobalError`` (see
+:ref:`sec:errors`). An
+assignment that targets a global from within a routine body instead an
+``AssignError`` (see :ref:`sec:errors`), as every global is ``const``
 (see below).
 
 Variable Declarations
@@ -38,40 +39,31 @@ In *Gazprea* values can be assigned to a global :term:`identifier`. All
 globals must be immutable (``const``). If a global identifier is declared
 with the ``var`` specifier, then the compiler must emit a ``GlobalError``
 (see :ref:`sec:errors`). This restriction is in place since mutable global
-variables would ruin :term:`functional purity`. If functions have access to
-mutable global state then the compiler can no longer guarantee their purity.
+variables would make :term:`functional purity` undecidable in general.
 
 Globals must always be initialized with a valid
 :ref:`constant expression <sec:constexpr>`. Unlike a local variable, a global is
 never implicitly :term:`zero-initialized <zero value>`: a global declared
 without an initializer is :term:`ill-formed`, and the compiler must emit a
-``GlobalError`` (see :ref:`sec:errors`). A zero value is never assumed for a
-global -- if one is intended it must be written explicitly (for example
+``GlobalError`` (see :ref:`sec:errors`). If a zero-value is intended it 
+must be written explicitly (for example
 ``const integer i = 0;`` or ``const integer[3] a = 0;``). A global
 :term:`initializer` may reference other globals and use arithmetic and constexpr
 aggregates, but it must be fully evaluable by the compiler before the
-program runs. This preserves functional purity and enables
-:term:`compile-time <compile time>` optimizations. As a consequence:
+program runs. As a consequence:
 
 *   Functions, procedures, and I/O operations may not appear in a global's
     initializer.
 *   A global ``vector`` or ``string`` is permitted only when it is ``const``
-    with a ``constexpr`` initializer -- which, since every global is already
-    ``const`` (see above), is the same requirement placed on every other
-    global. Because a ``const`` vector cannot grow (its mutating methods
-    ``push``/``append`` require a ``var`` receiver), its length is fixed at
+    with a ``constexpr`` initializer, its length is fixed at
     compile time, so a ``const`` vector is equivalent to an array the size of
-    its initializer (or the empty array, when that initializer is the empty
-    literal ``[]``). Consequently ``const string s = "hi";`` and
-    ``const vector<integer> v = [1, 2, 3];`` are legal globals. (A ``var``
-    vector global is still rejected, but for the independent reason that no
-    global may be ``var``.) An inferred-size array such as
-    ``const integer[*] X = [1, 2, 3]`` is likewise permitted: ``[*]`` denotes
-    an inferred size that is fixed by its ``constexpr`` initializer at compile
-    time (see :ref:`sssec:array_sizing`).
-*   All globals are implicitly ``constexpr``.
+    its initializer. Consequently ``const string s = "hi";`` and
+    ``const vector<integer> v = [1, 2, 3];`` are legal globals. 
+    An inferred-size array such as
+    ``const integer[*] X = [1, 2, 3]`` is likewise permitted if the initializer
+    is a constexpr (see :ref:`sssec:array_sizing`).
 
 The compiler must emit a ``GlobalError`` (see :ref:`sec:errors`) for any
-violation of the above.
+violation of the above rules.
 
-
+*   **lemma**: All globals are ``constexpr``.
