@@ -68,7 +68,8 @@ characters. For example:
    --- output ---
    Hello, World!
 
-:ref:`Matrices <ssec:matrix>` print like an array of arrays. For example:
+:ref:`Matrices <ssec:matrix>` print like an array of arrays. This generalizes
+to arbitrary-rank arrays. For example:
 
 .. gazprea-example-wrap::
    :name: streams_matrix_print
