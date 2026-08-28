@@ -20,14 +20,22 @@ from __future__ import annotations
 from docutils import nodes
 from docutils.parsers.rst import Directive, directives
 
-from gazprea_examples_common import dedent_block, split_program_output
+from gazprea_examples_common import (
+    dedent_block,
+    parse_error_classes,
+    split_program_output,
+)
 
 
 class GazpreaExample(Directive):
     has_content = True
     required_arguments = 0
     optional_arguments = 0
-    option_spec = {"name": directives.unchanged}
+    option_spec = {
+        "name": directives.unchanged,
+        "input": directives.unchanged,
+        "error": directives.unchanged,
+    }
     # Overridden to True by the ``-wrap`` variant; irrelevant to rendering.
     wrap = False
 
@@ -35,6 +43,9 @@ class GazpreaExample(Directive):
         body = dedent_block(list(self.content))
         program_lines, output_lines = split_program_output(body)
         program_text = "\n".join(program_lines)
+        input_str = self.options.get("input")
+        error_opt = self.options.get("error")
+        errors = parse_error_classes(error_opt) if error_opt else None
 
         result: "list[nodes.Node]" = []
         prog = nodes.literal_block(program_text, program_text)
@@ -45,17 +56,41 @@ class GazpreaExample(Directive):
         prog["classes"].append("gazprea-example")
         result.append(prog)
 
-        if output_lines:
-            output_text = "\n".join(output_lines)
-            container = nodes.container(classes=["gazprea-example-output"])
-            label = nodes.paragraph(classes=["gazprea-example-output-label"])
-            label += nodes.strong(text="Output")
+        if input_str is not None:
+            result.append(self._labelled_literal(
+                "Input", input_str, "gazprea-example-input"))
+
+        if errors:
+            # Ill-formed example: show the expected error taxonomy in place of
+            # an output block.  The tangled test only checks that an error
+            # surfaces; the compiler may emit all or a subset of these.
+            container = nodes.container(classes=["gazprea-example-errors"])
+            label = nodes.paragraph(classes=["gazprea-example-errors-label"])
+            label += nodes.strong(text="Errors")
             container += label
-            out = nodes.literal_block(output_text, output_text)
-            out["language"] = "none"
-            container += out
+            para = nodes.paragraph()
+            para += nodes.Text(
+                "This program is ill-formed; the compiler must reject it "
+                f"({', '.join(errors)})."
+            )
+            container += para
             result.append(container)
+        elif output_lines:
+            result.append(self._labelled_literal(
+                "Output", "\n".join(output_lines), "gazprea-example-output"))
         return result
+
+    @staticmethod
+    def _labelled_literal(label_text, body_text, css_class):
+        """A labelled literal block (used for the Input and Output panels)."""
+        container = nodes.container(classes=[css_class])
+        label = nodes.paragraph(classes=[css_class + "-label"])
+        label += nodes.strong(text=label_text)
+        container += label
+        block = nodes.literal_block(body_text, body_text)
+        block["language"] = "none"
+        container += block
+        return container
 
 
 class GazpreaExampleWrap(GazpreaExample):

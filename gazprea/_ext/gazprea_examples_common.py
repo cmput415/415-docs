@@ -36,6 +36,28 @@ RUN_LINE = "// RUN: %gazc %s %t.bin && %t.bin | %FileCheck %s"
 # test only asserts the program compiles and runs to a zero exit status.
 RUN_LINE_NO_OUTPUT = "// RUN: %gazc %s %t.bin && %t.bin"
 
+# Examples that read stdin (the ``:input:`` option) get their input piped in
+# from ``printf`` so each test stays a single self-contained file (no
+# companion ``.ins``).  ``__INP__`` is replaced with the shell-escaped input.
+RUN_INPUT = "// RUN: %gazc %s %t.bin && printf '__INP__' | %t.bin | %FileCheck %s"
+RUN_INPUT_NO_OUTPUT = "// RUN: %gazc %s %t.bin && printf '__INP__' | %t.bin"
+
+# Error examples (the ``:error:`` option) must fail to compile *or* run.
+# ``not sh -c '... && ...'`` treats a failure of either stage as the expected
+# outcome -- covering both compile-time errors (``error: ...``) and runtime
+# traps (``IndexError: ...``) -- without depending on lit's pipefail setting.
+ERROR_RUN = "// RUN: not sh -c '%gazc %s %t.bin && %t.bin' 2>&1 | %FileCheck %s"
+ERROR_RUN_INPUT = (
+    "// RUN: printf '__INP__' | not sh -c '%gazc %s %t.bin && %t.bin' 2>&1 "
+    "| %FileCheck %s"
+)
+# The class is not asserted: gazc names only runtime error classes, while
+# compile-time errors are a plain ``error:``.  Per the weak-testing rule the
+# test only checks that *an* error surfaces -- the compiler may emit all or
+# any subset of the classes the ``:error:`` option lists, which are recorded
+# in a ``// Errors:`` comment for the reader.
+ERROR_CHECK = "// CHECK: {{[Ee]rror:}}"
+
 # Separator between the program and its expected stdout.  Canonical form is
 # ``--- output ---``; leading dashes plus the word "output" are required so
 # the line can never be mistaken for a line of Gazprea source.
@@ -62,6 +84,27 @@ def escape_filecheck(line: str) -> str:
     return _META_RE.sub(
         lambda m: "{{\\" + m.group()[0] + "\\" + m.group()[1] + "}}", line
     )
+
+
+def parse_error_classes(value: str) -> list[str]:
+    """Split an ``:error:`` option value into a list of error-class names.
+
+    Accepts comma- and/or whitespace-separated names, e.g. ``TypeError`` or
+    ``TypeError, CallError``.
+    """
+    return [c for c in re.split(r"[,\s]+", value.strip()) if c]
+
+
+def _printf_arg(s: str) -> str:
+    r"""Escape ``s`` for use inside ``printf '<arg>'`` in a lit RUN line.
+
+    C-style escapes (``\n``, ``\t``, ...) are left intact for printf to
+    interpret; ``%`` is doubled so printf treats it literally; single quotes
+    are shell-escaped so they cannot close the surrounding quote.  The
+    ``:input:`` option is therefore authored with the same ``\n``/``\t``
+    notation the streams chapter already uses to describe stdin.
+    """
+    return s.replace("%", "%%").replace("'", "'\\''")
 
 
 def dedent_block(lines: list[str]) -> list[str]:
@@ -119,18 +162,50 @@ def wrap_in_main(program_text: str) -> str:
     )
 
 
-def render_gaz(program_text: str, output_lines: list[str], wrap: bool) -> str:
+def render_gaz(
+    program_text: str,
+    output_lines: list[str],
+    wrap: bool,
+    input_str: "str | None" = None,
+    errors: "list[str] | None" = None,
+) -> str:
     """Assemble a complete ``.gaz`` lit test from one example.
 
     ``wrap`` injects the ``main`` scaffold (for ``gazprea-example-wrap``).
+    ``input_str`` (the ``:input:`` option) is piped to the program's stdin.
+    ``errors`` (the ``:error:`` option) marks an ill-formed example: the test
+    then asserts the program is *rejected* rather than matching stdout, and
+    any expected output is ignored.
+
     Blank expected-output lines are dropped: an empty ``//CHECK:`` is a hard
     error in FileCheck and a blank line cannot be asserted as a substring.
     """
     body = wrap_in_main(program_text) if wrap else program_text
+
+    if errors:
+        run = ERROR_RUN_INPUT if input_str is not None else ERROR_RUN
+        if input_str is not None:
+            run = run.replace("__INP__", _printf_arg(input_str))
+        parts = [
+            run,
+            "",
+            f"// Errors: {', '.join(errors)}",
+            "",
+            body,
+            "",
+            ERROR_CHECK,
+        ]
+        return "\n".join(parts).rstrip("\n") + "\n"
+
     checks = [
         "//CHECK:" + escape_filecheck(l) for l in output_lines if l.strip() != ""
     ]
-    run = RUN_LINE if checks else RUN_LINE_NO_OUTPUT
+    if input_str is not None:
+        run = (RUN_INPUT if checks else RUN_INPUT_NO_OUTPUT).replace(
+            "__INP__", _printf_arg(input_str)
+        )
+    else:
+        run = RUN_LINE if checks else RUN_LINE_NO_OUTPUT
     parts = [run, "", body, ""]
     parts.extend(checks)
     return "\n".join(parts).rstrip("\n") + "\n"

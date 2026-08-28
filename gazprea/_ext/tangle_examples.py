@@ -34,6 +34,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from gazprea_examples_common import (  # noqa: E402
     dedent_block,
+    parse_error_classes,
     render_gaz,
     slugify,
     split_program_output,
@@ -56,15 +57,19 @@ _OPTION_RE = re.compile(r"^:(?P<key>[\w-]+):[ \t]*(?P<val>.*)$")
 class Example:
     """One parsed ``gazprea-example`` block."""
 
-    __slots__ = ("source", "index", "wrap", "name", "program", "output")
+    __slots__ = (
+        "source", "index", "wrap", "name", "program", "output", "input", "errors",
+    )
 
-    def __init__(self, source, index, wrap, name, program, output):
+    def __init__(self, source, index, wrap, name, program, output, input, errors):
         self.source = source    # rst path relative to the source root
         self.index = index      # 1-based order within that file
         self.wrap = wrap        # gazprea-example-wrap -> wrap in main()
         self.name = name        # explicit :name: option, or None
         self.program = program  # program text (str)
         self.output = output    # expected stdout lines (list[str])
+        self.input = input      # :input: stdin string, or None
+        self.errors = errors    # :error: expected error classes (list[str])
 
 
 def _indent_of(line: str) -> int:
@@ -116,6 +121,7 @@ def parse_file(text: str, rel: str) -> "list[Example]":
 
         body = dedent_block(body)
         program_lines, output_lines = split_program_output(body)
+        error_opt = options.get("error")
         count += 1
         out.append(
             Example(
@@ -125,6 +131,8 @@ def parse_file(text: str, rel: str) -> "list[Example]":
                 name=options.get("name") or None,
                 program="\n".join(program_lines),
                 output=output_lines,
+                input=options.get("input"),
+                errors=parse_error_classes(error_opt) if error_opt else None,
             )
         )
     return out
@@ -193,7 +201,10 @@ def write_archive(named: "list[tuple[str, Example]]", output: Path) -> None:
     # rebuilds produce byte-identical tarballs (nice for CI diffs).
     with tarfile.open(output, "w:gz", format=tarfile.GNU_FORMAT) as tar:
         for fname, ex in named:
-            data = render_gaz(ex.program, ex.output, ex.wrap).encode("utf-8")
+            data = render_gaz(
+                ex.program, ex.output, ex.wrap,
+                input_str=ex.input, errors=ex.errors,
+            ).encode("utf-8")
             info = tarfile.TarInfo(f"{ARCHIVE_PREFIX}/{fname}")
             info.size = len(data)
             info.mtime = 0
@@ -237,8 +248,13 @@ def main(argv: "list[str] | None" = None) -> int:
     if args.list:
         for fname, ex in named:
             kind = "wrap" if ex.wrap else "full"
-            nchecks = sum(1 for l in ex.output if l.strip())
-            print(f"{fname:44s} {kind:4s} {nchecks:2d} check(s)  <- {ex.source}")
+            if ex.errors:
+                note = "error(" + "/".join(ex.errors) + ")"
+            else:
+                nchecks = sum(1 for l in ex.output if l.strip())
+                note = f"{nchecks} check(s)"
+            inp = " +stdin" if ex.input is not None else ""
+            print(f"{fname:40s} {kind:4s} {note}{inp}  <- {ex.source}")
         return 0
 
     write_archive(named, args.output)
