@@ -5,7 +5,7 @@ Namespaces
 
 There are two namespaces in *Gazprea*:
 
-- Type namespace: user-defined types (structs and typealiases).
+- Type namespace: user-defined and builtin types (structs and typealiases).
 - Variable/Function/procedure namespace: variables, functions, and
   procedures.
 
@@ -14,20 +14,18 @@ same namespace cannot share an identifier; the compiler must emit a
 ``SymbolError`` (see :ref:`sec:errors`).
 
 Both namespaces are :term:`lexically scoped <scope>`. The no-sharing rule
-applies within a single scope; a name introduced in an inner scope -- a local
-variable, or a type defined by a local ``struct`` or ``typealias`` -- **shadows**
+applies within a single scope. A name introduced in an inner scope  **shadows**
 any outer name of the same namespace for the extent of that scope and does not
 leak back out. In particular, a type defined inside a function or procedure is
 not added to the global type namespace.
 
-A ``struct``'s field names are **not** a third namespace. Each ``struct``
-introduces its own :term:`declaration scope <scope>` for its fields -- the same
-mechanism by which a block or a function body scopes its local names -- so a
+A ``struct``'s field names can only collide with other field names in the same
+struct. Each ``struct``
+introduces its own :term:`declaration scope <scope>` for its fields, so a
 field name lives in that struct's scope, not in either global namespace, and may
 freely coincide with a type name, a variable/function/procedure name, or a field
-name of another struct. The only constraint applies *within* a single struct:
-its fields must have distinct names. A ``struct`` that declares two fields with
-the same name is :term:`ill-formed`, and the compiler must emit a
+name of another struct. On violation of unique field names in a struct
+the compiler must emit a
 ``SymbolError`` (see :ref:`sec:errors`).
 
 ::
