@@ -13,11 +13,15 @@ following formats:
 
 A declaration creates a variable with an :ref:`identifier <sec:identifiers>` of
 ``<identifier>``, with :ref:`type <sec:types>` ``<type>``, and optionally a
-:ref:`type qualifier <sec:typeQualifiers>` of ``<qualifier>``. The two
+:ref:`type qualifier <sec:typeQualifiers>` of ``<qualifier>``.
+Optionally, a declaration may explicitly initialize the value of the new
+variable with the value of ``<expression>``.
+
+The two
 qualifiers are ``var`` and ``const``, which qualify the identifier as *mutable*
-or *immutable*, respectively. In *Gazprea* it is important to remember that if
+or *immutable*, respectively. In *Gazprea* if
 the optional qualifier is omitted the default is ``const``, i.e. variables are
-immutable by default (normative statement in :ref:`sec:typeQualifiers`).
+immutable by default (see :ref:`sec:typeQualifiers`).
 
 Both ``<qualifier>`` and ``<type>`` are optional, but **at least one must be
 present** so that the declaration can be told apart from an assignment. When
@@ -27,13 +31,8 @@ compiler must emit a ``TypeError`` (see :ref:`sec:typeInference` and
 :ref:`sec:errors`). When ``<qualifier>`` is elided it defaults to ``const`` as
 described above.
 
-Optionally, a declaration may explicitly initialize the value of the new
-variable with the value of ``<expression>``.
-
 In *Gazprea* all variables must be initialized in a well-defined manner in
-order to ensure :term:`functional purity`. If the variables are not
-initialized to a known value their initial value might change depending on
-when the program is run.
+order to ensure :term:`functional purity`.
 *Gazprea* therefore follows a strict RAII-style discipline: every
 declaration is also an :term:`initialization`, and no
 variable is ever observable in an uninitialized state.  When the
@@ -55,6 +54,9 @@ declared without an initializer is legal and holds the zero value of
 its type permanently.
 
 A declaration may appear at **any** point within a block before its first use.
+A previous version of the spec placed restrictions such that declarations
+could only appear at the start of a block, this restriction has been removed
+as of 2026.
 
 A variable's name enters :term:`scope` only after its initializer has
 been evaluated. A program that refers to a variable within its own
@@ -64,10 +66,11 @@ initialization statement is therefore :term:`ill-formed`.
 
        /* All of these declarations are illegal: the right-hand-side identifier
           is not yet in scope during its own initializer. */
-       integer i = i;
-       integer[10] v = v[1] * 2;
+       integer i = i; // assuming that i is not initialized before this point
+       integer[10] v = v[1] * 2; // likewise v
 
-Since the name being declared is not yet in scope during its own initializer,
+if a variable name is referenced in an initializer but is not defined in the
+current scope,
 the reference resolves as usual to the nearest *enclosing*-scope binding of that
 name, if one exists. Only when there is no such outer binding is this a
 reference
@@ -85,6 +88,19 @@ to an undeclared variable, for which the compiler must emit a ``SymbolError``
 
        }
        /* Now 'x' refers to the real version, with a value of 7.0 */
+
+Likewise the following example would be legal, as gazprea allows for
+variable shadowing:
+
+::
+
+       integer x = 7;
+       if (true) {
+         var real x = x;  /* x gets a value of 7.0 */
+         x = x + 1; // x -> std_output would print 8.0
+
+       }
+       /* Now 'x' refers to the integer version, with a value of 7 */
 
 .. _ssec:declaration_special:
 
