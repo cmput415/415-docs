@@ -125,17 +125,22 @@ Competitive Testing
 
 Competitive testing rules are outlined here: :doc:`testing`.
 
+Coherence Testing
+-----------------
+
+Coherence testing was first introduce to check that the tests submitted for
+competitive testing could be compiled by the team that submitted them.
+We can extend this concept to other introspective tests, for example `valgrind`
+is very good at checking if a program leaks memory. Even the time it takes to
+compile a set of benchmark programs can reveal much about the internal structure
+of a compiler.
+
 Performance Testing
 -------------------
 
-Compiler performance can be measured in two dimensions:
-
-* The time it takes to compiler to produce an executable. This measurement can
-  help identity products with good internal design and data structures.
-
-* The speed of the executable your compiler produces. While your compiler will
-  not do direct optimizations itself, it can still produce intermediate code
-  that is amenable to optimization.
+Performance testing attempts to measure the speed of the executable your
+compiler produces. While your compiler will not do direct optimizations itself,
+it can still produce intermediate code that is amenable to optimization.
 
 .. _sec:grading_matrix:
 
