@@ -8,11 +8,13 @@ or another expression.
 
 .. _ssec:expressions_toop:
 
-Table of Operator precedence
+Table of Operator Precedence
 ----------------------------
 
 The following is a table containing all of the precedences and
-associativities of the operators in *Gazprea*.
+associativities of the operators in *Gazprea*. Parentheses are not
+listed: they do not participate in the precedence relation and instead
+override it by grouping their contents into a new atom.
 
 +----------------+------------------------------------+-------------------+
 | **Precedence** | **Operators**                      | **Associativity** |
@@ -21,28 +23,32 @@ associativities of the operators in *Gazprea*.
 +----------------+------------------------------------+-------------------+
 | 2              | ``[]`` (indexing)                  | left              |
 +----------------+------------------------------------+-------------------+
-| 3              | ``..``                             | N/A               |
+| 3              | ``^``                              | right             |
 +----------------+------------------------------------+-------------------+
 | 4              | unary ``+``, unary ``-``, ``not``  | right             |
 +----------------+------------------------------------+-------------------+
-| 5              | ``^``                              | right             |
+| 5              | ``*``\ , ``/``\ , ``%``, ``**``    | left              |
 +----------------+------------------------------------+-------------------+
-| 6              | ``*``\ , ``/``\ , ``%``, ``**``    | left              |
+| 6              | ``+``\ , ``-``                     | left              |
 +----------------+------------------------------------+-------------------+
-| 7              | ``+``\ , ``-``                     | left              |
+| 7              | ``..``                             | N/A               |
 +----------------+------------------------------------+-------------------+
-| 8              | ``by``                             | left              |
+| 8              | ``<``\ , ``>``\ , ``<=``\ , ``>=`` | left              |
 +----------------+------------------------------------+-------------------+
-| 9              | ``<``\ , ``>``\ , ``<=``\ , ``>=`` | left              |
+| 9              | ``==``\ , ``!=``                   | left              |
 +----------------+------------------------------------+-------------------+
-| 10             | ``==``\ , ``!=``                   | left              |
+| 10             | ``and``                            | left              |
 +----------------+------------------------------------+-------------------+
-| 11             | ``and``                            | left              |
+| 11             | ``or``\ , ``xor``                  | left              |
 +----------------+------------------------------------+-------------------+
-| 12             | ``or``\ , ``xor``                  | left              |
+| (Lowest) 12    | ``||``                             | right             |
 +----------------+------------------------------------+-------------------+
-| (Lowest) 13    | ``||``                             | right             |
-+----------------+------------------------------------+-------------------+
+
+The stream operators ``->`` and ``<-`` are statement-level operators, not
+expression operators, so they do not appear in the table above. They bind more
+loosely than every operator listed, being effectively the very bottom of the
+precedence relation. An entire expression is evaluated before it is sent
+to or read from a stream (see :ref:`sec:streams`).
 
 .. _ssec:expressions_generators:
 
@@ -50,53 +56,69 @@ Generators
 ----------
 
 A generator may be used to construct either a one or two dimensional array.
+A generator always yields an :ref:`array <ssec:array>` value
+whose size is settled at the moment the
+generator is evaluated and is fixed thereafter.
 A generator creates a value of a 1D array type when one
 :term:`iterator variable` is used, and a 2D array type when two
 iterator variables are used.
-Any other number of iterator variables will yield an error.
-In particular, *Gazprea* does not currently support generators over
-three or more iterator variables (no direct construction of arrays
-with three or more dimensions).
+Supplying any other number of iterator variables is :term:`ill-formed`: the
+compiler must emit a ``SyntaxError`` (see :ref:`sec:errors`).
+Higher-dimensional generators are a potential addition to a future
+revision of this specification.
 
 The :term:`domain` in a domain expression is any array-typed value:
-static arrays, dynamically-sized :ref:`vectors <ssec:vector>`, and
-:ref:`ranges <ssec:expressions_toop>` all count.  The generator
-dimension is determined solely by how many iterator variables the
-generator introduces (one or two), not by the shape of the domain
-value.
+static arrays, dynamically-sized :ref:`vectors <ssec:vector>`,
+:ref:`strings <ssec:string>`, and :ref:`ranges <sssec:array_ops>`
+all count.
 
 A generator consists of either one or two
 :term:`domain expressions <domain expression>`, and an additional
 expression on the right hand side of the bar (``|``).
 This additional expression is used to create the generated values. For example:
 
-::
+.. gazprea-example-wrap::
+   :name: generator_1d_2d
 
-         integer[10] v = [i in 1..10 | i * i];
-         /* v[i] == i * i */
+   integer[10] v = [i in 1..10 | i * i];
+   /* v[i] == i * i */
 
-         integer[2][3] M = [i in 1..2, j in 1..3 | i * j];
-         /* M[i][j] == i * j */
+   integer[2][3] M = [i in 1..2, j in 1..3 | i * j];
+   /* M[i][j] == i * j */
 
-The expression to the right of the bar (``|``), is used to generate the
+   v -> std_output;
+   '\n' -> std_output;
+   M -> std_output;
+
+   --- output ---
+   [1 4 9 16 25 36 49 64 81 100]
+   [[1 2 3] [2 4 6]]
+
+The expression to the right of the bar (``|``) is used to generate the
 value at the given index.
-Let ``T`` be the type of the expression to the right of the bar (``|``). Then,
-if the domain of the generator is an array of size ``N``, the result will be a
-array of size ``N`` with element type ``T``. Otherwise, if the domain of the
-generator is a matrix of size ``N`` x ``M``, the result will be a matrix of size
-``N`` x ``M`` with element type ``T``.
+
+Let ``T`` be the type of the expression to the right of the bar (``|``).
+With one iterator variable ranging over a domain of size
+``N``, the result is a 1D array of size ``N`` with element type ``T``. With two
+iterator variables ranging over domains of size ``N`` and ``M`` respectively,
+the result is a 2D array of size ``N`` x ``M`` with element type ``T``.
 Generators may be nested, and
 may be used within domain expressions. For instance, the generator below
 is perfectly legal:
 
-::
+.. gazprea-example-wrap::
+   :name: generator_nested
 
-         integer i = 7;
+   integer i = 7;
 
-         /* The domain expression should use the previously defined i \*/
-         integer[*] v = [i in [i in 1..i | i] | [i in 1..10 | i * i][i]];
+   /* The domain expression should use the previously defined i */
+   integer[*] v = [i in [i in 1..i | i] | [i in 1..10 | i * i][i]];
 
-         /* v should contain the first 7 squares. */
+   /* v should contain the first 7 squares. */
+   v -> std_output;
+
+   --- output ---
+   [1 4 9 16 25 36 49]
 
 .. _ssec:expressions_dom_expr:
 
@@ -104,14 +126,14 @@ Domain Expressions
 ------------------
 
 A :term:`domain expression` consists of an :term:`identifier`
-denoting an :term:`iterator variable` and an expression -- the
-:term:`domain` -- that evaluates to **any** array type.
+denoting an :term:`iterator variable` and an expression
+that evaluates to an array type.
 Domain expressions can only appear within
 :ref:`iterator loops <sssec:statements_iter_loop>` and generators.
 A domain expression is a way of declaring a variable that is local to
 the loop or generator, that takes on values from the domain in order.
-The domain must evaluate to a type, which means empty literal arrays
-yield a ``TypeError``.
+The domain's element type must be inferable, so an empty array literal
+yields a ``TypeError``.
 The :term:`scope` of the iterator variable (the left hand side of the
 declaration) is within the body of the generator or loop.
 The domain (the right hand side) is evaluated before any of the
@@ -120,46 +142,78 @@ domain is the one enclosing the iterator loop or generator.
 
 For instance:
 
-::
+.. gazprea-example-wrap::
+   :name: domain_loop_capture
 
-         integer i = 7;
+   integer i = 7;
 
-         /* This will print 1234567 */
-         loop i in 1..i {
-           i -> std_output;
-         }
+   /* This will print 1234567 */
+   loop i in 1..i {
+     i -> std_output;
+   }
 
-Iterator variables are not initialized when they are declared. In
+   --- output ---
+   1234567
+
+Iterator variables are initialized after their domain. In
 loops, :term:`re-initialization` happens at the start of each
-execution of the loop's body statement. We may chain iterator
-variables using commas, such as in matrix generators.
+execution of the loop's body statement. Only generators
+may chain iterator variables
+using commas.
 
-::
+.. gazprea-example-wrap::
+   :name: generator_comma_matrix
 
-         integer i = 2;
+   integer i = 2;
 
-         /* The "i"s both domain expressions are at the same scope, which is
-          * the one enclosing the loop. Therefore the matrix is: [[0 0 0] [0 1 2] [0 2 4]]
-          */
-         integer[3][3] mat = [ i in 0..i, j in 0..i | i*j ];
+   /* The "i"s in both domain expressions are at the same scope, which is
+    * the one enclosing the generator. Therefore the matrix is: [[0 0 0] [0 1 2] [0 2 4]]
+    */
+   integer[3][3] mat = [ i in 0..i, j in 0..i | i*j ];
+   mat -> std_output;
+
+   --- output ---
+   [[0 0 0] [0 1 2] [0 2 4]]
 
 The domain of a domain expression is only evaluated once. For
 instance:
 
-::
+.. gazprea-example-wrap::
+   :name: domain_evaluated_once
 
-         integer x = 1;
+   integer x = 2;
 
-         /* 1..x is only evaluated the first time the loop executes, so it is
-            simply 1..1, and not an infinite loop. */
-         loop i in 1..x {
-           x = x + 1;
-         }
+   /* 1..x is evaluated once, when control first reaches the loop, so it
+      is simply 1..2 -- the two-element range [1, 2] -- and not an infinite
+      loop. */
+   loop i in 1..x {
+     x = x + 1;
+   }
+   x -> std_output;
+
+   --- output ---
+   4
 
 This is true for domain expressions within generators as well.
 
+Because the domain is captured by evaluating it once, a runtime-sized
+domain fixes its iteration count at :term:`initialization`. A :ref:`vector
+<ssec:vector>` or :ref:`string <ssec:string>` may serve as the domain; the
+length it holds at the moment the domain is captured fixes the number of
+iterations, before the loop body executes.
+
+A range domain may be empty. Because ``i..j`` has length ``max(0, j - i + 1)``
+(see :ref:`sssec:array_ops`), a domain such as ``5..1`` is the empty range, so a
+loop or generator over it simply iterates zero times, equivalent to using
+the empty array literal ``[]``:
+
+.. gazprea-example-wrap::
+   :name: empty_range_loop
+
+   loop i in 5..1 { i -> std_output; } /* 5..1 is empty: body runs 0 times */
+
 Iterator variables can be assigned to and :term:`re-declared
-<re-declaration>` within the enclosed iterator loop.  Neither carries
+<re-declaration>` within the enclosed iterator loop. Neither carries
 information into the next iteration: the next iteration performs
 :term:`re-initialization` from the captured domain, so any shadowing
 binding introduced by :term:`re-declaration` is torn down and the
@@ -168,5 +222,12 @@ iterator variable is bound fresh.
 ::
 
          loop i in 1..6 {
+           i -> std_output; // produces 123456
            integer i = 5;
-         }   
+         }
+
+         loop i in 1..6 {
+           integer i = 5;
+           i -> std_output; // produces 555555
+         }
+

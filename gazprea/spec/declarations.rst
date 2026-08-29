@@ -4,87 +4,107 @@ Declarations
 ============
 
 Variables must be declared before they are used. Aside from
-a few :ref:`special cases <ssec:declaration_special>`, declarations have the 
+a few :ref:`special cases <ssec:declaration_special>`, declarations have the
 following formats:
 
 ::
 
-       [<qualifier>] <type> <identifier> [= <expression>];
+       [<qualifier>] [<type>] <identifier> [= <expression>];
 
 A declaration creates a variable with an :ref:`identifier <sec:identifiers>` of
-``<identifier>``, with :ref:`type <sec:types>` ``<type>``, and optionally a :ref:`type qualifier <sec:typeQualifiers>` of ``<qualifier>``.
-The two qualifiers are ``var`` and ``const``, which qualify the identifier as
-*mutable* or *immutable*, respectively.
-In *Gazprea* it is important to remember that if the optional qualifier is
-omitted the default is ``const``, i.e. variables are immutable by default.
-
+``<identifier>``, with :ref:`type <sec:types>` ``<type>``, and optionally a
+:ref:`type qualifier <sec:typeQualifiers>` of ``<qualifier>``.
 Optionally, a declaration may explicitly initialize the value of the new
 variable with the value of ``<expression>``.
 
-In *Gazprea* all variables must be initialized in a well defined manner in
-order to ensure :term:`functional purity`. If the variables are not
-initialized to a known value their initial value might change depending on
-when the program is run.
+The two
+qualifiers are ``var`` and ``const``, which qualify the identifier as *mutable*
+or *immutable*, respectively. In *Gazprea* if
+the optional qualifier is omitted the default is ``const``, i.e. variables are
+immutable by default (see :ref:`sec:typeQualifiers`).
+
+Both ``<qualifier>`` and ``<type>`` are optional, but **at least one must be
+present** so that the declaration can be told apart from an assignment. When
+``<type>`` is elided it is inferred from ``<expression>``, which must therefore
+be present and have an inferable type; if the type cannot be inferred the
+compiler must emit a ``TypeError`` (see :ref:`sec:typeInference` and
+:ref:`sec:errors`). When ``<qualifier>`` is elided it defaults to ``const`` as
+described above.
+
+In *Gazprea* all variables must be initialized in a well-defined manner in
+order to ensure :term:`functional purity`.
 *Gazprea* therefore follows a strict RAII-style discipline: every
-declaration is also an :term:`initialization <initializer>`, and no
+declaration is also an :term:`initialization`, and no
 variable is ever observable in an uninitialized state.  When the
 programmer omits the explicit initializer, the compiler implicitly
-initializes the variable to the *default value* of its type.
-The default value is ``0`` for ``integer`` and ``real``,
-``false`` for ``boolean``, ``' '`` for ``character``, the empty
-string ``""`` for ``string``, and the element-wise default for
-:term:`aggregate types <aggregate type>` (arrays, vectors, tuples,
-structs).  *Gazprea* has no ``null`` value.
+initializes the variable to the :term:`zero value` of its type.
+The zero value is ``0`` for ``integer``, ``0.0`` for ``real``,
+``false`` for ``boolean``, ``'\0'`` (the null character) for ``character``, the
+empty collection (e.g. the empty string ``""``) for a ``vector`` or
+``string``, and, for a fixed-size :term:`aggregate type <aggregate type>`
+(array, matrix, tuple, or struct), each element or field set to its own
+zero value.
+*Gazprea* has no ``null`` value.
+An array's length is likewise settled at :term:`initialization` and is
+then fixed for the remainder of the variable's lifetime (see
+:ref:`sssec:array_sizing`): an uninitialized array holds its declared
+number of elements, each set to the element type's zero value.
+This applies to ``const`` declarations as well: a ``const`` variable
+declared without an initializer is legal and holds the zero value of
+its type permanently.
 
-For simplicity *Gazprea* assumes that declarations can only appear at
-the beginning of a block. For instance this would not be legal in
-*Gazprea*:
+A declaration may appear at **any** point within a block before its first use.
+A previous version of the spec placed restrictions such that declarations
+could only appear at the start of a block, this restriction has been removed
+as of 2026.
 
-::
+A variable's name enters :term:`scope` only after its initializer has
+been evaluated. A program that refers to a variable within its own
+initialization statement is therefore :term:`ill-formed`.
 
-       var integer i = 10;
-       if (blah) {
-         i = i + 1;
-         real i = 0;  // Illegal placement of a declaration.
-       }
+.. gazprea-example-wrap::
+   :name: declaration_self_reference
+   :error: SymbolError
 
-because the declaration of the real version of ``i`` does not occur at
-the start of the block.
+   /* All of these declarations are illegal: the right-hand-side identifier
+      is not yet in scope during its own initializer. */
+   integer i = i; // assuming that i is not initialized before this point
+   integer[10] v = v[1] * 2; // likewise v
 
-The following declaration placement is legal:
+if a variable name is referenced in an initializer but is not defined in the
+current scope,
+the reference resolves as usual to the nearest *enclosing*-scope binding of that
+name, if one exists. Only when there is no such outer binding is this a
+reference
+to an undeclared variable, for which the compiler must emit a ``SymbolError``
+(see :ref:`sec:errors`). So ``integer i = i;`` at the outermost scope is a
+``SymbolError``, whereas the same text nested inside a scope that already binds
+``i`` legally reads the outer ``i``. For instance:
 
-::
+.. gazprea-example-wrap::
+   :name: declaration_enclosing_scope
 
-       var integer i = 10;
-       if (blah) {
-         var real i = 0;  // At the start of the block. All good.
-         i = i + 1;
-       }
+   integer x = 7;
+   if (true) {
+     integer y = x;  /* y gets a value of 7 */
+     real x = x; /* Refers to the enclosing scope's 'x', so this is legal */
 
-The declaration of a variable happens after initialization. A program
-that refers to a variable within its own initialization statement is
-therefore :term:`ill-formed`.
+   }
+   /* Now 'x' refers to the integer version, with a value of 7 */
 
-::
+Likewise the following example would be legal, as gazprea allows for
+variable shadowing:
 
-       /* All of these declarations are illegal, they would result in garbage values. */
-       integer i = i;
-       integer[10] v = v[0] * 2;
+.. gazprea-example-wrap::
+   :name: declaration_shadowing
 
-An error message should be raised about the use of undeclared variables
-in these cases. If a variable of the same name is declared in an
-enclosing :term:`scope`, then it is legal to use that in the initialization
-of a variable with the same name. For instance:
+   integer x = 7;
+   if (true) {
+     var real x = x;  /* x gets a value of 7.0 */
+     x = x + 1; // x -> std_output would print 8.0
 
-::
-
-       integer x = 7;
-       if (true) {
-         integer y = x;  /* y gets a value of 7 */
-         real x = x; /* Refers to the enclosing scope's 'x', so this is legal */
-
-         /* Now 'x' refers to the real version, with a value of 7.0 */
-       }
+   }
+   /* Now 'x' refers to the integer version, with a value of 7 */
 
 .. _ssec:declaration_special:
 

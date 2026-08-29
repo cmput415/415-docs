@@ -9,10 +9,13 @@
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
-#
-# import os
-# import sys
-# sys.path.insert(0, os.path.abspath('.'))
+import os
+import sys
+
+# ``_ext`` holds the project's local Sphinx extensions (the Gazprea example
+# directives) and dependency-free build tools (the Canvas glossary converter
+# and the example tangler).
+sys.path.insert(0, os.path.abspath('_ext'))
 
 
 # -- Project information -----------------------------------------------------
@@ -31,6 +34,9 @@ extensions = [
     'sphinx_rtd_theme',
     'sphinx.ext.todo',
     'sphinx.ext.intersphinx',
+    # Local: the ``gazprea-example`` / ``gazprea-example-wrap`` directives.
+    # See _ext/gazprea_example.py and _ext/tangle_examples.py.
+    'gazprea_example',
 ]
 
 # Reserved for future back-references from Gazprea into sibling specs.

@@ -26,8 +26,8 @@ Hardware Acceleration Laboratory in Markham, ON.
    spec/types
    spec/type_inference
    spec/type_casting
-   spec/type_promotion
-   spec/typedef
+   spec/implicit_casts
+   spec/typealias
    spec/streams
    spec/expressions
    spec/statements
@@ -35,6 +35,8 @@ Hardware Acceleration Laboratory in Markham, ON.
    spec/procedures
    spec/globals
    spec/built_in_functions
+   spec/flags
+   spec/errors
    spec/glossary
 
 .. toctree::

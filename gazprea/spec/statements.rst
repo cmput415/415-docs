@@ -15,116 +15,201 @@ statement contains an :term:`identifier` on the left hand side of an equals
 sign, and an :term:`expression` with a compatible type on the right hand
 side.
 
-::
+.. gazprea-example-wrap::
+   :name: assignment_basic
 
-         var integer x = 7;
+   var integer x = 7;
 
-         x -> std_output;  /* Prints 7 */
+   x -> std_output;  /* Prints 7 */
+   '\n' -> std_output;
 
-         /* Give 'x' a new value */
-         x = 2 * 3;  /* This is an assignment statement */
+   /* Give 'x' a new value */
+   x = 2 * 3;  /* This is an assignment statement */
 
-         x -> std_output;  /* Prints 6 */
+   x -> std_output;  /* Prints 6 */
+
+   --- output ---
+   7
+   6
 
 Type checking must be performed on assignment statements. The expression
-on the right hand side must have a type that can be automatically
-promoted to the type of the variable. For instance:
+on the right hand side must have a type that can be implicitly cast
+to the type of the variable. If it does not, the compiler must emit a
+``TypeError`` (see :ref:`sec:errors`). For instance:
 
-::
+.. gazprea-example-wrap::
+   :name: assignment_typecheck
+   :error: TypeError
 
-         var integer int_var = 7;
-         var real real_var = 0.0;
-         var boolean bool_var = true;
+   var integer int_var = 7;
+   var real real_var = 0.0;
+   var boolean bool_var = true;
 
-         /* Since 'x' is an integer it can be promoted to a real number \*/
-         real_var = int_var;  /* Legal */
+   /* Since 'int_var' is an integer it can be implicitly cast to a real number */
+   real_var = int_var;  /* Legal */
 
-         /* Real numbers can not be turned into boolean values automatically. \*/
-         bool_var = real_var; /* Illegal */
+   /* Real numbers cannot be turned into boolean values automatically. */
+   bool_var = real_var; /* Illegal */
 
 Assignments can also be more complicated than this with arrays and tuples.
 With arrays indices may be provided in order to change the value of an array
-element. In Gazprea, arrays cannot be indexed with array expressions.
+element. As in any indexing context, an array cannot be indexed with an array
+*value* (see the :ref:`indexing rules <sssec:array_ops>` for the normative
+statement and its ``TypeError``) and a range written directly inside an index
+position is not an array-valued index but forms a
+:ref:`slice <sssec:array_slices>`.
 For instance, with single dimensional arrays:
 
-::
+.. gazprea-example-wrap::
+   :name: assignment_array
 
-         var integer[*] v = [0, 0, 0];
+   var integer[*] v = [0, 0, 0];
 
-         /* Can assign an entire array value -- change 'v' to [1, 2, 3] */
-         v = [1, 2, 3];
+   /* Can assign an entire array value -- change 'v' to [1, 2, 3] */
+   v = [1, 2, 3];
 
-         /* Change 'v' to [1, 0, 3] */
-         v[2] = 0;
+   /* Change 'v' to [1, 0, 3] */
+   v[2] = 0;
+   v -> std_output;
+
+   --- output ---
+   [1 0 3]
 
 This applies to arrays of any dimension.
 
+.. gazprea-example-wrap::
+   :name: assignment_matrix
+
+   var integer[*][*] M = [[1, 1], [1, 1]];
+
+   /* Change the entire matrix M to [[1, 2], [3, 4]] */
+   M = [[1, 2], [3, 4]];
+
+   /* Change a single position of M */
+   M[1][2] = 7;  /* M is now [[1, 7], [3, 4]] */
+   M -> std_output;
+
+   --- output ---
+   [[1 7] [3 4]]
+
+Assigning a whole array value changes an array's *contents*, never its
+*length*. Because an array is :term:`initialization`-time sized, its
+length is fixed once at :term:`initialization`; the right hand side is
+fitted to that fixed length, with a shorter value padded using the
+element type's :term:`zero value` and a longer value causing the
+compiler to emit a ``SizeError`` (see :ref:`sec:errors` and
+:ref:`sssec:array_sizing`) at :term:`compile time` or :term:`run time`.
+Assigning to a :ref:`vector <ssec:vector>` behaves differently: it
+replaces the contents *and* the length together, so there is no padding
+and no ``SizeError``.
+
 ::
 
-         var integer[*][*] M = [[1, 1], [1, 1]];
+         var integer[*] a = [1, 2, 3];
 
-         /* Change the entire matrix M to [[1, 2], [3, 4]] */
-         M = [[1, 2], [3, 4]];
+         /* 'a' keeps its fixed length 3; the shorter value is padded with
+            the integer zero value, so 'a' becomes [4, 5, 0]. */
+         a = [4, 5];
 
-         /* Change a single position of M \*/
-         M[1][2] = 7;  /* M is now [[1, 7], [3, 4]] */
+         /* A longer value cannot fit the fixed length -- SizeError. */
+         a = [4, 5, 6, 7];  /* SizeError */
 
-Tuples also have a special unpacking syntax in *Gazprea*. A tuple’s
+::
+
+         var vector<integer> vec = [1, 2, 3];
+
+         /* A vector replaces contents and length together, so 'vec'
+            becomes [4, 5] with length 2 -- no padding, no SizeError. */
+         vec = [4, 5];
+
+Tuples also have a special unpacking syntax in *Gazprea*. A tuple's
 field may be assigned to comma separated variables instead of a tuple
 variable. For instance:
 
-::
+.. gazprea-example-wrap::
+   :name: assignment_tuple_unpack
 
-         var integer x = 0;
-         var real y = 0;
-         var real z = 0;
+   var integer x = 0;
+   var real y = 0;
+   var real z = 0;
 
-         tuple(integer, real) tup = (1, 2.0);
+   tuple(integer, real) tup = (1, 2.0);
 
-         /* x == 1, and y == 2.0 now */
-         x, y = tup;
+   /* x == 1, and y == 2.0 now */
+   x, y = tup;
 
-         /* Types can be promoted */
+   /* Types can be implicitly cast */
 
-         /* z == 1.0, y == 2.0 */
-         z, y = tup;
+   /* z == 1.0, y == 2.0 */
+   z, y = tup;
 
-         /* Can swap: z == 2.0, y == 1.0 */
-         z, y = (y, z);
+   /* Can swap: z == 2.0, y == 1.0 */
+   z, y = (y, z);
 
-The types of the variables must match the types of the tuple’s fields,
-or the tuple’s fields must be able to be automatically promoted to the
-variable’s type. The number of variables in the comma separated list
-must match the number of fields in the tuple, if this is not the case an
-error should be raised. This assignment is performed left-to-right.
+   x -> std_output; '\n' -> std_output;
+   y -> std_output; '\n' -> std_output;
+   z -> std_output;
+
+   --- output ---
+   1
+   1
+   2
+
+The types of the variables must match the types of the tuple's fields,
+or the tuple's fields must be able to be implicitly cast to the
+variable's type; otherwise the compiler must emit a ``TypeError`` (see
+:ref:`sec:errors`). The number of variables in the comma separated list
+must match the number of fields in the tuple, if this is not the case the
+compiler must emit an ``AssignError`` (see :ref:`sec:errors`). This
+assignment is performed left-to-right. The entire right-hand side is, however,
+fully evaluated into a temporary *before* any left-hand-side variable is
+written; this is what lets a swap such as ``z, y = (y, z);`` behave as expected
+even though the individual writes then happen left-to-right.
 
 Assignments and initializations must perform a deep copy. It should not
 be possible to cause the aliasing of memory locations with an
 assignment. For instance:
 
-::
+.. gazprea-example-wrap::
+   :name: assignment_deep_copy
 
-         integer[*] v = [1, 2, 3];
-         var integer[*] w = v;
+   integer[*] v = [1, 2, 3];
+   var integer[*] w = v;
 
-         w[2] = 0;  /* This must not affect 'v' */
+   w[2] = 0;  /* This must not affect 'v' */
 
-         /* v has the value [1, 2, 3] */
-         /* w has the value [1, 0, 3] */
+   /* v has the value [1, 2, 3] */
+   /* w has the value [1, 0, 3] */
 
-         /* If you are not careful, you might copy the pointer of 'v' to 'w',
-            which would cause them to be stored in the same location in memory. If
-            this happens modifying 'w' would change 'v' as well.
-          */
+   /* If you are not careful, you might copy the pointer of 'v' to 'w',
+      which would cause them to be stored in the same location in memory. If
+      this happens modifying 'w' would change 'v' as well.
+    */
+   v -> std_output; '\n' -> std_output;
+   w -> std_output;
+
+   --- output ---
+   [1 2 3]
+   [1 0 3]
 
 The above is a simple example using arrays. You must ensure that values
-can not be aliased with an assignment between any types, including
+cannot be aliased with an assignment between any types, including
 arrays and tuples.
 
-Variables may be declared as const, and in this case a program that
-places them on the left hand side of an assignment expression is
-:term:`ill-formed`.  The compiler should raise an error when this is
-detected, since it does not make sense to change a constant value.
+Binding a slice to a variable, as in ``const b = a[1..3];``,
+*copies* the selected elements into a fresh, independent array, so ``b`` does
+not alias ``a`` and neither one sees the other's later writes. A slice writes
+*through* to its backing array only when it is the target on the *left* of an
+assignment (``a[1..3] = [4, 5, 6];``). In other words when the slice denotes
+an :term:`lvalue` with an offset and length into an array.
+Everywhere else a slice is an ordinary
+array value, exactly like an array literal. Every assignment and initialization
+deep-copies, so, for example, creating a new struct copies
+the right-hand side and never aliases it through indexing.
+
+Variables may be declared as const, and in this case a program that places them
+on the left hand side of an assignment statement is :term:`ill-formed`.  The
+compiler must emit an ``AssignError`` (see :ref:`sec:errors`) on violation.
 
 The right hand side of an assignment statement is always evaluated
 before the left hand side. This is important for cases where procedures
@@ -152,24 +237,34 @@ statements in other languages such as *C/C++*. As an example:
            x -> std_output; "\n" -> std_output; z -> std_output; "\n" -> std_output;
          }
 
-Is a block statement. Declarations can only appear at the start of a
-block. Each block statement introduces a new scope that new variables
-may be declared in. For instance this is perfectly valid:
+Is a block statement. Declarations may appear anywhere within a block,
+interleaved with the other statements (see :ref:`sec:declaration`). In previous
+versions of the specification, declarations could only appear at the start of
+the block, this restriction has been removed in gazprea. Each block
+statement introduces a new :term:`scope` that new variables may
+be declared in. For instance this is perfectly valid:
 
-::
+.. gazprea-example-wrap::
+   :name: block_scope_shadowing
 
-         integer x = 3;
-         var integer y = 0;
-         var real z = 0;
+   integer x = 3;
+   var integer y = 0;
+   var real z = 0;
 
-         {
-           real x = 7.1;
-           z = x;
-         }
+   {
+     real x = 7.1;
+     z = x;
+   }
 
-         y = x;
+   y = x;
+   y -> std_output; '\n' -> std_output;
+   z -> std_output;
 
-After execution this ``y = 3`` and ``z = 7.1``.
+   --- output ---
+   3
+   7.1
+
+After execution, ``y == 3`` and ``z == 7.1``.
 
 .. _ssec:statements_cond:
 
@@ -181,6 +276,11 @@ statement for the body. If the conditional expression evaluates to true,
 then the body is executed. If the conditional expression evaluates to
 false then the body of the if statement is not executed. If statements
 in *Gazprea* require the conditional expression to be enclosed in parentheses.
+
+The conditional expression must be a **scalar** ``boolean``. Supplying a
+non-boolean value, or a boolean *array* such as ``if ([true, false])``, is a
+``TypeError`` (see :ref:`sec:errors`). The same requirement applies to the
+control expression of a :ref:`predicated loop <sssec:statements_pred_loop>`.
 
 ::
 
@@ -219,7 +319,7 @@ is actually equivalent to the following:
 
 ::
 
-         if (x == 4) {
+         if (x == 3) {
            y = 7;
          }
 
@@ -265,7 +365,19 @@ Now if ``x`` does not have a value of 3, ``y`` is assigned a value of
 Loop
 ----
 
-.. _sssec:statements_inf_Loop:
+*Gazprea* has a single ``loop`` keyword that forms four loop variants, all
+valid:
+
+- an **infinite loop** -- ``loop <body>`` with no control expression;
+- a **pre-predicated** (``while``-style) loop --
+  ``loop while (<cond>) <body>``;
+- a **post-predicated** (``do``-``while``-style) loop --
+  ``loop <body> while (<cond>);``;
+- an **iterator** (``for``-style) loop -- ``loop <var> in <domain> <body>``.
+
+Each variant is described below.
+
+.. _sssec:statements_inf_loop:
 
 Infinite Loop
 ~~~~~~~~~~~~~
@@ -301,24 +413,37 @@ when it is checked.
 
 The loop can be pre-predicated, which means that the control expression
 is tested before the body statement is executed. This is the same
-behaviour as while loops in most languages, and is written using the
+behavior as while loops in most languages, and is written using the
 ``while`` token after the ``loop``, followed by a boolean expression for the
 predicate. For example:
 
-::
+.. gazprea-example-wrap::
+   :name: loop_pre_predicated
 
-           var integer x = 0;
+   var integer x = 0;
 
-           /* Print 1 to 10 */
-           loop while (x < 10) {
-             x = x + 1;
-             x -> std_output; "\n" -> std_output;
-           }
+   /* Print 1 to 10 */
+   loop while (x < 10) {
+     x = x + 1;
+     x -> std_output; "\n" -> std_output;
+   }
+
+   --- output ---
+   1
+   2
+   3
+   4
+   5
+   6
+   7
+   8
+   9
+   10
 
 A post-predicated loop is also available. In this case the control
 expression is tested after the body statement is executed. This also
 uses the ``while`` token followed by the control expression, but it appears
-at the end of the loop. Post Predicated loop statements must end in a
+at the end of the loop. Post-predicated loop statements must end in a
 semicolon.
 
 ::
@@ -328,12 +453,47 @@ semicolon.
            /* Since the conditional is tested after the execution '10' is printed */
            loop x -> std_output; while (x == 0);
 
+The body may equally be a block statement; the trailing ``while`` and its
+required semicolon are what distinguish a post-predicated loop from a plain
+:ref:`infinite loop <sssec:statements_inf_loop>` over a block:
+
+.. gazprea-example-wrap::
+   :name: loop_post_predicated
+
+   var integer x = 0;
+
+   /* Prints 1 to 10; the condition is tested after each pass */
+   loop {
+     x = x + 1;
+     x -> std_output; "\n" -> std_output;
+   } while (x < 10);
+
+   --- output ---
+   1
+   2
+   3
+   4
+   5
+   6
+   7
+   8
+   9
+   10
+
+The single-statement post-predicated form (``loop <stmt>; while (cond);``) is
+distinguished from a plain :ref:`infinite loop <sssec:statements_inf_loop>` whose
+body is that same statement only by the trailing ``while``, so the two
+productions can diverge arbitrarily far into the input. *ANTLR*'s adaptive
+``LL(*)`` prediction resolves this without special effort, but a hand-written or
+fixed-lookahead ``LL(k)`` grammar will need care around this production.
+
 .. _sssec:statements_iter_loop:
 
 Iterator Loop
 ~~~~~~~~~~~~~
 
-Loops can be used to iterate over the elements of an array of any type.
+Loops can be used to iterate over the elements of an array of any type, or
+over a :ref:`vector <ssec:vector>` or :ref:`string <ssec:string>`.
 This is done by using :term:`domain expressions <domain expression>`
 (for instance ``i in v``) in conjunction with a loop statement.  In a
 domain expression ``x in E``, ``x`` is the :term:`iterator variable`
@@ -346,56 +506,70 @@ starting from index 1, and going up to the final element of the array.
 When all of the elements of the domain array have been used the loop
 automatically exits. For instance:
 
-::
+.. gazprea-example-wrap::
+   :name: loop_iterator_array
 
-           /* This will print 123 */
-           loop i in [1, 2, 3] {
-             i -> std_output;
-           }
+   /* This will print 123 */
+   loop i in [1, 2, 3] {
+     i -> std_output;
+   }
+
+   --- output ---
+   123
 
 Array ranges can also be used instead:
 
-::
+.. gazprea-example-wrap::
+   :name: loop_iterator_range
 
-           // This will print 123
-           loop i in 1..3 {
-             i -> std_output;
-           }
+   // This will print 123
+   loop i in 1..3 {
+     i -> std_output;
+   }
 
-The domain is evaluated once, when control first reaches the loop, and
-the resulting value is captured for the lifetime of the loop.  Each
-iteration then performs :term:`re-initialization`: a fresh binding of
-the iterator variable to the next element of the captured domain.
-Subsequent modifications to any variable that appeared in the domain
-expression do not affect the captured domain.  For instance:
+   --- output ---
+   123
 
-::
+The domain is evaluated once, when control first reaches the loop; see
+:ref:`ssec:expressions_dom_expr` for the full evaluate-once and
+:term:`re-initialization` semantics of the iterator variable on each
+pass.
 
-           var integer[*] v = [i in 1..3 | i];
+Note that multiple domain expressions are *not* allowed; the compiler
+must emit a ``SyntaxError`` (see :ref:`sec:errors`) for an iterator loop
+with more than one domain expression.
 
-           /* Since 'v' is captured on loop entry this loop prints 1,
-              2, and then 3 even though after the first iteration 'v'
-              is the zero array. */
-           loop i in v {
-             v = 0;
-             i -> std_output; "\n" -> std_output;
-           }
+.. gazprea-example-wrap::
+   :name: loop_multiple_domains_illegal
+   :error: SyntaxError
 
-Note that multiple domain expressions are *not* allowed:
+   integer[*] u = [1, 2];
+   integer[*] v = [3, 4];
 
-::
+   // This is illegal
+   loop i in u, j in v {
+     "Hello!\n" -> std_output;
+   }
 
-           // This is illegal
-           loop i in u, j in v {
-             "Hello!\n" -> std_output;
-           }
+If you want multiple domains, use a nested loop instead:
 
-           // If you want multiple domains, use a nested loop
-           loop i in u {
-             loop j in v {
-               "Hello!\n" -> std_output;
-             }
-           }
+.. gazprea-example-wrap::
+   :name: loop_nested_domains
+
+   integer[*] u = [1, 2];
+   integer[*] v = [3, 4];
+
+   loop i in u {
+     loop j in v {
+       "Hello!\n" -> std_output;
+     }
+   }
+
+   --- output ---
+   Hello!
+   Hello!
+   Hello!
+   Hello!
 
 .. _ssec:statements_break:
 
@@ -404,31 +578,38 @@ Break
 
 A ``break`` statement may only appear within the body of a loop. When a
 ``break`` statement is executed the loop is exited, and *Gazprea* continues
-to execute after the loop. This only exits the innermost loop, which
+to execute after the loop. This only exits the innermost loop that
 actually contains the ``break``.
 
-::
+.. gazprea-example-wrap::
+   :name: break_nested_loop
 
-         /* Prints a 3x3 square of *'s */
-         integer x = 0;
-         var integer y = 0;
+   /* Prints a 3x3 square of *'s */
+   var integer x = 0;
+   var integer y = 0;
 
-         loop while (y < 3) {
-           y = y + 1;
+   loop while (y < 3) {
+     y = y + 1;
+     x = 0;   /* reset the column counter at the start of each row */
 
-           /* Normally this would loop forever, but the break exits this inner loop */
-           loop {
-             if (x >= 3) break;
+     /* Normally this would loop forever, but the break exits this inner loop */
+     loop {
+       if (x >= 3) break;
 
-             x = x + 1;
-             "*" -> std_output;
-           }
+       x = x + 1;
+       "*" -> std_output;
+     }
 
-           "\n" -> std_output;
-         }
+     "\n" -> std_output;
+   }
 
-If a ``break`` statement is not contained within a loop an error must be
-raised.
+   --- output ---
+   ***
+   ***
+   ***
+
+If a ``break`` statement is not contained within a loop the compiler must
+emit a ``StatementError`` (see :ref:`sec:errors`).
 
 .. _ssec:statements_continue:
 
@@ -437,23 +618,36 @@ Continue
 
 Similarly to ``break``, ``continue`` may only appear within the body of
 a loop. When a ``continue`` statement is executed the innermost loop
-that contains the ``continue`` statements starts its next iteration.
-``continue`` stops the execution of the loop’s body statement, the loop
+that contains the ``continue`` statement starts its next iteration.
+``continue`` stops the execution of the loop's body statement, the loop
 then continues as though the body statement finished its execution
-normally.
+normally. If a ``continue`` statement is not contained within a loop the
+compiler must emit a ``StatementError`` (see :ref:`sec:errors`).
 
-::
+.. gazprea-example-wrap::
+   :name: continue_skip
 
-         /* Prints every number between 1 and 10, except for 7 */
-         var integer x = 0;
+   /* Prints every number between 1 and 10, except for 7 */
+   var integer x = 0;
 
-         loop while (x < 10) {
-           x = x + 1;
+   loop while (x < 10) {
+     x = x + 1;
 
-           if (x == 7) continue;  /* Start at the beginning of the loop, skip 7 */
+     if (x == 7) continue;  /* Start at the beginning of the loop, skip 7 */
 
-           x -> std_output; "\n" -> std_output;
-         }
+     x -> std_output; "\n" -> std_output;
+   }
+
+   --- output ---
+   1
+   2
+   3
+   4
+   5
+   6
+   8
+   9
+   10
 
 .. _ssec:statements_return:
 
@@ -465,15 +659,32 @@ procedure. When a function/procedure returns then execution continues where the
 function/procedure was called.
 
 If the function/procedure has a return type then the ``return`` statement must
-be given a value that is the same as or able to be promoted to (see
-:ref:`sec:typePromotion`) the return type; this will be the result of the
-function/procedure call. Here is an example:
+be given a value that is the same as or able to be implicitly cast to (see
+:ref:`sec:implicitCasts`) the return type; this will be the result of the
+function/procedure call. If the value is neither, the compiler must emit a
+``TypeError`` (see :ref:`sec:errors`). Here is an example:
 
-::
+.. gazprea-example::
+   :name: return_value
 
-  function square(integer x) returns integer {
-    return x * x;
-  }
+   function square(integer x) returns integer {
+     return x * x;
+   }
+
+   procedure main() returns integer {
+     square(5) -> std_output;
+     return 0;
+   }
+
+   --- output ---
+   25
+
+A :ref:`function <sec:function>`, and a :ref:`procedure <sec:procedure>` that
+has a ``returns`` clause, must return a value on **every** control-flow path.
+If control can reach the end of the body without executing a ``return``, the
+program is :term:`ill-formed` and the compiler must emit a ``ReturnError``
+(see :ref:`sec:errors`); see :ref:`sec:function` and :ref:`sec:procedure` for
+the full rule and examples.
 
 If a procedure has no ``returns`` clause, then it has no return type and a
 ``return`` statement is not required but may still be present in order to
@@ -490,18 +701,29 @@ return early. In this case return is used as follows:
 Stream Statements
 -----------------
 
-Stream statements are the statements used to read and write values in
-*Gazprea*.
+See :ref:`sec:streams` for the streams *Gazprea* provides and their
+output/input formatting rules. Stream statements are the statements
+used to read and write values in *Gazprea*.
 
 Output example:
 
-::
+.. gazprea-example-wrap::
+   :name: stream_output
 
-         2 * 3 -> std_output;  /* Prints 6 */
+   2 * 3 -> std_output;  /* Prints 6 */
+
+   --- output ---
+   6
 
 Input example:
 
-::
+.. gazprea-example-wrap::
+   :name: stream_input
+   :input: 42
 
-         var integer x;
-         x <- std_input; /* Read an integer into x */
+   var integer x;
+   x <- std_input; /* Read an integer into x */
+   x -> std_output;
+
+   --- output ---
+   42

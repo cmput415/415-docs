@@ -1,7 +1,13 @@
-.. _sec:errors:
+.. _sec:errors_impl:
 
-Errors
-======
+Errors (Implementation)
+=======================
+
+The **normative error taxonomy** -- the set of error classes and the condition
+under which each must be emitted -- lives in the specification part, at
+:ref:`sec:errors`. This chapter covers only the *mechanics* of reporting those
+errors; the per-class notes below are implementation reminders that defer to
+that taxonomy.
 
 Your implementation is required to report both :term:`compile-time <compile time>` and :term:`run-time <run time>` errors.
 You must use the exceptions defined in ``include/CompileTimeExceptions.h`` and
@@ -65,7 +71,9 @@ keyword.
 
     throw MainError(1, "program does not have a main procedure");
 
-Here are the compile-time errors your compiler must throw: 
+The compiler must throw the following exceptions. Each corresponds to an error
+class defined normatively in :ref:`sec:errors`; the notes here add
+implementation-specific reminders (line numbers, tester leniency):
 
 * ``SyntaxError``
 
@@ -103,16 +111,18 @@ Here are the compile-time errors your compiler must throw:
     Raised during compilation if the program detects a function or procedure
     with a return value that does not have a return statement reachable by all
     control flows. Control flow constructs may be assumed to always be undecidable,
-    meaning they may branch in either direction.
+    meaning they may branch in either direction. When the function or procedure is missing
+    a reachable ``return`` statement, the line number of the function or
+    procedure declaration should be printed.
 
-    If the subroutine has a ``return`` statement with a type that does not
-    match the owning subroutine's type, the line number of the ``return``
-    statement should be reported, along with the name and (correct) type of the
-    enclosing routine.
-
-    Note also that, strictly speaking, this is a type error, not a return error.
-    If the procedure/function is missing a ``return`` statement, then the line
-    number of the subroutine declaration should be printed instead.
+    A ``return`` statement whose value's type does not match, and cannot be
+    implicitly cast to, the owning function or procedure's return type is normalized as a
+    ``TypeError`` (see the ``TypeError`` entry above and :ref:`sec:statements`),
+    **not** a ``ReturnError``; the line number of the ``return`` statement
+    should be reported, along with the name and (correct) type of the enclosing
+    function or procedure. (The tester is lenient about the exact error name here -- it
+    checks only for the substring "Error" and the line -- as noted at the end
+    of this chapter.)
 
 * ``GlobalError``
 
@@ -145,8 +155,13 @@ Here are the compile-time errors your compiler must throw:
 
 * ``MathError``
 
-    May be raised during compile time expression evaluation when division by zero occurs.
-    Conditions for raising are equivalent to a :term:`runtime <run time>` ``MathError``.
+    Raised for the integer math faults defined normatively in :ref:`ssec:integer`
+    -- signed 32-bit overflow, division or ``%`` by ``0``, and exponentiation of
+    base ``0`` with a non-positive exponent. ``real`` arithmetic never raises a
+    ``MathError`` (it follows IEEE 754; see :ref:`ssec:real`). This error may be
+    raised at compile time when the faulting expression is evaluated during
+    constant folding; the conditions are identical to the :term:`runtime <run
+    time>` ``MathError``.
 
 * ``IndexError``
 
@@ -158,11 +173,6 @@ Here are the compile-time errors your compiler must throw:
     May be raised during compilation if the compiler detects an operation or statement
     is applied to or between arrays with invalid or incompatible
     sizes. 
-
-* ``StrideError``
-
-    May be raised during compilation if the ``by`` operation is used with a stride value
-    ``<=0``.
 
 Here is an example invalid program and a corresponding compile-time error:
 
@@ -203,13 +213,10 @@ at compile time or at runtime and the tester will accommodate different implemen
 
 * ``MathError``
 
-    Raised at runtime if either zero to the power of N, where N is <= 0, or a
-    division by zero is evaluated.
-
-* ``StrideError``
-
-    Raised at runtime if the ``by`` operation is used with a stride value
-    ``<=0``.
+    Raised at runtime for the integer math faults defined normatively in
+    :ref:`ssec:integer` (signed 32-bit overflow, division or ``%`` by ``0``, and
+    exponentiation of base ``0`` with a non-positive exponent). ``real``
+    arithmetic never raises a ``MathError``; see :ref:`ssec:real`.
 
 Here is an example :term:`ill-formed` program. If your compiler is smart, you may raise the later error, if you
 prefer not to implement static analysis, the former error can be emitted at runtime.
@@ -218,7 +225,7 @@ prefer not to implement static analysis, the former error can be emitted at runt
 
     1 procedure main() returns integer {
     2     integer[3] x = [2, 4, 6];
-    3     return integer[4];
+    3     return x[4];
     4 }
 
 ::
@@ -236,20 +243,29 @@ More Examples
 ::
 
    /* Indexes */
-   character[3] v = ['a', 'b', 'c']; // Indexing is harder than it looks!
+   var character[3] v = ['a', 'b', 'c']; // Indexing is harder than it looks!
    integer i = 10;
-   v(3) = 'X'; // SyntaxError
+   v(3) = 'X'; // SyntaxError: a call expression cannot be an assignment target
    v[i] = '?'; // Runtime error
    v['a'] = '!'; // TypeError
-   i[1] = 1; // SymbolError
+   i[1] = 1; // TypeError
 
    /* Tuples */
    tuple (integer, integer) a = (9, 5);
-   integer b;
-   integer c;
-   integer d;
+   var integer b;
+   var integer c;
+   var integer d;
    b, c, d = a; // AssignError
    tuple(integer, integer, integer) z = a; // TypeError
+
+``v(3) = 'X'`` is a ``SyntaxError`` because ``v(3)`` parses as a *call*
+expression, and a call expression cannot appear on the left-hand side of an
+assignment; the malformed assignment target is rejected at parse time, before
+any type checking. (Indexing uses square brackets, ``v[3]``.) The ``b, c, d``
+are declared ``var`` so that ``b, c, d = a;`` is purely the intended arity
+mismatch (three lvalues, a two-field tuple) rather than also an assignment to
+``const`` values -- both are ``AssignError``\ s, but the example is meant to
+isolate the arity case.
 
 
 How to Write an Error Test Case
@@ -293,13 +309,14 @@ example of a run-time error test case and the corresponding expected output file
 ::
 
   procedure main() returns integer {
-    1..1 by 0 -> std_output;
+    integer x = 0;
+    5 / x -> std_output;
     return 0;
   }
 
 ::
 
-  StrideError
+  MathError
 
 How to make the Tester Happy
 ------------------------------------------
