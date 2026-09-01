@@ -51,6 +51,8 @@ intersphinx_mapping = {
                   ('../gazprea/_build/html/objects.inv', None)),
     'setup':     ('https://cmput415.github.io/415-docs/setup',
                   ('../setup/_build/html/objects.inv', None)),
+    'vcalc':     ('https://cmput415.github.io/415-docs/vcalc',
+                  ('../vcalc/_build/html/objects.inv', None)),
 }
 
 # Never let a bare :doc:`foo` silently resolve to a sibling project's page;
@@ -108,6 +110,7 @@ html_static_path = ['_static']
 # or fully qualified paths (eg. https://...)
 html_css_files = [
     'css/googleFonts.css',
+    'css/tables.css',
 ]
 
 # Disable syntax highlighting in code blocks
