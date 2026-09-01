@@ -43,6 +43,7 @@ Hardware Acceleration Laboratory in Markham, ON.
    :maxdepth: 2
    :caption: Implementation
 
+   impl/architecture
    impl/backend
    impl/part_1
    impl/part_2

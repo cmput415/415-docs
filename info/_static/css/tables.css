@@ -1,0 +1,5 @@
+/* The RTD theme sets white-space: nowrap on table cells, which forces wide
+ * tables horizontally scrollable. Tables marked .wrap-table wrap instead. */
+.wrap-table td, .wrap-table th {
+    white-space: normal !important;
+}
