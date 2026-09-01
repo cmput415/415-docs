@@ -27,7 +27,7 @@ recommended strategy.
       * :ref:`ssec:typeQualifiers_var`
       * :ref:`ssec:typeQualifiers_const`
 
-   * :ref:`sec:typePromotion`
+   * :ref:`sec:implicitCasts`
    * :ref:`sec:typeCasting`
    * :ref:`sec:typeInference`
    * :ref:`sec:typealias`
@@ -99,4 +99,8 @@ recommended strategy.
 
    * DefinitionError
 
+   * LiteralError (integer and character literals are Part 1)
+
    * MathError
+
+   * IndexError (tuples are Part 1; an out-of-range tuple index is an IndexError)

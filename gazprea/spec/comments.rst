@@ -8,26 +8,31 @@ Comments
 Single line comments are made using ``//``. Anything on the line after
 the two adjacent forward slashes is ignored. For example:
 
-::
+.. gazprea-example-wrap::
+   :name: comments_line
 
-   	integer x = 2 * 3;  // This is ignored
+   integer x = 2 * 3;  // This is ignored
 
 Multi-line block comments are made using **/\*** and **\*/**. The start
 of a block comment is marked using **/\***, and the end of the block
 comment is the **first** occurrence of the sequence of characters
 **\*/**. For example:
 
-::
+.. gazprea-example-wrap::
+   :name: comments_block
 
-    /* This is a block comment. It can span as many lines as we want, and
-       only ends when the closing sequence is encountered.
-     */
-    integer x = 2 * 3;  /* Block comments can also be on a single line */
+   /* This is a block comment. It can span as many lines as we want, and
+      only ends when the closing sequence is encountered.
+    */
+   integer x = 2 * 3;  /* Block comments can also be on a single line */
 
 Block comments cannot be nested because the comment finishes when it
 reaches the first closing sequence.  For example, the following is
-:term:`ill-formed` (the second ``*/`` has no matching ``/*``):
+:term:`ill-formed` (the second ``*/`` has no matching ``/*``); the compiler must
+emit a ``SyntaxError`` (see :ref:`sec:errors`):
 
-::
+.. gazprea-example-wrap::
+   :name: comments_nested_illegal
+   :error: SyntaxError
 
-     /* A comment /* A nested comment */ */
+   /* A comment /* A nested comment */ */

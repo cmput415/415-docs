@@ -1,5 +1,5 @@
 More Information
-============================
+================
 
 .. toctree::
    .. :numbered:

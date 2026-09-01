@@ -22,3 +22,17 @@ tmp/
 # Ignore Python bytecode caches.
 __pycache__/
 *.pyc
+
+# uv-managed virtualenv for the pyproject
+.venv/
+
+# agent session machinery (volatile)
+.agents/gnupg/
+.agents/state/
+.agents/agent-env.sh
+.agents/agent-pubkey.asc
+.agents/scratch/
+# rendered outputs of .agents/*.tmpl -- regenerated each session by render.py
+.agents/bootstrap.sh
+.agents/check.sh
+.agents/healthcheck.sh

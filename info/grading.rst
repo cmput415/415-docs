@@ -1,6 +1,26 @@
 Grading
 =======
 
+Programming assignments are assessed from three different perspectives:
+written artefects or deliverables, a lab quiz, and a peer evaluation.
+This section describes each grading element so that you and your team can
+prepare as needed. The weighting of each grading perspective is as follows:
+
+
++-------------------+-----------+---------+--------+--------------+--------------+
+| **Perspective**   | Generator | LOLCODE | VCalc  |  Gazprea P1  |  Gazprea P2  |
++===================+===========+=========+========+==============+==============+
+| Written Artefacts | 40%       | 50%     | 60%    | 34%          | 50%          |
++-------------------+-----------+---------+--------+--------------+--------------+
+| Lab Quiz          | 60%       | 50%     | 40%    | 33%          | 0%           |
++-------------------+-----------+---------+--------+--------------+--------------+
+| Peer Evaluation   | 0%        | 0%      | 0%     | 33%          | 50%          |
++-------------------+-----------+---------+--------+--------------+--------------+
+
+
+Written Artefacts
+------------------
+
 A successful product or project is the culmination of many small parts that
 work together. No one part can take all the credit for a success, they must
 all be present and executed correctly. While different projects emphasize and
@@ -46,17 +66,34 @@ It can help to break large tasks into smaller sub-tasks, because sizing can be
 more accurate, but dependencies between sub-tasks must be identified so that a
 critical path can be identified.
 
-The tasks should be recorded and tracked in Github Project.
-The development coding processes, such as commit conventions and reviews,
-should also be agreed upon, and then enforced in the CI pipeline.
-The CI processes should also include building a test suite that can be used for
-regression testing. A typical process is that each feature PR includes tests
-that demonstrate it's correctness.
+Record the tasks you identify as issues, and assign each one to the member doing it. Agree on the rest of the development process early: commit conventions, how a change reaches the default branch, and who reviews it before it does. A typical process is that each feature pull request carries the tests that demonstrate its correctness.
 
 It is important to actually track the tasks that you identified. Often you will
 have to refine/resize them or discover new tasks that must be sized and
 assigned. Only by tracking these tasks can you know that your team can deliver
 your product on time.
+
+.. _sec:gazprea_pm_marks:
+
+Gazprea project management marks
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Four marks at Part 1 and four at Part 2, awarded to the team. Setting up the process these are read from is described under :external+gazprea:doc:`Project Management <impl/process>`.
+
+.. list-table::
+   :header-rows: 1
+   :widths: 12 88
+
+   * - Marks
+     - Line
+   * - 1
+     - **Delivery by pull request.** At least four pull requests merged into the default branch during the part.
+   * - 2
+     - **Review before merge.** The fraction of those merged pull requests that a non-author teammate approved before they were merged.
+   * - 1
+     - **Work tracked in issues.** At least two issues opened during the part and assigned to a member.
+
+Counts are taken over the part being marked, so Part 2 starts from zero rather than carrying Part 1 forward.
 
 
 Grammar
@@ -105,17 +142,22 @@ Competitive Testing
 
 Competitive testing rules are outlined here: :doc:`testing`.
 
+Coherence Testing
+-----------------
+
+Coherence testing was first introduce to check that the tests submitted for
+competitive testing could be compiled by the team that submitted them.
+We can extend this concept to other introspective tests, for example `valgrind`
+is very good at checking if a program leaks memory. Even the time it takes to
+compile a set of benchmark programs can reveal much about the internal structure
+of a compiler.
+
 Performance Testing
 -------------------
 
-Compiler performance can be measured in two dimensions:
-
-* The time it takes to compiler to produce an executable. This measurement can
-  help identity products with good internal design and data structures.
-
-* The speed of the executable your compiler produces. While your compiler will
-  not do direct optimizations itself, it can still produce intermediate code
-  that is amenable to optimization.
+Performance testing attempts to measure the speed of the executable your
+compiler produces. While your compiler will not do direct optimizations itself,
+it can still produce intermediate code that is amenable to optimization.
 
 .. _sec:grading_matrix:
 

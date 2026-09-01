@@ -11,8 +11,8 @@ represented by an ``i1`` in *MLIR*.
 Declaration
 ~~~~~~~~~~~
 
-A ``boolean`` value is declared with the keyword ``boolean``.
-If the variable is not initialized explicitly, it is set to ``false`` (zero).
+A ``boolean`` value is declared with the keyword ``boolean``. If the variable
+is not initialized explicitly, it is set to ``false`` (its :term:`zero value`).
 
 .. _sssec:boolean_lit:
 
@@ -34,47 +34,33 @@ The following operations are defined on ``boolean`` values. In all
 of the usage examples ``bool-expr`` means some ``boolean`` yielding
 expression.
 
-============= ========== =========================== =================
-**Operation** **Symbol** **Usage**                   **Associativity**
-============= ========== =========================== =================
-parenthesis   ``()``     ``(bool-expr)``             N/A
-negation      ``not``    ``not bool-expr``           right
-logical or    ``or``     ``bool-expr or bool-expr``  left
-logical xor   ``xor``    ``bool-expr xor bool-expr`` left
-logical and   ``and``    ``bool-expr and bool-expr`` left
-equals        ``==``     ``bool-expr == bool-expr``  left
-not equals    ``!=``     ``bool-expr != bool-expr``  left
-============= ========== =========================== =================
+============= ========== ===========================
+**Operation** **Symbol** **Usage**
+============= ========== ===========================
+parentheses   ``()``     ``(bool-expr)``
+negation      ``not``    ``not bool-expr``
+logical or    ``or``     ``bool-expr or bool-expr``
+logical xor   ``xor``    ``bool-expr xor bool-expr``
+logical and   ``and``    ``bool-expr and bool-expr``
+equals        ``==``     ``bool-expr == bool-expr``
+not equals    ``!=``     ``bool-expr != bool-expr``
+============= ========== ===========================
 
-Unlike many languages the ``and`` and ``or`` operators do not `short
-circuit
+Unlike many languages, the ``and`` and ``or`` operators do not use `short-circuit
 evaluation <https://en.wikipedia.org/wiki/Short-circuit_evaluation>`__.
 Therefore, both the left hand side and right hand side of an expression
-must always be evaluated.
+must always be evaluated. This has a practical consequence: a guard like
+``x != 0 and 1/x > 0`` does **not** protect the division -- ``1/x`` is evaluated
+even when ``x`` is ``0``, raising a ``MathError`` (see :ref:`ssec:integer` and
+:ref:`sec:errors`). To guard a fallible expression, nest an ``if`` instead.
 
-This table specifies ``boolean`` operator precedence. Operators without
-lines between them have the same level of precedence.
+Operator precedence and associativity are specified once, for all
+types, in the
+:ref:`table of operator precedence <ssec:expressions_toop>`.
 
-+----------------+---------------+
-| **Precedence** | **Operation** |
-+================+===============+
-| HIGHER         | ``not``       |
-+----------------+---------------+
-|                | ``==``        |
-|                |               |
-|                | ``!=``        |
-+----------------+---------------+
-|                | ``and``       |
-+----------------+---------------+
-|                | ``or``        |
-|                |               |
-| LOWER          | ``xor``       |
-+----------------+---------------+
+Type Casting and Implicit Casts
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-
-Type Casting and Type Promotion
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-To see the types that ``boolean`` may be cast and/or promoted to, see
-the sections on :ref:`sec:typeCasting` and :ref:`sec:typePromotion` 
+To see the types that ``boolean`` may be cast and/or implicitly cast to, see
+the sections on :ref:`sec:typeCasting` and :ref:`sec:implicitCasts`
 respectively.
