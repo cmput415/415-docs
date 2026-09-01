@@ -1,7 +1,7 @@
 dragon-runner
 =============
 
-``dragon-runner`` is the test harness for every language project in the course. It feeds each test file through a *toolchain* — your compiler, then whatever it takes to run the result — and diffs what comes out against the expected output written inside the test file. The same tool produces your grade, so a test that passes locally is a test that passes for the grader.
+``dragon-runner`` is the test harness for every language project in the course. It feeds each test file through a *toolchain*: your compiler, then whatever runs the result. The final stdout is diffed against the expected output written inside the test file. Grading runs the same tool over the same configs.
 
 Installation instructions are on the `setup pages <https://cmput415.github.io/415-docs/setup/>`_. The source lives at `cmput415/Dragon-Runner <https://github.com/cmput415/Dragon-Runner>`_.
 
@@ -12,7 +12,7 @@ Running the tester
 
  $ dragon-runner [mode] <config>.json [options]
 
-The mode defaults to ``regular``; the other modes (``tournament``, ``perf``, ``memcheck``) are what the graders run. ``dragon-runner --help`` lists every option — the four worth knowing up front are:
+The mode defaults to ``regular``; the graders use the others (``tournament``, ``perf``, ``memcheck``). ``dragon-runner --help`` lists every option; these four cover ordinary use:
 
 .. list-table::
    :header-rows: 1
@@ -23,13 +23,13 @@ The mode defaults to ``regular``; the other modes (``tournament``, ``perf``, ``m
    * - ``-v``
      - Print expected and generated output for each failure. Without it a failure is a bare ``[FAIL]`` line.
    * - ``-p PATTERN``
-     - Only run packages whose path matches the glob, e.g. ``-p '*arrays*'``.
+     - Run only the packages whose path matches the glob, e.g. ``-p '*arrays*'``.
    * - ``--debug-package PATH``
-     - Run a single package by path. Faster than ``-p`` when you already know where the test is.
+     - Run one package, named by its path.
    * - ``--timeout SECONDS``
      - Per-test timeout. The default is 2 seconds, which a debug build can exceed on a heavy test.
 
-Every path inside the config is resolved relative to the config file, so the command works from any directory:
+Paths inside the config resolve against the config file, so the command works from any directory:
 
 .. code-block:: console
 
@@ -55,7 +55,7 @@ Reading the results
    * - ``[TIMEOUT]``
      - A step ran past ``--timeout``.
 
-A step is only allowed to exit non-zero if its config entry sets ``allowError``; otherwise the failure aborts the toolchain. When a test is an error test, the diff is lenient: dragon-runner looks for an error name such as ``SizeError`` or ``IndexError`` in both the expected and generated text rather than demanding a byte-for-byte match.
+A step may exit non-zero only if its config entry sets ``allowError``; otherwise the failure aborts the toolchain. The diff for an error test is lenient: dragon-runner matches on an error name such as ``SizeError`` or ``IndexError`` appearing in both the expected and the generated text.
 
 Output with ``-v``:
 
@@ -105,7 +105,7 @@ Repeat ``CHECK:`` and ``INPUT:`` for further lines; dragon-runner joins them wit
  //CHECK:42
  //CHECK:
 
-In a language whose programs read stdin, ``INPUT:`` supplies it. Here two lines are read and echoed back:
+``INPUT:`` supplies stdin. This C test reads two characters and echoes them:
 
 .. code-block:: c
 
@@ -125,12 +125,12 @@ In a language whose programs read stdin, ``INPUT:`` supplies it. Here two lines 
  //CHECK:b
  //CHECK:
 
-Files ending in ``.out`` and ``.ins`` are reserved for ``CHECK_FILE``/``INPUT_FILE`` payloads, and dot-files are skipped. Everything else in a test directory is treated as a test, whatever its extension.
+Files ending in ``.out`` and ``.ins`` hold ``CHECK_FILE``/``INPUT_FILE`` payloads, and dot-files are skipped. dragon-runner treats every other file in a test directory as a test, whatever its extension.
 
 Directory structure
 -------------------
 
-Each top-level directory under ``testDir`` is a *package*; every directory beneath a package that contains at least one test is a *subpackage*. Nesting deeper than one level is fine. Packages are the unit of submission — yours must be named after your team ID or SID — and subpackages are how you group tests by feature.
+Each top-level directory under ``testDir`` is a *package*; every directory beneath a package holding at least one test is a *subpackage*, at any depth. A package is the unit of submission, and takes its name from your team ID or SID; subpackages group tests by feature.
 
 ::
 
@@ -151,7 +151,7 @@ Each top-level directory under ``testDir`` is a *package*; every directory benea
 The config
 ----------
 
-``tests/littleCConfig.json`` from the littleC solution builds an LLVM IR file with the compiler under test, then interprets it with ``lli``:
+``tests/littleCConfig.json`` from the littleC solution defines a two-step toolchain: the compiler under test emits an LLVM IR file, then ``lli`` interprets it.
 
 .. code-block:: json
 
@@ -180,7 +180,7 @@ The config
    }
  }
 
-Three top-level keys are required. ``testDir`` is the directory holding the packages. ``testedExecutablePaths`` maps a label to a binary; the label is what prints in the ``Running executable:`` header, and several may be listed to run the suite against more than one compiler. ``toolchains`` maps a name to the list of steps a test passes through.
+Three top-level keys are required. ``testDir`` is the directory holding the packages. ``testedExecutablePaths`` maps a label to a binary; the label prints in the ``Running executable:`` header, and listing several runs the suite against each in turn. ``toolchains`` maps a name to the list of steps a test passes through.
 
 Within a step:
 
@@ -191,7 +191,7 @@ Within a step:
    * - Key
      - Meaning
    * - ``stepName``
-     - Name shown when the step is the one that failed.
+     - Name printed when this step is the one that fails.
    * - ``executablePath``
      - Program to run. ``$EXE`` is the binary under test; ``$INPUT`` runs the previous step's output as a program.
    * - ``arguments``
@@ -203,4 +203,4 @@ Within a step:
    * - ``usesInStr``
      - Feed the test's ``INPUT:`` text to this step's stdin. Set it on the step that runs the compiled program.
 
-Environment variables are expanded from your shell, which is how ``$MLIR_INS/bin/lli`` above finds the LLVM installation. Paths are relative to the config file, so ``../bin/littlec`` refers to the project's ``bin`` directory rather than to wherever you happened to run the command.
+Environment variables come from your shell, which is how ``$MLIR_INS/bin/lli`` above finds the LLVM installation. The config sits in ``tests/``, so its relative paths resolve from there: ``../bin/littlec`` is the project's ``bin`` directory and ``testfiles`` is ``tests/testfiles``.
