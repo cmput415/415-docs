@@ -116,9 +116,9 @@ highlight_language ='none'
 
 # -- Options for linkcheck ---------------------------------------------------
 #
-# URLs that a human can visit but a CI linkchecker cannot.  The pages exist;
-# their servers answer automated clients with 403.  If an entry here ever hides
-# a real breakage, remove it and let CI fail.
+# URLs whose servers answer automated clients with 403, though a browser
+# reaches them fine.  If an entry here ever hides a real breakage, remove it
+# and let CI fail.
 linkcheck_ignore = [
     # ualberta.ca: 403 to bots.
     r'^https?://(www\.)?ualberta\.ca/',
