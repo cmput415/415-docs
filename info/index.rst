@@ -6,5 +6,6 @@ More Information
 
    self
    grading
-   testing 
+   testing
+   dragon_runner
    mlir_tips
