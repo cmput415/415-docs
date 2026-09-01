@@ -3,7 +3,7 @@ CS Lab Machines
 
 The lab machines in UCOMM 2-070 and 2-086 are the reference environment for this course. Every toolchain the projects need is already installed and maintained there, and it is the environment the lab exams are written in. **Working on a lab machine is the recommended way to do the projects**, whether you sit down at one in the lab or log in to one remotely.
 
-They run Ubuntu 20.04 LTS with the Xfce desktop. ``vim``, ``emacs``, ``nano``, ``gedit``, and Visual Studio Code (``code``) are installed; CLion you install into your own home directory, once, as described below.
+They run Ubuntu 20.04 LTS with the Xfce desktop. ``vim``, ``emacs``, ``nano``, ``gedit``, and Visual Studio Code (``code``) are installed.
 
 Why the lab machines
 --------------------
@@ -87,7 +87,7 @@ For your convenience, you can set this up nicely:
 Graphical sessions with X2Go
 ----------------------------
 
-If you want a graphical desktop on the lab machine — CLion, a file manager, a browser for the local documentation — use `X2Go <https://wiki.x2go.org/doku.php>`__. It gives you the lab machine's desktop in a window on your own machine, and it is far more usable over a home connection than plain X11 forwarding.
+If you want a graphical desktop on the lab machine — a graphical editor, a file manager, a browser for the local documentation — use `X2Go <https://wiki.x2go.org/doku.php>`__. It gives you the lab machine's desktop in a window on your own machine, and it is far more usable over a home connection than plain X11 forwarding.
 
 #. Install the X2Go client on your own machine. On Ubuntu, ``sudo apt-get install x2goclient``; on macOS and Windows, download it from the `X2Go client page <https://wiki.x2go.org/doku.php/doc:installation:x2goclient>`__.
 
@@ -121,58 +121,18 @@ This puts the course toolchain on your path and lets you build from the command 
 
 Because ``/cshome`` is shared, this is a one-time step: your shell configuration, your dotfiles, and your editor configuration are the same on every lab machine you log in to, including the one you are assigned on exam day.
 
-Installing CLion
-----------------
+A graphical IDE
+---------------
 
-#. Go to the `download page
-   <https://www.jetbrains.com/clion/download/#section=linux>`__ and download
-   *CLion* for Linux.
+Visual Studio Code is installed on the lab machines and is the recommended graphical editor for the course. Launch it from an X2Go session with:
 
-#. Assuming you've downloaded the tarball to your ``~/Downloads`` folder, you
-   can extract it to
-   your home directory
-   using the following command:
+.. code-block:: console
 
-   .. code-block:: console
+ $ code
 
-    $ tar -xzf ~/Downloads/clion-<version>.tar.gz -C ~
+Its settings and extensions live in ``~/.config/Code`` and ``~/.vscode`` under ``/cshome``, so whatever you configure follows you to every lab machine, including the one you are assigned on exam day.
 
-   If you are confident about your ability to setup your own install you can put
-   it elsewhere but you will be on your own.
+Two extensions cover the projects: **C/C++** (``ms-vscode.cpptools``) for C++ editing and debugging, and **CMake Tools** (``ms-vscode.cmake-tools``) for configuring and building from the editor. Install them from the Extensions panel.
 
-#. From now on, you can start *CLion* by using the following command:
-
-   .. code-block:: console
-
-    $ ~/clion-<version>/bin/clion.sh
-
-#. Perform the initial set up of CLion.
-
-   #. Select ``Do not import settings`` and click ``OK``.
-
-   #. Scroll to the bottom of the license agreement then hit ``Accept``.
-
-   #. Choose if you want to share usage statistics.
-
-   #. You should be presented with a prompt for your license. Select
-      ``Activate CLion``, ``JB Account``, click
-      ``Log In to JetBrains Account...`` and enter your UAlberta email address
-      and JetBrains account password. Click the ``Activate`` button.
-
-   #. Pick your favorite UI. Then click ``Next: Toolchains``.
-
-   #. Click ``Next: Default Plugins``.
-
-   #. You might consider disabling all but the git plugin, and even then, using
-      it is up to you. It can be useful to see the color coded files for
-      differences at a glance or track changes in a file. You should consider
-      disabling all of the web development plugins. Disabling other tools is up
-      to you as well. Now select ``Next: Feature Plugins``
-
-   #. Again, the choices here are yours. If you like vim, then maybe the vim
-      plugin is up your alley. The markdown plugin can be useful as well. You do
-      not need the TeamCity Integration, the Lua integration, nor the Swift
-      integration. Select ``Start using CLion``
-
-Because CLion is installed into your ``/cshome`` directory, it is there on every lab machine once you have installed it once. Launch it from an X2Go session; over plain SSH there is no display to put it on.
+Over plain SSH there is no display to put a graphical editor on, so use a terminal editor or connect with X2Go.
 
