@@ -1,0 +1,58 @@
+/* Writing room for the session tracking sheet, on top of the reference-sheet
+ * layout in rubric_sheet.css. Loaded only on that page, by the
+ * html-page-context handler in _ext/rubric.py.
+ *
+ * The cells here are filled in by hand during a session, so they are sized by
+ * the space a pen needs rather than by their contents. A member's row holds
+ * several lines of notes; a coverage row holds one name. */
+
+.rst-content table.docutils tbody td {
+    height: 2.6cm;
+}
+
+.rst-content table.coverage-tracking tbody td {
+    height: 1cm;
+}
+
+@media print {
+    @page {
+        size: landscape;
+        margin: 1cm;
+    }
+
+    /* Both tables, their headings and the required questions come out on one
+     * sheet, with what height is left over given to the rows to write in. */
+    .rst-content table.docutils tbody td {
+        height: 1.45cm;
+    }
+
+    .rst-content table.coverage-tracking tbody td {
+        height: 0.75cm;
+    }
+
+    .rst-content h1 {
+        font-size: 12pt;
+        margin: 0 0 4pt;
+    }
+
+    .rst-content h2 {
+        font-size: 11pt;
+        margin: 6pt 0 3pt;
+    }
+
+    .rst-content p,
+    .rst-content li {
+        font-size: 9pt;
+        line-height: 1.25;
+        margin: 0 0 3pt;
+    }
+
+    .rst-content ul {
+        margin: 0 0 4pt;
+        padding-left: 1.1em;
+    }
+
+    .rst-content .admonition {
+        display: none !important;
+    }
+}
