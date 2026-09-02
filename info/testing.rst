@@ -5,7 +5,7 @@ Local Testing
 ----------------
 In each base repository there exists a `test` directory which contains a default JSON config and a `testfiles`
 directory to put your tests. The default executable paths in the config should be updated to your local environment.
-For more information on the 415 tester see `here <https://github.com/cmput415/Dragon-Runner>`_.
+For how to invoke the tester, lay out a test package and write a test file, see :doc:`dragon_runner`.
 
 Test Submission Guidelines 
 ---------------------------
