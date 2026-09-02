@@ -10,9 +10,14 @@
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
-# import os
-# import sys
-# sys.path.insert(0, os.path.abspath('.'))
+# The rubric directives live in _ext/ and read their data from rubric_data.py
+# at the documentation root, so both must be importable.
+
+import os
+import sys
+
+sys.path.insert(0, os.path.abspath('.'))
+sys.path.insert(0, os.path.abspath('_ext'))
 
 
 # -- Project information -----------------------------------------------------
@@ -31,6 +36,7 @@ extensions = [
     'sphinx_rtd_theme',
     'sphinx.ext.todo',
     'sphinx.ext.intersphinx',
+    'rubric',
 ]
 
 # Cross-reference sibling projects.  The tuple's first element is the
@@ -43,6 +49,8 @@ extensions = [
 intersphinx_mapping = {
     'gazprea':   ('https://cmput415.github.io/415-docs/gazprea',
                   ('../gazprea/_build/html/objects.inv', None)),
+    'setup':     ('https://cmput415.github.io/415-docs/setup',
+                  ('../setup/_build/html/objects.inv', None)),
     'vcalc':     ('https://cmput415.github.io/415-docs/vcalc',
                   ('../vcalc/_build/html/objects.inv', None)),
 }
@@ -110,6 +118,15 @@ highlight_language ='none'
 
 
 # -- Options for linkcheck ---------------------------------------------------
+#
+# URLs whose servers answer automated clients with 403, though a browser
+# reaches them fine.  If an entry here ever hides a real breakage, remove it
+# and let CI fail.
+linkcheck_ignore = [
+    # ualberta.ca: 403 to bots.
+    r'^https?://(www\.)?ualberta\.ca/',
+]
+
 linkcheck_anchors = False
 linkcheck_timeout = 30
 linkcheck_retries = 2

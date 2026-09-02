@@ -1,0 +1,82 @@
+/* Fits the evaluator cheat sheet onto a single landscape sheet, on top of the
+ * reference-sheet layout in rubric_sheet.css. Loaded only on that page, by the
+ * html-page-context handler in _ext/rubric.py.
+ *
+ * The page is five short tables and a list. They run in two columns, which is
+ * what buys the single sheet: a landscape page is wide enough that one column
+ * leaves most of each line empty.
+ *
+ * The layout applies on screen as well as in print, so an evaluator working
+ * from a laptop sees the sheet their neighbour has on paper. */
+
+.rst-content section section,
+.rst-content .section .section {
+    break-inside: avoid;
+}
+
+/* The theme nests the page body a few levels below .rst-content, so the
+ * columns are set on the one section that holds the whole page. */
+.rst-content [itemprop="articleBody"] > section,
+.rst-content [itemprop="articleBody"] > .section {
+    column-count: 2;
+    column-gap: 1cm;
+}
+
+.rst-content h1 {
+    column-span: all;
+    font-size: 14pt;
+    margin: 0 0 6pt;
+}
+
+.rst-content h2 {
+    font-size: 11pt;
+    margin: 0 0 3pt;
+}
+
+.rst-content p,
+.rst-content li {
+    font-size: 9.5pt;
+    line-height: 1.25;
+    margin: 0 0 4pt;
+}
+
+.rst-content ul {
+    margin: 0 0 4pt;
+    padding-left: 1.1em;
+}
+
+.rst-content table.docutils td,
+.rst-content table.docutils th,
+.rst-content table.docutils p {
+    font-size: 9pt !important;
+    line-height: 1.2 !important;
+}
+
+.rst-content table.docutils {
+    margin-bottom: 5pt;
+}
+
+.rst-content table.docutils td,
+.rst-content table.docutils th {
+    padding: 3px 5px;
+}
+
+@media print {
+    @page {
+        size: landscape;
+        margin: 0.8cm;
+    }
+
+    /* On paper the column height is the page, so the first column is filled
+     * before the second is started. On screen the page has no such height and
+     * the columns are balanced against each other instead. */
+    .rst-content [itemprop="articleBody"] > section,
+    .rst-content [itemprop="articleBody"] > .section {
+        column-fill: auto;
+    }
+
+    /* Printed on a page whose footer the theme has already removed. */
+    .rst-content .admonition {
+        display: none !important;
+    }
+}

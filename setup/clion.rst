@@ -1,5 +1,5 @@
-First Steps
-===========
+CLion
+=====
 
 JetBrains License
 -----------------
