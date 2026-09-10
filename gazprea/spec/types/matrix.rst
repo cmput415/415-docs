@@ -8,13 +8,9 @@ Matrices
 any :ref:`storable type <ssec:storable_types>`. A *matrix* is the rank-2
 case, and this section describes it in full; higher-rank arrays follow the
 same construction, indexing, and element-wise operation rules, generalized
-to ``k`` index positions. The ``rows`` and ``columns`` built-ins discussed
-below are defined on matrices (rank-2 arrays) specifically, and ``length`` on
-rank-1 arrays; there is currently **no** size query for arrays of rank 3 or
-more, so their extents are not observable at run time. This is a known
-limitation: a general ``shape`` built-in reporting the extents of an array of
-any rank is planned for a future revision of this specification. Matrix
-multiplication (``**``), by contrast, is defined for
+to ``k`` index positions. The extents of an array of any rank can be queried
+at run time using the ``shape`` built-in (see :ref:`ssec:builtIn_shape`).
+Matrix multiplication (``**``) is defined for
 arrays of **any** rank, as described in :ref:`sssec:matrix_ops`.
 
 .. _sssec:matrix_decl:
@@ -101,7 +97,7 @@ literal ``[]`` is the empty rank-2 array, written ``[[]]``:
 
 Like an empty 1-D array, an empty matrix has its (zero) dimensions fixed at
 :term:`initialization` and is not growable. Both of its dimensions are zero:
-``rows(m)`` and ``columns(m)`` are each ``0`` (a 0x0 matrix, notwithstanding the
+``shape(m)`` is ``[0 0]`` (a 0x0 matrix, notwithstanding the
 ``[[]]`` notation).
 
 .. _sssec:matrix_ops:
@@ -175,9 +171,8 @@ promotion, and the ``M || [r]`` row-append idiom).
            integer[*][*] B = [[5, 6]];
            /* A || B == [[1, 2], [3, 4], [5, 6]] */
 
-The number of rows and columns in a matrix is given by the built-in
-functions ``rows`` and ``columns``; see :ref:`ssec:builtIn_rows_cols` for
-their full definition.
+The number of rows and columns in a matrix is given by the ``shape`` built-in;
+see :ref:`ssec:builtIn_shape` for its full definition.
 
 
 Matrix indexing is done similarly to array indexing. Because a matrix is an

@@ -22,11 +22,10 @@ global identifier namespace. A user may freely declare, say, a ``function
 len()`` or a variable named ``push``.
 
 Note that although the examples below all use arrays, the array-shaped
-built-ins (``length``, ``reverse``) also work on
+built-ins (``shape``, ``reverse``) also work on
 :ref:`vectors <ssec:vector>` and :ref:`strings <ssec:string>`, using
-whatever length that value currently holds. The shape-specific built-ins
-keep the domains their own sections describe: ``rows`` and ``columns``
-require a two-dimensional matrix, and ``format`` takes only scalars.
+whatever length that value currently holds. The ``format`` built-in
+takes only scalars.
 
 Applying a built-in outside its defined domain 
 is a compile-time error and the compiler must emit a
@@ -45,9 +44,7 @@ generic over ``T``". This notation is **not** part of the language.
 
 ::
 
-    function length[T](T[*] arr) returns integer;    // also accepts a vector<T> / string
-    function rows[T](T[*][*] mat) returns integer;
-    function columns[T](T[*][*] mat) returns integer;
+    function shape[T](T shaped) returns integer[*];   // T is any array type, vector<T>, or string
     function reverse[T](T[*] arr) returns T[*];       // also accepts a vector<T> / string
     function format[T](T value) returns string;       // T is a scalar type
     procedure stream_state(var input_stream) returns integer; // notional; see below
@@ -64,84 +61,101 @@ In addition to these free-standing built-ins, ``vector`` and ``string`` values
 carry **methods** -- ``push``, ``append``, and ``len`` -- invoked with receiver
 syntax (``v.len()``). These are specified with the type, in
 :ref:`sssec:vec_methods`, not here. In particular, ``len`` (a method, on vectors
-and strings only) and ``length`` (a built-in, accepting arrays, vectors, and
-strings) answer the same question with different spellings and different domains:
+and strings only) extracts the current length as a scalar, while ``shape`` (a
+built-in, accepting arrays, vectors, and strings) returns the full shape as an
+array:
 
 .. list-table::
    :header-rows: 1
    :widths: 30 35 35
 
    * - Query on ``x``
-     - ``length(x)`` (built-in)
+     - ``shape(x)`` (built-in)
      - ``x.len()`` (method)
    * - array ``T[n]``
-     - the fixed length ``n``
+     - ``[n]`` (array of extents)
      - ``TypeError`` -- arrays have no methods
    * - ``vector<T>`` / ``string``
-     - the current length
-     - the current length
+     - ``[current_length]`` (array of extents)
+     - the current length (scalar)
 
-.. _ssec:builtIn_length:
+.. _ssec:builtIn_shape:
 
-Length
-------
+Shape
+-----
 
-``length`` takes an rank-1 array of any element type, and
-returns an integer representing the number of elements in the array.
-``length`` is not defined for an array of rank greater than 1; use ``rows``
-and ``columns`` (see :ref:`ssec:builtIn_rows_cols`) for a two-dimensional
-matrix instead. In future editions of the spec this may be extended to a
-generic ``shape`` function, but that is left to future revisions of the
-course.
+The ``shape`` built-in takes an array of any rank, a :ref:`vector <ssec:vector>`,
+or a :ref:`string <ssec:string>`, and returns a rank-1 array of integers
+representing the extent of each dimension, ordered from outermost to innermost
+(left-to-right as declared).
 
 .. gazprea-example-wrap::
-   :name: builtin_length
+   :name: builtin_shape_rank1
 
-   integer[*] v = 1..5;
-   length(v) -> std_output; /* Prints 5 */
+   integer[5] v = 1..5;
+   shape(v) -> std_output; /* Prints [5] */
 
    --- output ---
-   5
+   [5]
 
-Because an array is :term:`initialization`-time sized, ``length`` applied to
-an array is invariant after :term:`initialization`: every call returns the
-same number. Applied to a :ref:`vector <ssec:vector>` (or a
-:ref:`string <ssec:string>`), ``length`` returns the value's *current*
-length instead, so two calls may return different numbers if the vector grew
-in between. In this role ``length`` is simply the built-in spelling of the
-vector's :ref:`len <sssec:vec_methods>` method.
+For a :ref:`matrix <ssec:matrix>` (rank-2 array), ``shape`` returns both
+dimensions:
+
+.. gazprea-example-wrap::
+   :name: builtin_shape_rank2
+
+   integer[*][*] M = [[1, 2, 3], [4, 5, 6]];
+   shape(M) -> std_output; /* Prints [2 3] */
+
+   --- output ---
+   [2 3]
+
+Higher-rank arrays are fully supported:
+
+.. gazprea-example-wrap::
+   :name: builtin_shape_rank3
+
+   integer[2][3][4] A = ...;
+   shape(A) -> std_output; /* Prints [2 3 4] */
+
+   --- output ---
+   [2 3 4]
+
+For **vectors**, ``shape`` returns only the vector's runtime length, wrapped as a single-element
+array. The dimensions of elements within the vector are not included; to inspect the shape of a vector
+element, index the vector first and then query that element:
 
 ::
 
-         var vector<integer> v = [1, 2, 3];
+   var vector<integer[2][3]> v = ...;
+   shape(v) -> std_output;        /* Prints current length, e.g., [5] */
+   shape(v[1]) -> std_output;     /* Prints [2 3] -- the shape of the array at v[1] */
 
-         length(v) -> std_output; /* Prints 3 */
+More generally, ``shape`` reports the dimensions of the **collection you pass it**, not of anything
+contained within. An array of vectors has array dimensions:
 
-         call v.push(4);          /* 'v' is now [1, 2, 3, 4] */
+::
 
-         length(v) -> std_output; /* Prints 4 */
+   vector<integer>[3][2] a = ...;
+   shape(a) -> std_output;        /* Prints [3 2] -- the array extents only */
+   shape(a[0][0]) -> std_output;  /* Prints [n] -- the shape of the vector at a[0][0] */
 
+Because an array is :term:`initialization`-time sized, ``shape`` applied to
+an array is invariant after :term:`initialization`: every call returns the
+same value. Applied to a :ref:`vector <ssec:vector>` (or a
+:ref:`string <ssec:string>`), ``shape`` returns the value's *current*
+length instead, so two calls may return different arrays if the vector grew
+in between:
 
-.. _ssec:builtIn_rows_cols:
+::
 
-Rows and Columns
-----------------
+   var vector<integer> v = [1, 2, 3];
 
-The built-ins ``rows`` and ``columns`` report the dimensions of a
-rank-2 array (a :ref:`matrix <ssec:matrix>`): ``rows`` returns the
-number of rows and ``columns`` the number of columns.
+   shape(v) -> std_output;  /* Prints [3] */
 
-.. gazprea-example-wrap::
-   :name: builtin_rows_columns
+   call v.push(4);          /* 'v' is now [1, 2, 3, 4] */
 
-   integer[*][*] M = [[1, 2, 3], [4, 5, 6]];
-   rows(M) -> std_output;    /* Prints 2 */
-   '\n' -> std_output;
-   columns(M) -> std_output; /* Prints 3 */
-
-   --- output ---
-   2
-   3
+   shape(v) -> std_output;  /* Prints [4] */
 
 .. _ssec:builtIn_reverse:
 
