@@ -239,11 +239,11 @@ implicit cast can be inserted.
    :name: procedure_var_no_implicit_cast
    :error: TypeError
 
-   procedure byvalue(string x) returns integer {
-     return length(x);
+   procedure byvalue(string x) returns integer[*] {
+     return shape(x);
    }
-   procedure byreference(var string x) returns integer {
-     return length(x);
+   procedure byreference(var string x) returns integer[*] {
+     return shape(x);
    }
    procedure main() returns integer {
      const character[3] y = ['y', 'e', 's'];
