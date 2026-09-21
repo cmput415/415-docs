@@ -39,8 +39,21 @@ Loop
 Simple loops are demarcated with ``IM IN YR <label>`` and ``IM OUTTA YR <label>``.
 Loops defined this way are infinite loops that must be explicitly exited with a GTFO break. Currently, the ``<label>`` is required, but is unused, except for marking the start and end of the loop.
 
-The full version of the language includes iterated loops, but you are not
-required to implement them for this assignment.
+Iterated loops have the form:
+
+::
+
+    IM IN YR <label> <operation> YR <variable> [TIL|WILE <expression>]
+      <code block>
+    IM OUTTA YR <label>
+
+
+Where ``<operation>`` may be ``UPPIN`` (increment by one) or ``NERFIN`` (decrement by one).
+That operation/function is applied to the ``<variable>``, which is temporary, and local to the loop.
+The ``TIL <expression>`` evaluates the :term:`expression` as a boolean: if it evaluates as false, the loop continues once more, if not, then loop execution stops, and continues after the matching ``IM OUTTA YR <label>``. The ``WILE <expression>`` is the converse: if the expression is true, execution continues, otherwise the loop exits.
+
+**Note:** The full version of the language includes iterated loops, but you are
+not required to implement them for this assignment.
 
 .. _sssec:conditional:
 
@@ -203,22 +216,5 @@ none of the above:
 ::
 
     FISH IS TRANSPARENT
-  
 
-
-Simple loops are demarcated with ``IM IN YR <label>`` and ``IM OUTTA YR <label>``.
-Loops defined this way are infinite loops that must be explicitly exited with a GTFO break. Currently, the ``<label>`` is required, but is unused, except for marking the start and end of the loop.
-
-Iteration loops have the form:
-
-::
-
-    IM IN YR <label> <operation> YR <variable> [TIL|WILE <expression>]
-      <code block>
-    IM OUTTA YR <label>
-
-
-Where ``<operation>`` may be ``UPPIN`` (increment by one) or ``NERFIN`` (decrement by one).
-That operation/function is applied to the ``<variable>``, which is temporary, and local to the loop.
-The ``TIL <expression>`` evaluates the :term:`expression` as a boolean: if it evaluates as false, the loop continues once more, if not, then loop execution stops, and continues after the matching ``IM OUTTA YR <label>``. The ``WILE <expression>`` is the converse: if the expression is true, execution continues, otherwise the loop exits.
 
