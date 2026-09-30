@@ -67,8 +67,8 @@ specification particulars.
 
       **expression-size**:
 
-   All expressions will result in a value that will fit in 32 signed
-   bits. This means the result of an expression can be anywhere in the
+   Every integer an expression produces, including each vector element,
+   will fit in 32 signed bits. This means the result of an expression can be anywhere in the
    range :math:`[-2^{31}, 2^{31} - 1]` or :math:`[-2147483648, 2147483647]`.
    Any operation that results in underflow or overflow
    will render the input invalid. For example, the following tests would

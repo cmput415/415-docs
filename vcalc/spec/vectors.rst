@@ -1,7 +1,7 @@
 Vectors
 -------
 
-*VCalc* has a new :term:`type`, ``vector``, that is a vector of integer values.
+*VCalc* has a :term:`type`, ``vector``, that is a vector of integer values.
 Vectors are restricted to the length that can be represented by the
 *largest possible index*. Indices are integers and integers are signed
 32 bit integers. Because the largest possible integer is
@@ -12,8 +12,8 @@ the range :math:`[0, 2^{31}-1]`.
 :math:`0 \leq l \leq 2^{31}-1`. (:ref:`vector-length <assert:vector-length>`)
 
 There is no way to specify a vector literal, they must be created
-through ranges, generators, filters, or index expressions with a vector
-index.
+through ranges, generators, filters, index expressions with a vector
+index, or binary operations with a vector operand.
 
 The only way to create an empty vector is through the use of a filter
 whose predicate is evaluated to false at each index of the :term:`domain`

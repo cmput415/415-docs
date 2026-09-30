@@ -16,9 +16,7 @@ specification without cluttering it.
    Empty input should result in empty output. This is in keeping with
    all of the output rules defined. There are no ``print``
    :term:`statements <statement>` so
-   there would be no numbers, newlines or output of any kind. All that
-   you are left with is a single empty line, which matches "*should* be
-   an empty line at the end of your output".
+   there would be no numbers, newlines or output of any kind.
 
 #.
 
@@ -54,4 +52,30 @@ specification without cluttering it.
    ::
 
             [1]
+
+#.
+
+   .. _clarify:int-div:
+
+   .. container::
+      :name: int-div
+
+      **int-div**:
+
+   Division is integer division. This means that any decimal portion of
+   a division operation result is truncated (not rounded). No extra work
+   is required: this is the default in C++, RISC-V, ARM, and X86. For
+   example:
+
+   ::
+
+            print(5 / 3);
+            print((0 - 5) / 3);
+
+   produces the following output:
+
+   ::
+
+            1
+            -1
 

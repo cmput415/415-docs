@@ -15,8 +15,9 @@ right-hand-side expression. The iterator variable is an integer typed
 variable defined only in the scope of the generator.
 
 The domain may be any vector-valued expression which includes
-identifiers (that are vector typed), ranges, generators, filters, and
-index expressions with a vector index. The expression must evaluate to
+identifiers (that are vector typed), ranges, generators, filters,
+index expressions with a vector index, and binary operations with a
+vector operand. The expression must evaluate to
 an integer. This means that if the result of the expression is a boolean
 it will undergo :term:`type promotion` to an integer, but a vector
 result is an *error*.
