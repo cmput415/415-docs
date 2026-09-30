@@ -116,3 +116,29 @@ specification without cluttering it.
 
             [1]
 
+#.
+
+   .. _clarify:int-div:
+
+   .. container::
+      :name: int-div
+
+      **int-div**:
+
+   Division is integer division. This means that any decimal portion of
+   a division operation result is truncated (not rounded). No extra work
+   is required: this is the default in C++, RISC-V, ARM, and X86. For
+   example:
+
+   ::
+
+            print(5 / 3);
+            print((0 - 5) / 3);
+
+   produces the following output:
+
+   ::
+
+            1
+            -1
+

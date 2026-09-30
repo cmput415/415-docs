@@ -14,23 +14,3 @@ output file should be overwritten if it already exists.
 The output of your compiler is the *LLVM IR* that corresponds to the given
 input program. The output file can be used as input to ``llc``, for example,
 which compiles *LLVM IR* input into assembly language for a specified machine.
-
-Program Output
-==============
-
-Output content is standardized to ensure everyone can pass everyone’s
-tests. Follow these specifications:
-
--  Each number printed should be on its own line followed by a new line.
-
--  There *must* be a new line after each ``print`` statement’s printed
-   value.
-
--  There *must not* be any trailing space after the final number and
-   before the newline.
-
--  There *must* be an empty line at the end of your output.
-
-**Clarification:** Empty input should result in empty output.
-(:ref:`empty-input <clarify:empty-input>`)
-

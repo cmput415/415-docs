@@ -7,6 +7,9 @@ Valid formats for expressions are
 
      (<expr>)
      <expr> <op> <expr>
+     <expr>[<expr>]
+     [<id> in <expr> | <expr>]
+     [<id> in <expr> & <expr>]
      <int>
      <id>
 
@@ -16,8 +19,9 @@ Valid formats for expressions are
 
 -  ``id`` is the identifier of a variable.
 
-| **Assertion:** All expressions will result in a value that fits in a
-  32 bit signed integer. (:ref:`expression-size <assert:expression-size>`)
+| **Assertion:** Every integer an expression produces, including each
+  vector element, fits in a 32 bit signed integer.
+  (:ref:`expression-size <assert:expression-size>`)
 | **Assertion:** No expression will contain a division by 0.
   (:ref:`zero-divide <assert:zero-divide>`)
 
@@ -60,6 +64,9 @@ For example, addition and subtraction have an equal level of precedence.
 |            |                |            |                  |                   |
 |            | is not equal   | ``!=``     | ``expr != expr`` | left              |
 +------------+----------------+------------+------------------+-------------------+
+
+| **Clarification:** Division is integer division.
+  (:ref:`int-div <clarify:int-div>`)
 
 Binary Operations on Vectors
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
