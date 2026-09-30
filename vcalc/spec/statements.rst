@@ -24,7 +24,7 @@ Variables have a few properties:
 
 -  cannot be declared without initialisation.
 
--  cannot be declared more than once in a *VCalc* program.
+-  cannot be declared more than once in the same :ref:`scope <sec:scoping>`.
 
 Examples of valid declarations are:
 
@@ -131,14 +131,8 @@ A conditional in *VCalc* has the following form:
   are not a valid condition. Remember, however, that integers undergo an
   :term:`implicit conversion` to booleans.
 
--  ``statement-*`` is any type of statement *except* a declaration. This
-   means there can be assignments, nested loops, nested conditionals,
-   and prints. There does not have to be any statements in the
-   conditional.
-
-**Clarification:** Declarations in conditionals can lead to undefined
-values due to global scoping. (:ref:`no-decl-cond <clarify:no-decl-cond>`)
-
+-  ``statement-*`` is any type of statement. There does not have to be
+   any statements in the conditional.
 
 Loops
 ~~~~~
@@ -163,15 +157,9 @@ A loop in *VCalc* has the following form:
   valid condition. Remember, however, that integers undergo an
   :term:`implicit conversion` to booleans.
 
--  ``statement-*`` is any type of statement *except* a declaration. This
-   means there can be assignments, nested loops, nested conditionals,
-   and prints. There does not have to be any statements in the loop, but
-   without side effects a loop will be infinite (unless it is never
-   entered).
-
-**Clarification:** Declarations in loops can lead to undefined or
-repeatedly defined values due to global scoping.
-(:ref:`no-decl-loop <clarify:no-decl-loop>`)
+-  ``statement-*`` is any type of statement. There does not have to be
+   any statements in the loop, but without side effects a loop will be
+   infinite (unless it is never entered).
 
 Print
 ~~~~~
