@@ -203,15 +203,16 @@ Vector Indexing
 Vectors can be indexed by a scalar to produce the integer value at a
 specified index. Vectors in *VCalc* are *zero indexed*. As well,
 indexing outside of the bounds of a vector (e.g. ``v[i]`` where
-:math:`0 <= |v| < l` and :math:`i < 0` or :math:`i >= l`) is *not an
+:math:`|v| = l` and :math:`i < 0` or :math:`i >= l`) is *not an
 error*. An index out of bounds *always returns zero*.
 
 Index domains must be vectors:
 
 -  Domain can be an :term:`identifier` for a vector.
 
--  Domain can be the result of a range, generator, filter, or another
-   index expression with a vector index (see below).
+-  Domain can be the result of a range, generator, filter, binary
+   operation with a vector operand, or another index expression with a
+   vector index (see below).
 
 -  Domain cannot be an integer. For example, this is :term:`ill-formed`:
 

@@ -72,7 +72,7 @@ following form:
 
 -  ``expr`` is an expression.
 
-There are a few new important points when dealing with assignments.
+There are a few important points when dealing with assignments.
 
 #. The size of a vector may change while the program is executing if a
    vector variable is assigned another value. For instance, the
@@ -230,8 +230,6 @@ tests. Follow these specifications:
 
 -  There *must not* be any trailing space after printed value and before
    the newline.
-
--  There *must* be an empty line at the end of your output.
 
 -  There *must not* be spaces between the first and last number and the
    accompanying brackets in a vector.

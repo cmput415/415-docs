@@ -12,12 +12,12 @@ The identifier and vector are still called the
 :term:`iterator variable` and domain vector, however, the
 right-hand-side :term:`expression` is now called the *predicate*.
 The iterator variable is an integer typed variable defined only in
-the scope of the generator.
+the scope of the filter.
 
 As in a generator, the :term:`domain` may be any vector-valued
 expression which includes identifiers (that are vector typed),
-ranges, generators, filters, and index expressions with a vector
-index. The predicate must evaluate to a boolean. This means that if
+ranges, generators, filters, index expressions with a vector
+index, and binary operations with a vector operand. The predicate must evaluate to a boolean. This means that if
 the result of the expression is an integer it will undergo an
 :term:`implicit conversion` to a boolean, but a vector result is an
 *error*.
